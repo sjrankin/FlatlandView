@@ -8,19 +8,81 @@
 
 /* Begin PBXBuildFile section */
 		1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E324794A0100C434B5 /* AppDelegate.swift */; };
-		1767A8E624794A0100C434B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E524794A0100C434B5 /* ViewController.swift */; };
+		1767A8E624794A0100C434B5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E524794A0100C434B5 /* MainView.swift */; };
 		1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E724794A0300C434B5 /* Assets.xcassets */; };
 		1767A8EB24794A0300C434B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E924794A0300C434B5 /* Main.storyboard */; };
+		17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17EF337E247A472C00A5B55D /* Settings.storyboard */; };
+		17EF3381247A485B00A5B55D /* MapSelector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17EF3380247A485B00A5B55D /* MapSelector.storyboard */; };
+		17EF3384247A4B0A00A5B55D /* MapPickerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF3383247A4B0A00A5B55D /* MapPickerWindow.swift */; };
+		17EF3387247A4B2200A5B55D /* MapPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF3386247A4B2200A5B55D /* MapPickerController.swift */; };
+		17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF3388247A4E3D00A5B55D /* MainProtocol.swift */; };
+		17EF338C247A4EBB00A5B55D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF338B247A4EBB00A5B55D /* Settings.swift */; };
+		17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF338D247A4F3A00A5B55D /* SettingChangedProtocol.swift */; };
+		17EF3390247A4F5D00A5B55D /* SettingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF338F247A4F5D00A5B55D /* SettingTypes.swift */; };
+		17EF3393247A66D200A5B55D /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF3392247A66D200A5B55D /* MapManager.swift */; };
+		17EF3395247A66F000A5B55D /* MapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF3394247A66F000A5B55D /* MapList.swift */; };
+		17EF3397247A670B00A5B55D /* MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF3396247A670B00A5B55D /* MapItem.swift */; };
+		17EF339A247A673900A5B55D /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF3399247A673900A5B55D /* FileIO.swift */; };
+		17EF339C247A68C600A5B55D /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF339B247A68C600A5B55D /* Enums.swift */; };
+		17EF339E247A690500A5B55D /* SCNStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF339D247A690500A5B55D /* SCNStar.swift */; };
+		17EF33A1247A695400A5B55D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33A0247A695400A5B55D /* Extensions.swift */; };
+		17EF33A3247A699300A5B55D /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33A2247A699300A5B55D /* Utility.swift */; };
+		17EF33A6247A934A00A5B55D /* Julian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33A5247A934A00A5B55D /* Julian.swift */; };
+		17EF33A8247A936900A5B55D /* Solar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33A7247A936900A5B55D /* Solar.swift */; };
+		17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33A9247A938D00A5B55D /* Geometry.swift */; };
+		17EF33AC247A93A300A5B55D /* GeoPoint2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33AB247A93A300A5B55D /* GeoPoint2.swift */; };
+		17EF33AE247A93C400A5B55D /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33AD247A93C400A5B55D /* TimeHelper.swift */; };
+		17EF33B0247A93DC00A5B55D /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33AF247A93DC00A5B55D /* Miscellaneous.swift */; };
+		17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33B1247A93ED00A5B55D /* Sun.swift */; };
+		17EF33B4247A940900A5B55D /* OrbitalElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33B3247A940800A5B55D /* OrbitalElements.swift */; };
+		17EF33B7247A94BA00A5B55D /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33B6247A94BA00A5B55D /* City.swift */; };
+		17EF33B9247A94DB00A5B55D /* Cities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33B8247A94DB00A5B55D /* Cities.swift */; };
+		17EF33BB247A94F900A5B55D /* CitiesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33BA247A94F900A5B55D /* CitiesData.swift */; };
+		17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33BC247A951400A5B55D /* TimeZoneTable.swift */; };
+		17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33BE247A958B00A5B55D /* Versioning.swift */; };
+		17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33C0247A95E300A5B55D /* ColorList.swift */; };
+		17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33C2247A961C00A5B55D /* SunGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1767A8E024794A0100C434B5 /* FlatlandView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlatlandView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1767A8E024794A0100C434B5 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1767A8E324794A0100C434B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1767A8E524794A0100C434B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1767A8E524794A0100C434B5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		1767A8E724794A0300C434B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1767A8EA24794A0300C434B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1767A8EC24794A0300C434B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandView.entitlements; sourceTree = "<group>"; };
+		17EF337E247A472C00A5B55D /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		17EF3380247A485B00A5B55D /* MapSelector.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapSelector.storyboard; sourceTree = "<group>"; };
+		17EF3383247A4B0A00A5B55D /* MapPickerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPickerWindow.swift; sourceTree = "<group>"; };
+		17EF3386247A4B2200A5B55D /* MapPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPickerController.swift; sourceTree = "<group>"; };
+		17EF3388247A4E3D00A5B55D /* MainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProtocol.swift; sourceTree = "<group>"; };
+		17EF338B247A4EBB00A5B55D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		17EF338D247A4F3A00A5B55D /* SettingChangedProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingChangedProtocol.swift; sourceTree = "<group>"; };
+		17EF338F247A4F5D00A5B55D /* SettingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTypes.swift; sourceTree = "<group>"; };
+		17EF3392247A66D200A5B55D /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
+		17EF3394247A66F000A5B55D /* MapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapList.swift; sourceTree = "<group>"; };
+		17EF3396247A670B00A5B55D /* MapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapItem.swift; sourceTree = "<group>"; };
+		17EF3399247A673900A5B55D /* FileIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
+		17EF339B247A68C600A5B55D /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		17EF339D247A690500A5B55D /* SCNStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNStar.swift; sourceTree = "<group>"; };
+		17EF33A0247A695400A5B55D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		17EF33A2247A699300A5B55D /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		17EF33A5247A934A00A5B55D /* Julian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Julian.swift; sourceTree = "<group>"; };
+		17EF33A7247A936900A5B55D /* Solar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solar.swift; sourceTree = "<group>"; };
+		17EF33A9247A938D00A5B55D /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
+		17EF33AB247A93A300A5B55D /* GeoPoint2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint2.swift; sourceTree = "<group>"; };
+		17EF33AD247A93C400A5B55D /* TimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
+		17EF33AF247A93DC00A5B55D /* Miscellaneous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Miscellaneous.swift; sourceTree = "<group>"; };
+		17EF33B1247A93ED00A5B55D /* Sun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sun.swift; sourceTree = "<group>"; };
+		17EF33B3247A940800A5B55D /* OrbitalElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrbitalElements.swift; sourceTree = "<group>"; };
+		17EF33B6247A94BA00A5B55D /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		17EF33B8247A94DB00A5B55D /* Cities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cities.swift; sourceTree = "<group>"; };
+		17EF33BA247A94F900A5B55D /* CitiesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesData.swift; sourceTree = "<group>"; };
+		17EF33BC247A951400A5B55D /* TimeZoneTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZoneTable.swift; sourceTree = "<group>"; };
+		17EF33BE247A958B00A5B55D /* Versioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versioning.swift; sourceTree = "<group>"; };
+		17EF33C0247A95E300A5B55D /* ColorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorList.swift; sourceTree = "<group>"; };
+		17EF33C2247A961C00A5B55D /* SunGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +107,7 @@
 		1767A8E124794A0100C434B5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1767A8E024794A0100C434B5 /* FlatlandView.app */,
+				1767A8E024794A0100C434B5 /* Flatland.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -53,22 +115,125 @@
 		1767A8E224794A0100C434B5 /* FlatlandView */ = {
 			isa = PBXGroup;
 			children = (
+				17EF33A4247A933100A5B55D /* Astronomy */,
+				17EF339F247A691C00A5B55D /* Shapes */,
+				17EF33B5247A94A800A5B55D /* Cities */,
+				17EF3398247A672B00A5B55D /* Utilities */,
+				17EF3391247A66BF00A5B55D /* Maps */,
+				17EF338A247A4EAF00A5B55D /* Settings */,
+				17EF3382247A4AF200A5B55D /* SettingsCode */,
+				17EF337D247A470400A5B55D /* SettingsStoryboards */,
 				1767A8E324794A0100C434B5 /* AppDelegate.swift */,
-				1767A8E524794A0100C434B5 /* ViewController.swift */,
-				1767A8E724794A0300C434B5 /* Assets.xcassets */,
+				1767A8E524794A0100C434B5 /* MainView.swift */,
+				17EF3388247A4E3D00A5B55D /* MainProtocol.swift */,
 				1767A8E924794A0300C434B5 /* Main.storyboard */,
+				17EF33BE247A958B00A5B55D /* Versioning.swift */,
+				17EF339B247A68C600A5B55D /* Enums.swift */,
+				1767A8E724794A0300C434B5 /* Assets.xcassets */,
 				1767A8EC24794A0300C434B5 /* Info.plist */,
 				1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */,
 			);
 			path = FlatlandView;
 			sourceTree = "<group>";
 		};
+		17EF337D247A470400A5B55D /* SettingsStoryboards */ = {
+			isa = PBXGroup;
+			children = (
+				17EF337E247A472C00A5B55D /* Settings.storyboard */,
+				17EF3380247A485B00A5B55D /* MapSelector.storyboard */,
+			);
+			path = SettingsStoryboards;
+			sourceTree = "<group>";
+		};
+		17EF3382247A4AF200A5B55D /* SettingsCode */ = {
+			isa = PBXGroup;
+			children = (
+				17EF3385247A4B0F00A5B55D /* MapPickerWindow */,
+			);
+			path = SettingsCode;
+			sourceTree = "<group>";
+		};
+		17EF3385247A4B0F00A5B55D /* MapPickerWindow */ = {
+			isa = PBXGroup;
+			children = (
+				17EF3383247A4B0A00A5B55D /* MapPickerWindow.swift */,
+				17EF3386247A4B2200A5B55D /* MapPickerController.swift */,
+			);
+			path = MapPickerWindow;
+			sourceTree = "<group>";
+		};
+		17EF338A247A4EAF00A5B55D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				17EF338B247A4EBB00A5B55D /* Settings.swift */,
+				17EF338D247A4F3A00A5B55D /* SettingChangedProtocol.swift */,
+				17EF338F247A4F5D00A5B55D /* SettingTypes.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		17EF3391247A66BF00A5B55D /* Maps */ = {
+			isa = PBXGroup;
+			children = (
+				17EF3392247A66D200A5B55D /* MapManager.swift */,
+				17EF3394247A66F000A5B55D /* MapList.swift */,
+				17EF3396247A670B00A5B55D /* MapItem.swift */,
+			);
+			path = Maps;
+			sourceTree = "<group>";
+		};
+		17EF3398247A672B00A5B55D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				17EF3399247A673900A5B55D /* FileIO.swift */,
+				17EF33A0247A695400A5B55D /* Extensions.swift */,
+				17EF33A2247A699300A5B55D /* Utility.swift */,
+				17EF33C2247A961C00A5B55D /* SunGenerator.swift */,
+				17EF33C0247A95E300A5B55D /* ColorList.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		17EF339F247A691C00A5B55D /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				17EF339D247A690500A5B55D /* SCNStar.swift */,
+			);
+			path = Shapes;
+			sourceTree = "<group>";
+		};
+		17EF33A4247A933100A5B55D /* Astronomy */ = {
+			isa = PBXGroup;
+			children = (
+				17EF33A5247A934A00A5B55D /* Julian.swift */,
+				17EF33A7247A936900A5B55D /* Solar.swift */,
+				17EF33A9247A938D00A5B55D /* Geometry.swift */,
+				17EF33AD247A93C400A5B55D /* TimeHelper.swift */,
+				17EF33AF247A93DC00A5B55D /* Miscellaneous.swift */,
+				17EF33B1247A93ED00A5B55D /* Sun.swift */,
+				17EF33B3247A940800A5B55D /* OrbitalElements.swift */,
+				17EF33AB247A93A300A5B55D /* GeoPoint2.swift */,
+			);
+			path = Astronomy;
+			sourceTree = "<group>";
+		};
+		17EF33B5247A94A800A5B55D /* Cities */ = {
+			isa = PBXGroup;
+			children = (
+				17EF33B6247A94BA00A5B55D /* City.swift */,
+				17EF33B8247A94DB00A5B55D /* Cities.swift */,
+				17EF33BA247A94F900A5B55D /* CitiesData.swift */,
+				17EF33BC247A951400A5B55D /* TimeZoneTable.swift */,
+			);
+			path = Cities;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1767A8DF24794A0100C434B5 /* FlatlandView */ = {
+		1767A8DF24794A0100C434B5 /* Flatland */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1767A8F024794A0300C434B5 /* Build configuration list for PBXNativeTarget "FlatlandView" */;
+			buildConfigurationList = 1767A8F024794A0300C434B5 /* Build configuration list for PBXNativeTarget "Flatland" */;
 			buildPhases = (
 				1767A8DC24794A0100C434B5 /* Sources */,
 				1767A8DD24794A0100C434B5 /* Frameworks */,
@@ -78,9 +243,9 @@
 			);
 			dependencies = (
 			);
-			name = FlatlandView;
+			name = Flatland;
 			productName = FlatlandView;
-			productReference = 1767A8E024794A0100C434B5 /* FlatlandView.app */;
+			productReference = 1767A8E024794A0100C434B5 /* Flatland.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -111,7 +276,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1767A8DF24794A0100C434B5 /* FlatlandView */,
+				1767A8DF24794A0100C434B5 /* Flatland */,
 			);
 		};
 /* End PBXProject section */
@@ -121,6 +286,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17EF3381247A485B00A5B55D /* MapSelector.storyboard in Resources */,
+				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
 				1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */,
 				1767A8EB24794A0300C434B5 /* Main.storyboard in Resources */,
 			);
@@ -133,8 +300,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1767A8E624794A0100C434B5 /* ViewController.swift in Sources */,
+				17EF33B9247A94DB00A5B55D /* Cities.swift in Sources */,
+				17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */,
+				17EF33B0247A93DC00A5B55D /* Miscellaneous.swift in Sources */,
+				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
+				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
+				17EF33B4247A940900A5B55D /* OrbitalElements.swift in Sources */,
+				17EF3390247A4F5D00A5B55D /* SettingTypes.swift in Sources */,
+				17EF338C247A4EBB00A5B55D /* Settings.swift in Sources */,
+				17EF3397247A670B00A5B55D /* MapItem.swift in Sources */,
+				17EF33B7247A94BA00A5B55D /* City.swift in Sources */,
+				17EF33A8247A936900A5B55D /* Solar.swift in Sources */,
+				17EF339A247A673900A5B55D /* FileIO.swift in Sources */,
+				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
+				17EF3387247A4B2200A5B55D /* MapPickerController.swift in Sources */,
+				1767A8E624794A0100C434B5 /* MainView.swift in Sources */,
+				17EF33AE247A93C400A5B55D /* TimeHelper.swift in Sources */,
+				17EF33BB247A94F900A5B55D /* CitiesData.swift in Sources */,
+				17EF3393247A66D200A5B55D /* MapManager.swift in Sources */,
+				17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */,
+				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
+				17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */,
+				17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */,
+				17EF33A1247A695400A5B55D /* Extensions.swift in Sources */,
+				17EF33AC247A93A300A5B55D /* GeoPoint2.swift in Sources */,
+				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
+				17EF3395247A66F000A5B55D /* MapList.swift in Sources */,
+				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
+				17EF33A3247A699300A5B55D /* Utility.swift in Sources */,
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
+				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
+				17EF3384247A4B0A00A5B55D /* MapPickerWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,7 +513,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1767A8F024794A0300C434B5 /* Build configuration list for PBXNativeTarget "FlatlandView" */ = {
+		1767A8F024794A0300C434B5 /* Build configuration list for PBXNativeTarget "Flatland" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1767A8F124794A0300C434B5 /* Debug */,
