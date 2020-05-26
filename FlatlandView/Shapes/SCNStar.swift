@@ -172,7 +172,6 @@ class SCNStar: SCNNode
         }
         let AngleIncrement = 360.0 / Double(VertexCount)
         let HalfIncrement = AngleIncrement / 2.0
-        #if true
         let Path = NSBezierPath()
         var Points = [SCNVector3]()
         for Multiplier in 0 ..< VertexCount
@@ -195,30 +194,6 @@ class SCNStar: SCNNode
             }
         }
         Path.close()
-        #else
-        let Path = UIBezierPath()
-        var Points = [SCNVector3]()
-        for Multiplier in 0 ..< VertexCount
-        {
-            let Angle = Double(Multiplier) * AngleIncrement
-            let RayData = MakeRay(AtAngle: Angle, HalfAngle: HalfIncrement, Base: Base, Height: Height)
-            Points.append(contentsOf: RayData)
-        }
-        var IsFirst = true
-        for SomePoint in Points
-        {
-            if IsFirst
-            {
-                Path.move(to: CGPoint(x: CGFloat(SomePoint.x), y: CGFloat(SomePoint.y)))
-                IsFirst = false
-            }
-            else
-            {
-                Path.addLine(to: CGPoint(x: CGFloat(SomePoint.x), y: CGFloat(SomePoint.y)))
-            }
-        }
-        Path.close()
-        #endif
         let StarGeo = SCNShape(path: Path, extrusionDepth: CGFloat(ZHeight))
         
         return StarGeo
