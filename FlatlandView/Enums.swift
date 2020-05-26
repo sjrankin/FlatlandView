@@ -10,7 +10,8 @@ import Foundation
 
 enum ViewTypes: String, CaseIterable
 {
-    case FlatMap = "FlatMap"
+    case FlatNorthCenter = "FlatNorthCenter"
+    case FlatSouthCenter = "FlatSouthCenter"
     case Globe3D = "3DGlobe"
     case CubicWorld = "Cubic"
 }
@@ -21,6 +22,28 @@ enum HourValueTypes: String, CaseIterable
     case Solar = "RelativeToSolar"
     case RelativeToNoon = "RelativeToNoon"
     case RelativeToLocation = "RelativeToLocation"
+}
+
+/// The available time label types.
+enum TimeLabels: String, CaseIterable
+{
+    /// Do not display the time.
+    case None = "None"
+    /// Time is in UTC.
+    case UTC = "UTC"
+    /// Time is in current local timezone.
+    case Local = "Local"
+}
+
+/// Determines the location of the sun graphic (and by implication, the time label as well).
+enum SunLocations: String, CaseIterable
+{
+    /// Do not display the sun.
+    case Hidden = "NoSun"
+    /// Sun is at the top.
+    case Top = "Top"
+    /// Sun is at the bottom.
+    case Bottom = "Bottom"
 }
 
 /// City color overrides. Used to return non-continental colors from `ColorForCity`.
@@ -45,4 +68,20 @@ enum Continents: String, CaseIterable
     case Europe = "Europe"
     case NorthAmerica = "North America"
     case SouthAmerica = "South America"
+}
+
+enum YearFilters: String, CaseIterable
+{
+    case All = "All"
+    case Only = "Only"
+    case UpTo = "Up To"
+    case After = "After"
+}
+
+enum SiteTypeFilters: String, CaseIterable
+{
+    case Natural = "Natural"
+    case Cultural = "Cultural"
+    case Both = "Both"
+    case Either = "Either"
 }
