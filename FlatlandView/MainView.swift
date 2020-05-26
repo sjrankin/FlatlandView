@@ -12,8 +12,6 @@ import SceneKit
 
 class MainView: NSViewController, MainProtocol, SettingChangedProtocol
 {
-
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -24,7 +22,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         BackgroundView.wantsLayer = true
         BackgroundView.layer?.backgroundColor = NSColor.black.cgColor
         
-                CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
     }
     
     override var representedObject: Any?
@@ -101,6 +99,11 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     @IBAction func DebugShow(_ sender: Any)
     {
+    }
+    
+    @IBAction func DebugResetSettings(_ sender: Any)
+    {
+        Settings.Initialize(true)
     }
     
     @IBAction func ShowMainSettings(_ sender: Any)
@@ -189,7 +192,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     /// in a visual change.
     var PreviousPercent: Double = -1.0
     
-        let HalfCircumference: Double = 40075.0 / 2.0
+    let HalfCircumference: Double = 40075.0 / 2.0
     
     var CityLayer: CAShapeLayer? = nil
     
