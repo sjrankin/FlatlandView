@@ -600,15 +600,17 @@ extension NSColor
     
     /// Returns the value of the color as a hex string. The string has the prefix
     /// `#` and is in RGBA order.
+    /// - Note: This property converts all colors to sRGB prior to conversion to a hex string.
     var Hex: String
     {
         get
         {
+            let Working = self.usingColorSpace(.sRGB)
             var Red: CGFloat = 0.0
             var Green: CGFloat = 0.0
             var Blue: CGFloat = 0.0
             var Alpha: CGFloat = 0.0
-            self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+            Working!.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
             let IRed = Int(Red * 255.0)
             let SRed = String(format: "%02x", IRed)
             let IGreen = Int(Green * 255.0)
