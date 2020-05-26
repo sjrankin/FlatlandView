@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CD1247B8E11005209FC /* +MoreLocations.swift */; };
+		17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CD3247B8E62005209FC /* WorldHeritageSite.swift */; };
+		17523CD6247B937F005209FC /* UnescoSites.db in Resources */ = {isa = PBXBuildFile; fileRef = 17523CD5247B937F005209FC /* UnescoSites.db */; };
+		17523CDB247B973E005209FC /* +FlatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CDA247B973E005209FC /* +FlatView.swift */; };
 		1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E324794A0100C434B5 /* AppDelegate.swift */; };
 		1767A8E624794A0100C434B5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E524794A0100C434B5 /* MainView.swift */; };
 		1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E724794A0300C434B5 /* Assets.xcassets */; };
@@ -42,9 +46,14 @@
 		17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33BE247A958B00A5B55D /* Versioning.swift */; };
 		17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33C0247A95E300A5B55D /* ColorList.swift */; };
 		17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33C2247A961C00A5B55D /* SunGenerator.swift */; };
+		17F440D7247CD72E00FD440E /* +DrawGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F440D6247CD72E00FD440E /* +DrawGrid.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		17523CD1247B8E11005209FC /* +MoreLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MoreLocations.swift"; sourceTree = "<group>"; };
+		17523CD3247B8E62005209FC /* WorldHeritageSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSite.swift; sourceTree = "<group>"; };
+		17523CD5247B937F005209FC /* UnescoSites.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnescoSites.db; sourceTree = "<group>"; };
+		17523CDA247B973E005209FC /* +FlatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatView.swift"; sourceTree = "<group>"; };
 		1767A8E024794A0100C434B5 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1767A8E324794A0100C434B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1767A8E524794A0100C434B5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -83,6 +92,7 @@
 		17EF33BE247A958B00A5B55D /* Versioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versioning.swift; sourceTree = "<group>"; };
 		17EF33C0247A95E300A5B55D /* ColorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorList.swift; sourceTree = "<group>"; };
 		17EF33C2247A961C00A5B55D /* SunGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunGenerator.swift; sourceTree = "<group>"; };
+		17F440D6247CD72E00FD440E /* +DrawGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+DrawGrid.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,11 +106,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17523CD0247B8DF8005209FC /* MainViewExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				17523CD1247B8E11005209FC /* +MoreLocations.swift */,
+				17523CD3247B8E62005209FC /* WorldHeritageSite.swift */,
+			);
+			path = MainViewExtensions;
+			sourceTree = "<group>";
+		};
+		17523CD7247B9716005209FC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				17523CD8247B971F005209FC /* 2D */,
+				17523CD9247B9725005209FC /* 3D */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		17523CD8247B971F005209FC /* 2D */ = {
+			isa = PBXGroup;
+			children = (
+				17523CDA247B973E005209FC /* +FlatView.swift */,
+				17F440D6247CD72E00FD440E /* +DrawGrid.swift */,
+			);
+			path = 2D;
+			sourceTree = "<group>";
+		};
+		17523CD9247B9725005209FC /* 3D */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = 3D;
+			sourceTree = "<group>";
+		};
 		1767A8D724794A0100C434B5 = {
 			isa = PBXGroup;
 			children = (
 				1767A8E224794A0100C434B5 /* FlatlandView */,
 				1767A8E124794A0100C434B5 /* Products */,
+				17523CD5247B937F005209FC /* UnescoSites.db */,
 			);
 			sourceTree = "<group>";
 		};
@@ -123,6 +168,8 @@
 				17EF338A247A4EAF00A5B55D /* Settings */,
 				17EF3382247A4AF200A5B55D /* SettingsCode */,
 				17EF337D247A470400A5B55D /* SettingsStoryboards */,
+				17523CD0247B8DF8005209FC /* MainViewExtensions */,
+				17523CD7247B9716005209FC /* Views */,
 				1767A8E324794A0100C434B5 /* AppDelegate.swift */,
 				1767A8E524794A0100C434B5 /* MainView.swift */,
 				17EF3388247A4E3D00A5B55D /* MainProtocol.swift */,
@@ -235,6 +282,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1767A8F024794A0300C434B5 /* Build configuration list for PBXNativeTarget "Flatland" */;
 			buildPhases = (
+				17523CCF247B8D1C005209FC /* ShellScript */,
 				1767A8DC24794A0100C434B5 /* Sources */,
 				1767A8DD24794A0100C434B5 /* Frameworks */,
 				1767A8DE24794A0100C434B5 /* Resources */,
@@ -288,12 +336,33 @@
 			files = (
 				17EF3381247A485B00A5B55D /* MapSelector.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
+				17523CD6247B937F005209FC /* UnescoSites.db in Resources */,
 				1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */,
 				1767A8EB24794A0300C434B5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		17523CCF247B8D1C005209FC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/VersionUpdater/VersionUpdater \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandView/Versioning.swift\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1767A8DC24794A0100C434B5 /* Sources */ = {
@@ -310,6 +379,7 @@
 				17EF338C247A4EBB00A5B55D /* Settings.swift in Sources */,
 				17EF3397247A670B00A5B55D /* MapItem.swift in Sources */,
 				17EF33B7247A94BA00A5B55D /* City.swift in Sources */,
+				17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */,
 				17EF33A8247A936900A5B55D /* Solar.swift in Sources */,
 				17EF339A247A673900A5B55D /* FileIO.swift in Sources */,
 				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
@@ -324,9 +394,12 @@
 				17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */,
 				17EF33A1247A695400A5B55D /* Extensions.swift in Sources */,
 				17EF33AC247A93A300A5B55D /* GeoPoint2.swift in Sources */,
+				17F440D7247CD72E00FD440E /* +DrawGrid.swift in Sources */,
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
+				17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */,
 				17EF3395247A66F000A5B55D /* MapList.swift in Sources */,
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
+				17523CDB247B973E005209FC /* +FlatView.swift in Sources */,
 				17EF33A3247A699300A5B55D /* Utility.swift in Sources */,
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
@@ -405,6 +478,7 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -458,6 +532,7 @@
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -469,7 +544,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = FlatlandView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -489,7 +564,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = FlatlandView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
