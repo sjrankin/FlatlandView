@@ -26,9 +26,11 @@ class MapManager
         {
             switch ViewType
             {
-                case .FlatMap:
-                    let MapUse: MapFunctions = ImageCenter == .NorthPole ? .North : .South
-                    return SomeMap.GetMapImage(For: MapUse)
+                case .FlatNorthCenter:
+                    return SomeMap.GetMapImage(For: .North)
+                
+                case .FlatSouthCenter:
+                    return SomeMap.GetMapImage(For: .South)
                 
                 case .Globe3D:
                     return SomeMap.GetMapImage(For: .Global)
