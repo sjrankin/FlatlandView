@@ -31,7 +31,8 @@ class Settings
             }
         }
         
-        SetBool(.InitializationFlag, true)
+        print("Initializing settings.")
+        InitializeBool(.InitializationFlag, true)
         InitializeEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .MapType)
         InitializeBool(.ShowNight, true)
         InitializeEnum(.RelativeToNoon, EnumType: HourValueTypes.self, ForKey: .HourType)
@@ -44,6 +45,21 @@ class Settings
         InitializeString(.LocalName, "")
         InitializeInt(.LocalTimeZoneOffset, 0)
         InitializeString(.UserLocations, "")
+        
+        InitializeBool(.ShowEquator, true)
+        InitializeBool(.ShowPolarCircles, true)
+        InitializeBool(.ShowTropics, true)
+        InitializeBool(.ShowPrimeMeridians, true)
+        InitializeBool(.ShowNoonMeridians, true)
+        
+        InitializeBool(.ShowCities, true)
+        InitializeColor(.AfricanCityColor, NSColor.blue)
+        InitializeColor(.AsianCityColor, NSColor.brown)
+        InitializeColor(.EuropeanCityColor, NSColor.purple)
+        InitializeColor(.NorthAmericanCityColor, NSColor.green)
+        InitializeColor(.SouthAmericanCityColor, NSColor.cyan)
+        InitializeColor(.CapitalCityColor, NSColor.yellow)
+        InitializeColor(.WorldCityColor, NSColor.white)
     }
     
     /// Determines if settings were initialized.
