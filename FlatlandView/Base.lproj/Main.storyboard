@@ -165,6 +165,43 @@
                                                 <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="asJ-Ir-hPw"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="exq-fw-xPo">
+                                            <menu key="submenu" id="nZI-Iz-oL2">
+                                                <items>
+                                                    <menuItem title="Item 1" enabled="NO" id="8fx-0S-8JC">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="Item 2" enabled="NO" id="xik-99-Kuf">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="Item 3" enabled="NO" id="abw-SX-KCX">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem title="Debug" id="Ega-Y5-VXh">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Debug" id="lya-wd-2nq">
+                                                <items>
+                                                    <menuItem title="Debug Controls" id="2xh-n4-v4x">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="DebugShow:" target="Ady-hI-5gd" id="XBY-8k-MfH"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Reset Settings" id="g1L-xc-SKU">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="DebugResetSettings:" target="Ady-hI-5gd" id="oDt-qp-U5G"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                            <connections>
+                                                <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="K4C-eM-3Gg"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aQd-U3-Mbv">
                                             <menu key="submenu" id="DkZ-lv-3re">
                                                 <items>
@@ -368,6 +405,20 @@
                                         <action selector="ViewSelectMap:" target="Oky-zY-oP4" id="6Mb-YY-tuU"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="08F5B7A0-1271-4623-905E-C3C963E30260" label="Reset Settings" paletteLabel="Reset Settings" image="ResetIcon" sizingBehavior="auto" id="ABA-DV-DH0">
+                                    <nil key="toolTip"/>
+                                    <button key="view" id="zZs-Nr-uT7">
+                                        <rect key="frame" x="18" y="14" width="48" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="ResetIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Piu-ku-qdk">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="DebugResetSettings:" target="Oky-zY-oP4" id="XW7-rD-sMV"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="xfc-oc-jDS"/>
@@ -542,6 +593,7 @@
         <image name="InfoIcon" width="24" height="24"/>
         <image name="NorthCenterIcon" width="24" height="24"/>
         <image name="PinIcon" width="24" height="24"/>
+        <image name="ResetIcon" width="24" height="24"/>
         <image name="SelectMapIcon" width="24" height="24"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
         <image name="SunX" width="3600" height="3600"/>
