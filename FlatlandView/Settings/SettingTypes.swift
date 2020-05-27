@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// Settings. Each case refers to a single setting and is used
+/// by the settings class to access the setting.
 enum SettingTypes: String, CaseIterable
 {
     //Infrastructure/initialization-related settings.
@@ -20,6 +22,8 @@ enum SettingTypes: String, CaseIterable
     case HourType = "HourType"
     case TimeLabel = "TimeLabel"
     case ShowGrid = "ShowGrid"
+    case ShowSun = "ShowSun"
+    case CurrentMap = "CurrentMap"
     
     //2D view grid settings.
     case ShowEquator = "ShowEquator"
