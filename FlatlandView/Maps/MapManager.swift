@@ -75,14 +75,26 @@ class MapManager
         }
     }
     
-    /// Returns a list of map categories.
-    /// - Returns: List of map categories.
-    public static func GetMapCategories() -> [String]
+    /// Returns a list of map category names
+    /// - Returns: List of map category names.
+    public static func GetMapCategoryNames() -> [String]
     {
         var Results = [String]()
         for Category in MapCategories.allCases
         {
             Results.append(Category.rawValue)
+        }
+        return Results
+    }
+    
+    /// Returns a list of map categories.
+    /// - Returns: List of map categories.
+    public static func GetMapCategories() -> [MapCategories]
+    {
+        var Results = [MapCategories]()
+        for Category in MapCategories.allCases
+        {
+            Results.append(Category)
         }
         return Results
     }
