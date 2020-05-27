@@ -173,7 +173,34 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     func SettingChanged(Setting: SettingTypes, OldValue: Any?, NewValue: Any?)
     {
-        print("\(Setting.rawValue) changed from \(OldValue) to \(NewValue)")
+        switch Setting
+        {
+            case .MapType:
+                if let Old = OldValue as? MapTypes
+                {
+                    if let New = NewValue as? MapTypes
+                    {
+                        if Old == New
+                        {
+                            print("Old map is same as new map: \(New.rawValue)")
+                            return
+                        }
+                        print("New map selected: \(New.rawValue)")
+                    }
+            }
+            
+            case .ShowNight:
+            break
+            
+            case .HourType:
+            break
+            
+            case .TimeLabel:
+            break
+            
+            default:
+            break
+        }
     }
     
     // MARK: - City variables.
