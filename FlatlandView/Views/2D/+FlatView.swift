@@ -14,6 +14,13 @@ extension MainView
 {
     func InitializeFlatland()
     {
+        FlatView.wantsLayer = true
+        FlatView.layer?.zPosition = 2000
+        FlatView.layer?.backgroundColor = NSColor.systemYellow.cgColor
+        CityView2D.wantsLayer = true
+        CityView2D.layer?.backgroundColor = NSColor.clear.cgColor
+        GridOverlay.wantsLayer = true
+        GridOverlay.layer?.backgroundColor = NSColor.clear.cgColor
         HourLayer2D.wantsLayer = true
         HourLayer2D.layer?.backgroundColor = NSColor.clear.cgColor
     }
@@ -22,27 +29,30 @@ extension MainView
     /// - Parameter FlatIsVisible: If true, 2D maps are visible. If false, 3D maps are visible.
     func SetFlatlandVisibility(FlatIsVisible: Bool)
     {
+        
         NightMaskImageView.isHidden = !FlatIsVisible
         FlatViewMainImage.isHidden = !FlatIsVisible
         GridOverlay.isHidden = !FlatIsVisible
         HourLayer2D.isHidden = !FlatIsVisible
         Show2DHours()
-        if !FlatIsVisible
+        if FlatIsVisible
         {
-            SunViewTop?.isHidden = true
-            SunViewBottom?.isHidden = true
-//            SunViewTop?.alpha = 0.0
-//            SunViewBottom?.alpha = 0.0
-            MainTimeLabelBottom.isHidden = true
-            MainTimeLabelTop.isHidden = false
+            //Set for 2D flat view.
+            FlatView.layer?.zPosition = 2000
+            GlobeView.layer?.zPosition = 0
+            SunViewTop?.isHidden = false
+            SunViewBottom?.isHidden = false
+            UpdateSunLocations()
         }
         else
         {
-            SunViewTop?.isHidden = false
-            SunViewBottom?.isHidden = false
-//            SunViewTop?.alpha = 1.0
-//            SunViewBottom?.alpha = 1.0
-            UpdateSunLocations()
+            //Set for 3D globe view.
+            FlatView.layer?.zPosition = 0
+            GlobeView.layer?.zPosition = 2000
+            SunViewTop?.isHidden = true
+            SunViewBottom?.isHidden = true
+            MainTimeLabelBottom.isHidden = true
+            MainTimeLabelTop.isHidden = false
         }
     }
     
@@ -90,7 +100,7 @@ extension MainView
     
     /// Get a night mask image for a flat map for the specified date.
     /// - Parameter ForDate: The date of the night mask.
-    /// - Returns: Image for the passed date (and flat map orientation). Nil return on error.
+    /// - Returns: Image for the passed date (and flat map orientation). Nil returned on error.
     func GetNightMask(ForDate: Date) -> NSImage?
     {
         let ImageName = MakeNightMaskName(From: ForDate)
@@ -105,6 +115,7 @@ extension MainView
         return Final
     }
     
+    /// Draw hours. The hours that are drawn depends on user settings.
     func Show2DHours()
     {
         let ViewType = Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
@@ -127,7 +138,8 @@ extension MainView
             TextLayer.frame = TextLayerRect
             TextLayer.bounds = TextLayerRect
             TextLayer.backgroundColor = NSColor.clear.cgColor
-            let Radius = TextLayerRect.size.width / 2.0
+            let RadialOffset: CGFloat = 100.0
+            let Radius = (TextLayerRect.size.width / 2.0) - RadialOffset
             let HourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
             var HourOffset: CGFloat = 0.0
             if HourType != .RelativeToLocation
@@ -209,8 +221,8 @@ extension MainView
                                                           StrokeThickness: -2,
                                                           IncludeSign: IncludeSign)
                 TextNode.string = AText
-                let X = CGFloat(Radius) * cos(Radial) + CGFloat(Radius - Width / 2)
-                let Y = CGFloat(Radius) * sin(Radial) + CGFloat(Radius - Height / 2)
+                let X = CGFloat(Radius) * cos(Radial) + CGFloat(Radius - Width / 2) + RadialOffset
+                let Y = CGFloat(Radius) * sin(Radial) + CGFloat(Radius - Height / 2) + RadialOffset
                 TextNode.font = NSFont.systemFont(ofSize: 36.0)
                 TextNode.fontSize = 36.0
                 TextNode.alignmentMode = .center
@@ -265,11 +277,12 @@ extension MainView
     /// with the time label.
     func UpdateSunLocations()
     {
-        if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .Globe3D
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .Globe3D ||
+        Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .CubicWorld
         {
             return
         }
-        if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
         {
             SunViewTop.isHidden = true
             SunViewBottom.isHidden = false
@@ -349,20 +362,6 @@ extension MainView
     ///                              the previous call.
     func PlotCities(InCityList: [City], RadialTime: Double, CityListChanged: Bool = false)
     {
-        #if false
-        if CityListChanged
-        {
-            HideCities()
-        }
-        else
-        {
-            if let Layer = CityLayer
-            {
-                //rotate the existing layer here
-                return
-            }
-        }
-        #endif
         if CityLayer == nil
         {
             CityLayer = CAShapeLayer()
@@ -565,6 +564,7 @@ extension MainView
         return CGPoint(x: X, y: Y)
     }
     
+    /// Hide cities.
     func HideCities()
     {
         if CityLayer != nil
