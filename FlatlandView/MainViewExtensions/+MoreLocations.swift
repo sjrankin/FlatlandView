@@ -21,7 +21,6 @@ extension MainView
             return
         }
         UnescoInitialized = true
-        FileIO.InstallDatabase()
         if let UnescoURL = FileIO.GetDatabaseURL()
         {
             if sqlite3_open_v2(UnescoURL.path, &MainView.UnescoHandle,
