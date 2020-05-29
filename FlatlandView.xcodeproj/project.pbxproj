@@ -15,6 +15,9 @@
 		1767A8E624794A0100C434B5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E524794A0100C434B5 /* MainView.swift */; };
 		1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E724794A0300C434B5 /* Assets.xcassets */; };
 		1767A8EB24794A0300C434B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E924794A0300C434B5 /* Main.storyboard */; };
+		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
+		177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D32480D49200CAD1B9 /* ActualMap.swift */; };
+		177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */; };
 		17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17EF337E247A472C00A5B55D /* Settings.storyboard */; };
 		17EF3381247A485B00A5B55D /* MapSelector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17EF3380247A485B00A5B55D /* MapSelector.storyboard */; };
 		17EF3384247A4B0A00A5B55D /* MapPickerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF3383247A4B0A00A5B55D /* MapPickerWindow.swift */; };
@@ -61,6 +64,9 @@
 		1767A8EA24794A0300C434B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1767A8EC24794A0300C434B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandView.entitlements; sourceTree = "<group>"; };
+		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
+		177EE5D32480D49200CAD1B9 /* ActualMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMap.swift; sourceTree = "<group>"; };
+		177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapGroup.swift; sourceTree = "<group>"; };
 		17EF337E247A472C00A5B55D /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		17EF3380247A485B00A5B55D /* MapSelector.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapSelector.storyboard; sourceTree = "<group>"; };
 		17EF3383247A4B0A00A5B55D /* MapPickerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPickerWindow.swift; sourceTree = "<group>"; };
@@ -183,6 +189,26 @@
 			path = FlatlandView;
 			sourceTree = "<group>";
 		};
+		177EE5D72480D4AE00CAD1B9 /* Actual */ = {
+			isa = PBXGroup;
+			children = (
+				177EE5D12480D47800CAD1B9 /* ActualMapList.swift */,
+				177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */,
+				177EE5D32480D49200CAD1B9 /* ActualMap.swift */,
+			);
+			path = Actual;
+			sourceTree = "<group>";
+		};
+		177EE5D82480D4BD00CAD1B9 /* Logical */ = {
+			isa = PBXGroup;
+			children = (
+				17EF3392247A66D200A5B55D /* MapManager.swift */,
+				17EF3394247A66F000A5B55D /* MapList.swift */,
+				17EF3396247A670B00A5B55D /* MapItem.swift */,
+			);
+			path = Logical;
+			sourceTree = "<group>";
+		};
 		17EF337D247A470400A5B55D /* SettingsStoryboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,9 +248,8 @@
 		17EF3391247A66BF00A5B55D /* Maps */ = {
 			isa = PBXGroup;
 			children = (
-				17EF3392247A66D200A5B55D /* MapManager.swift */,
-				17EF3394247A66F000A5B55D /* MapList.swift */,
-				17EF3396247A670B00A5B55D /* MapItem.swift */,
+				177EE5D82480D4BD00CAD1B9 /* Logical */,
+				177EE5D72480D4AE00CAD1B9 /* Actual */,
 			);
 			path = Maps;
 			sourceTree = "<group>";
@@ -371,6 +396,7 @@
 			files = (
 				17EF33B9247A94DB00A5B55D /* Cities.swift in Sources */,
 				17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */,
+				177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */,
 				17EF33B0247A93DC00A5B55D /* Miscellaneous.swift in Sources */,
 				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
@@ -387,6 +413,8 @@
 				1767A8E624794A0100C434B5 /* MainView.swift in Sources */,
 				17EF33AE247A93C400A5B55D /* TimeHelper.swift in Sources */,
 				17EF33BB247A94F900A5B55D /* CitiesData.swift in Sources */,
+				177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */,
+				177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */,
 				17EF3393247A66D200A5B55D /* MapManager.swift in Sources */,
 				17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
