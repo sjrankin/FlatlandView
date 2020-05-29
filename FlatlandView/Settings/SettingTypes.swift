@@ -17,6 +17,7 @@ enum SettingTypes: String, CaseIterable
     
     //Map-related settings.
     case MapType = "MapType"
+    case ViewType = "ViewType"
     case ShowNight = "ShowNight"
     case NightMaskAlpha = "NightMaskAlpha"
     case HourType = "HourType"
