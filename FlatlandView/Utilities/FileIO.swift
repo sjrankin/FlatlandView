@@ -14,6 +14,53 @@ import Photos
 /// Class to help with file I/O operations.
 class FileIO
 {
+    /// Initialize needed file structures and databases.
+    public static func Initialize()
+    {
+        InstallDatabase()
+        InitializeFileStructure()
+    }
+    
+    public static let AppDirectory = "Flatland"
+    public static let MapDirectory = "Flatland/Maps"
+    
+    /// Initialize the file structure we need in the user's Documents directory.
+    public static func InitializeFileStructure()
+    {
+        let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let AppDirURL = DocDirURL.appendingPathComponent(AppDirectory)
+        if !DirectoryExists(AppDirURL.path)
+        {
+            do
+            {
+                try FileManager.default.createDirectory(atPath: AppDirURL.path, withIntermediateDirectories: true, attributes: nil)
+            }
+            catch
+            {
+                print("Error creating \(AppDirectory) in Documents: \(error.localizedDescription)")
+                return
+            }
+        }
+        let MapsURL = DocDirURL.appendingPathComponent(MapDirectory)
+        if !DirectoryExists(MapsURL.path)
+        {
+            do
+            {
+                try FileManager.default.createDirectory(atPath: MapsURL.path, withIntermediateDirectories: true, attributes: nil)
+            }
+            catch
+            {
+                print("Error creating \(MapDirectory) in Documents: \(error.localizedDescription)")
+                return
+            }
+        }
+    }
+    
+    public static func LoadMapDirectory() -> String
+    {
+        
+    }
+    
     public static let DatabaseDirectory = "/Database"
     
     /// Make sure the Unesco world heritage site database is installed.
