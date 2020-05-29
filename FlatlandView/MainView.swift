@@ -19,10 +19,60 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         Settings.Initialize()
         Settings.AddSubscriber(self)
         
+        FileIO.Initialize()
+        
         BackgroundView.wantsLayer = true
         BackgroundView.layer?.backgroundColor = NSColor.black.cgColor
         
+        GlobeView.wantsLayer = true
+        GlobeView.layer?.zPosition = 0
+        
+        InitializeFlatland()
+        
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        
+        SetFlatlandVisibility(FlatIsVisible: true)
+        InitializeUpdateTimer()
+    }
+    
+    func InitializeUpdateTimer()
+    {
+        UpdateTimer = Timer.scheduledTimer(timeInterval: 1.0,
+                                           target: self,
+                                           selector: #selector(MasterTimerHandler),
+                                           userInfo: nil,
+                                           repeats: true)
+        RunLoop.current.add(UpdateTimer!, forMode: .common)
+    }
+    
+    var UpdateTimer: Timer? = nil
+    
+    @objc func MasterTimerHandler()
+    {
+        let CurrentMapType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+        switch CurrentMapType
+        {
+            case .CubicWorld:
+            break
+            
+            case .Globe3D:
+                SunViewBottom.isHidden = false
+                SunViewTop.isHidden = false
+                MainTimeLabelTop.isHidden = false
+                MainTimeLabelBottom.isHidden = true
+            
+            case .FlatNorthCenter:
+                SunViewBottom.isHidden = false
+                SunViewTop.isHidden = true
+                MainTimeLabelTop.isHidden = false
+                MainTimeLabelBottom.isHidden = true
+            
+            case .FlatSouthCenter:
+                SunViewBottom.isHidden = true
+                SunViewTop.isHidden = false
+                MainTimeLabelTop.isHidden = true
+                MainTimeLabelBottom.isHidden = false
+        }
     }
     
     override var representedObject: Any?
@@ -61,16 +111,19 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     @IBAction func ViewTypeNorthCentered(_ sender: Any)
     {
+        Settings.SetEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
         print("selected north centered")
     }
     
     @IBAction func ViewTypeSouthCentered(_ sender: Any)
     {
+                Settings.SetEnum(.FlatSouthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
         print("selected south centered")
     }
     
     @IBAction func ViewTypeGlobal(_ sender: Any)
     {
+                Settings.SetEnum(.Globe3D, EnumType: ViewTypes.self, ForKey: .ViewType)
         print("selected global centered")
     }
     
@@ -80,12 +133,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         let Storyboard = NSStoryboard(name: "MapSelector", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "MapPickerWindow") as? MapPickerWindow
         {
-            #if true
             let MapSelector = WindowController.window
             self.view.window?.beginSheet(MapSelector!, completionHandler: nil)
-            #else
-            WindowController.showWindow(nil)
-            #endif
             SelectMapWindow = WindowController
         }
     }
@@ -166,40 +215,68 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     // MARK: - Settings changed required functions.
     
+    /// ID of this class in relation to the settings changed protocol.
     func SubscriberID() -> UUID
     {
         return UUID(uuidString: "66629111-b430-4231-af5a-e39f35ae7883")!
     }
     
+    /// Handle changed settings. Settings may be changed from anywhere at any time.
+    /// - Parameter Setting: The setting that changed.
+    /// - Parameter OldValue: The value of the setting before the change.
+    /// - Parameter NewValue: The new value of the setting.
     func SettingChanged(Setting: SettingTypes, OldValue: Any?, NewValue: Any?)
     {
         switch Setting
         {
             case .MapType:
-                if let Old = OldValue as? MapTypes
+                if let New = NewValue as? MapTypes
                 {
-                    if let New = NewValue as? MapTypes
-                    {
-                        if Old == New
-                        {
-                            print("Old map is same as new map: \(New.rawValue)")
-                            return
-                        }
-                        print("New map selected: \(New.rawValue)")
-                    }
+                    print("New map selected: \(New.rawValue)")
+            }
+            
+            case .ViewType:
+            if let New = NewValue as? ViewTypes
+            {
+                if New == .CubicWorld
+                {
+                    return
+                }
+                var IsFlat = false
+                if New == .FlatNorthCenter || New == .FlatSouthCenter
+                {
+                    IsFlat = true
+                }
+                SetFlatlandVisibility(FlatIsVisible: IsFlat)
             }
             
             case .ShowNight:
-            break
+                break
             
             case .HourType:
-            break
+                if let NewHourType = NewValue as? HourValueTypes
+                {
+                    switch NewHourType
+                    {
+                        case .None:
+                        break
+                        
+                        case .RelativeToLocation:
+                        break
+                        
+                        case .RelativeToNoon:
+                        break
+                        
+                        case .Solar:
+                        break
+                    }
+            }
             
             case .TimeLabel:
-            break
+                break
             
             default:
-            break
+                break
         }
     }
     
