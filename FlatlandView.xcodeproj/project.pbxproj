@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744316E2480F2C10087B00A /* ActualMapIO.swift */; };
 		17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CD1247B8E11005209FC /* +MoreLocations.swift */; };
 		17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CD3247B8E62005209FC /* WorldHeritageSite.swift */; };
 		17523CD6247B937F005209FC /* UnescoSites.db in Resources */ = {isa = PBXBuildFile; fileRef = 17523CD5247B937F005209FC /* UnescoSites.db */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1744316E2480F2C10087B00A /* ActualMapIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapIO.swift; sourceTree = "<group>"; };
 		17523CD1247B8E11005209FC /* +MoreLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MoreLocations.swift"; sourceTree = "<group>"; };
 		17523CD3247B8E62005209FC /* WorldHeritageSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSite.swift; sourceTree = "<group>"; };
 		17523CD5247B937F005209FC /* UnescoSites.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnescoSites.db; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				177EE5D12480D47800CAD1B9 /* ActualMapList.swift */,
 				177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */,
 				177EE5D32480D49200CAD1B9 /* ActualMap.swift */,
+				1744316E2480F2C10087B00A /* ActualMapIO.swift */,
 			);
 			path = Actual;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 				17EF338C247A4EBB00A5B55D /* Settings.swift in Sources */,
 				17EF3397247A670B00A5B55D /* MapItem.swift in Sources */,
 				17EF33B7247A94BA00A5B55D /* City.swift in Sources */,
+				1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */,
 				17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */,
 				17EF33A8247A936900A5B55D /* Solar.swift in Sources */,
 				17EF339A247A673900A5B55D /* FileIO.swift in Sources */,
