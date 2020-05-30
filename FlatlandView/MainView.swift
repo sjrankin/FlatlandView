@@ -34,6 +34,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         
         SetFlatlandVisibility(FlatIsVisible: true)
         InitializeUpdateTimer()
+        Started = true
     }
     
     var MasterMapList: ActualMapList? = nil
@@ -49,6 +50,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     }
     
     var UpdateTimer: Timer? = nil
+    var Started = false
     
     @objc func MasterTimerHandler()
     {
@@ -205,6 +207,21 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                     return
             }
         }
+    }
+    
+    func WillClose()
+    {
+        print("Closing.")
+    }
+    
+    func WindowResized(To: NSSize)
+    {
+        if !Started
+        {
+            return
+        }
+        //print("Resized to \(To)")
+        Show2DHours()
     }
     
     // MARK: - Protocol-required functions
