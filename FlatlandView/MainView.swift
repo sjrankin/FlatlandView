@@ -20,6 +20,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         Settings.AddSubscriber(self)
         
         FileIO.Initialize()
+        MasterMapList = ActualMapIO.LoadMapList()
         
         BackgroundView.wantsLayer = true
         BackgroundView.layer?.backgroundColor = NSColor.black.cgColor
@@ -34,6 +35,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         SetFlatlandVisibility(FlatIsVisible: true)
         InitializeUpdateTimer()
     }
+    
+    var MasterMapList: ActualMapList? = nil
     
     func InitializeUpdateTimer()
     {
