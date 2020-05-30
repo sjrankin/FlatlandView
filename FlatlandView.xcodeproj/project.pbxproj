@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744316E2480F2C10087B00A /* ActualMapIO.swift */; };
+		1750961C2482531100A3757C /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750961B2482531100A3757C /* MainWindow.swift */; };
 		17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CD1247B8E11005209FC /* +MoreLocations.swift */; };
 		17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CD3247B8E62005209FC /* WorldHeritageSite.swift */; };
 		17523CD6247B937F005209FC /* UnescoSites.db in Resources */ = {isa = PBXBuildFile; fileRef = 17523CD5247B937F005209FC /* UnescoSites.db */; };
@@ -55,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		1744316E2480F2C10087B00A /* ActualMapIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapIO.swift; sourceTree = "<group>"; };
+		1750961B2482531100A3757C /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		17523CD1247B8E11005209FC /* +MoreLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MoreLocations.swift"; sourceTree = "<group>"; };
 		17523CD3247B8E62005209FC /* WorldHeritageSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSite.swift; sourceTree = "<group>"; };
 		17523CD5247B937F005209FC /* UnescoSites.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnescoSites.db; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				17523CD0247B8DF8005209FC /* MainViewExtensions */,
 				17523CD7247B9716005209FC /* Views */,
 				1767A8E324794A0100C434B5 /* AppDelegate.swift */,
+				1750961B2482531100A3757C /* MainWindow.swift */,
 				1767A8E524794A0100C434B5 /* MainView.swift */,
 				17EF3388247A4E3D00A5B55D /* MainProtocol.swift */,
 				1767A8E924794A0300C434B5 /* Main.storyboard */,
@@ -426,6 +429,7 @@
 				17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */,
 				17EF33A1247A695400A5B55D /* Extensions.swift in Sources */,
 				17EF33AC247A93A300A5B55D /* GeoPoint2.swift in Sources */,
+				1750961C2482531100A3757C /* MainWindow.swift in Sources */,
 				17F440D7247CD72E00FD440E /* +DrawGrid.swift in Sources */,
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
 				17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */,
