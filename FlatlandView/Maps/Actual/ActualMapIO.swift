@@ -23,6 +23,22 @@ class ActualMapIO
         return nil
     }
     
+    /// Save the passed map list.
+    /// - Parameter MapData: The map list to save. If this structure is not dirty, it is not saved.
+    public static func SaveMapList(_ MapData: ActualMapList)
+    {
+        if MapData.IsDirty
+        {
+            var XSave = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            XSave.append(MapData.AsXML(0))
+            FileIO.SetMapStructure(XSave)
+        }
+        else
+        {
+            print("Map data not saved - not dirty.")
+        }
+    }
+    
     /// Parse the passed raw XML string into an `ActualMapList`.
     /// - Parameter XML: The XML string to parse. Assumed to have been read from the Maps.xml file.
     /// - Returns: An instance of an `ActualMapList` on success, nil on failure.
