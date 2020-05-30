@@ -22,7 +22,7 @@ extension MainView
         GridOverlay.wantsLayer = true
         GridOverlay.layer?.backgroundColor = NSColor.clear.cgColor
         HourLayer2D.wantsLayer = true
-        HourLayer2D.layer?.backgroundColor = NSColor.clear.cgColor
+        HourLayer2D.layer?.backgroundColor = NSColor.systemTeal.cgColor
     }
     
     /// Sets the visibility of either the 3D globe or 2D map depending on the passed boolean.
@@ -130,17 +130,25 @@ extension MainView
             HourLayer2D.isHidden = false
             HourLayer2D.layer!.zPosition = 60000
             HourLayer2D.layer!.sublayers?.removeAll()
-            HourLayer2D.layer!.backgroundColor = NSColor.clear.cgColor
+            HourLayer2D.layer!.backgroundColor = NSColor.systemTeal.cgColor
             
             let TextLayer = CALayer()
             TextLayer.zPosition = 50000
-            let TextLayerRect = HourLayer2D.bounds
+            let TextLayerRect = HourLayer2D.frame
             TextLayer.frame = TextLayerRect
             TextLayer.bounds = TextLayerRect
             TextLayer.backgroundColor = NSColor.clear.cgColor
-            let RadialOffset: CGFloat = 100.0
-            let Radius = (TextLayerRect.size.width / 2.0) - RadialOffset
-            let HourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
+            let RadialOffset: CGFloat = 75.0
+            var Radius: CGFloat = 0.0
+            if TextLayerRect.size.width > TextLayerRect.size.height
+            {
+                Radius = (TextLayerRect.size.height / 2.0) - RadialOffset
+            }
+            else
+            {
+             Radius = (TextLayerRect.size.width / 2.0) - RadialOffset
+            }
+                let HourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
             var HourOffset: CGFloat = 0.0
             if HourType != .RelativeToLocation
             {
@@ -221,8 +229,30 @@ extension MainView
                                                           StrokeThickness: -2,
                                                           IncludeSign: IncludeSign)
                 TextNode.string = AText
-                let X = CGFloat(Radius) * cos(Radial) + CGFloat(Radius - Width / 2) + RadialOffset
-                let Y = CGFloat(Radius) * sin(Radial) + CGFloat(Radius - Height / 2) + RadialOffset
+                var RadiusXOffset: CGFloat = 0.0
+                var RadiusYOffset: CGFloat = 0.0
+                print("HourLayer2D size=\(HourLayer2D.bounds.size)")
+                if HourLayer2D.bounds.size.width > HourLayer2D.bounds.size.height
+                {
+                    RadiusXOffset = HourLayer2D.bounds.size.width / 4.0
+                    RadiusYOffset = 0.0
+                    print("  Width>Height: X offset=\(RadiusXOffset), Y offset = \(RadiusYOffset)")
+                }
+                else
+                    if HourLayer2D.bounds.size.height > HourLayer2D.bounds.size.width
+                {
+                    RadiusXOffset = 0.0
+                    RadiusYOffset = HourLayer2D.bounds.size.height / 4.0
+                                        print("  Height>Width: X offset=\(RadiusXOffset), Y offset = \(RadiusYOffset)")
+                }
+                else
+                    {
+                        RadiusXOffset = 0.0
+                        RadiusYOffset = 0.0
+                        print("  Height==Width")
+                }
+                let X = CGFloat(Radius) * cos(Radial) + CGFloat(Radius + RadiusXOffset - Width / 2) + RadialOffset
+                let Y = CGFloat(Radius) * sin(Radial) + CGFloat(Radius - RadiusYOffset - Height / 2) + RadialOffset
                 TextNode.font = NSFont.systemFont(ofSize: 36.0)
                 TextNode.fontSize = 36.0
                 TextNode.alignmentMode = .center
