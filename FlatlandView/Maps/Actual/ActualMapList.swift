@@ -10,14 +10,14 @@ import Foundation
 import AppKit
 
 /// Holds all map information on the user's system.
-class ActualMapList
+class ActualMapList: CustomStringConvertible
 {
     /// Initialize the map list.
     /// - Parameters:
     ///   - Title: The title of the map list.
     ///   - ID: The ID of the map list.
     ///   - Groups: List of all map groups.
-    init(_ Title: String, _ ID: String, _ Groups: [ActualMapGroup])
+    init(_ Title: String, _ ID: UUID, _ Groups: [ActualMapGroup])
     {
         self.Title = Title
         self.ID = ID
@@ -72,5 +72,33 @@ class ActualMapList
         {
             _IsDirty = true
         }
+    }
+    
+        var description: String
+        {
+            get
+            {
+                var Top = "\(Title), \(ID.uuidString)\n"
+                for Group in MapGroupList
+                {
+                    Top.append("\(Group)\n")
+                }
+                return Top
+            }
+    }
+    
+    func AsXML(_ Indent: Int) -> String
+    {
+        var XString = "<Maps "
+        XString.append("Title=\"\(Title)\" ")
+        XString.append("ID=\"\(ID.uuidString)>\n")
+        
+        for Group in MapGroupList
+        {
+            XString.append(Group.AsXML(2))
+        }
+        
+        XString.append("</Maps>\n")
+        return XString
     }
 }
