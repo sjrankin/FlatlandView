@@ -56,9 +56,21 @@ class FileIO
         }
     }
     
-    public static func LoadMapDirectory() -> String
+    public static func GetMapStructure() -> String?
     {
-        
+        let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let AppDirURL = DocDirURL.appendingPathComponent(AppDirectory)
+        let FileURL = AppDirURL.appendingPathComponent("Maps.xml")
+        do
+        {
+            let Raw = try String(contentsOf: FileURL, encoding: .utf8)
+            return Raw
+        }
+        catch
+        {
+            print("Error reading contents of \(FileURL.path): \(error.localizedDescription)")
+        }
+        return nil
     }
     
     public static let DatabaseDirectory = "/Database"
