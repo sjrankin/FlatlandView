@@ -56,6 +56,8 @@ class FileIO
         }
     }
     
+    /// Read the contents of the `Maps.xml` file.
+    /// - Returns: The contents of the `Maps.xml` file. Nil on error.
     public static func GetMapStructure() -> String?
     {
         let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -71,6 +73,23 @@ class FileIO
             print("Error reading contents of \(FileURL.path): \(error.localizedDescription)")
         }
         return nil
+    }
+    
+    /// Write the contents of the passed string to the `Maps.xml` file.
+    /// - Parameter SaveMe: The string to save to the file `Maps.xml`.
+    public static func SetMapStructure(_ SaveMe: String)
+    {
+        let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let AppDirURL = DocDirURL.appendingPathComponent(AppDirectory)
+        let FileURL = AppDirURL.appendingPathComponent("Maps.xml")
+        do
+        {
+            try SaveMe.write(to: FileURL, atomically: false, encoding: .utf8)
+        }
+        catch
+        {
+            print("Error writing to Maps.xml: \(error.localizedDescription)")
+        }
     }
     
     public static let DatabaseDirectory = "/Database"
