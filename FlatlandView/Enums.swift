@@ -8,19 +8,30 @@
 
 import Foundation
 
+/// Types of views.
 enum ViewTypes: String, CaseIterable
 {
+    /// Flat view with the north at the center.
     case FlatNorthCenter = "FlatNorthCenter"
+    /// Flat view with the south at the center.
     case FlatSouthCenter = "FlatSouthCenter"
+    /// 3D globe view.
     case Globe3D = "3DGlobe"
+    /// 3D cube view.
     case CubicWorld = "Cubic"
 }
 
+/// Types of hour labels.
 enum HourValueTypes: String, CaseIterable
 {
+    /// No hour labels.
     case None = "NoHours"
+    /// Noon always at solar noon.
     case Solar = "RelativeToSolar"
+    /// Hours relative to noon (eg, + or - hours away from solar noon).
     case RelativeToNoon = "RelativeToNoon"
+    /// Hours relative to set location. Not used if the user does not set a
+    /// location.
     case RelativeToLocation = "RelativeToLocation"
 }
 
