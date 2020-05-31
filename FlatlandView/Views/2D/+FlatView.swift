@@ -229,30 +229,12 @@ extension MainView
                                                           StrokeThickness: -2,
                                                           IncludeSign: IncludeSign)
                 TextNode.string = AText
-                var RadiusXOffset: CGFloat = 0.0
-                var RadiusYOffset: CGFloat = 0.0
-                print("HourLayer2D size=\(HourLayer2D.bounds.size)")
-                if HourLayer2D.bounds.size.width > HourLayer2D.bounds.size.height
-                {
-                    RadiusXOffset = HourLayer2D.bounds.size.width / 4.0
-                    RadiusYOffset = 0.0
-                    print("  Width>Height: X offset=\(RadiusXOffset), Y offset = \(RadiusYOffset)")
-                }
-                else
-                    if HourLayer2D.bounds.size.height > HourLayer2D.bounds.size.width
-                {
-                    RadiusXOffset = 0.0
-                    RadiusYOffset = HourLayer2D.bounds.size.height / 4.0
-                                        print("  Height>Width: X offset=\(RadiusXOffset), Y offset = \(RadiusYOffset)")
-                }
-                else
-                    {
-                        RadiusXOffset = 0.0
-                        RadiusYOffset = 0.0
-                        print("  Height==Width")
-                }
-                let X = CGFloat(Radius) * cos(Radial) + CGFloat(Radius + RadiusXOffset - Width / 2) + RadialOffset
-                let Y = CGFloat(Radius) * sin(Radial) + CGFloat(Radius - RadiusYOffset - Height / 2) + RadialOffset
+                var X = CGFloat(Radius) * cos(Radial)
+                var Y = CGFloat(Radius) * sin(Radial)
+                X = X + HourLayer2D.bounds.size.width / 2.0
+                X = X - (Width / 2.0)
+                Y = Y + HourLayer2D.bounds.size.height / 2.0
+                Y = Y - (Height / 2.0)
                 TextNode.font = NSFont.systemFont(ofSize: 36.0)
                 TextNode.fontSize = 36.0
                 TextNode.alignmentMode = .center
