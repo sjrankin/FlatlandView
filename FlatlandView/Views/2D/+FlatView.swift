@@ -149,7 +149,7 @@ extension MainView
             TextLayer.frame = TextLayerRect
             TextLayer.bounds = TextLayerRect
             TextLayer.backgroundColor = NSColor.clear.cgColor
-            let RadialOffset: CGFloat = 75.0
+            let RadialOffset: CGFloat = 0.0
             var Radius: CGFloat = 0.0
             if TextLayerRect.size.width > TextLayerRect.size.height
             {
@@ -348,6 +348,7 @@ extension MainView
     }
     
     /// Rotates the Earth image to the passed number of degrees where Greenwich England is 0°.
+    /// - Note: The code ported from iOS does not work with macOS. Instead I used code from [Rotating a View is Not Easy](https://nyrra33.com/2017/12/21/rotating-a-view-is-not-easy/)
     /// - Parameter Percent: Percent of the day, eg, if 0.25 is passed, it is 6:00 AM. This value
     ///                      is expected to be normalized.
     func RotateImageTo(_ Percent: Double)
@@ -364,13 +365,11 @@ extension MainView
         let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
         let Rotation = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
         FlatViewMainImage.wantsLayer = true
-        //FlatViewMainImage.layer?.borderColor = NSColor.systemYellow.cgColor
-        //FlatViewMainImage.layer?.borderWidth = 5.0
         FlatViewMainImage.imageAlignment = .alignCenter
         FlatViewMainImage.imageScaling = .scaleProportionallyDown
-        #if true
         if let AnimatorLayer = FlatViewMainImage.animator().layer
         {
+            //Code from Rotating a View is Not Easy.
             FlatViewMainImage.layer?.position = CGPoint(x: FlatViewMainImage.frame.midX,
                                                         y: FlatViewMainImage.frame.midY)
             FlatViewMainImage.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -379,10 +378,6 @@ extension MainView
             AnimatorLayer.transform = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
             NSAnimationContext.endGrouping()
         }
-        #else
-        FlatViewMainImage.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        FlatViewMainImage.layer?.transform = Rotation
-        #endif
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
             HourLayer2D.layer!.transform = Rotation
