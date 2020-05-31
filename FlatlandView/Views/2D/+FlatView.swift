@@ -16,13 +16,13 @@ extension MainView
     {
         FlatView.wantsLayer = true
         FlatView.layer?.zPosition = 2000
-        FlatView.layer?.backgroundColor = NSColor.systemYellow.cgColor
+        FlatView.layer?.backgroundColor = NSColor.clear.cgColor
         CityView2D.wantsLayer = true
         CityView2D.layer?.backgroundColor = NSColor.clear.cgColor
         GridOverlay.wantsLayer = true
         GridOverlay.layer?.backgroundColor = NSColor.clear.cgColor
         HourLayer2D.wantsLayer = true
-        HourLayer2D.layer?.backgroundColor = NSColor.systemTeal.cgColor
+        HourLayer2D.layer?.backgroundColor = NSColor.clear.cgColor
     }
     
     /// Sets the visibility of either the 3D globe or 2D map depending on the passed boolean.
@@ -54,6 +54,17 @@ extension MainView
             MainTimeLabelBottom.isHidden = true
             MainTimeLabelTop.isHidden = false
         }
+    }
+    
+    /// Resized the image to fit in the bounds of `FlatViewMainImage`.
+    /// - Note: Required due to NSImageView aspect fitting bug.
+    /// - Parameter Raw: The image to resize.
+    /// - Returns: Resized image.
+    func FinalizeImage(_ Raw: NSImage) -> NSImage
+    {
+        let FinalSize = FlatViewMainImage.bounds.size
+        let FinalImage = Utility.ResizeImage(Image: Raw, Longest: max(FinalSize.width, FinalSize.height))
+        return FinalImage
     }
     
     /// Set the night mask for 2D maps.
@@ -130,7 +141,7 @@ extension MainView
             HourLayer2D.isHidden = false
             HourLayer2D.layer!.zPosition = 60000
             HourLayer2D.layer!.sublayers?.removeAll()
-            HourLayer2D.layer!.backgroundColor = NSColor.systemTeal.cgColor
+            HourLayer2D.layer!.backgroundColor = NSColor.clear.cgColor
             
             let TextLayer = CALayer()
             TextLayer.zPosition = 50000
@@ -338,21 +349,40 @@ extension MainView
     
     /// Rotates the Earth image to the passed number of degrees where Greenwich England is 0°.
     /// - Parameter Percent: Percent of the day, eg, if 0.25 is passed, it is 6:00 AM. This value
-    ///                      should be normalized.
+    ///                      is expected to be normalized.
     func RotateImageTo(_ Percent: Double)
     {
         PreviousPercent = Percent
         var FinalOffset = 0.0
         var Multiplier = 1.0
-                if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-                {
-                    FinalOffset = 180.0
-                    Multiplier = -1.0
+        if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        {
+            FinalOffset = 180.0
+            Multiplier = -1.0
         }
         //Be sure to rotate the proper direction based on the map.
         let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
         let Rotation = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
-        FlatViewMainImage.layer!.transform = Rotation
+        FlatViewMainImage.wantsLayer = true
+        //FlatViewMainImage.layer?.borderColor = NSColor.systemYellow.cgColor
+        //FlatViewMainImage.layer?.borderWidth = 5.0
+        FlatViewMainImage.imageAlignment = .alignCenter
+        FlatViewMainImage.imageScaling = .scaleProportionallyDown
+        #if true
+        if let AnimatorLayer = FlatViewMainImage.animator().layer
+        {
+            FlatViewMainImage.layer?.position = CGPoint(x: FlatViewMainImage.frame.midX,
+                                                        y: FlatViewMainImage.frame.midY)
+            FlatViewMainImage.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            NSAnimationContext.beginGrouping()
+            NSAnimationContext.current.allowsImplicitAnimation = true
+            AnimatorLayer.transform = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
+            NSAnimationContext.endGrouping()
+        }
+        #else
+        FlatViewMainImage.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        FlatViewMainImage.layer?.transform = Rotation
+        #endif
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
             HourLayer2D.layer!.transform = Rotation
