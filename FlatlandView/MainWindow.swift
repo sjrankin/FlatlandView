@@ -26,4 +26,7 @@ class MainWindow: NSWindowController, NSWindowDelegate
         let VC = window?.contentViewController as? MainView
         VC?.WillClose()
     }
+    
+    @IBOutlet weak var HourSegment: NSSegmentedControl!
+    @IBOutlet weak var ViewSegment: NSSegmentedControl!
 }
