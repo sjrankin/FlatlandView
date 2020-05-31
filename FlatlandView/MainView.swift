@@ -33,6 +33,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
         
         SetFlatlandVisibility(FlatIsVisible: true)
+        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: .Simple, ViewType: .FlatNorthCenter)!)
         InitializeUpdateTimer()
         Started = true
     }
@@ -47,6 +48,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                                            userInfo: nil,
                                            repeats: true)
         RunLoop.current.add(UpdateTimer!, forMode: .common)
+        MasterTimerHandler()
     }
     
     var UpdateTimer: Timer? = nil
@@ -54,11 +56,12 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     @objc func MasterTimerHandler()
     {
+        UpdateSunLocations()
         let CurrentMapType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         switch CurrentMapType
         {
             case .CubicWorld:
-            break
+                break
             
             case .Globe3D:
                 SunViewBottom.isHidden = false
@@ -78,6 +81,62 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 MainTimeLabelTop.isHidden = true
                 MainTimeLabelBottom.isHidden = false
         }
+        
+        let Now = GetUTC()
+        let Formatter = DateFormatter()
+        Formatter.dateFormat = "HH:mm:ss"
+        var TimeZoneAbbreviation = ""
+        if Settings.GetEnum(ForKey: .TimeLabel, EnumType: TimeLabels.self) == .UTC
+        {
+            TimeZoneAbbreviation = "UTC"
+        }
+        else
+        {
+            TimeZoneAbbreviation = GetLocalTimeZoneID() ?? "UTC"
+        }
+        let TZ = TimeZone(abbreviation: TimeZoneAbbreviation)
+        Formatter.timeZone = TZ
+        let Final = Formatter.string(from: Now)
+        let FinalText = Final + " " + TimeZoneAbbreviation
+        MainTimeLabelTop.stringValue = FinalText
+        MainTimeLabelBottom.stringValue = FinalText
+        
+        let CurrentSeconds = Now.timeIntervalSince1970
+        if CurrentSeconds != OldSeconds
+        {
+            OldSeconds = CurrentSeconds
+            var Cal = Calendar(identifier: .gregorian)
+            Cal.timeZone = TZ!
+            let Hour = Cal.component(.hour, from: Now)
+            let Minute = Cal.component(.minute, from: Now)
+            let Second = Cal.component(.second, from: Now)
+            let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+            let Percent = Double(ElapsedSeconds) / Double(24 * 60 * 60)
+            let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+            RotateImageTo(PrettyPercent)
+        }
+    }
+    
+    var OldSeconds: Double = 0.0
+    
+    func GetUTC() -> Date
+    {
+        return Date()
+    }
+    
+    /// Returns the local time zone abbreviation (a three-letter indicator, not a set of words).
+    /// - Returns: The local time zone identifier if found, nil if not found.
+    func GetLocalTimeZoneID() -> String?
+    {
+        let TZID = TimeZone.current.identifier
+        for (Abbreviation, Wordy) in TimeZone.abbreviationDictionary
+        {
+            if Wordy == TZID
+            {
+                return Abbreviation
+            }
+        }
+        return nil
     }
     
     override var representedObject: Any?
@@ -86,6 +145,57 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         {
             // Update the view, if already loaded.
         }
+    }
+    
+    /// Some tasks need to have a fully prepared view and window. Initialize the UI from here.
+    override func viewDidAppear()
+    {
+        InitializeUI()
+    }
+    
+    /// Initialize the UI, reflecting the current user settings.
+    func InitializeUI()
+    {
+        switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self)!
+        {
+            case HourValueTypes.None:
+                (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 0
+            
+            case .RelativeToLocation:
+                (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 3
+            
+            case .RelativeToNoon:
+                (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 2
+            
+            case .Solar:
+                (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 1
+        }
+        
+        switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self)!
+        {
+            case .FlatNorthCenter:
+                (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 0
+            
+            case .FlatSouthCenter:
+                (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 1
+            
+            case .Globe3D:
+                (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 2
+            
+            default:
+                (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 0
+        }
+        
+        MainTimeLabelBottom.wantsLayer = true
+        MainTimeLabelBottom.layer?.zPosition = 100000
+        MainTimeLabelBottom.font = NSFont.monospacedSystemFont(ofSize: 30.0, weight: .semibold)
+        MainTimeLabelBottom.textColor = NSColor.white
+        MainTimeLabelTop.wantsLayer = true
+        MainTimeLabelTop.layer?.zPosition = 100000
+        MainTimeLabelTop.font = NSFont.monospacedSystemFont(ofSize: 30.0, weight: .semibold)
+        MainTimeLabelTop.textColor = NSColor.white
+        
+        FlatViewMainImage.wantsLayer = true
     }
     
     // MARK: - Menu/toolbar event handlers.
@@ -122,13 +232,13 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     @IBAction func ViewTypeSouthCentered(_ sender: Any)
     {
-                Settings.SetEnum(.FlatSouthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
+        Settings.SetEnum(.FlatSouthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
         print("selected south centered")
     }
     
     @IBAction func ViewTypeGlobal(_ sender: Any)
     {
-                Settings.SetEnum(.Globe3D, EnumType: ViewTypes.self, ForKey: .ViewType)
+        Settings.SetEnum(.Globe3D, EnumType: ViewTypes.self, ForKey: .ViewType)
         print("selected global centered")
     }
     
@@ -256,18 +366,18 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             }
             
             case .ViewType:
-            if let New = NewValue as? ViewTypes
-            {
-                if New == .CubicWorld
+                if let New = NewValue as? ViewTypes
                 {
-                    return
-                }
-                var IsFlat = false
-                if New == .FlatNorthCenter || New == .FlatSouthCenter
-                {
-                    IsFlat = true
-                }
-                SetFlatlandVisibility(FlatIsVisible: IsFlat)
+                    if New == .CubicWorld
+                    {
+                        return
+                    }
+                    var IsFlat = false
+                    if New == .FlatNorthCenter || New == .FlatSouthCenter
+                    {
+                        IsFlat = true
+                    }
+                    SetFlatlandVisibility(FlatIsVisible: IsFlat)
             }
             
             case .ShowNight:
@@ -279,16 +389,16 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                     switch NewHourType
                     {
                         case .None:
-                        break
+                            break
                         
                         case .RelativeToLocation:
-                        break
+                            break
                         
                         case .RelativeToNoon:
-                        break
+                            break
                         
                         case .Solar:
-                        break
+                            break
                     }
             }
             
