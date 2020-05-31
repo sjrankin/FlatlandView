@@ -49,7 +49,6 @@ class ActualMapIO
             let XDoc = try XMLDocument(xmlString: XML, options: [])
             if let AllMaps = CreateMapList(XDoc.children)
             {
-                print(AllMaps.AsXML(0))
                 return AllMaps
             }
             return nil
