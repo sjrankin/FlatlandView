@@ -20,6 +20,11 @@
 		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
 		177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D32480D49200CAD1B9 /* ActualMap.swift */; };
 		177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */; };
+		17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */; };
+		17D2F6BD2484F6F100404510 /* MainSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BC2484F6F100404510 /* MainSettings.swift */; };
+		17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */; };
+		17DDA0452484E9750090E1EB /* UserLocationEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */; };
+		17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */; };
 		17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17EF337E247A472C00A5B55D /* Settings.storyboard */; };
 		17EF3381247A485B00A5B55D /* MapSelector.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17EF3380247A485B00A5B55D /* MapSelector.storyboard */; };
 		17EF3384247A4B0A00A5B55D /* MapPickerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF3383247A4B0A00A5B55D /* MapPickerWindow.swift */; };
@@ -71,6 +76,11 @@
 		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
 		177EE5D32480D49200CAD1B9 /* ActualMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMap.swift; sourceTree = "<group>"; };
 		177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapGroup.swift; sourceTree = "<group>"; };
+		17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorWindow.swift; sourceTree = "<group>"; };
+		17D2F6BC2484F6F100404510 /* MainSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettings.swift; sourceTree = "<group>"; };
+		17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsWindow.swift; sourceTree = "<group>"; };
+		17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorController.swift; sourceTree = "<group>"; };
+		17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditingProtocol.swift; sourceTree = "<group>"; };
 		17EF337E247A472C00A5B55D /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		17EF3380247A485B00A5B55D /* MapSelector.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapSelector.storyboard; sourceTree = "<group>"; };
 		17EF3383247A4B0A00A5B55D /* MapPickerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPickerWindow.swift; sourceTree = "<group>"; };
@@ -215,6 +225,18 @@
 			path = Logical;
 			sourceTree = "<group>";
 		};
+		17DDA0432484E91F0090E1EB /* SettingsCode */ = {
+			isa = PBXGroup;
+			children = (
+				17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */,
+				17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */,
+				17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */,
+				17D2F6BC2484F6F100404510 /* MainSettings.swift */,
+				17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */,
+			);
+			path = SettingsCode;
+			sourceTree = "<group>";
+		};
 		17EF337D247A470400A5B55D /* SettingsStoryboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +249,7 @@
 		17EF3382247A4AF200A5B55D /* SettingsCode */ = {
 			isa = PBXGroup;
 			children = (
+				17DDA0432484E91F0090E1EB /* SettingsCode */,
 				17EF3385247A4B0F00A5B55D /* MapPickerWindow */,
 			);
 			path = SettingsCode;
@@ -404,8 +427,10 @@
 				17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */,
 				177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */,
 				17EF33B0247A93DC00A5B55D /* Miscellaneous.swift in Sources */,
+				17DDA0452484E9750090E1EB /* UserLocationEditorController.swift in Sources */,
 				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
+				17D2F6BD2484F6F100404510 /* MainSettings.swift in Sources */,
 				17EF33B4247A940900A5B55D /* OrbitalElements.swift in Sources */,
 				17EF3390247A4F5D00A5B55D /* SettingTypes.swift in Sources */,
 				17EF338C247A4EBB00A5B55D /* Settings.swift in Sources */,
@@ -432,10 +457,13 @@
 				1750961C2482531100A3757C /* MainWindow.swift in Sources */,
 				17F440D7247CD72E00FD440E /* +DrawGrid.swift in Sources */,
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
+				17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */,
 				17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */,
 				17EF3395247A66F000A5B55D /* MapList.swift in Sources */,
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
 				17523CDB247B973E005209FC /* +FlatView.swift in Sources */,
+				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
+				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
 				17EF33A3247A699300A5B55D /* Utility.swift in Sources */,
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
