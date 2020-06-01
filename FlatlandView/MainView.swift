@@ -26,16 +26,18 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         BackgroundView.layer?.backgroundColor = NSColor.black.cgColor
         
         GlobeView.wantsLayer = true
-        GlobeView.layer?.zPosition = 0
+        GlobeView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
         
+        Settings.SetBool(.ShowGrid, true)
+        Settings.SetBool(.ShowEquator, true)
+        Settings.SetBool(.ShowTropics, true)
+        Settings.SetBool(.ShowPolarCircles, true)
+        Settings.SetBool(.ShowPrimeMeridians, true)
+        Settings.SetBool(.ShowNoonMeridians, true)
+        Settings.SetBool(.ShowCities, true)
         InitializeFlatland()
         
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
-        
-        SetFlatlandVisibility(FlatIsVisible: true)
-        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: .Simple, ViewType: .FlatNorthCenter)!)
-        InitializeUpdateTimer()
-        Started = true
     }
     
     var MasterMapList: ActualMapList? = nil
@@ -49,10 +51,23 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                                            repeats: true)
         RunLoop.current.add(UpdateTimer!, forMode: .common)
         MasterTimerHandler()
+        //let _ = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(QuickTimer), userInfo: nil, repeats: true)
     }
     
     var UpdateTimer: Timer? = nil
     var Started = false
+    
+    @objc func QuickTimer()
+    {
+        RotateImageTo(TestPercent)
+        TestPercent = TestPercent + 0.01
+        if TestPercent > 1.0
+        {
+            TestPercent = 0.0
+        }
+    }
+    
+    var TestPercent: Double = 0.0
     
     @objc func MasterTimerHandler()
     {
@@ -153,6 +168,19 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         InitializeUI()
     }
     
+    override func viewDidLayout()
+    {
+        perform(#selector(LateStart), with: nil, afterDelay: 2.0)
+    }
+    
+    @objc func LateStart()
+    {
+        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: .Simple, ViewType: .FlatNorthCenter)!)
+        InitializeUpdateTimer()
+        Started = true
+        SetFlatlandVisibility(FlatIsVisible: true)
+    }
+    
     /// Initialize the UI, reflecting the current user settings.
     func InitializeUI()
     {
@@ -187,15 +215,18 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         }
         
         MainTimeLabelBottom.wantsLayer = true
-        MainTimeLabelBottom.layer?.zPosition = 100000
+        MainTimeLabelBottom.layer?.zPosition = CGFloat(LayerZLevels.TimeLabels.rawValue)
         MainTimeLabelBottom.font = NSFont.monospacedSystemFont(ofSize: 30.0, weight: .semibold)
         MainTimeLabelBottom.textColor = NSColor.white
         MainTimeLabelTop.wantsLayer = true
-        MainTimeLabelTop.layer?.zPosition = 100000
+                MainTimeLabelTop.layer?.zPosition = CGFloat(LayerZLevels.TimeLabels.rawValue)
         MainTimeLabelTop.font = NSFont.monospacedSystemFont(ofSize: 30.0, weight: .semibold)
         MainTimeLabelTop.textColor = NSColor.white
         
         FlatViewMainImage.wantsLayer = true
+        
+        let HaveLocalLocation = Settings.HaveLocalLocation()
+        (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(HaveLocalLocation, forSegment: 3)
     }
     
     // MARK: - Menu/toolbar event handlers.
@@ -210,36 +241,48 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     @IBAction func ViewHoursHideAll(_ sender: Any)
     {
+        Settings.SetEnum(.None, EnumType: HourValueTypes.self, ForKey: .HourType)
+        Show2DHours()
     }
     
     @IBAction func ViewHoursNoonCentered(_ sender: Any)
     {
+        Settings.SetEnum(.Solar, EnumType: HourValueTypes.self, ForKey: .HourType)
+        Show2DHours()
     }
     
     @IBAction func ViewHoursNoonDelta(_ sender: Any)
     {
+        Settings.SetEnum(.RelativeToNoon, EnumType: HourValueTypes.self, ForKey: .HourType)
+        Show2DHours()
     }
     
     @IBAction func ViewHoursLocationRelative(_ sender: Any)
     {
+        if Settings.HaveLocalLocation()
+        {
+            Settings.SetEnum(.RelativeToLocation, EnumType: HourValueTypes.self, ForKey: .HourType)
+            Show2DHours()
+        }
     }
     
     @IBAction func ViewTypeNorthCentered(_ sender: Any)
     {
         Settings.SetEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
-        print("selected north centered")
+        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: .Simple, ViewType: .FlatNorthCenter)!)
+        SetNightMask()
     }
     
     @IBAction func ViewTypeSouthCentered(_ sender: Any)
     {
         Settings.SetEnum(.FlatSouthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
-        print("selected south centered")
+        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: .Simple, ViewType: .FlatSouthCenter)!)
+        SetNightMask()
     }
     
     @IBAction func ViewTypeGlobal(_ sender: Any)
     {
         Settings.SetEnum(.Globe3D, EnumType: ViewTypes.self, ForKey: .ViewType)
-        print("selected global centered")
     }
     
     @IBAction func ViewSelectMap(_ sender: Any)
@@ -272,6 +315,15 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     @IBAction func ShowMainSettings(_ sender: Any)
     {
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "MainSettingsWindow") as? MainSettingsWindowsCode
+        {
+            let SettingWindow = WindowController.window
+            let Controller = SettingWindow?.contentViewController as? MainSettings
+            Controller?.MainDelegate = self
+            //self.view.window?.beginSheet(SettingWindow!, completionHandler: nil)
+            WindowController.showWindow(nil)
+        }
     }
     
     @IBAction func HandleHourTypeChanged(_ sender: Any)
@@ -330,7 +382,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         {
             return
         }
-        //print("Resized to \(To)")
         Show2DHours()
     }
     
@@ -340,7 +391,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     func Refresh(_ From: String)
     {
-        
+       print("Refresh called from \(From)")
     }
     
     // MARK: - Settings changed required functions.
@@ -404,6 +455,9 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             
             case .TimeLabel:
                 break
+            
+            case .LocalLongitude, .LocalLatitude:
+                (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
             
             default:
                 break
