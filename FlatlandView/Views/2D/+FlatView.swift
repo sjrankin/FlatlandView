@@ -15,7 +15,7 @@ extension MainView
     func InitializeFlatland()
     {
         FlatView.wantsLayer = true
-        FlatView.layer?.zPosition = 2000
+        FlatView.layer?.zPosition = CGFloat(LayerZLevels.CurrentLayer.rawValue)
         FlatView.layer?.backgroundColor = NSColor.clear.cgColor
         CityView2D.wantsLayer = true
         CityView2D.layer?.backgroundColor = NSColor.clear.cgColor
@@ -29,7 +29,6 @@ extension MainView
     /// - Parameter FlatIsVisible: If true, 2D maps are visible. If false, 3D maps are visible.
     func SetFlatlandVisibility(FlatIsVisible: Bool)
     {
-        
         NightMaskImageView.isHidden = !FlatIsVisible
         FlatViewMainImage.isHidden = !FlatIsVisible
         GridOverlay.isHidden = !FlatIsVisible
@@ -38,17 +37,18 @@ extension MainView
         if FlatIsVisible
         {
             //Set for 2D flat view.
-            FlatView.layer?.zPosition = 2000
-            GlobeView.layer?.zPosition = 0
+            FlatView.layer?.zPosition = CGFloat(LayerZLevels.CurrentLayer.rawValue)
+            GlobeView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
             SunViewTop?.isHidden = false
             SunViewBottom?.isHidden = false
+            SetNightMask()
             UpdateSunLocations()
         }
         else
         {
             //Set for 3D globe view.
-            FlatView.layer?.zPosition = 0
-            GlobeView.layer?.zPosition = 2000
+            FlatView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
+            GlobeView.layer?.zPosition = CGFloat(LayerZLevels.CurrentLayer.rawValue)
             SunViewTop?.isHidden = true
             SunViewBottom?.isHidden = true
             MainTimeLabelBottom.isHidden = true
@@ -70,10 +70,12 @@ extension MainView
     /// Set the night mask for 2D maps.
     func SetNightMask()
     {
-        if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: ViewTypes.FlatSouthCenter) == .Globe3D
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.FlatSouthCenter) == .Globe3D
         {
             return
         }
+        NightMaskImageView.wantsLayer = true
+        NightMaskImageView.layer?.zPosition = CGFloat(LayerZLevels.NightMaskLayer.rawValue)
         if !Settings.GetBool(.ShowNight)
         {
             NightMaskImageView.image = nil
@@ -98,7 +100,7 @@ extension MainView
         let Month = Calendar.current.component(.month, from: From) - 1
         let MonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][Month]
         var Prefix = ""
-        if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
         {
             Prefix = ""
         }
@@ -129,7 +131,7 @@ extension MainView
     /// Draw hours. The hours that are drawn depends on user settings.
     func Show2DHours()
     {
-        let ViewType = Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+        let ViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if ViewType == .Globe3D || ViewType == .CubicWorld
         {
             HourLayer2D.isHidden = false
@@ -139,17 +141,17 @@ extension MainView
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) != .None
         {
             HourLayer2D.isHidden = false
-            HourLayer2D.layer!.zPosition = 60000
+            HourLayer2D.layer!.zPosition = CGFloat(LayerZLevels.HourLayer.rawValue)
             HourLayer2D.layer!.sublayers?.removeAll()
             HourLayer2D.layer!.backgroundColor = NSColor.clear.cgColor
             
             let TextLayer = CALayer()
-            TextLayer.zPosition = 50000
+            TextLayer.zPosition = CGFloat(LayerZLevels.HourLayer.rawValue)
             let TextLayerRect = HourLayer2D.frame
             TextLayer.frame = TextLayerRect
             TextLayer.bounds = TextLayerRect
             TextLayer.backgroundColor = NSColor.clear.cgColor
-            let RadialOffset: CGFloat = 0.0
+            let RadialOffset: CGFloat = 20.0
             var Radius: CGFloat = 0.0
             if TextLayerRect.size.width > TextLayerRect.size.height
             {
@@ -157,9 +159,9 @@ extension MainView
             }
             else
             {
-             Radius = (TextLayerRect.size.width / 2.0) - RadialOffset
+                Radius = (TextLayerRect.size.width / 2.0) - RadialOffset
             }
-                let HourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
+            let HourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
             var HourOffset: CGFloat = 0.0
             if HourType != .RelativeToLocation
             {
@@ -172,7 +174,7 @@ extension MainView
             }
             var HourList = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
             var InitialOffset = 0
-            if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+            if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
             {
                 InitialOffset = 5
             }
@@ -185,7 +187,7 @@ extension MainView
             {
                 var Long = Int(LocalLongitude / 15.0)
                 var Multiplier = 1
-                if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+                if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
                 {
                     Multiplier = -1
                 }
@@ -196,13 +198,13 @@ extension MainView
             {
                 let Angle = (CGFloat(Hour) + HourOffset) / 24.0 * 360.0
                 let Radial = Angle.Radians
-                var DisplayHour = (Hour + 18) % 24
+                var DisplayHour = (Hour + 6) % 24
                 var IncludeSign = false
                 
                 switch HourType
                 {
                     case .Solar:
-                        if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
+                        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
                         {
                             DisplayHour = 24 - (DisplayHour + 12) % 24
                     }
@@ -218,7 +220,7 @@ extension MainView
                     case .RelativeToNoon:
                         IncludeSign = true
                         DisplayHour = DisplayHour - 12
-                        if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
+                        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
                         {
                             DisplayHour = (DisplayHour + 12) % 24
                             if DisplayHour > 12
@@ -252,7 +254,7 @@ extension MainView
                 TextNode.foregroundColor = NSColor.yellow.cgColor
                 TextNode.frame = CGRect(x: X, y: Y, width: Width, height: Height)
                 TextNode.bounds = CGRect(x: 0, y: 0, width: Width, height: Height)
-                let TextRotate = ((90.0 - Angle) + 180.0).Radians
+                let TextRotate = ((90.0 - Angle) + /*180.0*/0.0).Radians
                 TextNode.transform = CATransform3DRotate(TextNode.transform, -TextRotate, 0.0, 0.0, 1.0)
                 TextLayer.addSublayer(TextNode)
             }
@@ -301,7 +303,7 @@ extension MainView
     func UpdateSunLocations()
     {
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .Globe3D ||
-        Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .CubicWorld
+            Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .CubicWorld
         {
             return
         }
@@ -355,11 +357,11 @@ extension MainView
     {
         PreviousPercent = Percent
         var FinalOffset = 0.0
-        var Multiplier = 1.0
-        if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        var Multiplier = -1.0
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
         {
             FinalOffset = 180.0
-            Multiplier = -1.0
+            Multiplier = 1.0
         }
         //Be sure to rotate the proper direction based on the map.
         let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
@@ -399,11 +401,14 @@ extension MainView
     ///                              the previous call.
     func PlotCities(InCityList: [City], RadialTime: Double, CityListChanged: Bool = false)
     {
+        CityLayer?.removeFromSuperlayer()
+        CityLayer = nil
+        CityView2D.layer?.zPosition = CGFloat(LayerZLevels.CityLayer.rawValue)
         if CityLayer == nil
         {
             CityLayer = CAShapeLayer()
             CityLayer?.backgroundColor = NSColor.clear.cgColor
-            CityLayer?.zPosition = 10000
+            CityLayer?.zPosition = CGFloat(LayerZLevels.CityLayer.rawValue)
             CityLayer?.name = "City Layer"
             CityLayer?.bounds = FlatViewMainImage.bounds
             CityLayer?.frame = FlatViewMainImage.bounds
@@ -438,7 +443,8 @@ extension MainView
         CityLayer?.fillColor = NSColor.red.cgColor
         CityLayer?.strokeColor = NSColor.black.cgColor
         CityLayer?.lineWidth = 1.0
-        CityLayer?.path = Bezier.cgPath
+        let FinalPath = Bezier.cgPath
+        CityLayer?.path = FinalPath
         let Rotation = CATransform3DMakeRotation(CGFloat(-RadialTime), 0.0, 0.0, 1.0)
         CityLayer?.transform = Rotation
     }
@@ -456,15 +462,16 @@ extension MainView
         let CitySize: CGFloat = 10.0
         let CityDotSize = CGSize(width: CitySize, height: CitySize)
         let PointModifier = Double(CGFloat(Half) - (CitySize / 2.0))
-        var LongitudeAdjustment = 1.0
-        if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        let BearingOffset = 180.0
+        var LongitudeAdjustment = -1.0
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
         {
-            LongitudeAdjustment = -1.0
+            LongitudeAdjustment = 1.0
         }
         var Distance = DistanceFromContextPole(To: GeoPoint2(Latitude, Longitude))
         Distance = Distance * Ratio
         var CityBearing = Bearing(Start: GeoPoint2(90.0, 0.0), End: GeoPoint2(Latitude, Longitude * LongitudeAdjustment))
-        CityBearing = (CityBearing + 90.0).ToRadians()
+        CityBearing = (CityBearing + 90.0 + BearingOffset).ToRadians()
         let PointX = Distance * cos(CityBearing) + PointModifier
         let PointY = Distance * sin(CityBearing) + PointModifier
         let Origin = CGPoint(x: PointX, y: PointY)
@@ -488,7 +495,7 @@ extension MainView
         let LocationDotSize = CGSize(width: LocationSize, height: LocationSize)
         let PointModifier = Double(CGFloat(Half) - (LocationSize / 2.0))
         var LongitudeAdjustment = 1.0
-        if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
         {
             LongitudeAdjustment = -1.0
         }
@@ -577,7 +584,7 @@ extension MainView
     /// - Returns: The distance (in kilometers) from `To` to the pole at the center of the image.
     func DistanceFromContextPole(To: GeoPoint2) -> Double
     {
-        if Settings.GetEnum(ForKey: .MapType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
         {
             return DistanceFromNorthPole(To: To)
         }
