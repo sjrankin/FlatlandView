@@ -27,11 +27,19 @@ enum SettingTypes: String, CaseIterable
     case CurrentMap = "CurrentMap"
     
     //2D view grid settings.
-    case ShowEquator = "ShowEquator"
-    case ShowPolarCircles = "ShowPolarCircles"
-    case ShowTropics = "ShowTropics"
-    case ShowPrimeMeridians = "ShowPrimeMeridians"
-    case ShowNoonMeridians = "ShowNoonMeridians"
+    case Show2DEquator = "Show2DEquator"
+    case Show2DPolarCircles = "Show2DPolarCircles"
+    case Show2DTropics = "Show2DTropics"
+    case Show2DPrimeMeridians = "Show2DPrimeMeridians"
+    case Show2DNoonMeridians = "Show2DNoonMeridians"
+    
+    //3D view grid settings.
+    case Show3DEquator = "Show3DEquator"
+    case Show3DPolarCircles = "Show3DPolarCircles"
+    case Show3DTropics = "Show3DTropics"
+    case Show3DPrimeMeridians = "Show3DPrimeMeridians"
+    case Show3DMinorGrid = "Show3DMinorGrid"
+    case MinorGrid3DGap = "MinorGrid3DGap"
     
     //Local location.
     case ShowUserLocation = "ShowUserLocation"
