@@ -461,6 +461,21 @@ class Settings
     
     // MARK: - Special settings.
     
+    /// Determines if both the local latitude and local longitude have been set.
+    /// - Returns: True if the device location has been set, false if not.
+    public static func HaveLocalLocation() -> Bool
+    {
+        if GetDoubleNil(.LocalLatitude) == nil
+        {
+            return false
+        }
+        if GetDoubleNil(.LocalLongitude) == nil
+        {
+            return false
+        }
+        return true
+    }
+    
     /// Save a list of user locations.
     /// - Note: User locations are saved at `SettingTypes.UserLocations`.
     /// - Parameter List: List of location information to save.
