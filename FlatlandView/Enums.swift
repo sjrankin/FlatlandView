@@ -96,3 +96,26 @@ enum SiteTypeFilters: String, CaseIterable
     case Both = "Both"
     case Either = "Either"
 }
+
+/// Z position enum and layer values. Defines which layers are on top of other layers.
+/// Higher values mean closer to the user which means more likely to be visible.
+enum LayerZLevels: Int
+{
+    /// Time lables.
+    case TimeLabels = 100000
+    /// City layer.
+    case CityLayer = 8000
+    /// Current layer (eg, depending on user settings, this is either the 2D or
+    /// 3D view).
+    case CurrentLayer = 5000
+    /// Inactive layer. The view that is not active.
+    case InactiveLayer = 0
+    /// Hour label layer.
+    case HourLayer = 60000
+    /// Hour text.
+    case HourTextLayer = 60050
+    /// The grid layer.
+    case GridLayer = 10000
+    /// Night mask layer.
+    case NightMaskLayer = 20000
+}
