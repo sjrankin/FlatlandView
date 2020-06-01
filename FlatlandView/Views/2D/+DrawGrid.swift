@@ -19,13 +19,11 @@ extension MainView
         {
             for Layer in GridOverlay.layer!.sublayers!
             {
-                if Layer.name == "PrimeMeridian"
-                {
-                    Layer.removeFromSuperlayer()
-                }
+                Layer.removeFromSuperlayer()
             }
         }
         GridOverlay.layer!.backgroundColor = NSColor.clear.cgColor
+        GridOverlay.layer!.zPosition = CGFloat(LayerZLevels.GridLayer.rawValue)
         let Grid = CAShapeLayer()
         Grid.name = "ViewGrid"
         Grid.bounds = GridOverlay.frame
