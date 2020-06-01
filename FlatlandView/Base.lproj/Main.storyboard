@@ -280,7 +280,7 @@
             <objects>
                 <windowController id="B8D-0N-5wS" customClass="MainWindow" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Flatland" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="629" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
@@ -456,7 +456,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="900" height="900"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="BFj-Wa-HNl">
+                            <textField hidden="YES" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="BFj-Wa-HNl">
                                 <rect key="frame" x="349" y="20" width="202" height="35"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" title="12:12:12 UTC" id="jIN-aI-s9s">
                                     <font key="font" metaFont="systemBlack" size="30"/>
@@ -464,7 +464,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="tNb-wZ-7xd">
+                            <textField hidden="YES" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="tNb-wZ-7xd">
                                 <rect key="frame" x="349" y="845" width="202" height="35"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" title="12:12:12 UTC" id="KHl-iO-Jvf">
                                     <font key="font" metaFont="systemBlack" size="30"/>
@@ -478,7 +478,7 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="jzK-yC-9yN">
                                 <rect key="frame" x="0.0" y="0.0" width="900" height="900"/>
                                 <subviews>
-                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q1S-Rx-kJK">
+                                    <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q1S-Rx-kJK">
                                         <rect key="frame" x="420" y="835" width="60" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="WFy-9l-056"/>
@@ -486,7 +486,7 @@
                                         </constraints>
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="SunX" id="Csr-5m-sNB"/>
                                     </imageView>
-                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wns-jc-4Fq">
+                                    <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wns-jc-4Fq">
                                         <rect key="frame" x="420" y="5" width="60" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="EPT-3Y-30i"/>
