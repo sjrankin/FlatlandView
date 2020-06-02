@@ -31,7 +31,7 @@ extension MainView
         let Lines = NSBezierPath()
         let CenterH = Grid.bounds.size.width / 2.0
         let CenterV = Grid.bounds.size.height / 2.0
-        if Settings.GetBool(.ShowNoonMeridians)
+        if Settings.GetBool(.Show2DNoonMeridians)
         {
             Lines.move(to: CGPoint(x: CenterH, y: 0))
             Lines.line(to: CGPoint(x: CenterH, y: Grid.frame.size.height))
@@ -44,7 +44,7 @@ extension MainView
         MeridianLayer.strokeColor = NSColor.systemYellow.withAlphaComponent(0.5).cgColor
         MeridianLayer.lineWidth = 1.0
         let Meridians = NSBezierPath()
-        if Settings.GetBool(.ShowPrimeMeridians)
+        if Settings.GetBool(.Show2DPrimeMeridians)
         {
             MeridianLayer.name = "PrimeMeridian"
             MeridianLayer.frame = GridOverlay.bounds
@@ -56,7 +56,7 @@ extension MainView
             let Rotation = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
             MeridianLayer.transform = Rotation
         }
-        if Settings.GetBool(.ShowTropics)
+        if Settings.GetBool(.Show2DTropics)
         {
             let TropicDistance: CGFloat = 23.43666
             let TropicPercent = Grid.bounds.size.width * (TropicDistance / 180.0)
@@ -73,7 +73,7 @@ extension MainView
             Meridians.append(Cancer)
             Meridians.append(Capricorn)
         }
-        if Settings.GetBool(.ShowPolarCircles)
+        if Settings.GetBool(.Show2DPolarCircles)
         {
             let PolarCircle: CGFloat = 66.55
             let InnerPercent = Grid.bounds.size.width * (PolarCircle / 180.0)
@@ -91,7 +91,7 @@ extension MainView
             Meridians.append(InnerCircle)
             Meridians.append(OuterCircle)
         }
-        if Settings.GetBool(.ShowEquator)
+        if Settings.GetBool(.Show2DEquator)
         {
             let Equator = NSBezierPath(ovalIn: CGRect(x: CenterH / 2,
                                                       y: CenterV / 2,
