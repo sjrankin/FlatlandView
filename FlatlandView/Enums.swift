@@ -89,12 +89,49 @@ enum YearFilters: String, CaseIterable
     case After = "After"
 }
 
+/// World heritage site types.
 enum SiteTypeFilters: String, CaseIterable
 {
+    /// Natural site.
     case Natural = "Natural"
+    /// Cultural site.
     case Cultural = "Cultural"
+    /// Mixed natural/cultural site.
     case Both = "Both"
+    /// Any type of site.
     case Either = "Either"
+}
+
+enum PolarShapes: String, CaseIterable
+{
+    case None = "None"
+    case Flag = "Flag"
+    case Pole = "Pole"
+}
+
+enum Scripts: String, CaseIterable
+{
+    case English = "English"
+    case Japanese = "日本語"
+}
+
+/// Ways to display cities.
+enum CityDisplayTypes: String, CaseIterable
+{
+    /// Each city is a uniform size and embedded in the parent surface.
+    case UniformEmbedded = "Flush spheres, uniform size"
+    /// Each city is sized relative to its population and is embedded in the parent surface.
+    case RelativeEmbedded = "Flush spheres, relative size"
+    /// Each city floats above the parent surface and is sized relative to its population.
+    case RelativeFloating = "Floating spheres, relative size"
+    /// Each city is a box with height determined by relative population.
+    case RelativeHeight = "Box, relative height"
+}
+
+enum PopulationTypes: String, CaseIterable
+{
+    case City = "City"
+    case Metropolitan = "Metropolitan"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
