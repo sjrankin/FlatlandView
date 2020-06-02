@@ -93,7 +93,7 @@ class UserLocationEditorController: NSViewController, NSTableViewDelegate, NSTab
     
     @IBAction func HandleOKPressed(_ sender: Any)
     {
-                var ValidData = true
+        var ValidData = true
         let ColorIndex = ColorSwatchTable.selectedRow
         let Color = ColorList.Colors[ColorIndex].Color
         let PlaceName = NameTextBox.stringValue
@@ -147,7 +147,7 @@ class UserLocationEditorController: NSViewController, NSTableViewDelegate, NSTab
                 }
                 
                 default:
-                return
+                    return
             }
         }
     }
