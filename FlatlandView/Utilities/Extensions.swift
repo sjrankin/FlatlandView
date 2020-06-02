@@ -537,7 +537,7 @@ extension NSImage
         return rotatedImage
     }
     #endif
-
+    
     /// Rotate the instance image of the number of passed degrees.
     /// - Note: See [Rotating UIImage in Swift](https://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift/47402811#47402811)
     /// - Parameter Degrees: Number of degrees to rotate the image to.
@@ -1080,6 +1080,22 @@ extension NSColor
         let Blue = CGFloat.random(in: ABlueLow ... ABlueHigh)
         return NSColor(red: Red, green: Green, blue: Blue, alpha: 1.0)
     }
+    
+    /// Compare the instance color with the passed color using a common colorspace.
+    /// - Note: Both the instance color and the passed color are converted to the `sRGB`
+    ///         colorspace.
+    /// - Parameter Other: The other color to compare to the instance color.
+    /// - Returns: True if the colors are the same in the common colorspace, false if not.
+    func SameAs(_ Other: NSColor) -> Bool
+    {
+        let SelfColor = self.usingColorSpace(.sRGB)
+        let OtherColor = Other.usingColorSpace(.sRGB)
+        if SelfColor == OtherColor
+        {
+            return true
+        }
+        return false
+    }
 }
 
 // MARK: - NSBezierPath extensions.
@@ -1109,7 +1125,7 @@ extension NSBezierPath
                     Path.closeSubpath()
                 
                 @unknown default:
-                fatalError("Sneaky extra case value enountered: \(SomeType)")
+                    fatalError("Sneaky extra case value enountered: \(SomeType)")
             }
         }
         return Path
