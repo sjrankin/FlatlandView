@@ -73,7 +73,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                     Settings.SetBool(.Show2DPolarCircles, IsChecked)
                 
                 default:
-                return
+                    return
             }
             MainDelegate?.Refresh("MainSettings.Handle2DGridLinesChanged")
         }
@@ -149,7 +149,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                     Settings.SetBool(.Show3DEquator, IsChecked)
                 
                 default:
-                return
+                    return
             }
             MainDelegate?.Refresh("MainSettings.Handle3DGridLineChanged")
         }
@@ -160,7 +160,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         if let Button = sender as? NSButton
         {
             Settings.SetBool(.ShowMovingStars, Button.state == .on ? true : false)
-                        MainDelegate?.Refresh("MainSettings.HandleMovingStarChanged")
+            MainDelegate?.Refresh("MainSettings.HandleMovingStarChanged")
         }
     }
     
@@ -240,12 +240,12 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     {
         ShowCitiesCheck.state = Settings.GetBool(.ShowCities) ? .on : .off
         ShowCapitalCitiesSwitch.state = Settings.GetBool(.ShowCapitalCities) ? .on : .off
-                ShowWorldCitiesSwitch.state = Settings.GetBool(.ShowWorldCities) ? .on : .off
-                ShowAfricanCitiesSwitch.state = Settings.GetBool(.ShowAfricanCities) ? .on : .off
-                ShowAsianCitiesSwitch.state = Settings.GetBool(.ShowAsianCities) ? .on : .off
-                ShowEuropeanCitiesSwitch.state = Settings.GetBool(.ShowEuropeanCities) ? .on : .off
-                ShowNorthAmericanCitiesSwitch.state = Settings.GetBool(.ShowNorthAmericanCities) ? .on : .off
-                ShowSouthAmericanCitiesSwitch.state = Settings.GetBool(.ShowSouthAmericanCities) ? .on : .off
+        ShowWorldCitiesSwitch.state = Settings.GetBool(.ShowWorldCities) ? .on : .off
+        ShowAfricanCitiesSwitch.state = Settings.GetBool(.ShowAfricanCities) ? .on : .off
+        ShowAsianCitiesSwitch.state = Settings.GetBool(.ShowAsianCities) ? .on : .off
+        ShowEuropeanCitiesSwitch.state = Settings.GetBool(.ShowEuropeanCities) ? .on : .off
+        ShowNorthAmericanCitiesSwitch.state = Settings.GetBool(.ShowNorthAmericanCities) ? .on : .off
+        ShowSouthAmericanCitiesSwitch.state = Settings.GetBool(.ShowSouthAmericanCities) ? .on : .off
         CityShapeCombo.removeAllItems()
         for Shape in CityDisplayTypes.allCases
         {
@@ -308,11 +308,21 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     
     @IBAction func HandleCityColorsPressed(_ sender: Any)
     {
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "CityColorWindow") as? CityColorWindow
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+            if let WinCon = Window?.contentViewController as? CityColorCode
+            {
+                WinCon.MainDelegate = MainDelegate
+            }
+        }
     }
     
     @IBAction func HandleShowCityTypeChanged(_ sender: Any)
     {
-        if let Button = sender as? NSButton
+        if let Button = sender as? NSSwitch
         {
             let IsChecked = Button.state == .on ? true : false
             switch Button
@@ -339,7 +349,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                     Settings.SetBool(.ShowWorldCities, IsChecked)
                 
                 default:
-                return
+                    return
             }
             MainDelegate?.Refresh("MainSettings.HandleShowCityTypeChanged")
         }
@@ -360,36 +370,159 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     
     func InitializeUserLocationUI()
     {
+        UserLocations = Settings.GetLocations()
+        UserLocationTable.reloadData()
         UserLocationLatitudeBox.delegate = self
         UserLocationLongitudeBox.delegate = self
+        ShowUserLocationsCheck.state = Settings.GetBool(.ShowUserLocation) ? .on : .off
+        UserTimeZoneOffsetCombo.removeAllItems()
+        for Offset in -12 ... 14
+        {
+            var OffsetValue = "\(Offset)"
+            if Offset > 0
+            {
+                OffsetValue = "+" + OffsetValue
+            }
+            UserTimeZoneOffsetCombo.addItem(withObjectValue: OffsetValue)
+        }
+        if Settings.HaveLocalLocation()
+        {
+            let UserLat = Settings.GetDoubleNil(.LocalLatitude, 0.0)!
+            let UserLon = Settings.GetDoubleNil(.LocalLongitude, 0.0)!
+            UserLocationLatitudeBox.stringValue = "\(UserLat.RoundedTo(4))"
+            UserLocationLongitudeBox.stringValue = "\(UserLon.RoundedTo(4))"
+            let ZoneOffset = Int(Settings.GetDoubleNil(.LocalTimeZoneOffset, 0.0)!)
+            let ZoneOffsetString = "\(ZoneOffset)"
+            UserTimeZoneOffsetCombo.selectItem(withObjectValue: ZoneOffsetString)
+        }
+        else
+        {
+            UserLocationLongitudeBox.stringValue = ""
+            UserLocationLatitudeBox.stringValue = ""
+            UserTimeZoneOffsetCombo.selectItem(withObjectValue: nil)
+        }
+        let LocalShape = Settings.GetEnum(ForKey: .HomeShape, EnumType: HomeShapes.self, Default: .Hide)
+        var HomeShapeIndex = 0
+        switch LocalShape
+        {
+            case .Hide:
+                HomeShapeIndex = 0
+            
+            case .Arrow:
+                HomeShapeIndex = 1
+            
+            case .Flag:
+                HomeShapeIndex = 2
+            
+            case .Pulsate:
+                HomeShapeIndex = 3
+        }
+        HomeLocationShapeSegment.selectedSegment = HomeShapeIndex
     }
+    
+    var UserLocations = [(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: NSColor)]()
     
     @IBAction func HandleEditUserLocation(_ sender: Any)
     {
+        if CurrentUserLocationIndex < 0
+        {
+            return
+        }
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "UserLocationEditorWindow") as? UserLocationEditorWindow
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+            if let WinCon = Window?.contentViewController as? UserLocationEditorController
+            {
+                WinCon.Delegate = self
+            }
+        }
     }
     
     @IBAction func HandleAddUserLocation(_ sender: Any)
     {
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "UserLocationEditorWindow") as? UserLocationEditorWindow
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+            if let WinCon = Window?.contentViewController as? UserLocationEditorController
+            {
+                WinCon.Delegate = self
+            }
+        }
     }
     
     @IBAction func HandleClearUserLocations(_ sender: Any)
     {
+        UserLocations.removeAll()
+        UserLocationTable.reloadData()
+        Settings.SetLocations(UserLocations)
+        MainDelegate?.Refresh("MainSettings.HandleClearUserLocations")
     }
     
     @IBAction func HandleShowUserLocationsCheckChanged(_ sender: Any)
     {
+        if let Button = sender as? NSButton
+        {
+            Settings.SetBool(.ShowUserLocation, Button.state == .on ? true : false)
+            MainDelegate?.Refresh("MainSettings.HandleShowUserLocationsCheckChanged")
+        }
     }
     
     @IBAction func HandleClearHomeLocation(_ sender: Any)
     {
+        UserLocationLongitudeBox.stringValue = ""
+        UserLocationLatitudeBox.stringValue = ""
+        UserTimeZoneOffsetCombo.selectItem(withObjectValue: nil)
+        Settings.SetDoubleNil(.LocalLatitude, nil)
+        Settings.SetDoubleNil(.LocalLongitude, nil)
+        Settings.SetDoubleNil(.LocalTimeZoneOffset, nil)
+        MainDelegate?.Refresh("MainSettings.HandleClearUserLocations")
     }
     
     @IBAction func HandleUserTimeZoneOffsetChanged(_ sender: Any)
     {
+        if let Combo = sender as? NSComboBox
+        {
+            if let Raw = Combo.objectValueOfSelectedItem as? String
+            {
+                if let ActualValue = Int(Raw)
+                {
+                    let DVal = Double(ActualValue)
+                    Settings.SetDoubleNil(.LocalTimeZoneOffset, DVal)
+                    MainDelegate?.Refresh("MainSettings.HandleUsertimeZoneOffsetChanged")
+                }
+            }
+        }
     }
     
     @IBAction func HandleHomeLocationShapeChanged(_ sender: Any)
     {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            var Shape = HomeShapes.Hide
+            switch Segment.indexOfSelectedItem
+            {
+                case 0:
+                    Shape = .Hide
+                
+                case 1:
+                    Shape = .Arrow
+                
+                case 2:
+                    Shape = .Flag
+                
+                case 3:
+                    Shape = .Pulsate
+                
+                default:
+                    return
+            }
+            Settings.SetEnum(Shape, EnumType: HomeShapes.self, ForKey: .HomeShape)
+            MainDelegate?.Refresh("MainSettings.HandleHomeLocationShapeChanged")
+        }
     }
     
     @IBOutlet weak var HomeLocationShapeSegment: NSSegmentedControl!
@@ -408,16 +541,16 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         switch Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
         {
             case .Either:
-            Index = 0
+                Index = 0
             
             case .Natural:
-            Index = 1
+                Index = 1
             
             case .Cultural:
-            Index = 2
+                Index = 2
             
             case .Both:
-            Index = 3
+                Index = 3
         }
         HeritageSiteSegment.selectedSegment = Index
     }
@@ -438,7 +571,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             var Index = Segment.indexOfSelectedItem
             if Index > 3
             {
-               Index = 0
+                Index = 0
             }
             let SiteType = [SiteTypeFilters.Either, SiteTypeFilters.Natural, SiteTypeFilters.Cultural,
                             SiteTypeFilters.Both][Index]
@@ -454,7 +587,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     
     func InitializeOtherSettings()
     {
-
+        
         ShowLocalDataCheck.state = Settings.GetBool(.ShowLocalData) ? .on : .off
         ScriptCombo.removeAllItems()
         for Script in Scripts.allCases
@@ -494,14 +627,65 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     
     // MARK: - Common code.
     
+    func ValidateText(_ Raw: String, IsLongitude: Bool, GoodValue: inout Double) -> Bool
+    {
+        if let RawValue = Double(Raw)
+        {
+            if IsLongitude
+            {
+                if RawValue < -180.0 || RawValue > 180.0
+                {
+                    return false
+                }
+                GoodValue = RawValue
+                return true
+            }
+            else
+            {
+                if RawValue < -90.0 || RawValue > 90.0
+                {
+                    return false
+                }
+                GoodValue = RawValue
+                return true
+            }
+        }
+        GoodValue = 0.0
+        return false
+    }
+    
     func controlTextDidEndEditing(_ obj: Notification)
     {
         if let TextField = obj.object as? NSTextField
         {
+            let TextValue = TextField.stringValue
+            var GoodValue: Double = 0.0
             switch TextField
             {
+                case UserLocationLongitudeBox:
+                if ValidateText(TextValue, IsLongitude: true, GoodValue: &GoodValue)
+                {
+                    Settings.SetDoubleNil(.LocalLongitude, GoodValue)
+                                        MainDelegate?.Refresh("MainSettings.controlTextDidEndEditing")
+                }
+                else
+                {
+                    TextField.stringValue = ""
+                }
+                
+                case UserLocationLatitudeBox:
+                if ValidateText(TextValue, IsLongitude: false, GoodValue: &GoodValue)
+                {
+                    Settings.SetDoubleNil(.LocalLatitude, GoodValue)
+                    MainDelegate?.Refresh("MainSettings.controlTextDidEndEditing")
+                }
+                else
+                {
+                    TextField.stringValue = ""
+                }
+                
                 default:
-                return
+                    return
             }
         }
     }
@@ -516,6 +700,9 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     {
         switch tableView
         {
+            case UserLocationTable:
+                return UserLocations.count
+            
             default:
                 return 0
         }
@@ -524,12 +711,25 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         var CellContents = ""
-        var CellIdentifier = ""
+        var CellIdentifier = "" 
         switch tableView
         {
+            case UserLocationTable:
+                if tableColumn == tableView.tableColumns[0]
+                {
+                    CellIdentifier = "NameColumn"
+                    CellContents = UserLocations[row].Name
+            }
+                if tableColumn == tableView.tableColumns[1]
+                {
+                    CellIdentifier = "LocationColumn"
+                    let Loc = "\(UserLocations[row].Coordinates.Latitude.RoundedTo(3)), \(UserLocations[row].Coordinates.Longitude.RoundedTo(3))"
+            }
+            
             default:
-            return nil
+                return nil
         }
+        
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
         return Cell
@@ -541,11 +741,16 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         {
             switch Table
             {
+                case UserLocationTable:
+                    CurrentUserLocationIndex = Table.selectedRow
+                
                 default:
-                return
+                    return
             }
         }
     }
+    
+    var CurrentUserLocationIndex = -1
     
     // MARK: - Location delegate protocol functions.
     
