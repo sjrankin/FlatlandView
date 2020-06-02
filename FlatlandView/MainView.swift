@@ -287,7 +287,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     @IBAction func ViewSelectMap(_ sender: Any)
     {
-        
         let Storyboard = NSStoryboard(name: "MapSelector", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "MapPickerWindow") as? MapPickerWindow
         {
@@ -486,6 +485,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     // MARK: - Interface builder outlets.
     
+
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
     @IBOutlet weak var SunViewBottom: NSImageView!
