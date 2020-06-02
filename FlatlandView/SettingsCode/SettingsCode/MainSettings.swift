@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate,
-    NSTextFieldDelegate, LocationEditingProtocol
+    NSTextFieldDelegate, LocationEditingProtocol, ConfirmProtocol
 {
     public weak var MainDelegate: MainProtocol? = nil
     
@@ -422,6 +422,18 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     
     var UserLocations = [(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: NSColor)]()
     
+    @IBAction func HandleDeleteCurrentUserLocation(_ sender: Any)
+    {
+        if CurrentUserLocationIndex < 0
+        {
+            return
+        }
+        UserLocations.remove(at: CurrentUserLocationIndex)
+        UserLocationTable.reloadData()
+        Settings.SetLocations(UserLocations)
+        MainDelegate?.Refresh("MainSettings.HandleDeleteCurrentUserLocation")
+    }
+    
     @IBAction func HandleEditUserLocation(_ sender: Any)
     {
         if CurrentUserLocationIndex < 0
@@ -431,6 +443,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "UserLocationEditorWindow") as? UserLocationEditorWindow
         {
+            AddNewUserLocation = false
             let Window = WindowController.window
             self.view.window?.beginSheet(Window!, completionHandler: nil)
             if let WinCon = Window?.contentViewController as? UserLocationEditorController
@@ -445,6 +458,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "UserLocationEditorWindow") as? UserLocationEditorWindow
         {
+            AddNewUserLocation = true
             let Window = WindowController.window
             self.view.window?.beginSheet(Window!, completionHandler: nil)
             if let WinCon = Window?.contentViewController as? UserLocationEditorController
@@ -453,6 +467,8 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             }
         }
     }
+    
+    var AddNewUserLocation = false
     
     @IBAction func HandleClearUserLocations(_ sender: Any)
     {
@@ -663,25 +679,25 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             switch TextField
             {
                 case UserLocationLongitudeBox:
-                if ValidateText(TextValue, IsLongitude: true, GoodValue: &GoodValue)
-                {
-                    Settings.SetDoubleNil(.LocalLongitude, GoodValue)
-                                        MainDelegate?.Refresh("MainSettings.controlTextDidEndEditing")
-                }
-                else
-                {
-                    TextField.stringValue = ""
+                    if ValidateText(TextValue, IsLongitude: true, GoodValue: &GoodValue)
+                    {
+                        Settings.SetDoubleNil(.LocalLongitude, GoodValue)
+                        MainDelegate?.Refresh("MainSettings.controlTextDidEndEditing")
+                    }
+                    else
+                    {
+                        TextField.stringValue = ""
                 }
                 
                 case UserLocationLatitudeBox:
-                if ValidateText(TextValue, IsLongitude: false, GoodValue: &GoodValue)
-                {
-                    Settings.SetDoubleNil(.LocalLatitude, GoodValue)
-                    MainDelegate?.Refresh("MainSettings.controlTextDidEndEditing")
-                }
-                else
-                {
-                    TextField.stringValue = ""
+                    if ValidateText(TextValue, IsLongitude: false, GoodValue: &GoodValue)
+                    {
+                        Settings.SetDoubleNil(.LocalLatitude, GoodValue)
+                        MainDelegate?.Refresh("MainSettings.controlTextDidEndEditing")
+                    }
+                    else
+                    {
+                        TextField.stringValue = ""
                 }
                 
                 default:
@@ -719,7 +735,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                 {
                     CellIdentifier = "NameColumn"
                     CellContents = UserLocations[row].Name
-            }
+                }
                 if tableColumn == tableView.tableColumns[1]
                 {
                     CellIdentifier = "LocationColumn"
@@ -756,19 +772,66 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     
     func AddNewLocation() -> Bool
     {
-        return false
+        return AddNewUserLocation
     }
     
     func GetLocationToEdit() -> (Name: String, Latitude: Double, Longitude: Double, Color: NSColor)
     {
-        return ("", 0.0, 0.0, NSColor.black)
+        if CurrentUserLocationIndex < 0
+        {
+            return ("", 0.0, 0.0, NSColor.black)
+        }
+        return (UserLocations[CurrentUserLocationIndex].Name,
+                UserLocations[CurrentUserLocationIndex].Coordinates.Latitude,
+                UserLocations[CurrentUserLocationIndex].Coordinates.Longitude,
+                UserLocations[CurrentUserLocationIndex].Color)
     }
     
     func SetEditedLocation(Name: String, Latitude: Double, Longitude: Double, Color: NSColor, IsValid: Bool)
     {
+        if IsValid
+        {
+            if AddNewUserLocation
+            {
+                UserLocations.append((UUID(), GeoPoint2(Latitude, Longitude), Name, Color))
+            }
+            else
+            {
+                if CurrentUserLocationIndex >= 0
+                {
+                    UserLocations[CurrentUserLocationIndex].Name = Name
+                    UserLocations[CurrentUserLocationIndex].Coordinates.Latitude = Latitude
+                    UserLocations[CurrentUserLocationIndex].Coordinates.Longitude = Longitude
+                    UserLocations[CurrentUserLocationIndex].Color = Color
+                }
+            }
+            Settings.SetLocations(UserLocations)
+            MainDelegate?.Refresh("MainSettings.SetEditedLocation")
+        }
     }
     
     func CancelEditing()
+    {
+    }
+    
+    // MARK: - Confirmation protocol functions.
+    
+    func GetConfirmationMessage(ID: UUID) -> String
+    {
+        return ""
+    }
+    
+    func GetButtonTitle(_ ForButton: ConfirmationButtons, ID: UUID) -> String?
+    {
+        return nil
+    }
+    
+    func GetInstanceID() -> UUID
+    {
+        return UUID()
+    }
+    
+    func HandleButtonPressed(PressedButton: ConfirmationButtons, ID: UUID)
     {
     }
 }
