@@ -20,6 +20,8 @@
 		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
 		177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D32480D49200CAD1B9 /* ActualMap.swift */; };
 		177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */; };
+		17B4411024861CE30050A5DF /* CityColorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4410F24861CE30050A5DF /* CityColorWindow.swift */; };
+		17B4411224861CFD0050A5DF /* CityColorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4411124861CFD0050A5DF /* CityColorCode.swift */; };
 		17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */; };
 		17D2F6BD2484F6F100404510 /* MainSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BC2484F6F100404510 /* MainSettings.swift */; };
 		17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */; };
@@ -76,6 +78,8 @@
 		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
 		177EE5D32480D49200CAD1B9 /* ActualMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMap.swift; sourceTree = "<group>"; };
 		177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapGroup.swift; sourceTree = "<group>"; };
+		17B4410F24861CE30050A5DF /* CityColorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorWindow.swift; sourceTree = "<group>"; };
+		17B4411124861CFD0050A5DF /* CityColorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorCode.swift; sourceTree = "<group>"; };
 		17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorWindow.swift; sourceTree = "<group>"; };
 		17D2F6BC2484F6F100404510 /* MainSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettings.swift; sourceTree = "<group>"; };
 		17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsWindow.swift; sourceTree = "<group>"; };
@@ -232,13 +236,31 @@
 			path = MainSettingsExtensions;
 			sourceTree = "<group>";
 		};
+		17B4410D24861CB90050A5DF /* UserLocation */ = {
+			isa = PBXGroup;
+			children = (
+				17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */,
+				17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */,
+				17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */,
+			);
+			path = UserLocation;
+			sourceTree = "<group>";
+		};
+		17B4410E24861CD40050A5DF /* CityColor */ = {
+			isa = PBXGroup;
+			children = (
+				17B4410F24861CE30050A5DF /* CityColorWindow.swift */,
+				17B4411124861CFD0050A5DF /* CityColorCode.swift */,
+			);
+			path = CityColor;
+			sourceTree = "<group>";
+		};
 		17DDA0432484E91F0090E1EB /* SettingsCode */ = {
 			isa = PBXGroup;
 			children = (
+				17B4410E24861CD40050A5DF /* CityColor */,
+				17B4410D24861CB90050A5DF /* UserLocation */,
 				17B4410C248607890050A5DF /* MainSettingsExtensions */,
-				17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */,
-				17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */,
-				17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */,
 				17D2F6BC2484F6F100404510 /* MainSettings.swift */,
 				17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */,
 			);
@@ -461,6 +483,7 @@
 				17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */,
 				17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */,
 				17EF33A1247A695400A5B55D /* Extensions.swift in Sources */,
+				17B4411224861CFD0050A5DF /* CityColorCode.swift in Sources */,
 				17EF33AC247A93A300A5B55D /* GeoPoint2.swift in Sources */,
 				1750961C2482531100A3757C /* MainWindow.swift in Sources */,
 				17F440D7247CD72E00FD440E /* +DrawGrid.swift in Sources */,
@@ -469,6 +492,7 @@
 				17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */,
 				17EF3395247A66F000A5B55D /* MapList.swift in Sources */,
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
+				17B4411024861CE30050A5DF /* CityColorWindow.swift in Sources */,
 				17523CDB247B973E005209FC /* +FlatView.swift in Sources */,
 				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
 				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
