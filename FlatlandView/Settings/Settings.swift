@@ -46,11 +46,11 @@ class Settings
         InitializeInt(.LocalTimeZoneOffset, 0)
         InitializeString(.UserLocations, "")
         
-        InitializeBool(.ShowEquator, true)
-        InitializeBool(.ShowPolarCircles, true)
-        InitializeBool(.ShowTropics, true)
-        InitializeBool(.ShowPrimeMeridians, true)
-        InitializeBool(.ShowNoonMeridians, true)
+        InitializeBool(.Show2DEquator, true) 
+        InitializeBool(.Show2DPolarCircles, true)
+        InitializeBool(.Show2DTropics, true)
+        InitializeBool(.Show2DPrimeMeridians, true)
+        InitializeBool(.Show2DNoonMeridians, true)
         
         InitializeBool(.ShowCities, true)
         InitializeColor(.AfricanCityColor, NSColor.blue)
