@@ -55,11 +55,11 @@ class Settings
         InitializeBool(.ShowCities, true)
         InitializeColor(.AfricanCityColor, NSColor.blue)
         InitializeColor(.AsianCityColor, NSColor.brown)
-        InitializeColor(.EuropeanCityColor, NSColor.purple)
+        InitializeColor(.EuropeanCityColor, NSColor.magenta)
         InitializeColor(.NorthAmericanCityColor, NSColor.green)
         InitializeColor(.SouthAmericanCityColor, NSColor.cyan)
         InitializeColor(.CapitalCityColor, NSColor.yellow)
-        InitializeColor(.WorldCityColor, NSColor.white)
+        InitializeColor(.WorldCityColor, NSColor.red)
     }
     
     /// Determines if settings were initialized.
@@ -559,5 +559,35 @@ class Settings
             return []
         }
         return Results
+    }
+    
+    /// Returns the default city group color.
+    /// - Parameter For: The city group for which the default color will be returned.
+    /// - Returns: Color for the specified city group.
+    public static func DefaultCityGroupColor(For: CityGroups) -> NSColor
+    {
+        switch For
+        {
+            case .AfricanCities:
+                return NSColor.blue
+            
+            case .AsianCities:
+                return NSColor.brown
+            
+            case .EuropeanCities:
+                return NSColor.magenta
+            
+            case .NorthAmericanCities:
+                return NSColor.green
+            
+            case .SouthAmericanCities:
+                return NSColor.cyan
+            
+            case .WorldCities:
+                return NSColor.red
+            
+            case .CapitalCities:
+                return NSColor.yellow
+        }
     }
 }
