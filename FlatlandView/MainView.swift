@@ -29,11 +29,11 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         GlobeView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
         
         Settings.SetBool(.ShowGrid, true)
-        Settings.SetBool(.ShowEquator, true)
-        Settings.SetBool(.ShowTropics, true)
-        Settings.SetBool(.ShowPolarCircles, true)
-        Settings.SetBool(.ShowPrimeMeridians, true)
-        Settings.SetBool(.ShowNoonMeridians, true)
+        Settings.SetBool(.Show2DEquator, true)
+        Settings.SetBool(.Show2DTropics, true)
+        Settings.SetBool(.Show2DPolarCircles, true)
+        Settings.SetBool(.Show2DPrimeMeridians, true)
+        Settings.SetBool(.Show2DNoonMeridians, true)
         Settings.SetBool(.ShowCities, true)
         InitializeFlatland()
         
