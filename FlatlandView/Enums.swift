@@ -81,6 +81,25 @@ enum Continents: String, CaseIterable
     case SouthAmerica = "South America"
 }
 
+/// City groups.
+enum CityGroups: String, CaseIterable
+{
+    /// World cities.
+    case WorldCities = "World Cities"
+    /// National capital cities.
+    case CapitalCities = "Capital Cities"
+    /// African cities.
+    case AfricanCities = "African Cities"
+    /// Asian cities.
+    case AsianCities = "Asian Cities"
+    /// European cities.
+    case EuropeanCities = "European Cities"
+    /// North American cities.
+    case NorthAmericanCities = "North American Cities"
+    /// South American cities.
+    case SouthAmericanCities = "South American Cities"
+}
+
 enum YearFilters: String, CaseIterable
 {
     case All = "All"
@@ -119,19 +138,27 @@ enum Scripts: String, CaseIterable
 enum CityDisplayTypes: String, CaseIterable
 {
     /// Each city is a uniform size and embedded in the parent surface.
-    case UniformEmbedded = "Flush spheres, uniform size"
+    case UniformEmbedded = "Unifor Flush Spheres"
     /// Each city is sized relative to its population and is embedded in the parent surface.
-    case RelativeEmbedded = "Flush spheres, relative size"
+    case RelativeEmbedded = "Relative Flush Spheres"
     /// Each city floats above the parent surface and is sized relative to its population.
-    case RelativeFloating = "Floating spheres, relative size"
+    case RelativeFloating = "Floating Spheres"
     /// Each city is a box with height determined by relative population.
-    case RelativeHeight = "Box, relative height"
+    case RelativeHeight = "Boxes"
 }
 
 enum PopulationTypes: String, CaseIterable
 {
     case City = "City"
     case Metropolitan = "Metropolitan"
+}
+
+enum HomeShapes: String, CaseIterable
+{
+    case Hide = "Hide"
+    case Arrow = "Arrow"
+    case Flag = "Flag"
+    case Pulsate = "Pulsate"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
