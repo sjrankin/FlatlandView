@@ -225,9 +225,17 @@
 			path = Logical;
 			sourceTree = "<group>";
 		};
+		17B4410C248607890050A5DF /* MainSettingsExtensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MainSettingsExtensions;
+			sourceTree = "<group>";
+		};
 		17DDA0432484E91F0090E1EB /* SettingsCode */ = {
 			isa = PBXGroup;
 			children = (
+				17B4410C248607890050A5DF /* MainSettingsExtensions */,
 				17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */,
 				17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */,
 				17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */,
