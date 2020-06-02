@@ -25,6 +25,8 @@ enum SettingTypes: String, CaseIterable
     case ShowGrid = "ShowGrid"
     case ShowSun = "ShowSun"
     case CurrentMap = "CurrentMap"
+    case ShowLocalData = "ShowLocalData"
+    case Script = "Script"
     
     //2D view grid settings.
     case Show2DEquator = "Show2DEquator"
@@ -40,6 +42,11 @@ enum SettingTypes: String, CaseIterable
     case Show3DPrimeMeridians = "Show3DPrimeMeridians"
     case Show3DMinorGrid = "Show3DMinorGrid"
     case MinorGrid3DGap = "MinorGrid3DGap"
+    case GlobeTransparencyLevel = "GlobeTransparencyLevel"
+    case ShowMovingStars = "ShowMovingStars"
+    case ShowMoonLight = "ShowMoonLight"
+    case PolarShape = "PolarShape"
+    case UserLocationShape = "UserLocationShape"
     
     //Local location.
     case ShowUserLocation = "ShowUserLocation"
@@ -53,6 +60,13 @@ enum SettingTypes: String, CaseIterable
     
     //City-related settings.
     case ShowCities = "ShowCities"
+    case ShowAfricanCities = "ShowAfricanCities"
+    case ShowAsianCities = "ShowAsianCities"
+    case ShowEuropeanCities = "ShowEuropeanCities"
+    case ShowNorthAmericanCities = "ShowNorthAmericanCities"
+    case ShowSouthAmericanCities = "ShowSouthAmericanCities"
+    case ShowCapitalCities = "ShowCapitalCities"
+    case ShowWorldCities = "ShowWorldCities"
     case AfricanCityColor = "AfricanCityColor"
     case AsianCityColor = "AsianCityColor"
     case EuropeanCityColor = "EuropeanCityColor"
@@ -60,8 +74,12 @@ enum SettingTypes: String, CaseIterable
     case SouthAmericanCityColor = "SouthAmericanCityColor"
     case CapitalCityColor = "CapitalCityColors"
     case WorldCityColor = "WorldCityColors"
+    case CityShapes = "CityShapes"
+    case PopulationType = "PopulationType"
     
     //World Heritage Site settings
+    case ShowWorldHeritageSites = "ShowWorldHeritageSites"
+    case WorldHeritageSiteType = "WorldHeritageSiteType"
     case SiteTypeFilter = "SiteTypeFilter"
     case SiteCountry = "SiteCountry"
     case SiteYear = "SiteYear"
