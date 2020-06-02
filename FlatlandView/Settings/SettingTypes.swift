@@ -54,6 +54,7 @@ enum SettingTypes: String, CaseIterable
     case LocalLongitude = "LocalLongitude"
     case LocalName = "LocalName"
     case LocalTimeZoneOffset = "LocalTimeZoneOffset"
+    case HomeShape = "HomeShape"
     
     //User locations.
     case UserLocations = "UserLocations"
