@@ -320,7 +320,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             let SettingWindow = WindowController.window
             let Controller = SettingWindow?.contentViewController as? MainSettings
             Controller?.MainDelegate = self
-            //self.view.window?.beginSheet(SettingWindow!, completionHandler: nil)
             WindowController.showWindow(nil)
         }
     }
