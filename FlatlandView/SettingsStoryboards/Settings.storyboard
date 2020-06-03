@@ -126,7 +126,7 @@
                                                     </view>
                                                 </box>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YjL-yN-tja">
-                                                    <rect key="frame" x="15" y="332" width="68" height="16"/>
+                                                    <rect key="frame" x="15" y="283" width="68" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Sun image" id="lEx-BR-dTL">
                                                         <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -134,7 +134,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OiL-0Y-0uh">
-                                                    <rect key="frame" x="17" y="126" width="210" height="200"/>
+                                                    <rect key="frame" x="17" y="77" width="210" height="200"/>
                                                     <clipView key="contentView" id="JVy-AG-5BH">
                                                         <rect key="frame" x="1" y="1" width="208" height="198"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -226,6 +226,7 @@
                                                                     </tableColumn>
                                                                 </tableColumns>
                                                                 <connections>
+                                                                    <action selector="HandleTableClicked:" target="v9H-zx-ey4" id="JjZ-oy-Rsd"/>
                                                                     <outlet property="dataSource" destination="v9H-zx-ey4" id="2UN-nh-50m"/>
                                                                     <outlet property="delegate" destination="v9H-zx-ey4" id="nXB-g9-Pq4"/>
                                                                 </connections>
@@ -245,16 +246,43 @@
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </scroller>
                                                 </scrollView>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zQh-ZX-PEi">
+                                                    <rect key="frame" x="17" y="368" width="96" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Night darkness" id="Eb8-et-QKb">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JRU-9C-7gW">
+                                                    <rect key="frame" x="17" y="337" width="345" height="24"/>
+                                                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="UPn-zX-cqC">
+                                                        <font key="font" metaFont="system"/>
+                                                        <segments>
+                                                            <segment label="Very Light" width="86"/>
+                                                            <segment label="Light" width="85" selected="YES" tag="1"/>
+                                                            <segment label="Dark" width="85"/>
+                                                            <segment label="Very Dark"/>
+                                                        </segments>
+                                                    </segmentedCell>
+                                                    <connections>
+                                                        <action selector="HandleNightDarknessChanged:" target="v9H-zx-ey4" id="8UI-lF-NAQ"/>
+                                                    </connections>
+                                                </segmentedControl>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="OiL-0Y-0uh" firstAttribute="leading" secondItem="YjL-yN-tja" secondAttribute="leading" id="0rf-tm-2Go"/>
                                                 <constraint firstItem="azY-dG-x0e" firstAttribute="leading" secondItem="PKE-59-LRF" secondAttribute="leading" constant="17" id="1ji-Bs-fAh"/>
+                                                <constraint firstItem="JRU-9C-7gW" firstAttribute="top" secondItem="zQh-ZX-PEi" secondAttribute="bottom" constant="8" symbolic="YES" id="45M-gu-MtN"/>
                                                 <constraint firstItem="9bx-rd-3iH" firstAttribute="top" secondItem="PKE-59-LRF" secondAttribute="top" constant="11" id="6C4-FJ-bq9"/>
                                                 <constraint firstItem="YjL-yN-tja" firstAttribute="leading" secondItem="azY-dG-x0e" secondAttribute="leading" id="7Wa-cw-FHp"/>
+                                                <constraint firstItem="9bx-rd-3iH" firstAttribute="leading" secondItem="JRU-9C-7gW" secondAttribute="trailing" constant="63" id="9U6-um-Pkx"/>
                                                 <constraint firstAttribute="bottom" secondItem="9bx-rd-3iH" secondAttribute="bottom" constant="124" id="GsB-nt-MYc"/>
                                                 <constraint firstAttribute="trailing" secondItem="9bx-rd-3iH" secondAttribute="trailing" constant="17" id="IH4-Kb-ZUp"/>
-                                                <constraint firstItem="YjL-yN-tja" firstAttribute="top" secondItem="azY-dG-x0e" secondAttribute="bottom" constant="56" id="WAQ-FO-Ehf"/>
+                                                <constraint firstItem="zQh-ZX-PEi" firstAttribute="leading" secondItem="JRU-9C-7gW" secondAttribute="leading" id="O7D-Vj-ljK"/>
+                                                <constraint firstItem="YjL-yN-tja" firstAttribute="top" secondItem="azY-dG-x0e" secondAttribute="bottom" constant="105" id="WAQ-FO-Ehf"/>
                                                 <constraint firstItem="9bx-rd-3iH" firstAttribute="leading" secondItem="PKE-59-LRF" secondAttribute="leading" constant="423" id="cQH-9a-Z2s"/>
+                                                <constraint firstItem="zQh-ZX-PEi" firstAttribute="top" secondItem="azY-dG-x0e" secondAttribute="bottom" constant="20" id="qMb-ZT-Owh"/>
                                                 <constraint firstItem="azY-dG-x0e" firstAttribute="top" secondItem="PKE-59-LRF" secondAttribute="top" constant="15" id="rXg-lH-35V"/>
                                                 <constraint firstItem="OiL-0Y-0uh" firstAttribute="top" secondItem="YjL-yN-tja" secondAttribute="bottom" constant="6" id="wIe-CA-n32"/>
                                             </constraints>
@@ -910,7 +938,7 @@
                                                                         <rect key="frame" x="444" y="53" width="393" height="281"/>
                                                                         <clipView key="contentView" id="KWy-wB-50S">
                                                                             <rect key="frame" x="1" y="0.0" width="391" height="280"/>
-                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
                                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="G8M-ws-WdR" viewBased="YES" id="HYR-ca-Hzt">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="391" height="255"/>
@@ -1229,6 +1257,7 @@
                         <outlet property="HeritageSiteSegment" destination="mBZ-fV-dIu" id="4o7-eB-NAn"/>
                         <outlet property="HomeLocationShapeSegment" destination="pIL-O3-pUs" id="StH-nz-DE7"/>
                         <outlet property="MinorGridGapSegment" destination="e12-xv-Dl4" id="S0h-eg-1vn"/>
+                        <outlet property="NightDarknessSegment" destination="JRU-9C-7gW" id="vaE-OG-D4F"/>
                         <outlet property="PoleShapeCombo" destination="gWI-uf-suA" id="cVb-id-J8e"/>
                         <outlet property="PopulationSegment" destination="3sB-ct-uKZ" id="GTV-xT-r6z"/>
                         <outlet property="ScriptCombo" destination="Z09-aa-rlx" id="dC3-jD-aTY"/>
@@ -1816,7 +1845,7 @@ Gw
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JEd-31-lhi">
-                                <rect key="frame" x="401" y="7" width="82" height="32"/>
+                                <rect key="frame" x="401" y="0.0" width="82" height="39"/>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PPj-sh-T0N">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1828,8 +1857,29 @@ Gw
                                     <action selector="HandleCancelPressed:" target="9Za-9R-7Au" id="X7d-9l-dHK"/>
                                 </connections>
                             </button>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="4zQ-Yd-YOW">
+                                <rect key="frame" x="9" y="59" width="201" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="197" id="9Ys-4Z-4si"/>
+                                    <constraint firstAttribute="height" constant="32" id="kEw-wu-iGG"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="nHV-bP-qUB"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="Latitude is negative for south and longitude is negative for west." id="h3c-88-En1">
+                                    <font key="font" metaFont="controlContent"/>
+                                    <color key="textColor" white="0.37039078479815946" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YPS-8I-rdt">
+                                <rect key="frame" x="11" y="182" width="88" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="User Location" id="KNd-6J-gwp">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <button verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="JWc-25-B9M">
-                                <rect key="frame" x="14" y="13" width="59" height="32"/>
+                                <rect key="frame" x="14" y="0.0" width="59" height="32"/>
                                 <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nSo-xX-pVd">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1841,32 +1891,24 @@ DQ
                                     <action selector="HandleOKPressed:" target="9Za-9R-7Au" id="AwA-2L-E5Y"/>
                                 </connections>
                             </button>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="4zQ-Yd-YOW">
-                                <rect key="frame" x="9" y="59" width="201" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="zIR-6S-Edd"/>
-                                </constraints>
-                                <textFieldCell key="cell" selectable="YES" title="Latitude is negative for south and longitude is negative for west." id="h3c-88-En1">
-                                    <font key="font" metaFont="controlContent"/>
-                                    <color key="textColor" white="0.37039078479815946" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="JcA-1V-tHE" firstAttribute="leading" secondItem="abv-LI-xrt" secondAttribute="leading" id="4A3-ig-zs4"/>
-                            <constraint firstItem="JWc-25-B9M" firstAttribute="leading" secondItem="Ead-TL-XCA" secondAttribute="leading" constant="20" symbolic="YES" id="INh-qG-57h"/>
-                            <constraint firstItem="4zQ-Yd-YOW" firstAttribute="leading" secondItem="Ead-TL-XCA" secondAttribute="leading" constant="11" id="L2n-Im-ouv"/>
-                            <constraint firstItem="abv-LI-xrt" firstAttribute="leading" secondItem="4zQ-Yd-YOW" secondAttribute="trailing" constant="60" id="NaJ-2u-QMe"/>
-                            <constraint firstItem="4zQ-Yd-YOW" firstAttribute="top" secondItem="Jfz-oU-fi4" secondAttribute="bottom" constant="8" symbolic="YES" id="PpR-tT-YUx"/>
-                            <constraint firstItem="JEd-31-lhi" firstAttribute="top" secondItem="abv-LI-xrt" secondAttribute="bottom" constant="18" id="ay3-Ug-bEl"/>
-                            <constraint firstItem="JcA-1V-tHE" firstAttribute="top" secondItem="Ead-TL-XCA" secondAttribute="top" constant="13" id="bbF-oE-NiO"/>
-                            <constraint firstItem="JEd-31-lhi" firstAttribute="baseline" secondItem="JWc-25-B9M" secondAttribute="baseline" constant="6" id="cMY-CH-dbS"/>
-                            <constraint firstItem="abv-LI-xrt" firstAttribute="leading" secondItem="Jfz-oU-fi4" secondAttribute="trailing" constant="40" id="e1F-Y9-zwg"/>
-                            <constraint firstItem="Jfz-oU-fi4" firstAttribute="top" secondItem="abv-LI-xrt" secondAttribute="top" id="eQz-le-rHV"/>
-                            <constraint firstAttribute="trailing" secondItem="JEd-31-lhi" secondAttribute="trailing" constant="19" id="fu2-md-inc"/>
-                            <constraint firstItem="abv-LI-xrt" firstAttribute="top" secondItem="JcA-1V-tHE" secondAttribute="bottom" constant="8" symbolic="YES" id="mDZ-Xh-aNg"/>
-                            <constraint firstAttribute="trailing" secondItem="abv-LI-xrt" secondAttribute="trailing" constant="20" symbolic="YES" id="qrc-DH-Hav"/>
+                            <constraint firstItem="Jfz-oU-fi4" firstAttribute="top" secondItem="abv-LI-xrt" secondAttribute="top" id="5Ul-2Q-Yl5"/>
+                            <constraint firstItem="YPS-8I-rdt" firstAttribute="baseline" secondItem="JcA-1V-tHE" secondAttribute="baseline" id="7W6-GQ-Rhl"/>
+                            <constraint firstItem="Jfz-oU-fi4" firstAttribute="leading" secondItem="4zQ-Yd-YOW" secondAttribute="leading" id="B2I-7L-hVf"/>
+                            <constraint firstItem="abv-LI-xrt" firstAttribute="leading" secondItem="4zQ-Yd-YOW" secondAttribute="trailing" constant="60" id="BFu-K3-eTe"/>
+                            <constraint firstItem="JWc-25-B9M" firstAttribute="leading" secondItem="Ead-TL-XCA" secondAttribute="leading" constant="20" symbolic="YES" id="Ilj-t6-pV4"/>
+                            <constraint firstAttribute="bottom" secondItem="JEd-31-lhi" secondAttribute="bottom" constant="7" id="KeT-mD-0kD"/>
+                            <constraint firstItem="YPS-8I-rdt" firstAttribute="leading" secondItem="Ead-TL-XCA" secondAttribute="leading" constant="13" id="Zdd-vQ-hBa"/>
+                            <constraint firstItem="JcA-1V-tHE" firstAttribute="leading" secondItem="abv-LI-xrt" secondAttribute="leading" id="b45-fH-PBo"/>
+                            <constraint firstItem="Jfz-oU-fi4" firstAttribute="top" secondItem="YPS-8I-rdt" secondAttribute="bottom" constant="8" symbolic="YES" id="bpV-8c-q5l"/>
+                            <constraint firstItem="JEd-31-lhi" firstAttribute="top" secondItem="abv-LI-xrt" secondAttribute="bottom" constant="18" id="e5x-se-OE4"/>
+                            <constraint firstAttribute="trailing" secondItem="JEd-31-lhi" secondAttribute="trailing" constant="19" id="gKd-PP-9Nn"/>
+                            <constraint firstItem="JWc-25-B9M" firstAttribute="top" secondItem="4zQ-Yd-YOW" secondAttribute="bottom" constant="31" id="mqG-oL-ZTh"/>
+                            <constraint firstItem="4zQ-Yd-YOW" firstAttribute="top" secondItem="Jfz-oU-fi4" secondAttribute="bottom" constant="8" symbolic="YES" id="nuJ-ZB-17d"/>
+                            <constraint firstItem="Jfz-oU-fi4" firstAttribute="leading" secondItem="Ead-TL-XCA" secondAttribute="leading" constant="11" id="rL2-EF-BTe"/>
+                            <constraint firstAttribute="trailing" secondItem="abv-LI-xrt" secondAttribute="trailing" constant="20" symbolic="YES" id="rM1-Yl-P6r"/>
+                            <constraint firstAttribute="bottom" secondItem="JWc-25-B9M" secondAttribute="bottom" constant="7" id="vfe-xG-Das"/>
                         </constraints>
                     </view>
                     <connections>
