@@ -12,6 +12,7 @@ import SceneKit
 
 extension MainView
 {
+    /// Initialize the Flatland (2D) mode controls.
     func InitializeFlatland()
     {
         FlatView.wantsLayer = true
@@ -116,13 +117,16 @@ extension MainView
     /// - Returns: Image for the passed date (and flat map orientation). Nil returned on error.
     func GetNightMask(ForDate: Date) -> NSImage?
     {
+        let AlphaLevels: [NightDarknesses: CGFloat] =
+        [
+            .VeryLight: 0.25,
+            .Light: 0.4,
+            .Dark: 0.6,
+            .VeryDark: 0.75
+        ]
         let ImageName = MakeNightMaskName(From: ForDate)
-        var MaskAlpha = Settings.GetDouble(.NightMaskAlpha)
-        if MaskAlpha == 0.0
-        {
-            MaskAlpha = 0.4
-            Settings.SetDouble(.NightMaskAlpha, MaskAlpha)
-        }
+        let DarkLevel = Settings.GetEnum(ForKey: .NightDarkness, EnumType: NightDarknesses.self, Default: .Light)
+        let MaskAlpha = AlphaLevels[DarkLevel]!
         let MaskImage = NSImage(named: ImageName)!
         let Final = MaskImage.Alpha(CGFloat(MaskAlpha))
         return Final
@@ -307,6 +311,53 @@ extension MainView
         {
             return
         }
+        
+        let SunToDisplay = Settings.GetEnum(ForKey: .SunType, EnumType: SunNames.self, Default: .None)
+        if PreviousSunType != SunToDisplay
+        {
+            switch SunToDisplay
+            {
+                case .None:
+                    SunViewTop.isHidden = true
+                    SunViewBottom.isHidden = true
+                    SunViewTop.image = nil
+                    SunViewBottom.image = nil
+                
+                case .Classic1:
+                    SunViewTop.image = NSImage(named: "SunX")
+                    SunViewBottom.image = NSImage(named: "SunY")
+                
+                case .Classic2:
+                    SunViewTop.image = NSImage(named: "Sun2Up")
+                    SunViewBottom.image = NSImage(named: "Sun2Down")
+                
+                case .Durer:
+                    SunViewTop.image = NSImage(named: "DurerSunUp")
+                    SunViewBottom.image = NSImage(named: "DurerSunDown")
+                
+                case .NaomisSun:
+                    SunViewTop.image = NSImage(named: "NaomiSun1Up")
+                    SunViewBottom.image = NSImage(named: "NaomiSun1Down")
+                
+                case .PlaceHolder:
+                    SunViewTop.image = NSImage(named: "SunPlaceHolder")
+                    SunViewBottom.image = NSImage(named: "SunPlaceHolder")
+                
+                case .Shining:
+                    SunViewTop.image = NSImage(named: "StarShine")
+                    SunViewBottom.image = NSImage(named: "StarShine")
+                
+                case .Simple:
+                    SunViewTop.image = NSImage(named: "SimpleSun")
+                    SunViewBottom.image = NSImage(named: "SimpleSun")
+                
+                case .Generic:
+                    SunViewTop.image = NSImage(named: "GenericSun")
+                    SunViewBottom.image = NSImage(named: "GenericSun")
+            }
+            PreviousSunType = SunToDisplay
+        }
+        
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
         {
             SunViewTop.isHidden = true
