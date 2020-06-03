@@ -16,7 +16,27 @@ class ConfirmDialogCode: NSViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        CallerID = (ConfirmDelegate?.GetInstanceID())!
+        if ConfirmDelegate != nil
+        {
+            PopulateDialog()
+            WasPopulated = true
+        }
+    }
+    
+    var WasPopulated = false
+    
+    override func viewDidLayout()
+    {
+        if !WasPopulated
+        {
+        PopulateDialog()
+        }
+    }
+    
+    func PopulateDialog()
+    {
+        let ID = ConfirmDelegate?.GetInstanceID()
+        CallerID = ID!
         if let LeftButtonText = ConfirmDelegate?.GetButtonTitle(.LeftButton, ID: CallerID)
         {
             LeftButton.title = LeftButtonText
@@ -33,8 +53,14 @@ class ConfirmDialogCode: NSViewController
         {
             RightButton.removeFromSuperview()
         }
-        let Message = (ConfirmDelegate?.GetConfirmationMessage(ID: CallerID))!
-        MessageLabel.stringValue = Message
+        if let Message = ConfirmDelegate?.GetConfirmationMessage(ID: CallerID)
+        {
+            MessageLabel.stringValue = Message
+        }
+        else
+        {
+            MessageLabel.stringValue = "Please confirm your action."
+        }
     }
     
     @IBAction func HandlRightButtonPressed(_ sender: Any)
@@ -42,7 +68,7 @@ class ConfirmDialogCode: NSViewController
         ConfirmDelegate?.HandleButtonPressed(PressedButton: .RightButton, ID: CallerID)
         let Window = self.view.window
         let Parent = Window?.sheetParent
-        Parent!.endSheet(Window!, returnCode: .OK)
+        Parent!.endSheet(Window!, returnCode: .cancel)
     }
     
     @IBAction func HandleLeftButtonPressed(_ sender: Any)
