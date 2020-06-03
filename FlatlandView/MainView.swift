@@ -18,6 +18,9 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         
         Settings.Initialize()
         Settings.AddSubscriber(self)
+
+                let ViewT = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld)
+        print("ViewType is \(ViewT)")
         
         FileIO.Initialize()
         MasterMapList = ActualMapIO.LoadMapList()
@@ -170,12 +173,14 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     override func viewDidLayout()
     {
-        perform(#selector(LateStart), with: nil, afterDelay: 2.0)
+        perform(#selector(LateStart), with: nil, afterDelay: 1.0)
     }
     
+    /// Initialize maps and other items after a delay.
     @objc func LateStart()
     {
-        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: .Simple, ViewType: .FlatNorthCenter)!)
+        let VType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: .Simple, ViewType: VType)!)
         InitializeUpdateTimer()
         Started = true
         SetFlatlandVisibility(FlatIsVisible: true)
@@ -432,6 +437,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             case .ShowNight:
                 break
             
+            case .NightDarkness:
+            let NewMask = GetNightMask(ForDate: Date())
+            NightMaskImageView.image = NewMask
+            
             case .HourType:
                 if let NewHourType = NewValue as? HourValueTypes
                 {
@@ -450,6 +459,9 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                             break
                     }
             }
+            
+            case .SunType:
+                UpdateSunLocations()
             
             case .TimeLabel:
                 break
@@ -473,6 +485,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     static var UnescoInitialized = false
     static var UnescoHandle: OpaquePointer? = nil
     var WorldHeritageSites: [WorldHeritageSite]? = nil
+    
+    var PreviousSunType = SunNames.None
     
     /// Previous percent drawn. Used to prevent constant updates when an update would not result
     /// in a visual change.
