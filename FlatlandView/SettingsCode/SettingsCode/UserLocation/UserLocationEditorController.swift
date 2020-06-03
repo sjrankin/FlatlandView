@@ -19,6 +19,14 @@ class UserLocationEditorController: NSViewController, NSTableViewDelegate, NSTab
         super.viewDidLoad()
         LatitudeTextBox.delegate = self
         ColorSwatchTable.reloadData()
+    }
+    
+    override func viewDidLayout()
+    {
+        if Delegate == nil
+        {
+            fatalError("Delegate is nil in UserLocationEditorController")
+        }
         if (Delegate?.AddNewLocation())!
         {
             NameTextBox.stringValue = ""
