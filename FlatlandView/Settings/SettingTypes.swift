@@ -28,6 +28,7 @@ enum SettingTypes: String, CaseIterable
     case ShowLocalData = "ShowLocalData"
     case Script = "Script"
     case SunType = "SunType"
+    case NightDarkness = "NightDarkness"
     
     //2D view grid settings.
     case Show2DEquator = "Show2DEquator"
