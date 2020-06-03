@@ -161,17 +161,35 @@ enum HomeShapes: String, CaseIterable
     case Pulsate = "Pulsate"
 }
 
+/// Suns that can be displayed in 2D mode.
 enum SunNames: String, CaseIterable
 {
+    /// No sun.
     case None = "None"
+    /// Simple sun.
     case Simple = "Simple"
+    /// Generic sun.
     case Generic = "Generic"
+    /// Static, shining sun.
     case Shining = "Shining"
+    /// Naomi's sun picture.
     case NaomisSun = "Naomi's Sun"
+    /// Durer's sun sketch.
     case Durer = "Durer's Sun"
+    /// Vintage sun picture 1.
     case Classic1 = "Old Sun 1"
+    /// Vintage sun picture 2/
     case Classic2 = "Old Sun 2"
+    /// Placeholder sun.
     case PlaceHolder = "Placeholder Sun"
+}
+
+enum NightDarknesses: String, CaseIterable
+{
+    case VeryLight = "VeryLight"
+    case Light = "Light"
+    case Dark = "Dark"
+    case VeryDark = "VeryDark"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
