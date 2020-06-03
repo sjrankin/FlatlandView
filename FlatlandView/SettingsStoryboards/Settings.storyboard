@@ -125,14 +125,57 @@
                                                         </constraints>
                                                     </view>
                                                 </box>
+                                                <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j4N-HN-TQD">
+                                                    <rect key="frame" x="17" y="17" width="376" height="75"/>
+                                                    <clipView key="contentView" id="BlI-qk-yu7">
+                                                        <rect key="frame" x="1" y="1" width="359" height="73"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <collectionView id="iba-m5-QG9">
+                                                                <rect key="frame" x="0.0" y="0.0" width="359" height="158"/>
+                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                                                <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" scrollDirection="horizontal" id="XeE-V5-BEx">
+                                                                    <size key="itemSize" width="50" height="50"/>
+                                                                </collectionViewFlowLayout>
+                                                                <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                <connections>
+                                                                    <outlet property="dataSource" destination="v9H-zx-ey4" id="BDO-Ko-uvP"/>
+                                                                    <outlet property="delegate" destination="v9H-zx-ey4" id="Xxt-qZ-wLd"/>
+                                                                </connections>
+                                                            </collectionView>
+                                                        </subviews>
+                                                    </clipView>
+                                                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="KdL-tg-J0n">
+                                                        <rect key="frame" x="1" y="144" width="233" height="15"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                    </scroller>
+                                                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="iTc-KC-I8h">
+                                                        <rect key="frame" x="360" y="1" width="15" height="73"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                    </scroller>
+                                                </scrollView>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YjL-yN-tja">
+                                                    <rect key="frame" x="17" y="100" width="68" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Sun image" id="lEx-BR-dTL">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="azY-dG-x0e" firstAttribute="leading" secondItem="PKE-59-LRF" secondAttribute="leading" constant="17" id="1ji-Bs-fAh"/>
                                                 <constraint firstItem="9bx-rd-3iH" firstAttribute="top" secondItem="PKE-59-LRF" secondAttribute="top" constant="11" id="6C4-FJ-bq9"/>
+                                                <constraint firstItem="YjL-yN-tja" firstAttribute="leading" secondItem="PKE-59-LRF" secondAttribute="leading" constant="19" id="CrI-6b-t3t"/>
+                                                <constraint firstItem="j4N-HN-TQD" firstAttribute="top" secondItem="YjL-yN-tja" secondAttribute="bottom" constant="8" symbolic="YES" id="DwJ-04-t11"/>
                                                 <constraint firstAttribute="bottom" secondItem="9bx-rd-3iH" secondAttribute="bottom" constant="124" id="GsB-nt-MYc"/>
                                                 <constraint firstAttribute="trailing" secondItem="9bx-rd-3iH" secondAttribute="trailing" constant="8" id="IH4-Kb-ZUp"/>
+                                                <constraint firstAttribute="bottom" secondItem="j4N-HN-TQD" secondAttribute="bottom" constant="17" id="Vci-qa-Szb"/>
+                                                <constraint firstAttribute="trailing" secondItem="j4N-HN-TQD" secondAttribute="trailing" constant="481" id="YbT-bm-G4K"/>
                                                 <constraint firstItem="9bx-rd-3iH" firstAttribute="leading" secondItem="PKE-59-LRF" secondAttribute="leading" constant="423" id="cQH-9a-Z2s"/>
+                                                <constraint firstItem="j4N-HN-TQD" firstAttribute="top" secondItem="PKE-59-LRF" secondAttribute="top" constant="341" id="fcC-Gq-wXf"/>
                                                 <constraint firstItem="azY-dG-x0e" firstAttribute="top" secondItem="PKE-59-LRF" secondAttribute="top" constant="15" id="rXg-lH-35V"/>
+                                                <constraint firstItem="j4N-HN-TQD" firstAttribute="leading" secondItem="azY-dG-x0e" secondAttribute="leading" id="uhU-cW-y0l"/>
                                             </constraints>
                                         </view>
                                     </tabViewItem>
@@ -786,7 +829,7 @@
                                                                         <rect key="frame" x="444" y="53" width="393" height="281"/>
                                                                         <clipView key="contentView" id="KWy-wB-50S">
                                                                             <rect key="frame" x="1" y="0.0" width="391" height="280"/>
-                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                            <autoresizingMask key="autoresizingMask"/>
                                                                             <subviews>
                                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="G8M-ws-WdR" viewBased="YES" id="HYR-ca-Hzt">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="391" height="255"/>
@@ -1132,6 +1175,7 @@
                         <outlet property="ShowSouthAmericanCitiesSwitch" destination="b64-uT-nBv" id="JCG-el-Woi"/>
                         <outlet property="ShowUserLocationsCheck" destination="QEW-T6-ce0" id="e3b-St-l17"/>
                         <outlet property="ShowWorldCitiesSwitch" destination="oVV-ib-1V2" id="D2U-IP-gIn"/>
+                        <outlet property="SunSelector" destination="iba-m5-QG9" id="Fll-Cz-EI4"/>
                         <outlet property="UserLocationLatitudeBox" destination="wN3-Qt-oQO" id="ZRv-lk-ymW"/>
                         <outlet property="UserLocationLongitudeBox" destination="qzl-IA-19o" id="Krc-C2-DN3"/>
                         <outlet property="UserLocationTable" destination="HYR-ca-Hzt" id="xvH-2N-A69"/>
