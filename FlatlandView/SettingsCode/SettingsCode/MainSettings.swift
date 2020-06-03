@@ -13,7 +13,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     NSTextFieldDelegate,
     LocationEditingProtocol, ConfirmProtocol
 {
-
+    
     
     public weak var MainDelegate: MainProtocol? = nil
     
@@ -43,7 +43,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         Show2DNoonMeridians.state = Settings.GetBool(.Show2DNoonMeridians) ? .on : .off
         Show2DEquator.state = Settings.GetBool(.Show2DEquator) ? .on : .off
         Show2DTropics.state = Settings.GetBool(.Show2DTropics) ? .on : .off
-                let CurrentSun = Settings.GetEnum(ForKey: .SunType, EnumType: SunNames.self, Default: .Classic1)
+        let CurrentSun = Settings.GetEnum(ForKey: .SunType, EnumType: SunNames.self, Default: .Classic1)
         var Index = 0
         var SunIndex = -1
         for SomeSun in SunNames.allCases
@@ -66,20 +66,37 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             SunSelector.selectRowIndexes(ISet, byExtendingSelection: false)
             SunSelector.scrollRowToVisible(SunIndex)
         }
+        let DarkType = Settings.GetEnum(ForKey: .NightDarkness, EnumType: NightDarknesses.self, Default: .Light)
+        var DarkIndex = 0
+        switch DarkType
+        {
+            case .VeryLight:
+                DarkIndex = 0
+            
+            case .Light:
+                DarkIndex = 1
+            
+            case .Dark:
+                DarkIndex = 2
+            
+            case .VeryDark:
+                DarkIndex = 3
+        }
+        NightDarknessSegment.selectedSegment = DarkIndex
     }
     
     var SunImageList = [(SunNames, NSImage)]()
     let SunMap: [SunNames: String] =
-    [
-        .None: "NoSun",
+        [
+            .None: "NoSun",
             .Simple: "SimpleSun",
-        .Generic: "GenericSun",
-        .Shining: "StarShine",
-        .NaomisSun: "NaomiSun1Up",
-        .Durer: "DurerSunUp",
-        .Classic1: "SunX",
-        .Classic2: "Sun2Up",
-        .PlaceHolder: "SunPlaceHolder"
+            .Generic: "GenericSun",
+            .Shining: "StarShine",
+            .NaomisSun: "NaomiSun1Up",
+            .Durer: "DurerSunUp",
+            .Classic1: "SunX",
+            .Classic2: "Sun2Up",
+            .PlaceHolder: "SunPlaceHolder"
     ]
     
     @IBAction func HandleShow2DNightChanged(_ sender: Any)
@@ -119,6 +136,22 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
     }
     
+    @IBAction func HandleNightDarknessChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            let Index = Segment.selectedSegment
+            let DarkTypes = [NightDarknesses.VeryLight, NightDarknesses.Light, NightDarknesses.Dark, NightDarknesses.VeryDark]
+            if Index > DarkTypes.count - 1
+            {
+                return
+            }
+            Settings.SetEnum(DarkTypes[Index], EnumType: NightDarknesses.self, ForKey: .NightDarkness)
+            MainDelegate?.Refresh("MainSettings.HandleNightDarknessChanged")
+        }
+    }
+    
+    @IBOutlet weak var NightDarknessSegment: NSSegmentedControl!
     @IBOutlet weak var SunSelector: NSTableView!
     @IBOutlet weak var Show2DNoonMeridians: NSButton!
     @IBOutlet weak var Show2DPrimeMeridians: NSButton!
@@ -433,7 +466,11 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             UserLocationLatitudeBox.stringValue = "\(UserLat.RoundedTo(4))"
             UserLocationLongitudeBox.stringValue = "\(UserLon.RoundedTo(4))"
             let ZoneOffset = Int(Settings.GetDoubleNil(.LocalTimeZoneOffset, 0.0)!)
-            let ZoneOffsetString = "\(ZoneOffset)"
+            var ZoneOffsetString = "\(ZoneOffset)"
+            if ZoneOffset > 0
+            {
+                ZoneOffsetString = "+" + ZoneOffsetString
+            }
             UserTimeZoneOffsetCombo.selectItem(withObjectValue: ZoneOffsetString)
         }
         else
@@ -486,10 +523,10 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         {
             AddNewUserLocation = false
             let Window = WindowController.window
-            self.view.window?.beginSheet(Window!, completionHandler: nil)
-            if let WinCon = Window?.contentViewController as? UserLocationEditorController
+            if let Controller = Window?.contentViewController as? UserLocationEditorController
             {
-                WinCon.Delegate = self
+                Controller.Delegate = self
+                self.view.window?.beginSheet(Window!, completionHandler: nil)
             }
         }
     }
@@ -501,10 +538,10 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         {
             AddNewUserLocation = true
             let Window = WindowController.window
-            self.view.window?.beginSheet(Window!, completionHandler: nil)
-            if let WinCon = Window?.contentViewController as? UserLocationEditorController
+            if let Controller = Window?.contentViewController as? UserLocationEditorController
             {
-                WinCon.Delegate = self
+                Controller.Delegate = self
+                self.view.window?.beginSheet(Window!, completionHandler: nil)
             }
         }
     }
@@ -827,8 +864,8 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                 }
                 if tableColumn == tableView.tableColumns[1]
                 {
-                let SunView = NSImageView(image: SunImageList[row].1)
-            return SunView
+                    let SunView = NSImageView(image: SunImageList[row].1)
+                    return SunView
             }
             
             default:
@@ -932,10 +969,10 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         switch ForButton
         {
             case .LeftButton:
-            return "OK"
+                return "OK"
             
             case .RightButton:
-            return "No"
+                return "No"
         }
     }
     
