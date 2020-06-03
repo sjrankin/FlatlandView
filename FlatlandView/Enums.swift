@@ -161,6 +161,19 @@ enum HomeShapes: String, CaseIterable
     case Pulsate = "Pulsate"
 }
 
+enum SunNames: String, CaseIterable
+{
+    case None = "None"
+    case Simple = "Simple"
+    case Generic = "Generic"
+    case Shining = "Shining"
+    case NaomisSun = "Naomi's Sun"
+    case Durer = "Durer's Sun"
+    case Classic1 = "Old Sun 1"
+    case Classic2 = "Old Sun 2"
+    case PlaceHolder = "Placeholder Sun"
+}
+
 /// Z position enum and layer values. Defines which layers are on top of other layers.
 /// Higher values mean closer to the user which means more likely to be visible.
 enum LayerZLevels: Int
