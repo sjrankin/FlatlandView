@@ -27,6 +27,7 @@ enum SettingTypes: String, CaseIterable
     case CurrentMap = "CurrentMap"
     case ShowLocalData = "ShowLocalData"
     case Script = "Script"
+    case SunType = "SunType"
     
     //2D view grid settings.
     case Show2DEquator = "Show2DEquator"
