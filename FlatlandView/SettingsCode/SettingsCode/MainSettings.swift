@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate,
-    NSTextFieldDelegate, NSCollectionViewDelegate, NSCollectionViewDataSource,
+    NSTextFieldDelegate,
     LocationEditingProtocol, ConfirmProtocol
 {
 
@@ -43,14 +43,28 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         Show2DNoonMeridians.state = Settings.GetBool(.Show2DNoonMeridians) ? .on : .off
         Show2DEquator.state = Settings.GetBool(.Show2DEquator) ? .on : .off
         Show2DTropics.state = Settings.GetBool(.Show2DTropics) ? .on : .off
+                let CurrentSun = Settings.GetEnum(ForKey: .SunType, EnumType: SunNames.self, Default: .Classic1)
+        var Index = 0
+        var SunIndex = -1
         for SomeSun in SunNames.allCases
         {
             if let ImageName = SunMap[SomeSun]
             {
+                if SomeSun == CurrentSun
+                {
+                    SunIndex = Index
+                }
                 var SunImage = NSImage(named: ImageName)
                 SunImage = Utility.ResizeImage(Image: SunImage!, Longest: 50.0)
                 SunImageList.append((SomeSun, SunImage!))
             }
+            Index = Index + 1
+        }
+        if SunIndex > -1
+        {
+            let ISet = IndexSet(integer: SunIndex)
+            SunSelector.selectRowIndexes(ISet, byExtendingSelection: false)
+            SunSelector.scrollRowToVisible(SunIndex)
         }
     }
     
@@ -105,7 +119,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
     }
     
-    @IBOutlet weak var SunSelector: NSCollectionView!
+    @IBOutlet weak var SunSelector: NSTableView!
     @IBOutlet weak var Show2DNoonMeridians: NSButton!
     @IBOutlet weak var Show2DPrimeMeridians: NSButton!
     @IBOutlet weak var Show2DPolarCircles: NSButton!
@@ -767,8 +781,23 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             case UserLocationTable:
                 return UserLocations.count
             
+            case SunSelector:
+                return SunImageList.count
+            
             default:
                 return 0
+        }
+    }
+    
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat
+    {
+        switch tableView
+        {
+            case SunSelector:
+                return 65.0
+            
+            default:
+                return 22.0
         }
     }
     
@@ -790,6 +819,18 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                     let Loc = "\(UserLocations[row].Coordinates.Latitude.RoundedTo(3)), \(UserLocations[row].Coordinates.Longitude.RoundedTo(3))"
             }
             
+            case SunSelector:
+                if tableColumn == tableView.tableColumns[0]
+                {
+                    CellIdentifier = "SunNameColumn"
+                    CellContents = SunImageList[row].0.rawValue
+                }
+                if tableColumn == tableView.tableColumns[1]
+                {
+                let SunView = NSImageView(image: SunImageList[row].1)
+            return SunView
+            }
+            
             default:
                 return nil
         }
@@ -807,6 +848,11 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             {
                 case UserLocationTable:
                     CurrentUserLocationIndex = Table.selectedRow
+                
+                case SunSelector:
+                    let SelectedSun = SunImageList[Table.selectedRow].0
+                    Settings.SetEnum(SelectedSun, EnumType: SunNames.self, ForKey: .SunType)
+                    MainDelegate?.Refresh("MainSettings.HandleTableClicked")
                 
                 default:
                     return
