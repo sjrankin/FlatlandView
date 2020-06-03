@@ -10,8 +10,11 @@ import Foundation
 import AppKit
 
 class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate,
-    NSTextFieldDelegate, LocationEditingProtocol, ConfirmProtocol
+    NSTextFieldDelegate, NSCollectionViewDelegate, NSCollectionViewDataSource,
+    LocationEditingProtocol, ConfirmProtocol
 {
+
+    
     public weak var MainDelegate: MainProtocol? = nil
     
     override func viewDidLoad()
@@ -40,7 +43,30 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         Show2DNoonMeridians.state = Settings.GetBool(.Show2DNoonMeridians) ? .on : .off
         Show2DEquator.state = Settings.GetBool(.Show2DEquator) ? .on : .off
         Show2DTropics.state = Settings.GetBool(.Show2DTropics) ? .on : .off
+        for SomeSun in SunNames.allCases
+        {
+            if let ImageName = SunMap[SomeSun]
+            {
+                var SunImage = NSImage(named: ImageName)
+                SunImage = Utility.ResizeImage(Image: SunImage!, Longest: 50.0)
+                SunImageList.append((SomeSun, SunImage!))
+            }
+        }
     }
+    
+    var SunImageList = [(SunNames, NSImage)]()
+    let SunMap: [SunNames: String] =
+    [
+        .None: "NoSun",
+            .Simple: "SimpleSun",
+        .Generic: "GenericSun",
+        .Shining: "StarShine",
+        .NaomisSun: "NaomiSun1Up",
+        .Durer: "DurerSunUp",
+        .Classic1: "SunX",
+        .Classic2: "Sun2Up",
+        .PlaceHolder: "SunPlaceHolder"
+    ]
     
     @IBAction func HandleShow2DNightChanged(_ sender: Any)
     {
@@ -79,6 +105,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
     }
     
+    @IBOutlet weak var SunSelector: NSCollectionView!
     @IBOutlet weak var Show2DNoonMeridians: NSButton!
     @IBOutlet weak var Show2DPrimeMeridians: NSButton!
     @IBOutlet weak var Show2DPolarCircles: NSButton!
@@ -472,10 +499,31 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     
     @IBAction func HandleClearUserLocations(_ sender: Any)
     {
-        UserLocations.removeAll()
-        UserLocationTable.reloadData()
-        Settings.SetLocations(UserLocations)
-        MainDelegate?.Refresh("MainSettings.HandleClearUserLocations")
+        ConfirmMessage = "Do you really want to delete all of your locations?"
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "ConfirmDialogWindowCode") as? ConfirmDialogWindow
+        {
+            let Window = WindowController.window
+            if let Controller = Window?.contentViewController as? ConfirmDialogCode
+            {
+                Controller.ConfirmDelegate = self
+                self.view.window?.beginSheet(Window!)
+                {
+                    Response in
+                    if Response == .OK
+                    {
+                        self.UserLocations.removeAll()
+                        self.UserLocationTable.reloadData()
+                        Settings.SetLocations(self.UserLocations)
+                        self.MainDelegate?.Refresh("MainSettings.HandleClearUserLocations")
+                    }
+                }
+            }
+            else
+            {
+                fatalError("Error getting contentViewController")
+            }
+        }
     }
     
     @IBAction func HandleShowUserLocationsCheckChanged(_ sender: Any)
@@ -768,6 +816,16 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     
     var CurrentUserLocationIndex = -1
     
+    func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int
+    {
+        return SunImageList.count
+    }
+    
+    func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem
+    {
+        return NSCollectionViewItem()
+    }
+    
     // MARK: - Location delegate protocol functions.
     
     func AddNewLocation() -> Bool
@@ -818,12 +876,21 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     
     func GetConfirmationMessage(ID: UUID) -> String
     {
-        return ""
+        return ConfirmMessage
     }
+    
+    var ConfirmMessage = ""
     
     func GetButtonTitle(_ ForButton: ConfirmationButtons, ID: UUID) -> String?
     {
-        return nil
+        switch ForButton
+        {
+            case .LeftButton:
+            return "OK"
+            
+            case .RightButton:
+            return "No"
+        }
     }
     
     func GetInstanceID() -> UUID
