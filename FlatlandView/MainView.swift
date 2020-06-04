@@ -18,9 +18,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         
         Settings.Initialize()
         Settings.AddSubscriber(self)
-
-                let ViewT = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld)
-        print("ViewType is \(ViewT)")
         
         FileIO.Initialize()
         MasterMapList = ActualMapIO.LoadMapList()
@@ -45,6 +42,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     var MasterMapList: ActualMapList? = nil
     
+    /// Start the update timer.
     func InitializeUpdateTimer()
     {
         UpdateTimer = Timer.scheduledTimer(timeInterval: 1.0,
@@ -180,7 +178,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     @objc func LateStart()
     {
         let VType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
-        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: .Simple, ViewType: VType)!)
+        let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: MapValue, ViewType: VType)!)
         InitializeUpdateTimer()
         Started = true
         SetFlatlandVisibility(FlatIsVisible: true)
@@ -274,14 +273,16 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     @IBAction func ViewTypeNorthCentered(_ sender: Any)
     {
         Settings.SetEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
-        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: .Simple, ViewType: .FlatNorthCenter)!)
+        let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: MapValue, ViewType: .FlatNorthCenter)!)
         SetNightMask()
     }
     
     @IBAction func ViewTypeSouthCentered(_ sender: Any)
     {
         Settings.SetEnum(.FlatSouthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
-        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: .Simple, ViewType: .FlatSouthCenter)!)
+        let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: MapValue, ViewType: .FlatSouthCenter)!)
         SetNightMask()
     }
     
@@ -295,9 +296,12 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         let Storyboard = NSStoryboard(name: "MapSelector", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "MapPickerWindow") as? MapPickerWindow
         {
-            let MapSelector = WindowController.window
-            self.view.window?.beginSheet(MapSelector!, completionHandler: nil)
-            SelectMapWindow = WindowController
+            let Window = WindowController.window
+            if let Controller = Window?.contentViewController as? MapPickerController
+            {
+                Controller.MainDelegate = self
+                self.view.window?.beginSheet(Window!, completionHandler: nil)
+            }
         }
     }
     
@@ -305,7 +309,12 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     @IBAction func HelpAbout(_ sender: Any)
     {
-        print("At help about")
+        let Storyboard = NSStoryboard(name: "About", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "AboutWindow") as? AboutWindow
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+        }
     }
     
     @IBAction func DebugShow(_ sender: Any)
@@ -414,10 +423,9 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         switch Setting
         {
             case .MapType:
-                if let New = NewValue as? MapTypes
-                {
-                    print("New map selected: \(New.rawValue)")
-            }
+                let NewMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+                let MapViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
+                FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: NewMap, ViewType: MapViewType)!)
             
             case .ViewType:
                 if let New = NewValue as? ViewTypes
@@ -470,7 +478,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
             
             default:
-                break
+                print("Unhandled setting change: \(Setting)")
         }
     }
     
