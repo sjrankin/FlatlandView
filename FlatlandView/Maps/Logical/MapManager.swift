@@ -212,6 +212,8 @@ enum CubicMapTypes: String, CaseIterable
     case px = "px"
     case py = "py"
     case pz = "pz"
+    case ny270 = "ny270"
+    case py90 = "py90"
 }
 
 /// Standard longitudes.
