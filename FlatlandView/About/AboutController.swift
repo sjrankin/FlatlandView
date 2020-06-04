@@ -177,10 +177,8 @@ class AboutController: NSViewController
         EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.pz)!)
         EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.px)!)
         EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.nz)!)
-
-        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.py90)!)
-                EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.ny270)!)
-        
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.pym90)!)
+        EarthNode?.geometry?.materials.append(MapManager.CubicImageMaterial(.ny90)!)
         EarthNode?.geometry?.firstMaterial?.specular.contents = NSColor.clear
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
         
