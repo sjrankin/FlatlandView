@@ -34,9 +34,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="712" height="332"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IDH-uO-SgW">
-                                <rect key="frame" x="25" y="13" width="59" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IDH-uO-SgW">
+                                <rect key="frame" x="14" y="13" width="59" height="32"/>
                                 <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cwu-Lc-D8A">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -49,7 +48,7 @@ DQ
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7an-yA-G30">
-                                <rect key="frame" x="600" y="13" width="82" height="32"/>
+                                <rect key="frame" x="616" y="13" width="82" height="32"/>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="N13-AR-XKL">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -63,11 +62,11 @@ Gw
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="doj-Sy-E06">
                                 <rect key="frame" x="20" y="61" width="186" height="259"/>
-                                <clipView key="contentView" id="e3a-gN-JdM">
+                                <clipView key="contentView" ambiguous="YES" id="e3a-gN-JdM">
                                     <rect key="frame" x="1" y="0.0" width="184" height="258"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="aHS-Oj-H48" viewBased="YES" id="tPe-Je-S5d">
+                                        <tableView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="aHS-Oj-H48" viewBased="YES" id="tPe-Je-S5d">
                                             <rect key="frame" x="0.0" y="0.0" width="184" height="233"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -115,7 +114,7 @@ Gw
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <action selector="HandleMapTypeAction:" target="HkU-Bp-p8V" id="Nvb-N1-JPg"/>
+                                                <action selector="MapTypeAction:" target="HkU-Bp-p8V" id="gAf-Aq-3er"/>
                                                 <outlet property="dataSource" destination="HkU-Bp-p8V" id="f6S-aM-xRp"/>
                                                 <outlet property="delegate" destination="HkU-Bp-p8V" id="TRj-Ua-x7H"/>
                                             </connections>
@@ -139,16 +138,8 @@ Gw
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kh3-2r-C3p">
-                                <rect key="frame" x="494" y="304" width="49" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Sample" id="puN-NJ-Y4g">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nww-UH-FWW">
-                                <rect key="frame" x="493" y="98" width="202" height="201"/>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nww-UH-FWW">
+                                <rect key="frame" x="475" y="98" width="220" height="201"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="195" id="CPe-pe-h7q"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="174" id="ptL-dl-9gL"/>
@@ -156,31 +147,20 @@ Gw
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="AKD-i4-HPc"/>
                             </imageView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3kl-39-dRI">
-                                <rect key="frame" x="214" y="36" width="266" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="262" id="vEK-eB-6zk"/>
-                                </constraints>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="bcG-l8-Ur9">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="44" horizontalPageScroll="10" verticalLineScroll="44" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOK-oe-joN">
-                                <rect key="frame" x="216" y="61" width="264" height="259"/>
+                                <rect key="frame" x="216" y="61" width="254" height="259"/>
                                 <clipView key="contentView" id="7rL-5M-zgb">
-                                    <rect key="frame" x="1" y="0.0" width="262" height="258"/>
+                                    <rect key="frame" x="1" y="0.0" width="252" height="258"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="42" rowSizeStyle="automatic" headerView="uPX-d0-91P" viewBased="YES" id="BKy-Vd-IhC">
-                                            <rect key="frame" x="0.0" y="0.0" width="262" height="233"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="252" height="233"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="MapNameColumn" width="258" minWidth="40" maxWidth="1000" id="m6U-Dd-BRq">
+                                                <tableColumn identifier="MapNameColumn" width="249" minWidth="40" maxWidth="1000" id="m6U-Dd-BRq">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Map List">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -193,11 +173,11 @@ Gw
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="oZS-cB-hb0">
-                                                            <rect key="frame" x="1" y="1" width="258" height="42"/>
+                                                            <rect key="frame" x="1" y="1" width="249" height="42"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Tdx-Br-jTx">
-                                                                    <rect key="frame" x="0.0" y="25" width="258" height="17"/>
+                                                                    <rect key="frame" x="0.0" y="25" width="249" height="17"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="17" id="RP1-27-w0e"/>
                                                                     </constraints>
@@ -221,7 +201,7 @@ Gw
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <action selector="HandleMapListAction:" target="HkU-Bp-p8V" id="5it-uM-aW9"/>
+                                                <action selector="MapListAction:" target="HkU-Bp-p8V" id="GBY-9l-bI9"/>
                                                 <outlet property="dataSource" destination="HkU-Bp-p8V" id="GzO-jw-aAj"/>
                                                 <outlet property="delegate" destination="HkU-Bp-p8V" id="Z7o-rD-CJz"/>
                                             </connections>
@@ -229,7 +209,7 @@ Gw
                                     </subviews>
                                 </clipView>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="264" id="ksO-VX-dYq"/>
+                                    <constraint firstAttribute="width" constant="254" id="ksO-VX-dYq"/>
                                     <constraint firstAttribute="height" constant="259" id="nWf-je-bKj"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="eU0-nO-Tgi">
@@ -241,25 +221,52 @@ Gw
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="uPX-d0-91P">
-                                    <rect key="frame" x="0.0" y="0.0" width="262" height="25"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="252" height="25"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
+                            <segmentedControl verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sF0-5r-wz2">
+                                <rect key="frame" x="476" y="70" width="142" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="4pA-8p-c2D">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment image="NorthCenterIcon" width="45"/>
+                                        <segment image="SouthCenterIcon" width="45" tag="1"/>
+                                        <segment image="GlobeIcon" width="44" selected="YES"/>
+                                    </segments>
+                                </segmentedCell>
+                                <connections>
+                                    <action selector="HandleSampleViewChanged:" target="HkU-Bp-p8V" id="RtF-4g-hOA"/>
+                                </connections>
+                            </segmentedControl>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3kl-39-dRI">
+                                <rect key="frame" x="476" y="304" width="218" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="214" id="vEK-eB-6zk"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="bcG-l8-Ur9">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="3kl-39-dRI" secondAttribute="bottom" constant="36" id="09m-Ah-h63"/>
+                            <constraint firstAttribute="bottom" secondItem="3kl-39-dRI" secondAttribute="bottom" constant="304" id="09m-Ah-h63"/>
+                            <constraint firstItem="IDH-uO-SgW" firstAttribute="baseline" secondItem="7an-yA-G30" secondAttribute="baseline" id="3uh-pk-C3i"/>
+                            <constraint firstItem="sF0-5r-wz2" firstAttribute="leading" secondItem="nww-UH-FWW" secondAttribute="leading" id="4oz-pb-LbB"/>
                             <constraint firstItem="eOK-oe-joN" firstAttribute="leading" secondItem="doj-Sy-E06" secondAttribute="trailing" constant="10" id="6Ie-hc-vV4"/>
                             <constraint firstItem="eOK-oe-joN" firstAttribute="bottom" secondItem="doj-Sy-E06" secondAttribute="bottom" id="CwX-wk-6Es"/>
-                            <constraint firstItem="nww-UH-FWW" firstAttribute="top" secondItem="kh3-2r-C3p" secondAttribute="bottom" constant="8" symbolic="YES" id="DFJ-Mm-hRm"/>
-                            <constraint firstItem="3kl-39-dRI" firstAttribute="leading" secondItem="5iB-qj-4De" secondAttribute="leading" constant="216" id="GBi-Er-lrZ"/>
+                            <constraint firstItem="sF0-5r-wz2" firstAttribute="top" secondItem="nww-UH-FWW" secondAttribute="bottom" constant="8" symbolic="YES" id="DUu-Cc-YJj"/>
+                            <constraint firstItem="3kl-39-dRI" firstAttribute="leading" secondItem="5iB-qj-4De" secondAttribute="leading" constant="478" id="GBi-Er-lrZ"/>
                             <constraint firstItem="eOK-oe-joN" firstAttribute="top" secondItem="doj-Sy-E06" secondAttribute="top" id="HZG-f2-Hde"/>
-                            <constraint firstItem="eOK-oe-joN" firstAttribute="trailing" secondItem="3kl-39-dRI" secondAttribute="trailing" constant="2" id="LDn-rH-SUp"/>
-                            <constraint firstItem="3kl-39-dRI" firstAttribute="top" secondItem="eOK-oe-joN" secondAttribute="bottom" constant="9" id="SZW-Vq-dZp"/>
+                            <constraint firstItem="eOK-oe-joN" firstAttribute="trailing" secondItem="3kl-39-dRI" secondAttribute="trailing" constant="-222" id="LDn-rH-SUp"/>
+                            <constraint firstItem="3kl-39-dRI" firstAttribute="top" secondItem="eOK-oe-joN" secondAttribute="bottom" constant="-259" id="SZW-Vq-dZp"/>
                             <constraint firstAttribute="trailing" secondItem="nww-UH-FWW" secondAttribute="trailing" constant="20" id="Uzi-DA-GIb"/>
                             <constraint firstAttribute="bottom" secondItem="nww-UH-FWW" secondAttribute="bottom" constant="101" id="aDJ-az-lwU"/>
-                            <constraint firstItem="nww-UH-FWW" firstAttribute="leading" secondItem="kh3-2r-C3p" secondAttribute="leading" id="gy1-F9-3aT"/>
-                            <constraint firstItem="nww-UH-FWW" firstAttribute="trailing" secondItem="7an-yA-G30" secondAttribute="trailing" constant="16" id="h6R-Dd-fM8"/>
-                            <constraint firstItem="nww-UH-FWW" firstAttribute="leading" secondItem="eOK-oe-joN" secondAttribute="trailing" constant="16" id="mbR-gg-LcL"/>
+                            <constraint firstItem="nww-UH-FWW" firstAttribute="trailing" secondItem="7an-yA-G30" secondAttribute="trailing" id="h6R-Dd-fM8"/>
+                            <constraint firstItem="IDH-uO-SgW" firstAttribute="leading" secondItem="doj-Sy-E06" secondAttribute="leading" id="lxb-0L-MBJ"/>
+                            <constraint firstItem="nww-UH-FWW" firstAttribute="leading" secondItem="eOK-oe-joN" secondAttribute="trailing" constant="26" id="mbR-gg-LcL"/>
                             <constraint firstItem="7an-yA-G30" firstAttribute="top" secondItem="nww-UH-FWW" secondAttribute="bottom" constant="60" id="qtR-fy-ayT"/>
                             <constraint firstItem="eOK-oe-joN" firstAttribute="top" secondItem="nww-UH-FWW" secondAttribute="top" constant="-24" id="umH-er-GTk"/>
                             <constraint firstItem="doj-Sy-E06" firstAttribute="leading" secondItem="5iB-qj-4De" secondAttribute="leading" constant="20" id="yrY-yl-KwO"/>
@@ -270,6 +277,7 @@ Gw
                         <outlet property="MapListTable" destination="BKy-Vd-IhC" id="PQg-Vi-hjs"/>
                         <outlet property="MapSampleView" destination="nww-UH-FWW" id="WvG-p0-ZET"/>
                         <outlet property="MapTypeTable" destination="tPe-Je-S5d" id="NKf-Wx-6Ut"/>
+                        <outlet property="SampleViewType" destination="sF0-5r-wz2" id="IAJ-v7-Moj"/>
                     </connections>
                 </viewController>
                 <customObject id="Qc1-BC-jmC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -277,4 +285,9 @@ Gw
             <point key="canvasLocation" x="187" y="509"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="GlobeIcon" width="24" height="24"/>
+        <image name="NorthCenterIcon" width="24" height="24"/>
+        <image name="SouthCenterIcon" width="24" height="24"/>
+    </resources>
 </document>
