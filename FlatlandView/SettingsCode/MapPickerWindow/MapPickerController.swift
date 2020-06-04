@@ -11,11 +11,19 @@ import AppKit
 
 class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDataSource
 {
+    public weak var MainDelegate: MainProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        SampleType = Settings.GetEnum(ForKey: .SampleViewType, EnumType: ViewTypes.self, Default: .Globe3D)
         MapSampleView.image = nil
-        LastMap = Settings.GetEnum(ForKey: .CurrentMap, EnumType: MapTypes.self, Default: .Standard)
+        LastMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Standard)
+        var LastCategory = MapManager.CategoryFor(Map: LastMap)
+        if LastCategory == nil
+        {
+            LastCategory = .Standard
+        }
         LastSelectedLabel.stringValue = LastMap.rawValue
         DisplayCurrentMap(LastMap)
         MapCategoryList = MapManager.GetMapCategories()
@@ -31,8 +39,22 @@ class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDat
         MapListTable.reloadData()
         MapTypeTable.action = #selector(HandleMapCategoryClicked)
         MapListTable.action = #selector(HandleMapListClicked)
+        
+        var CatIndex = MapCategoryList.firstIndex(of: LastCategory!)
+        if CatIndex == nil
+        {
+            CatIndex = 0
+        }
+        MapTypeTable.selectRowIndexes(IndexSet(integer: CatIndex!), byExtendingSelection: false)
+        var MapIndex = MapManager.GetMapsInCategory(LastCategory!).firstIndex(of: LastMap)
+        if MapIndex == nil
+        {
+            MapIndex = 0
+        }
+        MapListTable.selectRowIndexes(IndexSet(integer: MapIndex!), byExtendingSelection: false)
     }
     
+    var SampleType = ViewTypes.Globe3D
     var LastMap: MapTypes = .Standard
     var MapList = [MapTypes]()
     var MapCategoryList = [MapCategories]()
@@ -58,9 +80,9 @@ class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDat
     
     func DisplayCurrentMap(_ Current: MapTypes)
     {
-        if let Image = MapManager.ImageFor(MapType: Current, ViewType: .Globe3D)
+        if let Image = MapManager.ImageFor(MapType: Current, ViewType: SampleType)
         {
-        MapSampleView.image = Image
+            MapSampleView.image = Image
         }
     }
     
@@ -116,11 +138,13 @@ class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDat
         return Cell
     }
     
-    @IBAction func HandleMapTypeAction(_ sender: Any)
+    /// This function does nothing but is required for `#selector(HandleMapListClicked)` to function.
+    @IBAction func MapListAction(_ sender: Any)
     {
     }
     
-    @IBAction func HandleMapListAction(_ sender: Any)
+    /// This function does nothing but is required for `#selector(HandleMapCategoryClicked)` to function.
+    @IBAction func MapTypeAction(_ sender: Any)
     {
     }
     
@@ -137,13 +161,38 @@ class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDat
     {
         if Updated
         {
-            Settings.SetEnum(LastMap, EnumType: MapTypes.self, ForKey: .CurrentMap)
+            Settings.SetEnum(LastMap, EnumType: MapTypes.self, ForKey: .MapType)
+            MainDelegate?.Refresh("MapPickerController.HandleOKPressed")
         }
         let Window = self.view.window
         let Parent = Window?.sheetParent
         Parent!.endSheet(Window!, returnCode: .OK)
     }
     
+    @IBAction func HandleSampleViewChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    SampleType = .FlatNorthCenter
+                
+                case 1:
+                    SampleType = .FlatSouthCenter
+                
+                case 2:
+                    SampleType = .Globe3D
+                
+                default:
+                    return
+            }
+            Settings.SetEnum(SampleType, EnumType: ViewTypes.self, ForKey: .SampleViewType)
+            DisplayCurrentMap(LastMap)
+        }
+    }
+    
+    @IBOutlet weak var SampleViewType: NSSegmentedControl!
     @IBOutlet weak var LastSelectedLabel: NSTextField!
     @IBOutlet weak var MapSampleView: NSImageView!
     @IBOutlet weak var MapTypeTable: NSTableView!
