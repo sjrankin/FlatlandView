@@ -25,6 +25,13 @@
 		178A86972488C23C00BE8D46 /* AboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86962488C23C00BE8D46 /* AboutController.swift */; };
 		178A869A2488C3B600BE8D46 /* AboutDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86992488C3B600BE8D46 /* AboutDetailsController.swift */; };
 		178A869C2488C3D100BE8D46 /* AboutDetailsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A869B2488C3D100BE8D46 /* AboutDetailsWindow.swift */; };
+		178A869E2489101E00BE8D46 /* StarField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A869D2489101E00BE8D46 /* StarField.swift */; };
+		178A86A02489108C00BE8D46 /* +CubicEarth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A869F2489108C00BE8D46 /* +CubicEarth.swift */; };
+		178A86A22489127C00BE8D46 /* +Hours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86A12489127C00BE8D46 /* +Hours.swift */; };
+		178A86A4248912FA00BE8D46 /* +Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86A3248912FA00BE8D46 /* +Locations.swift */; };
+		178A86A72489132800BE8D46 /* GlobeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86A62489132800BE8D46 /* GlobeProtocol.swift */; };
+		178A86A92489134300BE8D46 /* +GridLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86A82489134300BE8D46 /* +GridLines.swift */; };
+		178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86AA2489135C00BE8D46 /* GlobeView.swift */; };
 		17B4411024861CE30050A5DF /* CityColorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4410F24861CE30050A5DF /* CityColorWindow.swift */; };
 		17B4411224861CFD0050A5DF /* CityColorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4411124861CFD0050A5DF /* CityColorCode.swift */; };
 		17BD9E8224867D400054B25E /* ConfirmDialogWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */; };
@@ -91,6 +98,13 @@
 		178A86962488C23C00BE8D46 /* AboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutController.swift; sourceTree = "<group>"; };
 		178A86992488C3B600BE8D46 /* AboutDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutDetailsController.swift; sourceTree = "<group>"; };
 		178A869B2488C3D100BE8D46 /* AboutDetailsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutDetailsWindow.swift; sourceTree = "<group>"; };
+		178A869D2489101E00BE8D46 /* StarField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarField.swift; sourceTree = "<group>"; };
+		178A869F2489108C00BE8D46 /* +CubicEarth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+CubicEarth.swift"; sourceTree = "<group>"; };
+		178A86A12489127C00BE8D46 /* +Hours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Hours.swift"; sourceTree = "<group>"; };
+		178A86A3248912FA00BE8D46 /* +Locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Locations.swift"; sourceTree = "<group>"; };
+		178A86A62489132800BE8D46 /* GlobeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeProtocol.swift; sourceTree = "<group>"; };
+		178A86A82489134300BE8D46 /* +GridLines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+GridLines.swift"; sourceTree = "<group>"; };
+		178A86AA2489135C00BE8D46 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
 		17B4410F24861CE30050A5DF /* CityColorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorWindow.swift; sourceTree = "<group>"; };
 		17B4411124861CFD0050A5DF /* CityColorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorCode.swift; sourceTree = "<group>"; };
 		17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogWindow.swift; sourceTree = "<group>"; };
@@ -176,6 +190,13 @@
 		17523CD9247B9725005209FC /* 3D */ = {
 			isa = PBXGroup;
 			children = (
+				178A86AA2489135C00BE8D46 /* GlobeView.swift */,
+				178A86A82489134300BE8D46 /* +GridLines.swift */,
+				178A86A3248912FA00BE8D46 /* +Locations.swift */,
+				178A86A12489127C00BE8D46 /* +Hours.swift */,
+				178A869F2489108C00BE8D46 /* +CubicEarth.swift */,
+				178A869D2489101E00BE8D46 /* StarField.swift */,
+				178A86A62489132800BE8D46 /* GlobeProtocol.swift */,
 			);
 			path = 3D;
 			sourceTree = "<group>";
@@ -498,6 +519,7 @@
 				17EF33B9247A94DB00A5B55D /* Cities.swift in Sources */,
 				17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */,
 				177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */,
+				178A86A72489132800BE8D46 /* GlobeProtocol.swift in Sources */,
 				17EF33B0247A93DC00A5B55D /* Miscellaneous.swift in Sources */,
 				17DDA0452484E9750090E1EB /* UserLocationEditorController.swift in Sources */,
 				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
@@ -511,6 +533,7 @@
 				178A869C2488C3D100BE8D46 /* AboutDetailsWindow.swift in Sources */,
 				17EF3397247A670B00A5B55D /* MapItem.swift in Sources */,
 				17EF33B7247A94BA00A5B55D /* City.swift in Sources */,
+				178A86A02489108C00BE8D46 /* +CubicEarth.swift in Sources */,
 				1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */,
 				17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */,
 				17EF33A8247A936900A5B55D /* Solar.swift in Sources */,
@@ -518,6 +541,7 @@
 				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
 				17EF3387247A4B2200A5B55D /* MapPickerController.swift in Sources */,
 				1767A8E624794A0100C434B5 /* MainView.swift in Sources */,
+				178A86A22489127C00BE8D46 /* +Hours.swift in Sources */,
 				17EF33AE247A93C400A5B55D /* TimeHelper.swift in Sources */,
 				17EF33BB247A94F900A5B55D /* CitiesData.swift in Sources */,
 				177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */,
@@ -530,6 +554,7 @@
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
 				17EF33A1247A695400A5B55D /* Extensions.swift in Sources */,
 				17B4411224861CFD0050A5DF /* CityColorCode.swift in Sources */,
+				178A869E2489101E00BE8D46 /* StarField.swift in Sources */,
 				17EF33AC247A93A300A5B55D /* GeoPoint2.swift in Sources */,
 				1750961C2482531100A3757C /* MainWindow.swift in Sources */,
 				17F440D7247CD72E00FD440E /* +DrawGrid.swift in Sources */,
@@ -539,13 +564,16 @@
 				17EF3395247A66F000A5B55D /* MapList.swift in Sources */,
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
 				17B4411024861CE30050A5DF /* CityColorWindow.swift in Sources */,
+				178A86A4248912FA00BE8D46 /* +Locations.swift in Sources */,
 				17523CDB247B973E005209FC /* +FlatView.swift in Sources */,
+				178A86A92489134300BE8D46 /* +GridLines.swift in Sources */,
 				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
 				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
 				17EF33A3247A699300A5B55D /* Utility.swift in Sources */,
 				17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */,
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
+				178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */,
 				17EF3384247A4B0A00A5B55D /* MapPickerWindow.swift in Sources */,
 				178A86972488C23C00BE8D46 /* AboutController.swift in Sources */,
 			);
