@@ -279,13 +279,6 @@
 			path = About;
 			sourceTree = "<group>";
 		};
-		17B4410C248607890050A5DF /* MainSettingsExtensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MainSettingsExtensions;
-			sourceTree = "<group>";
-		};
 		17B4410D24861CB90050A5DF /* UserLocation */ = {
 			isa = PBXGroup;
 			children = (
@@ -321,7 +314,6 @@
 				17BD9E8024867D290054B25E /* Confirmation */,
 				17B4410E24861CD40050A5DF /* CityColor */,
 				17B4410D24861CB90050A5DF /* UserLocation */,
-				17B4410C248607890050A5DF /* MainSettingsExtensions */,
 				17D2F6BC2484F6F100404510 /* MainSettings.swift */,
 				17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */,
 			);
