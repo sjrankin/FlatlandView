@@ -39,7 +39,7 @@ extension MainView
         {
             //Set for 2D flat view.
             FlatView.layer?.zPosition = CGFloat(LayerZLevels.CurrentLayer.rawValue)
-            GlobeView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
+            World3DView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
             SunViewTop?.isHidden = false
             SunViewBottom?.isHidden = false
             SetNightMask()
@@ -49,7 +49,7 @@ extension MainView
         {
             //Set for 3D globe view.
             FlatView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
-            GlobeView.layer?.zPosition = CGFloat(LayerZLevels.CurrentLayer.rawValue)
+            World3DView.layer?.zPosition = CGFloat(LayerZLevels.CurrentLayer.rawValue)
             SunViewTop?.isHidden = true
             SunViewBottom?.isHidden = true
             MainTimeLabelBottom.isHidden = true
@@ -471,7 +471,7 @@ extension MainView
             let CityPath = PlotCity(SomeCity, Diameter: (CityLayer?.bounds.width)!)
             Bezier.append(CityPath)
         }
-        if Settings.GetBool(.ShowUserLocation)
+        if Settings.GetBool(.ShowUserLocations)
         {
             if CityLayer?.sublayers != nil
             {
