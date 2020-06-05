@@ -43,14 +43,38 @@ class GlobeView: SCNView, GlobeProtocol
         self.isHidden = false
     }
     
+    public var CameraObserver: NSKeyValueObservation? = nil
+    
     /// Initialize the globe view.
     func InitializeView()
     {
         //        self.debugOptions = [.showBoundingBoxes, .renderAsWireframe]
         self.allowsCameraControl = true
+        
+        #if false
+        //Enable for debugging and getting initial location of the automatical camera. Otherwise,
+        //not needed at run-time.
+        if self.allowsCameraControl
+        {
+            //https://stackoverflow.com/questions/24768031/can-i-get-the-scnview-camera-position-when-using-allowscameracontrol
+            CameraObserver = self.observe(\.pointOfView?.position, options: [.new])
+            {
+                (Node, Change) in
+                OperationQueue.current?.addOperation
+                    {
+                        print("\(Node.pointOfView!.position)")
+                        print("\(Node.pointOfView!.orientation)")
+                        print("\(Node.pointOfView!.rotation)")
+                }
+            }
+        }
+        #endif
+        
         self.autoenablesDefaultLighting = false
         self.scene = SCNScene()
         self.backgroundColor = NSColor.clear
+        self.antialiasingMode = .multisampling16X
+        self.isJitteringEnabled = true
         #if DEBUG
         self.showsStatistics = true
         #else
@@ -89,9 +113,12 @@ class GlobeView: SCNView, GlobeProtocol
         SetHourResetTimer()
     }
     
+    /// Resets the default camera to its original location.
     func ResetCamera()
     {
-        print("At reset camera")
+        self.pointOfView?.position = SCNVector3(0.0, 0.0, 16.0)
+        self.pointOfView?.orientation = SCNQuaternion(0.0, 0.0, 0.0, 1.0)
+        self.pointOfView?.rotation = SCNVector4(0.0, 0.0, 0.0, 0.0)
     }
     
     /// Set the hour reset timer.
@@ -265,6 +292,8 @@ class GlobeView: SCNView, GlobeProtocol
     /// - Parameter FastAnimated: Used for debugging.
     func AddEarth(FastAnimate: Bool = false)
     {
+        let CameraController = self.defaultCameraController
+        print("Initial CameraController.pointOfView=\(CameraController.pointOfView)")
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .CubicWorld
         {
             ShowCubicEarth()
