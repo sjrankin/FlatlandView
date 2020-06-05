@@ -239,6 +239,16 @@ Gw
                                     <action selector="HandleSampleViewChanged:" target="HkU-Bp-p8V" id="RtF-4g-hOA"/>
                                 </connections>
                             </segmentedControl>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PcJ-5t-XOL">
+                                <rect key="frame" x="306" y="13" width="75" height="32"/>
+                                <buttonCell key="cell" type="push" title="Apply" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="r6J-8Q-gdm">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleApplyPressed:" target="HkU-Bp-p8V" id="KqS-F7-8LY"/>
+                                </connections>
+                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3kl-39-dRI">
                                 <rect key="frame" x="476" y="304" width="218" height="16"/>
                                 <constraints>
@@ -256,7 +266,9 @@ Gw
                             <constraint firstItem="IDH-uO-SgW" firstAttribute="baseline" secondItem="7an-yA-G30" secondAttribute="baseline" id="3uh-pk-C3i"/>
                             <constraint firstItem="sF0-5r-wz2" firstAttribute="leading" secondItem="nww-UH-FWW" secondAttribute="leading" id="4oz-pb-LbB"/>
                             <constraint firstItem="eOK-oe-joN" firstAttribute="leading" secondItem="doj-Sy-E06" secondAttribute="trailing" constant="10" id="6Ie-hc-vV4"/>
+                            <constraint firstItem="PcJ-5t-XOL" firstAttribute="centerX" secondItem="eOK-oe-joN" secondAttribute="centerX" id="CVY-MC-tZy"/>
                             <constraint firstItem="eOK-oe-joN" firstAttribute="bottom" secondItem="doj-Sy-E06" secondAttribute="bottom" id="CwX-wk-6Es"/>
+                            <constraint firstItem="PcJ-5t-XOL" firstAttribute="baseline" secondItem="IDH-uO-SgW" secondAttribute="baseline" id="DQr-kB-Ohe"/>
                             <constraint firstItem="sF0-5r-wz2" firstAttribute="top" secondItem="nww-UH-FWW" secondAttribute="bottom" constant="8" symbolic="YES" id="DUu-Cc-YJj"/>
                             <constraint firstItem="3kl-39-dRI" firstAttribute="leading" secondItem="5iB-qj-4De" secondAttribute="leading" constant="478" id="GBi-Er-lrZ"/>
                             <constraint firstItem="eOK-oe-joN" firstAttribute="top" secondItem="doj-Sy-E06" secondAttribute="top" id="HZG-f2-Hde"/>
