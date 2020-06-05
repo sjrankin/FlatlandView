@@ -490,6 +490,17 @@ extension Date
 /// Extension methods for UIImage.
 extension NSImage
 {
+    /// Initializer that creates a solid color image of the passe size.
+    /// - Parameter Color: The color to use to create the image.
+    /// - Parameter Size: The size of the image.
+    convenience init(Color: NSColor, Size: NSSize)
+    {
+        self.init(size: Size)
+        lockFocus()
+        Color.drawSwatch(in: NSRect(origin: .zero, size: Size))
+        unlockFocus()
+    }
+    
     #if false
     /// Rotate the instance image to the number of passed radians.
     /// - Note: See [Rotating UIImage in Swift](https://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift/47402811#47402811)
