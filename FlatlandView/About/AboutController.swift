@@ -201,6 +201,11 @@ class AboutController: NSViewController
     /// Draw the version string that orbits the Earth.
     func AddAboutText()
     {
+        if TextAdded
+        {
+            return
+        }
+        TextAdded = true
         var Words = [String]()
         Words.append("Build \(Versioning.Build) (\(Versioning.BuildDate))")
         Words.append(Versioning.MakeVersionString())
@@ -212,6 +217,7 @@ class AboutController: NSViewController
         HourNode?.runAction(Forever)
     }
     
+    var TextAdded = false
     var EarthNode: SCNNode? = nil
     var SystemNode: SCNNode? = nil
     var HourNode: SCNNode? = nil
