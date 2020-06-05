@@ -448,7 +448,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         UserLocationTable.reloadData()
         UserLocationLatitudeBox.delegate = self
         UserLocationLongitudeBox.delegate = self
-        ShowUserLocationsCheck.state = Settings.GetBool(.ShowUserLocation) ? .on : .off
+        ShowUserLocationsCheck.state = Settings.GetBool(.ShowUserLocations) ? .on : .off
         UserTimeZoneOffsetCombo.removeAllItems()
         for Offset in -12 ... 14
         {
@@ -581,7 +581,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     {
         if let Button = sender as? NSButton
         {
-            Settings.SetBool(.ShowUserLocation, Button.state == .on ? true : false)
+            Settings.SetBool(.ShowUserLocations, Button.state == .on ? true : false)
             MainDelegate?.Refresh("MainSettings.HandleShowUserLocationsCheckChanged")
         }
     }
