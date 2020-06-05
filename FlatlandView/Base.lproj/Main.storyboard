@@ -165,6 +165,12 @@
                                                 <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="asJ-Ir-hPw"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Reset View" id="rzn-Ok-idw">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="ResetCurrentView:" target="Ady-hI-5gd" id="2BN-vo-Mia"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="exq-fw-xPo">
                                             <menu key="submenu" id="nZI-Iz-oL2">
                                                 <items>
@@ -419,6 +425,20 @@
                                         <action selector="DebugResetSettings:" target="Oky-zY-oP4" id="XW7-rD-sMV"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="6BE54BF9-4C85-4617-817F-EB1122C24315" label="Reset View" paletteLabel="Reset View" image="ResetViewIcon" sizingBehavior="auto" id="H0V-YW-3Jm">
+                                    <nil key="toolTip"/>
+                                    <button key="view" id="7K7-7U-lP0">
+                                        <rect key="frame" x="9" y="14" width="48" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="ResetViewIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="t8I-4t-PhV">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="ResetCurrentView:" target="Oky-zY-oP4" id="DQU-kl-ics"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="xfc-oc-jDS"/>
@@ -472,7 +492,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <sceneView allowsCameraControl="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QaS-kA-VXe">
+                            <sceneView allowsCameraControl="YES" preferredRenderingAPI="1" translatesAutoresizingMaskIntoConstraints="NO" id="QaS-kA-VXe" customClass="GlobeView" customModule="Flatland" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="900" height="900"/>
                             </sceneView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="jzK-yC-9yN">
@@ -569,7 +589,6 @@
                         <outlet property="CityView2D" destination="2Al-xH-sRq" id="1dW-An-mVc"/>
                         <outlet property="FlatView" destination="jzK-yC-9yN" id="Rqo-BK-KcW"/>
                         <outlet property="FlatViewMainImage" destination="VJd-ng-L0g" id="Ihn-cx-X5w"/>
-                        <outlet property="GlobeView" destination="QaS-kA-VXe" id="vzu-WE-KjU"/>
                         <outlet property="GridOverlay" destination="6Gz-l1-6AA" id="asu-JT-c7N"/>
                         <outlet property="HourLayer2D" destination="cwg-B1-UOR" id="D91-AR-JgA"/>
                         <outlet property="MainTimeLabelBottom" destination="BFj-Wa-HNl" id="1Bq-gf-KE9"/>
@@ -577,6 +596,7 @@
                         <outlet property="NightMaskImageView" destination="8k3-gX-b5q" id="8PV-an-Q2B"/>
                         <outlet property="SunViewBottom" destination="wns-jc-4Fq" id="Fbt-Wq-Ymj"/>
                         <outlet property="SunViewTop" destination="q1S-Rx-kJK" id="AOh-tS-JEc"/>
+                        <outlet property="World3DView" destination="QaS-kA-VXe" id="8HV-v8-o9W"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -596,6 +616,7 @@
         <image name="NorthCenterIcon" width="24" height="24"/>
         <image name="PinIcon" width="24" height="24"/>
         <image name="ResetIcon" width="24" height="24"/>
+        <image name="ResetViewIcon" width="24" height="24"/>
         <image name="SelectMapIcon" width="24" height="24"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
         <image name="SunX" width="3600" height="3600"/>
