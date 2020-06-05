@@ -25,8 +25,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         BackgroundView.wantsLayer = true
         BackgroundView.layer?.backgroundColor = NSColor.black.cgColor
         
-        GlobeView.wantsLayer = true
-        GlobeView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
+        World3DView.wantsLayer = true
+        World3DView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
         
         Settings.SetBool(.ShowGrid, true)
         Settings.SetBool(.Show2DEquator, true)
@@ -243,6 +243,14 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     {
     }
     
+    @IBAction func ResetCurrentView(_ sender: Any)
+    {
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+        {
+            World3DView.ResetCamera()
+        }
+    }
+    
     @IBAction func ViewHoursHideAll(_ sender: Any)
     {
         Settings.SetEnum(.None, EnumType: HourValueTypes.self, ForKey: .HourType)
@@ -426,18 +434,23 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 let NewMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
                 let MapViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
                 FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: NewMap, ViewType: MapViewType)!)
+                World3DView.AddEarth()
             
             case .ViewType:
                 if let New = NewValue as? ViewTypes
                 {
-                    if New == .CubicWorld
+                     var IsFlat = false
+                    switch New
                     {
-                        return
-                    }
-                    var IsFlat = false
-                    if New == .FlatNorthCenter || New == .FlatSouthCenter
-                    {
+                        case .FlatNorthCenter, .FlatSouthCenter:
                         IsFlat = true
+                        
+                        case .CubicWorld:
+                        IsFlat = false
+                        
+                        case .Globe3D:
+                            World3DView.AddEarth()
+                        IsFlat = false
                     }
                     SetFlatlandVisibility(FlatIsVisible: IsFlat)
             }
@@ -452,20 +465,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             case .HourType:
                 if let NewHourType = NewValue as? HourValueTypes
                 {
-                    switch NewHourType
-                    {
-                        case .None:
-                            break
-                        
-                        case .RelativeToLocation:
-                            break
-                        
-                        case .RelativeToNoon:
-                            break
-                        
-                        case .Solar:
-                            break
-                    }
+                    World3DView.UpdateHourLabels(With: NewHourType)
             }
             
             case .SunType:
@@ -473,6 +473,26 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             
             case .TimeLabel:
                 break
+            
+            case .CityShapes:
+                World3DView.PlotCities()
+            
+            case .PopulationType:
+                World3DView.PlotCities()
+            
+            case .ShowHomeLocation:
+                World3DView.PlotCities()
+            
+            case .ShowUserLocations:
+                World3DView.PlotCities()
+            
+            case .ShowWorldHeritageSites:
+                print("ShowWorldHeritageSites changed.")
+                World3DView.PlotCities()
+            
+            case .WorldHeritageSiteType:
+                                print("WorldHeritageSiteType changed.")
+                World3DView.PlotCities()
             
             case .LocalLongitude, .LocalLatitude:
                 (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
@@ -518,6 +538,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     @IBOutlet weak var FlatViewMainImage: NSImageView!
     @IBOutlet weak var BackgroundView: NSView!
     @IBOutlet weak var FlatView: NSView!
-    @IBOutlet weak var GlobeView: SCNView!
+    @IBOutlet weak var World3DView: GlobeView!
 }
 
