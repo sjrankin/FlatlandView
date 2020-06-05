@@ -356,6 +356,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                 if let Final = CityDisplayTypes(rawValue: Raw)
                 {
                     Settings.SetEnum(Final, EnumType: CityDisplayTypes.self, ForKey: .CityShapes)
+                    MainDelegate?.Refresh("MainSettings.HandleCityShapeChanged")
                 }
             }
         }
