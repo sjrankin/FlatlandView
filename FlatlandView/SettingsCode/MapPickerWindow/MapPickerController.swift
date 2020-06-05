@@ -169,6 +169,12 @@ class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDat
         Parent!.endSheet(Window!, returnCode: .OK)
     }
     
+    @IBAction func HandleApplyPressed(_ sender: Any)
+    {
+        Settings.SetEnum(LastMap, EnumType: MapTypes.self, ForKey: .MapType)
+        MainDelegate?.Refresh("MapPickerController.HandleApplyPressed")
+    }
+    
     @IBAction func HandleSampleViewChanged(_ sender: Any)
     {
         if let Segment = sender as? NSSegmentedControl
