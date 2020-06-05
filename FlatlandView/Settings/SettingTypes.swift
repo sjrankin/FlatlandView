@@ -31,14 +31,14 @@ enum SettingTypes: String, CaseIterable
     case NightDarkness = "NightDarkness"
     case SampleViewType = "SampleViewType"
     
-    //2D view grid settings.
+    //2D view settings.
     case Show2DEquator = "Show2DEquator"
     case Show2DPolarCircles = "Show2DPolarCircles"
     case Show2DTropics = "Show2DTropics"
     case Show2DPrimeMeridians = "Show2DPrimeMeridians"
     case Show2DNoonMeridians = "Show2DNoonMeridians"
     
-    //3D view grid settings.
+    //3D view settings.
     case Show3DEquator = "Show3DEquator"
     case Show3DPolarCircles = "Show3DPolarCircles"
     case Show3DTropics = "Show3DTropics"
@@ -50,17 +50,18 @@ enum SettingTypes: String, CaseIterable
     case ShowMoonLight = "ShowMoonLight"
     case PolarShape = "PolarShape"
     case UserLocationShape = "UserLocationShape"
+    case ResetHoursPeriodically = "ResetHoursPeriodically"
+    case ResetHourTimeInterval = "ResetHourTimeInterval"
     
-    //Local location.
-    case ShowUserLocation = "ShowUserLocation"
+    //Local and home locations.
+    case ShowUserLocations = "ShowUserLocations"
     case LocalLatitude = "LocalLatitude"
     case LocalLongitude = "LocalLongitude"
     case LocalName = "LocalName"
     case LocalTimeZoneOffset = "LocalTimeZoneOffset"
     case HomeShape = "HomeShape"
-    
-    //User locations.
     case UserLocations = "UserLocations"
+    case ShowHomeLocation = "ShowHomeLocation"
     
     //City-related settings.
     case ShowCities = "ShowCities"
