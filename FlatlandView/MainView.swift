@@ -486,13 +486,14 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             case .ShowUserLocations:
                 World3DView.PlotCities()
             
-            case .ShowWorldHeritageSites:
-                print("ShowWorldHeritageSites changed.")
+            case .HomeShape:
                 World3DView.PlotCities()
             
+            case .ShowWorldHeritageSites:
+                World3DView.PlotWorldHeritageSites()
+            
             case .WorldHeritageSiteType:
-                                print("WorldHeritageSiteType changed.")
-                World3DView.PlotCities()
+                World3DView.PlotWorldHeritageSites()
             
             case .LocalLongitude, .LocalLatitude:
                 (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
