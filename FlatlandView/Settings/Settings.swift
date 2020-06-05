@@ -39,7 +39,7 @@ class Settings
         InitializeEnum(.UTC, EnumType: TimeLabels.self, ForKey: .TimeLabel)
         InitializeDouble(.NightMaskAlpha, 0.4)
         
-        InitializeBool(.ShowUserLocation, false)
+        InitializeBool(.ShowUserLocations, false)
         InitializeDoubleNil(.LocalLatitude, nil)
         InitializeDoubleNil(.LocalLongitude, nil)
         InitializeString(.LocalName, "")
