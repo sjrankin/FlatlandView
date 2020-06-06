@@ -27,7 +27,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         
         World3DView.wantsLayer = true
         World3DView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
-
+        
         InitializeFlatland()
         
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
@@ -226,8 +226,68 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     // MARK: - Menu/toolbar event handlers.
     
+    /// Handle the snapshot command.
     @IBAction func FileSnapshot(_ sender: Any)
     {
+        let CurrentView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
+        switch CurrentView
+        {
+            case .CubicWorld, .Globe3D:
+                World3DView.backgroundColor = NSColor.black
+                perform(#selector(FinalSnapshot), with: nil, afterDelay: 0.1)
+            
+            case .FlatNorthCenter, .FlatSouthCenter:
+                break
+        }
+    }
+    
+    /// The snapshot functionality (at least for 3D views) starts in `FileSnapshot` and finishes here.
+    /// In order to work correctly, the background of the 3D view needs to be set to black, but that
+    /// takes a little time. This function is called after a small delay to ensure the background has
+    /// been updated correctly. Immediately upon being called, this function will get a snapshot (using
+    /// built-in functionality) of the 3D view then reset the background color. Then, `SaveImage` will
+    /// be called to finish things.
+    @objc func FinalSnapshot()
+    {
+        let Snapshot3D = World3DView.snapshot()
+        World3DView.backgroundColor = NSColor.clear
+        SaveImage(Snapshot3D)
+    }
+    
+    /// Save the specified image to a file.
+    /// - Note: Images are saved as .png files.
+    /// - Parameter Image: The image to save.
+    func SaveImage(_ Image: NSImage)
+    {
+        if let SaveWhere = GetSaveLocation()
+        {
+            let OK = Image.WritePNG(ToURL: SaveWhere)
+            if OK
+            {
+                return
+            }
+        }
+    }
+    
+    /// Get the URL where to save an image file.
+    /// - Returns: The URL of the target location on success, nil on error or user cancellation.
+    func GetSaveLocation() -> URL?
+    {
+        let SavePanel = NSSavePanel()
+        SavePanel.showsTagField = true
+        SavePanel.title = "Save Image"
+        SavePanel.allowedFileTypes = ["jpg", "jpeg", "png", "tiff"]
+        SavePanel.canCreateDirectories = true
+        SavePanel.nameFieldStringValue = "Flatland Snapshot.png"
+        SavePanel.level = .modalPanel
+        if SavePanel.runModal() == .OK
+        {
+            return SavePanel.url
+        }
+        else
+        {
+            return nil
+        }
     }
     
     @IBAction func FileMapManager(_ sender: Any)
