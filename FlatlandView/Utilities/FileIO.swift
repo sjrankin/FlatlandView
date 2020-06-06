@@ -275,7 +275,6 @@ class FileIO
         return NSImage(contentsOfFile: (DirURL?.appendingPathComponent(Name).path)!)
     }
     
-    
     /// Returns a listing of the contents of the specified directory.
     /// - Parameter Directory: The directory whose contents will be returned.
     /// - Returns: Array of strings representing the contents of the specified directory on success, nil on error.
