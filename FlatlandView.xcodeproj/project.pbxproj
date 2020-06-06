@@ -10,6 +10,9 @@
 		1720B383248B522C001202E5 /* GetLocationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B382248B522C001202E5 /* GetLocationWindow.swift */; };
 		1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B384248B5255001202E5 /* GetLocationCode.swift */; };
 		1720B388248B68A1001202E5 /* AutoLocationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B387248B68A1001202E5 /* AutoLocationProtocol.swift */; };
+		1720B38A248B8181001202E5 /* +NightMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B389248B8181001202E5 /* +NightMask.swift */; };
+		1720B38C248B81B3001202E5 /* +2DHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B38B248B81B3001202E5 /* +2DHours.swift */; };
+		1720B38E248B82A9001202E5 /* +2DCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B38D248B82A9001202E5 /* +2DCities.swift */; };
 		1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744316E2480F2C10087B00A /* ActualMapIO.swift */; };
 		1750961C2482531100A3757C /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750961B2482531100A3757C /* MainWindow.swift */; };
 		17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CD1247B8E11005209FC /* +MoreLocations.swift */; };
@@ -83,6 +86,9 @@
 		1720B382248B522C001202E5 /* GetLocationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationWindow.swift; sourceTree = "<group>"; };
 		1720B384248B5255001202E5 /* GetLocationCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationCode.swift; sourceTree = "<group>"; };
 		1720B387248B68A1001202E5 /* AutoLocationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLocationProtocol.swift; sourceTree = "<group>"; };
+		1720B389248B8181001202E5 /* +NightMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+NightMask.swift"; sourceTree = "<group>"; };
+		1720B38B248B81B3001202E5 /* +2DHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+2DHours.swift"; sourceTree = "<group>"; };
+		1720B38D248B82A9001202E5 /* +2DCities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+2DCities.swift"; sourceTree = "<group>"; };
 		1744316E2480F2C10087B00A /* ActualMapIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapIO.swift; sourceTree = "<group>"; };
 		1750961B2482531100A3757C /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		17523CD1247B8E11005209FC /* +MoreLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MoreLocations.swift"; sourceTree = "<group>"; };
@@ -199,6 +205,9 @@
 			children = (
 				17523CDA247B973E005209FC /* +FlatView.swift */,
 				17F440D6247CD72E00FD440E /* +DrawGrid.swift */,
+				1720B389248B8181001202E5 /* +NightMask.swift */,
+				1720B38B248B81B3001202E5 /* +2DHours.swift */,
+				1720B38D248B82A9001202E5 /* +2DCities.swift */,
 			);
 			path = 2D;
 			sourceTree = "<group>";
@@ -552,6 +561,8 @@
 				1720B388248B68A1001202E5 /* AutoLocationProtocol.swift in Sources */,
 				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
 				17EF3387247A4B2200A5B55D /* MapPickerController.swift in Sources */,
+				1720B38E248B82A9001202E5 /* +2DCities.swift in Sources */,
+				1720B38A248B8181001202E5 /* +NightMask.swift in Sources */,
 				1767A8E624794A0100C434B5 /* MainView.swift in Sources */,
 				178A86A22489127C00BE8D46 /* +Hours.swift in Sources */,
 				17EF33AE247A93C400A5B55D /* TimeHelper.swift in Sources */,
@@ -562,6 +573,7 @@
 				17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
 				17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */,
+				1720B38C248B81B3001202E5 /* +2DHours.swift in Sources */,
 				17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */,
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
 				17EF33A1247A695400A5B55D /* Extensions.swift in Sources */,
