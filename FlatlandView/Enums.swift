@@ -138,13 +138,16 @@ enum Scripts: String, CaseIterable
 enum CityDisplayTypes: String, CaseIterable
 {
     /// Each city is a uniform size and embedded in the parent surface.
-    case UniformEmbedded = "Unifor Flush Spheres"
+    case UniformEmbedded = "Uniform Flush Spheres"
     /// Each city is sized relative to its population and is embedded in the parent surface.
     case RelativeEmbedded = "Relative Flush Spheres"
     /// Each city floats above the parent surface and is sized relative to its population.
     case RelativeFloating = "Floating Spheres"
     /// Each city is a box with height determined by relative population.
     case RelativeHeight = "Boxes"
+    /// Each city is a cylinder with the height (and radius, slightly) determined by
+    /// relative population.
+    case Cylinders = "Cylinders"
 }
 
 enum PopulationTypes: String, CaseIterable
