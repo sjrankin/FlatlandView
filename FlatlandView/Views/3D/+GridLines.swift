@@ -15,9 +15,6 @@ extension GlobeView
     /// - Note:
     ///    - This function draws the minor grid lines. It calls another function to draw the
     ///      major grid lines on top of the minor grid lines.
-    ///    - Instead of creating a base image on the fly, we use a pre-rendered transparent image
-    ///      stored in resources. While this will increase the size of the binary, it won't be by
-    ///      much and will help speed up both development time and run time.
     ///    - If required, minor grid lines are drawn first so the major grid lines will overlap them
     ///      and will always be visible (since major grid lines are more important than minor grid
     ///      lines).
@@ -33,12 +30,11 @@ extension GlobeView
                        LineColor: NSColor = NSColor.red,
                        MinorLineColor: NSColor = NSColor.yellow) -> NSImage
     {
-        let Base = NSImage(named: "TransparentBase")
+        let Base = NSImage(Color: NSColor.clear, Size: NSSize(width: Width, height: Height))
         let Line = NSBezierPath()
         if Settings.GetBool(.Show3DMinorGrid)
         {
-            print("Drawing minor grid lines.")
-            Base?.lockFocus()
+            Base.lockFocus()
             let Gap = Settings.GetDouble(.MinorGrid3DGap, 15.0)
             for Longitude in stride(from: 0.0, to : 360.0, by: Gap)
             {
@@ -55,18 +51,13 @@ extension GlobeView
             Line.lineWidth = 3.0
             MinorLineColor.withAlphaComponent(1.0).setStroke()
             Line.stroke()
-            Base?.unlockFocus()
-        }
-        else
-        {
-            print("Do not draw minor grid lines.")
+            GridImage?.unlockFocus()
         }
         
         //Draw the major grid lines on top of the minor grid lines. This is done in three lines of
         //code rather than one as an aid for debugging.
-        let FinalWithMajorLines = DrawMajorGridLines(On: Base!, Width: Width, Height: Height,
-                                                     LineColor: LineColor)
-        let Final = FinalWithMajorLines
+        var Final = Base
+        DrawMajorGridLines(On: &Final, Width: Width, Height: Height, LineColor: LineColor)
         return Final
     }
     
@@ -77,9 +68,9 @@ extension GlobeView
     /// - Parameter Width: The width of the image.
     /// - Parameter Height: The height of the image.
     /// - Parameter LineColor: The color of the line. Defaults to `UIColor.yellow`.
-    /// - Returns: Image (based on `On`) with the grid lines drawn.
-    func DrawMajorGridLines(On Image: NSImage, Width: CGFloat, Height: CGFloat,
-                            LineColor: NSColor = NSColor.yellow) -> NSImage
+    /// - Returns: Image (based on `On`) with the appropriate grid lines drawn.
+    func DrawMajorGridLines(On Image: inout NSImage, Width: CGFloat, Height: CGFloat,
+                            LineColor: NSColor = NSColor.yellow)
     {
         Image.lockFocus()
         
@@ -110,7 +101,6 @@ extension GlobeView
         Line.stroke()
         
         Image.unlockFocus()
-        return Image
     }
     
     /// Determines if the specific longitude line should be drawn.
