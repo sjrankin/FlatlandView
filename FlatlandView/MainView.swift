@@ -223,7 +223,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         MainTimeLabelBottom.font = NSFont.monospacedSystemFont(ofSize: 30.0, weight: .semibold)
         MainTimeLabelBottom.textColor = NSColor.white
         MainTimeLabelTop.wantsLayer = true
-                MainTimeLabelTop.layer?.zPosition = CGFloat(LayerZLevels.TimeLabels.rawValue)
+        MainTimeLabelTop.layer?.zPosition = CGFloat(LayerZLevels.TimeLabels.rawValue)
         MainTimeLabelTop.font = NSFont.monospacedSystemFont(ofSize: 30.0, weight: .semibold)
         MainTimeLabelTop.textColor = NSColor.white
         
@@ -411,7 +411,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     func Refresh(_ From: String)
     {
-       print("Refresh called from \(From)")
+        print("Refresh called from \(From)")
     }
     
     // MARK: - Settings changed required functions.
@@ -422,7 +422,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         return UUID(uuidString: "66629111-b430-4231-af5a-e39f35ae7883")!
     }
     
-    /// Handle changed settings. Settings may be changed from anywhere at any time.
+    /// Handle changed settings. Settings may be changed from anywhere at any time. This function
+    /// will update the view when the setting change is reported.
     /// - Parameter Setting: The setting that changed.
     /// - Parameter OldValue: The value of the setting before the change.
     /// - Parameter NewValue: The new value of the setting.
@@ -439,18 +440,18 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             case .ViewType:
                 if let New = NewValue as? ViewTypes
                 {
-                     var IsFlat = false
+                    var IsFlat = false
                     switch New
                     {
                         case .FlatNorthCenter, .FlatSouthCenter:
-                        IsFlat = true
+                            IsFlat = true
                         
                         case .CubicWorld:
-                        IsFlat = false
+                            IsFlat = false
                         
                         case .Globe3D:
                             World3DView.AddEarth()
-                        IsFlat = false
+                            IsFlat = false
                     }
                     SetFlatlandVisibility(FlatIsVisible: IsFlat)
             }
@@ -459,8 +460,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 break
             
             case .NightDarkness:
-            let NewMask = GetNightMask(ForDate: Date())
-            NightMaskImageView.image = NewMask
+                let NewMask = GetNightMask(ForDate: Date())
+                NightMaskImageView.image = NewMask
             
             case .HourType:
                 if let NewHourType = NewValue as? HourValueTypes
@@ -487,13 +488,20 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 World3DView.PlotCities()
             
             case .HomeShape:
-                World3DView.PlotCities()
+                World3DView.PlotHomeLocation()
+            
+            case .PolarShape:
+                World3DView.PlotPolarShape()
             
             case .ShowWorldHeritageSites:
                 World3DView.PlotWorldHeritageSites()
             
             case .WorldHeritageSiteType:
                 World3DView.PlotWorldHeritageSites()
+            
+            case .Show3DEquator, .Show3DTropics, .Show3DMinorGrid, .Show3DPolarCircles, .Show3DPrimeMeridians,
+                 .MinorGrid3DGap, .Show3DGridLines:
+                World3DView.SetLineLayer()
             
             case .LocalLongitude, .LocalLatitude:
                 (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
@@ -527,7 +535,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     // MARK: - Interface builder outlets.
     
-
+    
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
     @IBOutlet weak var SunViewBottom: NSImageView!
