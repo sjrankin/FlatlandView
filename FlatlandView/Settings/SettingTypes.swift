@@ -39,6 +39,7 @@ enum SettingTypes: String, CaseIterable
     case Show2DNoonMeridians = "Show2DNoonMeridians"
     
     //3D view settings.
+    case Show3DGridLines = "Show3DGridLines"
     case Show3DEquator = "Show3DEquator"
     case Show3DPolarCircles = "Show3DPolarCircles"
     case Show3DTropics = "Show3DTropics"
