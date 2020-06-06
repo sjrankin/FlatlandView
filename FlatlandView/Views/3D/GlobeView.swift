@@ -51,9 +51,9 @@ class GlobeView: SCNView, GlobeProtocol
         //        self.debugOptions = [.showBoundingBoxes, .renderAsWireframe]
         self.allowsCameraControl = true
         
-        #if true
+        #if false
         //Enable for debugging and getting initial location of the automatical camera. Otherwise,
-        //not needed at run-time.
+        //not needed at run-time. Not intended to be deleted.
         if self.allowsCameraControl
         {
             //https://stackoverflow.com/questions/24768031/can-i-get-the-scnview-camera-position-when-using-allowscameracontrol
@@ -91,21 +91,9 @@ class GlobeView: SCNView, GlobeProtocol
         CameraNode.camera = Camera
         CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
         
-        SunLight = SCNLight()
-        SunLight.type = .directional
-        SunLight.intensity = 800
-        SunLight.castsShadow = true
-        SunLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
-        SunLight.shadowMode = .forward
-        SunLight.shadowRadius = 10.0
-        SunLight.color = NSColor.white
-        LightNode = SCNNode()
-        LightNode.light = SunLight
-        LightNode.position = SCNVector3(0.0, 0.0, 80.0)
-        
-        self.scene?.rootNode.addChildNode(CameraNode)
-        self.scene?.rootNode.addChildNode(LightNode)
+        SetSunlight()
         SetMoonlight(Show: Settings.GetBool(.ShowMoonLight))
+        self.scene?.rootNode.addChildNode(CameraNode)
         
         AddEarth()
         StartClock()
@@ -121,7 +109,7 @@ class GlobeView: SCNView, GlobeProtocol
         self.pointOfView?.runAction(PositionAction)
         let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 0.7)
         self.pointOfView?.runAction(RotationAction)
-                //self.pointOfView?.orientation = SCNQuaternion(0.0, 0.0, 0.0, 1.0)
+        //self.pointOfView?.orientation = SCNQuaternion(0.0, 0.0, 0.0, 1.0)
         #else
         self.pointOfView?.position = SCNVector3(0.0, 0.0, 16.0)
         self.pointOfView?.orientation = SCNQuaternion(0.0, 0.0, 0.0, 1.0)
@@ -156,6 +144,23 @@ class GlobeView: SCNView, GlobeProtocol
         UpdateHourLabels(With: HourType)
     }
     
+    /// Set up "sun light" for the scene.
+    func SetSunlight()
+    {
+        SunLight = SCNLight()
+        SunLight.type = .directional
+        SunLight.intensity = 800
+        SunLight.castsShadow = true
+        SunLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
+        SunLight.shadowMode = .forward
+        SunLight.shadowRadius = 2.0
+        SunLight.color = NSColor.white
+        LightNode = SCNNode()
+        LightNode.light = SunLight
+        LightNode.position = SCNVector3(0.0, 0.0, 80.0)
+        self.scene?.rootNode.addChildNode(LightNode)
+    }
+    
     /// Show or hide the moonlight node.
     /// - Parameter Show: Determines if moonlight is shown or removed.
     func SetMoonlight(Show: Bool)
@@ -169,7 +174,7 @@ class GlobeView: SCNView, GlobeProtocol
             MoonLight.castsShadow = true
             MoonLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
             MoonLight.shadowMode = .forward
-            MoonLight.shadowRadius = 2.0
+            MoonLight.shadowRadius = 4.0
             MoonLight.color = NSColor.cyan
             MoonNode = SCNNode()
             MoonNode?.light = MoonLight
@@ -494,7 +499,7 @@ class GlobeView: SCNView, GlobeProtocol
     ///                     slightly over the Earth.
     func SetLineLayer(Radius: CGFloat = 10.2)
     {
-                    LineNode?.removeAllActions()
+        LineNode?.removeAllActions()
         LineNode?.removeFromParentNode()
         LineNode = nil
         if Settings.GetBool(.Show3DGridLines)
