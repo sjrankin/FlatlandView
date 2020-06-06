@@ -11,20 +11,19 @@ import AppKit
 
 extension GlobeView
 {
-    /// Create a base image for the trid lines.
-    /// - Parameter Width: The width of the image.
-    /// - Parameter Height: The hieght of the image.
-    /// - Parameter FillColor: The background color.
-    /// - Returns: Image with the specified parameters.
-    func MakeImageBase(Width: CGFloat, Height: CGFloat, FillColor: NSColor) -> NSImage
-    {
-        let ImageSize = CGSize(width: Width, height: Height)
-        return NSImage(Color: FillColor, Size: ImageSize)
-    }
-    
     /// Draw an image with grid lines on it that can be used as a texture on top of a global image.
-    /// - Note: This function draws the minor grid lines. It calls another function to draw the
-    ///         major grid lines on top of the minor grid lines.
+    /// - Note:
+    ///    - This function draws the minor grid lines. It calls another function to draw the
+    ///      major grid lines on top of the minor grid lines.
+    ///    - Instead of creating a base image on the fly, we use a pre-rendered transparent image
+    ///      stored in resources. While this will increase the size of the binary, it won't be by
+    ///      much and will help speed up both development time and run time.
+    ///    - If required, minor grid lines are drawn first so the major grid lines will overlap them
+    ///      and will always be visible (since major grid lines are more important than minor grid
+    ///      lines).
+    ///    - All grid line generation is a complete rewrite from the iOS version as iOS has functions
+    ///      not present in macOS.
+    /// - TODO: Back port the macOS code to iOS (assuming it will work on iOS).
     /// - Parameter Width: Width of the image to return.
     /// - Parameter Height: Height of the image to return.
     /// - Parameter LineColor: The major grid line color.
@@ -35,19 +34,19 @@ extension GlobeView
                        MinorLineColor: NSColor = NSColor.yellow) -> NSImage
     {
         let Base = NSImage(named: "TransparentBase")
-        #if true
         let Line = NSBezierPath()
         if Settings.GetBool(.Show3DMinorGrid)
         {
-                        Base?.lockFocus()
+            print("Drawing minor grid lines.")
+            Base?.lockFocus()
             let Gap = Settings.GetDouble(.MinorGrid3DGap, 15.0)
-            for Longitude in stride(from: 0.0, to : 359.0, by: Gap)
+            for Longitude in stride(from: 0.0, to : 360.0, by: Gap)
             {
                 let X = Width * CGFloat(Longitude / 360.0)
                 Line.move(to: NSPoint(x: X, y: 0.0))
                 Line.line(to: NSPoint(x: X, y: Height))
             }
-            for Latitude in stride(from: 0.0, to: 359.0, by: Gap)
+            for Latitude in stride(from: 0.0, to: 360.0, by: Gap)
             {
                 let Y = Height * CGFloat(Latitude / 360.0)
                 Line.move(to: NSPoint(x: 0.0, y: Y))
@@ -58,51 +57,17 @@ extension GlobeView
             Line.stroke()
             Base?.unlockFocus()
         }
+        else
+        {
+            print("Do not draw minor grid lines.")
+        }
         
-        //Draw the major grid lines on top of the minor grid lines.
+        //Draw the major grid lines on top of the minor grid lines. This is done in three lines of
+        //code rather than one as an aid for debugging.
         let FinalWithMajorLines = DrawMajorGridLines(On: Base!, Width: Width, Height: Height,
                                                      LineColor: LineColor)
         let Final = FinalWithMajorLines
         return Final
-        #else
-        UIGraphicsBeginImageContext(Base.size)
-        
-        Base.draw(at: .zero)
-        
-        let ctx = UIGraphicsGetCurrentContext()
-        ctx?.setLineWidth(3.0)
-        ctx?.setStrokeColor(MinorLineColor.withAlphaComponent(1.0).cgColor)
-        
-        if Settings.GetBool(.Show3DMinorGrid)
-        {
-            let Gap = Settings.GetDouble(.MinorGrid3DGap, 15.0)
-            if Gap >= 5.0
-            {
-                for Longitude in stride(from: 0.0, to: 359.0, by: Gap)
-                {
-                    let X = Width * CGFloat(Longitude / 360.0)
-                    ctx?.move(to: CGPoint(x: X, y: 0))
-                    ctx?.addLine(to: CGPoint(x: X, y: Height))
-                    ctx?.strokePath()
-                }
-                for Latitude in stride(from: 0.0, to: 359.0, by: Gap)
-                {
-                    let Y = Height * CGFloat(Latitude / 360.0)
-                    ctx?.move(to: CGPoint(x: 0, y: Y))
-                    ctx?.addLine(to: CGPoint(x: Width, y: Y))
-                    ctx?.strokePath()
-                }
-            }
-        }
-        
-        var Final = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        //Draw the major grid lines on top of the minor grid lines.
-        let FinalWithMajorLines = DrawMajorGridLines(On: Final!, Width: Width, Height: Height,
-                                                     LineColor: LineColor)
-        Final = FinalWithMajorLines
-        return Final!
-        #endif
     }
     
     /// Draw the major grid lines.
@@ -116,23 +81,28 @@ extension GlobeView
     func DrawMajorGridLines(On Image: NSImage, Width: CGFloat, Height: CGFloat,
                             LineColor: NSColor = NSColor.yellow) -> NSImage
     {
-        #if true
         Image.lockFocus()
         
         let Line = NSBezierPath()
         
         for Longitude in Longitudes.allCases
         {
-            let Y = Height * CGFloat(Longitude.rawValue)
-            Line.move(to: CGPoint(x: 0, y: Y))
-            Line.line(to: CGPoint(x: Width, y: Y))
+            if DrawLongitudeLine(Longitude)
+            {
+                let Y = Height * CGFloat(Longitude.rawValue)
+                Line.move(to: CGPoint(x: 0, y: Y))
+                Line.line(to: CGPoint(x: Width, y: Y))
+            }
         }
         
         for Latitude in Latitudes.allCases
         {
-            let X = Width * CGFloat(Latitude.rawValue)
-            Line.move(to: CGPoint(x: X, y: 0))
-            Line.line(to: CGPoint(x: X, y: Height))
+            if DrawLatitudeLine(Latitude)
+            {
+                let X = Width * CGFloat(Latitude.rawValue)
+                Line.move(to: CGPoint(x: X, y: 0))
+                Line.line(to: CGPoint(x: X, y: Height))
+            }
         }
         
         Line.lineWidth = 3.0
@@ -141,34 +111,38 @@ extension GlobeView
         
         Image.unlockFocus()
         return Image
-        #else
-        UIGraphicsBeginImageContext(Image.size)
-        
-        Image.draw(in: .zero)
-        
-        let ctx = UIGraphicsGetCurrentContext()
-        ctx?.setLineWidth(5.0)
-        ctx?.setStrokeColor(LineColor.withAlphaComponent(1.0).cgColor)
-        
-        for Longitude in Longitudes.allCases
+    }
+    
+    /// Determines if the specific longitude line should be drawn.
+    /// - Parameter Longitude: The line whose drawing status will be returned.
+    /// - Returns: True if the line should be drawn, false if not.
+    func DrawLongitudeLine(_ Longitude: Longitudes) -> Bool
+    {
+        switch Longitude
         {
-            let Y = Height * CGFloat(Longitude.rawValue)
-            ctx?.move(to: CGPoint(x: 0, y: Y))
-            ctx?.addLine(to: CGPoint(x: Width, y: Y))
-            ctx?.strokePath()
+            case .AntarcticCircle, .ArcticCircle:
+                return Settings.GetBool(.Show3DPolarCircles)
+            
+            case .Equator:
+                return Settings.GetBool(.Show3DEquator)
+            
+            case .TropicOfCancer, .TropicOfCapricorn:
+                return Settings.GetBool(.Show3DTropics)
         }
-        
-        for Latitude in Latitudes.allCases
+    }
+    
+    /// Determines if the specific latitude line should be drawn.
+    /// - Parameter Latitude: The line whose drawing status will be returned.
+    /// - Returns: True if the line should be drawn, false if not.
+    func DrawLatitudeLine(_ Latitude: Latitudes) -> Bool
+    {
+        switch Latitude
         {
-            let X = Width * CGFloat(Latitude.rawValue)
-            ctx?.move(to: CGPoint(x: X, y: 0))
-            ctx?.addLine(to: CGPoint(x: X, y: Height))
-            ctx?.strokePath()
+            case .PrimeMeridian, .OtherPrimeMeridian:
+                return Settings.GetBool(.Show3DPrimeMeridians)
+            
+            case .AntiPrimeMeridian, .OtherAntiPrimeMeridian:
+                return Settings.GetBool(.Show3DPrimeMeridians)
         }
-        
-        let Final = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return Final!
-        #endif
     }
 }
