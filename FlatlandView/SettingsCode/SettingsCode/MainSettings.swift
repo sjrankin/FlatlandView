@@ -8,13 +8,12 @@
 
 import Foundation
 import AppKit
+import CoreLocation
 
 class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate,
     NSTextFieldDelegate,
-    LocationEditingProtocol, ConfirmProtocol
+    LocationEditingProtocol, ConfirmProtocol, AutoLocationProtocol
 {
-    
-    
     public weak var MainDelegate: MainProtocol? = nil
     
     override func viewDidLoad()
@@ -191,6 +190,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         Show3DEquatorCheck.state = Settings.GetBool(.Show3DEquator) ? .on : .off
         ShowMovingStarsSwitch.state = Settings.GetBool(.ShowMovingStars) ? .on : .off
         ShowMoonLightSwitch.state = Settings.GetBool(.ShowMoonLight) ? .on : .off
+        Show3DGridLines.state = Settings.GetBool(.Show3DGridLines) ? .on : .off
         PoleShapeCombo.removeAllItems()
         for PoleShape in PolarShapes.allCases
         {
@@ -207,6 +207,9 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             let IsChecked = Button.state == .on ? true : false
             switch Button
             {
+                case Show3DGridLines:
+                    Settings.SetBool(.Show3DGridLines, IsChecked)
+                
                 case Show3DMinorGridLinesCheck:
                     Settings.SetBool(.Show3DMinorGrid, IsChecked)
                 
@@ -295,6 +298,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
     }
     
+    @IBOutlet weak var Show3DGridLines: NSButton!
     @IBOutlet weak var Show3DMinorGridLinesCheck: NSButton!
     @IBOutlet weak var Show3DPrimeMeridiansCheck: NSButton!
     @IBOutlet weak var Show3DPolarCirclesCheck: NSButton!
@@ -548,6 +552,32 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     }
     
     var AddNewUserLocation = false
+    
+    @IBAction func HandleUseCurrentLocation(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "GetLocationWindow") as? GetLocationWindow
+        {
+            let Window = WindowController.window
+            if let Controller = Window?.contentViewController as? GetLocationCode
+            {
+                Controller.LocationDelegate = self
+                self.view.window?.beginSheet(Window!, completionHandler: nil)
+            }
+        }
+    }
+
+    func HaveNewLocation()
+    {
+        if let Lat = Settings.GetDoubleNil(.LocalLatitude)
+        {
+            UserLocationLatitudeBox.stringValue = "\(Lat)"
+        }
+        if let Lon = Settings.GetDoubleNil(.LocalLongitude)
+        {
+            UserLocationLongitudeBox.stringValue = "\(Lon)"
+        }
+    }
     
     @IBAction func HandleClearUserLocations(_ sender: Any)
     {
