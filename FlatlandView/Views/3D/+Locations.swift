@@ -474,6 +474,11 @@ extension GlobeView
                         PlotCity3(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                   ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
                                   LargestSize: 2.0, IsBox: true)
+                    
+                    case .Cylinders:
+                        PlotCity3(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                  ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                  LargestSize: 2.0, IsBox: false)
                 }
             }
         }
