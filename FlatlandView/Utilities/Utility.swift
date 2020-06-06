@@ -8,6 +8,7 @@
 
 import Foundation
 import AppKit
+import CoreLocation
 
 class Utility
 {
@@ -908,4 +909,68 @@ class Utility
         NewImage.size = NewSize
         return NewImage
     }
+    
+    /// Given the passed placemark, create an address string.
+    /// - Note: The Apple API that creates the address is throttled to one address a minute (although when
+    ///         there is low demand, it is entirely possible to get one a second).
+    /// - Parameter From: The placemark from the system.
+    /// - Returns: Address constructed from the placemark.
+    public static func ConstructAddress(From: CLPlacemark) -> String
+    {
+        var Address = ""
+        if let Name = From.name
+        {
+            Address.append(Name + "\n")
+        }
+        if let Country = From.country
+        {
+            Address.append(Country + " ")
+        }
+        if let PostCode = From.postalCode
+        {
+            Address.append(PostCode + " ")
+        }
+        if let Administrative = From.administrativeArea
+        {
+            Address.append(Administrative + " ")
+        }
+        if !Address.isEmpty
+        {
+            Address.append("\n")
+        }
+        var AddedLine2 = false
+        if let SubAdministrative = From.subAdministrativeArea
+        {
+            AddedLine2 = true
+            Address.append(SubAdministrative + " ")
+        }
+        if let Locality = From.locality
+        {
+            AddedLine2 = true
+            Address.append(Locality + " ")
+        }
+        if let SubLocality = From.subLocality
+        {
+            AddedLine2 = true
+            Address.append(SubLocality + " ")
+        }
+        if AddedLine2
+        {
+            Address.append("\n")
+        }
+        if let Thoroughfare = From.thoroughfare
+        {
+            Address.append(Thoroughfare + " ")
+        }
+        if let SubThoroughfare = From.subThoroughfare
+        {
+            Address.append(SubThoroughfare + " ")
+        }
+        if let TimeZone = From.timeZone
+        {
+            Address.append(TimeZone.abbreviation()!)
+        }
+        return Address
+    }
+    
 }
