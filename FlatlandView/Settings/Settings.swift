@@ -497,6 +497,7 @@ class Settings
             LocationList.append(Item)
         }
         UserDefaults.standard.set(LocationList, forKey: "UserLocations")
+        NotifySubscribers(Setting: .UserLocations, OldValue: nil, NewValue: nil)
     }
     
     /// Get the list of user locations.
