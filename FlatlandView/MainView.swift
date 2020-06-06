@@ -27,14 +27,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         
         World3DView.wantsLayer = true
         World3DView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
-        
-        Settings.SetBool(.ShowGrid, true)
-        Settings.SetBool(.Show2DEquator, true)
-        Settings.SetBool(.Show2DTropics, true)
-        Settings.SetBool(.Show2DPolarCircles, true)
-        Settings.SetBool(.Show2DPrimeMeridians, true)
-        Settings.SetBool(.Show2DNoonMeridians, true)
-        Settings.SetBool(.ShowCities, true)
+
         InitializeFlatland()
         
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
@@ -76,10 +69,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         let CurrentMapType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         switch CurrentMapType
         {
-            case .CubicWorld:
-                break
-            
-            case .Globe3D:
+            case .Globe3D, .CubicWorld:
                 SunViewBottom.isHidden = false
                 SunViewTop.isHidden = false
                 MainTimeLabelTop.isHidden = false
@@ -182,7 +172,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: MapValue, ViewType: VType)!)
         InitializeUpdateTimer()
         Started = true
-        SetFlatlandVisibility(FlatIsVisible: true)
+        let IsFlat = VType == .FlatNorthCenter || VType == .FlatSouthCenter ? true : false
+        SetFlatlandVisibility(FlatIsVisible: IsFlat)
     }
     
     /// Initialize the UI, reflecting the current user settings.
@@ -482,6 +473,9 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 World3DView.PlotCities()
             
             case .ShowHomeLocation:
+                World3DView.PlotCities()
+            
+            case .UserLocations:
                 World3DView.PlotCities()
             
             case .ShowUserLocations:
