@@ -1090,6 +1090,7 @@
                                                                                         </tableColumn>
                                                                                     </tableColumns>
                                                                                     <connections>
+                                                                                        <action selector="HandleTableClicked:" target="v9H-zx-ey4" id="Xbo-eT-mOP"/>
                                                                                         <outlet property="dataSource" destination="v9H-zx-ey4" id="wzH-h5-HCp"/>
                                                                                         <outlet property="delegate" destination="v9H-zx-ey4" id="sPf-3q-AUc"/>
                                                                                     </connections>
