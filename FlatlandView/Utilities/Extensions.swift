@@ -491,13 +491,14 @@ extension Date
 extension NSImage
 {
     /// Initializer that creates a solid color image of the passe size.
+    /// - Note: Do *not* use the draw swatch function as it incorrectly draws transparent colors.
     /// - Parameter Color: The color to use to create the image.
     /// - Parameter Size: The size of the image.
     convenience init(Color: NSColor, Size: NSSize)
     {
         self.init(size: Size)
         lockFocus()
-        Color.drawSwatch(in: NSRect(origin: .zero, size: Size))
+        Color.setFill()
         unlockFocus()
     }
     
