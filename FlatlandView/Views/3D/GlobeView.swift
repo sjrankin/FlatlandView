@@ -51,20 +51,20 @@ class GlobeView: SCNView, GlobeProtocol
         //        self.debugOptions = [.showBoundingBoxes, .renderAsWireframe]
         self.allowsCameraControl = true
         
-        #if false
+        #if true
         //Enable for debugging and getting initial location of the automatical camera. Otherwise,
         //not needed at run-time.
         if self.allowsCameraControl
         {
             //https://stackoverflow.com/questions/24768031/can-i-get-the-scnview-camera-position-when-using-allowscameracontrol
-            CameraObserver = self.observe(\.pointOfView?.position, options: [.new])
+            CameraObserver = self.observe(\.pointOfView?.position, options: [.new, .initial])
             {
                 (Node, Change) in
                 OperationQueue.current?.addOperation
                     {
                         print("\(Node.pointOfView!.position)")
-                        print("\(Node.pointOfView!.orientation)")
-                        print("\(Node.pointOfView!.rotation)")
+                        //print("\(Node.pointOfView!.orientation)")
+                        //print("\(Node.pointOfView!.rotation)")
                 }
             }
         }
@@ -116,9 +116,17 @@ class GlobeView: SCNView, GlobeProtocol
     /// Resets the default camera to its original location.
     func ResetCamera()
     {
+        #if true
+        let PositionAction = SCNAction.move(to: SCNVector3(0.0, 0.0, 16.0), duration: 0.7)
+        self.pointOfView?.runAction(PositionAction)
+        let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 0.7)
+        self.pointOfView?.runAction(RotationAction)
+                //self.pointOfView?.orientation = SCNQuaternion(0.0, 0.0, 0.0, 1.0)
+        #else
         self.pointOfView?.position = SCNVector3(0.0, 0.0, 16.0)
         self.pointOfView?.orientation = SCNQuaternion(0.0, 0.0, 0.0, 1.0)
         self.pointOfView?.rotation = SCNVector4(0.0, 0.0, 0.0, 0.0)
+        #endif
     }
     
     /// Set the hour reset timer.
@@ -486,6 +494,7 @@ class GlobeView: SCNView, GlobeProtocol
     ///                     slightly over the Earth.
     func SetLineLayer(Radius: CGFloat = 10.2)
     {
+                    LineNode?.removeAllActions()
         LineNode?.removeFromParentNode()
         LineNode = nil
         if Settings.GetBool(.Show3DGridLines)
@@ -495,8 +504,8 @@ class GlobeView: SCNView, GlobeProtocol
             LineNode = SCNNode(geometry: LineSphere)
             LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
             let Maroon = NSColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
-            let GridLines = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
-            LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLines
+            let GridLineImage = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
+            LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLineImage
             //LineNode?.geometry?.firstMaterial?.emission.contents = Maroon
             LineNode?.castsShadow = false
             SystemNode?.addChildNode(self.LineNode!)
@@ -560,5 +569,7 @@ class GlobeView: SCNView, GlobeProtocol
     var HomeNodeHalo: SCNNode? = nil
     var PlottedCities = [SCNNode?]()
     var WHSNodeList = [SCNNode?]()
+    
+    var GridImage: NSImage? = nil
 }
 
