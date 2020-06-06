@@ -562,7 +562,6 @@ extension NSImage
     //https://stackoverflow.com/questions/28517866/how-to-set-the-alpha-of-an-uiimage-in-swift-programmatically
     func Alpha(_ Value: CGFloat) -> NSImage
     {
-        #if true
         let ImageRect = NSRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
         guard let ImageRep = self.bestRepresentation(for: ImageRect, context: nil, hints: nil) else
         {
@@ -578,13 +577,31 @@ extension NSImage
         }
         )
         return Image
-        #else
-        UIGraphicsBeginImageContextWithOptions(size, false, scale)
-        draw(at: CGPoint.zero, blendMode: .normal, alpha: Value)
-        let NewImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return NewImage!
-        #endif
+    }
+    
+    /// Write the instance image to a file.
+    /// - Note: See [How to save an NSImage as a file.](https://stackoverflow.com/questions/3038820/how-to-save-a-nsimage-as-a-new-file)
+    /// - Parameter ToURL: The URL where to save the image.
+    /// - Returns: True on success, false if the image cannot be saved.
+    public func WritePNG(ToURL: URL) -> Bool
+    {
+        guard let Data = tiffRepresentation,
+            let Rep = NSBitmapImageRep(data: Data),
+            let ImgData = Rep.representation(using: .png, properties: [.compressionFactor: NSNumber(floatLiteral: 1.0)]) else
+        {
+            print("Error getting data for image to save.")
+            return false
+        }
+        do
+        {
+            try ImgData.write(to: ToURL)
+        }
+        catch
+        {
+            print("Error writing data: \(error.localizedDescription)")
+            return false
+        }
+        return true
     }
 }
 
