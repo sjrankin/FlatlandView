@@ -481,56 +481,29 @@ class GlobeView: SCNView, GlobeProtocol
     var PreviousHourType: HourValueTypes = .None
     
     /// Draws or removes the layer that displays the set of lines (eg, longitudinal and latitudinal and
-    /// other) the user selects.
+    /// other) from user settings.
     /// - Parameter Radius: The radius of the sphere holding the lines. Default is `10.2` which is
     ///                     slightly over the Earth.
     func SetLineLayer(Radius: CGFloat = 10.2)
     {
         LineNode?.removeFromParentNode()
         LineNode = nil
-        if !HasVisibleLines()
+        if Settings.GetBool(.Show3DGridLines)
         {
-            return
+            let LineSphere = SCNSphere(radius: Radius)
+            LineSphere.segmentCount = 100
+            LineNode = SCNNode(geometry: LineSphere)
+            LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
+            let Maroon = NSColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
+            let GridLines = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
+            LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLines
+            //LineNode?.geometry?.firstMaterial?.emission.contents = Maroon
+            LineNode?.castsShadow = false
+            SystemNode?.addChildNode(self.LineNode!)
         }
-        let LineSphere = SCNSphere(radius: Radius)
-        LineSphere.segmentCount = 100
-        LineNode = SCNNode(geometry: LineSphere)
-        LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        let Maroon = NSColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
-        let GridLines = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
-        LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLines
-        //LineNode?.geometry?.firstMaterial?.emission.contents = Maroon
-        LineNode?.castsShadow = false
-        SystemNode?.addChildNode(self.LineNode!)
     }
     
-    /// Determines if the user selected any global lines to be visible.
-    /// - Returns: True if any lines are visible, false if not.
-    func HasVisibleLines() -> Bool
-    {
-        if Settings.GetBool(.Show3DEquator)
-        {
-            return true
-        }
-        if Settings.GetBool(.Show3DTropics)
-        {
-            return true
-        }
-        if Settings.GetBool(.Show3DPolarCircles)
-        {
-            return true
-        }
-        if Settings.GetBool(.Show3DPrimeMeridians)
-        {
-            return true
-        }
-        if Settings.GetBool(.Show3DMinorGrid)
-        {
-            return true
-        }
-        return false
-    }
-    
+    #if false
     /// Finds and removes all sub-nodes in `Parent` with the specified name.
     /// - Parameter Parent: The parent node whose sub-nodes are checked for nodes to remove.
     /// - Parameter Named: Name of the sub-node to remove. All sub-nodes with this name will be removed.
@@ -545,6 +518,7 @@ class GlobeView: SCNView, GlobeProtocol
             }
         }
     }
+    #endif
     
     /// Change the transparency of the land and sea nodes to what is in user settings.
     func UpdateSurfaceTransparency()
