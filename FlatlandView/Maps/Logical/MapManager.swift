@@ -218,21 +218,32 @@ enum CubicMapTypes: String, CaseIterable
     case pym90 = "py-90"
 }
 
-/// Standard longitudes.
+/// **Standard longitudes**. The raw value of each case is the percent away from the South Pole in
+/// whatever units are used.
 enum Longitudes: Double, CaseIterable
 {
+    /// Equator.
     case Equator = 0.5
+    /// Arctic circle, measured in percent from the South Pole.
     case ArcticCircle = 0.869782
+    /// Antartic circle, measured in percent from the South Pole.
     case AntarcticCircle = 0.130218
+    /// Tropic of Cancer, measured in percent from the South Pole.
     case TropicOfCancer = 0.61718
+    /// Tropic of Capricorn, measured in percent from the South Pole.
     case TropicOfCapricorn = 0.38282
 }
 
-/// Standard latitudes.
+/// **Standard latitudes.** The raw value of each case is the percent away from the left side of
+/// the drawing surface in whatever units are used.
 enum Latitudes: Double, CaseIterable
 {
+    /// Prime meridian (which is at 0°, or the center of the map).
     case PrimeMeridian = 0.5
-    case OtherPrimeMeridian = 0.995
+    /// Meridian 180° away from the prime meridian.
+    case OtherPrimeMeridian = 1.0
+    /// Merdian on the other side of the prime meridian.
     case AntiPrimeMeridian = 0.25
+    /// Meridian on the other side of the other prime meridian.
     case OtherAntiPrimeMeridian = 0.75
 }
