@@ -18,6 +18,7 @@ class UserLocationEditorController: NSViewController, NSTableViewDelegate, NSTab
     {
         super.viewDidLoad()
         LatitudeTextBox.delegate = self
+        LongitudeTextBox.delegate = self
         ColorSwatchTable.reloadData()
     }
     
