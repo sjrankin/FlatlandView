@@ -531,7 +531,15 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             if let Controller = Window?.contentViewController as? UserLocationEditorController
             {
                 Controller.Delegate = self
-                self.view.window?.beginSheet(Window!, completionHandler: nil)
+                self.view.window?.beginSheet(Window!)
+                {
+                    Response in
+                    if Response == .OK
+                    {
+                        self.UserLocationTable.reloadData()
+                        self.MainDelegate?.Refresh("MainSettings.HandleEditUserLocation")
+                    }
+                }
             }
         }
     }
@@ -546,7 +554,14 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             if let Controller = Window?.contentViewController as? UserLocationEditorController
             {
                 Controller.Delegate = self
-                self.view.window?.beginSheet(Window!, completionHandler: nil)
+                self.view.window?.beginSheet(Window!)
+                {
+                    Response in
+                    if Response == .OK
+                    {
+                    self.UserLocationTable.reloadData()
+                    }
+                }
             }
         }
     }
@@ -885,6 +900,18 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                 {
                     CellIdentifier = "LocationColumn"
                     let Loc = "\(UserLocations[row].Coordinates.Latitude.RoundedTo(3)), \(UserLocations[row].Coordinates.Longitude.RoundedTo(3))"
+                    CellContents = Loc
+            }
+                if tableColumn == tableView.tableColumns[2]
+                {
+                    let Color = UserLocations[row].Color
+                    let Swatch = NSView(frame: NSRect(x: 5, y: 2, width: 40, height: 20))
+                    Swatch.wantsLayer = true
+                    Swatch.layer?.backgroundColor = Color.cgColor
+                    Swatch.layer?.borderColor = NSColor.black.cgColor
+                    Swatch.layer?.borderWidth = 0.5
+                    Swatch.layer?.cornerRadius = 5.0
+                    return Swatch
             }
             
             case SunSelector:
