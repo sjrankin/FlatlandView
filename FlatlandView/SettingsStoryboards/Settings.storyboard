@@ -962,7 +962,7 @@
                                                                         <rect key="frame" x="444" y="53" width="393" height="281"/>
                                                                         <clipView key="contentView" id="KWy-wB-50S">
                                                                             <rect key="frame" x="1" y="0.0" width="391" height="280"/>
-                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                            <autoresizingMask key="autoresizingMask"/>
                                                                             <subviews>
                                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="G8M-ws-WdR" viewBased="YES" id="HYR-ca-Hzt">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="391" height="255"/>
@@ -1250,14 +1250,52 @@
                                                         <action selector="HandleScriptComboChanged:" target="v9H-zx-ey4" id="Jei-fd-Si8"/>
                                                     </connections>
                                                 </comboBox>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="owH-bX-yjN">
+                                                    <rect key="frame" x="495" y="402" width="67" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Time label" id="myp-2g-Yc5">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Ib-Yl-fhD">
+                                                    <rect key="frame" x="495" y="371" width="252" height="24"/>
+                                                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="hqZ-de-DVY">
+                                                        <font key="font" metaFont="system"/>
+                                                        <segments>
+                                                            <segment label="None" width="82"/>
+                                                            <segment label="UTC" width="81" selected="YES" tag="1"/>
+                                                            <segment label="Local" width="81"/>
+                                                        </segments>
+                                                    </segmentedCell>
+                                                    <connections>
+                                                        <action selector="HandleTimeLabelChanged:" target="v9H-zx-ey4" id="tbx-uU-YVO"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Was-1g-AwW">
+                                                    <rect key="frame" x="495" y="343" width="187" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Show seconds in time label" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="KWZ-6n-T4a">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="HandleShowSecondsChanged:" target="v9H-zx-ey4" id="gZ7-nQ-NfK"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="B8r-Np-asw" firstAttribute="leading" secondItem="xq7-8l-hAO" secondAttribute="leading" constant="18" id="2mK-sf-43o"/>
+                                                <constraint firstItem="owH-bX-yjN" firstAttribute="top" secondItem="PiE-h1-7CH" secondAttribute="top" id="3n4-uT-aly"/>
                                                 <constraint firstItem="PiE-h1-7CH" firstAttribute="leading" secondItem="xq7-8l-hAO" secondAttribute="leading" constant="17" id="61Y-Qw-mSy"/>
                                                 <constraint firstItem="Z09-aa-rlx" firstAttribute="leading" secondItem="B8r-Np-asw" secondAttribute="trailing" constant="19" id="7LK-5N-tPS"/>
+                                                <constraint firstAttribute="trailing" secondItem="5Ib-Yl-fhD" secondAttribute="trailing" constant="129" id="E0d-gE-LAa"/>
                                                 <constraint firstItem="Z09-aa-rlx" firstAttribute="baseline" secondItem="B8r-Np-asw" secondAttribute="baseline" id="GII-fM-iAt"/>
+                                                <constraint firstItem="owH-bX-yjN" firstAttribute="leading" secondItem="5Ib-Yl-fhD" secondAttribute="leading" id="I6C-Fw-A63"/>
                                                 <constraint firstItem="Z09-aa-rlx" firstAttribute="top" secondItem="PiE-h1-7CH" secondAttribute="bottom" constant="33" id="KHJ-8v-bDF"/>
+                                                <constraint firstItem="5Ib-Yl-fhD" firstAttribute="top" secondItem="owH-bX-yjN" secondAttribute="bottom" constant="8" symbolic="YES" id="ULq-AR-6XV"/>
+                                                <constraint firstItem="Was-1g-AwW" firstAttribute="leading" secondItem="5Ib-Yl-fhD" secondAttribute="leading" id="Wyp-EF-zod"/>
                                                 <constraint firstItem="PiE-h1-7CH" firstAttribute="top" secondItem="xq7-8l-hAO" secondAttribute="top" constant="15" id="iLb-VH-enG"/>
+                                                <constraint firstItem="Was-1g-AwW" firstAttribute="top" secondItem="5Ib-Yl-fhD" secondAttribute="bottom" constant="14" id="lEq-K4-ulE"/>
                                             </constraints>
                                         </view>
                                     </tabViewItem>
@@ -1308,10 +1346,12 @@
                         <outlet property="ShowMoonLightSwitch" destination="1PK-Kn-cWW" id="gKK-lF-Xds"/>
                         <outlet property="ShowMovingStarsSwitch" destination="PM4-HD-lou" id="QnD-fP-GJB"/>
                         <outlet property="ShowNorthAmericanCitiesSwitch" destination="KJX-Gt-GFl" id="S1U-FU-lec"/>
+                        <outlet property="ShowSecondsCheck" destination="Was-1g-AwW" id="N1v-X9-7nq"/>
                         <outlet property="ShowSouthAmericanCitiesSwitch" destination="b64-uT-nBv" id="JCG-el-Woi"/>
                         <outlet property="ShowUserLocationsCheck" destination="QEW-T6-ce0" id="e3b-St-l17"/>
                         <outlet property="ShowWorldCitiesSwitch" destination="oVV-ib-1V2" id="D2U-IP-gIn"/>
                         <outlet property="SunSelector" destination="JZb-AZ-f7F" id="F3X-mB-cHh"/>
+                        <outlet property="TimeLabelSegment" destination="5Ib-Yl-fhD" id="MZs-xa-995"/>
                         <outlet property="UserLocationLatitudeBox" destination="wN3-Qt-oQO" id="ZRv-lk-ymW"/>
                         <outlet property="UserLocationLongitudeBox" destination="qzl-IA-19o" id="Krc-C2-DN3"/>
                         <outlet property="UserLocationTable" destination="HYR-ca-Hzt" id="xvH-2N-A69"/>
@@ -1689,7 +1729,7 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="555" height="242"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y9M-aU-IGb">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y9M-aU-IGb">
                                 <rect key="frame" x="454" y="13" width="87" height="32"/>
                                 <buttonCell key="cell" type="push" title="Discard" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HSM-yo-omP">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1749,7 +1789,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OzO-WR-BfZ">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OzO-WR-BfZ">
                                 <rect key="frame" x="16" y="13" width="64" height="32"/>
                                 <buttonCell key="cell" type="push" title="Use" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="myy-T4-dMY">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1771,6 +1811,8 @@ Gw
                             </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="Y9M-aU-IGb" firstAttribute="trailing" secondItem="ZAS-nd-Iim" secondAttribute="trailing" id="4hp-hc-bug"/>
+                            <constraint firstItem="OzO-WR-BfZ" firstAttribute="leading" secondItem="EOv-Kg-1AR" secondAttribute="leading" id="8BE-Kn-ncx"/>
                             <constraint firstItem="BxV-Kg-fqa" firstAttribute="baseline" secondItem="ZAS-nd-Iim" secondAttribute="baseline" id="8I4-sc-dPl"/>
                             <constraint firstAttribute="bottom" secondItem="OzO-WR-BfZ" secondAttribute="bottom" constant="20" symbolic="YES" id="AMH-Vf-G2T"/>
                             <constraint firstItem="EOv-Kg-1AR" firstAttribute="top" secondItem="JIt-gS-NK0" secondAttribute="top" constant="20" symbolic="YES" id="CuR-K8-IAw"/>
