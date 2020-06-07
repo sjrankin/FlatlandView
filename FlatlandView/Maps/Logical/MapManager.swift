@@ -110,7 +110,8 @@ class MapManager
                 return [.Standard, .Simple, .SimpleBorders1, .SimpleBorders2, .Continents]
             
             case .Physical:
-                return [.BlueMarble, .MODIS, .DarkBlueMarble, .Topographical1, .Topographical2, .SurrealTopographic,
+                return [.BlueMarble, .MODIS, .DarkBlueMarble, .USGS,
+                        .Topographical1, .Topographical2, .SurrealTopographic,
                         .OnlyTectonic, .TectonicOverlay, .StaticAerosol, .Normalized]
             
             case .TimeZone:
