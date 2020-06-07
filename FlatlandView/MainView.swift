@@ -108,6 +108,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         MainTimeLabelBottom.stringValue = FinalText
         
         let CurrentSeconds = Now.timeIntervalSince1970
+        var ElapsedSeconds = 0
         if CurrentSeconds != OldSeconds
         {
             OldSeconds = CurrentSeconds
@@ -116,11 +117,83 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             let Hour = Cal.component(.hour, from: Now)
             let Minute = Cal.component(.minute, from: Now)
             let Second = Cal.component(.second, from: Now)
-            let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+            ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
             let Percent = Double(ElapsedSeconds) / Double(24 * 60 * 60)
             let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
             RotateImageTo(PrettyPercent)
         }
+        
+        if Settings.GetBool(.ShowLocalData)
+        {
+                                let Cal = Calendar.current
+            if Settings.HaveLocalLocation()
+            {
+                var RiseAndSetAvailable = true
+                var SunRiseTime = Date()
+                var SunSetTime = Date()
+                let LocalLat = Settings.GetDoubleNil(.LocalLatitude)
+                let LocalLon = Settings.GetDoubleNil(.LocalLongitude)
+                let Location = GeoPoint2(LocalLat!, LocalLon!)
+                let SunTimes = Sun()
+                if let SunriseTime = SunTimes.Sunrise(For: Date(), At: Location,
+                                                      TimeZoneOffset: 0)
+                {
+                    SunRiseTime = SunriseTime
+                    LocalSunrise.stringValue = SunriseTime.PrettyTime()
+                }
+                else
+                {
+                    RiseAndSetAvailable = false
+                    LocalSunrise.stringValue = "No sunrise"
+                }
+                if let SunsetTime = SunTimes.Sunset(For: Date(), At: Location,
+                                                    TimeZoneOffset: 0)
+                {
+                    SunSetTime = SunsetTime
+                    LocalSunset.stringValue = SunsetTime.PrettyTime()
+                }
+                else
+                {
+                    RiseAndSetAvailable = false
+                    LocalSunset.stringValue = "No sunset"
+                }
+                if RiseAndSetAvailable
+                {
+                    let RiseHour = Cal.component(.hour, from: SunRiseTime)
+                    let RiseMinute = Cal.component(.minute, from: SunRiseTime)
+                    let RiseSecond = Cal.component(.second, from: SunRiseTime)
+                    let SetHour = Cal.component(.hour, from: SunSetTime)
+                    let SetMinute = Cal.component(.minute, from: SunSetTime)
+                    let SetSecond = Cal.component(.second, from: SunSetTime)
+                    let RiseSeconds = RiseSecond + (RiseMinute * 60) + (RiseHour * 60 * 60)
+                    let SetSeconds = SetSecond + (SetMinute * 60) + (SetHour * 60 * 60)
+                    let SecondDelta = SetSeconds - RiseSeconds
+                    let NoonTime = RiseSeconds + (SecondDelta / 2)
+                    let (NoonHour, NoonMinute, NoonSecond) = Date.SecondsToTime(NoonTime)
+                    let HourS = "\(NoonHour)"
+                    let MinuteS = (NoonMinute < 10 ? "0" : "") + "\(NoonMinute)"
+                    let SecondS = (NoonSecond < 10 ? "0" : "") + "\(NoonSecond)"
+                    LocalNoon.stringValue = "\(HourS):\(MinuteS):\(SecondS)"
+                }
+                else
+                {
+                    LocalNoon.stringValue = ""
+                }
+            }
+            else
+            {
+                LocalSunset.stringValue = "N/A"
+                LocalSunrise.stringValue = "N/A"
+                LocalNoon.stringValue = "N/A"
+            }
+        let DaysDeclination = Sun.Declination(For: Date())
+        DeclinationLabel.stringValue = "\(DaysDeclination.RoundedTo(3))°"
+            let H = Cal.component(.hour, from: Date())
+            let M = Cal.component(.minute, from: Date())
+            let S = Cal.component(.second, from: Date())
+            let CurrentSeconds = S + (M * 60) + (H * 60 * 60)
+            DailySeconds.stringValue = "\(CurrentSeconds)"
+    }
     }
     
     var OldSeconds: Double = 0.0
@@ -174,6 +247,9 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         Started = true
         let IsFlat = VType == .FlatNorthCenter || VType == .FlatSouthCenter ? true : false
         SetFlatlandVisibility(FlatIsVisible: IsFlat)
+        LocalInfoGrid.wantsLayer = true
+        LocalInfoGrid.layer?.zPosition = 19000
+        LocalInfoGrid.isHidden = !Settings.GetBool(.ShowLocalData)
     }
     
     /// Initialize the UI, reflecting the current user settings.
@@ -560,6 +636,9 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             case .LocalLongitude, .LocalLatitude:
                 (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
             
+            case .ShowLocalData:
+                LocalInfoGrid.isHidden = !Settings.GetBool(.ShowLocalData)
+            
             default:
                 print("Unhandled setting change: \(Setting)")
         }
@@ -590,6 +669,12 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     // MARK: - Interface builder outlets.
     
     
+    @IBOutlet weak var DailySeconds: NSTextField!
+    @IBOutlet weak var DeclinationLabel: NSTextField!
+    @IBOutlet weak var LocalSunset: NSTextField!
+    @IBOutlet weak var LocalNoon: NSTextField!
+    @IBOutlet weak var LocalSunrise: NSTextField!
+    @IBOutlet weak var LocalInfoGrid: NSGridView!
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
     @IBOutlet weak var SunViewBottom: NSImageView!
