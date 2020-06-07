@@ -22,6 +22,7 @@ enum SettingTypes: String, CaseIterable
     case NightMaskAlpha = "NightMaskAlpha"
     case HourType = "HourType"
     case TimeLabel = "TimeLabel"
+    case TimeLabelSeconds = "TimeLabelSeconds"
     case ShowGrid = "ShowGrid"
     case ShowSun = "ShowSun"
     case CurrentMap = "CurrentMap"
