@@ -12,5 +12,4 @@ import AppKit
 
 class MainSettingsWindowsCode: NSWindowController, NSWindowDelegate
 {
-
 }
