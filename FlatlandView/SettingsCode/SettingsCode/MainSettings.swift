@@ -757,6 +757,19 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
         let CurrentScript = Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English)
         ScriptCombo.selectItem(withObjectValue: CurrentScript.rawValue)
+        let TimeLabelType = Settings.GetEnum(ForKey: .TimeLabel, EnumType: TimeLabels.self, Default: .None)
+        switch TimeLabelType
+        {
+            case .None:
+                TimeLabelSegment.selectedSegment = 0
+            
+            case .UTC:
+                TimeLabelSegment.selectedSegment = 1
+            
+            case .Local:
+                TimeLabelSegment.selectedSegment = 2
+        }
+        ShowSecondsCheck.state = Settings.GetBool(.TimeLabelSeconds) ? .on : .off
     }
     
     @IBAction func HandleShowLocalDataCheckChanged(_ sender: Any)
@@ -783,6 +796,30 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
     }
     
+    @IBAction func HandleTimeLabelChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            let TimeTypes = [TimeLabels.None, TimeLabels.UTC, TimeLabels.Local]
+            if Segment.selectedSegment > TimeTypes.count - 1
+            {
+                return
+            }
+            Settings.SetEnum(TimeTypes[Segment.selectedSegment], EnumType: TimeLabels.self, ForKey: .TimeLabel)
+            MainDelegate?.Refresh("MainSettings.HandleTimeLabelChanged")
+        }
+    }
+    
+    @IBAction func HandleShowSecondsChanged(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            Settings.SetBool(.TimeLabelSeconds, Button.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var ShowSecondsCheck: NSButton!
+    @IBOutlet weak var TimeLabelSegment: NSSegmentedControl!
     @IBOutlet weak var ScriptCombo: NSComboBox!
     @IBOutlet weak var ShowLocalDataCheck: NSButton!
     
