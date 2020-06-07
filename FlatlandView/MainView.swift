@@ -156,7 +156,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         {
             OldSeconds = CurrentSeconds
             var Cal = Calendar(identifier: .gregorian)
-            Cal.timeZone = TZ!
+            //Use UTC time zone for rotational calculations, not the local time zone (if the user
+            //is using the local zone). All calculations are based on UTC and so if local time zones
+            //are used, the map wil be rotated incorrectly.
+            Cal.timeZone = TimeZone(abbreviation: "UTC")!
             let Hour = Cal.component(.hour, from: Now)
             let Minute = Cal.component(.minute, from: Now)
             let Second = Cal.component(.second, from: Now)
