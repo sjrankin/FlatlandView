@@ -30,6 +30,14 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         
         InitializeFlatland()
         
+        #if DEBUG
+        DebugGrid.wantsLayer = true
+        DebugGrid.layer?.zPosition = 19000
+        DebugGrid.isHidden = false
+        #else
+        DebugGrid.removeFromSuperview()
+        #endif
+        
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
     }
     
@@ -46,6 +54,12 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         RunLoop.current.add(UpdateTimer!, forMode: .common)
         MasterTimerHandler()
         //let _ = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(QuickTimer), userInfo: nil, repeats: true)
+        #if DEBUG
+        StartDebugCount = Date.timeIntervalSinceReferenceDate
+        let DebugTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(DebugTimerHandler), userInfo: nil, repeats: true)
+        RunLoop.current.add(DebugTimer, forMode: .common)
+        DebugTimerHandler()
+        #endif
     }
     
     var UpdateTimer: Timer? = nil
@@ -62,6 +76,21 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     }
     
     var TestPercent: Double = 0.0
+    
+    #if DEBUG
+    @objc func DebugTimerHandler()
+    {
+        if Date.timeIntervalSinceReferenceDate - StartDebugCount >= 1.0
+        {
+            StartDebugCount = Date.timeIntervalSinceReferenceDate
+        UptimeSeconds = UptimeSeconds + 1
+        UptimeValueLabel.stringValue = "\(UptimeSeconds)"
+        }
+    }
+    
+    var StartDebugCount: Double = 0.0
+        var UptimeSeconds: Int = 0
+    #endif
     
     @objc func MasterTimerHandler()
     {
@@ -88,11 +117,12 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 MainTimeLabelBottom.isHidden = false
         }
         
+        let LabelType = Settings.GetEnum(ForKey: .TimeLabel, EnumType: TimeLabels.self, Default: .None)
         let Now = GetUTC()
         let Formatter = DateFormatter()
         Formatter.dateFormat = "HH:mm:ss"
         var TimeZoneAbbreviation = ""
-        if Settings.GetEnum(ForKey: .TimeLabel, EnumType: TimeLabels.self) == .UTC
+        if LabelType == .UTC
         {
             TimeZoneAbbreviation = "UTC"
         }
@@ -102,10 +132,23 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         }
         let TZ = TimeZone(abbreviation: TimeZoneAbbreviation)
         Formatter.timeZone = TZ
-        let Final = Formatter.string(from: Now)
+        var Final = Formatter.string(from: Now)
+        if !Settings.GetBool(.TimeLabelSeconds)
+        {
+            let Parts = Final.split(separator: ":")
+            Final = "\(Parts[0]):\(Parts[1])"
+        }
         let FinalText = Final + " " + TimeZoneAbbreviation
-        MainTimeLabelTop.stringValue = FinalText
-        MainTimeLabelBottom.stringValue = FinalText
+        if LabelType == .None
+        {
+            MainTimeLabelTop.stringValue = ""
+            MainTimeLabelBottom.stringValue = ""
+        }
+        else
+        {
+            MainTimeLabelTop.stringValue = FinalText
+            MainTimeLabelBottom.stringValue = FinalText
+        }
         
         let CurrentSeconds = Now.timeIntervalSince1970
         var ElapsedSeconds = 0
@@ -125,7 +168,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         
         if Settings.GetBool(.ShowLocalData)
         {
-                                let Cal = Calendar.current
+            let Cal = Calendar.current
             if Settings.HaveLocalLocation()
             {
                 var RiseAndSetAvailable = true
@@ -186,14 +229,14 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 LocalSunrise.stringValue = "N/A"
                 LocalNoon.stringValue = "N/A"
             }
-        let DaysDeclination = Sun.Declination(For: Date())
-        DeclinationLabel.stringValue = "\(DaysDeclination.RoundedTo(3))°"
+            let DaysDeclination = Sun.Declination(For: Date())
+            DeclinationLabel.stringValue = "\(DaysDeclination.RoundedTo(3))°"
             let H = Cal.component(.hour, from: Date())
             let M = Cal.component(.minute, from: Date())
             let S = Cal.component(.second, from: Date())
             let CurrentSeconds = S + (M * 60) + (H * 60 * 60)
             DailySeconds.stringValue = "\(CurrentSeconds)"
-    }
+        }
     }
     
     var OldSeconds: Double = 0.0
@@ -599,9 +642,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             case .SunType:
                 UpdateSunLocations()
             
-            case .TimeLabel:
-                break
-            
             case .CityShapes:
                 World3DView.PlotCities()
             
@@ -637,11 +677,28 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
             
             case .ShowLocalData:
-                LocalInfoGrid.isHidden = !Settings.GetBool(.ShowLocalData)
+                UpdateInfoGridVisibility(Show: Settings.GetBool(.ShowLocalData))
             
             default:
                 print("Unhandled setting change: \(Setting)")
         }
+    }
+    
+    /// Hide or show the info grid.
+    /// - Note: For fun, the grid is shown or hidden using animation.
+    /// - Parameter Show: Determines whether the info grid is hidden or shown.
+    func UpdateInfoGridVisibility(Show: Bool)
+    {
+        let AlphaStart: Float = Show ? 0.0 : 1.0
+        let AlphaEnd: Float = Show ? 1.0 : 0.0
+        let Animate = CABasicAnimation(keyPath: "opacity")
+        Animate.fromValue = AlphaStart
+        Animate.toValue = AlphaEnd
+        Animate.duration = 0.3
+        Animate.autoreverses = false
+        Animate.fillMode = .forwards
+        Animate.isRemovedOnCompletion = false
+        LocalInfoGrid.layer?.add(Animate, forKey: "fade")
     }
     
     // MARK: - City variables.
@@ -668,7 +725,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     // MARK: - Interface builder outlets.
     
-    
+    @IBOutlet weak var UptimeValueLabel: NSTextField!
+    @IBOutlet weak var DebugGrid: NSGridView!
     @IBOutlet weak var DailySeconds: NSTextField!
     @IBOutlet weak var DeclinationLabel: NSTextField!
     @IBOutlet weak var LocalSunset: NSTextField!
