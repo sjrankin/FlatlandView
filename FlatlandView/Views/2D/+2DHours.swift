@@ -68,15 +68,23 @@ extension MainView
             HourList = HourList.Shift(By: InitialOffset)
             if let LocalLongitude = Settings.GetDoubleNil(.LocalLongitude)
             {
+                var DeskOffset = 0
                 var Long = Int(LocalLongitude / 15.0)
                 var Multiplier = 1
                 if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
                 {
                     Multiplier = -1
+                    DeskOffset = 7
                 }
-                Long = Long * Int(Multiplier)
+                else
+                {
+                    Multiplier = 1
+                    DeskOffset = -7
+                }
+                Long = Long * Int(Multiplier) + DeskOffset
                 HourList = HourList.Shift(By: Long)
             }
+            
             for Hour in 0 ... 23
             {
                 let Angle = (CGFloat(Hour) + HourOffset) / 24.0 * 360.0
@@ -137,7 +145,7 @@ extension MainView
                 TextNode.foregroundColor = NSColor.yellow.cgColor
                 TextNode.frame = CGRect(x: X, y: Y, width: Width, height: Height)
                 TextNode.bounds = CGRect(x: 0, y: 0, width: Width, height: Height)
-                let TextRotate = ((90.0 - Angle) + /*180.0*/0.0).Radians
+                let TextRotate = (90.0 - Angle).Radians
                 TextNode.transform = CATransform3DRotate(TextNode.transform, -TextRotate, 0.0, 0.0, 1.0)
                 TextLayer.addSublayer(TextNode)
             }
