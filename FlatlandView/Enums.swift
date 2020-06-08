@@ -195,6 +195,12 @@ enum NightDarknesses: String, CaseIterable
     case VeryDark = "VeryDark"
 }
 
+enum LocationShapes2D: String, CaseIterable
+{
+    case Square = "Square"
+    case Circle = "Circle"
+}
+
 /// Z position enum and layer values. Defines which layers are on top of other layers.
 /// Higher values mean closer to the user which means more likely to be visible.
 enum LayerZLevels: Int
