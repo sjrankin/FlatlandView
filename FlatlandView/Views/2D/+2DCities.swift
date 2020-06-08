@@ -31,11 +31,24 @@ extension MainView
             CityLayer?.frame = FlatViewMainImage.bounds
             CityView2D.layer!.addSublayer(CityLayer!)
         }
-        let Bezier = NSBezierPath()
+        if CityLayer?.sublayers != nil
+        {
+            for SomeLayer in CityLayer!.sublayers!
+            {
+                if SomeLayer.name == "Plotted City"
+                {
+                    SomeLayer.removeFromSuperlayer()
+                }
+            }
+        }
         for SomeCity in InCityList
         {
-            let CityPath = PlotCity(SomeCity, Diameter: (CityLayer?.bounds.width)!)
-            Bezier.append(CityPath)
+            let Where = GeoPoint2(SomeCity.Latitude, SomeCity.Longitude)
+            let CityColor = Cities.ColorForCity(SomeCity)
+            let OneCityLayer = PlotLocation(Where, SomeCity.Name, CityColor, NSColor.red,
+                                         (CityLayer?.bounds.width)!, .Circle)
+            OneCityLayer.name = "Plotted City"
+            CityLayer?.addSublayer(OneCityLayer)
         }
         if Settings.GetBool(.ShowUserLocations)
         {
@@ -52,57 +65,26 @@ extension MainView
             let UserLocations = Settings.GetLocations()
             for (_, Location, Name, Color) in UserLocations
             {
-                let LocationLayer = PlotLocation(Location, Name, Color, (CityLayer?.bounds.width)!)
+                let LocationLayer = PlotLocation(Location, Name, Color, NSColor.yellow,
+                                                 (CityLayer?.bounds.width)!, .Square)
                 LocationLayer.name = "User Location"
                 CityLayer?.addSublayer(LocationLayer)
             }
         }
-        CityLayer?.fillColor = NSColor.red.cgColor
-        CityLayer?.strokeColor = NSColor.black.cgColor
-        CityLayer?.lineWidth = 1.0
-        let FinalPath = Bezier.cgPath
-        CityLayer?.path = FinalPath
         let Rotation = CATransform3DMakeRotation(CGFloat(-RadialTime), 0.0, 0.0, 1.0)
         CityLayer?.transform = Rotation
-    }
-    
-    /// Draw the specified city on a 2D map.
-    /// - Parameter PlotMe: The city to plot.
-    /// - Parameter Diameter: The diamter of the map.
-    /// - Returns: An `NSBezierPath` with size and location ready for plotting on the main layer.
-    func PlotCity(_ PlotMe: City, Diameter: CGFloat) -> NSBezierPath
-    {
-        let Latitude = PlotMe.Latitude
-        let Longitude = PlotMe.Longitude
-        let Half = Double(Diameter / 2.0)
-        let Ratio: Double = Half / HalfCircumference
-        let CitySize: CGFloat = 10.0
-        let CityDotSize = CGSize(width: CitySize, height: CitySize)
-        let PointModifier = Double(CGFloat(Half) - (CitySize / 2.0))
-        let BearingOffset = 180.0
-        var LongitudeAdjustment = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            LongitudeAdjustment = 1.0
-        }
-        var Distance = DistanceFromContextPole(To: GeoPoint2(Latitude, Longitude))
-        Distance = Distance * Ratio
-        var CityBearing = Bearing(Start: GeoPoint2(90.0, 0.0), End: GeoPoint2(Latitude, Longitude * LongitudeAdjustment))
-        CityBearing = (CityBearing + 90.0 + BearingOffset).ToRadians()
-        let PointX = Distance * cos(CityBearing) + PointModifier
-        let PointY = Distance * sin(CityBearing) + PointModifier
-        let Origin = CGPoint(x: PointX, y: PointY)
-        let City = NSBezierPath(ovalIn: CGRect(origin: Origin, size: CityDotSize))
-        return City
     }
     
     /// Plot a point on the 2D map based on the passed point.
     /// - Parameter Location: The location where to plot.
     /// - Parameter Name: The name of the location.
     /// - Parameter Color: The color of the plotted point.
+    /// - Parameter OutlineColor: The color of the outline of the plotted point.
     /// - Parameter Diameter: The diameter of the 2D map.
+    /// - Parameter Shape: The shape of the plotted location.
     /// - Returns: A `CAShapeLayer` with the location plotted.
-    func PlotLocation(_ Location: GeoPoint2, _ Name: String, _ Color: NSColor, _ Diameter: CGFloat) -> CAShapeLayer
+    func PlotLocation(_ Location: GeoPoint2, _ Name: String, _ Color: NSColor, _ OutlineColor: NSColor,
+                      _ Diameter: CGFloat, _ Shape: LocationShapes2D) -> CAShapeLayer
     {
         let Latitude = Location.Latitude
         let Longitude = Location.Longitude
@@ -124,13 +106,21 @@ extension MainView
         let PointX = Distance * cos(LocationBearing) + PointModifier
         let PointY = Distance * sin(LocationBearing) + PointModifier
         let Origin = CGPoint(x: PointX, y: PointY)
-        let Location = NSBezierPath(rect: CGRect(origin: Origin, size: LocationDotSize))
+        var Location: NSBezierPath!
+        switch Shape
+        {
+            case .Square:
+            Location = NSBezierPath(rect: CGRect(origin: Origin, size: LocationDotSize))
+            
+            case .Circle:
+            Location = NSBezierPath(ovalIn: CGRect(origin: Origin, size: LocationDotSize))
+        }
         let Layer = CAShapeLayer()
         Layer.frame = FlatViewMainImage.bounds
         Layer.bounds = FlatViewMainImage.bounds
         Layer.backgroundColor = NSColor.clear.cgColor
         Layer.fillColor = Color.cgColor
-        Layer.strokeColor = NSColor.black.cgColor
+        Layer.strokeColor = OutlineColor.cgColor
         Layer.lineWidth = 1.0
         Layer.path = Location.cgPath
         return Layer
