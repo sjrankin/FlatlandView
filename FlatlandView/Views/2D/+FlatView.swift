@@ -182,7 +182,6 @@ extension MainView
         }
         //Be sure to rotate the proper direction based on the map.
         let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
-        let Rotation = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
         FlatViewMainImage.wantsLayer = true
         FlatViewMainImage.imageAlignment = .alignCenter
         FlatViewMainImage.imageScaling = .scaleProportionallyDown
@@ -199,7 +198,16 @@ extension MainView
         }
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
-            HourLayer2D.layer!.transform = Rotation
+            if let HAnimatorLayer = HourLayer2D.animator().layer
+            {
+                HourLayer2D.layer?.position = CGPoint(x: HourLayer2D.frame.midX,
+                                                      y: HourLayer2D.frame.midY)
+                HourLayer2D.layer?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+                NSAnimationContext.beginGrouping()
+                NSAnimationContext.current.allowsImplicitAnimation = true
+                HAnimatorLayer.transform = CATransform3DMakeRotation(CGFloat(-Radians), 0.0, 0.0, 1.0)
+                NSAnimationContext.endGrouping()
+            }
         }
         if Settings.GetBool(.ShowGrid)
         {
