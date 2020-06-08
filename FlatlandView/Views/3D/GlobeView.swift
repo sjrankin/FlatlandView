@@ -305,8 +305,6 @@ class GlobeView: SCNView, GlobeProtocol
     /// - Parameter FastAnimated: Used for debugging.
     func AddEarth(FastAnimate: Bool = false)
     {
-        let CameraController = self.defaultCameraController
-        print("Initial CameraController.pointOfView=\(CameraController.pointOfView)")
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .CubicWorld
         {
             ShowCubicEarth()
