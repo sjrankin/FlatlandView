@@ -45,7 +45,7 @@ class AboutController: NSViewController
         Light.castsShadow = true
         Light.shadowColor = NSColor.black.withAlphaComponent(0.80)
         Light.shadowMode = .forward
-        Light.shadowRadius = 10.0
+        Light.shadowRadius = 3.0
         Light.color = NSColor.white
         LightNode = SCNNode()
         LightNode.light = Light
@@ -57,7 +57,7 @@ class AboutController: NSViewController
         MoonLight.castsShadow = true
         MoonLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
         MoonLight.shadowMode = .forward
-        MoonLight.shadowRadius = 10.0
+        MoonLight.shadowRadius = 6.0
         MoonLight.color = NSColor.cyan
         MoonNode = SCNNode()
         MoonNode.light = MoonLight
