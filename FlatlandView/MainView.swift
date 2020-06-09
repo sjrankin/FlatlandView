@@ -288,7 +288,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     {
         let VType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+        if VType != .CubicWorld
+        {
         FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: MapValue, ViewType: VType)!)
+        }
         InitializeUpdateTimer()
         Started = true
         let IsFlat = VType == .FlatNorthCenter || VType == .FlatSouthCenter ? true : false
@@ -327,8 +330,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             case .Globe3D:
                 (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 2
             
-            default:
-                (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 0
+            case .CubicWorld:
+                (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 3
         }
         
         MainTimeLabelBottom.wantsLayer = true
@@ -418,7 +421,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     @IBAction func ResetCurrentView(_ sender: Any)
     {
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+        if [ViewTypes.Globe3D, ViewTypes.CubicWorld].contains(Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D))
         {
             World3DView.ResetCamera()
         }
@@ -470,6 +473,11 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     @IBAction func ViewTypeGlobal(_ sender: Any)
     {
         Settings.SetEnum(.Globe3D, EnumType: ViewTypes.self, ForKey: .ViewType)
+    }
+    
+    @IBAction func ViewTypeCubic(_ sender: Any)
+    {
+        Settings.SetEnum(.CubicWorld, EnumType: ViewTypes.self, ForKey: .ViewType)
     }
     
     @IBAction func ViewSelectMap(_ sender: Any)
@@ -558,6 +566,9 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 case 2:
                     ViewTypeGlobal(sender)
                 
+                case 3:
+                ViewTypeCubic(sender)
+                
                 default:
                     return
             }
@@ -620,6 +631,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                             IsFlat = true
                         
                         case .CubicWorld:
+                            World3DView.AddEarth()
                             IsFlat = false
                         
                         case .Globe3D:
