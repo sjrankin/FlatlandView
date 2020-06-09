@@ -114,6 +114,7 @@ class MapList
             MapItem(.Debug4, false, "BWCheckerboard", "BWCheckerboardRound", "BWCheckerboardRound"),
             MapItem(.Debug5, false, "BlackClearCheckerboard", "BWCheckerboardRound", "BWCheckerboardRound"),
             MapItem(.USGS, false, "USGSWorld", "USGSWorldNorthCenter", "USGSWorldSouthCenter"),
+            MapItem(.StylizedSea1, false, "LandMask2", "WorldNorth", "WorldSouth"),
     ]
 }
 
@@ -203,4 +204,5 @@ enum MapTypes: String, CaseIterable
     case Debug4 = "Black White Checkerboard"
     case Debug5 = "Black Color Checkerboard"
     case USGS = "USGS"
+    case StylizedSea1 = "Stylized Sea 1"
 }
