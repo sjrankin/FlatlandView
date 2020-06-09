@@ -159,6 +159,13 @@
                                                             <action selector="ViewTypeGlobal:" target="Ady-hI-5gd" id="YhO-FP-p0T"/>
                                                         </connections>
                                                     </menuItem>
+                                                    <menuItem isSeparatorItem="YES" id="03u-dt-26q"/>
+                                                    <menuItem title="Cubic" id="jO8-WL-gYz">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="ViewTypeCubic:" target="Ady-hI-5gd" id="9Ld-nl-K7L"/>
+                                                        </connections>
+                                                    </menuItem>
                                                 </items>
                                             </menu>
                                             <connections>
@@ -334,7 +341,7 @@
                                 <toolbarItem implicitItemIdentifier="035E267A-B129-4277-8A38-B30992B1707A" label="View Type" paletteLabel="View Type" sizingBehavior="auto" id="6UT-qH-5yc">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="OO8-3g-cKV">
-                                        <rect key="frame" x="0.0" y="14" width="153" height="24"/>
+                                        <rect key="frame" x="0.0" y="14" width="194" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="JIr-3h-Z9n">
                                             <font key="font" metaFont="system"/>
@@ -342,6 +349,9 @@
                                                 <segment image="NorthCenterIcon" width="48"/>
                                                 <segment image="SouthCenterIcon" width="48" selected="YES" tag="1"/>
                                                 <segment image="GlobeIcon" width="48">
+                                                    <nil key="label"/>
+                                                </segment>
+                                                <segment image="CubeIcon">
                                                     <nil key="label"/>
                                                 </segment>
                                             </segments>
@@ -767,6 +777,7 @@
         <image name="CameraButtonUnpressed" width="24" height="24"/>
         <image name="CircleIcon" width="24" height="24"/>
         <image name="ClockIcon" width="24" height="24"/>
+        <image name="CubeIcon" width="24" height="24"/>
         <image name="DebugIcon" width="24" height="24"/>
         <image name="DeltaIcon" width="24" height="24"/>
         <image name="GearIcon" width="24" height="24"/>
