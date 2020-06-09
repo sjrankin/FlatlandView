@@ -144,6 +144,9 @@ class MapManager
             case .Silly:
                 return [.House, .Tigger]
             
+            case .Stylized:
+                return [.StylizedSea1]
+            
             case .Debug:
                 return [.Debug1, .Debug3, .Debug2, .Debug4, .Debug5]
             
@@ -189,6 +192,8 @@ enum MapCategories: String, CaseIterable
     case Dithered = "Dithered"
     /// Silly maps.
     case Silly = "Silly"
+    /// Stylized maps.
+    case Stylized = "Stylized"
     #if DEBUG
     /// Debug maps.
     case Debug = "Debug"
