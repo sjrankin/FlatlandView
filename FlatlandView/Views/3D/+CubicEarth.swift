@@ -49,12 +49,13 @@ extension GlobeView
         SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
         HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
         
-        self.prepare([EarthNode!], completionHandler:
+        self.prepare([EarthNode!, HourNode!], completionHandler:
             {
                 success in
                 if success
                 {
                     self.SystemNode?.addChildNode(self.EarthNode!)
+                    self.SystemNode?.addChildNode(self.HourNode!)
                     self.scene?.rootNode.addChildNode(self.SystemNode!)
                 }
         }
