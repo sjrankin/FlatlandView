@@ -365,6 +365,9 @@ class GlobeView: SCNView, GlobeProtocol
             case .TectonicOverlay:
                 SecondaryMap = MapManager.ImageFor(MapType: .Dithered, ViewType: .Globe3D)!
             
+            case .StylizedSea1:
+                SecondaryMap = NSImage(named: "JapanesePattern4")!
+            
             default:
                 break
         }
@@ -377,6 +380,11 @@ class GlobeView: SCNView, GlobeProtocol
         //Precondition the surfaces.
         switch MapType
         {
+            case .StylizedSea1:
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
+            
             case .Debug2:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -457,7 +465,7 @@ class GlobeView: SCNView, GlobeProtocol
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug2,
-                                      .Debug5]
+                                      .Debug5, .StylizedSea1]
         self.prepare([EarthNode!, SeaNode!], completionHandler:
             {
                 success in
