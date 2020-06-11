@@ -1125,6 +1125,88 @@ extension NSColor
         }
         return false
     }
+    
+    // MARK: - Named colors.
+    
+    static var Maroon: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#800000")!
+        }
+    }
+    
+    static var Gold: NSColor
+    {
+        get
+        {
+        return NSColor(HexString: "#ffd700")!
+        }
+    }
+    
+    static var LightSkyBlue: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#87cefa")!
+        }
+    }
+    
+    static var PrussianBlue: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#003171")!
+        }
+    }
+    
+    static var Pistachio: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#93c572")!
+        }
+    }
+    
+    static var Lime: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#bfff00")!
+        }
+    }
+    
+    static var Midori: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#2a603b")!
+        }
+    }
+    
+    static var Botan: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#a4345d")!
+        }
+    }
+    
+    static var Shironeri: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#ffddca")!
+        }
+    }
+    
+    static var Ajiiro: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#ebf6f7")!
+        }
+    }
 }
 
 // MARK: - NSBezierPath extensions.
