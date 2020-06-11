@@ -166,6 +166,11 @@ class SCNStar: SCNNode
     ///   - ZHeight: Extrusion depth.
     public static func Geometry(VertexCount: Int, Height: Double, Base: Double, ZHeight: Double) -> SCNGeometry
     {
+        #if true
+        let Path = StarPath(VertexCount: VertexCount, Height: Height, Base: Base)
+        let StarGeo = SCNShape(path: Path, extrusionDepth: CGFloat(ZHeight))
+        return StarGeo
+        #else
         if VertexCount < 1
         {
             fatalError("Vetex count is 0. Unable to continue.")
@@ -197,6 +202,46 @@ class SCNStar: SCNNode
         let StarGeo = SCNShape(path: Path, extrusionDepth: CGFloat(ZHeight))
         
         return StarGeo
+        #endif
+    }
+    
+    /// Creates a star path and returns it as an `NSBezierPath`.
+    /// - Parameter VertexCount: Number of vertices on the star.
+    /// - Parameter Height: Height of each ray of the star.
+    /// - Parameter Base: Base of each ray of the star.
+    /// - Parameter XOffset: Horizontal offset. Defaults to `0.0`.
+    /// - Parameter YOffset: Vertical offset. Defaults to `0.0`.
+    /// - Returns: `NSBezierPath` with the star shape.
+    public static func StarPath(VertexCount: Int, Height: Double, Base: Double,
+                                XOffset: CGFloat = 0.0, YOffset: CGFloat = 0.0) -> NSBezierPath
+    {
+        let AngleIncrement = 360.0 / Double(VertexCount)
+        let HalfIncrement = AngleIncrement / 2.0
+        let Path = NSBezierPath()
+        var Points = [SCNVector3]()
+        for Multiplier in 0 ..< VertexCount
+        {
+            let Angle = Double(Multiplier) * AngleIncrement
+            let RayData = MakeRay(AtAngle: Angle, HalfAngle: HalfIncrement, Base: Base, Height: Height)
+            Points.append(contentsOf: RayData)
+        }
+        var IsFirst = true
+        for SomePoint in Points
+        {
+            if IsFirst
+            {
+                Path.move(to: CGPoint(x: CGFloat(SomePoint.x) + XOffset,
+                                      y: CGFloat(SomePoint.y) + YOffset))
+                IsFirst = false
+            }
+            else
+            {
+                Path.line(to: CGPoint(x: CGFloat(SomePoint.x) + XOffset,
+                                      y: CGFloat(SomePoint.y) + YOffset))
+            }
+        }
+        Path.close()
+        return Path
     }
     
     /// Make one ray (pointed part/apex) of the star.
