@@ -12,6 +12,13 @@ import SceneKit
 
 extension GlobeView
 {
+    /// Convience function to update the hours by those callers who do not want to worry about
+    /// the internals of doing so.
+    func UpdateHours()
+    {
+        UpdateHourLabels(With: Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None))
+    }
+    
     /// Update the globe display with the specified hour types.
     /// - Note: If `InVersionDisplayMode` is true, a special case is executed and control returned
     ///         before any other cases are executed. Also, the current declination is ignored if
@@ -25,29 +32,21 @@ extension GlobeView
         switch With
         {
             case .None:
-                //                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
-                //                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 break
             
             case .Solar:
-                //                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
-                //                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 HourNode = DrawHourLabels(Radius: 11.1)
                 let Declination = Sun.Declination(For: Date())
                 HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
                 self.scene?.rootNode.addChildNode(HourNode!)
             
             case .RelativeToNoon:
-                //                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
-                //                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 HourNode = DrawHourLabels(Radius: 11.1)
                 let Declination = Sun.Declination(For: Date())
                 HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
                 self.scene?.rootNode.addChildNode(HourNode!)
             
             case .RelativeToLocation:
-                //                RemoveNodeFrom(Parent: SystemNode!, Named: "Hour Node")
-                //                RemoveNodeFrom(Parent: self.scene!.rootNode, Named: "Hour Node")
                 HourNode = DrawHourLabels(Radius: 11.1)
                 SystemNode?.addChildNode(HourNode!)
         }
@@ -84,6 +83,23 @@ extension GlobeView
         }
     }
     
+    /// Returns a string in the user-set script for the hours.
+    /// - Parameter Raw: The raw value returned if there is no script equivalent for the native value.
+    /// - Parameter Actual: The actual numerical value.
+    /// - Returns: The string value to use to display hours.
+    func GetScriptHours(_ Raw: String, Actual: Int) -> String
+    {
+        switch Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English)
+        {
+            case .English:
+            return Raw
+            
+            case .Japanese:
+            let JValue = JapaneseHours[abs(Actual)]!
+            return JValue
+        }
+    }
+    
     /// Make the hour node such that `12` is always under the noon longitude and `0` under midnight.
     /// - Parameter Radius: The radius of the hour label.
     /// - Returns: Node with labels set up for noontime.
@@ -95,13 +111,14 @@ extension GlobeView
         Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
         Node.name = "Hour Node"
-        var HourLabelList = [String]()
+        var HourLabelList = [(String, Int)]()
         
         for Hour in 0 ... 23
         {
             //Calculate the display hour.
             let DisplayHour = 24 - (Hour + 5) % 24 - 1
-            HourLabelList.append("\(DisplayHour)")
+            let DisplayString = GetScriptHours("\(DisplayHour)", Actual: DisplayHour)
+            HourLabelList.append((DisplayString, DisplayHour))
         }
         return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: NSColor.yellow, RadialOffset: 6.0)
     }
@@ -117,7 +134,7 @@ extension GlobeView
         Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
         Node.name = "Hour Node"
-        var HourLabelList = [String]()
+        var HourLabelList = [(String, Int)]()
         
         for Hour in 0 ... 23
         {
@@ -129,7 +146,12 @@ extension GlobeView
             {
                 Prefix = "+"
             }
-            HourLabelList.append("\(Prefix)\(DisplayHour)")
+            let DisplayString = GetScriptHours("\(DisplayHour)", Actual: DisplayHour)
+            if Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English) != .English
+            {
+                Prefix = ""
+            }
+            HourLabelList.append(("\(Prefix)\(DisplayString)", DisplayHour))
         }
         let LetterColor = NSColor(red: 239.0 / 255.0, green: 204.0 / 255.0, blue: 0.0 / 255.0, alpha: 1.0)
         return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: LetterColor, RadialOffset: 6.0)
@@ -153,7 +175,7 @@ extension GlobeView
         let LocalLongitude = Settings.GetDoubleNil(.LocalLongitude)!
         let Long = Int(LocalLongitude / 15.0)
         HourList = HourList.Shift(By: Long)
-        var HourLabelList = [String]()
+        var HourLabelList = [(String, Int)]()
         for Hour in 0 ... 23
         {
             let Hour = Hour % 24
@@ -163,30 +185,15 @@ extension GlobeView
             {
                 Prefix = "+"
             }
-            HourLabelList.append("\(Prefix)\(DisplayHour)")
+            let DisplayString = GetScriptHours("\(DisplayHour)", Actual: DisplayHour)
+            if Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English) != .English
+            {
+                Prefix = ""
+            }
+            HourLabelList.append(("\(Prefix)\(DisplayString)", DisplayHour))
         }
         let LetterColor = NSColor(red: 227.0 / 255.0, green: 1.0, blue: 0.0, alpha: 1.0)
         return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: LetterColor)
-    }
-    
-    /// Convert a number in the range 0 to 24 from an integer to the proper string in the current
-    /// display language.
-    /// - Parameter Number: The number to convert.
-    /// - Returns: String with the proper number in the display language.
-    func ConvertToLanguage(_ Number: Int) -> String
-    {
-        if Number < 0 || Number > 24
-        {
-            fatalError("Invalid number for conversion (\(Number)) - out of range [0...24].")
-        }
-        switch Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English)
-        {
-            case .English:
-                return "\(Number)"
-            
-            case .Japanese:
-                return JapaneseHours[Number]
-        }
     }
     
     /// Given an array of words, place a set of words in the hour ring over the Earth.
@@ -194,11 +201,12 @@ extension GlobeView
     ///         words to appear correctly as people would expect.
     /// - Parameter Radius: The radius of the word.
     /// - Parameter Labels: Array of hour values (if order is significant, the first word in the order
-    ///                    must be the last entry in the array) to display as expected.
+    ///                    must be the last entry in the array) to display as expected. Also contains
+    ///                    corresponding actual value.
     /// - Parameter LetterColor: The color to use for the diffuse surface.
     /// - Parameter RadialOffset: Offset value for adjusting the final location of the letter in orbit.
     /// - Returns: Node for words in the hour ring.
-    func PlotHourLabels(Radius: Double, Labels: [String], LetterColor: NSColor = NSColor.systemYellow,
+    func PlotHourLabels(Radius: Double, Labels: [(String, Int)], LetterColor: NSColor = NSColor.systemYellow,
                         RadialOffset: CGFloat = 0.0) -> SCNNode
     {
         print("Plotting hours")
@@ -208,12 +216,14 @@ extension GlobeView
         Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
         Node.name = "Hour Node"
-        //let Circumference = CGFloat(Radius) * CGFloat.pi * 2.0
+
+        let VisualScript = Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English)
         
         let StartAngle = 0
         var Angle = StartAngle
         for Label in Labels
         {
+            let Actual = Label.1
             var WorkingAngle: CGFloat = CGFloat(Angle) + RadialOffset
             var PreviousEnding: CGFloat = 0.0
             var TotalLabelWidth: CGFloat = 0.0
@@ -221,11 +231,12 @@ extension GlobeView
             let LabelNode = SCNNode()
             let VerticalOffset: CGFloat = 0.8
             let SpecularColor = NSColor.white
-            for (_, Letter) in Label.enumerated()
+            for (_, Letter) in Label.0.enumerated()
             {
                 let Radians = WorkingAngle.Radians
                 let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
-                HourText.font = NSFont(name: "Avenir-Heavy", size: 20.0)
+                let FontSize: CGFloat = VisualScript == .English ? 20.0 : 14.0
+                HourText.font = NSFont(name: "Avenir-Heavy", size: FontSize)
                 var CharWidth: Float = 0
                 if Letter == " "
                 {
@@ -250,7 +261,23 @@ extension GlobeView
                     LabelHeight = CGFloat(DeltaHeight)
                 }
                 WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
-                HourText.firstMaterial?.diffuse.contents = LetterColor
+                var FinalLetterColor = LetterColor
+                if VisualScript != .English
+                {
+                    if Actual < 0
+                    {
+                        FinalLetterColor = NSColor.red
+                    }
+                    if Actual > 0
+                    {
+                        FinalLetterColor = NSColor.green
+                    }
+                    if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .Solar
+                    {
+                        FinalLetterColor = LetterColor
+                    }
+                }
+                HourText.firstMaterial?.diffuse.contents = FinalLetterColor
                 HourText.firstMaterial?.specular.contents = SpecularColor
                 HourText.flatness = 0.2
                 let X = CGFloat(Radius) * cos(Radians)
