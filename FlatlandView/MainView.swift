@@ -589,13 +589,13 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         Show2DHours()
     }
     
-    // MARK: - Protocol-required functions
-    
     // MARK: - MainProtocol required functions.
     
+    /// Refresh called from someone who changed something. Provides alternative method for setting
+    /// changes.
+    /// - Parameter From: The caller's label.
     func Refresh(_ From: String)
     {
-        print("Refresh called from \(From)")
     }
     
     // MARK: - Settings changed required functions.
@@ -693,6 +693,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             
             case .ShowLocalData:
                 UpdateInfoGridVisibility(Show: Settings.GetBool(.ShowLocalData))
+            
+            case .Script:
+                World3DView.PlotPolarShape()
+                World3DView.UpdateHours()
             
             default:
                 print("Unhandled setting change: \(Setting)")
