@@ -70,6 +70,16 @@ extension MainView
                 LocationLayer.name = "User Location"
                 CityLayer?.addSublayer(LocationLayer)
             }
+            if Settings.HaveLocalLocation()
+            {
+                let Location = GeoPoint2(Settings.GetDoubleNil(.LocalLatitude)!,
+                                         Settings.GetDoubleNil(.LocalLongitude)!)
+                let UserLocationLayer = PlotLocation(Location, "Current",
+                                                     NSColor(HexString: "#ffd700")!, NSColor.black,
+                                                     (CityLayer?.bounds.width)!, .Star)
+                UserLocationLayer.name = "User Location"
+                CityLayer?.addSublayer(UserLocationLayer)
+            }
         }
         let Rotation = CATransform3DMakeRotation(CGFloat(-RadialTime), 0.0, 0.0, 1.0)
         CityLayer?.transform = Rotation
@@ -110,10 +120,18 @@ extension MainView
         switch Shape
         {
             case .Square:
-            Location = NSBezierPath(rect: CGRect(origin: Origin, size: LocationDotSize))
+                Location = NSBezierPath(rect: CGRect(origin: Origin, size: LocationDotSize))
             
             case .Circle:
-            Location = NSBezierPath(ovalIn: CGRect(origin: Origin, size: LocationDotSize))
+                Location = NSBezierPath(ovalIn: CGRect(origin: Origin, size: LocationDotSize))
+            
+            case .Oval:
+                let OvalSize = CGSize(width: LocationSize, height: LocationSize / 2.0)
+                Location = NSBezierPath(ovalIn: CGRect(origin: Origin, size: OvalSize))
+            
+            case .Star:
+                Location = SCNStar.StarPath(VertexCount: 5, Height: 7.0, Base: 3.5,
+                                            XOffset: CGFloat(PointX), YOffset: CGFloat(PointY))
         }
         let Layer = CAShapeLayer()
         Layer.frame = FlatViewMainImage.bounds
