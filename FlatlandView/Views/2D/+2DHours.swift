@@ -56,6 +56,7 @@ extension MainView
                 HourOffset = -0.5
             }
             var HourList = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+            //HourList = HourList.reversed()
             var InitialOffset = 0
             if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
             {
@@ -95,9 +96,15 @@ extension MainView
                 switch HourType
                 {
                     case .Solar:
-                        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
+                        var SolarHours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+                        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter) == .FlatNorthCenter
                         {
-                            DisplayHour = 24 - (DisplayHour + 12) % 24
+                            DisplayHour = SolarHours[(Hour + 18) % 24]
+                    }
+                    else
+                        {
+                            SolarHours = SolarHours.reversed()
+                            DisplayHour = SolarHours[(Hour + 5) % 24]
                     }
                     
                     case .RelativeToLocation:
@@ -106,18 +113,25 @@ extension MainView
                         if let _ = Settings.GetDoubleNil(.LocalLongitude)
                         {
                             DisplayHour = HourList[Hour]
+                            if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter) == .FlatNorthCenter
+                            {
+                                DisplayHour = DisplayHour * -1
+                            }
                     }
                     
                     case .RelativeToNoon:
                         IncludeSign = true
                         DisplayHour = DisplayHour - 12
-                        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
+                        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter) == .FlatNorthCenter
                         {
                             DisplayHour = (DisplayHour + 12) % 24
                             if DisplayHour > 12
                             {
                                 DisplayHour = DisplayHour - 24
                             }
+                    }
+                    else
+                        {
                             DisplayHour = DisplayHour * -1
                     }
                     
