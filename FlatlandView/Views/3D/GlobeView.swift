@@ -561,9 +561,9 @@ class GlobeView: SCNView, GlobeProtocol
     // MARK: - Variables for extensions.
     
     /// List of hours in Japanese Kanji.
-    let JapaneseHours = ["〇", "一", "二", "三", "四", "五", "六", "七", "八", "九",
-                         "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七",
-                         "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四"]
+    let JapaneseHours = [0: "〇", 1: "一", 2: "二", 3: "三", 4: "四", 5: "五", 6: "六", 7: "七", 8: "八", 9: "九",
+                         10: "十", 11: "十一", 12: "十二", 13: "十三", 14: "十四", 15: "十五", 16: "十六", 17: "十七",
+                         18: "十八", 19: "十九", 20: "二十", 21: "二十一", 22: "二十二", 23: "二十三", 24: "二十四"]
     
     var NorthPoleFlag: SCNNode? = nil
     var SouthPoleFlag: SCNNode? = nil
@@ -573,7 +573,6 @@ class GlobeView: SCNView, GlobeProtocol
     var HomeNodeHalo: SCNNode? = nil
     var PlottedCities = [SCNNode?]()
     var WHSNodeList = [SCNNode?]()
-    
     var GridImage: NSImage? = nil
 }
 
