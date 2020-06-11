@@ -48,6 +48,7 @@
 		17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */; };
 		17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8524867DB60054B25E /* ConfirmProtocol.swift */; };
 		17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BB82491C8E400CACED5 /* SCNRegular.swift */; };
+		17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BBC2491EAA200CACED5 /* SCNPin.swift */; };
 		17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */; };
 		17D2F6BD2484F6F100404510 /* MainSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BC2484F6F100404510 /* MainSettings.swift */; };
 		17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */; };
@@ -132,6 +133,7 @@
 		17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogCode.swift; sourceTree = "<group>"; };
 		17BD9E8524867DB60054B25E /* ConfirmProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmProtocol.swift; sourceTree = "<group>"; };
 		17CC8BB82491C8E400CACED5 /* SCNRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNRegular.swift; sourceTree = "<group>"; };
+		17CC8BBC2491EAA200CACED5 /* SCNPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPin.swift; sourceTree = "<group>"; };
 		17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorWindow.swift; sourceTree = "<group>"; };
 		17D2F6BC2484F6F100404510 /* MainSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettings.swift; sourceTree = "<group>"; };
 		17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsWindow.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 			children = (
 				17EF339D247A690500A5B55D /* SCNStar.swift */,
 				17CC8BB82491C8E400CACED5 /* SCNRegular.swift */,
+				17CC8BBC2491EAA200CACED5 /* SCNPin.swift */,
 			);
 			path = Shapes;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				17BD9E8224867D400054B25E /* ConfirmDialogWindow.swift in Sources */,
 				178A86932488C0E000BE8D46 /* AboutWindow.swift in Sources */,
 				17EF338C247A4EBB00A5B55D /* Settings.swift in Sources */,
+				17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */,
 				178A869C2488C3D100BE8D46 /* AboutDetailsWindow.swift in Sources */,
 				17EF3397247A670B00A5B55D /* MapItem.swift in Sources */,
 				17EF33B7247A94BA00A5B55D /* City.swift in Sources */,
