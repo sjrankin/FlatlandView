@@ -195,6 +195,30 @@ extension GlobeView
         PlottedCities.append(UserNode)
     }
     
+    /// Plot a location using a 3D pin shape.
+    /// - Parameter Latitude: The latitude of the pin.
+    /// - Parameter Longitude: The longitude of the pin.
+    /// - Parameter Radius: The radius of the Earth.
+    /// - Parameter ToSurface: The surface node where the pin will be added.
+    func PlotPinHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode)
+    {
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.9)
+        let Pin = SCNPin(KnobHeight: 2.0, KnobRadius: 1.0, PinHeight: 1.4, PinRadius: 0.15,
+                         KnobColor: NSColor.Gold, PinColor: NSColor.gray) 
+        Pin.scale = SCNVector3(0.25, 0.25, 0.25)
+        
+        HomeNode = SCNNode()
+        HomeNode?.castsShadow = true
+        HomeNode?.addChildNode(Pin)
+        HomeNode?.position = SCNVector3(X, Y, Z)
+        
+        let YRotation = Latitude + 90.0
+        let XRotation = Longitude + 180.0
+        HomeNode!.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        
+        ToSurface.addChildNode(HomeNode!)
+    }
+    
     /// Plot a location using a home flag.
     /// - Note: The "background" to the home icon has an emissive color so it will glow even
     ///         at night time to show the location.
@@ -521,6 +545,10 @@ extension GlobeView
                     case .Pulsate:
                         PlotPulsatingHome(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                           ToSurface: Surface, WithColor: NSColor.systemBlue)
+                    
+                    case .Pin:
+                        PlotPinHome(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
+                                    ToSurface: Surface)
                 }
             }
         }
@@ -647,7 +675,8 @@ extension GlobeView
     /// Plot World Heritage Sites. Which sites (and whether they are plotted or not) are determined
     /// by user settings.
     /// - Note: There are a lot of World Heritage Sites so plotting all of them can adversely affect
-    ///         performance.
+    ///         performance. World Heritage Sites are plotted as extruded triangles to help reduce
+    ///         performance issues.
     func PlotWorldHeritageSites()
     {
         for Node in WHSNodeList
@@ -690,10 +719,25 @@ extension GlobeView
             for Site in FinalList
             {
                 let (X, Y, Z) = ToECEF(Site.Latitude, Site.Longitude, Radius: 10.0)
-                let StarShape = SCNStar.Geometry(VertexCount: 7, Height: 0.2, Base: 0.1, ZHeight: 0.1)
-                let StarNode = SCNNode(geometry: StarShape)
-                StarNode.scale = SCNVector3(0.55, 0.55, 0.55)
-                WHSNodeList.append(StarNode)
+                var DepthOffset: CGFloat = 0.0
+                switch Site.Category
+                {
+                    case "Mixed":
+                        DepthOffset = -0.05
+                    
+                    case "Cultural":
+                        DepthOffset = 0.0
+                    
+                    case "Natural":
+                        DepthOffset = 0.05
+                    
+                    default:
+                        DepthOffset = -0.08
+                }
+                let SiteShape = SCNRegular.Geometry(VertexCount: 3, Radius: 0.2, Depth: 0.1 + DepthOffset)
+                let SiteNode = SCNNode(geometry: SiteShape)
+                SiteNode.scale = SCNVector3(0.55, 0.55, 0.55)
+                WHSNodeList.append(SiteNode)
                 var NodeColor = NSColor.black
                 switch Site.Category
                 {
@@ -709,14 +753,14 @@ extension GlobeView
                     default:
                         NodeColor = NSColor.white
                 }
-                StarNode.geometry?.firstMaterial?.diffuse.contents = NodeColor
-                StarNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-                StarNode.castsShadow = true
-                StarNode.position = SCNVector3(X, Y, Z)
+                SiteNode.geometry?.firstMaterial?.diffuse.contents = NodeColor
+                SiteNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+                SiteNode.castsShadow = true
+                SiteNode.position = SCNVector3(X, Y, Z)
                 let YRotation = Site.Latitude
                 let XRotation = Site.Longitude + 180.0
-                StarNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-                EarthNode!.addChildNode(StarNode)
+                SiteNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+                EarthNode!.addChildNode(SiteNode)
             }
         }
     }
