@@ -232,6 +232,9 @@ enum HomeShapes: String, CaseIterable
     
     /// Pulsating sphere at the home location.
     case Pulsate = "Pulsate"
+    
+    /// 3D pin-shape.
+    case Pin = "Pin"
 }
 
 /// Suns that can be displayed in 2D mode.
@@ -292,6 +295,12 @@ enum LocationShapes2D: String, CaseIterable
     
     /// Location is a circle.
     case Circle = "Circle"
+    
+    /// Location is an oval.
+    case Oval = "Oval"
+    
+    /// Location is a star.
+    case Star = "Star"
 }
 
 enum GravitationParameters: Double, CaseIterable
