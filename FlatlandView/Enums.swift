@@ -294,6 +294,11 @@ enum LocationShapes2D: String, CaseIterable
     case Circle = "Circle"
 }
 
+enum GravitationParameters: Double, CaseIterable
+{
+    case Sun = 1327124001.89
+}
+
 /// Z position enum and layer values. Defines which layers are on top of other layers.
 /// Higher values mean closer to the user which means more likely to be visible.
 enum LayerZLevels: Int
