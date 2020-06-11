@@ -499,6 +499,9 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             
             case .Pulsate:
                 HomeShapeIndex = 3
+            
+            case .Pin:
+            HomeShapeIndex = 4
         }
         HomeLocationShapeSegment.selectedSegment = HomeShapeIndex
     }
@@ -677,6 +680,9 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                 
                 case 3:
                     Shape = .Pulsate
+                
+                case 4:
+                    Shape = .Pin
                 
                 default:
                     return
