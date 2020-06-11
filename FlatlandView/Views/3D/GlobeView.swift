@@ -80,7 +80,7 @@ class GlobeView: SCNView, GlobeProtocol
         #else
         self.showsStatistics = false
         #endif
-        
+
         let Camera = SCNCamera()
         Camera.fieldOfView = 90.0
         Camera.usesOrthographicProjection = true
@@ -90,7 +90,7 @@ class GlobeView: SCNView, GlobeProtocol
         CameraNode = SCNNode()
         CameraNode.camera = Camera
         CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
-        
+
         SetSunlight()
         SetMoonlight(Show: Settings.GetBool(.ShowMoonLight))
         self.scene?.rootNode.addChildNode(CameraNode)
@@ -104,17 +104,10 @@ class GlobeView: SCNView, GlobeProtocol
     /// Resets the default camera to its original location.
     func ResetCamera()
     {
-        #if true
         let PositionAction = SCNAction.move(to: SCNVector3(0.0, 0.0, 16.0), duration: 0.7)
         self.pointOfView?.runAction(PositionAction)
         let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 0.7)
         self.pointOfView?.runAction(RotationAction)
-        //self.pointOfView?.orientation = SCNQuaternion(0.0, 0.0, 0.0, 1.0)
-        #else
-        self.pointOfView?.position = SCNVector3(0.0, 0.0, 16.0)
-        self.pointOfView?.orientation = SCNQuaternion(0.0, 0.0, 0.0, 1.0)
-        self.pointOfView?.rotation = SCNVector4(0.0, 0.0, 0.0, 0.0)
-        #endif
     }
     
     /// Set the hour reset timer.
