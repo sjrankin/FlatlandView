@@ -652,6 +652,13 @@
                                     <constraint firstAttribute="width" constant="900" id="lVL-I6-Yvt"/>
                                 </constraints>
                             </sceneView>
+                            <sceneView jitteringEnabled="YES" preferredRenderingAPI="1" translatesAutoresizingMaskIntoConstraints="NO" id="rl2-NN-bVz" customClass="Starfield" customModule="Flatland" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="900" height="900"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="900" id="Kl9-fv-u2Z"/>
+                                    <constraint firstAttribute="height" constant="900" id="rc4-y2-3Vg"/>
+                                </constraints>
+                            </sceneView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="jzK-yC-9yN">
                                 <rect key="frame" x="0.0" y="0.0" width="900" height="900"/>
                                 <subviews>
@@ -732,10 +739,14 @@
                             <constraint firstItem="tNb-wZ-7xd" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="JrS-Kq-Azs"/>
                             <constraint firstAttribute="bottom" secondItem="CgY-TH-3DI" secondAttribute="bottom" constant="30" id="La3-kE-WV0"/>
                             <constraint firstItem="QaS-kA-VXe" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Ma8-Gl-XiS"/>
+                            <constraint firstItem="rl2-NN-bVz" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="RQa-Zb-4mN"/>
                             <constraint firstItem="CgY-TH-3DI" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="10" id="Tl7-lv-ZO4"/>
                             <constraint firstItem="jzK-yC-9yN" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="UtV-EL-wNl"/>
                             <constraint firstAttribute="trailing" secondItem="jzK-yC-9yN" secondAttribute="trailing" id="XnK-10-cbc"/>
+                            <constraint firstAttribute="trailing" secondItem="rl2-NN-bVz" secondAttribute="trailing" id="YjK-3d-cSP"/>
+                            <constraint firstItem="rl2-NN-bVz" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="cxS-5e-yBf"/>
                             <constraint firstAttribute="bottom" secondItem="cv7-Wm-L4p" secondAttribute="bottom" constant="44" id="dhv-oG-Yr5"/>
+                            <constraint firstAttribute="bottom" secondItem="rl2-NN-bVz" secondAttribute="bottom" id="fBK-1g-LPF"/>
                             <constraint firstItem="QaS-kA-VXe" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="fSL-zj-Cel"/>
                             <constraint firstItem="tNb-wZ-7xd" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="ghH-JP-tw4"/>
                             <constraint firstItem="f0s-yU-n89" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="iQ9-sh-haB"/>
@@ -762,6 +773,7 @@
                         <outlet property="MainTimeLabelBottom" destination="BFj-Wa-HNl" id="1Bq-gf-KE9"/>
                         <outlet property="MainTimeLabelTop" destination="tNb-wZ-7xd" id="8mc-dy-k0k"/>
                         <outlet property="NightMaskImageView" destination="8k3-gX-b5q" id="8PV-an-Q2B"/>
+                        <outlet property="StarView" destination="rl2-NN-bVz" id="Hfa-nm-l5H"/>
                         <outlet property="SunViewBottom" destination="wns-jc-4Fq" id="Fbt-Wq-Ymj"/>
                         <outlet property="SunViewTop" destination="q1S-Rx-kJK" id="AOh-tS-JEc"/>
                         <outlet property="UptimeValueLabel" destination="Gsk-BO-n4A" id="aDV-iw-hEL"/>
