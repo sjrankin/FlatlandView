@@ -482,6 +482,16 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     @IBAction func ViewSelectMap(_ sender: Any)
     {
+        #if true
+                let Storyboard = NSStoryboard(name: "MapSelector", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "MapPickerWindow") as? MapPickerWindow
+        {
+            let MapWindow = WindowController.window
+            let Controller = MapWindow?.contentViewController as? MapPickerController
+            Controller?.MainDelegate = self
+            WindowController.showWindow(nil)
+        }
+        #else
         let Storyboard = NSStoryboard(name: "MapSelector", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "MapPickerWindow") as? MapPickerWindow
         {
@@ -492,6 +502,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 self.view.window?.beginSheet(Window!, completionHandler: nil)
             }
         }
+        #endif
     }
     
     var SelectMapWindow: MapPickerWindow? = nil
@@ -618,8 +629,15 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             case .MapType:
                 let NewMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
                 let MapViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
-                FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: NewMap, ViewType: MapViewType)!)
+                if let InterimImage: NSImage = MapManager.ImageFor(MapType: NewMap, ViewType: MapViewType)
+                {
+                FlatViewMainImage.image = FinalizeImage(InterimImage)
                 World3DView.AddEarth()
+            }
+            else
+                {
+                    print("Error loading map \(NewMap) for view \(MapViewType)")
+            }
             
             case .ViewType:
                 if let New = NewValue as? ViewTypes
