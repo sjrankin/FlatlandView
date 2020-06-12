@@ -323,12 +323,12 @@
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="ZXQ-Aw-xrj">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment image="CircleIcon" width="48" selected="YES"/>
-                                                <segment image="ClockIcon" width="48" tag="1"/>
-                                                <segment image="DeltaIcon" width="48">
+                                                <segment toolTip="Hide hours" image="CircleIcon" width="48" selected="YES"/>
+                                                <segment toolTip="Hours linked to the sun" image="ClockIcon" width="48" tag="1"/>
+                                                <segment toolTip="Hours away from noon" image="DeltaIcon" width="48">
                                                     <nil key="label"/>
                                                 </segment>
-                                                <segment image="PinIcon" width="48">
+                                                <segment toolTip="Hours away from your location" image="PinIcon" width="48">
                                                     <nil key="label"/>
                                                 </segment>
                                             </segments>
@@ -346,12 +346,12 @@
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="JIr-3h-Z9n">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment image="NorthCenterIcon" width="48"/>
-                                                <segment image="SouthCenterIcon" width="48" selected="YES" tag="1"/>
-                                                <segment image="GlobeIcon" width="48">
+                                                <segment toolTip="2D north-centered map" image="NorthCenterIcon" width="48"/>
+                                                <segment toolTip="2D south-centered map" image="SouthCenterIcon" width="48" selected="YES" tag="1"/>
+                                                <segment toolTip="3D globe" image="GlobeIcon" width="48">
                                                     <nil key="label"/>
                                                 </segment>
-                                                <segment image="CubeIcon">
+                                                <segment toolTip="Cubic world" image="CubeIcon">
                                                     <nil key="label"/>
                                                 </segment>
                                             </segments>
