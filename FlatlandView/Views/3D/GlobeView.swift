@@ -348,7 +348,12 @@ class GlobeView: SCNView, GlobeProtocol
         BaseMap = MapManager.ImageFor(MapType: MapType, ViewType: .Globe3D)
         if BaseMap == nil
         {
-            fatalError("Error retrieving base map \(MapType).")
+            print("Error retrieving base map \(MapType). Trying standard map.")
+            BaseMap = MapManager.ImageFor(MapType: .Standard, ViewType: .Globe3D)
+            if BaseMap == nil
+            {
+                fatalError("Two-strike fatal error. Error retrieving base map \(MapTypes.Standard).")
+            }
         }
         switch MapType
         {
