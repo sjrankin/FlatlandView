@@ -337,6 +337,9 @@ enum LayerZLevels: Int
     /// Night mask layer.
     case NightMaskLayer = 20000
     
+    /// Info grid layer.
+    case LocalInfoGridLayer = 19001
+    
     #if DEBUG
     /// Debug layer.
     case DebugLayer = 19000
