@@ -14,6 +14,7 @@
 		1720B38C248B81B3001202E5 /* +2DHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B38B248B81B3001202E5 /* +2DHours.swift */; };
 		1720B38E248B82A9001202E5 /* +2DCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B38D248B82A9001202E5 /* +2DCities.swift */; };
 		173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173EB18A2490D1B7006CDB86 /* +Orbits.swift */; };
+		1740F49B2493173A00F6FAAE /* Hours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740F49A2493173A00F6FAAE /* Hours.swift */; };
 		1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744316E2480F2C10087B00A /* ActualMapIO.swift */; };
 		174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 174F0106248CCD6C00F610DD /* MapManager.storyboard */; };
 		174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F0109248CD03200F610DD /* MapManagerWindow.swift */; };
@@ -96,6 +97,7 @@
 		1720B38B248B81B3001202E5 /* +2DHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+2DHours.swift"; sourceTree = "<group>"; };
 		1720B38D248B82A9001202E5 /* +2DCities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+2DCities.swift"; sourceTree = "<group>"; };
 		173EB18A2490D1B7006CDB86 /* +Orbits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Orbits.swift"; sourceTree = "<group>"; };
+		1740F49A2493173A00F6FAAE /* Hours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hours.swift; sourceTree = "<group>"; };
 		1744316E2480F2C10087B00A /* ActualMapIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapIO.swift; sourceTree = "<group>"; };
 		174F0106248CCD6C00F610DD /* MapManager.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapManager.storyboard; sourceTree = "<group>"; };
 		174F0109248CD03200F610DD /* MapManagerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManagerWindow.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 			children = (
 				17523CD8247B971F005209FC /* 2D */,
 				17523CD9247B9725005209FC /* 3D */,
+				1740F49A2493173A00F6FAAE /* Hours.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 			files = (
 				178A869A2488C3B600BE8D46 /* AboutDetailsController.swift in Sources */,
 				1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */,
+				1740F49B2493173A00F6FAAE /* Hours.swift in Sources */,
 				17EF33B9247A94DB00A5B55D /* Cities.swift in Sources */,
 				17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */,
 				177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */,
