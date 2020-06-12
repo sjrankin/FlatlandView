@@ -83,13 +83,13 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         if Date.timeIntervalSinceReferenceDate - StartDebugCount >= 1.0
         {
             StartDebugCount = Date.timeIntervalSinceReferenceDate
-        UptimeSeconds = UptimeSeconds + 1
-        UptimeValueLabel.stringValue = "\(UptimeSeconds)"
+            UptimeSeconds = UptimeSeconds + 1
+            UptimeValueLabel.stringValue = "\(UptimeSeconds)"
         }
     }
     
     var StartDebugCount: Double = 0.0
-        var UptimeSeconds: Int = 0
+    var UptimeSeconds: Int = 0
     #endif
     
     @objc func MasterTimerHandler()
@@ -290,7 +290,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
         if VType != .CubicWorld
         {
-        FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: MapValue, ViewType: VType)!)
+            FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: MapValue, ViewType: VType)!)
         }
         InitializeUpdateTimer()
         Started = true
@@ -482,8 +482,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     @IBAction func ViewSelectMap(_ sender: Any)
     {
-        #if true
-                let Storyboard = NSStoryboard(name: "MapSelector", bundle: nil)
+        let Storyboard = NSStoryboard(name: "MapSelector", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "MapPickerWindow") as? MapPickerWindow
         {
             let MapWindow = WindowController.window
@@ -491,18 +490,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             Controller?.MainDelegate = self
             WindowController.showWindow(nil)
         }
-        #else
-        let Storyboard = NSStoryboard(name: "MapSelector", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "MapPickerWindow") as? MapPickerWindow
-        {
-            let Window = WindowController.window
-            if let Controller = Window?.contentViewController as? MapPickerController
-            {
-                Controller.MainDelegate = self
-                self.view.window?.beginSheet(Window!, completionHandler: nil)
-            }
-        }
-        #endif
     }
     
     var SelectMapWindow: MapPickerWindow? = nil
@@ -578,7 +565,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                     ViewTypeGlobal(sender)
                 
                 case 3:
-                ViewTypeCubic(sender)
+                    ViewTypeCubic(sender)
                 
                 default:
                     return
@@ -631,10 +618,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 let MapViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
                 if let InterimImage: NSImage = MapManager.ImageFor(MapType: NewMap, ViewType: MapViewType)
                 {
-                FlatViewMainImage.image = FinalizeImage(InterimImage)
-                World3DView.AddEarth()
-            }
-            else
+                    FlatViewMainImage.image = FinalizeImage(InterimImage)
+                    World3DView.AddEarth()
+                }
+                else
                 {
                     print("Error loading map \(NewMap) for view \(MapViewType)")
             }
