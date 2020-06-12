@@ -9,8 +9,8 @@
         <scene sceneID="bg3-EY-OTG">
             <objects>
                 <windowController storyboardIdentifier="MapPickerWindow" id="0gq-bD-LiD" customClass="MapPickerWindow" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="4Hu-Jw-d0i">
-                        <windowStyleMask key="styleMask" closable="YES" miniaturizable="YES" resizable="YES"/>
+                    <window key="window" title="Map Picker" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="4Hu-Jw-d0i">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="2932" y="555" width="480" height="270"/>
                         <rect key="screenRect" x="2560" y="144" width="2304" height="1296"/>
