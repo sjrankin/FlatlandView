@@ -131,6 +131,16 @@ class Settings
         return UserDefaults.standard.bool(forKey: Setting.rawValue)
     }
     
+    /// Queries a boolean setting value.
+    /// - Parameter Setting: The setting whose boolean value will be returned.
+    /// - Parameter Completion: Code to execute after the value is retrieved. The value is passed
+    ///                         to the completion handler.
+    public static func QueryBool(_ Setting: SettingTypes, Completion: (Bool) -> Void)
+    {
+        let BoolValue = UserDefaults.standard.bool(forKey: Setting.rawValue)
+        Completion(BoolValue)
+    }
+    
     /// Save a boolean value to the specfied setting.
     /// - Parameter Setting: The setting that will be updated.
     /// - Parameter Value: The new value.
