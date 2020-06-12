@@ -12,6 +12,7 @@ import SceneKit
 
 class MainView: NSViewController, MainProtocol, SettingChangedProtocol
 {
+    // Start initialization of the UI.
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -32,7 +33,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         
         #if DEBUG
         DebugGrid.wantsLayer = true
-        DebugGrid.layer?.zPosition = 19000
+        DebugGrid.layer?.zPosition = CGFloat(LayerZLevels.DebugLayer.rawValue)
         DebugGrid.isHidden = false
         #else
         DebugGrid.removeFromSuperview()
