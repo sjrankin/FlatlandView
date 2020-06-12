@@ -54,6 +54,7 @@ enum SettingTypes: String, CaseIterable
     case UserLocationShape = "UserLocationShape"
     case ResetHoursPeriodically = "ResetHoursPeriodically"
     case ResetHourTimeInterval = "ResetHourTimeInterval"
+    case StarSpeeds = "StarSpeeds"
     
     //Local and home locations.
     case ShowUserLocations = "ShowUserLocations"
