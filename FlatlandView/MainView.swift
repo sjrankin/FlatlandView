@@ -182,8 +182,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 let LocalLon = Settings.GetDoubleNil(.LocalLongitude)
                 let Location = GeoPoint2(LocalLat!, LocalLon!)
                 let SunTimes = Sun()
-                if let SunriseTime = SunTimes.Sunrise(For: Date(), At: Location,
-                                                      TimeZoneOffset: 0)
+                if let SunriseTime = SunTimes.Sunrise(For: Date(), At: Location, TimeZoneOffset: 0)
                 {
                     SunRiseTime = SunriseTime
                     LocalSunrise.stringValue = SunriseTime.PrettyTime()
@@ -193,8 +192,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                     RiseAndSetAvailable = false
                     LocalSunrise.stringValue = "No sunrise"
                 }
-                if let SunsetTime = SunTimes.Sunset(For: Date(), At: Location,
-                                                    TimeZoneOffset: 0)
+                if let SunsetTime = SunTimes.Sunset(For: Date(), At: Location, TimeZoneOffset: 0)
                 {
                     SunSetTime = SunsetTime
                     LocalSunset.stringValue = SunsetTime.PrettyTime()
@@ -279,9 +277,17 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         InitializeUI()
     }
     
+    /// After the view is laid out, wait a certain amount of time before finalizing the UI and
+    /// displays.
+    /// - Note: After finalizing 3D code, it appears this mechanism is not needed. The delay has been
+    ///         commented out for now and will be removed later if nothing untoward pops up.
     override func viewDidLayout()
     {
-        perform(#selector(LateStart), with: nil, afterDelay: 1.0)
+        #if true
+        LateStart()
+        #else
+        perform(#selector(LateStart), with: nil, afterDelay: 0.25)
+        #endif
     }
     
     /// Initialize maps and other items after a delay.
@@ -298,7 +304,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         let IsFlat = VType == .FlatNorthCenter || VType == .FlatSouthCenter ? true : false
         SetFlatlandVisibility(FlatIsVisible: IsFlat)
         LocalInfoGrid.wantsLayer = true
-        LocalInfoGrid.layer?.zPosition = 19000
+        LocalInfoGrid.layer?.zPosition = CGFloat(LayerZLevels.LocalInfoGridLayer.rawValue)
         LocalInfoGrid.isHidden = !Settings.GetBool(.ShowLocalData)
     }
     
@@ -352,6 +358,35 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     // MARK: - Menu/toolbar event handlers.
     
+    /// Returns the ID of the window.
+    /// - Returns: The ID of the main window.
+    func WindowID() -> CGWindowID
+    {
+        return CGWindowID(view.window!.windowNumber)
+    }
+    
+    /// Returns the coordinates of the main window.
+    /// - Parameter WindowID: The ID of the main window.
+    /// - Returns: The coordinates of the main window.
+    func GetWindowCoordinates(WindowID: CGWindowID) -> CGRect?
+    {
+        if let WindowList = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]]
+        {
+            for Window in WindowList
+            {
+                let WID = Window[kCGWindowNumber as String]!
+                let FinalWID = WID as! Int32
+                if FinalWID == WindowID
+                {
+                    let WindowName = Window[kCGWindowName as String] as? String ?? ""
+                    let Bounds = CGRect(dictionaryRepresentation: Window[kCGWindowBounds as String] as! CFDictionary)!
+                    return Bounds
+                }
+            }
+        }
+        return nil
+    }
+    
     /// Handle the snapshot command.
     @IBAction func FileSnapshot(_ sender: Any)
     {
@@ -359,11 +394,22 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         switch CurrentView
         {
             case .CubicWorld, .Globe3D:
-                World3DView.backgroundColor = NSColor.black
                 perform(#selector(FinalSnapshot), with: nil, afterDelay: 0.1)
             
             case .FlatNorthCenter, .FlatSouthCenter:
-                break
+                let Screen = NSImage(data: self.view.dataWithPDF(inside: self.view.bounds))
+                let NewSize = Screen!.size
+                
+                let BlackImage = NSImage(size: NewSize)
+                BlackImage.lockFocus()
+                NSColor.black.drawSwatch(in: NSRect(origin: .zero, size: NewSize))
+                BlackImage.unlockFocus()
+                
+                BlackImage.lockFocus()
+                let SelfRect = NSRect(origin: CGPoint.zero, size: Screen!.size)
+                Screen!.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
+                BlackImage.unlockFocus()
+                SaveImage(BlackImage)
         }
     }
     
@@ -373,11 +419,34 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     /// been updated correctly. Immediately upon being called, this function will get a snapshot (using
     /// built-in functionality) of the 3D view then reset the background color. Then, `SaveImage` will
     /// be called to finish things.
+    /// - Note: In order to include the ancillary elements (eg, time, local data grid), a screen shot
+    ///         is taken in 2D mode as well and composited with the 3D snapshot.
     @objc func FinalSnapshot()
     {
+        SunViewTop.isHidden = true
+        SunViewBottom.isHidden = true
         let Snapshot3D = World3DView.snapshot()
-        World3DView.backgroundColor = NSColor.clear
-        SaveImage(Snapshot3D)
+        
+        let Screen = NSImage(data: self.view.dataWithPDF(inside: self.view.bounds))
+        let NewSize = Screen!.size
+        
+        let BlackImage = NSImage(size: NewSize)
+        BlackImage.lockFocus()
+        NSColor.black.drawSwatch(in: NSRect(origin: .zero, size: NewSize))
+        BlackImage.unlockFocus()
+        
+        BlackImage.lockFocus()
+        let SelfRect = NSRect(origin: CGPoint.zero, size: Screen!.size)
+        Screen!.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
+        BlackImage.unlockFocus()
+        
+        let Final3D = Utility.ResizeImage(Image: Snapshot3D, Longest: max(NewSize.width, NewSize.height))
+        
+        BlackImage.lockFocus()
+        Final3D.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
+        BlackImage.unlockFocus()
+
+        SaveImage(BlackImage)
     }
     
     /// Save the specified image to a file.
@@ -396,13 +465,14 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     }
     
     /// Get the URL where to save an image file.
+    /// - Note: Only `.png` files are supported.
     /// - Returns: The URL of the target location on success, nil on error or user cancellation.
     func GetSaveLocation() -> URL?
     {
         let SavePanel = NSSavePanel()
         SavePanel.showsTagField = true
         SavePanel.title = "Save Image"
-        SavePanel.allowedFileTypes = ["jpg", "jpeg", "png", "tiff"]
+        SavePanel.allowedFileTypes = ["png"]
         SavePanel.canCreateDirectories = true
         SavePanel.nameFieldStringValue = "Flatland Snapshot.png"
         SavePanel.level = .modalPanel
