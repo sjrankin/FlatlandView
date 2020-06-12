@@ -15,13 +15,14 @@ extension MainView
     func Show2DHours()
     {
         let ViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+        let HourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
         if ViewType == .Globe3D || ViewType == .CubicWorld
         {
             HourLayer2D.isHidden = false
             HourLayer2D.layer!.sublayers?.removeAll()
             return
         }
-        if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) != .None
+        if HourType != .None
         {
             HourLayer2D.isHidden = false
             HourLayer2D.layer!.zPosition = CGFloat(LayerZLevels.HourLayer.rawValue)
@@ -55,10 +56,11 @@ extension MainView
             {
                 HourOffset = -0.5
             }
+
             var HourList = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
             //HourList = HourList.reversed()
             var InitialOffset = 0
-            if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+            if ViewType == .FlatSouthCenter
             {
                 InitialOffset = 5
             }
@@ -72,7 +74,7 @@ extension MainView
                 var DeskOffset = 0
                 var Long = Int(LocalLongitude / 15.0)
                 var Multiplier = 1
-                if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+                if ViewType == .FlatSouthCenter
                 {
                     Multiplier = -1
                     DeskOffset = 7
@@ -97,7 +99,7 @@ extension MainView
                 {
                     case .Solar:
                         var SolarHours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
-                        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter) == .FlatNorthCenter
+                        if ViewType == .FlatNorthCenter
                         {
                             DisplayHour = SolarHours[(Hour + 18) % 24]
                     }
@@ -113,7 +115,7 @@ extension MainView
                         if let _ = Settings.GetDoubleNil(.LocalLongitude)
                         {
                             DisplayHour = HourList[Hour]
-                            if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter) == .FlatNorthCenter
+                            if ViewType == .FlatNorthCenter
                             {
                                 DisplayHour = DisplayHour * -1
                             }
@@ -122,7 +124,7 @@ extension MainView
                     case .RelativeToNoon:
                         IncludeSign = true
                         DisplayHour = DisplayHour - 12
-                        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter) == .FlatNorthCenter
+                        if ViewType == .FlatNorthCenter
                         {
                             DisplayHour = (DisplayHour + 12) % 24
                             if DisplayHour > 12
