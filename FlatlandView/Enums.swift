@@ -303,6 +303,13 @@ enum LocationShapes2D: String, CaseIterable
     case Star = "Star"
 }
 
+enum StarSpeeds: String, CaseIterable
+{
+    case Slow = "Slow"
+    case Medium = "Medium"
+    case Fast = "Fast"
+}
+
 enum GravitationParameters: Double, CaseIterable
 {
     case Sun = 1327124001.89
