@@ -306,6 +306,42 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         LocalInfoGrid.wantsLayer = true
         LocalInfoGrid.layer?.zPosition = CGFloat(LayerZLevels.LocalInfoGridLayer.rawValue)
         LocalInfoGrid.isHidden = !Settings.GetBool(.ShowLocalData)
+        #if true
+        var SpeedValue = 1.0
+        let Speed = Settings.GetEnum(ForKey: .StarSpeeds, EnumType: StarSpeeds.self, Default: .Medium)
+        switch Speed
+        {
+            case .Slow:
+                SpeedValue = 1.0
+            
+            case .Medium:
+                SpeedValue = 3.0
+            
+            case .Fast:
+                SpeedValue = 7.0
+        }
+        Settings.QueryBool(.ShowMovingStars)
+        {
+            DoShow in
+            if DoShow
+            {
+                self.StarView.Show(SpeedMultiplier: SpeedValue)
+            }
+            else
+            {
+                self.StarView.Hide()
+            }
+        }
+        #else
+        if Settings.GetBool(.ShowMovingStars)
+        {
+            StarView.Show()
+        }
+        else
+        {
+            StarView.Hide()
+        }
+        #endif
     }
     
     /// Initialize the UI, reflecting the current user settings.
@@ -445,7 +481,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         BlackImage.lockFocus()
         Final3D.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
         BlackImage.unlockFocus()
-
+        
         SaveImage(BlackImage)
     }
     
@@ -774,6 +810,71 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 World3DView.PlotPolarShape()
                 World3DView.UpdateHours()
             
+            case .StarSpeeds:
+                var SpeedValue = 1.0
+                let Speed = Settings.GetEnum(ForKey: .StarSpeeds, EnumType: StarSpeeds.self, Default: .Medium)
+                switch Speed
+                {
+                    case .Slow:
+                        SpeedValue = 1.0
+                    
+                    case .Medium:
+                        SpeedValue = 3.0
+                    
+                    case .Fast:
+                        SpeedValue = 7.0
+                }
+                let ViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld)
+                if ViewType == .CubicWorld || ViewType == .Globe3D
+                {
+                    if Settings.GetBool(.ShowMovingStars)
+                    {
+                        StarView.Show(SpeedMultiplier: SpeedValue)
+                    }
+            }
+            
+            case .ShowMovingStars:
+                let ViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld)
+                if ViewType == .CubicWorld || ViewType == .Globe3D
+                {
+                    #if true
+                    Settings.QueryBool(.ShowMovingStars)
+                    {
+                        DoShow in
+                        if DoShow
+                        {
+                            var SpeedValue = 1.0
+                            let Speed = Settings.GetEnum(ForKey: .StarSpeeds, EnumType: StarSpeeds.self, Default: .Medium)
+                            switch Speed
+                            {
+                                case .Slow:
+                                    SpeedValue = 1.0
+                                
+                                case .Medium:
+                                    SpeedValue = 3.0
+                                
+                                case .Fast:
+                                    SpeedValue = 7.0
+                            }
+                            self.StarView.Show(SpeedMultiplier: SpeedValue)
+                        }
+                        else
+                        {
+                            self.StarView.Hide()
+                        }
+                    }
+                    #else
+                    if Settings.GetBool(.ShowMovingStars)
+                    {
+                        StarView.Show()
+                    }
+                    else
+                    {
+                        StarView.Hide()
+                    }
+                    #endif
+            }
+            
             default:
                 print("Unhandled setting change: \(Setting)")
         }
@@ -820,6 +921,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
     
     // MARK: - Interface builder outlets.
     
+    @IBOutlet weak var StarView: Starfield!
     @IBOutlet weak var UptimeValueLabel: NSTextField!
     @IBOutlet weak var DebugGrid: NSGridView!
     @IBOutlet weak var DailySeconds: NSTextField!
