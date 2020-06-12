@@ -19,6 +19,7 @@ class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDat
         SampleType = Settings.GetEnum(ForKey: .SampleViewType, EnumType: ViewTypes.self, Default: .Globe3D)
         MapSampleView.image = nil
         LastMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Standard)
+        OriginalMap = LastMap
         var LastCategory = MapManager.CategoryFor(Map: LastMap)
         if LastCategory == nil
         {
@@ -54,6 +55,7 @@ class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDat
         MapListTable.selectRowIndexes(IndexSet(integer: MapIndex!), byExtendingSelection: false)
     }
     
+    var OriginalMap = MapTypes.BlackWhite
     var SampleType = ViewTypes.Globe3D
     var LastMap: MapTypes = .Standard
     var MapList = [MapTypes]()
@@ -152,9 +154,15 @@ class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDat
     
     @IBAction func HandleCancelPressed(_ sender: Any)
     {
+        #if true
+        Settings.SetEnum(OriginalMap, EnumType: MapTypes.self, ForKey: .MapType)
+        MainDelegate?.Refresh("MapPickerController.HandleCancelPressed")
+        self.view.window?.close()
+        #else
         let Window = self.view.window
         let Parent = Window?.sheetParent
         Parent!.endSheet(Window!, returnCode: .cancel)
+        #endif
     }
     
     @IBAction func HandleOKPressed(_ sender: Any)
@@ -164,9 +172,13 @@ class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDat
             Settings.SetEnum(LastMap, EnumType: MapTypes.self, ForKey: .MapType)
             MainDelegate?.Refresh("MapPickerController.HandleOKPressed")
         }
+        #if true
+        self.view.window?.close()
+        #else
         let Window = self.view.window
         let Parent = Window?.sheetParent
         Parent!.endSheet(Window!, returnCode: .OK)
+        #endif
     }
     
     @IBAction func HandleApplyPressed(_ sender: Any)
