@@ -115,8 +115,8 @@ extension GlobeView
         
         for Hour in 0 ... 23
         {
-            //Calculate the display hour.
-            let DisplayHour = 24 - (Hour + 5) % 24 - 1
+            let SolarHours = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+            let DisplayHour = SolarHours[(Hour + 6) % 24]
             let DisplayString = GetScriptHours("\(DisplayHour)", Actual: DisplayHour)
             HourLabelList.append((DisplayString, DisplayHour))
         }
