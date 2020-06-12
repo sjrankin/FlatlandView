@@ -198,6 +198,25 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
         let CurrentPole = Settings.GetEnum(ForKey: .PolarShape, EnumType: PolarShapes.self, Default: .None)
         PoleShapeCombo.selectItem(withObjectValue: CurrentPole.rawValue)
+        if Settings.GetBool(.ShowMovingStars)
+        {
+            SampleStars.Show()
+        }
+        else
+        {
+            SampleStars.Hide()
+        }
+        switch Settings.GetEnum(ForKey: .StarSpeeds, EnumType: StarSpeeds.self, Default: .Medium)
+        {
+            case .Slow:
+                StarSpeedSegment.selectedSegment = 0
+            
+            case .Medium:
+                StarSpeedSegment.selectedSegment = 1
+            
+            case .Fast:
+                StarSpeedSegment.selectedSegment = 2
+        }
     }
     
     @IBAction func Handle3DGridLineChanged(_ sender: Any)
@@ -238,6 +257,52 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         {
             Settings.SetBool(.ShowMovingStars, Button.state == .on ? true : false)
             MainDelegate?.Refresh("MainSettings.HandleMovingStarChanged")
+            if Settings.GetBool(.ShowMovingStars)
+            {
+                SampleStars.Show()
+            }
+            else
+            {
+                SampleStars.Hide()
+            }
+        }
+    }
+    
+    @IBAction func HandleStarSpeedChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    Settings.SetEnum(.Slow, EnumType: StarSpeeds.self, ForKey: .StarSpeeds)
+                
+                case 1:
+                    Settings.SetEnum(.Medium, EnumType: StarSpeeds.self, ForKey: .StarSpeeds)
+                
+                case 2:
+                    Settings.SetEnum(.Fast, EnumType: StarSpeeds.self, ForKey: .StarSpeeds)
+                
+                default:
+                return
+            }
+            if Settings.GetBool(.ShowMovingStars)
+            {
+                var NewSpeed = 1.0
+                switch Settings.GetEnum(ForKey: .StarSpeeds, EnumType: StarSpeeds.self, Default: .Medium)
+                {
+                    case .Slow:
+                        NewSpeed = 1.0
+                    
+                    case .Medium:
+                        NewSpeed = 3.0
+                    
+                    case .Fast:
+                        NewSpeed = 7.0
+                }
+                SampleStars.Show(SpeedMultiplier: NewSpeed)
+            }
+            MainDelegate?.Refresh("MainSettings.HandleStarSpeedChanged")
         }
     }
     
@@ -298,6 +363,8 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
     }
     
+    @IBOutlet weak var StarSpeedSegment: NSSegmentedControl!
+    @IBOutlet weak var SampleStars: Starfield!
     @IBOutlet weak var Show3DGridLines: NSButton!
     @IBOutlet weak var Show3DMinorGridLinesCheck: NSButton!
     @IBOutlet weak var Show3DPrimeMeridiansCheck: NSButton!
