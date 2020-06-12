@@ -154,15 +154,9 @@ class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDat
     
     @IBAction func HandleCancelPressed(_ sender: Any)
     {
-        #if true
         Settings.SetEnum(OriginalMap, EnumType: MapTypes.self, ForKey: .MapType)
         MainDelegate?.Refresh("MapPickerController.HandleCancelPressed")
         self.view.window?.close()
-        #else
-        let Window = self.view.window
-        let Parent = Window?.sheetParent
-        Parent!.endSheet(Window!, returnCode: .cancel)
-        #endif
     }
     
     @IBAction func HandleOKPressed(_ sender: Any)
@@ -172,17 +166,14 @@ class MapPickerController: NSViewController, NSTableViewDelegate, NSTableViewDat
             Settings.SetEnum(LastMap, EnumType: MapTypes.self, ForKey: .MapType)
             MainDelegate?.Refresh("MapPickerController.HandleOKPressed")
         }
-        #if true
         self.view.window?.close()
-        #else
-        let Window = self.view.window
-        let Parent = Window?.sheetParent
-        Parent!.endSheet(Window!, returnCode: .OK)
-        #endif
     }
     
     @IBAction func HandleApplyPressed(_ sender: Any)
     {
+        //Set the updated flag to false. This way, if the user pressed the OK button, the map won't
+        //be reloaded.
+        Updated = false
         Settings.SetEnum(LastMap, EnumType: MapTypes.self, ForKey: .MapType)
         MainDelegate?.Refresh("MapPickerController.HandleApplyPressed")
     }
