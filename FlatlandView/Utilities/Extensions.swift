@@ -490,7 +490,7 @@ extension Date
 /// Extension methods for UIImage.
 extension NSImage
 {
-    /// Initializer that creates a solid color image of the passe size.
+    /// Initializer that creates a solid color image of the passed size.
     /// - Note: Do *not* use the draw swatch function as it incorrectly draws transparent colors.
     /// - Parameter Color: The color to use to create the image.
     /// - Parameter Size: The size of the image.
@@ -498,7 +498,8 @@ extension NSImage
     {
         self.init(size: Size)
         lockFocus()
-        Color.setFill()
+        let FinalColor = Color.usingColorSpace(.sRGB)!
+        FinalColor.setFill()
         unlockFocus()
     }
     
@@ -602,6 +603,16 @@ extension NSImage
             return false
         }
         return true
+    }
+    
+    public func WritePNG(ToURL: URL, With BackgroundColor: NSColor) -> Bool
+    {
+        let BlackImage = NSImage(Color: NSColor.black, Size: self.size)
+        BlackImage.lockFocus()
+        let SelfRect = NSRect(origin: CGPoint.zero, size: self.size)
+        self.draw(at: NSPoint.zero, from: SelfRect, operation: .overlay, fraction: 1.0)
+        BlackImage.unlockFocus()
+        return BlackImage.WritePNG(ToURL: ToURL)
     }
 }
 
