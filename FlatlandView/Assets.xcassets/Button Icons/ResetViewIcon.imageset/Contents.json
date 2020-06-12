@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ResetIconx1.png",
+      "filename" : "ResetViewIcon2x1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ResetIconx2.png",
+      "filename" : "ResetViewIcon2x2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ResetIcon.png",
+      "filename" : "ResetViewIcon2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
