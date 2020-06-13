@@ -143,6 +143,8 @@ class GlobeView: SCNView, GlobeProtocol
         CameraNode.camera = Camera
         CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
 
+        SetGridLight()
+        SetMetalLights()
         SetSunlight()
         SetMoonlight(Show: Settings.GetBool(.ShowMoonLight))
         self.scene?.rootNode.addChildNode(CameraNode)
@@ -258,10 +260,66 @@ class GlobeView: SCNView, GlobeProtocol
         }
     }
     
+    /// Set the lights used for metallic components.
+    func SetMetalLights()
+    {
+        MetalSunLight = SCNLight()
+        MetalSunLight.categoryBitMask = MetalSunMask
+        MetalSunLight.type = .directional
+        MetalSunLight.intensity = 1200
+        MetalSunLight.castsShadow = true
+        MetalSunLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
+        MetalSunLight.shadowMode = .forward
+        MetalSunLight.shadowRadius = 2.0
+        MetalSunLight.color = NSColor.white
+        MetalSunNode = SCNNode()
+        MetalSunNode.light = MetalSunLight
+        MetalSunNode.position = SCNVector3(0.0, 0.0, 80.0)
+        self.scene?.rootNode.addChildNode(MetalSunNode)
+        
+        MetalMoonLight = SCNLight()
+        MetalMoonLight.categoryBitMask = MetalMoonMask
+        MetalMoonLight.type = .directional
+        MetalMoonLight.intensity = 800
+        MetalMoonLight.castsShadow = true
+        MetalMoonLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
+        MetalMoonLight.shadowMode = .forward
+        MetalMoonLight.shadowRadius = 4.0
+        MetalMoonLight.color = NSColor.cyan
+        MetalMoonNode = SCNNode()
+        MetalMoonNode.light = MetalMoonLight
+        MetalMoonNode.position = SCNVector3(0.0, 0.0, -100.0)
+        MetalMoonNode.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+        self.scene?.rootNode.addChildNode(MetalMoonNode)
+    }
+    
+    /// Set the light for the grid. The grid needs a separate light because when it's over the night
+    /// side, it's not easily visible.
+    func SetGridLight()
+    {
+        GridLight1 = SCNLight()
+        GridLight1.type = .omni
+        GridLight1.color = NSColor.white
+        GridLight1.categoryBitMask = GridMask
+        GridLightNode1 = SCNNode()
+        GridLightNode1.light = GridLight1
+        GridLightNode1.position = SCNVector3(0.0, 0.0, -80.0)
+        self.scene?.rootNode.addChildNode(GridLightNode1)
+        GridLight2 = SCNLight()
+        GridLight2.type = .omni
+        GridLight2.color = NSColor.white
+        GridLight2.categoryBitMask = GridMask
+        GridLightNode2 = SCNNode()
+        GridLightNode2.light = GridLight2
+        GridLightNode2.position = SCNVector3(0.0, 0.0, 80.0)
+        self.scene?.rootNode.addChildNode(GridLightNode2)
+    }
+    
     let SunMask: Int = 0x1 << 1
     let MetalSunMask: Int = 0x1 << 2
-    let MoonMask: Int = 0x1 << 3
-    let MetalMoonMask: Int = 0x1 << 4
+    let MoonMask: Int = 0x1 << 4
+    let MetalMoonMask: Int = 0x1 << 8
+    let GridMask: Int = 0x1 << 16
     
     var MetalSunLight = SCNLight()
     var MetalMoonLight = SCNLight()
@@ -270,6 +328,10 @@ class GlobeView: SCNView, GlobeProtocol
     var SunLight = SCNLight()
     var CameraNode = SCNNode()
     var LightNode = SCNNode()
+    var GridLight1 = SCNLight()
+    var GridLightNode1 = SCNNode()
+    var GridLight2 = SCNLight()
+    var GridLightNode2 = SCNNode()
     var MoonNode: SCNNode? = nil
     
     func SetDisplayLanguage()
@@ -608,7 +670,7 @@ class GlobeView: SCNView, GlobeProtocol
             let LineSphere = SCNSphere(radius: Radius)
             LineSphere.segmentCount = 100
             LineNode = SCNNode(geometry: LineSphere)
-            LineNode?.categoryBitMask = SunMask | MoonMask
+            LineNode?.categoryBitMask = GridMask //SunMask | MoonMask //GridMask
             LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
             let Maroon = NSColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
             let GridLineImage = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
