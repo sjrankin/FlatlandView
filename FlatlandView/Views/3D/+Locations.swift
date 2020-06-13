@@ -421,14 +421,13 @@ extension GlobeView
             let CityShape = SCNCylinder(radius: HDim / 2.0, height: CitySize)
             CityNode = SCNNode(geometry: CityShape)
         }
-        CityNode.categoryBitMask = SunMask | MoonMask
+        CityNode.categoryBitMask = MetalSunMask | MetalMoonMask
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         CityNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
         CityNode.castsShadow = true
         CityNode.geometry?.firstMaterial?.roughness.contents = NSNumber(value: 0.7)
         CityNode.geometry?.firstMaterial?.metalness.contents = NSNumber(value: 1.0)
-        SunLight.intensity = 1200
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + Double(CitySize / 2.0))
         CityNode.position = SCNVector3(X, Y, Z)
         CityNode.name = "CityNode"
