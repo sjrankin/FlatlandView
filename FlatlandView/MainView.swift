@@ -327,12 +327,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             DoShow in
             if DoShow
             {
-                print("Showing stars")
                 self.StarView.Show(SpeedMultiplier: SpeedValue)
             }
             else
             {
-                print("Hiding stars")
                 self.StarView.Hide()
             }
         }
