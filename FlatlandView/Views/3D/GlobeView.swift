@@ -154,7 +154,10 @@ class GlobeView: SCNView, GlobeProtocol
     }
     
     #if DEBUG
-    //https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12
+    /// Set debug options for the visual debugging of the 3D globe.
+    /// - Note: See [SCNDebugOptions](https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12)
+    /// - Parameter Options: Array of options to use. If empty all debug options disabled. If `.AllOff` is present
+    ///                      (regardless of the presence of any other option), all debug options disabled.
     func SetDebugOption(_ Options: [DebugOptions3D])
     {
         if Options.count == 0 || Options.contains(.AllOff)
@@ -165,24 +168,7 @@ class GlobeView: SCNView, GlobeProtocol
         var DOptions: UInt = 0
         for Option in Options
         {
-            #if true
             DOptions = DOptions + Option.rawValue
-            #else
-            switch Option
-            {
-                case .BoundingBoxes:
-                    DOptions = DOptions + Option.rawValue
-                
-                case .Skeleton:
-                DOptions = DOptions + 128
-                
-                case .WireFrame:
-                DOptions = DOptions + 64
-                
-                default:
-                continue
-            }
-            #endif
         }
         self.debugOptions = SCNDebugOptions(rawValue: DOptions)
     }
@@ -228,6 +214,7 @@ class GlobeView: SCNView, GlobeProtocol
     func SetSunlight()
     {
         SunLight = SCNLight()
+        SunLight.categoryBitMask = SunMask
         SunLight.type = .directional
         SunLight.intensity = 800
         SunLight.castsShadow = true
@@ -249,6 +236,7 @@ class GlobeView: SCNView, GlobeProtocol
         if Show
         {
             let MoonLight = SCNLight()
+            MoonLight.categoryBitMask = MoonMask
             MoonLight.type = .directional
             MoonLight.intensity = 300
             MoonLight.castsShadow = true
@@ -270,6 +258,15 @@ class GlobeView: SCNView, GlobeProtocol
         }
     }
     
+    let SunMask: Int = 0x1 << 1
+    let MetalSunMask: Int = 0x1 << 2
+    let MoonMask: Int = 0x1 << 3
+    let MetalMoonMask: Int = 0x1 << 4
+    
+    var MetalSunLight = SCNLight()
+    var MetalMoonLight = SCNLight()
+    var MetalSunNode = SCNNode()
+    var MetalMoonNode = SCNNode()
     var SunLight = SCNLight()
     var CameraNode = SCNNode()
     var LightNode = SCNNode()
@@ -458,6 +455,7 @@ class GlobeView: SCNView, GlobeProtocol
         }
         
         EarthNode = SCNNode(geometry: EarthSphere)
+        EarthNode?.categoryBitMask = SunMask | MoonMask
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
@@ -467,11 +465,13 @@ class GlobeView: SCNView, GlobeProtocol
         {
             case .StylizedSea1:
                 SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
             
             case .Debug2:
                 SeaNode = SCNNode(geometry: SeaSphere)
+                                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -479,6 +479,7 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .Debug5:
                 SeaNode = SCNNode(geometry: SeaSphere)
+                                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemYellow
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -486,17 +487,20 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .TectonicOverlay:
                 SeaNode = SCNNode(geometry: SeaSphere)
+                                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
             
             case .ASCIIArt1:
                 SeaNode = SCNNode(geometry: SeaSphere)
+                                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
             
             case .BlackWhiteShiny:
                 SeaNode = SCNNode(geometry: SeaSphere)
+                                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
@@ -504,6 +508,7 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .Standard:
                 SeaNode = SCNNode(geometry: SeaSphere)
+                                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -511,6 +516,7 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .SimpleBorders2:
                 SeaNode = SCNNode(geometry: SeaSphere)
+                                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemBlue 
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -518,6 +524,7 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .Topographical1:
                 SeaNode = SCNNode(geometry: SeaSphere)
+                                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemBlue
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -525,6 +532,7 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .Pink:
                 SeaNode = SCNNode(geometry: SeaSphere)
+                                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.orange
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
@@ -533,6 +541,7 @@ class GlobeView: SCNView, GlobeProtocol
             case .Bronze:
                 EarthNode?.geometry?.firstMaterial?.specular.contents = NSColor.orange
                 SeaNode = SCNNode(geometry: SeaSphere)
+                                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor(red: 1.0,
                                                                              green: 210.0 / 255.0,
@@ -544,6 +553,7 @@ class GlobeView: SCNView, GlobeProtocol
             default:
                 //Create an empty sea node if one is not needed.
                 SeaNode = SCNNode()
+                            SeaNode?.categoryBitMask = SunMask | MoonMask
         }
         
         PlotLocations(On: EarthNode!, WithRadius: 10)
@@ -598,6 +608,7 @@ class GlobeView: SCNView, GlobeProtocol
             let LineSphere = SCNSphere(radius: Radius)
             LineSphere.segmentCount = 100
             LineNode = SCNNode(geometry: LineSphere)
+            LineNode?.categoryBitMask = SunMask | MoonMask
             LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
             let Maroon = NSColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
             let GridLineImage = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
@@ -607,23 +618,6 @@ class GlobeView: SCNView, GlobeProtocol
             SystemNode?.addChildNode(self.LineNode!)
         }
     }
-    
-    #if false
-    /// Finds and removes all sub-nodes in `Parent` with the specified name.
-    /// - Parameter Parent: The parent node whose sub-nodes are checked for nodes to remove.
-    /// - Parameter Named: Name of the sub-node to remove. All sub-nodes with this name will be removed.
-    func RemoveNodeFrom(Parent Node: SCNNode, Named: String)
-    {
-        for Child in Node.childNodes
-        {
-            if Child.name == Named
-            {
-                Child.removeAllActions()
-                Child.removeFromParentNode()
-            }
-        }
-    }
-    #endif
     
     /// Change the transparency of the land and sea nodes to what is in user settings.
     func UpdateSurfaceTransparency()
