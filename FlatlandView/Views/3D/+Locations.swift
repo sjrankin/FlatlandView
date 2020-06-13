@@ -862,4 +862,60 @@ extension GlobeView
         let Y = (Radius * cos(Lat))
         return (X, Y, Z)
     }
+    
+    /// Changes the color of the `diffuse` material on the passed `SCNNode` to a specified color over
+    /// the specified length of time.
+    /// - Note: See [How to add animations to change SCNNode's color](https://stackoverflow.com/questions/40472524/how-to-add-animations-to-change-sncnodes-color-scenekit/40473393)
+    /// - Note: If the passed `SCNNode` has no `geometry` or `firstMaterial`, control returns immediately.
+    /// - Parameter On: The node whose `diffuse` material will change colors.
+    /// - Parameter From: Original color of the node. This function assumes the node's `diffuse` value
+    ///                   is this color already. If not, a strange animation will occur.
+    /// - Parameter To: The target color to change the node's `diffuse` value to. If `From` is equal
+    ///                 to `To`, no action is taken.
+    /// - Parameter Duration: Duration of the color animation.
+    /// - Parameter Delay: Number of seconds to delay the color animation. Defaults to 0.0.
+    func ChangeColor(On Node: SCNNode, From: NSColor, To: NSColor, Duration: Double, Delay: Double = 0.0)
+    {
+        if Node.geometry == nil
+        {
+            return
+        }
+        if Node.geometry!.firstMaterial == nil
+        {
+            return
+        }
+        let RDelta = From.r - To.r
+        let GDelta = From.g - To.g
+        let BDelta = From.b - To.b
+        if RDelta == 0 && GDelta == 0 && BDelta == 0
+        {
+            //Nothing to do...
+            return
+        }
+        let ColorChange = SCNAction.customAction(duration: Duration, action:
+        {
+        (TheNode, Time) in
+            let Percent: CGFloat = Time / CGFloat(Duration)
+            var Red = From.r + (RDelta * Percent)
+            if RDelta < 0.0
+            {
+                Red = abs(Red)
+            }
+            var Green = From.g + (GDelta * Percent)
+            if GDelta < 0.0
+            {
+                Green = abs(Green)
+            }
+            var Blue = From.b + (BDelta * Percent)
+            if BDelta < 0.0
+            {
+                Blue = abs(Blue)
+            }
+            TheNode.geometry?.firstMaterial?.diffuse.contents = NSColor(calibratedRed: Red, green: Green, blue: Blue, alpha: 1.0)
+        }
+        )
+        let Wait = SCNAction.wait(duration: Delay)
+        let Sequence = SCNAction.sequence([Wait, ColorChange])
+        Node.runAction(Sequence)
+    }
 }
