@@ -209,9 +209,13 @@ extension MainView
                 NSAnimationContext.endGrouping()
             }
         }
-        if Settings.GetBool(.ShowGrid)
+        if Settings.GetBool(.Show2DEquator) ||
+            Settings.GetBool(.Show2DTropics) ||
+            Settings.GetBool(.Show2DPolarCircles) ||
+            Settings.GetBool(.Show2DNoonMeridians) ||
+            Settings.GetBool(.Show2DPrimeMeridians)
         {
-            DrawGrid(Radians) 
+            DrawGrid(Radians)
         }
         if Settings.GetBool(.ShowCities)
         {
