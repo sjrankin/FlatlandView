@@ -132,7 +132,7 @@ class Settings
     }
     
     /// Queries a boolean setting value.
-    /// - Parameter Setting: The setting whose boolean value will be returned.
+    /// - Parameter Setting: The setting whose boolean value will be passed to the completion handler.
     /// - Parameter Completion: Code to execute after the value is retrieved. The value is passed
     ///                         to the completion handler.
     public static func QueryBool(_ Setting: SettingTypes, Completion: (Bool) -> Void)
@@ -184,6 +184,16 @@ class Settings
         return UserDefaults.standard.string(forKey: Setting.rawValue)
     }
     
+    /// Queries a string setting value.
+    /// - Parameter Setting: The setting whose String value will be passed to the completion handler.
+    /// - Parameter Completion: Code to execute after the value is retrieved. The value is passed
+    ///                         to the completion handler.
+    public static func QueryString(_ Setting: SettingTypes, Completion: (String?) -> Void)
+    {
+        let StringValue = UserDefaults.standard.string(forKey: Setting.rawValue)
+        Completion(StringValue)
+    }
+    
     /// Save a string at the specified setting.
     /// - Parameter Setting: The setting where the string value will be saved.
     /// - Parameter Value: The value to save.
@@ -211,6 +221,16 @@ class Settings
     public static func GetInt(_ Setting: SettingTypes) -> Int
     {
         UserDefaults.standard.integer(forKey: Setting.rawValue)
+    }
+    
+    /// Queries an integer setting value.
+    /// - Parameter Setting: The setting whose integer value will be passed to the completion handler.
+    /// - Parameter Completion: Code to execute after the value is retrieved. The value is passed
+    ///                         to the completion handler.
+    public static func QueryInt(_ Setting: SettingTypes, Completion: (Int) -> Void)
+    {
+        let IntValue = UserDefaults.standard.integer(forKey: Setting.rawValue)
+        Completion(IntValue)
     }
     
     /// Save an integer at the specified setting.
@@ -257,6 +277,16 @@ class Settings
         UserDefaults.standard.double(forKey: Setting.rawValue)
     }
     
+    /// Queries a double setting value.
+    /// - Parameter Setting: The setting whose double value will be passed to the completion handler.
+    /// - Parameter Completion: Code to execute after the value is retrieved. The value is passed
+    ///                         to the completion handler.
+    public static func QueryDouble(_ Setting: SettingTypes, Completion: (Double) -> Void)
+    {
+        let DoubleValue = UserDefaults.standard.double(forKey: Setting.rawValue)
+        Completion(DoubleValue)
+    }
+    
     /// Returns a double value from the specified setting, returning a passed value if the setting
     /// value is 0.0.
     /// - Parameter Setting: The setting whose double value will be returned.
@@ -294,6 +324,16 @@ class Settings
             return UseDefault
         }
         return nil
+    }
+    
+    /// Queries a Double? setting value.
+    /// - Parameter Setting: The setting whose Double? value will be passed to the completion handler.
+    /// - Parameter Completion: Code to execute after the value is retrieved. The value is passed
+    ///                         to the completion handler.
+    public static func QueryDoubleNil(_ Setting: SettingTypes, Completion: (Double?) -> Void)
+    {
+        let DoubleNil = GetDoubleNil(Setting)
+        Completion(DoubleNil)
     }
     
     /// Save a double value at the specified setting.
@@ -342,6 +382,16 @@ class Settings
             }
         }
         return nil
+    }
+    
+    /// Queries a color setting value.
+    /// - Parameter Setting: The setting whose color value will be passed to the completion handler.
+    /// - Parameter Completion: Code to execute after the value is retrieved. The value is passed
+    ///                         to the completion handler.
+    public static func QueryColor(_ Setting: SettingTypes, Completion: (NSColor?) -> Void)
+    {
+        let ColorValue = GetColor(Setting)
+        Completion(ColorValue)
     }
     
     /// Returns a color from the specified setting.
@@ -424,6 +474,16 @@ class Settings
             return Value
         }
         return nil
+    }
+    
+    /// Queries an enum setting value.
+    /// - Parameter Setting: The setting whose enum value will be passed to the completion handler.
+    /// - Parameter Completion: Code to execute after the value is retrieved. The value is passed
+    ///                         to the completion handler.
+    public static func QueryEnum<T: RawRepresentable>(_ Setting: SettingTypes, EnumType: T.Type, Completion: (T?) -> Void) where T.RawValue == String
+    {
+        let EnumValue = GetEnum(ForKey: Setting, EnumType: EnumType)
+        Completion(EnumValue)
     }
     
     /// Saves an enum value to user settings. This function will convert the enum value into a string (so the
