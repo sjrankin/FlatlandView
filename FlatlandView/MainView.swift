@@ -877,8 +877,72 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                     #endif
             }
             
+            #if DEBUG
+            case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
+                 .ShowLightInfluences, .ShowConstraints:
+                let ViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld)
+                if ViewType == .Globe3D || ViewType == .CubicWorld
+                {
+                    var DebugTypes = [DebugOptions3D]()
+                    Settings.QueryBool(.ShowSkeletons)
+                    {
+                        Show in
+                        if Show
+                        {
+                        DebugTypes.append(.Skeleton)
+                        }
+                    }
+                    Settings.QueryBool(.ShowBoundingBoxes)
+                    {
+                        Show in
+                        if Show
+                        {
+                        DebugTypes.append(.BoundingBoxes)
+                        }
+                    }
+                    Settings.QueryBool(.ShowWireframes)
+                    {
+                        Show in
+                        if Show
+                        {
+                        DebugTypes.append(.WireFrame)
+                        }
+                    }
+                    Settings.QueryBool(.ShowLightInfluences)
+                    {
+                        Show in
+                        if Show
+                        {
+                            DebugTypes.append(.LightInfluences)
+                        }
+                    }
+                    Settings.QueryBool(.ShowLightExtents)
+                    {
+                        Show in
+                        if Show
+                        {
+                            DebugTypes.append(.LightExtents)
+                        }
+                    }
+                    Settings.QueryBool(.ShowConstraints)
+                    {
+                        Show in
+                        if Show
+                        {
+                            DebugTypes.append(.Constraints)
+                        }
+                    }
+                    World3DView.SetDebugOption(DebugTypes)
+            }
+                #endif
+            
             default:
+                #if DEBUG
                 print("Unhandled setting change: \(Setting)")
+                #else
+                //Don't be so verbose when not in debug mode.
+                break
+                #endif
         }
     }
     
