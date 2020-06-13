@@ -44,6 +44,7 @@ extension GlobeView
         }
         let Cone = SCNCone(topRadius: ConeTop, bottomRadius: ConeBottom, height: 0.3)
         let ConeNode = SCNNode(geometry: Cone)
+        ConeNode.categoryBitMask = SunMask | MoonMask
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         if !IsCurrentLocation
@@ -88,6 +89,7 @@ extension GlobeView
         {
             let Cylinder = SCNCylinder(radius: 0.04, height: 0.5)
             let CylinderNode = SCNNode(geometry: Cylinder)
+            CylinderNode.categoryBitMask = SunMask | MoonMask
             CylinderNode.geometry?.firstMaterial?.diffuse.contents = NSColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
             CylinderNode.geometry?.firstMaterial?.specular.contents = NSColor.white
             CylinderNode.castsShadow = true
@@ -119,6 +121,7 @@ extension GlobeView
         let Sphere = SCNSphere(radius: 0.4)
         
         HomeNode = SCNNode(geometry: Sphere)
+        HomeNode?.categoryBitMask = SunMask | MoonMask
         HomeNode?.geometry?.firstMaterial?.diffuse.contents = WithColor
         HomeNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
         HomeNode?.castsShadow = true
@@ -134,6 +137,7 @@ extension GlobeView
         
         let SphereHalo = SCNSphere(radius: 0.40)
         HomeNodeHalo = SCNNode(geometry: SphereHalo)
+        HomeNodeHalo?.categoryBitMask = SunMask | MoonMask
         HomeNodeHalo?.geometry?.firstMaterial?.diffuse.contents = NSColor.white.withAlphaComponent(0.2)
         HomeNodeHalo?.geometry?.firstMaterial?.emission.contents = NSColor.yellow.withAlphaComponent(0.2)
         HomeNodeHalo?.position = SCNVector3(X, Y, Z)
@@ -156,6 +160,7 @@ extension GlobeView
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
         let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
         let ConeNode = SCNNode(geometry: Cone)
+        ConeNode.categoryBitMask = SunMask | MoonMask
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
@@ -175,11 +180,13 @@ extension GlobeView
         
         let Sphere = SCNSphere(radius: 0.2)
         let SphereNode = SCNNode(geometry: Sphere)
+        SphereNode.categoryBitMask = SunMask | MoonMask
         SphereNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         SphereNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         
         let Cone = SCNCone(topRadius: 0.0, bottomRadius: 0.2, height: 0.5)
         let ConeNode = SCNNode(geometry: Cone)
+        ConeNode.categoryBitMask = SunMask | MoonMask
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         
@@ -206,6 +213,7 @@ extension GlobeView
         let Pin = SCNPin(KnobHeight: 2.0, KnobRadius: 1.0, PinHeight: 1.4, PinRadius: 0.15,
                          KnobColor: NSColor.Gold, PinColor: NSColor.gray) 
         Pin.scale = SCNVector3(0.25, 0.25, 0.25)
+        Pin.categoryBitMask = SunMask | MoonMask
         
         HomeNode = SCNNode()
         HomeNode?.castsShadow = true
@@ -233,6 +241,7 @@ extension GlobeView
     {
         let Pole = SCNCylinder(radius: 0.04, height: 4.5)
         let PoleNode = SCNNode(geometry: Pole)
+        PoleNode.categoryBitMask = SunMask | MoonMask
         PoleNode.geometry?.firstMaterial?.diffuse.contents = NSColor.brown
         
         let FlagX = 0.6
@@ -240,6 +249,7 @@ extension GlobeView
         
         let FlagInterior = SCNBox(width: 0.038, height: 0.58, length: 1.18, chamferRadius: 0.0)
         let FlagInteriorNode = SCNNode(geometry: FlagInterior)
+        FlagInteriorNode.categoryBitMask = SunMask | MoonMask
         FlagInteriorNode.geometry?.firstMaterial?.diffuse.contents = EmissiveColor
         FlagInteriorNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         FlagInteriorNode.geometry?.firstMaterial?.emission.contents = EmissiveColor
@@ -248,6 +258,7 @@ extension GlobeView
         
         let FlagFace = SCNBox(width: 0.04, height: 0.6, length: 1.2, chamferRadius: 0.0)
         let FlagFaceNode = SCNNode(geometry: FlagFace)
+        FlagFaceNode.categoryBitMask = SunMask | MoonMask
         FlagFaceNode.position = SCNVector3(FlagX, FlagY, 0.0)
         let FlagName = "GreenHomeFlag"
         let FlagImage = NSImage(named: FlagName)
@@ -279,8 +290,8 @@ extension GlobeView
     /// - Parameter WithColor: The color of the city shape.
     /// - Parameter RelativeSize: The relative size of the city.
     /// - Parameter LargestSize: The largest permitted.
-    func PlotCity1(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
-                   WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0, LargestSize: Double = 1.0)
+    func PlotEmbeddedCitySphere(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+                                WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0, LargestSize: Double = 1.0)
     {
         var CitySize = CGFloat(RelativeSize * LargestSize)
         if CitySize < 0.15
@@ -289,6 +300,7 @@ extension GlobeView
         }
         let CityShape = SCNSphere(radius: CitySize)
         let CityNode = SCNNode(geometry: CityShape)
+        CityNode.categoryBitMask = SunMask | MoonMask
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         //        CityNode.geometry?.firstMaterial?.emission.contents = NSImage(named: "CitySphereTexture")
         CityNode.castsShadow = true
@@ -314,9 +326,12 @@ extension GlobeView
     /// - Parameter LongestStem: The length of the stem from the Earth to the floating city shape.
     ///                          This value is multiplied by `RelativeHeight` which is assumed to be
     ///                          a normal value.
-    func PlotCity2(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
-                   WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
-                   RelativeHeight: Double = 1.0, LargestSize: Double = 1.0, LongestStem: Double = 1.0)
+    /// - Parameter IsASphere: If true, a sphere is used to represent the city. If false, a box is
+    ///                        used instead.
+    func PlotFloatingCity(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+                          WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
+                          RelativeHeight: Double = 1.0, LargestSize: Double = 1.0, LongestStem: Double = 1.0,
+                          IsASphere: Bool)
     {
         let RadialOffset = 0.1
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
@@ -326,10 +341,21 @@ extension GlobeView
         {
             CitySize = 0.15
         }
-        let Sphere = SCNSphere(radius: CitySize)
-        let SphereNode = SCNNode(geometry: Sphere)
-        SphereNode.geometry?.firstMaterial?.diffuse.contents = WithColor
-        SphereNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+        var CityNode: SCNNode!
+        if IsASphere
+        {
+            let Sphere = SCNSphere(radius: CitySize)
+            CityNode = SCNNode(geometry: Sphere)
+        }
+        else
+        {
+            let Side = CitySize * 2.0
+            let Box = SCNBox(width: Side, height: Side, length: Side, chamferRadius: 0.1)
+            CityNode = SCNNode(geometry: Box)
+        }
+        CityNode.categoryBitMask = SunMask | MoonMask
+        CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         
         var CylinderLength = CGFloat(LongestStem * RelativeHeight)
         if CylinderLength < 0.1
@@ -338,15 +364,16 @@ extension GlobeView
         }
         let Cylinder = SCNCylinder(radius: 0.04, height: CGFloat(LongestStem * RelativeHeight))
         let CylinderNode = SCNNode(geometry: Cylinder)
+        CylinderNode.categoryBitMask = SunMask | MoonMask
         CylinderNode.geometry?.firstMaterial?.diffuse.contents = NSColor.magenta
         CylinderNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         CylinderNode.castsShadow = true
         SunLight.intensity = 800
         CylinderNode.position = SCNVector3(0.0, 0.0, 0.0)
-        SphereNode.position = SCNVector3(0.0, -(CylinderLength - CitySize), 0.0)
+        CityNode.position = SCNVector3(0.0, -(CylinderLength - CitySize), 0.0)
         
         let FinalNode = SCNNode()
-        FinalNode.addChildNode(SphereNode)
+        FinalNode.addChildNode(CityNode)
         FinalNode.addChildNode(CylinderNode)
         
         FinalNode.position = SCNVector3(X, Y, Z)
@@ -369,9 +396,9 @@ extension GlobeView
     /// - Parameter LargestSize: The largest permitted.
     /// - Parameter IsBox: If true, the shape of the city is based on `SCNBox`. If false, the shape
     ///                    is based on `SCNCylinder`.
-    func PlotCity3(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
-                   WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
-                   LargestSize: Double = 1.0, IsBox: Bool = true)
+    func PlotCitySphere(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+                        WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
+                        LargestSize: Double = 1.0, IsBox: Bool = true)
     {
         var CitySize = CGFloat(RelativeSize * LargestSize)
         if CitySize < 0.33
@@ -394,6 +421,7 @@ extension GlobeView
             let CityShape = SCNCylinder(radius: HDim / 2.0, height: CitySize)
             CityNode = SCNNode(geometry: CityShape)
         }
+        CityNode.categoryBitMask = SunMask | MoonMask
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         CityNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
@@ -480,29 +508,36 @@ extension GlobeView
                 switch Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .UniformEmbedded)
                 {
                     case .UniformEmbedded:
-                        PlotCity1(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                  ToSurface: Surface, WithColor: CityColor, RelativeSize: 1.0,
-                                  LargestSize: 0.15)
+                        PlotEmbeddedCitySphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                               ToSurface: Surface, WithColor: CityColor, RelativeSize: 1.0,
+                                               LargestSize: 0.15)
                     
                     case .RelativeEmbedded:
-                        PlotCity1(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                  ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                  LargestSize: 0.35)
+                        PlotEmbeddedCitySphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                               ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                               LargestSize: 0.35)
                     
-                    case .RelativeFloating:
-                        PlotCity2(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                  ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                  RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0)
+                    case .RelativeFloatingSpheres:
+                        PlotFloatingCity(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                         ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                         RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0,
+                                         IsASphere: true)
+                    
+                    case .RelativeFloatingBoxes:
+                        PlotFloatingCity(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                         ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                         RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0,
+                                         IsASphere: false)
                     
                     case .RelativeHeight:
-                        PlotCity3(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                  ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                  LargestSize: 2.0, IsBox: true)
+                        PlotCitySphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                       ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                       LargestSize: 2.0, IsBox: true)
                     
                     case .Cylinders:
-                        PlotCity3(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                  ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                  LargestSize: 2.0, IsBox: false)
+                        PlotCitySphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                       ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                       LargestSize: 2.0, IsBox: false)
                 }
             }
         }
@@ -615,12 +650,14 @@ extension GlobeView
     {
         let Pole = SCNCylinder(radius: 0.25, height: 2.5)
         let PoleNode = SCNNode(geometry: Pole)
+        PoleNode.categoryBitMask = SunMask | MoonMask
         PoleNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "PolarTexture")
         let PoleYOffset = NorthPole ? 0.5 : -0.5
         PoleNode.position = SCNVector3(0.0, PoleYOffset, 0.0)
         
         let Sphere = SCNSphere(radius: 0.5)
         let SphereNode = SCNNode(geometry: Sphere)
+        SphereNode.categoryBitMask = SunMask | MoonMask
         let YOffset = NorthPole ? 2.1 : -2.1
         SphereNode.position = SCNVector3(0.0, YOffset, 0.0)
         SphereNode.geometry?.firstMaterial?.diffuse.contents = NSColor(HexString: "#ffd700")
@@ -643,10 +680,12 @@ extension GlobeView
     {
         let Pole = SCNCylinder(radius: 0.04, height: 2.5)
         let PoleNode = SCNNode(geometry: Pole)
+        PoleNode.categoryBitMask = SunMask | MoonMask
         PoleNode.geometry?.firstMaterial?.diffuse.contents = NSColor.brown
         
         let FlagFace = SCNBox(width: 0.04, height: 0.6, length: 1.2, chamferRadius: 0.0)
         let FlagFaceNode = SCNNode(geometry: FlagFace)
+        FlagFaceNode.categoryBitMask = SunMask | MoonMask
         let XOffset = NorthPole ? 0.6 : -0.6
         let YOffset = NorthPole ? 1.0 : -1.0
         FlagFaceNode.position = SCNVector3(XOffset, YOffset, 0.0)
@@ -736,6 +775,7 @@ extension GlobeView
                 }
                 let SiteShape = SCNRegular.Geometry(VertexCount: 3, Radius: 0.2, Depth: 0.1 + DepthOffset)
                 let SiteNode = SCNNode(geometry: SiteShape)
+                SiteNode.categoryBitMask = SunMask | MoonMask
                 SiteNode.scale = SCNVector3(0.55, 0.55, 0.55)
                 WHSNodeList.append(SiteNode)
                 var NodeColor = NSColor.black
