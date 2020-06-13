@@ -217,6 +217,10 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             case .Fast:
                 StarSpeedSegment.selectedSegment = 2
         }
+        #if DEBUG
+        #else
+        DebugButton.removeFromSuperview()
+        #endif
     }
     
     @IBAction func Handle3DGridLineChanged(_ sender: Any)
@@ -363,6 +367,23 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
     }
     
+    @IBAction func HandleDebugPressed(_ sender: Any)
+    {
+        #if DEBUG
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "Debug3DWindow") as? ThreeDDebugWindow
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+            if let WinCon = Window?.contentViewController as? ThreeDDebugController
+            {
+                WinCon.MainDelegate = MainDelegate
+            }
+        }
+        #endif
+    }
+    
+    @IBOutlet weak var DebugButton: NSButton!
     @IBOutlet weak var StarSpeedSegment: NSSegmentedControl!
     @IBOutlet weak var SampleStars: Starfield!
     @IBOutlet weak var Show3DGridLines: NSButton!
