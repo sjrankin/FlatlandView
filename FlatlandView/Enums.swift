@@ -315,6 +315,21 @@ enum GravitationParameters: Double, CaseIterable
     case Sun = 1327124001.89
 }
 
+#if DEBUG
+//https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12
+enum DebugOptions3D: UInt, CaseIterable
+{
+    case AllOff = 0
+    case WireFrame = 64
+    case BoundingBoxes = 2
+    case Skeleton = 128
+    case LightInfluences = 4
+    case LightExtents = 8
+    case Constraints = 512
+    case Cameras = 1024
+}
+#endif
+
 /// Z position enum and layer values. Defines which layers are on top of other layers.
 /// Higher values mean closer to the user which means more likely to be visible.
 enum LayerZLevels: Int
