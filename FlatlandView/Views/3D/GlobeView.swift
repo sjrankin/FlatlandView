@@ -132,7 +132,7 @@ class GlobeView: SCNView, GlobeProtocol
         #else
         self.showsStatistics = false
         #endif
-
+        
         let Camera = SCNCamera()
         Camera.fieldOfView = 90.0
         Camera.usesOrthographicProjection = true
@@ -142,7 +142,7 @@ class GlobeView: SCNView, GlobeProtocol
         CameraNode = SCNNode()
         CameraNode.camera = Camera
         CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
-
+        
         SetGridLight()
         SetMetalLights()
         SetSunlight()
@@ -158,7 +158,7 @@ class GlobeView: SCNView, GlobeProtocol
     #if DEBUG
     /// Set debug options for the visual debugging of the 3D globe.
     /// - Note: See [SCNDebugOptions](https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12)
-    /// - Parameter Options: Array of options to use. If empty all debug options disabled. If `.AllOff` is present
+    /// - Parameter Options: Array of options to use. If empty, all debug options disabled. If `.AllOff` is present
     ///                      (regardless of the presence of any other option), all debug options disabled.
     func SetDebugOption(_ Options: [DebugOptions3D])
     {
@@ -180,8 +180,10 @@ class GlobeView: SCNView, GlobeProtocol
     func ResetCamera()
     {
         let PositionAction = SCNAction.move(to: SCNVector3(0.0, 0.0, 16.0), duration: 0.7)
+        PositionAction.timingMode = .easeOut
         self.pointOfView?.runAction(PositionAction)
         let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 0.7)
+        RotationAction.timingMode = .easeOut
         self.pointOfView?.runAction(RotationAction)
     }
     
@@ -293,8 +295,8 @@ class GlobeView: SCNView, GlobeProtocol
         self.scene?.rootNode.addChildNode(MetalMoonNode)
     }
     
-    /// Set the light for the grid. The grid needs a separate light because when it's over the night
-    /// side, it's not easily visible.
+    /// Set the lights for the grid. The grid needs a separate light because when it's over the night
+    /// side, it's not easily visible. There are two grid lights - one for day time and one for night time.
     func SetGridLight()
     {
         GridLight1 = SCNLight()
@@ -314,6 +316,8 @@ class GlobeView: SCNView, GlobeProtocol
         GridLightNode2.position = SCNVector3(0.0, 0.0, 80.0)
         self.scene?.rootNode.addChildNode(GridLightNode2)
     }
+    
+    let HourRadius = 11.5
     
     let SunMask: Int = 0x1 << 1
     let MetalSunMask: Int = 0x1 << 2
@@ -533,7 +537,7 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .Debug2:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -541,7 +545,7 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .Debug5:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemYellow
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -549,20 +553,20 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .TectonicOverlay:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
             
             case .ASCIIArt1:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
             
             case .BlackWhiteShiny:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
@@ -570,7 +574,7 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .Standard:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -578,7 +582,7 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .SimpleBorders2:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemBlue 
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -586,7 +590,7 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .Topographical1:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemBlue
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -594,7 +598,7 @@ class GlobeView: SCNView, GlobeProtocol
             
             case .Pink:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.orange
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
@@ -603,7 +607,7 @@ class GlobeView: SCNView, GlobeProtocol
             case .Bronze:
                 EarthNode?.geometry?.firstMaterial?.specular.contents = NSColor.orange
                 SeaNode = SCNNode(geometry: SeaSphere)
-                                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor(red: 1.0,
                                                                              green: 210.0 / 255.0,
@@ -615,7 +619,7 @@ class GlobeView: SCNView, GlobeProtocol
             default:
                 //Create an empty sea node if one is not needed.
                 SeaNode = SCNNode()
-                            SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = SunMask | MoonMask
         }
         
         PlotLocations(On: EarthNode!, WithRadius: 10)
@@ -658,6 +662,8 @@ class GlobeView: SCNView, GlobeProtocol
     
     /// Draws or removes the layer that displays the set of lines (eg, longitudinal and latitudinal and
     /// other) from user settings.
+    /// - Note: The grid uses its own set of lights to ensure it is properly visible when over the
+    ///         night-side of the Earth.
     /// - Parameter Radius: The radius of the sphere holding the lines. Default is `10.2` which is
     ///                     slightly over the Earth.
     func SetLineLayer(Radius: CGFloat = 10.2)
@@ -670,7 +676,7 @@ class GlobeView: SCNView, GlobeProtocol
             let LineSphere = SCNSphere(radius: Radius)
             LineSphere.segmentCount = 100
             LineNode = SCNNode(geometry: LineSphere)
-            LineNode?.categoryBitMask = GridMask //SunMask | MoonMask //GridMask
+            LineNode?.categoryBitMask = GridMask
             LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
             let Maroon = NSColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
             let GridLineImage = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
