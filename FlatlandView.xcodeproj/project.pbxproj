@@ -24,6 +24,8 @@
 		17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CD3247B8E62005209FC /* WorldHeritageSite.swift */; };
 		17523CD6247B937F005209FC /* UnescoSites.db in Resources */ = {isa = PBXBuildFile; fileRef = 17523CD5247B937F005209FC /* UnescoSites.db */; };
 		17523CDB247B973E005209FC /* +FlatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CDA247B973E005209FC /* +FlatView.swift */; };
+		1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1757CACC24949C3F00ECA8C1 /* 3DDebugWindow.swift */; };
+		1757CACF24949C6300ECA8C1 /* 3DDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1757CACE24949C6300ECA8C1 /* 3DDebugController.swift */; };
 		1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E324794A0100C434B5 /* AppDelegate.swift */; };
 		1767A8E624794A0100C434B5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E524794A0100C434B5 /* MainView.swift */; };
 		1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E724794A0300C434B5 /* Assets.xcassets */; };
@@ -107,6 +109,8 @@
 		17523CD3247B8E62005209FC /* WorldHeritageSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSite.swift; sourceTree = "<group>"; };
 		17523CD5247B937F005209FC /* UnescoSites.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnescoSites.db; sourceTree = "<group>"; };
 		17523CDA247B973E005209FC /* +FlatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatView.swift"; sourceTree = "<group>"; };
+		1757CACC24949C3F00ECA8C1 /* 3DDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DDebugWindow.swift; sourceTree = "<group>"; };
+		1757CACE24949C6300ECA8C1 /* 3DDebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DDebugController.swift; sourceTree = "<group>"; };
 		1767A8E024794A0100C434B5 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1767A8E324794A0100C434B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1767A8E524794A0100C434B5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -208,6 +212,7 @@
 		174F010D248CD0F700F610DD /* MainSettings */ = {
 			isa = PBXGroup;
 			children = (
+				1757CACB24949C2A00ECA8C1 /* 3DDebug */,
 				17D2F6BC2484F6F100404510 /* MainSettings.swift */,
 				17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */,
 			);
@@ -258,6 +263,15 @@
 				178A86A62489132800BE8D46 /* GlobeProtocol.swift */,
 			);
 			path = 3D;
+			sourceTree = "<group>";
+		};
+		1757CACB24949C2A00ECA8C1 /* 3DDebug */ = {
+			isa = PBXGroup;
+			children = (
+				1757CACC24949C3F00ECA8C1 /* 3DDebugWindow.swift */,
+				1757CACE24949C6300ECA8C1 /* 3DDebugController.swift */,
+			);
+			path = 3DDebug;
 			sourceTree = "<group>";
 		};
 		1767A8D724794A0100C434B5 = {
@@ -503,7 +517,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = "Stuart Rankin";
 				TargetAttributes = {
 					1767A8DF24794A0100C434B5 = {
@@ -594,9 +608,11 @@
 				178A869C2488C3D100BE8D46 /* AboutDetailsWindow.swift in Sources */,
 				17EF3397247A670B00A5B55D /* MapItem.swift in Sources */,
 				17EF33B7247A94BA00A5B55D /* City.swift in Sources */,
+				1757CACF24949C6300ECA8C1 /* 3DDebugController.swift in Sources */,
 				178A86A02489108C00BE8D46 /* +CubicEarth.swift in Sources */,
 				1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */,
 				17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */,
+				1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */,
 				17EF33A8247A936900A5B55D /* Solar.swift in Sources */,
 				17EF339A247A673900A5B55D /* FileIO.swift in Sources */,
 				1720B388248B68A1001202E5 /* AutoLocationProtocol.swift in Sources */,
@@ -781,6 +797,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FlatlandView/FlatlandView.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
@@ -801,6 +818,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FlatlandView/FlatlandView.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
