@@ -48,6 +48,58 @@ class GlobeView: SCNView, GlobeProtocol
     /// Initialize the globe view.
     func InitializeView()
     {
+        #if DEBUG
+        var DebugTypes = [DebugOptions3D]()
+        Settings.QueryBool(.ShowSkeletons)
+        {
+            Show in
+            if Show
+            {
+                DebugTypes.append(.Skeleton)
+            }
+        }
+        Settings.QueryBool(.ShowBoundingBoxes)
+        {
+            Show in
+            if Show
+            {
+                DebugTypes.append(.BoundingBoxes)
+            }
+        }
+        Settings.QueryBool(.ShowWireframes)
+        {
+            Show in
+            if Show
+            {
+                DebugTypes.append(.WireFrame)
+            }
+        }
+        Settings.QueryBool(.ShowLightInfluences)
+        {
+            Show in
+            if Show
+            {
+                DebugTypes.append(.LightInfluences)
+            }
+        }
+        Settings.QueryBool(.ShowLightExtents)
+        {
+            Show in
+            if Show
+            {
+                DebugTypes.append(.LightExtents)
+            }
+        }
+        Settings.QueryBool(.ShowConstraints)
+        {
+            Show in
+            if Show
+            {
+                DebugTypes.append(.Constraints)
+            }
+        }
+        SetDebugOption(DebugTypes)
+        #endif
         //        self.debugOptions = [.showBoundingBoxes, .renderAsWireframe]
         self.allowsCameraControl = true
         
@@ -100,6 +152,41 @@ class GlobeView: SCNView, GlobeProtocol
         UpdateEarthView()
         SetHourResetTimer()
     }
+    
+    #if DEBUG
+    //https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12
+    func SetDebugOption(_ Options: [DebugOptions3D])
+    {
+        if Options.count == 0 || Options.contains(.AllOff)
+        {
+            self.debugOptions = []
+            return
+        }
+        var DOptions: UInt = 0
+        for Option in Options
+        {
+            #if true
+            DOptions = DOptions + Option.rawValue
+            #else
+            switch Option
+            {
+                case .BoundingBoxes:
+                    DOptions = DOptions + Option.rawValue
+                
+                case .Skeleton:
+                DOptions = DOptions + 128
+                
+                case .WireFrame:
+                DOptions = DOptions + 64
+                
+                default:
+                continue
+            }
+            #endif
+        }
+        self.debugOptions = SCNDebugOptions(rawValue: DOptions)
+    }
+    #endif
     
     /// Resets the default camera to its original location.
     func ResetCamera()
