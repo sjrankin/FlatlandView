@@ -347,6 +347,9 @@ enum LayerZLevels: Int
     /// Info grid layer.
     case LocalInfoGridLayer = 19001
     
+    /// Star view layer.
+    case StarLayer = 4000
+    
     #if DEBUG
     /// Debug layer.
     case DebugLayer = 19000
