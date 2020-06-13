@@ -12,20 +12,24 @@ import CoreGraphics
 import CoreImage
 import SceneKit
 
+/// Implements a field of "stars" that appears to move.
 class Starfield: SCNView
 {
+    /// Initializer.
     override init(frame: CGRect)
     {
         super.init(frame: frame)
         Initialize()
     }
     
+    /// Initializer.
     required init?(coder: NSCoder)
     {
         super.init(coder: coder)
         Initialize()
     }
     
+    /// Initialize the scene.
     func Initialize()
     {
         self.scene = SCNScene()
@@ -55,20 +59,31 @@ class Starfield: SCNView
     var CameraNode: SCNNode? = nil
     var LightNode: SCNNode? = nil
     
+    /// Hide the stars in the field. Also hides the `SCNView` control.
     func Hide()
     {
         self.isHidden = true
         RemoveStars()
     }
     
-    func Show(StarCount: Int = 1000, StarColor: NSColor = NSColor.white, UseNaturalStarColors: Bool = false,
-              MaxStarSize: Double = 0.08, SpeedMultiplier: Double = 1.0)
+    /// Show the stars in the field. Also shows the `SCNView` control.
+    /// - Parameter StarCount: The number of stars in the star field. Defaults to 1000.
+    /// - Parameter StarColor: The color of the stars. Can be overriden if
+    ///                        `UseNaturalStarColors` is true.
+    /// - Parameter UseNaturalStarColors: If true, star colors follows a rough distribution
+    ///                                   of actual star colors.
+    /// - Parameter MaxStarSize: The maximum random star size.
+    /// - Parameter SpeedMultiplier: Determines the rate of "travel" through the star field.
+    func Show(StarCount: Int = 1000, StarColor: NSColor = NSColor.white,
+              UseNaturalStarColors: Bool = false, MaxStarSize: Double = 0.08,
+              SpeedMultiplier: Double = 1.0)
     {
         self.isHidden = false
         FillStars(To: 1000, MaxSize: MaxStarSize, StarColor: StarColor, UseNaturalStarColors: UseNaturalStarColors,
                   SpeedMultiplier: SpeedMultiplier)
     }
     
+    /// Remove all stars from the star field.
     func RemoveStars()
     {
         if self.scene?.rootNode.childNodes == nil
@@ -85,6 +100,15 @@ class Starfield: SCNView
         }
     }
     
+    /// Add stars to the star field.
+    /// - Parameter Count: The number of stars to add.
+    /// - Parameter MaxSize: The maximum random star size. Defaults to 0.08.
+    /// - Parameter StarColor: The color of the stars. Can be overriden if
+    ///                        `UseNaturalStarColors` is true. Defaults to NSColor.white.
+    /// - Parameter UseNaturalStarColors: If true, star colors follows a rough distribution
+    ///                                   of actual star colors. Defaults to true.
+    /// - Parameter SpeedMultiplier: Determines the rate of "travel" through the star field.
+    ///                              Defaults to 1.0.
     func FillStars(To Count: Int, MaxSize: Double = 0.08, StarColor: NSColor = NSColor.white,
                    UseNaturalStarColors: Bool = true, SpeedMultiplier: Double = 1.0)
     {
@@ -95,12 +119,20 @@ class Starfield: SCNView
         }
     }
     
-    func MakeStar(StarColor: NSColor, SpeedMultiplier: Double = 1.0, MaxStarSize: Double = 0.15,
+    /// Create a star to add to the star field.
+    /// - Warning: A fatal error will be generated if `SpeedMultiplier` is 0.0 or less.
+    /// - Parameter StarColor: The color of the star. If `UseNaturalStarColors` is true, this
+    ///                        parameter is ignored.
+    /// - Parameter SpeedMultiplier: Velocity of "travel" through the star field. Defaults to 1.0.
+    /// - Parameter MaxStarSize: Maximum random star size. Defaults to 0.08.
+    /// - Parameter UseNaturalStarColors: If true, stars are colored randomly in a distribution of
+    ///                                   actual star colors.
+    func MakeStar(StarColor: NSColor, SpeedMultiplier: Double = 1.0, MaxStarSize: Double = 0.08,
                   UseNaturalStarColors: Bool = false)
     {
-        if SpeedMultiplier == 0.0
+        if SpeedMultiplier <= 0.0
         {
-            fatalError("SpeedMultipler may not be 0.0.")
+            fatalError("SpeedMultipler must be greater than 0.0 - was \(SpeedMultiplier).")
         }
         let P = PointInSphere(Radius: 100.0)
         let StarSize = Double.random(in: 0.025 ... MaxStarSize)
@@ -132,6 +164,8 @@ class Starfield: SCNView
         }
     }
     
+    /// Returns a randomly selected star color from the `StarColors` table of actual star colors.
+    /// - Returns: Randomly selected color from the `StarColors` table.
     func RandomStarColor() -> NSColor
     {
         let Percent = Double.random(in: 0.0 ... 1.0)
@@ -145,6 +179,7 @@ class Starfield: SCNView
         return NSColor.white
     }
     
+    /// Rough distribution of actual star colors.
     let StarColors: [(Double, NSColor)] =
         [
             (0.7645, NSColor(red: 1.0, green: 202 / 255, blue: 122 / 255, alpha: 1.0)),
@@ -155,7 +190,10 @@ class Starfield: SCNView
             (0.9988, NSColor(red: 169 / 255, green: 194 / 255, blue: 252 / 255, alpha: 1.0)),
     ]
     
-    //http://datagenetics.com/blog/january32020/index.html
+    /// Returns a random point in the sphere centered at the origin and with a radius of `Radius`.
+    /// - Note: See [Point in sphere](http://datagenetics.com/blog/january32020/index.html)
+    /// - Parameter Radius: Radius of the sphere.
+    /// - Returns: Random point in the sphere defined by `Radius` centered on the origin.
     func PointInSphere(Radius: Double) -> SCNVector3
     {
         while true
