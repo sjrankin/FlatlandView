@@ -61,7 +61,6 @@ extension GlobeView
     ///            `.RelativeToLocation` is selected but no local information is available.
     func DrawHourLabels(Radius: Double) -> SCNNode?
     {
-        print("Draw hour labels")
         switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
         {
             case .None:
@@ -283,6 +282,7 @@ extension GlobeView
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
                 let HourTextNode = SCNNode(geometry: HourText)
+                HourTextNode.categoryBitMask = SunMask | MoonMask
                 HourTextNode.scale = SCNVector3(0.07, 0.07, 0.07)
                 HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
                 let HourRotation = (90.0 - Double(WorkingAngle)).Radians
