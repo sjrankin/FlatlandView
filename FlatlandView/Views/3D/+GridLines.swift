@@ -51,7 +51,7 @@ extension GlobeView
             Line.lineWidth = 3.0
             MinorLineColor.withAlphaComponent(1.0).setStroke()
             Line.stroke()
-            GridImage?.unlockFocus()
+            Base.unlockFocus()
         }
         
         //Draw the major grid lines on top of the minor grid lines. This is done in three lines of
