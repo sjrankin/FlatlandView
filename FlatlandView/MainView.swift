@@ -307,6 +307,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         LocalInfoGrid.layer?.zPosition = CGFloat(LayerZLevels.LocalInfoGridLayer.rawValue)
         LocalInfoGrid.isHidden = !Settings.GetBool(.ShowLocalData)
         #if true
+        StarView.wantsLayer = true
+        StarView.layer?.zPosition = CGFloat(LayerZLevels.StarLayer.rawValue)
         var SpeedValue = 1.0
         let Speed = Settings.GetEnum(ForKey: .StarSpeeds, EnumType: StarSpeeds.self, Default: .Medium)
         switch Speed
@@ -325,10 +327,12 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
             DoShow in
             if DoShow
             {
+                print("Showing stars")
                 self.StarView.Show(SpeedMultiplier: SpeedValue)
             }
             else
             {
+                print("Hiding stars")
                 self.StarView.Hide()
             }
         }
