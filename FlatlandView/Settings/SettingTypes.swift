@@ -88,6 +88,21 @@ enum SettingTypes: String, CaseIterable
     case ResetHoursPeriodically = "ResetHoursPeriodically"
     /// Double: How often to reset hours. Performance debug option.
     case ResetHourTimeInterval = "ResetHourTimeInterval"
+    #if DEBUG
+    //3D debug settings.
+    /// Render 3D elements as wireframes.
+    case ShowWireframes = "ShowWireframes"
+    /// Show bounding boxes around 3D elements.
+    case ShowBoundingBoxes = "ShowBoundingBoxes"
+    /// Show skeletons.
+    case ShowSkeletons = "ShowSkeletons"
+    /// Show node constraints.
+    case ShowConstraints = "ShowConstraints"
+    /// Show light influences.
+    case ShowLightInfluences = "ShowLightInfluences"
+    /// Show light extents.
+    case ShowLightExtents = "ShowLightExtents"
+    #endif
     
     //Local and home locations.
     /// Boolean: Show user locations.
