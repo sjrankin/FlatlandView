@@ -195,8 +195,11 @@ enum CityDisplayTypes: String, CaseIterable
     /// Each city is sized relative to its population and is embedded in the parent surface.
     case RelativeEmbedded = "Relative Flush Spheres"
     
-    /// Each city floats above the parent surface and is sized relative to its population.
-    case RelativeFloating = "Floating Spheres"
+    /// Each city is a sphere that floats above the parent surface and is sized relative to its population.
+    case RelativeFloatingSpheres = "Floating Spheres"
+    
+    /// Each city is a box that floats above the parent surface and is sized relative to its population.
+    case RelativeFloatingBoxes = "Floating Boxes"
     
     /// Each city is a box with height determined by relative population.
     case RelativeHeight = "Boxes"
@@ -303,10 +306,14 @@ enum LocationShapes2D: String, CaseIterable
     case Star = "Star"
 }
 
+/// Speeds for the velocity of stars in the star view. Actual value determined at run-time.
 enum StarSpeeds: String, CaseIterable
 {
+    /// Slow speed.
     case Slow = "Slow"
+    /// Medium speed.
     case Medium = "Medium"
+    /// Fast speed.
     case Fast = "Fast"
 }
 
@@ -316,7 +323,9 @@ enum GravitationParameters: Double, CaseIterable
 }
 
 #if DEBUG
-//https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12
+/// Options for debugging 3D views.
+/// - Note: Values obtains from [SCNDebugOptions](https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12)
+/// - Note: Values are bit masks and should not be changed.
 enum DebugOptions3D: UInt, CaseIterable
 {
     case AllOff = 0
