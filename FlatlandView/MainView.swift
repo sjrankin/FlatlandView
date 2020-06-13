@@ -839,7 +839,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 let ViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld)
                 if ViewType == .CubicWorld || ViewType == .Globe3D
                 {
-                    #if true
                     Settings.QueryBool(.ShowMovingStars)
                     {
                         DoShow in
@@ -865,16 +864,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                             self.StarView.Hide()
                         }
                     }
-                    #else
-                    if Settings.GetBool(.ShowMovingStars)
-                    {
-                        StarView.Show()
-                    }
-                    else
-                    {
-                        StarView.Hide()
-                    }
-                    #endif
             }
             
             #if DEBUG
@@ -889,7 +878,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                         Show in
                         if Show
                         {
-                        DebugTypes.append(.Skeleton)
+                            DebugTypes.append(.Skeleton)
                         }
                     }
                     Settings.QueryBool(.ShowBoundingBoxes)
@@ -897,7 +886,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                         Show in
                         if Show
                         {
-                        DebugTypes.append(.BoundingBoxes)
+                            DebugTypes.append(.BoundingBoxes)
                         }
                     }
                     Settings.QueryBool(.ShowWireframes)
@@ -905,7 +894,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                         Show in
                         if Show
                         {
-                        DebugTypes.append(.WireFrame)
+                            DebugTypes.append(.WireFrame)
                         }
                     }
                     Settings.QueryBool(.ShowLightInfluences)
@@ -934,7 +923,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                     }
                     World3DView.SetDebugOption(DebugTypes)
             }
-                #endif
+            #endif
             
             default:
                 #if DEBUG
@@ -942,7 +931,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                 #else
                 //Don't be so verbose when not in debug mode.
                 break
-                #endif
+            #endif
         }
     }
     
