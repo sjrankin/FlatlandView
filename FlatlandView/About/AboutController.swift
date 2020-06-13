@@ -210,7 +210,7 @@ class AboutController: NSViewController
         Words.append("Build \(Versioning.Build) (\(Versioning.BuildDate))")
         Words.append(Versioning.MakeVersionString())
         Words.append(Versioning.ApplicationName)
-        HourNode = MakeSentence(Radius: 11.1, Words: Words)
+        HourNode = MakeSentence(Radius: 12.0, Words: Words)
         AboutWorld.scene?.rootNode.addChildNode(HourNode!)
         let Rotation = SCNAction.rotateBy(x: 0.0, y: -CGFloat.pi / 180.0, z: 0.0, duration: 0.06)
         let Forever = SCNAction.repeatForever(Rotation)
