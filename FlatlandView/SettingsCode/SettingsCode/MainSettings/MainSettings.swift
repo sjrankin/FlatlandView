@@ -572,26 +572,13 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             UserLocationLatitudeBox.stringValue = ""
             UserTimeZoneOffsetCombo.selectItem(withObjectValue: nil)
         }
-        let LocalShape = Settings.GetEnum(ForKey: .HomeShape, EnumType: HomeShapes.self, Default: .Hide)
-        var HomeShapeIndex = 0
-        switch LocalShape
+        HomeShapeCombo.removeAllItems()
+        for SomeShape in HomeShapes.allCases
         {
-            case .Hide:
-                HomeShapeIndex = 0
-            
-            case .Arrow:
-                HomeShapeIndex = 1
-            
-            case .Flag:
-                HomeShapeIndex = 2
-            
-            case .Pulsate:
-                HomeShapeIndex = 3
-            
-            case .Pin:
-            HomeShapeIndex = 4
+            HomeShapeCombo.addItem(withObjectValue: SomeShape.rawValue)
         }
-        HomeLocationShapeSegment.selectedSegment = HomeShapeIndex
+        let LocalShape = Settings.GetEnum(ForKey: .HomeShape, EnumType: HomeShapes.self, Default: .Hide)
+        HomeShapeCombo.selectItem(withObjectValue: LocalShape.rawValue)
     }
     
     var UserLocations = [(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: NSColor)]()
@@ -750,37 +737,22 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
     }
     
-    @IBAction func HandleHomeLocationShapeChanged(_ sender: Any)
+    @IBAction func HomeShapeChanged(_ sender: Any)
     {
-        if let Segment = sender as? NSSegmentedControl
+        if let Combo = sender as? NSComboBox
         {
-            var Shape = HomeShapes.Hide
-            switch Segment.indexOfSelectedItem
+            if let ItemValue = Combo.objectValueOfSelectedItem as? String
             {
-                case 0:
-                    Shape = .Hide
-                
-                case 1:
-                    Shape = .Arrow
-                
-                case 2:
-                    Shape = .Flag
-                
-                case 3:
-                    Shape = .Pulsate
-                
-                case 4:
-                    Shape = .Pin
-                
-                default:
-                    return
+                if let HomeShape = HomeShapes(rawValue: ItemValue)
+                {
+                Settings.SetEnum(HomeShape, EnumType: HomeShapes.self, ForKey: .HomeShape)
+                    MainDelegate?.Refresh("MainSettings.HomeShapeChanged")
+                }
             }
-            Settings.SetEnum(Shape, EnumType: HomeShapes.self, ForKey: .HomeShape)
-            MainDelegate?.Refresh("MainSettings.HandleHomeLocationShapeChanged")
         }
     }
-    
-    @IBOutlet weak var HomeLocationShapeSegment: NSSegmentedControl!
+
+    @IBOutlet weak var HomeShapeCombo: NSComboBox!
     @IBOutlet weak var UserTimeZoneOffsetCombo: NSComboBox!
     @IBOutlet weak var UserLocationTable: NSTableView!
     @IBOutlet weak var UserLocationLongitudeBox: NSTextField!
