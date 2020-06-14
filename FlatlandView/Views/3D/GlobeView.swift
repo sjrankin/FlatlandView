@@ -179,10 +179,10 @@ class GlobeView: SCNView, GlobeProtocol
     /// Resets the default camera to its original location.
     func ResetCamera()
     {
-        let PositionAction = SCNAction.move(to: SCNVector3(0.0, 0.0, 16.0), duration: 0.7)
+        let PositionAction = SCNAction.move(to: SCNVector3(0.0, 0.0, 16.0), duration: 1.0)
         PositionAction.timingMode = .easeOut
         self.pointOfView?.runAction(PositionAction)
-        let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 0.7)
+        let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 1.0)
         RotationAction.timingMode = .easeOut
         self.pointOfView?.runAction(RotationAction)
     }
