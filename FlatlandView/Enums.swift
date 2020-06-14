@@ -238,6 +238,9 @@ enum HomeShapes: String, CaseIterable
     
     /// 3D pin-shape.
     case Pin = "Pin"
+    
+    /// 3D bouncing arrow.
+    case BouncingArrow = "Bouncing Arrow"
 }
 
 /// Suns that can be displayed in 2D mode.
