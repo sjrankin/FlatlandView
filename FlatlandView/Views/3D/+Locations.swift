@@ -202,6 +202,41 @@ extension GlobeView
         PlottedCities.append(UserNode)
     }
     
+    func PlotBouncingArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode)
+    {
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.7)
+        let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2, Color: NSColor.systemYellow)
+        Arrow.LightMask = SunMask | MoonMask
+        Arrow.scale = SCNVector3(0.75, 0.75, 0.75)
+        
+        let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: 0.25)
+        let RotateForever = SCNAction.repeatForever(Rotate)
+        
+        let BounceDistance: CGFloat = 0.5
+        let BounceDuration = 0.8
+        let BounceAway = SCNAction.move(by: SCNVector3(0.0, -BounceDistance, 0.0), duration: BounceDuration)
+        BounceAway.timingMode = .easeOut
+        let BounceTo = SCNAction.move(by: SCNVector3(0.0, BounceDistance, 0.0), duration: BounceDuration)
+        BounceTo.timingMode = .easeIn
+        let BounceSequence = SCNAction.sequence([BounceAway, BounceTo])
+        let MoveForever = SCNAction.repeatForever(BounceSequence)
+
+        let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
+        Arrow.runAction(AnimationGroup)
+        
+        HomeNode = SCNNode()
+        HomeNode?.castsShadow = true
+        HomeNode?.addChildNode(Arrow)
+        HomeNode?.position = SCNVector3(X, Y, Z)
+        HomeNode?.categoryBitMask = SunMask | MoonMask
+        
+        let YRotation = Latitude + 90.0
+        let XRotation = Longitude + 180.0
+        HomeNode!.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        
+        ToSurface.addChildNode(HomeNode!)
+    }
+    
     /// Plot a location using a 3D pin shape.
     /// - Parameter Latitude: The latitude of the pin.
     /// - Parameter Longitude: The longitude of the pin.
@@ -583,6 +618,10 @@ extension GlobeView
                     case .Pin:
                         PlotPinHome(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                     ToSurface: Surface)
+                    
+                    case .BouncingArrow:
+                        PlotBouncingArrow(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
+                                          ToSurface: Surface)
                 }
             }
         }
