@@ -829,22 +829,6 @@
                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                         </textFieldCell>
                                                                     </textField>
-                                                                    <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pIL-O3-pUs">
-                                                                        <rect key="frame" x="17" y="272" width="360" height="24"/>
-                                                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="BBc-dU-q5W">
-                                                                            <font key="font" metaFont="system"/>
-                                                                            <segments>
-                                                                                <segment label="Hide" width="70"/>
-                                                                                <segment label="Arrow" width="70" selected="YES" tag="1"/>
-                                                                                <segment label="Flag" width="70"/>
-                                                                                <segment label="Pulsate" width="70"/>
-                                                                                <segment label="Pin" width="70"/>
-                                                                            </segments>
-                                                                        </segmentedCell>
-                                                                        <connections>
-                                                                            <action selector="HandleHomeLocationShapeChanged:" target="v9H-zx-ey4" id="icl-bk-4ds"/>
-                                                                        </connections>
-                                                                    </segmentedControl>
                                                                     <box title="Your Home Location" translatesAutoresizingMaskIntoConstraints="NO" id="PnC-0g-KNT">
                                                                         <rect key="frame" x="16" y="13" width="346" height="238"/>
                                                                         <view key="contentView" id="9O4-Qf-pec">
@@ -1019,7 +1003,7 @@
                                                                         <rect key="frame" x="444" y="53" width="393" height="281"/>
                                                                         <clipView key="contentView" id="KWy-wB-50S">
                                                                             <rect key="frame" x="1" y="0.0" width="391" height="280"/>
-                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
                                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="G8M-ws-WdR" viewBased="YES" id="HYR-ca-Hzt">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="391" height="255"/>
@@ -1167,9 +1151,8 @@
                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                         </tableHeaderView>
                                                                     </scrollView>
-                                                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zMu-h1-l5V">
+                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zMu-h1-l5V">
                                                                         <rect key="frame" x="613" y="10" width="80" height="32"/>
-                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="push" title="Delete" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="H9J-io-AL4">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -1178,30 +1161,51 @@
                                                                             <action selector="HandleDeleteCurrentUserLocation:" target="v9H-zx-ey4" id="FQ2-K4-YdX"/>
                                                                         </connections>
                                                                     </button>
+                                                                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="78N-Oo-bCE">
+                                                                        <rect key="frame" x="20" y="269" width="262" height="25"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="259" id="BPE-V7-pmW"/>
+                                                                        </constraints>
+                                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="zC5-sC-0cO">
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            <objectValues>
+                                                                                <string>Item 1</string>
+                                                                                <string>Item 2</string>
+                                                                                <string>Item 3</string>
+                                                                            </objectValues>
+                                                                        </comboBoxCell>
+                                                                        <connections>
+                                                                            <action selector="HomeShapeChanged:" target="v9H-zx-ey4" id="DGl-We-GXW"/>
+                                                                        </connections>
+                                                                    </comboBox>
                                                                 </subviews>
                                                                 <constraints>
+                                                                    <constraint firstItem="KSZ-ft-zPN" firstAttribute="leading" secondItem="PnC-0g-KNT" secondAttribute="trailing" constant="85" id="5Jd-KC-kn2"/>
                                                                     <constraint firstItem="Hln-hQ-DSD" firstAttribute="trailing" secondItem="eaO-PR-a3M" secondAttribute="trailing" id="8KV-O7-dE3"/>
+                                                                    <constraint firstItem="78N-Oo-bCE" firstAttribute="top" secondItem="2I7-zL-Ubf" secondAttribute="bottom" constant="11" id="8me-S6-oK5"/>
+                                                                    <constraint firstItem="zMu-h1-l5V" firstAttribute="top" secondItem="Hln-hQ-DSD" secondAttribute="bottom" constant="15" id="96M-DO-3Rp"/>
+                                                                    <constraint firstItem="zMu-h1-l5V" firstAttribute="leading" secondItem="Jh0-HL-Bzx" secondAttribute="trailing" constant="31" id="9dB-nw-CS3"/>
                                                                     <constraint firstItem="QEW-T6-ce0" firstAttribute="leading" secondItem="2I7-zL-Ubf" secondAttribute="leading" id="AtP-dE-n0v"/>
+                                                                    <constraint firstItem="PnC-0g-KNT" firstAttribute="bottom" secondItem="KSZ-ft-zPN" secondAttribute="bottom" id="B0b-xB-V6b"/>
                                                                     <constraint firstItem="2I7-zL-Ubf" firstAttribute="top" secondItem="QEW-T6-ce0" secondAttribute="bottom" constant="25" id="B7N-95-SCw"/>
-                                                                    <constraint firstItem="2I7-zL-Ubf" firstAttribute="leading" secondItem="pIL-O3-pUs" secondAttribute="leading" id="CAo-vQ-RDf"/>
+                                                                    <constraint firstItem="zMu-h1-l5V" firstAttribute="firstBaseline" secondItem="Jh0-HL-Bzx" secondAttribute="baseline" id="FId-xz-xa9"/>
                                                                     <constraint firstItem="Hln-hQ-DSD" firstAttribute="leading" secondItem="8C9-Ml-Deb" secondAttribute="leading" id="GEz-4V-iSz"/>
                                                                     <constraint firstItem="QEW-T6-ce0" firstAttribute="leading" secondItem="llU-FR-mRf" secondAttribute="leading" constant="19" id="IGm-Us-XaP"/>
                                                                     <constraint firstAttribute="bottom" secondItem="KSZ-ft-zPN" secondAttribute="bottom" constant="17" id="JHZ-Ws-JjO"/>
                                                                     <constraint firstItem="QEW-T6-ce0" firstAttribute="top" secondItem="llU-FR-mRf" secondAttribute="top" constant="15" id="LWH-sa-JAw"/>
                                                                     <constraint firstItem="Jh0-HL-Bzx" firstAttribute="baseline" secondItem="eaO-PR-a3M" secondAttribute="baseline" id="MsS-ue-zle"/>
-                                                                    <constraint firstItem="pIL-O3-pUs" firstAttribute="top" secondItem="2I7-zL-Ubf" secondAttribute="bottom" constant="8" symbolic="YES" id="Nw2-nE-JxB"/>
-                                                                    <constraint firstItem="Hln-hQ-DSD" firstAttribute="bottom" secondItem="PnC-0g-KNT" secondAttribute="bottom" constant="-36" id="THb-W3-6c6"/>
+                                                                    <constraint firstItem="78N-Oo-bCE" firstAttribute="leading" secondItem="llU-FR-mRf" secondAttribute="leading" constant="20" id="PoH-nf-6TH"/>
                                                                     <constraint firstItem="KSZ-ft-zPN" firstAttribute="baseline" secondItem="Jh0-HL-Bzx" secondAttribute="baseline" id="UDq-Ca-ZZ0"/>
+                                                                    <constraint firstItem="PnC-0g-KNT" firstAttribute="bottom" secondItem="zMu-h1-l5V" secondAttribute="bottom" id="XFa-vf-drF"/>
                                                                     <constraint firstItem="Hln-hQ-DSD" firstAttribute="leading" secondItem="KSZ-ft-zPN" secondAttribute="leading" id="ZjG-D6-qJq"/>
-                                                                    <constraint firstItem="PnC-0g-KNT" firstAttribute="top" secondItem="pIL-O3-pUs" secondAttribute="bottom" constant="23" id="au8-Jp-d61"/>
                                                                     <constraint firstItem="8C9-Ml-Deb" firstAttribute="top" secondItem="QEW-T6-ce0" secondAttribute="top" id="bjp-Ra-zpk"/>
-                                                                    <constraint firstItem="Hln-hQ-DSD" firstAttribute="leading" secondItem="PnC-0g-KNT" secondAttribute="trailing" constant="85" id="gR5-A8-SQE"/>
+                                                                    <constraint firstItem="PnC-0g-KNT" firstAttribute="leading" secondItem="2I7-zL-Ubf" secondAttribute="leading" id="hhL-10-OZF"/>
                                                                     <constraint firstAttribute="trailing" secondItem="Hln-hQ-DSD" secondAttribute="trailing" constant="17" id="mmy-rb-fqC"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="PnC-0g-KNT" secondAttribute="bottom" constant="17" id="mvk-CM-w46"/>
+                                                                    <constraint firstItem="PnC-0g-KNT" firstAttribute="top" secondItem="78N-Oo-bCE" secondAttribute="bottom" constant="22" id="ppI-av-NdZ"/>
                                                                     <constraint firstItem="Hln-hQ-DSD" firstAttribute="top" secondItem="8C9-Ml-Deb" secondAttribute="bottom" constant="-17" id="sz8-xt-pYU"/>
-                                                                    <constraint firstItem="pIL-O3-pUs" firstAttribute="leading" secondItem="PnC-0g-KNT" secondAttribute="leading" id="t1M-We-nto"/>
                                                                     <constraint firstItem="Jh0-HL-Bzx" firstAttribute="leading" secondItem="KSZ-ft-zPN" secondAttribute="trailing" constant="39" id="wIW-pl-ORd"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="PnC-0g-KNT" secondAttribute="trailing" constant="495" id="xzu-ZU-tfE"/>
                                                                 </constraints>
                                                             </view>
                                                         </tabViewItem>
@@ -1376,7 +1380,7 @@
                         <outlet property="DebugButton" destination="t6U-q2-MQU" id="Ysk-qN-Kkv"/>
                         <outlet property="GlobeTransparencySegment" destination="FCw-y7-Pzz" id="RE4-zq-XH1"/>
                         <outlet property="HeritageSiteSegment" destination="mBZ-fV-dIu" id="4o7-eB-NAn"/>
-                        <outlet property="HomeLocationShapeSegment" destination="pIL-O3-pUs" id="StH-nz-DE7"/>
+                        <outlet property="HomeShapeCombo" destination="78N-Oo-bCE" id="01o-DQ-5ap"/>
                         <outlet property="MinorGridGapSegment" destination="e12-xv-Dl4" id="S0h-eg-1vn"/>
                         <outlet property="NightDarknessSegment" destination="JRU-9C-7gW" id="vaE-OG-D4F"/>
                         <outlet property="PoleShapeCombo" destination="gWI-uf-suA" id="cVb-id-J8e"/>
