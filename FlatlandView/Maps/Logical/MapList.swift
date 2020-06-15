@@ -115,6 +115,8 @@ class MapList
             MapItem(.Debug5, false, "BlackClearCheckerboard", "BWCheckerboardRound", "BWCheckerboardRound"),
             MapItem(.USGS, false, "USGSWorld", "USGSWorldNorthCenter", "USGSWorldSouthCenter"),
             MapItem(.StylizedSea1, false, "LandMask2", "WorldNorth", "WorldSouth"),
+            MapItem(.EarthquakeMap, false, "EarthquakeLandMap", "EarthquakeLandMapNorthCenter", "EarthquakeLandMapSouthCenter"),
+            MapItem(.RedTectonicLines, false, "TectonicLinesRed", "TectonicBaseNorthCenterRed", "TectonicBaseSouthCenterRed"),
     ]
 }
 
@@ -205,4 +207,6 @@ enum MapTypes: String, CaseIterable
     case Debug5 = "Black Color Checkerboard"
     case USGS = "USGS"
     case StylizedSea1 = "Stylized Sea 1"
+    case EarthquakeMap = "Earthquake Map"
+    case RedTectonicLines = "Red Tectonic Lines"
 }
