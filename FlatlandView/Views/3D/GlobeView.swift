@@ -317,8 +317,6 @@ class GlobeView: SCNView, GlobeProtocol
         self.scene?.rootNode.addChildNode(GridLightNode2)
     }
     
-    let HourRadius = 11.5
-    
     let SunMask: Int = 0x1 << 1
     let MetalSunMask: Int = 0x1 << 2
     let MoonMask: Int = 0x1 << 4
@@ -487,9 +485,9 @@ class GlobeView: SCNView, GlobeProtocol
         
         SystemNode = SCNNode()
         
-        let EarthSphere = SCNSphere(radius: 10.01)
+        let EarthSphere = SCNSphere(radius: GlobeRadius.Primary.rawValue)
         EarthSphere.segmentCount = 100
-        let SeaSphere = SCNSphere(radius: 10)
+        let SeaSphere = SCNSphere(radius: GlobeRadius.SeaSphere.rawValue)
         SeaSphere.segmentCount = 100
         
         let MapType = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
@@ -529,6 +527,13 @@ class GlobeView: SCNView, GlobeProtocol
         //Precondition the surfaces.
         switch MapType
         {
+            case .EarthquakeMap:
+            SeaNode = SCNNode(geometry: SeaSphere)
+            SeaNode?.categoryBitMask = SunMask | MoonMask
+            SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+            SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal.withAlphaComponent(0.4)
+            EarthNode?.opacity = 0.75
+            
             case .StylizedSea1:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = SunMask | MoonMask
@@ -626,7 +631,7 @@ class GlobeView: SCNView, GlobeProtocol
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug2,
-                                      .Debug5, .StylizedSea1]
+                                      .Debug5, .StylizedSea1, .EarthquakeMap]
         self.prepare([EarthNode!, SeaNode!], completionHandler:
             {
                 success in
@@ -666,7 +671,7 @@ class GlobeView: SCNView, GlobeProtocol
     ///         night-side of the Earth.
     /// - Parameter Radius: The radius of the sphere holding the lines. Default is `10.2` which is
     ///                     slightly over the Earth.
-    func SetLineLayer(Radius: CGFloat = 10.2)
+    func SetLineLayer(Radius: CGFloat = GlobeRadius.LineSphere.rawValue)
     {
         LineNode?.removeAllActions()
         LineNode?.removeFromParentNode()
@@ -728,5 +733,6 @@ class GlobeView: SCNView, GlobeProtocol
     var PlottedCities = [SCNNode?]()
     var WHSNodeList = [SCNNode?]()
     var GridImage: NSImage? = nil
+    var EarthquakeList = [Earthquake]()
 }
 
