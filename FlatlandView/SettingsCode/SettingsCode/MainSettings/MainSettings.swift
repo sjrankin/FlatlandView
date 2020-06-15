@@ -30,6 +30,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         InitializeOtherLocationUI()
         InitializeCitySettingsUI()
         InitializeOtherSettings()
+        InitializeAsynchronousEarthquakes()
     }
     
     // MARK: - 2D Map settings.
@@ -288,7 +289,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                     Settings.SetEnum(.Fast, EnumType: StarSpeeds.self, ForKey: .StarSpeeds)
                 
                 default:
-                return
+                    return
             }
             if Settings.GetBool(.ShowMovingStars)
             {
@@ -637,7 +638,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                     Response in
                     if Response == .OK
                     {
-                    self.UserLocationTable.reloadData()
+                        self.UserLocationTable.reloadData()
                     }
                 }
             }
@@ -659,7 +660,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             }
         }
     }
-
+    
     func HaveNewLocation()
     {
         if let Lat = Settings.GetDoubleNil(.LocalLatitude)
@@ -745,13 +746,13 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             {
                 if let HomeShape = HomeShapes(rawValue: ItemValue)
                 {
-                Settings.SetEnum(HomeShape, EnumType: HomeShapes.self, ForKey: .HomeShape)
+                    Settings.SetEnum(HomeShape, EnumType: HomeShapes.self, ForKey: .HomeShape)
                     MainDelegate?.Refresh("MainSettings.HomeShapeChanged")
                 }
             }
         }
     }
-
+    
     @IBOutlet weak var HomeShapeCombo: NSComboBox!
     @IBOutlet weak var UserTimeZoneOffsetCombo: NSComboBox!
     @IBOutlet weak var UserLocationTable: NSTableView!
@@ -889,6 +890,138 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     @IBOutlet weak var ScriptCombo: NSComboBox!
     @IBOutlet weak var ShowLocalDataCheck: NSButton!
     
+    // MARK: - Asynchronous earthquake settings
+    
+    func InitializeAsynchronousEarthquakes()
+    {
+        let EnableEarthquakes = Settings.GetBool(.EnableEarthquakes)
+        EarthquakeCheck.state = EnableEarthquakes ? .on : .off
+        let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
+        FrequencyCombo.removeAllItems()
+        FrequencyCombo.addItem(withObjectValue: "30 seconds")
+        FrequencyCombo.addItem(withObjectValue: "1 minute")
+        FrequencyCombo.addItem(withObjectValue: "10 minutes")
+        FrequencyCombo.addItem(withObjectValue: "30 minute")
+        FrequencyCombo.addItem(withObjectValue: "1 hour")
+        switch FetchInterval
+        {
+            case 30.0:
+                FrequencyCombo.selectItem(at: 0)
+            
+            case 60.0:
+                FrequencyCombo.selectItem(at: 1)
+            
+            case 600:
+                FrequencyCombo.selectItem(at: 2)
+            
+            case 1800:
+                FrequencyCombo.selectItem(at: 3)
+            
+            case 3600:
+                FrequencyCombo.selectItem(at: 4)
+            
+            default:
+                FrequencyCombo.selectItem(at: 1)
+        }
+        let MinMag = Settings.GetDouble(.MinimumMagnitude, 4.5)
+        switch MinMag
+        {
+            case 2.5:
+                MinMagnitudeSegment.selectedSegment = 0
+            
+            case 3.5:
+                MinMagnitudeSegment.selectedSegment = 1
+            
+            case 4.5:
+                MinMagnitudeSegment.selectedSegment = 2
+            
+            case 5.5:
+                MinMagnitudeSegment.selectedSegment = 3
+            
+            case 6.5:
+                MinMagnitudeSegment.selectedSegment = 4
+            
+            case 7.0:
+                MinMagnitudeSegment.selectedSegment = 5
+            
+            default:
+                MinMagnitudeSegment.selectedSegment = 2
+        }
+    }
+    
+    @IBAction func HandleFetchFrequencyChanged(_ sender: Any)
+    {
+        if let Combo = sender as? NSComboBox
+        {
+            let Index = Combo.indexOfSelectedItem
+            switch Index
+            {
+                case 0:
+                    Settings.SetDouble(.EarthquakeFetchInterval, 30.0)
+                
+                case 1:
+                    Settings.SetDouble(.EarthquakeFetchInterval, 60.0)
+                
+                case 2:
+                    Settings.SetDouble(.EarthquakeFetchInterval, 600.0)
+                
+                case 3:
+                    Settings.SetDouble(.EarthquakeFetchInterval, 1800.0)
+                
+                case 4:
+                    Settings.SetDouble(.EarthquakeFetchInterval, 3600.0)
+                
+                default:
+                    return
+            }
+            MainDelegate?.Refresh("MainSettings.HandleFetchFrequencyChanged")
+        }
+    }
+    
+    @IBAction func HandleMinMagnitudeChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    Settings.SetDouble(.MinimumMagnitude, 2.5)
+                
+                case 1:
+                    Settings.SetDouble(.MinimumMagnitude, 3.5)
+                
+                case 2:
+                    Settings.SetDouble(.MinimumMagnitude, 4.5)
+                
+                case 3:
+                    Settings.SetDouble(.MinimumMagnitude, 5.5)
+                
+                case 4:
+                    Settings.SetDouble(.MinimumMagnitude, 6.5)
+                
+                case 5:
+                    Settings.SetDouble(.MinimumMagnitude, 7.0)
+                
+                default:
+                    return
+            }
+            MainDelegate?.Refresh("MainSettings.HandleMinMagnitudeChanged")
+        }
+    }
+    
+    @IBAction func HandleEarthquakeCheckChanged(_ sender: Any)
+    {
+        if let Check = sender as? NSButton
+        {
+            Settings.SetBool(.EnableEarthquakes, Check.state == .on ? true : false)
+            MainDelegate?.Refresh("MainSettings.HandleEarthquakeCheckChanged")
+        }
+    }
+    
+    @IBOutlet weak var EarthquakeCheck: NSButton!
+    @IBOutlet weak var MinMagnitudeSegment: NSSegmentedControl!
+    @IBOutlet weak var FrequencyCombo: NSComboBox!
+    
     // MARK: - Common code.
     
     func ValidateText(_ Raw: String, IsLongitude: Bool, GoodValue: inout Double) -> Bool
@@ -1004,7 +1137,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                     CellIdentifier = "LocationColumn"
                     let Loc = "\(UserLocations[row].Coordinates.Latitude.RoundedTo(3)), \(UserLocations[row].Coordinates.Longitude.RoundedTo(3))"
                     CellContents = Loc
-            }
+                }
                 if tableColumn == tableView.tableColumns[2]
                 {
                     let Color = UserLocations[row].Color
