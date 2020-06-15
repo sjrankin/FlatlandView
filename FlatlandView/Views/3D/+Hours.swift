@@ -35,19 +35,19 @@ extension GlobeView
                 break
             
             case .Solar:
-                HourNode = DrawHourLabels(Radius: HourRadius)
+                HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
                 let Declination = Sun.Declination(For: Date())
                 HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
                 self.scene?.rootNode.addChildNode(HourNode!)
             
             case .RelativeToNoon:
-                HourNode = DrawHourLabels(Radius: HourRadius)
+                HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
                 let Declination = Sun.Declination(For: Date())
                 HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
                 self.scene?.rootNode.addChildNode(HourNode!)
             
             case .RelativeToLocation:
-                HourNode = DrawHourLabels(Radius: HourRadius)
+                HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
                 SystemNode?.addChildNode(HourNode!)
         }
         PreviousHourType = With
