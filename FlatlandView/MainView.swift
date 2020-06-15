@@ -10,7 +10,7 @@ import Cocoa
 import Foundation
 import SceneKit
 
-class MainView: NSViewController, MainProtocol, SettingChangedProtocol
+class MainView: NSViewController, MainProtocol, SettingChangedProtocol, AsynchronousDataProtocol
 {
     // Start initialization of the UI.
     override func viewDidLoad()
@@ -19,6 +19,14 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         
         Settings.Initialize()
         Settings.AddSubscriber(self)
+
+        Earthquakes = USGS()
+        Earthquakes?.Delegate = self
+        if Settings.GetBool(.EnableEarthquakes)
+        {
+            let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
+            Earthquakes?.GetEarthquakes(Every: FetchInterval)
+        }
         
         FileIO.Initialize()
         MasterMapList = ActualMapIO.LoadMapList()
@@ -41,6 +49,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
     }
+    
+    var Earthquakes: USGS? = nil
     
     var MasterMapList: ActualMapList? = nil
     
@@ -866,6 +876,24 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
                     }
             }
             
+            case .EnableEarthquakes:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
+                    Earthquakes?.GetEarthquakes(Every: FetchInterval)
+                    World3DView.PlotEarthquakes()
+            }
+            else
+                {
+                    Earthquakes?.StopReceivingEarthquakes()
+                    World3DView.ClearEarthquakes()
+            }
+            
+            case .EarthquakeFetchInterval:
+            let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
+            Earthquakes?.StopReceivingEarthquakes()
+            Earthquakes?.GetEarthquakes(Every: FetchInterval)
+            
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints:
@@ -950,6 +978,22 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol
         Animate.fillMode = .forwards
         Animate.isRemovedOnCompletion = false
         LocalInfoGrid.layer?.add(Animate, forKey: "fade")
+    }
+    
+    // MARK: - Asynchronous data protocol functions.
+    
+    func AsynchronousDataAvailable(DataType: AsynchronousDataTypes, Actual: Any?)
+    {
+        print("Received \(DataType.rawValue) asynchronous data.")
+        switch DataType
+        {
+            case .Earthquakes:
+            if let EarthquakeData = Actual as? [Earthquake]
+            {
+                print("\(EarthquakeData.count) earthquakes returned")
+                World3DView.NewEarthquakeList(EarthquakeData)
+            }
+        }
     }
     
     // MARK: - City variables.
