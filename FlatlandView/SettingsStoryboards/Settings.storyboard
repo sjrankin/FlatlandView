@@ -35,9 +35,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="920" height="527"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <tabView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="71M-ei-tv0">
+                            <tabView translatesAutoresizingMaskIntoConstraints="NO" id="71M-ei-tv0">
                                 <rect key="frame" x="13" y="34" width="894" height="479"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="2D Map" identifier="" id="Inf-i7-OWs">
@@ -1360,11 +1359,112 @@
                                             </constraints>
                                         </view>
                                     </tabViewItem>
+                                    <tabViewItem label="Asynchronous" identifier="" id="XAX-bm-Ocy">
+                                        <view key="view" id="L20-i0-ejN">
+                                            <rect key="frame" x="10" y="33" width="874" height="433"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <tabView translatesAutoresizingMaskIntoConstraints="NO" id="Upl-g0-frd">
+                                                    <rect key="frame" x="10" y="-1" width="854" height="430"/>
+                                                    <font key="font" metaFont="system"/>
+                                                    <tabViewItems>
+                                                        <tabViewItem label="Earthquakes" identifier="" id="U29-Bi-M1a">
+                                                            <view key="view" id="yic-40-3c5">
+                                                                <rect key="frame" x="10" y="33" width="834" height="384"/>
+                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                <subviews>
+                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vpB-Y3-Zbs">
+                                                                        <rect key="frame" x="15" y="350" width="135" height="18"/>
+                                                                        <buttonCell key="cell" type="check" title="Fetch earthquakes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hUB-Dj-apJ">
+                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <connections>
+                                                                            <action selector="HandleEarthquakeCheckChanged:" target="v9H-zx-ey4" id="aXk-y4-gW4"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sRD-OR-d27">
+                                                                        <rect key="frame" x="15" y="308" width="127" height="16"/>
+                                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Minimum magnitude" id="o0c-G9-rcq">
+                                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                        </textFieldCell>
+                                                                    </textField>
+                                                                    <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TFR-H0-fke">
+                                                                        <rect key="frame" x="162" y="303" width="311" height="24"/>
+                                                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="QCP-vN-5tI">
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <segments>
+                                                                                <segment label="2.5" width="50"/>
+                                                                                <segment label="3.5" width="50" tag="1"/>
+                                                                                <segment label="4.5" width="50" selected="YES"/>
+                                                                                <segment label="5.5" width="50"/>
+                                                                                <segment label="6.5" width="50"/>
+                                                                                <segment label="7.0+" width="50"/>
+                                                                            </segments>
+                                                                        </segmentedCell>
+                                                                        <connections>
+                                                                            <action selector="HandleMinMagnitudeChanged:" target="v9H-zx-ey4" id="N0r-dz-YoV"/>
+                                                                        </connections>
+                                                                    </segmentedControl>
+                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SUo-9X-hxr">
+                                                                        <rect key="frame" x="17" y="261" width="103" height="16"/>
+                                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Fetch frequency" id="JkN-iS-qLs">
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                        </textFieldCell>
+                                                                    </textField>
+                                                                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mKd-7j-pfj">
+                                                                        <rect key="frame" x="165" y="255" width="182" height="25"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="179" id="y8X-dJ-WeP"/>
+                                                                        </constraints>
+                                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="FZx-0e-LqU">
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                            <objectValues>
+                                                                                <string>Item 1</string>
+                                                                                <string>Item 2</string>
+                                                                                <string>Item 3</string>
+                                                                            </objectValues>
+                                                                        </comboBoxCell>
+                                                                        <connections>
+                                                                            <action selector="HandleFetchFrequencyChanged:" target="v9H-zx-ey4" id="xu2-Jb-YkJ"/>
+                                                                        </connections>
+                                                                    </comboBox>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstItem="sRD-OR-d27" firstAttribute="top" secondItem="vpB-Y3-Zbs" secondAttribute="bottom" constant="28" id="2nT-Kd-w5D"/>
+                                                                    <constraint firstItem="SUo-9X-hxr" firstAttribute="leading" secondItem="yic-40-3c5" secondAttribute="leading" constant="19" id="5lA-0D-c8G"/>
+                                                                    <constraint firstItem="sRD-OR-d27" firstAttribute="leading" secondItem="yic-40-3c5" secondAttribute="leading" constant="17" id="7OZ-1E-uwA"/>
+                                                                    <constraint firstItem="mKd-7j-pfj" firstAttribute="top" secondItem="TFR-H0-fke" secondAttribute="bottom" constant="27" id="UZ3-ZB-eLn"/>
+                                                                    <constraint firstItem="TFR-H0-fke" firstAttribute="top" secondItem="yic-40-3c5" secondAttribute="top" constant="58" id="Xn5-j4-nsp"/>
+                                                                    <constraint firstItem="TFR-H0-fke" firstAttribute="leading" secondItem="sRD-OR-d27" secondAttribute="trailing" constant="24" id="d0X-Vf-DQr"/>
+                                                                    <constraint firstItem="vpB-Y3-Zbs" firstAttribute="leading" secondItem="sRD-OR-d27" secondAttribute="leading" id="iNd-le-Phw"/>
+                                                                    <constraint firstItem="SUo-9X-hxr" firstAttribute="baseline" secondItem="mKd-7j-pfj" secondAttribute="baseline" id="kBK-Kr-I1x"/>
+                                                                    <constraint firstItem="sRD-OR-d27" firstAttribute="baseline" secondItem="TFR-H0-fke" secondAttribute="baseline" id="kpL-bx-N3v"/>
+                                                                    <constraint firstItem="mKd-7j-pfj" firstAttribute="leading" secondItem="SUo-9X-hxr" secondAttribute="trailing" constant="47" id="o65-uh-gmW"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </tabViewItem>
+                                                    </tabViewItems>
+                                                </tabView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Upl-g0-frd" firstAttribute="leading" secondItem="L20-i0-ejN" secondAttribute="leading" constant="17" id="1Pg-4e-wMF"/>
+                                                <constraint firstAttribute="trailing" secondItem="Upl-g0-frd" secondAttribute="trailing" constant="17" id="80L-Zu-NeH"/>
+                                                <constraint firstAttribute="bottom" secondItem="Upl-g0-frd" secondAttribute="bottom" constant="9" id="eAH-pS-Dkh"/>
+                                                <constraint firstItem="Upl-g0-frd" firstAttribute="top" secondItem="L20-i0-ejN" secondAttribute="top" constant="10" id="h0T-Lo-XS9"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
                                 </tabViewItems>
                             </tabView>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="65i-GQ-o6Z">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="65i-GQ-o6Z">
                                 <rect key="frame" x="423" y="1" width="75" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="M5X-NG-fvZ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1374,13 +1474,24 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="71M-ei-tv0" firstAttribute="top" secondItem="b4I-7W-m72" secondAttribute="top" constant="20" id="67e-hb-ohp"/>
+                            <constraint firstAttribute="trailing" secondItem="71M-ei-tv0" secondAttribute="trailing" constant="20" symbolic="YES" id="CGo-n9-Pyd"/>
+                            <constraint firstItem="71M-ei-tv0" firstAttribute="leading" secondItem="b4I-7W-m72" secondAttribute="leading" constant="20" symbolic="YES" id="GwI-r9-IT0"/>
+                            <constraint firstItem="65i-GQ-o6Z" firstAttribute="top" secondItem="71M-ei-tv0" secondAttribute="bottom" constant="15" id="TGd-2Q-rnd"/>
+                            <constraint firstAttribute="bottom" secondItem="65i-GQ-o6Z" secondAttribute="bottom" constant="8" id="bDP-ag-NHe"/>
+                            <constraint firstItem="71M-ei-tv0" firstAttribute="centerX" secondItem="65i-GQ-o6Z" secondAttribute="centerX" id="bkA-xw-S1Q"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="CityShapeCombo" destination="J8U-Fg-YeH" id="LBh-XT-iJS"/>
                         <outlet property="DebugButton" destination="t6U-q2-MQU" id="Ysk-qN-Kkv"/>
+                        <outlet property="EarthquakeCheck" destination="vpB-Y3-Zbs" id="kGd-ky-hGE"/>
+                        <outlet property="FrequencyCombo" destination="mKd-7j-pfj" id="BJ4-ha-89b"/>
                         <outlet property="GlobeTransparencySegment" destination="FCw-y7-Pzz" id="RE4-zq-XH1"/>
                         <outlet property="HeritageSiteSegment" destination="mBZ-fV-dIu" id="4o7-eB-NAn"/>
                         <outlet property="HomeShapeCombo" destination="78N-Oo-bCE" id="01o-DQ-5ap"/>
+                        <outlet property="MinMagnitudeSegment" destination="TFR-H0-fke" id="Ab4-Rg-cCJ"/>
                         <outlet property="MinorGridGapSegment" destination="e12-xv-Dl4" id="S0h-eg-1vn"/>
                         <outlet property="NightDarknessSegment" destination="JRU-9C-7gW" id="vaE-OG-D4F"/>
                         <outlet property="PoleShapeCombo" destination="gWI-uf-suA" id="cVb-id-J8e"/>
