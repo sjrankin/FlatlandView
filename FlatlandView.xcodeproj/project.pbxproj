@@ -91,6 +91,10 @@
 		17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33C0247A95E300A5B55D /* ColorList.swift */; };
 		17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33C2247A961C00A5B55D /* SunGenerator.swift */; };
 		17F440D7247CD72E00FD440E /* +DrawGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F440D6247CD72E00FD440E /* +DrawGrid.swift */; };
+		17F782BF249741B8000A568E /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782BE249741B8000A568E /* Earthquake.swift */; };
+		17F782C1249742A1000A568E /* USGS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C0249742A1000A568E /* USGS.swift */; };
+		17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C224974442000A568E /* AsynchronousDataProtocol.swift */; };
+		17F782C524979218000A568E /* +Earthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C424979218000A568E /* +Earthquakes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -181,6 +185,10 @@
 		17EF33C0247A95E300A5B55D /* ColorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorList.swift; sourceTree = "<group>"; };
 		17EF33C2247A961C00A5B55D /* SunGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunGenerator.swift; sourceTree = "<group>"; };
 		17F440D6247CD72E00FD440E /* +DrawGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+DrawGrid.swift"; sourceTree = "<group>"; };
+		17F782BE249741B8000A568E /* Earthquake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
+		17F782C0249742A1000A568E /* USGS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGS.swift; sourceTree = "<group>"; };
+		17F782C224974442000A568E /* AsynchronousDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousDataProtocol.swift; sourceTree = "<group>"; };
+		17F782C424979218000A568E /* +Earthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Earthquakes.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +202,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1713766824960E1400EF715E /* Earthquakes */ = {
+			isa = PBXGroup;
+			children = (
+				1713766924960E2000EF715E /* USGS */,
+			);
+			path = Earthquakes;
+			sourceTree = "<group>";
+		};
+		1713766924960E2000EF715E /* USGS */ = {
+			isa = PBXGroup;
+			children = (
+				17F782C0249742A1000A568E /* USGS.swift */,
+				17F782BE249741B8000A568E /* Earthquake.swift */,
+			);
+			path = USGS;
+			sourceTree = "<group>";
+		};
 		173A104D248B39B300793216 /* GetLocation */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +288,7 @@
 				178A86A12489127C00BE8D46 /* +Hours.swift */,
 				178A869F2489108C00BE8D46 /* +CubicEarth.swift */,
 				173EB18A2490D1B7006CDB86 /* +Orbits.swift */,
+				17F782C424979218000A568E /* +Earthquakes.swift */,
 				178A869D2489101E00BE8D46 /* StarField.swift */,
 				178A86A62489132800BE8D46 /* GlobeProtocol.swift */,
 			);
@@ -298,6 +324,7 @@
 		1767A8E224794A0100C434B5 /* FlatlandView */ = {
 			isa = PBXGroup;
 			children = (
+				1792108024960DDD00626FD9 /* RemoteData */,
 				178A86912488C0CF00BE8D46 /* About */,
 				17EF33A4247A933100A5B55D /* Astronomy */,
 				17EF339F247A691C00A5B55D /* Shapes */,
@@ -354,6 +381,15 @@
 				178A869B2488C3D100BE8D46 /* AboutDetailsWindow.swift */,
 			);
 			path = About;
+			sourceTree = "<group>";
+		};
+		1792108024960DDD00626FD9 /* RemoteData */ = {
+			isa = PBXGroup;
+			children = (
+				1713766824960E1400EF715E /* Earthquakes */,
+				17F782C224974442000A568E /* AsynchronousDataProtocol.swift */,
+			);
+			path = RemoteData;
 			sourceTree = "<group>";
 		};
 		17B4410D24861CB90050A5DF /* UserLocation */ = {
@@ -592,6 +628,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				178A869A2488C3B600BE8D46 /* AboutDetailsController.swift in Sources */,
+				17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */,
 				1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */,
 				1740F49B2493173A00F6FAAE /* Hours.swift in Sources */,
 				17EF33B9247A94DB00A5B55D /* Cities.swift in Sources */,
@@ -601,6 +638,7 @@
 				17EF33B0247A93DC00A5B55D /* Miscellaneous.swift in Sources */,
 				17DDA0452484E9750090E1EB /* UserLocationEditorController.swift in Sources */,
 				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
+				17F782BF249741B8000A568E /* Earthquake.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
 				174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */,
 				17D2F6BD2484F6F100404510 /* MainSettings.swift in Sources */,
@@ -625,6 +663,7 @@
 				174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */,
 				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
 				17EF3387247A4B2200A5B55D /* MapPickerController.swift in Sources */,
+				17F782C524979218000A568E /* +Earthquakes.swift in Sources */,
 				1720B38E248B82A9001202E5 /* +2DCities.swift in Sources */,
 				1720B38A248B8181001202E5 /* +NightMask.swift in Sources */,
 				1767A8E624794A0100C434B5 /* MainView.swift in Sources */,
@@ -663,6 +702,7 @@
 				17EF33A3247A699300A5B55D /* Utility.swift in Sources */,
 				17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */,
 				17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */,
+				17F782C1249742A1000A568E /* USGS.swift in Sources */,
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
 				178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */,
