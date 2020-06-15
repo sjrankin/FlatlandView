@@ -172,4 +172,13 @@ enum SettingTypes: String, CaseIterable
     case SiteYear = "SiteYear"
     /// Inclusion year filter for sites.
     case SiteYearFilter = "SiteYearFilter"
+    
+    //Asynchronous settings.
+    //Earthquake asynchronous settings.
+    /// Double: How often, in seconds, to fetch earthquake data.
+    case EarthquakeFetchInterval = "EarthquakeFetchInterval"
+    /// Double: Minimum magnitude to be included.
+    case MinimumMagnitude = "MinimumMagnitude"
+    /// Boolean: Determines if remote earthquake data is fetched.
+    case EnableEarthquakes = "EnableEarthquakes"
 }
