@@ -111,7 +111,7 @@ class MapManager
             
             case .Physical:
                 return [.BlueMarble, .MODIS, .DarkBlueMarble, .USGS,
-                        .Topographical1, .Topographical2, .SurrealTopographic,
+                        .Topographical1, .Topographical2, .SurrealTopographic, .EarthquakeMap,
                         .OnlyTectonic, .TectonicOverlay, .StaticAerosol, .Normalized]
             
             case .TimeZone:
