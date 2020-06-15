@@ -202,6 +202,11 @@ extension GlobeView
         PlottedCities.append(UserNode)
     }
     
+    /// Plot a location using a bouncing, rotating arrow.
+    /// - Parameter Latitude: The latitude of the arrow.
+    /// - Parameter Longitude: The longitude of the arrow.
+    /// - Parameter Radius: The radius of the Earth.
+    /// - Parameter ToSurface: The surface node where the arrow will be added.
     func PlotBouncingArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.7)
@@ -220,7 +225,7 @@ extension GlobeView
         BounceTo.timingMode = .easeIn
         let BounceSequence = SCNAction.sequence([BounceAway, BounceTo])
         let MoveForever = SCNAction.repeatForever(BounceSequence)
-
+        
         let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
         Arrow.runAction(AnimationGroup)
         
@@ -487,7 +492,7 @@ extension GlobeView
     /// Plot cities on the globe.
     func PlotCities()
     {
-        PlotCities(On: EarthNode!, Radius: 10.0)
+        PlotCities(On: EarthNode!, Radius: Double(GlobeRadius.Primary.rawValue))
     }
     
     /// Plot cities on the globe. User locations are also plotted here.
@@ -580,7 +585,7 @@ extension GlobeView
     /// Plot the home location. Intended for use by external callers.
     func PlotHomeLocation()
     {
-        PlotHomeLocation(On: EarthNode!, Radius: 10.0)
+        PlotHomeLocation(On: EarthNode!, Radius: Double(GlobeRadius.Primary.rawValue))
     }
     
     /// Plot the home location. In order for a location to be plotted, it must be defined and the
@@ -641,10 +646,10 @@ extension GlobeView
         switch Settings.GetEnum(ForKey: .PolarShape, EnumType: PolarShapes.self, Default: .None)
         {
             case .Pole:
-                PlotPolarPoles(On: EarthNode!, With: 10.0)
+                PlotPolarPoles(On: EarthNode!, With: GlobeRadius.Primary.rawValue)
             
             case .Flag:
-                PlotPolarFlags(On: EarthNode!, With: 10.0)
+                PlotPolarFlags(On: EarthNode!, With: GlobeRadius.Primary.rawValue)
             
             case .None:
                 return
@@ -795,7 +800,8 @@ extension GlobeView
             }
             for Site in FinalList
             {
-                let (X, Y, Z) = ToECEF(Site.Latitude, Site.Longitude, Radius: 10.0)
+                let (X, Y, Z) = ToECEF(Site.Latitude, Site.Longitude,
+                                       Radius: Double(GlobeRadius.Primary.rawValue))
                 var DepthOffset: CGFloat = 0.0
                 switch Site.Category
                 {
@@ -933,7 +939,7 @@ extension GlobeView
         }
         let ColorChange = SCNAction.customAction(duration: Duration, action:
         {
-        (TheNode, Time) in
+            (TheNode, Time) in
             let Percent: CGFloat = Time / CGFloat(Duration)
             var Red = From.r + (RDelta * Percent)
             if RDelta < 0.0
