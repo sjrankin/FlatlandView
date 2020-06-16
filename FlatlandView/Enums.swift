@@ -342,6 +342,46 @@ enum DebugOptions3D: UInt, CaseIterable
 }
 #endif
 
+/// Defines the types of asynchronous data that may be received.
+enum AsynchronousDataTypes: String, CaseIterable
+{
+    /// USGS earthquakes.
+    case Earthquakes = "Earthquakes"
+}
+
+/// Methods for determining colors of earthquakes.
+enum EarthquakeColorMethods: String, CaseIterable
+{
+    /// Age of the earthquake.
+    case Age = "Age"
+    /// Magnitude of the earthquake.
+    case Magnitude = "Magnitude"
+    /// The range of the magnitude of the earthquake.
+    case MagnitudeRange = "Magnitude Range"
+    /// Nearest population center.
+    case Population = "Population"
+    /// How significant an earthquake is.
+    case Significance = "Significance"
+}
+
+/// Earthquake magnitudes to display.
+/// - Note: The values of the magnitudes *must* be in ascending order.
+enum EarthquakeMagnitudes: Double, CaseIterable
+{
+    /// Display M4.0 and higher.
+    case Mag4 = 4.0
+    /// Display M5.0 or higher.
+    case Mag5 = 5.0
+    /// Display M6.0 or higher.
+    case Mag6 = 6.0
+    /// Display M7.0 or higher.
+    case Mag7 = 7.0
+    /// Display M8.0 or higher.
+    case Mag8 = 8.0
+    /// Display M9.0 or higher.
+    case Mag9 = 9.0
+}
+
 /// Radius values.
 enum GlobeRadius: CGFloat, CaseIterable
 {
