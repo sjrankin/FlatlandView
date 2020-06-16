@@ -353,8 +353,6 @@ enum GlobeRadius: CGFloat, CaseIterable
     case LineSphere = 10.2
     /// Sphere that holds the hour text.
     case HourSphere = 11.5
-    /// Sphere that holds earthquakes.
-    case Earthquakes = 10.009
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
