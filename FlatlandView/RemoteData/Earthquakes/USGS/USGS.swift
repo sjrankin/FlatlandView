@@ -88,12 +88,46 @@ class USGS
     {
         DispatchQueue.main.async
             {
-                for Quake in self.EarthquakeList
-                {
-                    print("*** \(Quake.Latitude), \(Quake.Longitude)")
-                }
-                self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: self.EarthquakeList as Any)
+                var FinalList = self.RemoveDuplicates(From: self.EarthquakeList)
+                FinalList = self.FilterForMagnitude(FinalList, Magnitude: Settings.GetDouble(.MinimumMagnitude))
+                self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: FinalList as Any)
         }
+    }
+    
+    /// Remove duplicate entries from the passed list of earthquakes.
+    /// - Note: Duplicates are defined as earthquakes with the same code.
+    /// - Parameter From: The source list of earthquakes with possible duplicates.
+    /// - Returns: List of earthquakes with no duplicates.
+    func RemoveDuplicates(From: [Earthquake]) -> [Earthquake]
+    {
+        var Unique = [String: Earthquake]()
+        for Quake in From
+        {
+            if let _ = Unique[Quake.Code]
+            {
+                continue
+            }
+            Unique[Quake.Code] = Quake
+        }
+        return Unique.map{$1}
+    }
+    
+    /// Filter the passed list for minimum magnitude. Earthquakes that have a magnitude less than
+    /// the passed value are excluded from the returned list.
+    /// - Parameter List: The source list to filter.
+    /// - Parameter Magnitude: The minimum magnitude an earthquake must have to be returned.
+    /// - Returns: List of earthquakes from `List` that have a magnitude greater or equal to `Magnitude`.
+    func FilterForMagnitude(_ List: [Earthquake], Magnitude: Double) -> [Earthquake]
+    {
+        var Final = [Earthquake]()
+        for Quake in List
+        {
+            if Quake.Magnitude >= Magnitude
+            {
+                Final.append(Quake)
+            }
+        }
+        return Final
     }
     
     /// Perform the actual web call here to get the list of USGS earthquakes.
@@ -199,6 +233,27 @@ class USGS
                                     case "code":
                                         NewEarthquake.Code = PropVal as! String
                                     
+                                    case "status":
+                                        NewEarthquake.Status = PropVal as! String
+                                    
+                                    case "updated":
+                                        NewEarthquake.Updated = PropVal as! Int
+                                    
+                                    case "mmi":
+                                        if let MMI = PropVal as? Double
+                                        {
+                                        NewEarthquake.MMI = MMI
+                                    }
+                                    
+                                    case "felt":
+                                        if let Felt = PropVal as? Int
+                                        {
+                                        NewEarthquake.Felt = Felt
+                                    }
+                                    
+                                    case "sig":
+                                        NewEarthquake.Significance = PropVal as! Int
+                                    
                                     default:
                                         continue
                                 }
@@ -208,7 +263,8 @@ class USGS
                             continue
                     }
                 }
-                if NewEarthquake.Magnitude >= Settings.GetDouble(.MinimumMagnitude, 4.5)
+                let Minimum = Settings.GetDouble(.MinimumMagnitude, 6.0)
+                if NewEarthquake.Magnitude >= Minimum
                 {
                     EarthquakeList.append(NewEarthquake)
                 }
