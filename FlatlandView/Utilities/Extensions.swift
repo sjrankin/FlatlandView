@@ -340,11 +340,48 @@ extension Date
         return "\(HourS):\(MinuteS):\(SecondS)"
     }
     
+    /// Converts the passed date's date components into a pretty string.
+    /// - Parameter From: The date whose date components will be used to generate a pretty string.
+    /// - Returns: String value of the date components of `From`.
+    static func PrettyDate(From: Date) -> String
+    {
+        let Cal = Calendar.current
+        let Day = Cal.component(.day, from: From)
+        let Month = Cal.component(.month, from: From)
+        let Year = Cal.component(.year, from: From)
+        let MonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][Month - 1]
+        return "\(Day) \(MonthName) \(Year)"
+    }
+    
+    /// Converts the passed date's date and time components into a pretty string.
+    /// - Parameter From: The date whose date and time components will be used to generate a pretty string.
+    /// - Returns: String value of the date and time components of `From`.
+    static func PrettyDateTime(From: Date) -> String
+    {
+        let NiceTime = From.PrettyTime()
+        let NiceDate = From.PrettyDate()
+        return "\(NiceDate), \(NiceTime)"
+    }
+    
     /// Converts the instance date's time components into a pretty string.
     /// - Returns: String value of the time components of the instance date.
     func PrettyTime() -> String
     {
         return Date.PrettyTime(From: self)
+    }
+    
+    /// Converts the instance date's date components into a pretty string.
+    /// - Returns: String value of the date components of the instance date.
+    func PrettyDate() -> String
+    {
+        return Date.PrettyDate(From: self)
+    }
+    
+    /// Converts the instance date's time and date components into a pretty string.
+    /// - Returns: String value of the time and date components of the instance date.
+    func PrettyDateTime() -> String
+    {
+        return Date.PrettyDateTime(From: self)
     }
     
     /// Returns the time zone of the instance date.
