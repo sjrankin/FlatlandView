@@ -91,5 +91,36 @@ class City
     
     /// User city flag.
     public var IsUserCity: Bool = false
+    
+    /// Return a population for the city. Always returns a value.
+    /// - Parameter MetroPopulation: If true, the metropolitan population is returned.
+    /// - Returns: Population of the city. If `MetroPopulation` is true and there is no metropolitan
+    ///            population available, the city population is returned. If no city population is
+    ///            available, `0` is returned.
+    public func GetPopulation(_ MetroPopulation: Bool = true) -> Int
+    {
+        if MetroPopulation
+        {
+            if let Metro = MetropolitanPopulation
+            {
+                return Metro
+            }
+            else
+            {
+                if let CityPop = Population
+                {
+                    return CityPop
+                }
+            }
+        }
+        else
+        {
+            if let CityPop = Population
+            {
+                return CityPop
+            }
+        }
+        return 0
+    }
 }
 
