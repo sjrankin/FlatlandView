@@ -890,7 +890,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     @IBOutlet weak var ScriptCombo: NSComboBox!
     @IBOutlet weak var ShowLocalDataCheck: NSButton!
     
-    // MARK: - Asynchronous earthquake settings
+    // MARK: - Live data earthquake settings
     
     func InitializeAsynchronousEarthquakes()
     {
@@ -923,30 +923,17 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             default:
                 FrequencyCombo.selectItem(at: 1)
         }
-        let MinMag = Settings.GetDouble(.MinimumMagnitude, 4.5)
-        switch MinMag
+        let MinMag = Settings.GetDouble(.MinimumMagnitude, EarthquakeMagnitudes.Mag6.rawValue)
+        let MagIndex = Int(MinMag) - 4
+        MinMagnitudeSegment.selectedSegment = MagIndex
+        let ColDet = Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
+        ColorDetCombo.removeAllItems()
+        for Method in EarthquakeColorMethods.allCases
         {
-            case 2.5:
-                MinMagnitudeSegment.selectedSegment = 0
-            
-            case 3.5:
-                MinMagnitudeSegment.selectedSegment = 1
-            
-            case 4.5:
-                MinMagnitudeSegment.selectedSegment = 2
-            
-            case 5.5:
-                MinMagnitudeSegment.selectedSegment = 3
-            
-            case 6.5:
-                MinMagnitudeSegment.selectedSegment = 4
-            
-            case 7.0:
-                MinMagnitudeSegment.selectedSegment = 5
-            
-            default:
-                MinMagnitudeSegment.selectedSegment = 2
+            ColorDetCombo.addItem(withObjectValue: Method.rawValue)
         }
+        ColorDetCombo.selectItem(withObjectValue: ColDet.rawValue)
+        BaseColorWell.color = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
     }
     
     @IBAction func HandleFetchFrequencyChanged(_ sender: Any)
@@ -982,29 +969,9 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     {
         if let Segment = sender as? NSSegmentedControl
         {
-            switch Segment.selectedSegment
-            {
-                case 0:
-                    Settings.SetDouble(.MinimumMagnitude, 2.5)
-                
-                case 1:
-                    Settings.SetDouble(.MinimumMagnitude, 3.5)
-                
-                case 2:
-                    Settings.SetDouble(.MinimumMagnitude, 4.5)
-                
-                case 3:
-                    Settings.SetDouble(.MinimumMagnitude, 5.5)
-                
-                case 4:
-                    Settings.SetDouble(.MinimumMagnitude, 6.5)
-                
-                case 5:
-                    Settings.SetDouble(.MinimumMagnitude, 7.0)
-                
-                default:
-                    return
-            }
+            let Index = Segment.selectedSegment
+            let MinMag = EarthquakeMagnitudes.allCases[Index]
+            Settings.SetDouble(.MinimumMagnitude, MinMag.rawValue)
             MainDelegate?.Refresh("MainSettings.HandleMinMagnitudeChanged")
         }
     }
@@ -1018,9 +985,37 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
     }
     
+    @IBAction func HandleColorDeterminationChanged(_ sender: Any)
+    {
+        if let Combo = sender as? NSComboBox
+        {
+            if let Raw = Combo.objectValueOfSelectedItem as? String
+            {
+                if let RawValue = EarthquakeColorMethods(rawValue: Raw)
+                {
+                    Settings.SetEnum(RawValue, EnumType: EarthquakeColorMethods.self,
+                                     ForKey: .ColorDetermination)
+                    MainDelegate?.Refresh(#function)
+                }
+            }
+        }
+    }
+    
+    @IBAction func HandleNewBaseColor(_ sender: Any)
+    {
+        if let ColorWell = sender as? NSColorWell
+        {
+            Settings.SetColor(.BaseEarthquakeColor, ColorWell.color)
+            MainDelegate?.Refresh(#function)
+        }
+    }
+    
+
+    @IBOutlet weak var ColorDetCombo: NSComboBox!
     @IBOutlet weak var EarthquakeCheck: NSButton!
     @IBOutlet weak var MinMagnitudeSegment: NSSegmentedControl!
     @IBOutlet weak var FrequencyCombo: NSComboBox!
+    @IBOutlet weak var BaseColorWell: NSColorWell!
     
     // MARK: - Common code.
     
