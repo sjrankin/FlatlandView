@@ -95,6 +95,9 @@
 		17F782C1249742A1000A568E /* USGS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C0249742A1000A568E /* USGS.swift */; };
 		17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C224974442000A568E /* AsynchronousDataProtocol.swift */; };
 		17F782C524979218000A568E /* +Earthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C424979218000A568E /* +Earthquakes.swift */; };
+		17FC2213249879BE005A0929 /* LiveData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17FC2212249879BE005A0929 /* LiveData.storyboard */; };
+		17FC221524987B1A005A0929 /* LiveDataViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FC221424987B1A005A0929 /* LiveDataViewWindow.swift */; };
+		17FC221724987B3A005A0929 /* LiveDataViewCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FC221624987B3A005A0929 /* LiveDataViewCode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -189,6 +192,9 @@
 		17F782C0249742A1000A568E /* USGS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGS.swift; sourceTree = "<group>"; };
 		17F782C224974442000A568E /* AsynchronousDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousDataProtocol.swift; sourceTree = "<group>"; };
 		17F782C424979218000A568E /* +Earthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Earthquakes.swift"; sourceTree = "<group>"; };
+		17FC2212249879BE005A0929 /* LiveData.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LiveData.storyboard; sourceTree = "<group>"; };
+		17FC221424987B1A005A0929 /* LiveDataViewWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataViewWindow.swift; sourceTree = "<group>"; };
+		17FC221624987B3A005A0929 /* LiveDataViewCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataViewCode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +266,7 @@
 		17523CD7247B9716005209FC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				17FC2210249878F8005A0929 /* Ancillary */,
 				17523CD8247B971F005209FC /* 2D */,
 				17523CD9247B9725005209FC /* 3D */,
 				1740F49A2493173A00F6FAAE /* Hours.swift */,
@@ -531,6 +538,24 @@
 			path = Cities;
 			sourceTree = "<group>";
 		};
+		17FC2210249878F8005A0929 /* Ancillary */ = {
+			isa = PBXGroup;
+			children = (
+				17FC221124987996005A0929 /* LiveDataView */,
+			);
+			path = Ancillary;
+			sourceTree = "<group>";
+		};
+		17FC221124987996005A0929 /* LiveDataView */ = {
+			isa = PBXGroup;
+			children = (
+				17FC2212249879BE005A0929 /* LiveData.storyboard */,
+				17FC221424987B1A005A0929 /* LiveDataViewWindow.swift */,
+				17FC221624987B3A005A0929 /* LiveDataViewCode.swift */,
+			);
+			path = LiveDataView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -594,6 +619,7 @@
 				174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
+				17FC2213249879BE005A0929 /* LiveData.storyboard in Resources */,
 				17523CD6247B937F005209FC /* UnescoSites.db in Resources */,
 				1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */,
 				1767A8EB24794A0300C434B5 /* Main.storyboard in Resources */,
@@ -681,6 +707,7 @@
 				17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */,
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
 				17EF33A1247A695400A5B55D /* Extensions.swift in Sources */,
+				17FC221524987B1A005A0929 /* LiveDataViewWindow.swift in Sources */,
 				17B4411224861CFD0050A5DF /* CityColorCode.swift in Sources */,
 				178A869E2489101E00BE8D46 /* StarField.swift in Sources */,
 				17EF33AC247A93A300A5B55D /* GeoPoint2.swift in Sources */,
@@ -700,6 +727,7 @@
 				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
 				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
 				17EF33A3247A699300A5B55D /* Utility.swift in Sources */,
+				17FC221724987B3A005A0929 /* LiveDataViewCode.swift in Sources */,
 				17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */,
 				17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */,
 				17F782C1249742A1000A568E /* USGS.swift in Sources */,
