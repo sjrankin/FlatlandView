@@ -46,6 +46,15 @@ class Earthquake
     /// Date/time the earthquake occurred.
     var Time: Date = Date()
     
+    /// Returns the difference between the current time and the time of the earthquake. Smaller
+    /// values indicate more recent earthquakes.
+    func GetAge() -> Double
+    {
+        let Now = Date()
+        let Delta = Now.timeIntervalSinceReferenceDate - Time.timeIntervalSinceReferenceDate
+        return Delta
+    }
+    
     /// Tsunami value. If 1, tsunami information _may_ exist but also may not exist.
     var Tsunami: Int = 0
     
@@ -57,4 +66,19 @@ class Earthquake
     
     /// Depth of the earthquake in kilometers.
     var Depth: Double = 0.0
+    
+    /// Status of the event.
+    var Status: String = ""
+    
+    /// When updated.
+    var Updated: Int = 0
+    
+    /// Shakemap intensity.
+    var MMI: Double = 0.0
+    
+    /// Reports from the DYFI system.
+    var Felt: Int = 0
+    
+    /// Subjective significance value. Greater values indicate greater significance.
+    var Significance: Int = 0
 }
