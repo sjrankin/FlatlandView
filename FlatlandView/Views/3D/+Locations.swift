@@ -507,7 +507,7 @@ extension GlobeView
         PlottedCities.removeAll()
         
         let CityList = Cities()
-        var CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+         CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)  
         
         if Settings.GetBool(.ShowUserLocations)
         {
