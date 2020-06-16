@@ -88,6 +88,10 @@ class USGS
     {
         DispatchQueue.main.async
             {
+                for Quake in self.EarthquakeList
+                {
+                    print("*** \(Quake.Latitude), \(Quake.Longitude)")
+                }
                 self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: self.EarthquakeList as Any)
         }
     }
@@ -134,11 +138,14 @@ class USGS
     func ParseJsonEntity(_ JSON: [[String: Any]])
     {
         EarthquakeList.removeAll()
+        var Seq = 0
         for OneFeature in JSON
         {
+            let NewEarthquake = Earthquake(Sequence: Seq)
             for subset in OneFeature
             {
-                let NewEarthquake = Earthquake()
+                
+                Seq = Seq + 1
                 let Dict = Dictionary(dictionaryLiteral: subset)
                 for (Key, Value) in Dict
                 {
@@ -154,11 +161,11 @@ class USGS
                             {
                                 if GeoKey == "coordinates"
                                 {
-                                    if let GeoC = GeoVal as? [NSNumber]
+                                    if let A = GeoVal as? [Double]
                                     {
-                                        NewEarthquake.Latitude = Double(truncating: GeoC[0])
-                                        NewEarthquake.Longitude = Double(truncating: GeoC[1])
-                                        NewEarthquake.Depth = Double(truncating: GeoC[2])
+                                        NewEarthquake.Latitude = A[0]
+                                        NewEarthquake.Longitude = A[1]
+                                        NewEarthquake.Depth = A[2]
                                     }
                                 }
                         }
@@ -176,7 +183,7 @@ class USGS
                                         else
                                         {
                                             NewEarthquake.Magnitude = 0.0
-                                        }
+                                    }
                                     
                                     case "place":
                                         NewEarthquake.Place = PropVal as! String
