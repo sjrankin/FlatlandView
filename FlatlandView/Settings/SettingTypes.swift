@@ -185,4 +185,7 @@ enum SettingTypes: String, CaseIterable
     case ColorDetermination = "ColorDetermination"
     /// NSColor: The base earthquake color.
     case BaseEarthquakeColor = "BaseEarthquakeColor"
+    
+    //Settings used in areas outside of the Settings system.
+    case LiveViewWindowFrame = "LiveViewWindowFrame"
 }
