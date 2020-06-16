@@ -9,6 +9,25 @@
 import Foundation
 import AppKit
 
-class LiveDataViewWindow: NSWindowController
+class LiveDataViewWindow: NSWindowController, NSWindowDelegate
 {
+    override func windowDidLoad()
+    {
+        super.windowDidLoad()
+        self.window?.delegate = self
+    }
+    
+    func windowDidResize(_ notification: Notification)
+    {
+        print("Window resized")
+    }
+    
+    override func awakeFromNib()
+    {
+        super.awakeFromNib()
+        if let OldFrame = Settings.GetRect(.LiveViewWindowFrame)
+        {
+            window?.setFrame(OldFrame, display: true)
+        }
+    }
 }
