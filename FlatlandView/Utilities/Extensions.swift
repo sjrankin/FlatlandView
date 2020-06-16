@@ -1218,6 +1218,54 @@ extension NSColor
             return NSColor(HexString: "#ebf6f7")!
         }
     }
+    
+    static var ArtichokeGreen: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#4b6f44")!
+        }
+    }
+    
+    static var TeaGreen: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#d0f0c0")!
+        }
+    }
+    
+    static var PacificBlue: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#009dc4")!
+        }
+    }
+    
+    static var UltraPink: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#ff6fff")!
+        }
+    }
+    
+    static var Sunglow: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#ffcc33")!
+        }
+    }
+    
+    static var Scarlet: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#ff2400")!
+        }
+    }
 }
 
 // MARK: - NSBezierPath extensions.
