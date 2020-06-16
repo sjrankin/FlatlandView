@@ -54,7 +54,7 @@ extension GlobeView
             let Percent = QuakeRadius / 6371.0
             let FinalRadius = Double(GlobeRadius.Primary.rawValue) * Percent
             let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: FinalRadius)
-            print("\(Quake.Latitude),\(Quake.Longitude)")
+            //print("Mag: \(Quake.Magnitude), \(Quake.Latitude),\(Quake.Longitude)")
             var ERadius = Quake.Magnitude * 0.1
             let QSphere = SCNSphere(radius: CGFloat(ERadius))
             let QNode = SCNNode(geometry: QSphere)
