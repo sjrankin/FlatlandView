@@ -303,7 +303,7 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="629" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
-                        <toolbar key="toolbar" implicitIdentifier="9DAB3E76-967E-4E52-8125-9E11137A5CAD" displayMode="iconAndLabel" sizeMode="regular" id="QLt-wb-rzO">
+                        <toolbar key="toolbar" implicitIdentifier="9DAB3E76-967E-4E52-8125-9E11137A5CAD" displayMode="iconAndLabel" sizeMode="small" id="QLt-wb-rzO">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="B9AB86CD-DFF5-4913-9CD6-8A5E520FE8A4" label="Settings" paletteLabel="Settings" image="GearIcon" id="xfc-oc-jDS">
                                     <nil key="toolTip"/>
@@ -324,17 +324,17 @@
                                 <toolbarItem implicitItemIdentifier="32F72FCC-3054-4C67-8F03-55A4A879E685" label="Hours" paletteLabel="Hours" sizingBehavior="auto" id="Fko-gz-lnO">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="LKb-xg-m5I">
-                                        <rect key="frame" x="0.0" y="14" width="201" height="23"/>
+                                        <rect key="frame" x="0.0" y="14" width="180" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="ZXQ-Aw-xrj">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment toolTip="Hide hours" image="CircleIcon" width="48" selected="YES"/>
-                                                <segment toolTip="Hours linked to the sun" image="ClockIcon" width="48" tag="1"/>
-                                                <segment toolTip="Hours away from noon" image="DeltaIcon" width="48">
+                                                <segment toolTip="Hide hours" image="CircleIcon" width="43" selected="YES"/>
+                                                <segment toolTip="Hours linked to the sun" image="ClockIcon" width="43" tag="1"/>
+                                                <segment toolTip="Hours away from noon" image="DeltaIcon" width="43">
                                                     <nil key="label"/>
                                                 </segment>
-                                                <segment toolTip="Hours away from your location" image="PinIcon" width="48">
+                                                <segment toolTip="Hours away from your location" image="PinIcon" width="42">
                                                     <nil key="label"/>
                                                 </segment>
                                             </segments>
@@ -347,14 +347,14 @@
                                 <toolbarItem implicitItemIdentifier="035E267A-B129-4277-8A38-B30992B1707A" label="View Type" paletteLabel="View Type" sizingBehavior="auto" id="6UT-qH-5yc">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="OO8-3g-cKV">
-                                        <rect key="frame" x="0.0" y="14" width="194" height="24"/>
+                                        <rect key="frame" x="0.0" y="14" width="180" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="JIr-3h-Z9n">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment toolTip="2D north-centered map" image="NorthCenterIcon" width="48"/>
-                                                <segment toolTip="2D south-centered map" image="SouthCenterIcon" width="48" selected="YES" tag="1"/>
-                                                <segment toolTip="3D globe" image="GlobeIcon" width="48">
+                                                <segment toolTip="2D north-centered map" image="NorthCenterIcon" width="44"/>
+                                                <segment toolTip="2D south-centered map" image="SouthCenterIcon" width="44" selected="YES" tag="1"/>
+                                                <segment toolTip="3D globe" image="GlobeIcon" width="43">
                                                     <nil key="label"/>
                                                 </segment>
                                                 <segment toolTip="Cubic world" image="CubeIcon">
@@ -473,11 +473,10 @@
                             <defaultToolbarItems>
                                 <toolbarItem reference="xfc-oc-jDS"/>
                                 <toolbarItem reference="2kN-SP-CkE"/>
-                                <toolbarItem reference="DFq-Zl-21y"/>
-                                <toolbarItem reference="2kN-SP-CkE"/>
                                 <toolbarItem reference="Fko-gz-lnO"/>
                                 <toolbarItem reference="6UT-qH-5yc"/>
                                 <toolbarItem reference="2kN-SP-CkE"/>
+                                <toolbarItem reference="DFq-Zl-21y"/>
                                 <toolbarItem reference="e1y-ah-2TF"/>
                                 <toolbarItem reference="nRC-na-PFU"/>
                                 <toolbarItem reference="2kN-SP-CkE"/>
