@@ -972,4 +972,21 @@ class Utility
         }
         return Address
     }
+    
+    /// Calculated the distance between two three dimensional points.
+    /// - Parameter X1: First X coordinate.
+    /// - Parameter Y1: First Y coordinate.
+    /// - Parameter Z1: First Z coordinate.
+    /// - Parameter X2: Second X coordinate.
+    /// - Parameter Y2: Second Y coordinate.
+    /// - Parameter Z2: Second Z coordinate.
+    /// - Returns: Distance (unitless) between the two points.
+    public static func Distance3D(X1: Double, Y1: Double, Z1: Double,
+                                  X2: Double, Y2: Double, Z2: Double) -> Double
+    {
+        let XSq = (X2 - X1) * (X2 - X1)
+        let YSq = (Y2 - Y1) * (Y2 - Y1)
+        let ZSq = (Z2 - Z1) * (Z2 - Z1)
+        return sqrt(XSq + YSq + ZSq)
+    }
 }
