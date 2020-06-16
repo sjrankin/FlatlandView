@@ -623,6 +623,18 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         }
     }
     
+    @IBAction func ShowLiveData(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "DataViewWindow") as? LiveDataViewWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? LiveDataViewCode
+            Controller?.LoadData(DataType: .Earthquakes, Raw: LatestEarthquakes as Any)
+            WindowController.showWindow(nil)
+        }
+    }
+    
     @IBAction func DebugShow(_ sender: Any)
     {
     }
@@ -743,6 +755,13 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                 else
                 {
                     print("Error loading map \(NewMap) for view \(MapViewType)")
+            }
+                if MapViewType == .Globe3D
+                {
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    World3DView.PlotEarthquakes()
+            }
             }
             
             case .ViewType:
@@ -881,7 +900,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                 {
                     let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
                     Earthquakes?.GetEarthquakes(Every: FetchInterval)
+                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                    {
                     World3DView.PlotEarthquakes()
+                    }
             }
             else
                 {
@@ -893,6 +915,29 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
             let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
             Earthquakes?.StopReceivingEarthquakes()
             Earthquakes?.GetEarthquakes(Every: FetchInterval)
+            
+            case .MinimumMagnitude:
+                let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
+                Earthquakes?.StopReceivingEarthquakes()
+                Earthquakes?.GetEarthquakes(Every: FetchInterval)
+            
+            case .BaseEarthquakeColor:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                    {
+                        World3DView.PlotEarthquakes()
+                    }
+            }
+            
+            case .ColorDetermination:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                    {
+                        World3DView.PlotEarthquakes()
+                    }
+            }
             
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
@@ -984,7 +1029,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
     
     func AsynchronousDataAvailable(DataType: AsynchronousDataTypes, Actual: Any?)
     {
-        print("Received \(DataType.rawValue) asynchronous data.")
         switch DataType
         {
             case .Earthquakes:
@@ -992,9 +1036,12 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
             {
                 print("\(EarthquakeData.count) earthquakes returned")
                 World3DView.NewEarthquakeList(EarthquakeData)
+                LatestEarthquakes = EarthquakeData
             }
         }
     }
+    
+    var LatestEarthquakes = [Earthquake]()
     
     // MARK: - City variables.
     
@@ -1019,7 +1066,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
     var CityLayer: CAShapeLayer? = nil
     
     // MARK: - Interface builder outlets.
-    
+
     @IBOutlet weak var StarView: Starfield!
     @IBOutlet weak var UptimeValueLabel: NSTextField!
     @IBOutlet weak var DebugGrid: NSGridView!
