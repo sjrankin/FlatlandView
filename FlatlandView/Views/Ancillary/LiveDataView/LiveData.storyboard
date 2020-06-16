@@ -31,27 +31,26 @@
             <objects>
                 <viewController storyboardIdentifier="DataViewController" id="cMa-6B-Qey" customClass="LiveDataViewCode" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="W2N-jn-wY5">
-                        <rect key="frame" x="0.0" y="0.0" width="688" height="412"/>
+                        <rect key="frame" x="0.0" y="0.0" width="654" height="367"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="Bcj-AP-P4W">
-                                <rect key="frame" x="13" y="47" width="657" height="351"/>
+                                <rect key="frame" x="13" y="47" width="623" height="306"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="Earthquakes" identifier="" id="sPi-Aj-szg">
                                         <view key="view" id="r6f-Mk-pe1">
-                                            <rect key="frame" x="10" y="33" width="637" height="305"/>
+                                            <rect key="frame" x="10" y="33" width="603" height="260"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dMY-XI-fvP">
-                                                    <rect key="frame" x="17" y="12" width="603" height="285"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dMY-XI-fvP">
+                                                    <rect key="frame" x="0.0" y="0.0" width="603" height="260"/>
                                                     <clipView key="contentView" id="hqD-D7-F0S">
-                                                        <rect key="frame" x="1" y="0.0" width="601" height="284"/>
+                                                        <rect key="frame" x="1" y="0.0" width="601" height="259"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="29A-Iq-dZy" viewBased="YES" id="sQr-p0-u7J">
-                                                                <rect key="frame" x="0.0" y="0.0" width="601" height="259"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="601" height="234"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -236,12 +235,18 @@
                                                     </tableHeaderView>
                                                 </scrollView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="dMY-XI-fvP" secondAttribute="trailing" id="5Dj-MW-pe3"/>
+                                                <constraint firstAttribute="bottom" secondItem="dMY-XI-fvP" secondAttribute="bottom" id="G9x-Ff-So4"/>
+                                                <constraint firstItem="dMY-XI-fvP" firstAttribute="top" secondItem="r6f-Mk-pe1" secondAttribute="top" id="Wla-Rz-6fo"/>
+                                                <constraint firstItem="dMY-XI-fvP" firstAttribute="leading" secondItem="r6f-Mk-pe1" secondAttribute="leading" id="cWx-XZ-b3P"/>
+                                            </constraints>
                                         </view>
                                     </tabViewItem>
                                 </tabViewItems>
                             </tabView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RjQ-us-pbr">
-                                <rect key="frame" x="307" y="9" width="75" height="32"/>
+                                <rect key="frame" x="290" y="9" width="75" height="32"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tIU-C7-C7L">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
