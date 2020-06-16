@@ -734,5 +734,22 @@ class GlobeView: SCNView, GlobeProtocol
     var WHSNodeList = [SCNNode?]()
     var GridImage: NSImage? = nil
     var EarthquakeList = [Earthquake]()
+    var CitiesToPlot = [City]()
+    
+    let MagnitudeColors: [Double: NSColor] =
+    [
+        //0 to 4.9
+        EarthquakeMagnitudes.Mag4.rawValue: NSColor.ArtichokeGreen,
+        //5 to 5.9
+        EarthquakeMagnitudes.Mag5.rawValue: NSColor.TeaGreen,
+        //6 to 6.9
+        EarthquakeMagnitudes.Mag6.rawValue: NSColor.PacificBlue,
+        //7 to 7.9
+        EarthquakeMagnitudes.Mag7.rawValue: NSColor.UltraPink,
+        //8 to 8.9
+        EarthquakeMagnitudes.Mag8.rawValue: NSColor.Sunglow,
+        // 9 to 10
+        EarthquakeMagnitudes.Mag9.rawValue: NSColor.Scarlet
+    ]
 }
 
