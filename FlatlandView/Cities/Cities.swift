@@ -271,6 +271,92 @@ class Cities
         return CityList
     }
     
+    /// Returns the most populated city in the passed list of cities.
+    /// - Parameter In: The list of cities to test.
+    /// - Parameter UseMetroPopulation: If true, metropolitan populations are used. If a city does
+    ///                                 not have a metropolitcan population, the normal city population
+    ///                                 is used instead. Defaults to `true`.
+    /// - Returns: The city with the greatest population in the passed list. Nil if none found.
+    public static func MostPopulatedCity(In List: [City], UseMetroPopulation: Bool = true) -> City?
+    {
+        var Population = 0
+        var TheCity: City? = nil
+        for SomeCity in List
+        {
+            if UseMetroPopulation
+            {
+                if let Metro = SomeCity.MetropolitanPopulation
+                {
+                    if Metro > Population
+                    {
+                        Population = Metro
+                        TheCity = SomeCity
+                    }
+                }
+                else
+                {
+                    if let CityPop = SomeCity.Population
+                    {
+                        if CityPop > Population
+                        {
+                            Population = CityPop
+                            TheCity = SomeCity
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if let CityPop = SomeCity.Population
+                {
+                    if CityPop > Population
+                    {
+                        Population = CityPop
+                        TheCity = SomeCity
+                    }
+                }
+            }
+        }
+        return TheCity
+    }
+    
+    /// Returns the population of the most populated city in the passed list.
+    /// - Parameter In: The list of cities to test.
+    /// - Parameter UseMetroPopulation: If true, metropolitan populations are used. If a city does
+    ///                                 not have a metropolitcan population, the normal city population
+    ///                                 is used instead. Defaults to `true`.
+    /// - Returns: The population of the most populated city in the list. If `UseMetroPopulation` is
+    ///            true but the city does not have a metropolitan population, the city population is
+    ///            returned. If the city does not have a city population, 0 is returned.
+    public static func MostPopulatedCityPopulation(In List: [City], UseMetroPopulation: Bool = true) -> Int
+    {
+        if let PopulatedCity = MostPopulatedCity(In: List, UseMetroPopulation: UseMetroPopulation)
+        {
+            if UseMetroPopulation
+            {
+                if let Metro = PopulatedCity.MetropolitanPopulation
+                {
+                    return Metro
+                }
+                else
+                {
+                    if let CityPop = PopulatedCity.Population
+                    {
+                        return CityPop
+                    }
+                }
+            }
+            else
+            {
+                if let CityPop = PopulatedCity.Population
+                {
+                    return CityPop
+                }
+            }
+        }
+        return 0
+    }
+    
     /// Returns a list of cities that have a metropolitan population associated with it. All known
     /// cities are searched.
     /// - Returns: List of cities with a valid metropolitan population.
