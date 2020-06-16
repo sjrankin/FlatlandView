@@ -12,6 +12,16 @@ import AppKit
 /// Encapsulates one earthquake.
 class Earthquake
 {
+    /// Initializer.
+    /// - Parameter Sequence: For debugging purposes.
+    init(Sequence: Int)
+    {
+        self.Sequence = Sequence
+    }
+    
+    /// The sequence value.
+    var Sequence: Int = 0
+    
     /// USGS earthquake code/ID.
     var Code: String = ""
     
