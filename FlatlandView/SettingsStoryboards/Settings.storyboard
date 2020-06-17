@@ -1373,135 +1373,234 @@
                                                                 <rect key="frame" x="10" y="33" width="834" height="384"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
-                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vpB-Y3-Zbs">
-                                                                        <rect key="frame" x="15" y="350" width="145" height="18"/>
-                                                                        <buttonCell key="cell" type="check" title="Display earthquakes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hUB-Dj-apJ">
-                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="IU4-Xc-fiG">
+                                                                        <rect key="frame" x="6" y="265" width="814" height="102"/>
+                                                                        <constraints>
+                                                                            <constraint firstItem="TFR-H0-fke" firstAttribute="centerY" secondItem="uZy-nl-sct" secondAttribute="centerY" id="KhF-5r-Vkz"/>
+                                                                        </constraints>
+                                                                        <rows>
+                                                                            <gridRow bottomPadding="10" id="5kJ-gl-kl6"/>
+                                                                            <gridRow id="kHf-M7-uHJ"/>
+                                                                            <gridRow id="PKp-YG-wWm"/>
+                                                                            <gridRow id="fj6-AC-aLD"/>
+                                                                        </rows>
+                                                                        <columns>
+                                                                            <gridColumn id="APW-uj-9Jg"/>
+                                                                            <gridColumn id="VSH-xO-l1f"/>
+                                                                            <gridColumn leadingPadding="10" id="BdO-4F-rWb"/>
+                                                                            <gridColumn id="Odd-Wg-hCL"/>
+                                                                        </columns>
+                                                                        <gridCells>
+                                                                            <gridCell row="5kJ-gl-kl6" column="APW-uj-9Jg" id="L0z-jv-SqU">
+                                                                                <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vpB-Y3-Zbs">
+                                                                                    <rect key="frame" x="-2" y="86" width="145" height="18"/>
+                                                                                    <buttonCell key="cell" type="check" title="Display earthquakes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hUB-Dj-apJ">
+                                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                    </buttonCell>
+                                                                                    <connections>
+                                                                                        <action selector="HandleEarthquakeCheckChanged:" target="v9H-zx-ey4" id="aXk-y4-gW4"/>
+                                                                                    </connections>
+                                                                                </button>
+                                                                            </gridCell>
+                                                                            <gridCell row="5kJ-gl-kl6" column="VSH-xO-l1f" id="hH0-wk-aEy"/>
+                                                                            <gridCell row="5kJ-gl-kl6" column="BdO-4F-rWb" id="HsM-id-c2b"/>
+                                                                            <gridCell row="5kJ-gl-kl6" column="Odd-Wg-hCL" id="63b-bp-130"/>
+                                                                            <gridCell row="kHf-M7-uHJ" column="APW-uj-9Jg" id="6mh-ne-YBR">
+                                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SUo-9X-hxr">
+                                                                                    <rect key="frame" x="-2" y="53" width="103" height="16"/>
+                                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Fetch frequency" id="JkN-iS-qLs">
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                    </textFieldCell>
+                                                                                </textField>
+                                                                            </gridCell>
+                                                                            <gridCell row="kHf-M7-uHJ" column="VSH-xO-l1f" id="l4g-ef-NEE">
+                                                                                <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mKd-7j-pfj">
+                                                                                    <rect key="frame" x="147" y="49" width="182" height="25"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="width" constant="179" id="y8X-dJ-WeP"/>
+                                                                                    </constraints>
+                                                                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="FZx-0e-LqU">
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <objectValues>
+                                                                                            <string>Item 1</string>
+                                                                                            <string>Item 2</string>
+                                                                                            <string>Item 3</string>
+                                                                                        </objectValues>
+                                                                                    </comboBoxCell>
+                                                                                    <connections>
+                                                                                        <action selector="HandleFetchFrequencyChanged:" target="v9H-zx-ey4" id="xu2-Jb-YkJ"/>
+                                                                                    </connections>
+                                                                                </comboBox>
+                                                                            </gridCell>
+                                                                            <gridCell row="kHf-M7-uHJ" column="BdO-4F-rWb" id="sZW-Cl-5SS">
+                                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vs9-Gt-f6u">
+                                                                                    <rect key="frame" x="450" y="53" width="128" height="16"/>
+                                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Color determined by" id="nBA-ye-QOr">
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                    </textFieldCell>
+                                                                                </textField>
+                                                                            </gridCell>
+                                                                            <gridCell row="kHf-M7-uHJ" column="Odd-Wg-hCL" id="yFR-hE-KeR">
+                                                                                <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jrn-kw-w7F">
+                                                                                    <rect key="frame" x="594" y="49" width="223" height="25"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="width" constant="220" id="FWh-W1-Hu0"/>
+                                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="190" id="Sqx-DF-hc1"/>
+                                                                                    </constraints>
+                                                                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="UsZ-1E-1ad">
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <objectValues>
+                                                                                            <string>Item 1</string>
+                                                                                            <string>Item 2</string>
+                                                                                            <string>Item 3</string>
+                                                                                        </objectValues>
+                                                                                        <connections>
+                                                                                            <action selector="HandleColorDeterminationChanged:" target="v9H-zx-ey4" id="abK-dN-xeP"/>
+                                                                                        </connections>
+                                                                                    </comboBoxCell>
+                                                                                </comboBox>
+                                                                            </gridCell>
+                                                                            <gridCell row="PKp-YG-wWm" column="APW-uj-9Jg" id="nlH-uG-Fk2">
+                                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sRD-OR-d27">
+                                                                                    <rect key="frame" x="-2" y="25" width="127" height="16"/>
+                                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Minimum magnitude" id="o0c-G9-rcq">
+                                                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                    </textFieldCell>
+                                                                                </textField>
+                                                                            </gridCell>
+                                                                            <gridCell row="PKp-YG-wWm" column="VSH-xO-l1f" id="Zzb-Zr-Aac">
+                                                                                <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TFR-H0-fke">
+                                                                                    <rect key="frame" x="145" y="23" width="293" height="25"/>
+                                                                                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="QCP-vN-5tI">
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                        <segments>
+                                                                                            <segment label="4.0" width="47"/>
+                                                                                            <segment label="5.0" width="47" tag="1"/>
+                                                                                            <segment label="6.0" width="47" selected="YES"/>
+                                                                                            <segment label="7.0" width="47"/>
+                                                                                            <segment label="8.0" width="47"/>
+                                                                                            <segment label="9.0+" width="47"/>
+                                                                                        </segments>
+                                                                                    </segmentedCell>
+                                                                                    <connections>
+                                                                                        <action selector="HandleMinMagnitudeChanged:" target="v9H-zx-ey4" id="N0r-dz-YoV"/>
+                                                                                    </connections>
+                                                                                </segmentedControl>
+                                                                            </gridCell>
+                                                                            <gridCell row="PKp-YG-wWm" column="BdO-4F-rWb" id="BTT-cw-MWq">
+                                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kiT-Q6-kLN">
+                                                                                    <rect key="frame" x="450" y="25" width="140" height="16"/>
+                                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Base earthquake color" id="0F2-r2-L10">
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                    </textFieldCell>
+                                                                                </textField>
+                                                                            </gridCell>
+                                                                            <gridCell row="PKp-YG-wWm" column="Odd-Wg-hCL" id="p5J-Y8-M3G">
+                                                                                <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="uZy-nl-sct">
+                                                                                    <rect key="frame" x="594" y="25" width="100" height="22"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="height" constant="22" id="7ye-PD-JFn"/>
+                                                                                        <constraint firstAttribute="width" constant="100" id="Tvh-sp-MdQ"/>
+                                                                                    </constraints>
+                                                                                    <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                    <connections>
+                                                                                        <action selector="HandleNewBaseColor:" target="v9H-zx-ey4" id="rxj-fh-a8x"/>
+                                                                                    </connections>
+                                                                                </colorWell>
+                                                                            </gridCell>
+                                                                            <gridCell row="fj6-AC-aLD" column="APW-uj-9Jg" id="2pz-HP-TNV">
+                                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="a0r-jc-ciX">
+                                                                                    <rect key="frame" x="-2" y="0.0" width="28" height="16"/>
+                                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Age" id="JO9-oH-txF">
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                    </textFieldCell>
+                                                                                </textField>
+                                                                            </gridCell>
+                                                                            <gridCell row="fj6-AC-aLD" column="VSH-xO-l1f" id="1e9-Vv-52m">
+                                                                                <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vVK-Bt-5iy">
+                                                                                    <rect key="frame" x="147" y="-4" width="167" height="25"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="width" constant="164" id="pDL-Fm-25u"/>
+                                                                                    </constraints>
+                                                                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="CMz-Ee-uWr">
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <objectValues>
+                                                                                            <string>Item 1</string>
+                                                                                            <string>Item 2</string>
+                                                                                            <string>Item 3</string>
+                                                                                        </objectValues>
+                                                                                    </comboBoxCell>
+                                                                                    <connections>
+                                                                                        <action selector="HandleAgeComboChanged:" target="v9H-zx-ey4" id="C3x-Yr-nDN"/>
+                                                                                    </connections>
+                                                                                </comboBox>
+                                                                            </gridCell>
+                                                                            <gridCell row="fj6-AC-aLD" column="BdO-4F-rWb" id="4Ds-ed-fWt">
+                                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BIX-5k-BQE">
+                                                                                    <rect key="frame" x="450" y="0.0" width="43" height="16"/>
+                                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Shape" id="5gO-9t-fYX">
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                    </textFieldCell>
+                                                                                </textField>
+                                                                            </gridCell>
+                                                                            <gridCell row="fj6-AC-aLD" column="Odd-Wg-hCL" id="qeh-me-iVv">
+                                                                                <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="81e-fO-mXL">
+                                                                                    <rect key="frame" x="594" y="-4" width="178" height="25"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="width" constant="175" id="cRv-IU-aS1"/>
+                                                                                    </constraints>
+                                                                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="vFn-z4-SO0">
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <objectValues>
+                                                                                            <string>Item 1</string>
+                                                                                            <string>Item 2</string>
+                                                                                            <string>Item 3</string>
+                                                                                        </objectValues>
+                                                                                    </comboBoxCell>
+                                                                                    <connections>
+                                                                                        <action selector="HandleShapeChanged:" target="v9H-zx-ey4" id="YmV-4o-YpK"/>
+                                                                                    </connections>
+                                                                                </comboBox>
+                                                                            </gridCell>
+                                                                        </gridCells>
+                                                                    </gridView>
+                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q8l-U8-dap">
+                                                                        <rect key="frame" x="0.0" y="1" width="166" height="32"/>
+                                                                        <buttonCell key="cell" type="push" title="Current Earthquakes" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="t4r-bh-s16">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
                                                                         <connections>
-                                                                            <action selector="HandleEarthquakeCheckChanged:" target="v9H-zx-ey4" id="aXk-y4-gW4"/>
+                                                                            <action selector="HandleViewCurrentEarthquakes:" target="v9H-zx-ey4" id="4PX-m4-gmQ"/>
                                                                         </connections>
                                                                     </button>
-                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sRD-OR-d27">
-                                                                        <rect key="frame" x="15" y="308" width="127" height="16"/>
-                                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Minimum magnitude" id="o0c-G9-rcq">
-                                                                            <font key="font" usesAppearanceFont="YES"/>
-                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                        </textFieldCell>
-                                                                    </textField>
-                                                                    <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TFR-H0-fke">
-                                                                        <rect key="frame" x="181" y="303" width="311" height="24"/>
-                                                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="QCP-vN-5tI">
-                                                                            <font key="font" metaFont="system"/>
-                                                                            <segments>
-                                                                                <segment label="4.0" width="50"/>
-                                                                                <segment label="5.0" width="50" tag="1"/>
-                                                                                <segment label="6.0" width="50" selected="YES"/>
-                                                                                <segment label="7.0" width="50"/>
-                                                                                <segment label="8.0" width="50"/>
-                                                                                <segment label="9.0+" width="50"/>
-                                                                            </segments>
-                                                                        </segmentedCell>
-                                                                        <connections>
-                                                                            <action selector="HandleMinMagnitudeChanged:" target="v9H-zx-ey4" id="N0r-dz-YoV"/>
-                                                                        </connections>
-                                                                    </segmentedControl>
-                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SUo-9X-hxr">
-                                                                        <rect key="frame" x="17" y="261" width="103" height="16"/>
-                                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Fetch frequency" id="JkN-iS-qLs">
-                                                                            <font key="font" metaFont="system"/>
-                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                        </textFieldCell>
-                                                                    </textField>
-                                                                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mKd-7j-pfj">
-                                                                        <rect key="frame" x="184" y="255" width="182" height="25"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="width" constant="179" id="y8X-dJ-WeP"/>
-                                                                        </constraints>
-                                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="FZx-0e-LqU">
-                                                                            <font key="font" metaFont="system"/>
-                                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                            <objectValues>
-                                                                                <string>Item 1</string>
-                                                                                <string>Item 2</string>
-                                                                                <string>Item 3</string>
-                                                                            </objectValues>
-                                                                        </comboBoxCell>
-                                                                        <connections>
-                                                                            <action selector="HandleFetchFrequencyChanged:" target="v9H-zx-ey4" id="xu2-Jb-YkJ"/>
-                                                                        </connections>
-                                                                    </comboBox>
-                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vs9-Gt-f6u">
-                                                                        <rect key="frame" x="15" y="206" width="128" height="16"/>
-                                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Color determined by" id="nBA-ye-QOr">
-                                                                            <font key="font" metaFont="system"/>
-                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                        </textFieldCell>
-                                                                    </textField>
-                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kiT-Q6-kLN">
-                                                                        <rect key="frame" x="17" y="149" width="140" height="17"/>
-                                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Base earthquake color" id="0F2-r2-L10">
-                                                                            <font key="font" metaFont="system"/>
-                                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                        </textFieldCell>
-                                                                    </textField>
-                                                                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jrn-kw-w7F">
-                                                                        <rect key="frame" x="184" y="200" width="223" height="25"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="width" constant="220" id="FWh-W1-Hu0"/>
-                                                                        </constraints>
-                                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="UsZ-1E-1ad">
-                                                                            <font key="font" metaFont="system"/>
-                                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                            <objectValues>
-                                                                                <string>Item 1</string>
-                                                                                <string>Item 2</string>
-                                                                                <string>Item 3</string>
-                                                                            </objectValues>
-                                                                            <connections>
-                                                                                <action selector="HandleColorDeterminationChanged:" target="v9H-zx-ey4" id="abK-dN-xeP"/>
-                                                                            </connections>
-                                                                        </comboBoxCell>
-                                                                    </comboBox>
-                                                                    <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="uZy-nl-sct">
-                                                                        <rect key="frame" x="183" y="138" width="126" height="39"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="width" constant="126" id="8zA-xg-jYo"/>
-                                                                            <constraint firstAttribute="height" constant="39" id="yvP-m1-72u"/>
-                                                                        </constraints>
-                                                                        <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        <connections>
-                                                                            <action selector="HandleNewBaseColor:" target="v9H-zx-ey4" id="rxj-fh-a8x"/>
-                                                                        </connections>
-                                                                    </colorWell>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstItem="jrn-kw-w7F" firstAttribute="leading" secondItem="mKd-7j-pfj" secondAttribute="leading" id="2cY-hS-ffC"/>
-                                                                    <constraint firstItem="sRD-OR-d27" firstAttribute="top" secondItem="vpB-Y3-Zbs" secondAttribute="bottom" constant="28" id="2nT-Kd-w5D"/>
-                                                                    <constraint firstItem="kiT-Q6-kLN" firstAttribute="leading" secondItem="SUo-9X-hxr" secondAttribute="leading" id="5Zr-z1-CAn"/>
-                                                                    <constraint firstItem="SUo-9X-hxr" firstAttribute="leading" secondItem="yic-40-3c5" secondAttribute="leading" constant="19" id="5lA-0D-c8G"/>
-                                                                    <constraint firstItem="sRD-OR-d27" firstAttribute="leading" secondItem="yic-40-3c5" secondAttribute="leading" constant="17" id="7OZ-1E-uwA"/>
-                                                                    <constraint firstItem="jrn-kw-w7F" firstAttribute="top" secondItem="mKd-7j-pfj" secondAttribute="bottom" constant="36" id="JBn-Av-cRj"/>
-                                                                    <constraint firstItem="Vs9-Gt-f6u" firstAttribute="leading" secondItem="sRD-OR-d27" secondAttribute="leading" id="Nsh-sx-lCX"/>
-                                                                    <constraint firstItem="uZy-nl-sct" firstAttribute="centerY" secondItem="kiT-Q6-kLN" secondAttribute="centerY" id="QIG-f3-UrN"/>
-                                                                    <constraint firstItem="uZy-nl-sct" firstAttribute="top" secondItem="jrn-kw-w7F" secondAttribute="bottom" constant="27" id="QIN-0y-Uba"/>
-                                                                    <constraint firstItem="kiT-Q6-kLN" firstAttribute="top" secondItem="Vs9-Gt-f6u" secondAttribute="bottom" constant="40" id="R2p-Hw-TNG"/>
-                                                                    <constraint firstItem="mKd-7j-pfj" firstAttribute="top" secondItem="TFR-H0-fke" secondAttribute="bottom" constant="27" id="UZ3-ZB-eLn"/>
-                                                                    <constraint firstItem="jrn-kw-w7F" firstAttribute="baseline" secondItem="Vs9-Gt-f6u" secondAttribute="baseline" id="X28-ro-2wK"/>
-                                                                    <constraint firstItem="TFR-H0-fke" firstAttribute="top" secondItem="yic-40-3c5" secondAttribute="top" constant="58" id="Xn5-j4-nsp"/>
-                                                                    <constraint firstItem="TFR-H0-fke" firstAttribute="leading" secondItem="sRD-OR-d27" secondAttribute="trailing" constant="43" id="d0X-Vf-DQr"/>
-                                                                    <constraint firstItem="vpB-Y3-Zbs" firstAttribute="leading" secondItem="sRD-OR-d27" secondAttribute="leading" id="iNd-le-Phw"/>
-                                                                    <constraint firstItem="SUo-9X-hxr" firstAttribute="baseline" secondItem="mKd-7j-pfj" secondAttribute="baseline" id="kBK-Kr-I1x"/>
-                                                                    <constraint firstItem="sRD-OR-d27" firstAttribute="baseline" secondItem="TFR-H0-fke" secondAttribute="baseline" id="kpL-bx-N3v"/>
-                                                                    <constraint firstItem="mKd-7j-pfj" firstAttribute="leading" secondItem="SUo-9X-hxr" secondAttribute="trailing" constant="66" id="o65-uh-gmW"/>
-                                                                    <constraint firstItem="jrn-kw-w7F" firstAttribute="leading" secondItem="uZy-nl-sct" secondAttribute="leading" constant="1" id="xaM-2w-f57"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="Q8l-U8-dap" secondAttribute="bottom" constant="8" id="1if-H9-4pW"/>
+                                                                    <constraint firstItem="IU4-Xc-fiG" firstAttribute="top" secondItem="yic-40-3c5" secondAttribute="top" constant="17" id="hYg-zY-TML"/>
+                                                                    <constraint firstItem="IU4-Xc-fiG" firstAttribute="leading" secondItem="yic-40-3c5" secondAttribute="leading" constant="6" id="l7w-bc-31o"/>
+                                                                    <constraint firstItem="IU4-Xc-fiG" firstAttribute="leading" secondItem="Q8l-U8-dap" secondAttribute="leading" id="lVC-m5-2JP"/>
                                                                 </constraints>
                                                             </view>
                                                         </tabViewItem>
@@ -1539,11 +1638,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="AgeCombo" destination="vVK-Bt-5iy" id="UHt-wB-IoL"/>
                         <outlet property="BaseColorWell" destination="uZy-nl-sct" id="oBP-Eb-2om"/>
                         <outlet property="CityShapeCombo" destination="J8U-Fg-YeH" id="LBh-XT-iJS"/>
                         <outlet property="ColorDetCombo" destination="jrn-kw-w7F" id="r0t-sh-dsC"/>
                         <outlet property="DebugButton" destination="t6U-q2-MQU" id="Ysk-qN-Kkv"/>
                         <outlet property="EarthquakeCheck" destination="vpB-Y3-Zbs" id="kGd-ky-hGE"/>
+                        <outlet property="EarthquakeViewButton" destination="Q8l-U8-dap" id="JnU-Ie-CKD"/>
                         <outlet property="FrequencyCombo" destination="mKd-7j-pfj" id="BJ4-ha-89b"/>
                         <outlet property="GlobeTransparencySegment" destination="FCw-y7-Pzz" id="RE4-zq-XH1"/>
                         <outlet property="HeritageSiteSegment" destination="mBZ-fV-dIu" id="4o7-eB-NAn"/>
@@ -1555,6 +1656,7 @@
                         <outlet property="PopulationSegment" destination="3sB-ct-uKZ" id="GTV-xT-r6z"/>
                         <outlet property="SampleStars" destination="Ndg-72-i1m" id="Vyp-Kq-68Z"/>
                         <outlet property="ScriptCombo" destination="Z09-aa-rlx" id="dC3-jD-aTY"/>
+                        <outlet property="ShapeCombo" destination="81e-fO-mXL" id="07G-Lo-VdO"/>
                         <outlet property="Show2DEquator" destination="2Wz-fo-pJm" id="T65-ZA-0l7"/>
                         <outlet property="Show2DNight" destination="azY-dG-x0e" id="YAr-HC-D5P"/>
                         <outlet property="Show2DNoonMeridians" destination="oqf-YY-r5e" id="sSe-SM-6oV"/>
@@ -1591,6 +1693,16 @@
                     </connections>
                 </viewController>
                 <customObject id="VCt-eF-b2I" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <comboBoxCell scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="DT3-eP-QNa">
+                    <font key="font" metaFont="system"/>
+                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    <objectValues>
+                        <string>Item 1</string>
+                        <string>Item 2</string>
+                        <string>Item 3</string>
+                    </objectValues>
+                </comboBoxCell>
             </objects>
             <point key="canvasLocation" x="257" y="605.5"/>
         </scene>
