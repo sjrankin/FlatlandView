@@ -934,6 +934,20 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
         ColorDetCombo.selectItem(withObjectValue: ColDet.rawValue)
         BaseColorWell.color = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
+        AgeCombo.removeAllItems()
+        let EAge = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
+        for SomeAge in EarthquakeAges.allCases
+        {
+            AgeCombo.addItem(withObjectValue: SomeAge.rawValue)
+        }
+        AgeCombo.selectItem(withObjectValue: EAge.rawValue)
+        ShapeCombo.removeAllItems()
+        let EShape = Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
+        for SomeShape in EarthquakeShapes.allCases
+        {
+            ShapeCombo.addItem(withObjectValue: SomeShape.rawValue)
+        }
+        ShapeCombo.selectItem(withObjectValue: EShape.rawValue)
     }
     
     @IBAction func HandleFetchFrequencyChanged(_ sender: Any)
@@ -1010,7 +1024,66 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
     }
     
-
+    @IBAction func HandleAgeComboChanged(_ sender: Any)
+    {
+        if let Combo = sender as? NSComboBox
+        {
+            if let Raw = Combo.objectValueOfSelectedItem as? String
+            {
+                if let RawValue = EarthquakeAges(rawValue: Raw)
+                {
+                    Settings.SetEnum(RawValue, EnumType: EarthquakeAges.self, ForKey: .EarthquakeAge)
+                    MainDelegate?.Refresh(#function)
+                }
+            }
+        }
+    }
+    
+    @IBAction func HandleShapeChanged(_ sender: Any)
+    {
+        if let Combo = sender as? NSComboBox
+        {
+            if let Raw = Combo.objectValueOfSelectedItem as? String
+            {
+                if let RawValue = EarthquakeShapes(rawValue: Raw)
+                {
+                    Settings.SetEnum(RawValue, EnumType: EarthquakeShapes.self, ForKey: .EarthquakeShapes)
+                    MainDelegate?.Refresh(#function)
+                }
+            }
+        }
+    }
+    
+    func LoadData(DataType: AsynchronousDataTypes, Raw: Any)
+    {
+        switch DataType
+        {
+            case .Earthquakes:
+            if let RawData = Raw as? [Earthquake]
+            {
+                LocalEarthquakeData = RawData
+                EarthquakeViewButton.isEnabled = true
+            }
+        }
+    }
+    
+    var LocalEarthquakeData = [Earthquake]()
+    
+    @IBAction func HandleViewCurrentEarthquakes(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "DataViewWindow") as? LiveDataViewWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? LiveDataViewer
+            Controller?.LoadData(DataType: .Earthquakes, Raw: LocalEarthquakeData as Any)
+            WindowController.showWindow(nil)
+        }
+    }
+    
+    @IBOutlet weak var EarthquakeViewButton: NSButton!
+    @IBOutlet weak var ShapeCombo: NSComboBox!
+    @IBOutlet weak var AgeCombo: NSComboBox!
     @IBOutlet weak var ColorDetCombo: NSComboBox!
     @IBOutlet weak var EarthquakeCheck: NSButton!
     @IBOutlet weak var MinMagnitudeSegment: NSSegmentedControl!
