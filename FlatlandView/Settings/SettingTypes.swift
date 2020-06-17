@@ -185,6 +185,10 @@ enum SettingTypes: String, CaseIterable
     case ColorDetermination = "ColorDetermination"
     /// NSColor: The base earthquake color.
     case BaseEarthquakeColor = "BaseEarthquakeColor"
+    /// Relative age (in days) of the earthquakes to display.
+    case EarthquakeAge = "EarthquakeAge"
+    /// How to draw the earthquake.
+    case EarthquakeShapes = "EarthquakeShapes"
     
     //Settings used in areas outside of the Settings system.
     case LiveViewWindowFrame = "LiveViewWindowFrame"
