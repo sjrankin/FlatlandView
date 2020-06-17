@@ -629,7 +629,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         if let WindowController = Storyboard.instantiateController(withIdentifier: "DataViewWindow") as? LiveDataViewWindow
         {
             let Window = WindowController.window
-            let Controller = Window?.contentViewController as? LiveDataViewCode
+            let Controller = Window?.contentViewController as? LiveDataViewer
             Controller?.LoadData(DataType: .Earthquakes, Raw: LatestEarthquakes as Any)
             WindowController.showWindow(nil)
         }
@@ -652,6 +652,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
             let SettingWindow = WindowController.window
             let Controller = SettingWindow?.contentViewController as? MainSettings
             Controller?.MainDelegate = self
+            Controller?.LoadData(DataType: .Earthquakes, Raw: LatestEarthquakes as Any)
             WindowController.showWindow(nil)
         }
     }
@@ -930,11 +931,31 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                     }
             }
             
+            case .EarthquakeAge:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                    {
+                        World3DView.ClearEarthquakes()
+                        World3DView.PlotEarthquakes()
+                    }
+            }
+            
             case .ColorDetermination:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
                     if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
                     {
+                        World3DView.PlotEarthquakes()
+                    }
+            }
+            
+            case .EarthquakeShapes:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                    {
+                        World3DView.ClearEarthquakes()
                         World3DView.PlotEarthquakes()
                     }
             }
