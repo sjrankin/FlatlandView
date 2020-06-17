@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 /// Encapsulates one earthquake.
-class Earthquake
+class Earthquake: Equatable
 {
     /// Initializer.
     /// - Parameter Sequence: For debugging purposes.
@@ -81,4 +81,10 @@ class Earthquake
     
     /// Subjective significance value. Greater values indicate greater significance.
     var Significance: Int = 0
+    
+    /// How to compare earthquakes.
+    static func == (lhs: Earthquake, rhs: Earthquake) -> Bool
+    {
+        return lhs.Code == rhs.Code
+    }
 }
