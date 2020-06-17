@@ -26,6 +26,7 @@
 		17523CDB247B973E005209FC /* +FlatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CDA247B973E005209FC /* +FlatView.swift */; };
 		1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1757CACC24949C3F00ECA8C1 /* 3DDebugWindow.swift */; };
 		1757CACF24949C6300ECA8C1 /* 3DDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1757CACE24949C6300ECA8C1 /* 3DDebugController.swift */; };
+		175F18EC2499E4C30052F653 /* LiveDataViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175F18EB2499E4C30052F653 /* LiveDataViewer.swift */; };
 		1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E324794A0100C434B5 /* AppDelegate.swift */; };
 		1767A8E624794A0100C434B5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E524794A0100C434B5 /* MainView.swift */; };
 		1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E724794A0300C434B5 /* Assets.xcassets */; };
@@ -97,7 +98,6 @@
 		17F782C524979218000A568E /* +Earthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C424979218000A568E /* +Earthquakes.swift */; };
 		17FC2213249879BE005A0929 /* LiveData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17FC2212249879BE005A0929 /* LiveData.storyboard */; };
 		17FC221524987B1A005A0929 /* LiveDataViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FC221424987B1A005A0929 /* LiveDataViewWindow.swift */; };
-		17FC221724987B3A005A0929 /* LiveDataViewCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FC221624987B3A005A0929 /* LiveDataViewCode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,6 +120,7 @@
 		17523CDA247B973E005209FC /* +FlatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatView.swift"; sourceTree = "<group>"; };
 		1757CACC24949C3F00ECA8C1 /* 3DDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DDebugWindow.swift; sourceTree = "<group>"; };
 		1757CACE24949C6300ECA8C1 /* 3DDebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DDebugController.swift; sourceTree = "<group>"; };
+		175F18EB2499E4C30052F653 /* LiveDataViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataViewer.swift; sourceTree = "<group>"; };
 		1767A8E024794A0100C434B5 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1767A8E324794A0100C434B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1767A8E524794A0100C434B5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -194,7 +195,6 @@
 		17F782C424979218000A568E /* +Earthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Earthquakes.swift"; sourceTree = "<group>"; };
 		17FC2212249879BE005A0929 /* LiveData.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LiveData.storyboard; sourceTree = "<group>"; };
 		17FC221424987B1A005A0929 /* LiveDataViewWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataViewWindow.swift; sourceTree = "<group>"; };
-		17FC221624987B3A005A0929 /* LiveDataViewCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataViewCode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -551,7 +551,7 @@
 			children = (
 				17FC2212249879BE005A0929 /* LiveData.storyboard */,
 				17FC221424987B1A005A0929 /* LiveDataViewWindow.swift */,
-				17FC221624987B3A005A0929 /* LiveDataViewCode.swift */,
+				175F18EB2499E4C30052F653 /* LiveDataViewer.swift */,
 			);
 			path = LiveDataView;
 			sourceTree = "<group>";
@@ -702,6 +702,7 @@
 				17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
 				17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */,
+				175F18EC2499E4C30052F653 /* LiveDataViewer.swift in Sources */,
 				173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */,
 				1720B38C248B81B3001202E5 /* +2DHours.swift in Sources */,
 				17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */,
@@ -727,7 +728,6 @@
 				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
 				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
 				17EF33A3247A699300A5B55D /* Utility.swift in Sources */,
-				17FC221724987B3A005A0929 /* LiveDataViewCode.swift in Sources */,
 				17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */,
 				17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */,
 				17F782C1249742A1000A568E /* USGS.swift in Sources */,
