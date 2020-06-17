@@ -382,6 +382,56 @@ enum EarthquakeMagnitudes: Double, CaseIterable
     case Mag9 = 9.0
 }
 
+/// Relative age for displaying earthquakes.
+enum EarthquakeAges: String, CaseIterable
+{
+    case Age1 = "1 Day"
+    case Age2 = "2 Days"
+    case Age3 = "3 Days"
+    case Age4 = "4 Days"
+    case Age5 = "5 Days"
+    case Age6 = "6 Days"
+    case Age7 = "7 Days"
+    case Age8 = "8 Days"
+    case Age9 = "9 Days"
+    case Age10 = "10 Days"
+    case Age11 = "11 Days"
+    case Age12 = "12 Days"
+    case Age13 = "13 Days"
+    case Age14 = "14 Days"
+    case Age15 = "15 Days"
+    case Age16 = "16 Days"
+    case Age17 = "17 Days"
+    case Age18 = "18 Days"
+    case Age19 = "19 Days"
+    case Age20 = "20 Days"
+    case Age21 = "21 Days"
+    case Age22 = "22 Days"
+    case Age23 = "23 Days"
+    case Age24 = "24 Days"
+    case Age25 = "25 Days"
+    case Age26 = "26 Days"
+    case Age27 = "27 Days"
+    case Age28 = "28 Days"
+    case Age29 = "29 Days"
+    case Age30 = "30 Days"
+}
+
+/// Shapes for earthquake locations.
+enum EarthquakeShapes: String, CaseIterable
+{
+    /// Earthquake is a sphere.
+    case Sphere = "Sphere"
+    /// Earthquake is a floating arrow.
+    case Arrow = "Floating Arrow"
+    /// Earthquake is a pyramid.
+    case Pyramid = "Pyramid"
+    /// Earthquake is a box.
+    case Box = "Box"
+    /// Earthquake is a magnitude value.
+    case Magnitude = "Magnitude"
+}
+
 /// Radius values.
 enum GlobeRadius: CGFloat, CaseIterable
 {
