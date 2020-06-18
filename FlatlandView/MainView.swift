@@ -32,7 +32,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         MasterMapList = ActualMapIO.LoadMapList()
         
         BackgroundView.wantsLayer = true
-        BackgroundView.layer?.backgroundColor = NSColor.black.cgColor
+        let NewBackgroundColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
+        BackgroundView.layer?.backgroundColor = NewBackgroundColor.cgColor
+        let Opposite = Utility.OppositeColor(From: NewBackgroundColor)
+        UpdateScreenText(With: Opposite)
         
         World3DView.wantsLayer = true
         World3DView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
@@ -402,6 +405,26 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         
         let HaveLocalLocation = Settings.HaveLocalLocation()
         (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(HaveLocalLocation, forSegment: 3)
+    }
+    
+    /// Update the text on the 3D screen with the passed color.
+    /// - Parameter With: The color to use to update the text.
+    func UpdateScreenText(With Color: NSColor)
+    {
+        MainTimeLabelTop.textColor = Color
+        MainTimeLabelBottom.textColor = Color
+        UptimeValueLabel.textColor = Color
+        DailySeconds.textColor = Color
+        DeclinationLabel.textColor = Color
+        LocalSunset.textColor = Color
+        LocalSunrise.textColor = Color
+        LocalNoon.textColor = Color
+        UptimeLabel.textColor = Color
+        LocalSunriseLabel.textColor = Color
+        LocalNoonLabel.textColor = Color
+        LocalSunsetLabel.textColor = Color
+        DeclinationTextLabel.textColor = Color
+        DailySecondsLabel.textColor = Color
     }
     
     // MARK: - Menu/toolbar event handlers.
@@ -960,6 +983,12 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                     }
             }
             
+            case .BackgroundColor3D:
+                let NewBackgroundColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
+                BackgroundView.layer?.backgroundColor = NewBackgroundColor.cgColor
+            let Opposite = Utility.OppositeColor(From: NewBackgroundColor)
+                UpdateScreenText(With: Opposite)
+            
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints:
@@ -1109,5 +1138,12 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
     @IBOutlet weak var BackgroundView: NSView!
     @IBOutlet weak var FlatView: NSView!
     @IBOutlet weak var World3DView: GlobeView!
+    @IBOutlet weak var UptimeLabel: NSTextField!
+    @IBOutlet weak var LocalSunriseLabel: NSTextField!
+    @IBOutlet weak var LocalNoonLabel: NSTextField!
+    @IBOutlet weak var LocalSunsetLabel: NSTextField!
+    @IBOutlet weak var DeclinationTextLabel: NSTextField!
+    @IBOutlet weak var DailySecondsLabel: NSTextField!
+    
 }
 
