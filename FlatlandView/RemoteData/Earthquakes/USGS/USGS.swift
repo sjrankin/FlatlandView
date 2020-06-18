@@ -197,8 +197,8 @@ class USGS
                                 {
                                     if let A = GeoVal as? [Double]
                                     {
-                                        NewEarthquake.Latitude = A[0]
-                                        NewEarthquake.Longitude = A[1]
+                                        NewEarthquake.Latitude = A[1]
+                                        NewEarthquake.Longitude = A[0]
                                         NewEarthquake.Depth = A[2]
                                     }
                                 }
