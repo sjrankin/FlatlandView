@@ -210,7 +210,7 @@ class AboutController: NSViewController
         Words.append("Build \(Versioning.Build) (\(Versioning.BuildDate))")
         Words.append(Versioning.MakeVersionString())
         Words.append(Versioning.ApplicationName)
-        HourNode = MakeSentence(Radius: 12.0, Words: Words)
+        HourNode = Utility.MakeAboutSentence(Radius: 12.0, Words: Words)
         AboutWorld.scene?.rootNode.addChildNode(HourNode!)
         let Rotation = SCNAction.rotateBy(x: 0.0, y: -CGFloat.pi / 180.0, z: 0.0, duration: 0.06)
         let Forever = SCNAction.repeatForever(Rotation)
@@ -221,87 +221,6 @@ class AboutController: NSViewController
     var EarthNode: SCNNode? = nil
     var SystemNode: SCNNode? = nil
     var HourNode: SCNNode? = nil
-    
-    /// Given an array of words, place a set of words in the hour ring over the Earth.
-    /// - Note: Pay attention to the word order - it must be reversed in `Words` in order for
-    ///         words to appear correctly as people would expect.
-    /// - Parameter Radius: The radius of the word.
-    /// - Parameter Words: Array of words (if order is significant, the first word in the order
-    ///                    must be the last entry in the array) to display as expected.
-    /// - Returns: Node for words in the hour ring.
-    func MakeSentence(Radius: Double, Words: [String]) -> SCNNode
-    {
-        let NodeShape = SCNSphere(radius: CGFloat(Radius))
-        let Node = SCNNode(geometry: NodeShape)
-        Node.position = SCNVector3(0.0, 0.0, 0.0)
-        Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
-        Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
-        Node.name = "Hour Node"
-        
-        let StartAngle = -100
-        var Angle = StartAngle
-        for Word in Words
-        {
-            var WorkingAngle: CGFloat = CGFloat(Angle)
-            var PreviousEnding: CGFloat = 0.0
-            for (_, Letter) in Word.enumerated()
-            {
-                let Radians = WorkingAngle.Radians
-                let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
-                var LetterColor = NSColor.systemYellow
-                var SpecularColor = NSColor.white
-                var VerticalOffset: CGFloat = 0.8
-                if Word == Versioning.ApplicationName
-                {
-                    HourText.font = NSFont(name: "Avenir-Black", size: 28.0)
-                    LetterColor = NSColor.systemRed
-                    SpecularColor = NSColor.systemOrange
-                }
-                else
-                {
-                    HourText.font = NSFont(name: "Avenir-Heavy", size: 24.0)
-                    VerticalOffset = 0.6
-                }
-                var CharWidth: Float = 0
-                if Letter == " "
-                {
-                    CharWidth = 3.5
-                }
-                else
-                {
-                    CharWidth = Float(abs(HourText.boundingBox.max.x - HourText.boundingBox.min.x))
-                }
-                PreviousEnding = CGFloat(CharWidth)
-                if Letter == "V"
-                {
-                    PreviousEnding = CGFloat(12.0)
-                }
-                if Letter == "l"
-                {
-                    PreviousEnding = CGFloat(6.0)
-                }
-                if ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].contains(Letter)
-                {
-                    PreviousEnding = CGFloat(10.0)
-                }
-                WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
-                HourText.firstMaterial?.diffuse.contents = LetterColor
-                HourText.firstMaterial?.specular.contents = SpecularColor
-                HourText.flatness = 0.1
-                let X = CGFloat(Radius) * cos(Radians)
-                let Z = CGFloat(Radius) * sin(Radians)
-                let HourTextNode = SCNNode(geometry: HourText)
-                HourTextNode.scale = SCNVector3(0.07, 0.07, 0.07)
-                HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
-                let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
-                HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
-                Node.addChildNode(HourTextNode)
-            }
-            Angle = Angle + 65
-        }
-        
-        return Node
-    }
     
     @IBAction func HandleCloseButton(_ sender: Any)
     {
