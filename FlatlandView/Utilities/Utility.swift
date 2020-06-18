@@ -9,6 +9,7 @@
 import Foundation
 import AppKit
 import CoreLocation
+import SceneKit
 
 class Utility
 {
@@ -973,6 +974,31 @@ class Utility
         return Address
     }
     
+    /// Create an "opposite" color from the passed color. The general idea is the returned color
+    /// will be contrasting enough to show up against the source color.
+    /// - Parameter From: The source color used to create an "opposite" color.
+    /// - Returns: Color that hopefully constrasts with the passed color.
+    public static func OppositeColor(From: NSColor) -> NSColor
+    {
+        let (H, S, B) = From.HSB
+        if B > 0.8
+        {
+            return NSColor.black
+        }
+        if B < 0.2
+        {
+            return NSColor.white
+        }
+        if S < 0.2
+        {
+            return NSColor(calibratedHue: H, saturation: 1.0, brightness: 1.0 - B, alpha: 1.0)
+        }
+        let Final = NSColor(calibratedHue: 1.0 - H, saturation: S, brightness: 1.0 - B, alpha: 1.0)
+        return Final
+    }
+    
+    // MARK: - 3D utilities.
+    
     /// Calculated the distance between two three dimensional points.
     /// - Parameter X1: First X coordinate.
     /// - Parameter Y1: First Y coordinate.
@@ -988,5 +1014,236 @@ class Utility
         let YSq = (Y2 - Y1) * (Y2 - Y1)
         let ZSq = (Z2 - Z1) * (Z2 - Z1)
         return sqrt(XSq + YSq + ZSq)
+    }
+    
+    /// Returns a transparent spherical node with a 3D-extruded sentence on it. Intended to be used
+    /// for the about view.
+    /// - Parameter Radius: Radius of the sphere with the sentence.
+    /// - Parameter Words: Words of the sentence to display.
+    /// - Returns: Node that can be used in the about view.
+    public static func MakeAboutSentence(Radius: Double, Words: [String]) -> SCNNode
+    {
+        let NodeShape = SCNSphere(radius: CGFloat(Radius))
+        let Node = SCNNode(geometry: NodeShape)
+        Node.position = SCNVector3(0.0, 0.0, 0.0)
+        Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
+        Node.name = "Hour Node"
+        
+        let StartAngle = -100
+        var Angle = StartAngle
+        for Word in Words
+        {
+            var WorkingAngle: CGFloat = CGFloat(Angle)
+            var PreviousEnding: CGFloat = 0.0
+            for (_, Letter) in Word.enumerated()
+            {
+                let Radians = WorkingAngle.Radians
+                let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
+                var LetterColor = NSColor.systemYellow
+                var SpecularColor = NSColor.white
+                var VerticalOffset: CGFloat = 0.8
+                
+                if Word == Versioning.ApplicationName
+                {
+                    HourText.font = NSFont(name: "Avenir-Black", size: 28.0)
+                    LetterColor = NSColor.systemRed
+                    SpecularColor = NSColor.systemOrange
+                }
+                else
+                {
+                    HourText.font = NSFont(name: "Avenir-Heavy", size: 24.0)
+                    VerticalOffset = 0.6
+                }
+                
+                var CharWidth: Float = 0
+                if Letter == " "
+                {
+                    CharWidth = 3.5
+                }
+                else
+                {
+                    CharWidth = Float(abs(HourText.boundingBox.max.x - HourText.boundingBox.min.x))
+                }
+                PreviousEnding = CGFloat(CharWidth)
+                if Letter == "V"
+                {
+                    PreviousEnding = CGFloat(12.0)
+                }
+                if Letter == "l"
+                {
+                    PreviousEnding = CGFloat(6.0)
+                }
+                if ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].contains(Letter)
+                {
+                    PreviousEnding = CGFloat(10.0)
+                }
+                WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
+                HourText.firstMaterial?.diffuse.contents = LetterColor
+                HourText.firstMaterial?.specular.contents = SpecularColor
+                HourText.flatness = 0.1
+                let X = CGFloat(Radius) * cos(Radians)
+                let Z = CGFloat(Radius) * sin(Radians)
+                let HourTextNode = SCNNode(geometry: HourText)
+                HourTextNode.scale = SCNVector3(0.7, 0.7, 0.7)
+                HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
+                let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
+                HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
+                Node.addChildNode(HourTextNode)
+            }
+            Angle = Angle + 65
+        }
+        
+        return Node
+    }
+    
+    public static func MakeFloatingWord(Radius: Double, Word: String, Scale: CGFloat = 0.07,
+                                        Latitude: Double, Longitude: Double,
+                                        Extrusion: CGFloat = 5.0, TextColor: NSColor = NSColor.gray) -> SCNNode
+    {
+        let WordNode = SCNNode()
+        var WorkingAngle: CGFloat = CGFloat(Longitude)
+        var PreviousEnding: CGFloat = 0.0
+        var VerticalOffset: CGFloat = 0.8
+        for (_, Letter) in Word.enumerated()
+        {
+            let Radians = WorkingAngle.Radians
+            let LetterShape = SCNText(string: String(Letter), extrusionDepth: Extrusion)
+            LetterShape.font = NSFont.systemFont(ofSize: 24.0)
+            VerticalOffset = 0.6
+            var CharWidth: Float = 0
+            if Letter == " "
+            {
+                CharWidth = 3.5
+            }
+            else
+            {
+                CharWidth = Float(abs(LetterShape.boundingBox.max.x - LetterShape.boundingBox.min.x))
+            }
+            PreviousEnding = CGFloat(CharWidth)
+            if Letter == "V"
+            {
+                PreviousEnding = CGFloat(12.0)
+            }
+            if ["l", "i"].contains(Letter)
+            {
+                PreviousEnding = CGFloat(6.0)
+            }
+            if ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].contains(Letter)
+            {
+                PreviousEnding = CGFloat(10.0)
+            }
+            WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
+            LetterShape.firstMaterial?.diffuse.contents = TextColor
+            LetterShape.firstMaterial?.specular.contents = NSColor.white
+            LetterShape.flatness = 0.1
+            let X = CGFloat(Radius) * cos(Radians)
+            let Z = CGFloat(Radius) * sin(Radians)
+            let WordNode = SCNNode(geometry: LetterShape)
+            WordNode.scale = SCNVector3(Scale, Scale, Scale)
+            WordNode.position = SCNVector3(X, -VerticalOffset, Z)
+            let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
+            WordNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
+        }
+        return WordNode
+    }
+    
+    /// Given an array of words, place a set of words in the hour ring over the Earth.
+    /// - TODO: Split into multiple functions rather than change the behavior via parameters.
+    /// - Note: Pay attention to the word order - it must be reversed in `Words` in order for
+    ///         words to appear correctly as people would expect.
+    /// - Parameter Radius: The radius of the word.
+    /// - Parameter Words: Array of words (if order is significant, the first word in the order
+    ///                    must be the last entry in the array) to display as expected.
+    /// - Parameter Scale: The scale to apply to the text node. Defaults to `0.07`.
+    /// - Parameter Extrusion: The extrusion depth of the text. Defaults to `5.0`.
+    /// - Parameter IsAboutText: If true, the text is drawn in the context of the About Flatland
+    ///                          display. Otherwise, it is drawn without regards to that context.
+    /// - Parameter TextColor: The color of the text to use if `IsAboutText` is false.
+    /// - Returns: Node for words to display above a spherical Earth.
+    public static func MakeSentence(Radius: Double, Words: [String], Scale: CGFloat = 0.07,
+                                    Extrusion: CGFloat = 5.0, IsAboutText: Bool = true,
+                                    TextColor: NSColor = NSColor.gray) -> SCNNode
+    {
+        let NodeShape = SCNSphere(radius: CGFloat(Radius))
+        let Node = SCNNode(geometry: NodeShape)
+        Node.position = SCNVector3(0.0, 0.0, 0.0)
+        Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
+        Node.name = "Hour Node"
+        
+        let StartAngle = -100
+        var Angle = StartAngle
+        for Word in Words
+        {
+            var WorkingAngle: CGFloat = CGFloat(Angle)
+            var PreviousEnding: CGFloat = 0.0
+            for (_, Letter) in Word.enumerated()
+            {
+                let Radians = WorkingAngle.Radians
+                let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
+                var LetterColor = NSColor.systemYellow
+                var SpecularColor = NSColor.white
+                var VerticalOffset: CGFloat = 0.8
+                if IsAboutText
+                {
+                    if Word == Versioning.ApplicationName
+                    {
+                        HourText.font = NSFont(name: "Avenir-Black", size: 28.0)
+                        LetterColor = NSColor.systemRed
+                        SpecularColor = NSColor.systemOrange
+                    }
+                    else
+                    {
+                        HourText.font = NSFont(name: "Avenir-Heavy", size: 24.0)
+                        VerticalOffset = 0.6
+                    }
+                }
+                else
+                {
+                    HourText.font = NSFont.systemFont(ofSize: 24.0)
+                    VerticalOffset = 0.6
+                    LetterColor = TextColor
+                    SpecularColor = NSColor.white
+                }
+                var CharWidth: Float = 0
+                if Letter == " "
+                {
+                    CharWidth = 3.5
+                }
+                else
+                {
+                    CharWidth = Float(abs(HourText.boundingBox.max.x - HourText.boundingBox.min.x))
+                }
+                PreviousEnding = CGFloat(CharWidth)
+                if Letter == "V"
+                {
+                    PreviousEnding = CGFloat(12.0)
+                }
+                if Letter == "l"
+                {
+                    PreviousEnding = CGFloat(6.0)
+                }
+                if ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].contains(Letter)
+                {
+                    PreviousEnding = CGFloat(10.0)
+                }
+                WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
+                HourText.firstMaterial?.diffuse.contents = LetterColor
+                HourText.firstMaterial?.specular.contents = SpecularColor
+                HourText.flatness = 0.1
+                let X = CGFloat(Radius) * cos(Radians)
+                let Z = CGFloat(Radius) * sin(Radians)
+                let HourTextNode = SCNNode(geometry: HourText)
+                HourTextNode.scale = SCNVector3(Scale, Scale, Scale)
+                HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
+                let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
+                HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
+                Node.addChildNode(HourTextNode)
+            }
+            Angle = Angle + 65
+        }
+        
+        return Node
     }
 }
