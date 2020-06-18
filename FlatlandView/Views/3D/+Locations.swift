@@ -478,6 +478,31 @@ extension GlobeView
         PlottedCities.append(CityNode)
     }
     
+    /// Plot the city as its name.
+    /// - Parameter SomeCity: The city whose name will be plotted.
+    /// - Parameter Radius: The radius of the sphere upon which to plot the name.
+    /// - Parameter ToSurface: Where to plot the city (eg, which node).
+    /// - Parameter WithColor: The color to use for the diffuse surface of the text.
+    func PlotCityName(_ SomeCity: City, Radius: Double, ToSurface: SCNNode, WithColor: NSColor)
+    {
+        let CityText = Utility.MakeFloatingWord(Radius: Radius, Word: SomeCity.Name,
+                                                Scale: 0.03, Latitude: SomeCity.Latitude,
+                                                Longitude: SomeCity.Longitude, Extrusion: 1.0,
+                                                TextColor: WithColor)
+        CityText.name = "CityNode"
+        CityText.categoryBitMask = SunMask | MoonMask
+        
+        let (X, Y, Z) = ToECEF(SomeCity.Latitude, SomeCity.Longitude, Radius: Radius)
+        CityText.position = SCNVector3(X, Y, Z)
+        let YRotation = SomeCity.Latitude + 90.0
+        let XRotation = SomeCity.Longitude + 180.0
+        let ZRotation = 0.0
+        CityText.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
+        
+        ToSurface.addChildNode(CityText)
+        PlottedCities.append(CityText)
+    }
+    
     /// Plot cities and locations on the Earth.
     /// - Parameter On: The main sphere node upon which to plot cities.
     /// - Parameter WithRadius: The radius of there Earth sphere node.
@@ -577,6 +602,10 @@ extension GlobeView
                         PlotCitySphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                        ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
                                        LargestSize: 2.0, IsBox: false)
+                    
+                    case .Names:
+                        PlotCityName(City, Radius: Double(GlobeRadius.CityNames.rawValue),
+                                     ToSurface: Surface, WithColor: CityColor)
                 }
             }
         }
