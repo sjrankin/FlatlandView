@@ -90,20 +90,7 @@ extension GlobeView
         }
         for Quake in List
         {
-            #if true
             let QNode = MakeEarthquakeNode(Quake)
-            #else
-            let QuakeRadius = 6371.0 - Quake.Depth
-            let Percent = QuakeRadius / 6371.0
-            let FinalRadius = Double(GlobeRadius.Primary.rawValue) * Percent
-            let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: FinalRadius)
-            var ERadius = Quake.Magnitude * 0.1
-            let QSphere = SCNSphere(radius: CGFloat(ERadius))
-            let QNode = SCNNode(geometry: QSphere)
-            QNode.name = "EarthquakeNode"
-            QNode.categoryBitMask = SunMask | MoonMask
-            QNode.position = SCNVector3(X, Y, Z)
-            #endif
             var BaseColor = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
             let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
             if !InAgeRange(Quake, InRange: AgeRange)
@@ -327,9 +314,15 @@ extension GlobeView
         MagNode.name = "EarthquakeNode"
         MagNode.position = SCNVector3(X, Y, Z)
         
+        #if true
+        let YRotation = Quake.Latitude
+        let XRotation = Quake.Longitude + 180.0
+        let ZRotation = 0.0
+        #else
         let YRotation = -Quake.Latitude //+ 90.0
         let XRotation = Quake.Longitude //+ 180.0
         let ZRotation = 0.0
+        #endif
         MagNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
         
         //let TextRotation = (90.0 - Quake.Longitude).Radians
