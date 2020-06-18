@@ -507,6 +507,16 @@ class Settings
         return Default
     }
     
+    /// Returns a color from the specified setting.
+    /// - Parameter Setting: The setting whose color will be returned.
+    /// - Parameter Default: The value returned if the setting does not contain a valid color.
+    /// - Returns: The color stored at the specified setting, the contents of `Default` if no valid
+    ///            color found. Value returned as a `CGColor`.
+    public static func GetCGColor(_ Setting: SettingTypes, _ Default: NSColor) -> CGColor
+    {
+        return GetColor(Setting, Default).cgColor
+    }
+    
     /// Save a color at the specified setting.
     /// - Parameter Setting: The setting where to save the color.
     /// - Parameter Value: The color to save.
