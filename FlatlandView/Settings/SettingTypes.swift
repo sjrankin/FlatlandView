@@ -88,6 +88,8 @@ enum SettingTypes: String, CaseIterable
     case ResetHoursPeriodically = "ResetHoursPeriodically"
     /// Double: How often to reset hours. Performance debug option.
     case ResetHourTimeInterval = "ResetHourTimeInterval"
+    /// NSColor: The color of the 3D background
+    case BackgroundColor3D = "BackgroundColor3D"
     #if DEBUG
     //3D debug settings.
     /// Render 3D elements as wireframes.
