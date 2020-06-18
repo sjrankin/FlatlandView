@@ -2,6 +2,9 @@
 //  Enums.swift
 //  Flatland
 //
+//  This file contains most of the enums used in Flatland. Given how dependent Flatland
+//  is on enums, having them all consolidated in one spot makes maintenance easier.
+//
 //  Created by Stuart Rankin on 5/24/20.
 //  Copyright © 2020 Stuart Rankin. All rights reserved.
 //
@@ -20,7 +23,7 @@ enum ViewTypes: String, CaseIterable
     /// 3D globe view.
     case Globe3D = "3DGlobe"
     
-    /// 3D cube view.
+    /// 3D cube view. Mostly for silliness.
     case CubicWorld = "Cubic"
 }
 
@@ -207,6 +210,9 @@ enum CityDisplayTypes: String, CaseIterable
     /// Each city is a cylinder with the height (and radius, slightly) determined by
     /// relative population.
     case Cylinders = "Cylinders"
+    
+    /// City names displayed with a variation in the size of the text indicating population.
+    case Names = "Names"
 }
 
 /// City population types.
@@ -443,6 +449,8 @@ enum GlobeRadius: CGFloat, CaseIterable
     case LineSphere = 10.2
     /// Sphere that holds the hour text.
     case HourSphere = 11.5
+    /// Location of city names (if used).
+    case CityNames = 10.5
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
