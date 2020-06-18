@@ -100,7 +100,7 @@ extension GlobeView
             if Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere) == .Magnitude
             {
                 BaseColor = NSColor.red
-                QNode.geometry?.firstMaterial?.emission.contents = NSColor.systemRed
+//                QNode.geometry?.firstMaterial?.emission.contents = NSColor.systemRed
             }
             else
             {
@@ -303,8 +303,9 @@ extension GlobeView
     {
         let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
         let Magnitude = "M\(Quake.Magnitude.RoundedTo(2))"
-        let MagText = SCNText(string: Magnitude, extrusionDepth: 2.0)
-        MagText.font = NSFont(name: "Avenir-Heavy", size: 20.0)
+        let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.Magnitude))
+        let FontSize = CGFloat(15.0 + Quake.Magnitude)
+        MagText.font = NSFont(name: "Avenir-Heavy", size: FontSize)
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
         MagText.firstMaterial?.diffuse.contents = NSColor.red
         MagText.firstMaterial?.specular.contents = NSColor.white
@@ -315,8 +316,8 @@ extension GlobeView
         MagNode.position = SCNVector3(X, Y, Z)
         
         #if true
-        let YRotation = Quake.Latitude
-        let XRotation = Quake.Longitude + 180.0
+        let YRotation = -Quake.Latitude
+        let XRotation = Quake.Longitude
         let ZRotation = 0.0
         #else
         let YRotation = -Quake.Latitude //+ 90.0
