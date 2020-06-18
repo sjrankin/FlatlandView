@@ -222,6 +222,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         #else
         DebugButton.removeFromSuperview()
         #endif
+        Background3DColorWell.color = Settings.GetColor(.BackgroundColor3D, NSColor.black)
     }
     
     @IBAction func Handle3DGridLineChanged(_ sender: Any)
@@ -384,6 +385,16 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         #endif
     }
     
+    @IBAction func HandleBackground3DColorAction(_ sender: Any)
+    {
+        if let ColorWell = sender as? NSColorWell
+        {
+            Settings.SetColor(.BackgroundColor3D, ColorWell.color)
+            MainDelegate?.Refresh(#function)
+        }
+    }
+    
+    @IBOutlet weak var Background3DColorWell: NSColorWell!
     @IBOutlet weak var DebugButton: NSButton!
     @IBOutlet weak var StarSpeedSegment: NSSegmentedControl!
     @IBOutlet weak var SampleStars: Starfield!
