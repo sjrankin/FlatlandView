@@ -272,6 +272,41 @@ class USGS
         }
     }
     
+    func IsAfterShockTo(_ Quake: Earthquake) -> Earthquake?
+    {
+        var CloseList = [Earthquake]()
+        for SomeQuake in EarthquakeList
+        {
+            if EqDistance(Quake, SomeQuake) < 300.0
+            {
+                if TimeDelta(Quake, SomeQuake) < 5.0 * 24.0 * 60.0 * 60.0
+                {
+                    CloseList.append(Quake)
+                }
+            }
+        }
+        if CloseList.isEmpty
+        {
+            return nil
+        }
+        CloseList.sort(by: {$0.Magnitude > $1.Magnitude})
+        return nil
+    }
+    
+    func TimeDelta(_ Quake1: Earthquake, _ Quake2: Earthquake) -> Double
+    {
+        return abs(Quake1.Time.timeIntervalSinceReferenceDate - Quake2.Time.timeIntervalSinceReferenceDate)
+    }
+    
+    func EqDistance(_ Quake1: Earthquake, _ Quake2: Earthquake) -> Double
+    {
+        var T1 = (Quake1.Latitude - Quake2.Latitude)
+        T1 = T1 * T1
+        var T2 = (Quake1.Longitude - Quake2.Longitude)
+        T2 = T2 * T2
+        return sqrt(T1 + T2)
+    }
+    
     /// Current list of earthquakes.
     var EarthquakeList = [Earthquake]()
 }
