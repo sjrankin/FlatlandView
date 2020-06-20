@@ -97,12 +97,6 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" title="Hours" id="hB3-LF-h0Y"/>
-                                        <menuItem title="Select Map..." id="d7T-RG-FWW">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="ViewSelectMap:" target="Ady-hI-5gd" id="ecR-KW-rVt"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Hours" id="yH2-DS-YPh">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Hours" id="kCt-Cw-Kuz">
@@ -176,12 +170,6 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="ResetCurrentView:" target="Ady-hI-5gd" id="2BN-vo-Mia"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Live Data" id="dZe-Cy-7T0">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="ShowLiveData:" target="Ady-hI-5gd" id="1hR-Wh-wai"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="exq-fw-xPo">
@@ -413,20 +401,6 @@
                                         <action selector="FileSnapshot:" target="Oky-zY-oP4" id="PZ4-xi-9fa"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="D85B15E3-68F3-4005-82A6-0791C90D8F6A" label="Select Map" paletteLabel="Select Map" image="SelectMapIcon" sizingBehavior="auto" id="nRC-na-PFU">
-                                    <nil key="toolTip"/>
-                                    <button key="view" id="zR1-zp-nlZ">
-                                        <rect key="frame" x="9" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SelectMapIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="fdN-da-8mb">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                    <connections>
-                                        <action selector="ViewSelectMap:" target="Oky-zY-oP4" id="6Mb-YY-tuU"/>
-                                    </connections>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="08F5B7A0-1271-4623-905E-C3C963E30260" label="Reset Settings" paletteLabel="Reset Settings" image="ResetIcon" sizingBehavior="auto" id="ABA-DV-DH0">
                                     <nil key="toolTip"/>
                                     <button key="view" id="zZs-Nr-uT7">
@@ -455,30 +429,15 @@
                                         <action selector="ResetCurrentView:" target="Oky-zY-oP4" id="DQU-kl-ics"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="6552C838-EE08-42A5-A513-B823207BF01B" label="Live Data" paletteLabel="Live Data" image="BlackList" sizingBehavior="auto" id="e1y-ah-2TF">
-                                    <nil key="toolTip"/>
-                                    <button key="view" id="4dc-qD-taA">
-                                        <rect key="frame" x="4" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BlackList" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="NxY-aj-AfR">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
-                                    <connections>
-                                        <action selector="ShowLiveData:" target="Oky-zY-oP4" id="Rj3-PC-1tz"/>
-                                    </connections>
-                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="xfc-oc-jDS"/>
                                 <toolbarItem reference="2kN-SP-CkE"/>
+                                <toolbarItem reference="DFq-Zl-21y"/>
                                 <toolbarItem reference="Fko-gz-lnO"/>
                                 <toolbarItem reference="6UT-qH-5yc"/>
                                 <toolbarItem reference="2kN-SP-CkE"/>
-                                <toolbarItem reference="DFq-Zl-21y"/>
-                                <toolbarItem reference="e1y-ah-2TF"/>
-                                <toolbarItem reference="nRC-na-PFU"/>
+                                <toolbarItem reference="H0V-YW-3Jm"/>
                                 <toolbarItem reference="2kN-SP-CkE"/>
                                 <toolbarItem reference="Gd9-l3-l1x"/>
                             </defaultToolbarItems>
@@ -811,7 +770,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="BlackList" width="24" height="24"/>
         <image name="CameraButtonUnpressed" width="24" height="24"/>
         <image name="CircleIcon" width="24" height="24"/>
         <image name="ClockIcon" width="24" height="24"/>
@@ -825,7 +783,6 @@
         <image name="PinIcon" width="24" height="24"/>
         <image name="ResetIcon" width="24" height="24"/>
         <image name="ResetViewIcon" width="24" height="24"/>
-        <image name="SelectMapIcon" width="24" height="24"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
         <image name="SunX" width="3600" height="3600"/>
         <image name="SunY" width="3600" height="3600"/>
