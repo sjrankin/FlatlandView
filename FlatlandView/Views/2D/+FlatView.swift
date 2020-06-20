@@ -221,5 +221,9 @@ extension MainView
         {
             PlotCities(InCityList: CityTestList, RadialTime: Radians, CityListChanged: true) 
         }
+        if Settings.GetBool(.EnableEarthquakes)
+        {
+            PlotEarthquakes(LatestEarthquakes, RadialTime: Radians)
+        }
     }
 }
