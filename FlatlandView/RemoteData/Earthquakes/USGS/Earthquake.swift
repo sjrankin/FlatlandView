@@ -87,4 +87,7 @@ class Earthquake: Equatable
     {
         return lhs.Code == rhs.Code
     }
+    
+    /// Related earthquakes. Used for aftershocks.
+    var Related: [Earthquake]? = nil
 }
