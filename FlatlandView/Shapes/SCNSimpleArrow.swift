@@ -182,7 +182,7 @@ class SCNSimpleArrow: SCNNode
             Child.removeFromParentNode()
         }
         let Triangle = SCNTriangle(Base: _Width, Height: _Length / 3.0, Extrusion: _Extrusion)
-        Triangle.geometry?.firstMaterial?.diffuse.contents = _Color
+        Triangle.Color = _Color
         Triangle.geometry?.firstMaterial?.specular.contents = _Specular
         Triangle.LightMask = _LightMask
         let Box = SCNBox(width: _Width * 0.25, height: _Length * 0.5, length: _Extrusion, chamferRadius: 0.0)
