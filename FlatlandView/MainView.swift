@@ -29,7 +29,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         }
         
         FileIO.Initialize()
-        MasterMapList = ActualMapIO.LoadMapList()
+        PrimaryMapList = ActualMapIO.LoadMapList()
         
         BackgroundView.wantsLayer = true
         let NewBackgroundColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
@@ -55,18 +55,18 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
     
     var Earthquakes: USGS? = nil
     
-    var MasterMapList: ActualMapList? = nil
+    var PrimaryMapList: ActualMapList? = nil
     
     /// Start the update timer.
     func InitializeUpdateTimer()
     {
         UpdateTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                            target: self,
-                                           selector: #selector(MasterTimerHandler),
+                                           selector: #selector(MainTimerHandler),
                                            userInfo: nil,
                                            repeats: true)
         RunLoop.current.add(UpdateTimer!, forMode: .common)
-        MasterTimerHandler()
+        MainTimerHandler()
         //let _ = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(QuickTimer), userInfo: nil, repeats: true)
         #if DEBUG
         StartDebugCount = Date.timeIntervalSinceReferenceDate
@@ -106,7 +106,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
     var UptimeSeconds: Int = 0
     #endif
     
-    @objc func MasterTimerHandler()
+    @objc func MainTimerHandler()
     {
         UpdateSunLocations()
         let CurrentMapType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
@@ -395,11 +395,9 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         MainTimeLabelBottom.wantsLayer = true
         MainTimeLabelBottom.layer?.zPosition = CGFloat(LayerZLevels.TimeLabels.rawValue)
         MainTimeLabelBottom.font = NSFont.monospacedSystemFont(ofSize: 30.0, weight: .semibold)
-        MainTimeLabelBottom.textColor = NSColor.white
         MainTimeLabelTop.wantsLayer = true
         MainTimeLabelTop.layer?.zPosition = CGFloat(LayerZLevels.TimeLabels.rawValue)
         MainTimeLabelTop.font = NSFont.monospacedSystemFont(ofSize: 30.0, weight: .semibold)
-        MainTimeLabelTop.textColor = NSColor.white
         
         FlatViewMainImage.wantsLayer = true
         
@@ -485,9 +483,9 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
     }
     
     /// The snapshot functionality (at least for 3D views) starts in `FileSnapshot` and finishes here.
-    /// In order to work correctly, the background of the 3D view needs to be set to black, but that
-    /// takes a little time. This function is called after a small delay to ensure the background has
-    /// been updated correctly. Immediately upon being called, this function will get a snapshot (using
+    /// In order to work correctly, the background of the 3D view needs to be set to the background color,
+    /// but that takes a little time. This function is called after a small delay to ensure the background
+    /// has been updated correctly. Immediately upon being called, this function will get a snapshot (using
     /// built-in functionality) of the 3D view then reset the background color. Then, `SaveImage` will
     /// be called to finish things.
     /// - Note: In order to include the ancillary elements (eg, time, local data grid), a screen shot
@@ -501,23 +499,24 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         let Screen = NSImage(data: self.view.dataWithPDF(inside: self.view.bounds))
         let NewSize = Screen!.size
         
-        let BlackImage = NSImage(size: NewSize)
-        BlackImage.lockFocus()
-        NSColor.black.drawSwatch(in: NSRect(origin: .zero, size: NewSize))
-        BlackImage.unlockFocus()
+        let BGColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
+        let BGImage = NSImage(size: NewSize)
+        BGImage.lockFocus()
+        BGColor.drawSwatch(in: NSRect(origin: .zero, size: NewSize))
+        BGImage.unlockFocus()
         
-        BlackImage.lockFocus()
+        BGImage.lockFocus()
         let SelfRect = NSRect(origin: CGPoint.zero, size: Screen!.size)
         Screen!.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
-        BlackImage.unlockFocus()
+        BGImage.unlockFocus()
         
         let Final3D = Utility.ResizeImage(Image: Snapshot3D, Longest: max(NewSize.width, NewSize.height))
         
-        BlackImage.lockFocus()
+        BGImage.lockFocus()
         Final3D.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
-        BlackImage.unlockFocus()
+        BGImage.unlockFocus()
         
-        SaveImage(BlackImage)
+        SaveImage(BGImage)
     }
     
     /// Save the specified image to a file.
@@ -622,20 +621,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         Settings.SetEnum(.CubicWorld, EnumType: ViewTypes.self, ForKey: .ViewType)
     }
     
-    @IBAction func ViewSelectMap(_ sender: Any)
-    {
-        let Storyboard = NSStoryboard(name: "MapSelector", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "MapPickerWindow") as? MapPickerWindow
-        {
-            let MapWindow = WindowController.window
-            let Controller = MapWindow?.contentViewController as? MapPickerController
-            Controller?.MainDelegate = self
-            WindowController.showWindow(nil)
-        }
-    }
-    
-    var SelectMapWindow: MapPickerWindow? = nil
-    
     @IBAction func HelpAbout(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "About", bundle: nil)
@@ -643,18 +628,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         {
             let Window = WindowController.window
             self.view.window?.beginSheet(Window!, completionHandler: nil)
-        }
-    }
-    
-    @IBAction func ShowLiveData(_ sender: Any)
-    {
-        let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "DataViewWindow") as? LiveDataViewWindow
-        {
-            let Window = WindowController.window
-            let Controller = Window?.contentViewController as? LiveDataViewer
-            Controller?.LoadData(DataType: .Earthquakes, Raw: LatestEarthquakes as Any)
-            WindowController.showWindow(nil)
         }
     }
     
@@ -786,6 +759,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                 {
                     World3DView.PlotEarthquakes()
             }
+                    Plot2DEarthquakes(LatestEarthquakes, Replot: true)
             }
             
             case .ViewType:
@@ -796,6 +770,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                     {
                         case .FlatNorthCenter, .FlatSouthCenter:
                             IsFlat = true
+                            if Settings.GetBool(.EnableEarthquakes)
+                            {
+                                Plot2DEarthquakes(LatestEarthquakes, Replot: true)
+                        }
                         
                         case .CubicWorld:
                             World3DView.AddEarth()
@@ -1086,6 +1064,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
             {
                 print("\(EarthquakeData.count) earthquakes returned")
                 World3DView.NewEarthquakeList(EarthquakeData)
+                Plot2DEarthquakes(EarthquakeData)
                 LatestEarthquakes = EarthquakeData
             }
         }
@@ -1114,6 +1093,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
     let HalfCircumference: Double = 40075.0 / 2.0
     
     var CityLayer: CAShapeLayer? = nil
+    var EarthquakeLayer: CAShapeLayer? = nil
+    var PreviousEarthquakes = [Earthquake]()
     
     // MARK: - Interface builder outlets.
 
