@@ -460,8 +460,11 @@ enum LayerZLevels: Int
     /// Time lables.
     case TimeLabels = 100000
     
-    /// City layer.
+    /// 2D city layer.
     case CityLayer = 8000
+    
+    /// 2D earthquake layer.
+    case EarthquakeLayer = 8079
     
     /// Current layer (eg, depending on user settings, this is either the 2D or
     /// 3D view).
@@ -470,16 +473,16 @@ enum LayerZLevels: Int
     /// Inactive layer. The view that is not active.
     case InactiveLayer = 0
     
-    /// Hour label layer.
+    /// 2D hour label layer.
     case HourLayer = 60000
     
-    /// Hour text.
+    /// 2D hour text.
     case HourTextLayer = 60050
     
-    /// The grid layer.
+    /// 2D grid layer.
     case GridLayer = 10000
     
-    /// Night mask layer.
+    /// 2D night mask layer.
     case NightMaskLayer = 20000
     
     /// Info grid layer.
