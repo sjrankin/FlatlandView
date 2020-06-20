@@ -1097,55 +1097,97 @@ class Utility
         return Node
     }
     
+    /// Create an `SCNNode` of a word that floats over a globe.
+    /// - Note: Each child node has a name of `LetterNode`.
+    /// - TODO: Have the text follow the curve of the globe.
+    /// - Parameter Radius: The radius of the globe.
+    /// - Parameter Word: The word to draw.
+    /// - Parameter Scale: The scale for the final node.
+    /// - Parameter Latitude: The latitude of the word.
+    /// - Parameter Longitude: The longitude of the word.
+    /// - Parameter Extrusion: Depth of the word.
+    /// - Parameter TextColor: The color of the word.
+    /// - Returns: `SCNNode` with the word as a 3D object.
     public static func MakeFloatingWord(Radius: Double, Word: String, Scale: CGFloat = 0.07,
                                         Latitude: Double, Longitude: Double,
-                                        Extrusion: CGFloat = 5.0, TextColor: NSColor = NSColor.gray) -> SCNNode
+                                        Extrusion: CGFloat = 1.0,
+                                        TextColor: NSColor = NSColor.gray) -> SCNNode
     {
         let WordNode = SCNNode()
-        var WorkingAngle: CGFloat = CGFloat(Longitude)
-        var PreviousEnding: CGFloat = 0.0
-        var VerticalOffset: CGFloat = 0.8
+        WordNode.position = SCNVector3(0.0, 0.0, 0.0)
+        let WordFont = NSFont.systemFont(ofSize: 24.0)
+        let FontAttribute = [NSAttributedString.Key.font: WordFont]
+        var CumulativeLetterLocation: CGFloat = 0.0
         for (_, Letter) in Word.enumerated()
         {
-            let Radians = WorkingAngle.Radians
+            let LetterSize = NSString(string: String(Letter)).size(withAttributes: FontAttribute)
             let LetterShape = SCNText(string: String(Letter), extrusionDepth: Extrusion)
-            LetterShape.font = NSFont.systemFont(ofSize: 24.0)
-            VerticalOffset = 0.6
-            var CharWidth: Float = 0
-            if Letter == " "
-            {
-                CharWidth = 3.5
-            }
-            else
-            {
-                CharWidth = Float(abs(LetterShape.boundingBox.max.x - LetterShape.boundingBox.min.x))
-            }
-            PreviousEnding = CGFloat(CharWidth)
-            if Letter == "V"
-            {
-                PreviousEnding = CGFloat(12.0)
-            }
-            if ["l", "i"].contains(Letter)
-            {
-                PreviousEnding = CGFloat(6.0)
-            }
-            if ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].contains(Letter)
-            {
-                PreviousEnding = CGFloat(10.0)
-            }
-            WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
+            LetterShape.font = WordFont
             LetterShape.firstMaterial?.diffuse.contents = TextColor
             LetterShape.firstMaterial?.specular.contents = NSColor.white
-            LetterShape.flatness = 0.1
-            let X = CGFloat(Radius) * cos(Radians)
-            let Z = CGFloat(Radius) * sin(Radians)
-            let WordNode = SCNNode(geometry: LetterShape)
-            WordNode.scale = SCNVector3(Scale, Scale, Scale)
-            WordNode.position = SCNVector3(X, -VerticalOffset, Z)
-            let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
-            WordNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
+            let LetterNode = SCNNode(geometry: LetterShape)
+            LetterNode.position = SCNVector3(CumulativeLetterLocation, 0.0, 0.0)
+            LetterNode.name = "LetterNode"
+            CumulativeLetterLocation = CumulativeLetterLocation + LetterSize.width
+            WordNode.addChildNode(LetterNode)
         }
+        WordNode.scale = SCNVector3(Scale, Scale, Scale)
         return WordNode
+    }
+    
+    /// Create an `SCNNode` of a word that floats over a globe.
+    /// - Note: Each child node has a name of `LetterNode`.
+    /// - TODO: Have the text follow the curve of the globe.
+    /// - Parameter Radius: The radius of the globe.
+    /// - Parameter Word: The word to draw.
+    /// - Parameter Scale: The scale for the final node.
+    /// - Parameter Latitude: The latitude of the word.
+    /// - Parameter Longitude: The longitude of the word.
+    /// - Parameter Extrusion: Depth of the word.
+    /// - Parameter TextColor: The color of the word.
+    /// - Parameter OnSurface: Where the word will be plotted.
+    public static func MakeFloatingWord(Radius: Double, Word: String, Scale: CGFloat = 0.07,
+                                        Latitude: Double, Longitude: Double,
+                                        Extrusion: CGFloat = 1.0, Mask: Int,
+                                        TextColor: NSColor = NSColor.gray,
+                                        OnSurface: SCNNode)
+    {
+        let WordFont = NSFont.systemFont(ofSize: 24.0)
+        let FontAttribute = [NSAttributedString.Key.font: WordFont]
+        var CumulativeLetterLocation: CGFloat = CGFloat(Longitude)
+        let EqCircumference = 2.0 * Radius * Double.pi
+        for (_, Letter) in Word.enumerated()
+        {
+            let LetterSize = NSString(string: String(Letter)).size(withAttributes: FontAttribute)
+            let LetterShape = SCNText(string: String(Letter), extrusionDepth: Extrusion)
+            LetterShape.font = WordFont
+            LetterShape.firstMaterial?.diffuse.contents = TextColor
+            LetterShape.firstMaterial?.specular.contents = NSColor.white
+            let LetterNode = SCNNode(geometry: LetterShape)
+            LetterNode.categoryBitMask = Mask
+            LetterNode.scale = SCNVector3(Scale, Scale, Scale)
+            LetterNode.name = "CityNode"
+            let (X, Y, Z) = ToECEF(Latitude, Double(CumulativeLetterLocation),
+                                   LatitudeOffset: -1.0, LongitudeOffset: -0.5,
+                                   Radius: Radius)
+            LetterNode.position = SCNVector3(X, Y, Z)
+            let YRotation = -Latitude
+            let XRotation = Double(CumulativeLetterLocation)
+            let ZRotation = 0.0
+            LetterNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
+            OnSurface.addChildNode(LetterNode)
+            #if true
+            var AngleAdjustment = Double(LetterSize.width) / EqCircumference
+            AngleAdjustment = AngleAdjustment * 10.0
+            CumulativeLetterLocation = CumulativeLetterLocation + CGFloat(AngleAdjustment)
+            #else
+            //http://mathforum.org/library/drmath/view/54158.html
+            let Circumference = cos(EqCircumference.Radians)
+            var AngleAdjustment = Double(LetterSize.width) / Circumference
+            AngleAdjustment = AngleAdjustment * 10.0
+            CumulativeLetterLocation = CumulativeLetterLocation + CGFloat(AngleAdjustment)
+            #endif
+        }
     }
     
     /// Given an array of words, place a set of words in the hour ring over the Earth.
@@ -1163,7 +1205,8 @@ class Utility
     /// - Returns: Node for words to display above a spherical Earth.
     public static func MakeSentence(Radius: Double, Words: [String], Scale: CGFloat = 0.07,
                                     Extrusion: CGFloat = 5.0, IsAboutText: Bool = true,
-                                    TextColor: NSColor = NSColor.gray) -> SCNNode
+                                    TextColor: NSColor = NSColor.gray,
+                                    StartingAngle: Int = -100) -> SCNNode
     {
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
         let Node = SCNNode(geometry: NodeShape)
@@ -1172,7 +1215,7 @@ class Utility
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
         Node.name = "Hour Node"
         
-        let StartAngle = -100
+        let StartAngle = StartingAngle
         var Angle = StartAngle
         for Word in Words
         {
@@ -1237,13 +1280,41 @@ class Utility
                 let HourTextNode = SCNNode(geometry: HourText)
                 HourTextNode.scale = SCNVector3(Scale, Scale, Scale)
                 HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
-                let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
-                HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
+                if IsAboutText
+                {
+                    let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
+                    HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
+                }
                 Node.addChildNode(HourTextNode)
             }
-            Angle = Angle + 65
+            if IsAboutText
+            {
+                Angle = Angle + 65
+            }
         }
         
         return Node
+    }
+    
+    /// Convert the passed latitude and longitude values into a 3D coordinate that can be plotted
+    /// on a sphere.
+    /// - Note: See [How to map latitude and logitude to a 3D sphere](https://stackoverflow.com/questions/36369734/how-to-map-latitude-and-longitude-to-a-3d-sphere)
+    /// - Parameter Latitude: The latitude portion of the 2D coordinate.
+    /// - Parameter Longitude: The longitude portion of the 2D coordinate.
+    /// - Parameter LatitudeOffset: Offset added to the latitude. Defaults to `0.0`.
+    /// - Parameter LongitudeOffset: Offset added to the longitude. Defaults to `0.0`.
+    /// - Parameter Radius: The radius of the sphere.
+    /// - Parameter RadiusOffset: Offset added to the radius. Defaults to `0.0`.
+    /// - Returns: Tuple with the X, Y, and Z coordinates for the location on the sphere.
+    public static func ToECEF(_ Latitude: Double, _ Longitude: Double,
+                              LatitudeOffset: Double = 0.0, LongitudeOffset: Double = 0.0,
+                              Radius: Double, RadiusOffset: Double = 0.0) -> (Double, Double, Double)
+    {
+        let Lat = (90 - (Latitude + LatitudeOffset)).Radians
+        let Lon = (90 + (Longitude + LongitudeOffset)).Radians
+        let X = -((Radius + RadiusOffset) * sin(Lat) * cos(Lon))
+        let Z = ((Radius + RadiusOffset) * sin(Lat) * sin(Lon))
+        let Y = ((Radius + RadiusOffset) * cos(Lat))
+        return (X, Y, Z)
     }
 }
