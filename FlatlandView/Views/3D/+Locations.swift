@@ -29,7 +29,11 @@ extension GlobeView
                    IsCurrentLocation: Bool = false, WithColor: NSColor = NSColor.red)
     {
         let RadialOffset = IsCurrentLocation ? 0.25 : 0.1
+        #if false
+        let (X, Y, Z) = ToECEF(0.0, 0.0, Radius: Radius + RadialOffset)
+        #else
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
+        #endif
         var ConeTop: CGFloat = 0.0
         var ConeBottom: CGFloat = 0.0
         if IsCurrentLocation
@@ -154,7 +158,7 @@ extension GlobeView
     /// - Parameter ToSurface: The surface node where the arrow will be added.
     /// - Parameter WithColor: Ignored if `IsCurrentLocation` is true. Otherwise, this is the color of
     ///                        the arrow head shape.
-    func PlotUserLocation1(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+    func PlotLocationAsCone(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
                            WithColor: NSColor = NSColor.magenta)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
@@ -173,7 +177,7 @@ extension GlobeView
         PlottedCities.append(ConeNode)
     }
     
-    func PlotUserLocation2(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+    func PlotLocationAsSphere(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
                            WithColor: NSColor = NSColor.magenta)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
@@ -209,7 +213,11 @@ extension GlobeView
     /// - Parameter ToSurface: The surface node where the arrow will be added.
     func PlotBouncingArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode)
     {
+        #if false
+        let (X, Y, Z) = ToECEF(/*51.5074*/ 0.0, 0.0, Radius: Radius + 0.7)
+        #else
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.7)
+        #endif
         let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2, Color: NSColor.systemYellow)
         Arrow.LightMask = SunMask | MoonMask
         Arrow.scale = SCNVector3(0.75, 0.75, 0.75)
@@ -405,7 +413,14 @@ extension GlobeView
         let Cylinder = SCNCylinder(radius: 0.04, height: CGFloat(LongestStem * RelativeHeight))
         let CylinderNode = SCNNode(geometry: Cylinder)
         CylinderNode.categoryBitMask = SunMask | MoonMask
-        CylinderNode.geometry?.firstMaterial?.diffuse.contents = NSColor.magenta
+        let (H, S, B) = WithColor.HSB
+        var NewH = H + 0.5
+        if NewH > 1.0
+        {
+            NewH = NewH - 1.0
+        }
+        let StemColor = NSColor(calibratedHue: NewH, saturation: S, brightness: B, alpha: 1.0)
+        CylinderNode.geometry?.firstMaterial?.diffuse.contents = StemColor
         CylinderNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         CylinderNode.castsShadow = true
         SunLight.intensity = 800
@@ -436,7 +451,7 @@ extension GlobeView
     /// - Parameter LargestSize: The largest permitted.
     /// - Parameter IsBox: If true, the shape of the city is based on `SCNBox`. If false, the shape
     ///                    is based on `SCNCylinder`.
-    func PlotCitySphere(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+    func PlotSimpleCityShape(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
                         WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
                         LargestSize: Double = 1.0, IsBox: Bool = true)
     {
@@ -485,22 +500,35 @@ extension GlobeView
     /// - Parameter WithColor: The color to use for the diffuse surface of the text.
     func PlotCityName(_ SomeCity: City, Radius: Double, ToSurface: SCNNode, WithColor: NSColor)
     {
-        let CityText = Utility.MakeFloatingWord(Radius: Radius, Word: SomeCity.Name,
-                                                Scale: 0.03, Latitude: SomeCity.Latitude,
-                                                Longitude: SomeCity.Longitude, Extrusion: 1.0,
-                                                TextColor: WithColor)
+        #if true
+        Utility.MakeFloatingWord(Radius: Radius, Word: "• " + SomeCity.Name, Scale: 0.02,
+                                 Latitude: SomeCity.Latitude, Longitude: SomeCity.Longitude,
+                                 Extrusion: 1.0, Mask: SunMask | MoonMask,
+                                 TextColor: WithColor, OnSurface: EarthNode!)
+        #else
+        let CityText = Utility.MakeFloatingWord(Radius: Radius, Word: SomeCity.Name, Scale: 0.02,
+                                                Latitude: SomeCity.Latitude, Longitude: SomeCity.Longitude,
+                                                Extrusion: 1.0, TextColor: WithColor)
+        for LetterNode in CityText.childNodes
+        {
+            if LetterNode.name == "LetterNode"
+            {
+                LetterNode.categoryBitMask = SunMask | MoonMask
+            }
+        }
         CityText.name = "CityNode"
         CityText.categoryBitMask = SunMask | MoonMask
         
         let (X, Y, Z) = ToECEF(SomeCity.Latitude, SomeCity.Longitude, Radius: Radius)
         CityText.position = SCNVector3(X, Y, Z)
-        let YRotation = SomeCity.Latitude + 90.0
-        let XRotation = SomeCity.Longitude + 180.0
+        let YRotation = -SomeCity.Latitude
+        let XRotation = SomeCity.Longitude
         let ZRotation = 0.0
         CityText.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
         
         ToSurface.addChildNode(CityText)
         PlottedCities.append(CityText)
+        #endif
     }
     
     /// Plot cities and locations on the Earth.
@@ -554,7 +582,7 @@ extension GlobeView
         {
             if City.IsUserCity
             {
-                PlotUserLocation1(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius, ToSurface: Surface,
+                PlotLocationAsCone(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius, ToSurface: Surface,
                                   WithColor: City.CityColor)
             }
             else
@@ -594,12 +622,12 @@ extension GlobeView
                                          IsASphere: false)
                     
                     case .RelativeHeight:
-                        PlotCitySphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                        PlotSimpleCityShape(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                        ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
                                        LargestSize: 2.0, IsBox: true)
                     
                     case .Cylinders:
-                        PlotCitySphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                        PlotSimpleCityShape(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                        ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
                                        LargestSize: 2.0, IsBox: false)
                     
