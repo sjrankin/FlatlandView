@@ -9,7 +9,8 @@
 import Foundation
 import AppKit
 
-/// Encapsulates one or more earthquakes.
+/// Encapsulates one or more earthquakes. If multiple earthquakes are encapsulated it is because
+/// a simplistic algorithm has determined they are related.
 class Earthquake2: Equatable
 {
     /// Initializer.
@@ -45,8 +46,22 @@ class Earthquake2: Equatable
     
     /// Returns the greatest magnitude. If a given earthquake is not a cluster, this is merely the
     /// same value as in `Magnitude`. This this earthquake represents a cluster of earthquakes, the
-    /// largest earthquake's magnitude will be returned.
+    /// largest earthquake's magnitude will be returned. `0.0` returned on error.
     var GreatestMagnitude: Double
+    {
+        get
+        {
+            if let Quake = GreatestMagnitudeEarthquake
+            {
+                return Quake.Magnitude
+            }
+            return 0.0
+        }
+    }
+    
+    /// Returns the earthquake with the greatest magnitude. If there are no related earthquakes,
+    /// `self` is returned.
+    var GreatestMagnitudeEarthquake: Earthquake2?
     {
         get
         {
@@ -54,13 +69,11 @@ class Earthquake2: Equatable
             {
                 if !Group.isEmpty
                 {
-                    if let MaxMag = Group.max(by: {$0.Magnitude > $1.Magnitude})?.Magnitude
-                    {
-                        return MaxMag
-                    }
+                    let Sorted = Group.sorted(by: {$0.Magnitude > $1.Magnitude})
+                    return Sorted[0]
                 }
             }
-                return Magnitude
+            return self
         }
     }
     
@@ -120,6 +133,7 @@ class Earthquake2: Equatable
     var Significance: Int = 0
     
     /// How to compare earthquakes.
+    /// - Note: Earthquakes are compared by their unique IDs assigned by the USGS.
     static func == (lhs: Earthquake2, rhs: Earthquake2) -> Bool
     {
         return lhs.Code == rhs.Code
@@ -127,6 +141,25 @@ class Earthquake2: Equatable
     
     /// Related earthquakes. Used for aftershocks.
     var Related: [Earthquake2]? = nil
+    
+    /// Adds another earthquake to this earthquake if it occurs within a specific timeframe and
+    /// distance.
+    /// - Parameter Other: The other earthquake to add if it is close enough geographically and
+    ///                    chronologically.
+    /// - Returns: True if `Other` was added to this earthquake, false if not.
+    @discardableResult func AddIfRelated(_ Other: Earthquake2) -> Bool
+    {
+        if IsRelated(Other)
+        {
+            if Related == nil
+            {
+                Related = [Earthquake2]()
+            }
+            Related?.append(Other)
+            return true
+        }
+        return false
+    }
     
     static let DefaultTimeDelta = 5.0 * 24.0 * 60.0 * 50.0
     static let DefaultClusterDistance = 300.0
@@ -158,5 +191,21 @@ class Earthquake2: Equatable
             return false
         }
         return true
+    }
+    
+    /// Construct the earthquake list.
+    /// - Parameter New: The new earthquake to add to the list.
+    /// - Parameter To: The existing earthquake list.
+    public static func AddEarthquake(New Quake: Earthquake2, To Current: inout [Earthquake2])
+    {
+        for Existing in Current
+        {
+            let Added = Existing.AddIfRelated(Quake)
+            if Added
+            {
+                return
+            }
+        }
+        Current.append(Quake)
     }
 }
