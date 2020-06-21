@@ -224,6 +224,7 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         DebugButton.removeFromSuperview()
         #endif
         Background3DColorWell.color = Settings.GetColor(.BackgroundColor3D, NSColor.black)
+        UseAmbientLight.state = Settings.GetBool(.UseAmbientLight) ? .on : .off
     }
     
     @IBAction func Handle3DGridLineChanged(_ sender: Any)
@@ -395,6 +396,15 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         }
     }
     
+    @IBAction func HandleAmbientLightChanged(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            Settings.SetBool(.UseAmbientLight, Button.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var UseAmbientLight: NSButton!
     @IBOutlet weak var Background3DColorWell: NSColorWell!
     @IBOutlet weak var DebugButton: NSButton!
     @IBOutlet weak var StarSpeedSegment: NSSegmentedControl!
@@ -1071,11 +1081,14 @@ class MainSettings: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         switch DataType
         {
             case .Earthquakes:
-            if let RawData = Raw as? [Earthquake]
-            {
-                LocalEarthquakeData = RawData
-                EarthquakeViewButton.isEnabled = true
+                if let RawData = Raw as? [Earthquake]
+                {
+                    LocalEarthquakeData = RawData
+                    EarthquakeViewButton.isEnabled = true
             }
+            
+            default:
+                break
         }
     }
     
