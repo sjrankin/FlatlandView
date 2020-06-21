@@ -44,13 +44,13 @@
                                             <rect key="frame" x="10" y="33" width="874" height="383"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTk-6d-Uow">
+                                                <scrollView autohidesScrollers="YES" horizontalLineScroll="44" horizontalPageScroll="10" verticalLineScroll="44" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTk-6d-Uow">
                                                     <rect key="frame" x="17" y="60" width="229" height="302"/>
                                                     <clipView key="contentView" ambiguous="YES" id="o7m-2n-hN4">
                                                         <rect key="frame" x="1" y="0.0" width="227" height="301"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <tableView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="dO3-Gs-m8A" viewBased="YES" id="WXt-Za-bt4">
+                                                            <tableView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="42" rowSizeStyle="automatic" headerView="dO3-Gs-m8A" viewBased="YES" id="WXt-Za-bt4">
                                                                 <rect key="frame" x="0.0" y="0.0" width="227" height="276"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <size key="intercellSpacing" width="3" height="2"/>
@@ -70,11 +70,11 @@
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
                                                                             <tableCellView id="Eyj-nS-gly">
-                                                                                <rect key="frame" x="1" y="1" width="181" height="42"/>
+                                                                                <rect key="frame" x="1" y="1" width="224" height="42"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="PeE-n0-sAS">
-                                                                                        <rect key="frame" x="0.0" y="13" width="181" height="17"/>
+                                                                                        <rect key="frame" x="0.0" y="13" width="224" height="17"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="17" id="xCl-s0-HjP"/>
                                                                                         </constraints>
@@ -121,13 +121,13 @@
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </tableHeaderView>
                                                 </scrollView>
-                                                <scrollView autohidesScrollers="YES" horizontalLineScroll="44" horizontalPageScroll="10" verticalLineScroll="44" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x89-nF-s0b">
+                                                <scrollView autohidesScrollers="YES" horizontalLineScroll="69" horizontalPageScroll="10" verticalLineScroll="69" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x89-nF-s0b">
                                                     <rect key="frame" x="254" y="60" width="314" height="302"/>
                                                     <clipView key="contentView" id="AWn-Te-MyL">
                                                         <rect key="frame" x="1" y="0.0" width="312" height="301"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="42" rowSizeStyle="automatic" headerView="2tX-I9-nD3" viewBased="YES" id="Dnu-ml-ZDy">
+                                                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="67" rowSizeStyle="automatic" headerView="2tX-I9-nD3" viewBased="YES" id="Dnu-ml-ZDy">
                                                                 <rect key="frame" x="0.0" y="0.0" width="312" height="276"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <size key="intercellSpacing" width="3" height="2"/>
@@ -147,11 +147,11 @@
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
                                                                             <tableCellView id="2bB-kT-7c3">
-                                                                                <rect key="frame" x="1" y="1" width="249" height="67"/>
+                                                                                <rect key="frame" x="1" y="1" width="309" height="67"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="QvJ-ad-rTW">
-                                                                                        <rect key="frame" x="0.0" y="50" width="249" height="17"/>
+                                                                                        <rect key="frame" x="0.0" y="50" width="309" height="17"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="17" id="MAH-38-Iks"/>
                                                                                         </constraints>
@@ -362,7 +362,7 @@
                                                     <rect key="frame" x="17" y="12" width="210" height="200"/>
                                                     <clipView key="contentView" id="JVy-AG-5BH">
                                                         <rect key="frame" x="1" y="1" width="208" height="198"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="JZb-AZ-f7F">
                                                                 <rect key="frame" x="0.0" y="0.0" width="208" height="198"/>
@@ -735,12 +735,13 @@
                                                     </connections>
                                                 </button>
                                                 <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3K2-7C-ylo">
-                                                    <rect key="frame" x="17" y="257" width="360" height="107"/>
+                                                    <rect key="frame" x="17" y="233" width="360" height="131"/>
                                                     <rows>
                                                         <gridRow id="YIc-Ye-LxA"/>
                                                         <gridRow id="Pge-lK-lJi"/>
                                                         <gridRow id="4d7-Pl-jXa"/>
                                                         <gridRow id="jIu-zy-V3r"/>
+                                                        <gridRow id="phV-2d-7Vz"/>
                                                     </rows>
                                                     <columns>
                                                         <gridColumn trailingPadding="10" id="1Sa-hQ-eX2"/>
@@ -749,7 +750,7 @@
                                                     <gridCells>
                                                         <gridCell row="YIc-Ye-LxA" column="1Sa-hQ-eX2" id="sRx-vm-sx3">
                                                             <button key="contentView" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="1PK-Kn-cWW">
-                                                                <rect key="frame" x="-2" y="91" width="120" height="18"/>
+                                                                <rect key="frame" x="-2" y="115" width="120" height="18"/>
                                                                 <buttonCell key="cell" type="check" title="Show moonlight" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="VOc-KU-0d4">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                     <font key="font" metaFont="system"/>
@@ -761,6 +762,19 @@
                                                         </gridCell>
                                                         <gridCell row="YIc-Ye-LxA" column="Ftw-KQ-h6L" id="VCf-4w-FdH"/>
                                                         <gridCell row="Pge-lK-lJi" column="1Sa-hQ-eX2" id="e32-H0-0Iz">
+                                                            <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sEA-2x-uZf">
+                                                                <rect key="frame" x="-2" y="91" width="103" height="18"/>
+                                                                <buttonCell key="cell" type="check" title="Ambient light" bezelStyle="regularSquare" imagePosition="left" inset="2" id="q0Z-vg-OIT">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="HandleAmbientLightChanged:" target="v9H-zx-ey4" id="0ia-cq-pvB"/>
+                                                                </connections>
+                                                            </button>
+                                                        </gridCell>
+                                                        <gridCell row="Pge-lK-lJi" column="Ftw-KQ-h6L" id="3L9-4D-9mH"/>
+                                                        <gridCell row="4d7-Pl-jXa" column="1Sa-hQ-eX2" id="3Ey-jF-EoC">
                                                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ysy-Y6-VCL">
                                                                 <rect key="frame" x="-2" y="62" width="123" height="16"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Globe transparency" id="Ts8-2G-Enw">
@@ -770,7 +784,7 @@
                                                                 </textFieldCell>
                                                             </textField>
                                                         </gridCell>
-                                                        <gridCell row="Pge-lK-lJi" column="Ftw-KQ-h6L" id="3L9-4D-9mH">
+                                                        <gridCell row="4d7-Pl-jXa" column="Ftw-KQ-h6L" id="tn6-yT-91Y">
                                                             <segmentedControl key="contentView" verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="FCw-y7-Pzz">
                                                                 <rect key="frame" x="133" y="60" width="229" height="24"/>
                                                                 <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="TzA-A3-6d6">
@@ -787,7 +801,7 @@
                                                                 </connections>
                                                             </segmentedControl>
                                                         </gridCell>
-                                                        <gridCell row="4d7-Pl-jXa" column="1Sa-hQ-eX2" id="3Ey-jF-EoC">
+                                                        <gridCell row="jIu-zy-V3r" column="1Sa-hQ-eX2" id="4SU-Qy-1iQ">
                                                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eUc-3L-9sK">
                                                                 <rect key="frame" x="-2" y="33" width="71" height="16"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Pole shape" id="CVa-MX-KOO">
@@ -797,7 +811,7 @@
                                                                 </textFieldCell>
                                                             </textField>
                                                         </gridCell>
-                                                        <gridCell row="4d7-Pl-jXa" column="Ftw-KQ-h6L" id="tn6-yT-91Y">
+                                                        <gridCell row="jIu-zy-V3r" column="Ftw-KQ-h6L" id="YzF-AP-Vrh">
                                                             <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gWI-uf-suA">
                                                                 <rect key="frame" x="135" y="29" width="163" height="25"/>
                                                                 <constraints>
@@ -818,7 +832,7 @@
                                                                 </connections>
                                                             </comboBox>
                                                         </gridCell>
-                                                        <gridCell row="jIu-zy-V3r" column="1Sa-hQ-eX2" id="4SU-Qy-1iQ">
+                                                        <gridCell row="phV-2d-7Vz" column="1Sa-hQ-eX2" id="OKK-OZ-YdX">
                                                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sha-6z-ipm">
                                                                 <rect key="frame" x="-2" y="0.0" width="111" height="16"/>
                                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Background color" id="bAe-1f-xrw">
@@ -828,7 +842,7 @@
                                                                 </textFieldCell>
                                                             </textField>
                                                         </gridCell>
-                                                        <gridCell row="jIu-zy-V3r" column="Ftw-KQ-h6L" id="YzF-AP-Vrh">
+                                                        <gridCell row="phV-2d-7Vz" column="Ftw-KQ-h6L" id="2rd-pF-8Zn">
                                                             <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="5Pk-Wr-Nyf">
                                                                 <rect key="frame" x="135" y="0.0" width="120" height="23"/>
                                                                 <constraints>
@@ -849,7 +863,7 @@
                                                 <constraint firstItem="t6U-q2-MQU" firstAttribute="bottom" secondItem="RkA-li-zkN" secondAttribute="bottom" id="1UX-nk-Z0G"/>
                                                 <constraint firstItem="RkA-li-zkN" firstAttribute="leading" secondItem="PM4-HD-lou" secondAttribute="leading" id="5MD-3Q-1x3"/>
                                                 <constraint firstItem="wjw-Xd-CYv" firstAttribute="leading" secondItem="PM4-HD-lou" secondAttribute="trailing" constant="23" id="Bcl-iD-Oow"/>
-                                                <constraint firstItem="wjw-Xd-CYv" firstAttribute="top" secondItem="3K2-7C-ylo" secondAttribute="bottom" constant="82" id="Bhd-t3-9LI"/>
+                                                <constraint firstItem="wjw-Xd-CYv" firstAttribute="top" secondItem="3K2-7C-ylo" secondAttribute="bottom" constant="58" id="Bhd-t3-9LI"/>
                                                 <constraint firstItem="t6U-q2-MQU" firstAttribute="trailing" secondItem="I85-ko-lng" secondAttribute="trailing" id="DRZ-yi-sNe"/>
                                                 <constraint firstItem="PM4-HD-lou" firstAttribute="top" secondItem="EtL-He-hao" secondAttribute="top" constant="211" id="Dp6-rm-OYX"/>
                                                 <constraint firstItem="RkA-li-zkN" firstAttribute="trailing" secondItem="wjw-Xd-CYv" secondAttribute="trailing" constant="-40" id="FlW-iL-MqN"/>
@@ -2058,6 +2072,7 @@
                         <outlet property="StarSpeedSegment" destination="wjw-Xd-CYv" id="7C4-pK-4HH"/>
                         <outlet property="SunSelector" destination="JZb-AZ-f7F" id="F3X-mB-cHh"/>
                         <outlet property="TimeLabelSegment" destination="5Ib-Yl-fhD" id="MZs-xa-995"/>
+                        <outlet property="UseAmbientLight" destination="sEA-2x-uZf" id="tae-h8-7O0"/>
                         <outlet property="UserLocationLatitudeBox" destination="wN3-Qt-oQO" id="ZRv-lk-ymW"/>
                         <outlet property="UserLocationLongitudeBox" destination="qzl-IA-19o" id="Krc-C2-DN3"/>
                         <outlet property="UserLocationTable" destination="HYR-ca-Hzt" id="xvH-2N-A69"/>
