@@ -12,10 +12,10 @@ import Foundation
 /// by the settings class to access the setting.
 enum SettingTypes: String, CaseIterable
 {
-    //Infrastructure/initialization-related settings.
+    // MARK: - Infrastructure/initialization-related settings.
     case InitializationFlag = "InitializationFlag"
     
-    //Map-related settings.
+    // MARK: - Map-related settings.
     /// The type of map to view (the map image). This is used for both 2D and 3D modes
     /// (but not the cubic mode).
     case MapType = "MapType"
@@ -45,7 +45,7 @@ enum SettingTypes: String, CaseIterable
     /// The type of view to show in the sample map image display.
     case SampleViewType = "SampleViewType"
     
-    //2D view settings.
+    // MARK: - 2D view settings.
     /// Boolean: Display the equator in 2D mode.
     case Show2DEquator = "Show2DEquator"
     /// Boolean: Display polar circles in 2D mode.
@@ -57,7 +57,7 @@ enum SettingTypes: String, CaseIterable
     /// Boolean: Display noon meridians in 2D mode.
     case Show2DNoonMeridians = "Show2DNoonMeridians"
     
-    //3D view settings.
+    // MARK: - 3D view settings.
     /// Boolean: Display grid lines in 3D mode.
     case Show3DGridLines = "Show3DGridLines"
     /// Boolean: Display the equator in 3D mode.
@@ -77,7 +77,7 @@ enum SettingTypes: String, CaseIterable
     /// Boolean: Show moving stars in the background.
     case ShowMovingStars = "ShowMovingStars"
     /// Determines how fast stars move when visible.
-        case StarSpeeds = "StarSpeeds"
+    case StarSpeeds = "StarSpeeds"
     /// Boolean: Show moonlight on 3D globes for the night side.
     case ShowMoonLight = "ShowMoonLight"
     /// Determines the shape of the object marking the poles.
@@ -90,6 +90,8 @@ enum SettingTypes: String, CaseIterable
     case ResetHourTimeInterval = "ResetHourTimeInterval"
     /// NSColor: The color of the 3D background
     case BackgroundColor3D = "BackgroundColor3D"
+    /// Boolean: If true, an ambient light (rather than sun and moon lights) is used.
+    case UseAmbientLight = "UseAmbientLight"
     #if DEBUG
     //3D debug settings.
     /// Render 3D elements as wireframes.
@@ -106,7 +108,7 @@ enum SettingTypes: String, CaseIterable
     case ShowLightExtents = "ShowLightExtents"
     #endif
     
-    //Local and home locations.
+    // MARK: - Local and home locations.
     /// Boolean: Show user locations.
     case ShowUserLocations = "ShowUserLocations"
     /// Double?: The user's home latitude. If nil, not set.
@@ -124,7 +126,7 @@ enum SettingTypes: String, CaseIterable
     /// Boolean: Determines if the user's location is shown, regardless if it is available.
     case ShowHomeLocation = "ShowHomeLocation"
     
-    //City-related settings.
+    // MARK: - City-related settings.
     /// Boolean: Show cities on the map. This is a filter boolean meaning if it is false,
     /// no cities will be shown regardless of their settings.
     case ShowCities = "ShowCities"
@@ -161,7 +163,7 @@ enum SettingTypes: String, CaseIterable
     /// Determines how the relative size of cities is calculated.
     case PopulationType = "PopulationType"
     
-    //World Heritage Site settings
+    // MARK: - World Heritage Site settings
     /// Boolean: Determines whether World Heritage Sites are shown.
     case ShowWorldHeritageSites = "ShowWorldHeritageSites"
     /// Determines the type of site to display.
@@ -175,7 +177,7 @@ enum SettingTypes: String, CaseIterable
     /// Inclusion year filter for sites.
     case SiteYearFilter = "SiteYearFilter"
     
-    //Asynchronous settings.
+    // MARK: - Asynchronous settings.
     //Earthquake asynchronous settings.
     /// Double: How often, in seconds, to fetch earthquake data.
     case EarthquakeFetchInterval = "EarthquakeFetchInterval"
@@ -191,7 +193,12 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeAge = "EarthquakeAge"
     /// How to draw the earthquake.
     case EarthquakeShapes = "EarthquakeShapes"
+    /// Boolean: Display only the largest earthquake in a region.
+    case DisplayLargestOnly = "DisplayLargestOnly"
+    /// Double: Radius for earthquake regions to determine when to suppress smaller
+    /// earthquakes when `DisplayLargestOnly` is true.
+    case EarthquakeRegionRadius = "EarthquakeRegionRadius"
     
-    //Settings used in areas outside of the Settings system.
+    // MARK: - Settings used in areas outside of the Settings system.
     case LiveViewWindowFrame = "LiveViewWindowFrame"
 }
