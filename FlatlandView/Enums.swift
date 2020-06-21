@@ -453,6 +453,31 @@ enum GlobeRadius: CGFloat, CaseIterable
     case CityNames = 10.5
 }
 
+/// Layer names for 2D mode.
+enum LayerNames: String
+{
+    /// Earthquake display layer.
+    case Earthquakes = "Earthquake Layer"
+    
+    /// Single, plotted earthquake.
+    case Earthquake = "Plotted Earthquake"
+    
+    /// Grid layer.
+    case Grid = "View Grid"
+    
+    /// Prime meridian layer.
+    case PrimeMeridian = "Prime Meridian"
+    
+    /// User-defined locations.
+    case UserLocation = "User Location"
+    
+    /// Plotted city layer.
+    case PlottedCity = "Plotted City"
+    
+    /// Layer that holds plotted cities.
+    case CityLayer = "City Layer"
+}
+
 /// Z position enum and layer values. Defines which layers are on top of other layers.
 /// Higher values mean closer to the user which means more likely to be visible.
 enum LayerZLevels: Int
