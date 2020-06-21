@@ -11,6 +11,22 @@ import AppKit
 
 extension MainView
 {
+    /// Remove 2D earthquakes from the 2D view.
+    func Remove2DEarthquakes()
+    {
+        if let SubLayers = CityView2D.layer?.sublayers
+        {
+        for Layer in SubLayers
+        {
+            if Layer.name == LayerNames.Earthquakes.rawValue
+            {
+                Layer.removeAllAnimations()
+                Layer.removeFromSuperlayer()
+            }
+        }
+        }
+    }
+    
     func Plot2DEarthquakes(_ Quakes: [Earthquake], Replot: Bool = false)
     {
         let Now = GetUTC()
@@ -49,7 +65,7 @@ extension MainView
         PreviousEarthquakes = Quakes
         for Child in CityView2D.layer!.sublayers!
         {
-            if Child.name == "Earthqake Layer"
+            if Child.name == LayerNames.Earthquakes.rawValue
             {
                 Child.removeFromSuperlayer()
             }
@@ -57,14 +73,14 @@ extension MainView
         let LEarthquakeLayer = CAShapeLayer()
         LEarthquakeLayer.backgroundColor = NSColor.clear.cgColor
         LEarthquakeLayer.zPosition = CGFloat(LayerZLevels.EarthquakeLayer.rawValue)
-        LEarthquakeLayer.name = "Earthquake Layer"
+        LEarthquakeLayer.name = LayerNames.Earthquakes.rawValue
         LEarthquakeLayer.bounds = FlatViewMainImage.bounds
         LEarthquakeLayer.frame = FlatViewMainImage.bounds
         
         for Quake in Quakes
         {
             let PlottedEarthquake = PlotEarthquake(Quake: Quake, MapDiameter: LEarthquakeLayer.bounds.width)
-            PlottedEarthquake.name = "Plotted Earthquake"
+            PlottedEarthquake.name = LayerNames.Earthquake.rawValue
             LEarthquakeLayer.addSublayer(PlottedEarthquake)
         }
         
