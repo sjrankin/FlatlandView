@@ -25,7 +25,7 @@ extension MainView
         GridOverlay.layer!.backgroundColor = NSColor.clear.cgColor
         GridOverlay.layer!.zPosition = CGFloat(LayerZLevels.GridLayer.rawValue)
         let Grid = CAShapeLayer()
-        Grid.name = "ViewGrid"
+        Grid.name = LayerNames.Grid.rawValue
         Grid.bounds = GridOverlay.frame
         Grid.frame = GridOverlay.frame
         let Lines = NSBezierPath()
@@ -46,7 +46,7 @@ extension MainView
         let Meridians = NSBezierPath()
         if Settings.GetBool(.Show2DPrimeMeridians)
         {
-            MeridianLayer.name = "PrimeMeridian"
+            MeridianLayer.name = LayerNames.PrimeMeridian.rawValue
             MeridianLayer.frame = GridOverlay.bounds
             MeridianLayer.bounds = GridOverlay.bounds
             Meridians.move(to: CGPoint(x: CenterH, y: 0))
