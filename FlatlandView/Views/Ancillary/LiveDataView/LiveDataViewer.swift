@@ -36,6 +36,9 @@ class LiveDataViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                     EarthquakeList = RawEarthquakes
                     LiveViewTable.reloadData()
             }
+            
+            default:
+            break
         }
     }
     
