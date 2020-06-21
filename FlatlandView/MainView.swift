@@ -19,7 +19,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         
         Settings.Initialize()
         Settings.AddSubscriber(self)
-
+        
         Earthquakes = USGS()
         Earthquakes?.Delegate = self
         if Settings.GetBool(.EnableEarthquakes)
@@ -752,13 +752,13 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                 else
                 {
                     print("Error loading map \(NewMap) for view \(MapViewType)")
-            }
+                }
                 if MapViewType == .Globe3D
                 {
-                if Settings.GetBool(.EnableEarthquakes)
-                {
-                    World3DView.PlotEarthquakes()
-            }
+                    if Settings.GetBool(.EnableEarthquakes)
+                    {
+                        World3DView.PlotEarthquakes()
+                    }
                     Plot2DEarthquakes(LatestEarthquakes, Replot: true)
             }
             
@@ -909,19 +909,19 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                     Earthquakes?.GetEarthquakes(Every: FetchInterval)
                     if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
                     {
-                    World3DView.PlotEarthquakes()
+                        World3DView.PlotEarthquakes()
                     }
-            }
-            else
+                }
+                else
                 {
                     Earthquakes?.StopReceivingEarthquakes()
                     World3DView.ClearEarthquakes()
             }
             
             case .EarthquakeFetchInterval:
-            let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
-            Earthquakes?.StopReceivingEarthquakes()
-            Earthquakes?.GetEarthquakes(Every: FetchInterval)
+                let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
+                Earthquakes?.StopReceivingEarthquakes()
+                Earthquakes?.GetEarthquakes(Every: FetchInterval)
             
             case .MinimumMagnitude:
                 let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
@@ -969,8 +969,11 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
             case .BackgroundColor3D:
                 let NewBackgroundColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
                 BackgroundView.layer?.backgroundColor = NewBackgroundColor.cgColor
-            let Opposite = Utility.OppositeColor(From: NewBackgroundColor)
+                let Opposite = Utility.OppositeColor(From: NewBackgroundColor)
                 UpdateScreenText(With: Opposite)
+            
+            case .UseAmbientLight:
+                World3DView.SetupLights()
             
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
@@ -1065,17 +1068,35 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         switch DataType
         {
             case .Earthquakes:
-            if let EarthquakeData = Actual as? [Earthquake]
-            {
-                print("\(EarthquakeData.count) earthquakes returned")
-                World3DView.NewEarthquakeList(EarthquakeData)
-                Plot2DEarthquakes(EarthquakeData)
-                LatestEarthquakes = EarthquakeData
+                #if false
+                break
+                #else
+                if let EarthquakeData = Actual as? [Earthquake]
+                {
+                    print("\(EarthquakeData.count) earthquakes returned")
+                    World3DView.NewEarthquakeList(EarthquakeData)
+                    Plot2DEarthquakes(EarthquakeData)
+                    LatestEarthquakes = EarthquakeData
             }
+                #endif
+            
+            case .Earthquakes2:
+                #if true
+                break
+                #else
+                if let EarthquakeData = Actual as? [Earthquake2]
+                {
+                    print("Have \(EarthquakeData.count) earthquakes")
+                    World3DView.NewEarthquakeList2(EarthquakeData)
+                    Plot2DEarthquakes2(EarthquakeData)
+                    LatestEarthquakes2 = EarthquakeData
+            }
+                #endif
         }
     }
     
     var LatestEarthquakes = [Earthquake]()
+    var LatestEarthquakes2 = [Earthquake2]()
     
     // MARK: - City variables.
     
@@ -1100,9 +1121,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
     var CityLayer: CAShapeLayer? = nil
     var EarthquakeLayer: CAShapeLayer? = nil
     var PreviousEarthquakes = [Earthquake]()
+    var PreviousEarthquakes2 = [Earthquake2]()
     
     // MARK: - Interface builder outlets.
-
+    
     @IBOutlet weak var StarView: Starfield!
     @IBOutlet weak var UptimeValueLabel: NSTextField!
     @IBOutlet weak var DebugGrid: NSGridView!
