@@ -353,6 +353,7 @@ enum AsynchronousDataTypes: String, CaseIterable
 {
     /// USGS earthquakes.
     case Earthquakes = "Earthquakes"
+    case Earthquakes2 = "Earthquakes2"
 }
 
 /// Methods for determining colors of earthquakes.
