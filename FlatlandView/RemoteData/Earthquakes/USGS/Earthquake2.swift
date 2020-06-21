@@ -20,6 +20,42 @@ class Earthquake2: Equatable
         self.Sequence = Sequence
     }
     
+    init(_ OldStyle: Earthquake)
+    {
+        Sequence = OldStyle.Sequence
+        Code = OldStyle.Code
+        Place = OldStyle.Place
+        Magnitude = OldStyle.Magnitude
+        Time = OldStyle.Time
+        Tsunami = OldStyle.Tsunami
+        Latitude = OldStyle.Latitude
+        Longitude = OldStyle.Longitude
+        Depth = OldStyle.Depth
+        Status = OldStyle.Status
+        Updated = OldStyle.Updated
+        MMI = OldStyle.MMI
+        Felt = OldStyle.Felt
+        Significance = OldStyle.Significance
+    }
+    
+    init(_ Other: Earthquake2)
+    {
+        Sequence = Other.Sequence
+        Code = Other.Code
+        Place = Other.Place
+        Magnitude = Other.Magnitude
+        Time = Other.Time
+        Tsunami = Other.Tsunami
+        Latitude = Other.Latitude
+        Longitude = Other.Longitude
+        Depth = Other.Depth
+        Status = Other.Status
+        Updated = Other.Updated
+        MMI = Other.MMI
+        Felt = Other.Felt
+        Significance = Other.Significance
+    }
+    
     /// The sequence value.
     var Sequence: Int = 0
     
@@ -93,6 +129,19 @@ class Earthquake2: Equatable
         }
     }
     
+    /// Returns the number of related earthquakes.
+    var ClusterCount: Int
+    {
+        get
+        {
+            if let Group = Related
+            {
+                return Group.count
+            }
+            return 0
+        }
+    }
+    
     /// Date/time the earthquake occurred.
     var Time: Date = Date()
     
@@ -144,6 +193,8 @@ class Earthquake2: Equatable
     
     /// Adds another earthquake to this earthquake if it occurs within a specific timeframe and
     /// distance.
+    /// - Note: If the earthquake is already in the related list, do not add it again. In this case
+    ///         `true` is returned to prevent the caller from adding it elsewhere.
     /// - Parameter Other: The other earthquake to add if it is close enough geographically and
     ///                    chronologically.
     /// - Returns: True if `Other` was added to this earthquake, false if not.
@@ -154,6 +205,14 @@ class Earthquake2: Equatable
             if Related == nil
             {
                 Related = [Earthquake2]()
+            }
+            for Already in Related!
+            {
+                if Already.Code == Other.Code
+                {
+                    //If the earthquake is already present, return true but do not add it.
+                    return true
+                }
             }
             Related?.append(Other)
             return true
@@ -194,6 +253,7 @@ class Earthquake2: Equatable
     }
     
     /// Construct the earthquake list.
+    /// - Note: Duplicate earthquakes are not added.
     /// - Parameter New: The new earthquake to add to the list.
     /// - Parameter To: The existing earthquake list.
     public static func AddEarthquake(New Quake: Earthquake2, To Current: inout [Earthquake2])
@@ -206,6 +266,75 @@ class Earthquake2: Equatable
                 return
             }
         }
+        for Existing in Current
+        {
+            if Existing.Code == Quake.Code
+            {
+                return
+            }
+        }
         Current.append(Quake)
+    }
+    
+    /// Takes all cluster earthquakes in the passed list and changes them such that the top-most
+    /// earthquake is the one with the greatest magnitude.
+    /// - Parameter From: Source earthquake list.
+    /// - Returns: Array of earthquakes as described.
+    public static func LargestList(_ From: [Earthquake2]) -> [Earthquake2]
+    {
+        var Final = [Earthquake2]()
+        for Quake in From
+        {
+            if Quake.IsCluster
+            {
+                if let Biggest = Quake.GreatestMagnitudeEarthquake
+                {
+                    let NewQuake = Earthquake2(Biggest)
+                    if let InSameArea = Quake.Related
+                    {
+                        NewQuake.Related = [Earthquake2]()
+                        for SmallerQuake in InSameArea
+                        {
+                            NewQuake.Related?.append(SmallerQuake)
+                        }
+                    }
+                    Final.append(NewQuake)
+                }
+            }
+            else
+            {
+                Final.append(Quake)
+            }
+        }
+        return Final
+    }
+    
+    /// Takes the passed list of potentially clustered earthquakes and returns a flat list with all
+    /// earthquakes at the same level.
+    /// - Parameter From: The source list of earthquakes.
+    /// - Returns: List of earthquakes with no sub-lists.
+    public static func FlatList(_ From: [Earthquake2]) -> [Earthquake2]
+    {
+        var Final = [Earthquake2]()
+        for Quake in From
+        {
+            if Quake.IsCluster
+            {
+                if let Clustered = Quake.Related
+                {
+                    for Small in Clustered
+                    {
+                        Final.append(Small)
+                    }
+                }
+                let NewQuake = Earthquake2(Quake)
+                Final.append(NewQuake)
+            }
+            else
+            {
+                Final.append(Quake)
+            }
+        }
+        return Final
     }
 }
