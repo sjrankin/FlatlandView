@@ -91,6 +91,7 @@ class USGS
                 var FinalList = self.RemoveDuplicates(From: self.EarthquakeList)
                 FinalList = self.FilterForMagnitude(FinalList, Magnitude: Settings.GetDouble(.MinimumMagnitude))
                 self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: FinalList as Any)
+                self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes2, Actual: self.EarthquakeList2 as Any )
         }
     }
     
@@ -136,7 +137,7 @@ class USGS
     {
         let url = URL(string: "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson")
         //let url = URL(string: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson")
-        let task = URLSession.shared.downloadTask(with: url!)
+        _ = URLSession.shared.downloadTask(with: url!)
         {
             Local, Response, error in
             guard let HTTPResponse = Response as? HTTPURLResponse,
@@ -267,46 +268,14 @@ class USGS
                 if NewEarthquake.Magnitude >= Minimum
                 {
                     EarthquakeList.append(NewEarthquake)
+                    let NEq2 = Earthquake2(NewEarthquake)
+                    Earthquake2.AddEarthquake(New: NEq2, To: &EarthquakeList2)
                 }
             }
         }
-    }
-    
-    func IsAfterShockTo(_ Quake: Earthquake) -> Earthquake?
-    {
-        var CloseList = [Earthquake]()
-        for SomeQuake in EarthquakeList
-        {
-            if EqDistance(Quake, SomeQuake) < 300.0
-            {
-                if TimeDelta(Quake, SomeQuake) < 5.0 * 24.0 * 60.0 * 60.0
-                {
-                    CloseList.append(Quake)
-                }
-            }
-        }
-        if CloseList.isEmpty
-        {
-            return nil
-        }
-        CloseList.sort(by: {$0.Magnitude > $1.Magnitude})
-        return nil
-    }
-    
-    func TimeDelta(_ Quake1: Earthquake, _ Quake2: Earthquake) -> Double
-    {
-        return abs(Quake1.Time.timeIntervalSinceReferenceDate - Quake2.Time.timeIntervalSinceReferenceDate)
-    }
-    
-    func EqDistance(_ Quake1: Earthquake, _ Quake2: Earthquake) -> Double
-    {
-        var T1 = (Quake1.Latitude - Quake2.Latitude)
-        T1 = T1 * T1
-        var T2 = (Quake1.Longitude - Quake2.Longitude)
-        T2 = T2 * T2
-        return sqrt(T1 + T2)
     }
     
     /// Current list of earthquakes.
     var EarthquakeList = [Earthquake]()
+    var EarthquakeList2 = [Earthquake2]()
 }
