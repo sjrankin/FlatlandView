@@ -26,7 +26,7 @@ extension MainView
             CityLayer = CAShapeLayer()
             CityLayer?.backgroundColor = NSColor.clear.cgColor
             CityLayer?.zPosition = CGFloat(LayerZLevels.CityLayer.rawValue)
-            CityLayer?.name = "City Layer"
+            CityLayer?.name = LayerNames.CityLayer.rawValue
             CityLayer?.bounds = FlatViewMainImage.bounds
             CityLayer?.frame = FlatViewMainImage.bounds
             CityView2D.layer!.addSublayer(CityLayer!)
@@ -35,7 +35,7 @@ extension MainView
         {
             for SomeLayer in CityLayer!.sublayers!
             {
-                if SomeLayer.name == "Plotted City"
+                if SomeLayer.name == LayerNames.PlottedCity.rawValue
                 {
                     SomeLayer.removeFromSuperlayer()
                 }
@@ -47,7 +47,7 @@ extension MainView
             let CityColor = Cities.ColorForCity(SomeCity)
             let OneCityLayer = PlotLocation(Where, SomeCity.Name, CityColor, NSColor.red,
                                          (CityLayer?.bounds.width)!, .Circle)
-            OneCityLayer.name = "Plotted City"
+            OneCityLayer.name = LayerNames.PlottedCity.rawValue
             CityLayer?.addSublayer(OneCityLayer)
         }
         if Settings.GetBool(.ShowUserLocations)
@@ -56,7 +56,7 @@ extension MainView
             {
                 for SomeLayer in CityLayer!.sublayers!
                 {
-                    if SomeLayer.name == "User Location"
+                    if SomeLayer.name == LayerNames.UserLocation.rawValue
                     {
                         SomeLayer.removeFromSuperlayer()
                     }
@@ -67,7 +67,7 @@ extension MainView
             {
                 let LocationLayer = PlotLocation(Location, Name, Color, NSColor.yellow,
                                                  (CityLayer?.bounds.width)!, .Square)
-                LocationLayer.name = "User Location"
+                LocationLayer.name = LayerNames.UserLocation.rawValue
                 CityLayer?.addSublayer(LocationLayer)
             }
             if Settings.HaveLocalLocation()
@@ -77,7 +77,7 @@ extension MainView
                 let UserLocationLayer = PlotLocation(Location, "Current",
                                                      NSColor(HexString: "#ffd700")!, NSColor.black,
                                                      (CityLayer?.bounds.width)!, .Star)
-                UserLocationLayer.name = "User Location"
+                UserLocationLayer.name = LayerNames.UserLocation.rawValue
                 CityLayer?.addSublayer(UserLocationLayer)
             }
         }
