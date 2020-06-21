@@ -772,6 +772,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                             IsFlat = true
                             if Settings.GetBool(.EnableEarthquakes)
                             {
+                                Remove2DEarthquakes()
                                 Plot2DEarthquakes(LatestEarthquakes, Replot: true)
                         }
                         
@@ -782,6 +783,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                         case .Globe3D:
                             World3DView.AddEarth()
                             IsFlat = false
+                            if Settings.GetBool(.EnableEarthquakes)
+                            {
+                                World3DView.PlotEarthquakes()
+                        }
                     }
                     SetFlatlandVisibility(FlatIsVisible: IsFlat)
             }
