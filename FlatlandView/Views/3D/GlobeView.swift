@@ -150,8 +150,9 @@ class GlobeView: SCNView, GlobeProtocol
         SetMetalLights()
         SetSunlight()
         SetMoonlight(Show: Settings.GetBool(.ShowMoonLight))
-        self.scene?.rootNode.addChildNode(CameraNode)
         #endif
+        
+        self.scene?.rootNode.addChildNode(CameraNode)
         
         AddEarth()
         StartClock()
