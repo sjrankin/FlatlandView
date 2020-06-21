@@ -143,16 +143,50 @@ class GlobeView: SCNView, GlobeProtocol
         CameraNode.camera = Camera
         CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
         
+        #if true
+        SetupLights()
+        #else
         SetGridLight()
         SetMetalLights()
         SetSunlight()
         SetMoonlight(Show: Settings.GetBool(.ShowMoonLight))
         self.scene?.rootNode.addChildNode(CameraNode)
+        #endif
         
         AddEarth()
         StartClock()
         UpdateEarthView()
         SetHourResetTimer()
+    }
+    
+    /// Setup lights to use to view the 3D scene.
+    func SetupLights()
+    {
+        if Settings.GetBool(.UseAmbientLight)
+        {
+            CreateAmbientLight()
+            MoonNode?.removeAllActions()
+            MoonNode?.removeFromParentNode()
+            MoonNode = nil
+            LightNode.removeAllActions()
+            LightNode.removeFromParentNode()
+            MetalSunNode.removeAllActions()
+            MetalSunNode.removeFromParentNode()
+            MetalMoonNode.removeAllActions()
+            MetalMoonNode.removeFromParentNode()
+            GridLightNode1.removeAllActions()
+            GridLightNode1.removeFromParentNode()
+            GridLightNode2.removeAllActions()
+            GridLightNode2.removeFromParentNode()
+        }
+        else
+        {
+            RemoveAmbientLight()
+            SetGridLight()
+            SetMetalLights()
+            SetSunlight()
+            SetMoonlight(Show: Settings.GetBool(.ShowMoonLight))
+        }
     }
     
     #if DEBUG
@@ -213,6 +247,32 @@ class GlobeView: SCNView, GlobeProtocol
         let HourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
         UpdateHourLabels(With: HourType)
     }
+    
+    func CreateAmbientLight()
+    {
+        let Ambient = SCNLight()
+        Ambient.categoryBitMask = SunMask
+        Ambient.type = .ambient
+        Ambient.intensity = 800
+        Ambient.castsShadow = true
+        Ambient.shadowColor = NSColor.black.withAlphaComponent(0.80)
+        Ambient.shadowMode = .forward
+        Ambient.shadowRadius = 2.0
+        Ambient.color = NSColor.white
+        AmbientLightNode = SCNNode()
+        AmbientLightNode?.light = Ambient
+        AmbientLightNode?.position = SCNVector3(0.0, 0.0, 80.0)
+        self.scene?.rootNode.addChildNode(AmbientLightNode!)
+    }
+    
+    func RemoveAmbientLight()
+    {
+        AmbientLightNode?.removeAllActions()
+        AmbientLightNode?.removeFromParentNode()
+        AmbientLightNode = nil
+    }
+    
+    var AmbientLightNode: SCNNode? = nil
     
     /// Set up "sun light" for the scene.
     func SetSunlight()
@@ -734,6 +794,7 @@ class GlobeView: SCNView, GlobeProtocol
     var WHSNodeList = [SCNNode?]()
     var GridImage: NSImage? = nil
     var EarthquakeList = [Earthquake]()
+    var EarthquakeList2 = [Earthquake2]()
     var CitiesToPlot = [City]()
     
     let MagnitudeColors: [Double: NSColor] =
