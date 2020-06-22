@@ -198,6 +198,12 @@ enum SettingTypes: String, CaseIterable
     /// Double: Radius for earthquake regions to determine when to suppress smaller
     /// earthquakes when `DisplayLargestOnly` is true.
     case EarthquakeRegionRadius = "EarthquakeRegionRadius"
+    /// String: List of colors for various earthquake magnitudes.
+    case EarthquakeMagnitudeColors = "EarthquakeMagnitudeColors"
+    
+    // MARK: - General settings.
+    /// The last settings viewed by the user.
+    case LastSettingsViewed = "LastSettingsViewed"
     
     // MARK: - Settings used in areas outside of the Settings system.
     case LiveViewWindowFrame = "LiveViewWindowFrame"
