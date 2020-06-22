@@ -588,11 +588,18 @@ extension GlobeView
         {
             MultipleQuakesSign = "+"
         }
-        let Magnitude = "M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
+        let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
         let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.Magnitude))
         let FontSize = CGFloat(15.0 + Quake.Magnitude)
         MagText.font = NSFont(name: "Avenir-Heavy", size: FontSize)
-        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+        #if true
+        let (X, Y, Z) = Utility.ToECEF(Quake.Latitude, Quake.Longitude,
+                               LatitudeOffset: -1.0, LongitudeOffset: -0.5,
+                               Radius: Radius)
+        #else
+        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude,
+                               Radius: Radius)
+        #endif
         MagText.firstMaterial?.diffuse.contents = NSColor.red
         MagText.firstMaterial?.specular.contents = NSColor.white
         MagText.firstMaterial?.lightingModel = .physicallyBased
@@ -621,7 +628,7 @@ extension GlobeView
         {
             MultipleQuakesSign = "+"
         }
-        let Magnitude = "M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
+        let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
         let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.Magnitude))
         let FontSize = CGFloat(15.0 + Quake.Magnitude)
         MagText.font = NSFont(name: "Avenir-Heavy", size: FontSize)
