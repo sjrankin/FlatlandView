@@ -117,10 +117,12 @@ extension MainView
         let PointY = Distance * sin(LocationBearing) + PointModifier
         let Origin = CGPoint(x: PointX, y: PointY)
         var Location: NSBezierPath!
+        var ShapeRotate: CGFloat = 0.0
         switch Shape
         {
             case .Square:
                 Location = NSBezierPath(rect: CGRect(origin: Origin, size: LocationDotSize))
+            ShapeRotate = CGFloat(Longitude)
             
             case .Circle:
                 Location = NSBezierPath(ovalIn: CGRect(origin: Origin, size: LocationDotSize))
@@ -141,6 +143,8 @@ extension MainView
         Layer.strokeColor = OutlineColor.cgColor
         Layer.lineWidth = 1.0
         Layer.path = Location.cgPath
+        let Rotation = CATransform3DMakeRotation(ShapeRotate.Radians, 0.0, 0.0, 1.0)
+        Layer.transform = Rotation
         return Layer
     }
     
