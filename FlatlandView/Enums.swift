@@ -454,6 +454,30 @@ enum GlobeRadius: CGFloat, CaseIterable
     case CityNames = 10.5
 }
 
+/// Setting groups for the main settings.
+/// - Note: The order in which the cases are defined will apply to the list of setting
+///         options in the settings window. In other words, the order here defines what
+///         the user will see.
+enum SettingGroups: String, CaseIterable
+{
+    /// Map selection window.
+    case Maps = "Select Map"
+    /// 2D map view settings.
+    case Map2D = "2D Map Settings"
+    /// 3D map view settings.
+    case Map3D = "3D Map Settings"
+    /// User location settings.
+    case UserLocation = "User Location"
+    /// City settings.
+    case Cities = "City Locations"
+    /// Other location settings.
+    case OtherLocations = "Other Locations"
+    /// General miscellaneous settings.
+    case Other = "Other Settings"
+    /// Earthquake live view settings.
+    case Earthquakes = "Earthquake Settings"
+}
+
 /// Layer names for 2D mode.
 enum LayerNames: String
 {
