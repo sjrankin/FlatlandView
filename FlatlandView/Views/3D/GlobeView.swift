@@ -801,11 +801,11 @@ class GlobeView: SCNView, GlobeProtocol
     let MagnitudeColors: [Double: NSColor] =
     [
         //0 to 4.9
-        EarthquakeMagnitudes.Mag4.rawValue: NSColor.ArtichokeGreen,
+        EarthquakeMagnitudes.Mag4.rawValue: NSColor.TeaGreen,
         //5 to 5.9
-        EarthquakeMagnitudes.Mag5.rawValue: NSColor.TeaGreen,
+        EarthquakeMagnitudes.Mag5.rawValue: NSColor.ArtichokeGreen,
         //6 to 6.9
-        EarthquakeMagnitudes.Mag6.rawValue: NSColor.PacificBlue,
+        EarthquakeMagnitudes.Mag6.rawValue: NSColor.orange,
         //7 to 7.9
         EarthquakeMagnitudes.Mag7.rawValue: NSColor.UltraPink,
         //8 to 8.9
