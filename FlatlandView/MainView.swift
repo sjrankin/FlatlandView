@@ -646,7 +646,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         if let WindowController = Storyboard.instantiateController(withIdentifier: "MainSettingsWindow") as? MainSettingsWindowsCode
         {
             let SettingWindow = WindowController.window
-            let Controller = SettingWindow?.contentViewController as? MainSettings
+            let Controller = SettingWindow?.contentViewController as? MainSettingsBase
             Controller?.MainDelegate = self
             Controller?.LoadData(DataType: .Earthquakes, Raw: LatestEarthquakes as Any)
             WindowController.showWindow(nil)
