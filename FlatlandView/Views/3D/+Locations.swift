@@ -500,35 +500,10 @@ extension GlobeView
     /// - Parameter WithColor: The color to use for the diffuse surface of the text.
     func PlotCityName(_ SomeCity: City, Radius: Double, ToSurface: SCNNode, WithColor: NSColor)
     {
-        #if true
         Utility.MakeFloatingWord(Radius: Radius, Word: "• " + SomeCity.Name, Scale: 0.02,
                                  Latitude: SomeCity.Latitude, Longitude: SomeCity.Longitude,
                                  Extrusion: 1.0, Mask: SunMask | MoonMask,
                                  TextColor: WithColor, OnSurface: EarthNode!)
-        #else
-        let CityText = Utility.MakeFloatingWord(Radius: Radius, Word: SomeCity.Name, Scale: 0.02,
-                                                Latitude: SomeCity.Latitude, Longitude: SomeCity.Longitude,
-                                                Extrusion: 1.0, TextColor: WithColor)
-        for LetterNode in CityText.childNodes
-        {
-            if LetterNode.name == "LetterNode"
-            {
-                LetterNode.categoryBitMask = SunMask | MoonMask
-            }
-        }
-        CityText.name = "CityNode"
-        CityText.categoryBitMask = SunMask | MoonMask
-        
-        let (X, Y, Z) = ToECEF(SomeCity.Latitude, SomeCity.Longitude, Radius: Radius)
-        CityText.position = SCNVector3(X, Y, Z)
-        let YRotation = -SomeCity.Latitude
-        let XRotation = SomeCity.Longitude
-        let ZRotation = 0.0
-        CityText.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
-        
-        ToSurface.addChildNode(CityText)
-        PlottedCities.append(CityText)
-        #endif
     }
     
     /// Plot cities and locations on the Earth.
