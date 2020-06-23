@@ -27,6 +27,7 @@ class UserLocationWindow: NSViewController, NSTableViewDataSource, NSTableViewDe
     
     func InitializeUserLocationUI()
     {
+        POIGlowSwitch.state = Settings.GetBool(.ShowPOIEmission) ? .on : .off
         UserLocations = Settings.GetLocations()
         UserLocationTable.reloadData()
         UserLocationLatitudeBox.delegate = self
@@ -407,6 +408,15 @@ class UserLocationWindow: NSViewController, NSTableViewDataSource, NSTableViewDe
     {
     }
     
+    @IBAction func HandlePOIGlowChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.ShowPOIEmission, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var POIGlowSwitch: NSSwitch!
     @IBOutlet weak var ShowUserLocationsSwitch: NSSwitch!
     @IBOutlet weak var UserTimeZoneOffsetCombo: NSComboBox!
     @IBOutlet weak var HomeShapeCombo: NSComboBox!
