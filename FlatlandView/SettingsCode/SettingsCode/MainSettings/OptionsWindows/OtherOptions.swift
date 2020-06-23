@@ -42,6 +42,7 @@ class OtherOptions: NSViewController
                 TimeLabelSegment.selectedSegment = 2
         }
         ShowSecondsSwitch.state = Settings.GetBool(.TimeLabelSeconds) ? .on : .off
+        AttractModeSwitch.state = Settings.GetBool(.InAttractMode) ? .on : .off
     }
     
     @IBAction func HandleShowLocalDataSwitchChanged(_ sender: Any)
@@ -88,6 +89,15 @@ class OtherOptions: NSViewController
     }
     
     
+    @IBAction func HandleAttractModeChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.InAttractMode, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var AttractModeSwitch: NSSwitch!
     @IBOutlet weak var TimeLabelSegment: NSSegmentedControl!
     @IBOutlet weak var ShowSecondsSwitch: NSSwitch!
     @IBOutlet weak var ScriptCombo: NSComboBox!
