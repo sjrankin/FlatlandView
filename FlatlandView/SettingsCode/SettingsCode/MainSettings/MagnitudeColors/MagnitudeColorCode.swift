@@ -98,7 +98,6 @@ class MagnitudeColorCode: NSViewController, NSTableViewDelegate, NSTableViewData
     
     func numberOfRows(in tableView: NSTableView) -> Int
     {
-        print("EqColorList.count=\(EqColorList.count)")
         return EqColorList.count
     }
     
