@@ -92,6 +92,10 @@ enum SettingTypes: String, CaseIterable
     case BackgroundColor3D = "BackgroundColor3D"
     /// Boolean: If true, an ambient light (rather than sun and moon lights) is used.
     case UseAmbientLight = "UseAmbientLight"
+    /// Boolean: If true, user POI locations show light emission. If false, no emission is used.
+    case ShowPOIEmission = "ShowPOIEmission"
+    /// Boolean: If true, the 3D view will try to attract people via animation and other effects.
+    case InAttractMode = "InAttractMode"
     #if DEBUG
     //3D debug settings.
     /// Render 3D elements as wireframes.
