@@ -295,10 +295,10 @@
 		17523CD7247B9716005209FC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1740F49A2493173A00F6FAAE /* Hours.swift */,
 				17FC2210249878F8005A0929 /* Ancillary */,
 				17523CD8247B971F005209FC /* 2D */,
 				17523CD9247B9725005209FC /* 3D */,
-				1740F49A2493173A00F6FAAE /* Hours.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -386,8 +386,8 @@
 				17EF338A247A4EAF00A5B55D /* Settings */,
 				17EF3382247A4AF200A5B55D /* SettingsCode */,
 				17EF337D247A470400A5B55D /* SettingsStoryboards */,
-				17523CD0247B8DF8005209FC /* MainViewExtensions */,
 				17523CD7247B9716005209FC /* Views */,
+				17523CD0247B8DF8005209FC /* MainViewExtensions */,
 				1767A8E324794A0100C434B5 /* AppDelegate.swift */,
 				1750961B2482531100A3757C /* MainWindow.swift */,
 				1767A8E524794A0100C434B5 /* MainView.swift */,
