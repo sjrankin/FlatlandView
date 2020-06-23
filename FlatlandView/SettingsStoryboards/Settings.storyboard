@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17132" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="16097"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17132"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -1767,7 +1768,7 @@ Gw
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="nHV-bP-qUB"/>
                                 </constraints>
                                 <textFieldCell key="cell" selectable="YES" title="Latitude is negative for south and longitude is negative for west." id="h3c-88-En1">
-                                    <font key="font" metaFont="controlContent"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                     <color key="textColor" white="0.37039078479815946" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -3409,7 +3410,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="wkm-nX-dFN" column="pmQ-Jr-Vel" id="fVT-K0-WXg">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qCg-8f-Dvi">
-                                            <rect key="frame" x="-2" y="70" width="123" height="16"/>
+                                            <rect key="frame" x="-2" y="67" width="123" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Globe transparency" id="8yy-ou-jRD">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3419,7 +3420,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="wkm-nX-dFN" column="gdz-N5-PRI" id="psc-Jh-ab2">
                                         <segmentedControl key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rry-8L-o1M">
-                                            <rect key="frame" x="123" y="65" width="309" height="24"/>
+                                            <rect key="frame" x="123" y="62" width="309" height="24"/>
                                             <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="pTc-zt-m3c">
                                                 <font key="font" metaFont="system"/>
                                                 <segments>
@@ -3436,7 +3437,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="z8w-y3-6Mn" column="pmQ-Jr-Vel" id="4Xj-AW-u2C">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nno-4i-rGf">
-                                            <rect key="frame" x="-2" y="42" width="71" height="16"/>
+                                            <rect key="frame" x="-2" y="36" width="71" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Pole shape" id="UZV-qE-wXo">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3446,7 +3447,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="z8w-y3-6Mn" column="gdz-N5-PRI" id="sQI-WT-bJ8">
                                         <comboBox key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hml-Q4-hbo">
-                                            <rect key="frame" x="125" y="38" width="231" height="25"/>
+                                            <rect key="frame" x="125" y="32" width="231" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="228" id="jDW-eF-EtK"/>
                                             </constraints>
@@ -3467,7 +3468,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="QtV-LY-ARp" column="pmQ-Jr-Vel" id="g9G-1K-xaR">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cIk-Yy-qgl">
-                                            <rect key="frame" x="-2" y="10" width="111" height="16"/>
+                                            <rect key="frame" x="-2" y="7" width="111" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Background color" id="EMP-Rc-Far">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3477,7 +3478,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="QtV-LY-ARp" column="gdz-N5-PRI" id="0Lu-XK-8Qq">
                                         <colorWell key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UhF-57-NiX">
-                                            <rect key="frame" x="125" y="3" width="100" height="30"/>
+                                            <rect key="frame" x="125" y="0.0" width="100" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="22h-if-Xrk"/>
                                                 <constraint firstAttribute="width" constant="100" id="GwI-2X-dXx"/>
