@@ -733,10 +733,11 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="9H4-HZ-05m">
-                                <rect key="frame" x="20" y="334" width="266" height="66"/>
+                                <rect key="frame" x="20" y="287" width="266" height="113"/>
                                 <rows>
                                     <gridRow yPlacement="center" bottomPadding="20" id="v5q-7c-6L4"/>
-                                    <gridRow yPlacement="center" id="0uu-8T-mBa"/>
+                                    <gridRow yPlacement="center" bottomPadding="20" id="0uu-8T-mBa"/>
+                                    <gridRow id="sJB-9U-Z9m"/>
                                 </rows>
                                 <columns>
                                     <gridColumn id="MEn-VS-Kp3"/>
@@ -745,7 +746,7 @@
                                 <gridCells>
                                     <gridCell row="v5q-7c-6L4" column="MEn-VS-Kp3" id="PVR-3W-had">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dgg-Ql-FNE">
-                                            <rect key="frame" x="-2" y="48" width="100" height="16"/>
+                                            <rect key="frame" x="-2" y="95" width="100" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show local data" id="u21-gn-K60">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -755,7 +756,7 @@
                                     </gridCell>
                                     <gridCell row="v5q-7c-6L4" column="aUf-Fd-h8n" id="ky6-DS-4im">
                                         <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="Nrm-xh-VVf">
-                                            <rect key="frame" x="100" y="43" width="42" height="24"/>
+                                            <rect key="frame" x="100" y="90" width="42" height="24"/>
                                             <connections>
                                                 <action selector="HandleShowLocalDataSwitchChanged:" target="wst-x5-cWv" id="xhc-5O-ZjX"/>
                                             </connections>
@@ -763,7 +764,7 @@
                                     </gridCell>
                                     <gridCell row="0uu-8T-mBa" column="MEn-VS-Kp3" id="kyB-Fu-Snx">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qVP-Q0-Y85">
-                                            <rect key="frame" x="-2" y="2" width="47" height="16"/>
+                                            <rect key="frame" x="-2" y="49" width="47" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Scripts" id="qce-CI-IfP">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -773,7 +774,7 @@
                                     </gridCell>
                                     <gridCell row="0uu-8T-mBa" column="aUf-Fd-h8n" id="Ycf-hO-EvK">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oAB-fw-vGQ">
-                                            <rect key="frame" x="102" y="-4" width="167" height="25"/>
+                                            <rect key="frame" x="102" y="43" width="167" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="164" id="KKV-y6-ZfO"/>
                                             </constraints>
@@ -791,6 +792,24 @@
                                                 <action selector="HandleScriptComboChanged:" target="wst-x5-cWv" id="F1s-BM-7pF"/>
                                             </connections>
                                         </comboBox>
+                                    </gridCell>
+                                    <gridCell row="sJB-9U-Z9m" column="MEn-VS-Kp3" id="l6p-lE-cLe">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="heO-Yi-Ukf">
+                                            <rect key="frame" x="-2" y="0.0" width="84" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Attract mode" id="is0-kB-tra">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="sJB-9U-Z9m" column="aUf-Fd-h8n" id="CUQ-UV-6bw">
+                                        <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="aQC-i5-gOn">
+                                            <rect key="frame" x="100" y="-2" width="42" height="24"/>
+                                            <connections>
+                                                <action selector="HandleAttractModeChanged:" target="wst-x5-cWv" id="p94-mu-6E8"/>
+                                            </connections>
+                                        </switch>
                                     </gridCell>
                                 </gridCells>
                             </gridView>
@@ -860,6 +879,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="AttractModeSwitch" destination="aQC-i5-gOn" id="JzT-fI-fQI"/>
                         <outlet property="ScriptCombo" destination="oAB-fw-vGQ" id="erV-mt-6fS"/>
                         <outlet property="ShowLocalDataSwitch" destination="Nrm-xh-VVf" id="euA-Dr-XkZ"/>
                         <outlet property="ShowSecondsSwitch" destination="2Y5-OD-aVh" id="YHZ-fT-4nR"/>
@@ -1945,11 +1965,12 @@ DQ
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="oUI-4e-S0z">
-                                <rect key="frame" x="20" y="312" width="254" height="88"/>
+                                <rect key="frame" x="20" y="285" width="254" height="115"/>
                                 <rows>
                                     <gridRow yPlacement="center" bottomPadding="20" id="XFa-LN-kza"/>
                                     <gridRow id="1xO-jg-hdu"/>
                                     <gridRow id="mVa-8u-sq8"/>
+                                    <gridRow id="66M-pG-NoY"/>
                                 </rows>
                                 <columns>
                                     <gridColumn id="5bV-At-ox8"/>
@@ -1958,7 +1979,7 @@ DQ
                                 <gridCells>
                                     <gridCell row="XFa-LN-kza" column="5bV-At-ox8" id="h84-hx-c0y">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DHs-yR-iWL">
-                                            <rect key="frame" x="-2" y="70" width="126" height="16"/>
+                                            <rect key="frame" x="-2" y="97" width="126" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show your locations" id="TBb-wa-ggg">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1968,7 +1989,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="XFa-LN-kza" column="8iW-lZ-IPe" id="fCQ-z2-3Ov">
                                         <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="e76-SU-9Nb">
-                                            <rect key="frame" x="214" y="65" width="42" height="24"/>
+                                            <rect key="frame" x="214" y="92" width="42" height="24"/>
                                             <connections>
                                                 <action selector="HandleShowUserLocationsSwitchChanged:" target="1zw-nc-gTw" id="efM-vG-yEV"/>
                                             </connections>
@@ -1976,7 +1997,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="1xO-jg-hdu" column="5bV-At-ox8" id="iXJ-LM-8Xh">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ccK-jC-1vj">
-                                            <rect key="frame" x="-2" y="25" width="132" height="16"/>
+                                            <rect key="frame" x="-2" y="52" width="132" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Home location shape" id="ZPa-qa-JVn">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1987,7 +2008,7 @@ DQ
                                     <gridCell row="1xO-jg-hdu" column="8iW-lZ-IPe" id="CIH-98-SkW"/>
                                     <gridCell row="mVa-8u-sq8" column="5bV-At-ox8" id="1xi-5P-j8y">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="S7r-3o-SdK">
-                                            <rect key="frame" x="0.0" y="-4" width="213" height="25"/>
+                                            <rect key="frame" x="0.0" y="23" width="213" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="210" id="fVJ-4b-QBr"/>
                                             </constraints>
@@ -2007,6 +2028,24 @@ DQ
                                         </comboBox>
                                     </gridCell>
                                     <gridCell row="mVa-8u-sq8" column="8iW-lZ-IPe" id="NjF-wQ-UTh"/>
+                                    <gridCell row="66M-pG-NoY" column="5bV-At-ox8" id="s8h-Np-yBr">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UPR-a7-O9b">
+                                            <rect key="frame" x="-2" y="0.0" width="139" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Points of interest glow" id="pcg-5g-Amc">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="66M-pG-NoY" column="8iW-lZ-IPe" id="zEK-ID-Wye">
+                                        <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="GF2-lF-kat">
+                                            <rect key="frame" x="214" y="-2" width="42" height="24"/>
+                                            <connections>
+                                                <action selector="HandlePOIGlowChanged:" target="1zw-nc-gTw" id="27Q-bj-Wuj"/>
+                                            </connections>
+                                        </switch>
+                                    </gridCell>
                                 </gridCells>
                             </gridView>
                             <box title="Your home location" translatesAutoresizingMaskIntoConstraints="NO" id="i3t-hv-qSm">
@@ -2436,6 +2475,7 @@ DQ
                     </view>
                     <connections>
                         <outlet property="HomeShapeCombo" destination="S7r-3o-SdK" id="FZE-cv-KjT"/>
+                        <outlet property="POIGlowSwitch" destination="GF2-lF-kat" id="dqb-bk-oSA"/>
                         <outlet property="ShowUserLocationsSwitch" destination="e76-SU-9Nb" id="52N-qq-tpk"/>
                         <outlet property="UserLocationLatitudeBox" destination="UU4-Tz-UFc" id="33P-fD-PI4"/>
                         <outlet property="UserLocationLongitudeBox" destination="cuk-Kn-3fU" id="uEc-Gz-vcx"/>
