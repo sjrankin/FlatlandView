@@ -1145,15 +1145,28 @@ class Utility
     /// - Parameter Longitude: The longitude of the word.
     /// - Parameter Extrusion: Depth of the word.
     /// - Parameter Mask: The light mask. Defaults to `0`.
+    /// - Parameter TextFont: The font to use to draw the text. Defaults to `nil`. If not specified
+    ///                       of if `nil` is passed, the current system font (of size `24.0`) is
+    ///                       used.
     /// - Parameter TextColor: The color of the word.
     /// - Parameter OnSurface: Where the word will be plotted.
+    /// - Parameter WithTag: Tag value to assign to the word. If nil, "WordLetterNode" is used.
     public static func MakeFloatingWord(Radius: Double, Word: String, Scale: CGFloat = 0.07,
                                         Latitude: Double, Longitude: Double,
                                         Extrusion: CGFloat = 1.0, Mask: Int = 0,
+                                        TextFont: NSFont? = nil,
                                         TextColor: NSColor = NSColor.gray,
-                                        OnSurface: SCNNode)
+                                        OnSurface: SCNNode, WithTag: String? = nil)
     {
-        let WordFont = NSFont.systemFont(ofSize: 24.0)
+        var WordFont: NSFont = NSFont()
+        if let SomeFont = TextFont
+        {
+            WordFont = SomeFont
+        }
+        else
+        {
+         WordFont = NSFont.systemFont(ofSize: 24.0)
+        }
         let FontAttribute = [NSAttributedString.Key.font: WordFont]
         var CumulativeLetterLocation: CGFloat = CGFloat(Longitude)
         let EqCircumference = 2.0 * Radius * Double.pi
@@ -1167,7 +1180,14 @@ class Utility
             let LetterNode = SCNNode(geometry: LetterShape)
             LetterNode.categoryBitMask = Mask
             LetterNode.scale = SCNVector3(Scale, Scale, Scale)
-            LetterNode.name = "CityNode"
+            if let Tag = WithTag
+            {
+                LetterNode.name = Tag
+            }
+            else
+            {
+            LetterNode.name = "WordLetterNode"
+            }
             let (X, Y, Z) = ToECEF(Latitude, Double(CumulativeLetterLocation),
                                    LatitudeOffset: -1.0, LongitudeOffset: -0.5,
                                    Radius: Radius)
@@ -1189,6 +1209,75 @@ class Utility
             CumulativeLetterLocation = CumulativeLetterLocation + CGFloat(AngleAdjustment)
             #endif
         }
+    }
+    
+    /// Create an `SCNNode` of a word that floats over a globe.
+    /// - Note: Each child node has a name of `LetterNode`.
+    /// - TODO: Have the text follow the curve of the globe.
+    /// - Parameter Radius: The radius of the globe.
+    /// - Parameter Word: The word to draw.
+    /// - Parameter Scale: The scale for the final node.
+    /// - Parameter Latitude: The latitude of the word.
+    /// - Parameter Longitude: The longitude of the word.
+    /// - Parameter Extrusion: Depth of the word.
+    /// - Parameter Mask: The light mask. Defaults to `0`.
+    /// - Parameter TextFont: The font to use to draw the text. Defaults to `nil`. If not specified
+    ///                       of if `nil` is passed, the current system font (of size `24.0`) is
+    ///                       used.
+    /// - Parameter TextColor: The color of the word.
+    /// - Parameter WithTag: Tag value to assign to the word. If nil, "WordLetterNode" is used.
+    public static func MakeFloatingWord(Radius: Double, Word: String, Scale: CGFloat = 0.07,
+                                        Latitude: Double, Longitude: Double,
+                                        Extrusion: CGFloat = 1.0, Mask: Int = 0,
+                                        TextFont: NSFont? = nil,
+                                        TextColor: NSColor = NSColor.gray,
+                                        WithTag: String? = nil) -> SCNNode
+    {
+        var WordFont: NSFont = NSFont()
+        if let SomeFont = TextFont
+        {
+            WordFont = SomeFont
+        }
+        else
+        {
+            WordFont = NSFont.systemFont(ofSize: 24.0)
+        }
+        let FontAttribute = [NSAttributedString.Key.font: WordFont]
+        var CumulativeLetterLocation: CGFloat = CGFloat(Longitude)
+        let EqCircumference = 2.0 * Radius * Double.pi
+        let FinalNode = SCNNode()
+        for (_, Letter) in Word.enumerated()
+        {
+            let LetterSize = NSString(string: String(Letter)).size(withAttributes: FontAttribute)
+            let LetterShape = SCNText(string: String(Letter), extrusionDepth: Extrusion)
+            LetterShape.font = WordFont
+            LetterShape.firstMaterial?.diffuse.contents = TextColor
+            LetterShape.firstMaterial?.specular.contents = NSColor.white
+            let LetterNode = SCNNode(geometry: LetterShape)
+            LetterNode.categoryBitMask = Mask
+            LetterNode.scale = SCNVector3(Scale, Scale, Scale)
+            if let Tag = WithTag
+            {
+                LetterNode.name = Tag
+            }
+            else
+            {
+                LetterNode.name = "WordLetterNode"
+            }
+            let (X, Y, Z) = ToECEF(Latitude, Double(CumulativeLetterLocation),
+                                   LatitudeOffset: -1.0, LongitudeOffset: -0.5,
+                                   Radius: Radius)
+            LetterNode.position = SCNVector3(X, Y, Z)
+            let YRotation = -Latitude
+            let XRotation = Double(CumulativeLetterLocation)
+            let ZRotation = 0.0
+            LetterNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
+            FinalNode.addChildNode(LetterNode)
+            var AngleAdjustment = Double(LetterSize.width) / EqCircumference
+            AngleAdjustment = AngleAdjustment * 10.0
+            CumulativeLetterLocation = CumulativeLetterLocation + CGFloat(AngleAdjustment)
+        }
+        return FinalNode
     }
     
     /// Given an array of words, place a set of words in the hour ring over the Earth.
