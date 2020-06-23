@@ -158,8 +158,9 @@ extension GlobeView
     /// - Parameter ToSurface: The surface node where the arrow will be added.
     /// - Parameter WithColor: Ignored if `IsCurrentLocation` is true. Otherwise, this is the color of
     ///                        the arrow head shape.
+    /// - Parameter EnableEmission: Determines if emission color is enabled. Defaults to `true`.
     func PlotLocationAsCone(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
-                           WithColor: NSColor = NSColor.magenta)
+                            WithColor: NSColor = NSColor.magenta, EnableEmission: Bool = true)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
         let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
@@ -167,7 +168,10 @@ extension GlobeView
         ConeNode.categoryBitMask = SunMask | MoonMask
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+        if EnableEmission
+        {
         ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
+        }
         ConeNode.castsShadow = true
         ConeNode.position = SCNVector3(X, Y, Z)
         let YRotation = Latitude + 90.0
@@ -557,8 +561,9 @@ extension GlobeView
         {
             if City.IsUserCity
             {
+                let ShowEmission = Settings.GetBool(.ShowPOIEmission) 
                 PlotLocationAsCone(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius, ToSurface: Surface,
-                                  WithColor: City.CityColor)
+                                  WithColor: City.CityColor, EnableEmission: ShowEmission)
             }
             else
             {
