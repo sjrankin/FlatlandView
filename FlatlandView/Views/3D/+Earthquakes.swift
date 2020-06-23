@@ -44,6 +44,7 @@ extension GlobeView
                 }
             }
         }
+        PlottedEarthquakes.removeAll()
     }
     
     /// Determines if two lists of earthquakes have the same contents. This function works regardless
@@ -74,6 +75,7 @@ extension GlobeView
         }
         EarthquakeList.removeAll()
         EarthquakeList = NewList
+        PlottedEarthquakes.removeAll()
         PlotEarthquakes()
     }
     
@@ -105,6 +107,7 @@ extension GlobeView
         }
         EarthquakeList2.removeAll()
         EarthquakeList2 = Earthquake2.LargestList(NewList)
+        PlottedEarthquakes.removeAll()
         PlotEarthquakes2()
     }
     
@@ -130,81 +133,83 @@ extension GlobeView
         }
         for Quake in List
         {
-            let QNode = MakeEarthquakeNode(Quake)
-            var BaseColor = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
-            let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
-            if !InAgeRange(Quake, InRange: AgeRange)
+            if let QNode = MakeEarthquakeNode(Quake)
             {
-                continue
-            }
-            if Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere) == .Magnitude
-            {
-                BaseColor = NSColor.red
-            }
-            else
-            {
-                QNode.geometry?.firstMaterial?.emission.contents = nil
-                switch Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
+                var BaseColor = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
+                let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
+                if !InAgeRange(Quake, InRange: AgeRange)
                 {
-                    case .Age:
-                        let QuakeAge = Quake.GetAge()
-                        let Percent = CGFloat(QuakeAge / Oldest)
-                        let (H, S, B) = BaseColor.HSB
-                        BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
-                    
-                    case .Magnitude:
-                        let (H, S, B) = BaseColor.HSB
-                        let Percent = CGFloat(Quake.Magnitude) / 10.0
-                        BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
-                    
-                    case .MagnitudeRange:
-                        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
-                        BaseColor = MagnitudeColors[MagRange.rawValue]!
-                    
-                    case .Population:
-                        let ClosestPopulation = PopulationOfClosestCity(To: Quake)
-                        if ClosestPopulation == 0 || Biggest == 0
-                        {
-                            BaseColor = BaseColor.withAlphaComponent(0.5)
-                        }
-                        else
-                        {
-                            if Biggest > 0
-                            {
-                                let Percent = ClosestPopulation / Biggest
-                                let (H, S, B) = BaseColor.HSB
-                                BaseColor = NSColor(hue: H, saturation: S, brightness: B * CGFloat(Percent), alpha: 0.5)
-                            }
-                    }
-                    
-                    case .Significance:
-                        let Significance = Quake.Significance
-                        if Significance <= 0
-                        {
+                    continue
+                }
+                if Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere) == .Magnitude
+                {
+                    BaseColor = NSColor.red
+                }
+                else
+                {
+                    QNode.geometry?.firstMaterial?.emission.contents = nil
+                    switch Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
+                    {
+                        case .Age:
+                            let QuakeAge = Quake.GetAge()
+                            let Percent = CGFloat(QuakeAge / Oldest)
+                            let (H, S, B) = BaseColor.HSB
+                            BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
+                            
+                        case .Magnitude:
                             let (H, S, B) = BaseColor.HSB
                             let Percent = CGFloat(Quake.Magnitude) / 10.0
                             BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
-                        }
-                        else
-                        {
-                            let Percent = Significance / MaxSignificance
-                            let (H, S, B) = NSColor.red.HSB
-                            BaseColor = NSColor(hue: H, saturation: CGFloat(Percent) * S, brightness: B, alpha: 0.8)
+                            
+                        case .MagnitudeRange:
+                            let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+                            BaseColor = MagnitudeColors[MagRange.rawValue]!
+                            
+                        case .Population:
+                            let ClosestPopulation = PopulationOfClosestCity(To: Quake)
+                            if ClosestPopulation == 0 || Biggest == 0
+                            {
+                                BaseColor = BaseColor.withAlphaComponent(0.5)
+                            }
+                            else
+                            {
+                                if Biggest > 0
+                                {
+                                    let Percent = ClosestPopulation / Biggest
+                                    let (H, S, B) = BaseColor.HSB
+                                    BaseColor = NSColor(hue: H, saturation: S, brightness: B * CGFloat(Percent), alpha: 0.5)
+                                }
+                            }
+                            
+                        case .Significance:
+                            let Significance = Quake.Significance
+                            if Significance <= 0
+                            {
+                                let (H, S, B) = BaseColor.HSB
+                                let Percent = CGFloat(Quake.Magnitude) / 10.0
+                                BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
+                            }
+                            else
+                            {
+                                let Percent = Significance / MaxSignificance
+                                let (H, S, B) = NSColor.red.HSB
+                                BaseColor = NSColor(hue: H, saturation: CGFloat(Percent) * S, brightness: B, alpha: 0.8)
+                            }
                     }
                 }
-            }
-            if Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere) == .Arrow
-            {
-                if let ANode = QNode as? SCNSimpleArrow
+                if Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere) == .Arrow
                 {
-                    ANode.Color = BaseColor
+                    if let ANode = QNode as? SCNSimpleArrow
+                    {
+                        ANode.Color = BaseColor
+                    }
                 }
+                else
+                {
+                    QNode.geometry?.firstMaterial?.diffuse.contents = BaseColor
+                }
+                Surface.addChildNode(QNode)
             }
-            else
-            {
-            QNode.geometry?.firstMaterial?.diffuse.contents = BaseColor
-            }
-            Surface.addChildNode(QNode)
         }
     }
     
@@ -251,16 +256,16 @@ extension GlobeView
                         let Percent = CGFloat(QuakeAge / Oldest)
                         let (H, S, B) = BaseColor.HSB
                         BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
-                    
+                        
                     case .Magnitude:
                         let (H, S, B) = BaseColor.HSB
                         let Percent = CGFloat(Quake.GreatestMagnitude) / 10.0
                         BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
-                    
+                        
                     case .MagnitudeRange:
                         let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
                         BaseColor = MagnitudeColors[MagRange.rawValue]!
-                    
+                        
                     case .Population:
                         let ClosestPopulation = PopulationOfClosestCity2(To: Quake)
                         if ClosestPopulation == 0 || Biggest == 0
@@ -275,8 +280,8 @@ extension GlobeView
                                 let (H, S, B) = BaseColor.HSB
                                 BaseColor = NSColor(hue: H, saturation: S, brightness: B * CGFloat(Percent), alpha: 0.5)
                             }
-                    }
-                    
+                        }
+                        
                     case .Significance:
                         let Significance = Quake.Significance
                         if Significance <= 0
@@ -290,7 +295,7 @@ extension GlobeView
                             let Percent = Significance / MaxSignificance
                             let (H, S, B) = NSColor.red.HSB
                             BaseColor = NSColor(hue: H, saturation: CGFloat(Percent) * S, brightness: B, alpha: 0.8)
-                    }
+                        }
                 }
             }
             if Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere) == .Arrow
@@ -311,7 +316,7 @@ extension GlobeView
     /// Create a shape for the passed earthquake.
     /// - Parameter Quake: The earthquake whose shape will be created.
     /// - Returns: `SCNNode` to be used to mark the earthquake.
-    func MakeEarthquakeNode(_ Quake: Earthquake) -> SCNNode
+    func MakeEarthquakeNode(_ Quake: Earthquake) -> SCNNode?
     {
         let QuakeRadius = 6371.0 - Quake.Depth
         let Percent = QuakeRadius / 6371.0
@@ -323,10 +328,17 @@ extension GlobeView
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         {
             case .Magnitude:
+                #if false
+                FinalNode = PlotMagnitudes2Y(Quake)
+                FinalNode.name = "EarthquakeNode"
+                return FinalNode
+                return nil
+                #else
                 FinalNode = PlotMagnitudes(Quake)
                 FinalNode.name = "EarthquakeNode"
                 return FinalNode
-            
+                #endif
+                
             case .Arrow:
                 RadialOffset = 0.7
                 let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
@@ -350,18 +362,18 @@ extension GlobeView
                 //let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
                 //Arrow.runAction(AnimationGroup)
                 Arrow.runAction(RotateForever)
-            FinalNode = Arrow
-            
+                FinalNode = Arrow
+                
             case .Pyramid:
                 FinalNode = SCNNode(geometry: SCNPyramid(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5))
                 YRotation = Quake.Latitude + 90.0 + 180.0
                 XRotation = Quake.Longitude + 180.0
-            
+                
             case .Box:
                 FinalNode = SCNNode(geometry: SCNBox(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5, chamferRadius: 0.1))
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
-            
+                
             case .Sphere:
                 let ERadius = Quake.Magnitude * 0.1
                 let QSphere = SCNSphere(radius: CGFloat(ERadius))
@@ -394,7 +406,7 @@ extension GlobeView
                 FinalNode = PlotMagnitudes2(Quake)
                 FinalNode.name = "EarthquakeNode"
                 return FinalNode
-            
+                
             case .Arrow:
                 RadialOffset = 0.7
                 let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
@@ -419,17 +431,17 @@ extension GlobeView
                 //Arrow.runAction(AnimationGroup)
                 Arrow.runAction(RotateForever)
                 FinalNode = Arrow
-            
+                
             case .Pyramid:
                 FinalNode = SCNNode(geometry: SCNPyramid(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5))
                 YRotation = Quake.Latitude + 90.0 + 180.0
                 XRotation = Quake.Longitude + 180.0
-            
+                
             case .Box:
                 FinalNode = SCNNode(geometry: SCNBox(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5, chamferRadius: 0.1))
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
-            
+                
             case .Sphere:
                 let ERadius = Quake.Magnitude * 0.1
                 let QSphere = SCNSphere(radius: CGFloat(ERadius))
@@ -577,6 +589,65 @@ extension GlobeView
         return 0
     }
     
+    func PlotMagnitudes2X(_ Quake: Earthquake, On Parent: SCNNode)
+    {
+        if PlottedEarthquakes.contains(Quake.Code)
+        {
+            return
+        }
+        let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
+        var MultipleQuakesSign = ""
+        if Quake.Related != nil
+        {
+            MultipleQuakesSign = "+"
+        }
+        let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
+        let FontSize = CGFloat(15.0 + Quake.Magnitude)
+        let EqFont = NSFont(name: "Avenir-Heavy", size: FontSize)
+        Utility.MakeFloatingWord(Radius: Radius, Word: Magnitude, Scale: 0.03,
+                                 Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+                                 Extrusion: CGFloat(Quake.Magnitude),
+                                 Mask: MetalSunMask | MetalMoonMask,
+                                 TextFont: EqFont,
+                                 TextColor: NSColor.red, OnSurface: Parent)
+        PlottedEarthquakes.insert(Quake.Code)
+    }
+    
+    func NodesWithName(_ Name: String, In Parent: SCNNode) -> Int
+    {
+        var Count = 0
+        for Child in Parent.childNodes
+        {
+            if Child.name == Name
+            {
+                Count = Count + 1
+            }
+        }
+        return Count
+    }
+    
+    func PlotMagnitudes2Y(_ Quake: Earthquake) -> SCNNode
+    {
+        let NodeCount = NodesWithName("EarthquakeNode", In: EarthNode!)
+        print("Plotting magnitudes [\(NodeCount)]")
+        let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
+        var MultipleQuakesSign = ""
+        if Quake.Related != nil
+        {
+            MultipleQuakesSign = "+"
+        }
+        let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
+        let FontSize = CGFloat(15.0 + Quake.Magnitude)
+        let EqFont = NSFont(name: "Avenir-Heavy", size: FontSize)
+        let Final = Utility.MakeFloatingWord(Radius: Radius, Word: Magnitude, Scale: 0.03,
+                                             Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+                                             Extrusion: CGFloat(Quake.Magnitude),
+                                             Mask: MetalSunMask | MetalMoonMask,
+                                             TextFont: EqFont, TextColor: NSColor.red)
+        Final.name = "EarthquakeNode"
+        return Final
+    }
+    
     /// Plot earthquakes as text indicating the magnitude of the earthquake.
     /// - Parameter Quake: The earthquake to plot.
     /// - Returns: Node with extruded text indicating the earthquake.
@@ -594,8 +665,8 @@ extension GlobeView
         MagText.font = NSFont(name: "Avenir-Heavy", size: FontSize)
         #if true
         let (X, Y, Z) = Utility.ToECEF(Quake.Latitude, Quake.Longitude,
-                               LatitudeOffset: -1.0, LongitudeOffset: -0.5,
-                               Radius: Radius)
+                                       LatitudeOffset: -1.0, LongitudeOffset: -0.5,
+                                       Radius: Radius)
         #else
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude,
                                Radius: Radius)
