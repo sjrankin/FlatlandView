@@ -741,6 +741,13 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
     {
         switch Setting
         {
+            case .InAttractMode:
+                let CurrentMode = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
+                if CurrentMode == .Globe3D || CurrentMode == .CubicWorld
+                {
+                    World3DView.SetAttractMode()
+                }
+            
             case .MapType:
                 let NewMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
                 let MapViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
@@ -901,6 +908,12 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                         }
                     }
             }
+                
+            case .ShowPOIEmission:
+                if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                {
+                    World3DView.PlotCities()
+                }
             
             case .EnableEarthquakes:
                 if Settings.GetBool(.EnableEarthquakes)
@@ -909,6 +922,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                     Earthquakes?.GetEarthquakes(Every: FetchInterval)
                     if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
                     {
+                        World3DView.ClearEarthquakes()
                         World3DView.PlotEarthquakes()
                     }
                 }
@@ -924,6 +938,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                 Earthquakes?.GetEarthquakes(Every: FetchInterval)
             
             case .MinimumMagnitude:
+                World3DView.ClearEarthquakes()
                 let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
                 Earthquakes?.StopReceivingEarthquakes()
                 Earthquakes?.GetEarthquakes(Every: FetchInterval)
@@ -933,6 +948,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                 {
                     if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
                     {
+                        World3DView.ClearEarthquakes()
                         World3DView.PlotEarthquakes()
                     }
             }
@@ -952,6 +968,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                 {
                     if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
                     {
+                        World3DView.ClearEarthquakes()
                         World3DView.PlotEarthquakes()
                     }
             }
