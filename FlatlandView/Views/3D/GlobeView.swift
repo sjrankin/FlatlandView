@@ -25,6 +25,42 @@ class GlobeView: SCNView, GlobeProtocol
         InitializeView()
     }
     
+    /// Set or reset attract mode depending on the current user settings.
+    public func SetAttractMode()
+    {
+        if Settings.GetBool(.InAttractMode)
+        {
+            EarthNode?.removeAllActions()
+            SeaNode?.removeAllActions()
+            LineNode?.removeAllActions()
+            HourNode?.removeAllActions()
+            StopClock()
+            AttractEarth()
+        }
+        else
+        {
+            EarthNode?.removeAllActions()
+            SeaNode?.removeAllActions()
+            LineNode?.removeAllActions()
+            HourNode?.removeAllActions()
+            StartClock()
+        }
+    }
+    
+    /// Display the globe in attract mode.
+    func AttractEarth()
+    {
+        let Rotate = SCNAction.rotateBy(x: 0.0, y: CGFloat(-360.0.Radians), z: 0.0, duration: 10.0)
+        let RotateForever = SCNAction.repeatForever(Rotate)
+        EarthNode?.runAction(RotateForever)
+        SeaNode?.runAction(RotateForever)
+        LineNode?.runAction(RotateForever)
+        if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
+        {
+            HourNode?.runAction(RotateForever)
+        }
+    }
+    
     /// Hide the globe view.
     public func Hide()
     {
@@ -34,12 +70,14 @@ class GlobeView: SCNView, GlobeProtocol
             EarthClock = nil
         }
         self.isHidden = true
+        StopClock()
     }
     
     /// Show the globe view.
     public func Show()
     {
         StartClock()
+        SetAttractMode()
         self.isHidden = false
     }
     
@@ -105,7 +143,7 @@ class GlobeView: SCNView, GlobeProtocol
         
         #if false
         //Enable for debugging and getting initial location of the automatical camera. Otherwise,
-        //not needed at run-time. Not intended to be deleted.
+        //not needed at run-time. Do not delete this code even for release versions.
         if self.allowsCameraControl
         {
             //https://stackoverflow.com/questions/24768031/can-i-get-the-scnview-camera-position-when-using-allowscameracontrol
@@ -113,10 +151,10 @@ class GlobeView: SCNView, GlobeProtocol
             {
                 (Node, Change) in
                 OperationQueue.current?.addOperation
-                    {
-                        print("\(Node.pointOfView!.position)")
-                        //print("\(Node.pointOfView!.orientation)")
-                        //print("\(Node.pointOfView!.rotation)")
+                {
+                    print("\(Node.pointOfView!.position)")
+                    //print("\(Node.pointOfView!.orientation)")
+                    //print("\(Node.pointOfView!.rotation)")
                 }
             }
         }
@@ -155,7 +193,15 @@ class GlobeView: SCNView, GlobeProtocol
         self.scene?.rootNode.addChildNode(CameraNode)
         
         AddEarth()
-        StartClock()
+        if Settings.GetBool(.InAttractMode)
+        {
+            StopClock()
+            AttractEarth()
+        }
+        else
+        {
+            StartClock()
+        }
         UpdateEarthView()
         SetHourResetTimer()
     }
@@ -297,7 +343,6 @@ class GlobeView: SCNView, GlobeProtocol
     /// - Parameter Show: Determines if moonlight is shown or removed.
     func SetMoonlight(Show: Bool)
     {
-        print("Set moonlight to \(Show)")
         if Show
         {
             let MoonLight = SCNLight()
@@ -408,12 +453,14 @@ class GlobeView: SCNView, GlobeProtocol
         //AddEarth(FastAnimate: true)
     }
     
+    /// Stop the rotational clock.
     func StopClock()
     {
         EarthClock?.invalidate()
         EarthClock = nil
     }
     
+    /// Start the rotational clock.
     func StartClock()
     {
         EarthClock = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateEarthView),
@@ -450,29 +497,8 @@ class GlobeView: SCNView, GlobeProtocol
         {
             return
         }
-        #if false
-        let Now = Date()
-        let Formatter = DateFormatter()
-        Formatter.dateFormat = "HH:mm:ss"
-        var TimeZoneAbbreviation = ""
-        if Settings.GetTimeLabel() == .UTC
-        {
-            TimeZoneAbbreviation = "UTC"
-        }
-        else
-        {
-            TimeZoneAbbreviation = GetLocalTimeZoneID() ?? "UTC"
-        }
-        let TZ = TimeZone(abbreviation: TimeZoneAbbreviation)
-        Formatter.timeZone = TZ
-        let Final = Formatter.string(from: Now)
-        let FinalText = Final + " " + TimeZoneAbbreviation
-        TimeLabel.text = FinalText
-        #else
         let Now = Date()
         let TZ = TimeZone(abbreviation: "UTC")
-        #endif
-        
         var Cal = Calendar(identifier: .gregorian)
         Cal.timeZone = TZ!
         let Hour = Cal.component(.hour, from: Now)
@@ -568,13 +594,13 @@ class GlobeView: SCNView, GlobeProtocol
         {
             case .Standard:
                 SecondaryMap = MapManager.ImageFor(MapType: .StandardSea, ViewType: .Globe3D)!
-            
+                
             case .TectonicOverlay:
                 SecondaryMap = MapManager.ImageFor(MapType: .Dithered, ViewType: .Globe3D)!
-            
+                
             case .StylizedSea1:
                 SecondaryMap = NSImage(named: "JapanesePattern4")!
-            
+                
             default:
                 break
         }
@@ -589,18 +615,18 @@ class GlobeView: SCNView, GlobeProtocol
         switch MapType
         {
             case .EarthquakeMap:
-            SeaNode = SCNNode(geometry: SeaSphere)
-            SeaNode?.categoryBitMask = SunMask | MoonMask
-            SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
-            SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal.withAlphaComponent(0.4)
-            EarthNode?.opacity = 0.75
-            
+                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal.withAlphaComponent(0.4)
+                EarthNode?.opacity = 0.75
+                
             case .StylizedSea1:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
-            
+                
             case .Debug2:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = SunMask | MoonMask
@@ -608,7 +634,7 @@ class GlobeView: SCNView, GlobeProtocol
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
                 EarthNode?.geometry?.firstMaterial?.specular.contents = NSColor.clear
-            
+                
             case .Debug5:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = SunMask | MoonMask
@@ -616,20 +642,20 @@ class GlobeView: SCNView, GlobeProtocol
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemYellow
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
                 EarthNode?.geometry?.firstMaterial?.specular.contents = NSColor.clear
-            
+                
             case .TectonicOverlay:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
-            
+                
             case .ASCIIArt1:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = SunMask | MoonMask
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
-            
+                
             case .BlackWhiteShiny:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = SunMask | MoonMask
@@ -637,7 +663,7 @@ class GlobeView: SCNView, GlobeProtocol
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
-            
+                
             case .Standard:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = SunMask | MoonMask
@@ -645,7 +671,7 @@ class GlobeView: SCNView, GlobeProtocol
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
-            
+                
             case .SimpleBorders2:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = SunMask | MoonMask
@@ -653,7 +679,7 @@ class GlobeView: SCNView, GlobeProtocol
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemBlue 
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
-            
+                
             case .Topographical1:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = SunMask | MoonMask
@@ -661,7 +687,7 @@ class GlobeView: SCNView, GlobeProtocol
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemBlue
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
-            
+                
             case .Pink:
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = SunMask | MoonMask
@@ -669,7 +695,7 @@ class GlobeView: SCNView, GlobeProtocol
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.orange
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
                 EarthNode?.geometry?.firstMaterial?.lightingModel = .phong
-            
+                
             case .Bronze:
                 EarthNode?.geometry?.firstMaterial?.specular.contents = NSColor.orange
                 SeaNode = SCNNode(geometry: SeaSphere)
@@ -681,7 +707,7 @@ class GlobeView: SCNView, GlobeProtocol
                                                                              alpha: 1.0)
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .lambert
-            
+                
             default:
                 //Create an empty sea node if one is not needed.
                 SeaNode = SCNNode()
@@ -694,18 +720,18 @@ class GlobeView: SCNView, GlobeProtocol
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug2,
                                       .Debug5, .StylizedSea1, .EarthquakeMap]
         self.prepare([EarthNode!, SeaNode!], completionHandler:
-            {
-                success in
-                if success
-                {
-                    self.SystemNode?.addChildNode(self.EarthNode!)
-                    if SeaMapList.contains(MapType)
-                    {
-                        self.SystemNode?.addChildNode(self.SeaNode!)
-                    }
-                    self.scene?.rootNode.addChildNode(self.SystemNode!)
-                }
-        }
+                        {
+                            success in
+                            if success
+                            {
+                                self.SystemNode?.addChildNode(self.EarthNode!)
+                                if SeaMapList.contains(MapType)
+                                {
+                                    self.SystemNode?.addChildNode(self.SeaNode!)
+                                }
+                                self.scene?.rootNode.addChildNode(self.SystemNode!)
+                            }
+                        }
         )
         
         SetLineLayer()
@@ -769,6 +795,7 @@ class GlobeView: SCNView, GlobeProtocol
     var EarthNode: SCNNode? = nil
     var SeaNode: SCNNode? = nil
     var HourNode: SCNNode? = nil
+    var PlottedEarthquakes = Set<String>()
     
     // MARK: - GlobeProtocol functions
     
@@ -799,19 +826,19 @@ class GlobeView: SCNView, GlobeProtocol
     var CitiesToPlot = [City]()
     
     let MagnitudeColors: [Double: NSColor] =
-    [
-        //0 to 4.9
-        EarthquakeMagnitudes.Mag4.rawValue: NSColor.TeaGreen,
-        //5 to 5.9
-        EarthquakeMagnitudes.Mag5.rawValue: NSColor.ArtichokeGreen,
-        //6 to 6.9
-        EarthquakeMagnitudes.Mag6.rawValue: NSColor.orange,
-        //7 to 7.9
-        EarthquakeMagnitudes.Mag7.rawValue: NSColor.UltraPink,
-        //8 to 8.9
-        EarthquakeMagnitudes.Mag8.rawValue: NSColor.Sunglow,
-        // 9 to 10
-        EarthquakeMagnitudes.Mag9.rawValue: NSColor.Scarlet
-    ]
+        [
+            //0 to 4.9
+            EarthquakeMagnitudes.Mag4.rawValue: NSColor.TeaGreen,
+            //5 to 5.9
+            EarthquakeMagnitudes.Mag5.rawValue: NSColor.ArtichokeGreen,
+            //6 to 6.9
+            EarthquakeMagnitudes.Mag6.rawValue: NSColor.orange,
+            //7 to 7.9
+            EarthquakeMagnitudes.Mag7.rawValue: NSColor.UltraPink,
+            //8 to 8.9
+            EarthquakeMagnitudes.Mag8.rawValue: NSColor.Sunglow,
+            // 9 to 10
+            EarthquakeMagnitudes.Mag9.rawValue: NSColor.Scarlet
+        ]
 }
 
