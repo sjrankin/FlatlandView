@@ -1085,7 +1085,7 @@ class Utility
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
                 let HourTextNode = SCNNode(geometry: HourText)
-                HourTextNode.scale = SCNVector3(0.7, 0.7, 0.7)
+                HourTextNode.scale = SCNVector3(0.07, 0.07, 0.07)
                 HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
                 let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
                 HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
@@ -1144,11 +1144,12 @@ class Utility
     /// - Parameter Latitude: The latitude of the word.
     /// - Parameter Longitude: The longitude of the word.
     /// - Parameter Extrusion: Depth of the word.
+    /// - Parameter Mask: The light mask. Defaults to `0`.
     /// - Parameter TextColor: The color of the word.
     /// - Parameter OnSurface: Where the word will be plotted.
     public static func MakeFloatingWord(Radius: Double, Word: String, Scale: CGFloat = 0.07,
                                         Latitude: Double, Longitude: Double,
-                                        Extrusion: CGFloat = 1.0, Mask: Int,
+                                        Extrusion: CGFloat = 1.0, Mask: Int = 0,
                                         TextColor: NSColor = NSColor.gray,
                                         OnSurface: SCNNode)
     {
