@@ -33,7 +33,7 @@ public class Versioning: CustomStringConvertible
     public static let MajorVersion: String = "0"
     
     /// Minor version number.
-    public static let MinorVersion: String = "95"
+    public static let MinorVersion: String = "96"
     
     /// Potential version suffix.
     public static let VersionSuffix: String = ""
@@ -118,19 +118,19 @@ public class Versioning: CustomStringConvertible
     }
     
     /// Build number.
-    public static let Build: Int = 1277
+    public static let Build: Int = 1287
     
     /// Build increment.
     private static let BuildIncrement = 1
     
     /// Build ID.
-    public static let BuildID: String = "FAFF58E1-90BB-44C7-8B87-DF527D289436"
+    public static let BuildID: String = "E8228D36-282B-4A6F-B8CD-2B97C7051A47"
     
     /// Build date.
-    public static let BuildDate: String = "22 June 2020"
+    public static let BuildDate: String = "23 June 2020"
     
     /// Build Time.
-    public static let BuildTime: String = "20:51"
+    public static let BuildTime: String = "13:05"
     
     /// Holds the release build flag.
     private static var _IsReleaseBuild: Bool = false
