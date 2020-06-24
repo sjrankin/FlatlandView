@@ -204,11 +204,16 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeRegionRadius = "EarthquakeRegionRadius"
     /// String: List of colors for various earthquake magnitudes.
     case EarthquakeMagnitudeColors = "EarthquakeMagnitudeColors"
+    /// Determines how to list earthquakes.
+    case EarthquakeListStyle = "EarthquakeListStyle"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
     case LastSettingsViewed = "LastSettingsViewed"
     
     // MARK: - Settings used in areas outside of the Settings system.
+    /// Live data viewer.
     case LiveViewWindowFrame = "LiveViewWindowFrame"
+    /// Earthquake data viewer.
+    case EarthquakeViewWindowFrame = "EarthquakeViewWindowFrame"
 }
