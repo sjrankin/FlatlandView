@@ -108,6 +108,8 @@
 		17F782C524979218000A568E /* +Earthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C424979218000A568E /* +Earthquakes.swift */; };
 		17FC2213249879BE005A0929 /* LiveData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17FC2212249879BE005A0929 /* LiveData.storyboard */; };
 		17FC221524987B1A005A0929 /* LiveDataViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FC221424987B1A005A0929 /* LiveDataViewWindow.swift */; };
+		17FCCCD724A31EF500393F36 /* Earthquake2Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCCCD624A31EF500393F36 /* Earthquake2Window.swift */; };
+		17FCCCD924A31F1A00393F36 /* Earthquake2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCCCD824A31F1A00393F36 /* Earthquake2Controller.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -215,6 +217,8 @@
 		17F782C424979218000A568E /* +Earthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Earthquakes.swift"; sourceTree = "<group>"; };
 		17FC2212249879BE005A0929 /* LiveData.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LiveData.storyboard; sourceTree = "<group>"; };
 		17FC221424987B1A005A0929 /* LiveDataViewWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataViewWindow.swift; sourceTree = "<group>"; };
+		17FCCCD624A31EF500393F36 /* Earthquake2Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake2Window.swift; sourceTree = "<group>"; };
+		17FCCCD824A31F1A00393F36 /* Earthquake2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake2Controller.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -588,6 +592,8 @@
 			isa = PBXGroup;
 			children = (
 				17FC2212249879BE005A0929 /* LiveData.storyboard */,
+				17FCCCD624A31EF500393F36 /* Earthquake2Window.swift */,
+				17FCCCD824A31F1A00393F36 /* Earthquake2Controller.swift */,
 				17FC221424987B1A005A0929 /* LiveDataViewWindow.swift */,
 				175F18EB2499E4C30052F653 /* LiveDataViewer.swift */,
 			);
@@ -622,7 +628,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Stuart Rankin";
 				TargetAttributes = {
 					1767A8DF24794A0100C434B5 = {
@@ -742,8 +748,10 @@
 				17EF3393247A66D200A5B55D /* MapManager.swift in Sources */,
 				17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */,
 				1759AE66249F81F6003F79F5 /* View3DSettingsWindow.swift in Sources */,
+				17FCCCD724A31EF500393F36 /* Earthquake2Window.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
 				17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */,
+				17FCCCD924A31F1A00393F36 /* Earthquake2Controller.swift in Sources */,
 				175F18EC2499E4C30052F653 /* LiveDataViewer.swift in Sources */,
 				173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */,
 				1720B38C248B81B3001202E5 /* +2DHours.swift in Sources */,
@@ -827,6 +835,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -888,6 +897,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
