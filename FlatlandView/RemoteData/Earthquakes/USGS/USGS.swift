@@ -278,4 +278,36 @@ class USGS
     /// Current list of earthquakes.
     var EarthquakeList = [Earthquake]()
     var EarthquakeList2 = [Earthquake2]()
+    
+    /// Determines if two lists of earthquakes have the same contents. This function works regardless
+    /// of the order of the contents.
+    /// - Parameter List1: First earthquake list.
+    /// - Parameter List2: Second earthquake list.
+    /// - Returns: True if the lists have equal contents, false if not.
+    public static func SameEarthquakes(_ List1: [Earthquake], _ List2: [Earthquake]) -> Bool
+    {
+        if List1.count != List2.count
+        {
+            return false
+        }
+        let SList1 = List1.sorted(by: {$0.Code < $1.Code})
+        let SList2 = List2.sorted(by: {$0.Code < $1.Code})
+        return SList1 == SList2
+    }
+    
+    /// Determines if two lists of earthquakes have the same contents. This function works regardless
+    /// of the order of the contents.
+    /// - Parameter List1: First earthquake list.
+    /// - Parameter List2: Second earthquake list.
+    /// - Returns: True if the lists have equal contents, false if not.
+    public static func SameEarthquakes(_ List1: [Earthquake2], _ List2: [Earthquake2]) -> Bool
+    {
+        if List1.count != List2.count
+        {
+            return false
+        }
+        let SList1 = List1.sorted(by: {$0.Code < $1.Code})
+        let SList2 = List2.sorted(by: {$0.Code < $1.Code})
+        return SList1 == SList2
+    }
 }
