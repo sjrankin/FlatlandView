@@ -454,6 +454,12 @@ enum GlobeRadius: CGFloat, CaseIterable
     case CityNames = 10.5
 }
 
+enum EarthquakeListStyles: String, CaseIterable
+{
+    case Individual = "Individual"
+    case Clustered = "Clustered"
+}
+
 /// Setting groups for the main settings.
 /// - Note: The order in which the cases are defined will apply to the list of setting
 ///         options in the settings window. In other words, the order here defines what
