@@ -80,6 +80,7 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
                 break
             case .Earthquakes:
                 (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes, Raw: LiveEarthquakes as Any)
+                (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes2, Raw: LiveEarthquakes2 as Any)
         }
         SettingMap[Options]!.Controller?.view.frame = OptionsContainer.bounds
         OptionsContainer.addSubview(SettingMap[Options]!.Controller!.view)
