@@ -20,6 +20,7 @@ class EarthquakeSettingsWindow: NSViewController
     }
     
     var LocalEarthquakeData = [Earthquake]()
+    var LocalEarthquakeData2 = [Earthquake2]()
 
     var CurrentMagIndex = -1
     
@@ -90,6 +91,14 @@ class EarthquakeSettingsWindow: NSViewController
         else
         {
             EarthquakeViewButton.isEnabled = true
+        }
+        if LocalEarthquakeData2.isEmpty
+        {
+            Quake2Button.isEnabled = false
+        }
+        else
+        {
+            Quake2Button.isEnabled = true
         }
     }
     
@@ -210,9 +219,31 @@ class EarthquakeSettingsWindow: NSViewController
                     EarthquakeViewButton.isEnabled = true
                     }
             }
+                
+            case .Earthquakes2:
+                    if let RawData = Raw as? [Earthquake2]
+                    {
+                        LocalEarthquakeData2 = RawData
+                        if Quake2Button != nil
+                        {
+                            Quake2Button.isEnabled = true
+                        }
+                    }
             
             default:
                 break
+        }
+    }
+
+    @IBAction func HandleQuake2(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "Earthquake2Window") as? Earthquake2DWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? Earthquake2Controller
+            Controller?.LoadData(DataType: .Earthquakes2, Raw: LocalEarthquakeData2 as Any)
+            WindowController.showWindow(nil)
         }
     }
     
@@ -238,6 +269,7 @@ class EarthquakeSettingsWindow: NSViewController
         }
     }
     
+    @IBOutlet weak var Quake2Button: NSButton!
     @IBOutlet weak var MinMagCombo: NSComboBox!
     @IBOutlet weak var BaseColorWell: NSColorWell!
     @IBOutlet weak var ColorDetCombo: NSComboBox!
