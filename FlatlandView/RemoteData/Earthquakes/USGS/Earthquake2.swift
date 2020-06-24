@@ -188,6 +188,29 @@ class Earthquake2: Equatable
         return lhs.Code == rhs.Code
     }
     
+    /// Determines if this earthquake (or any clustered/related earthquakes) have the specified
+    /// Code value.
+    /// - Parameter Code: The value to look for.
+    /// - Returns: True if this or any sub-earthquake has a Code of `Code`, false otherwise.
+    func Contains(Code: String) -> Bool
+    {
+        if self.Code == Code
+        {
+            return true
+        }
+        if let Clustered = Related
+        {
+            for RelatedEarthquake in Clustered
+            {
+                if RelatedEarthquake.Contains(Code: Code)
+                {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
     /// Related earthquakes. Used for aftershocks.
     var Related: [Earthquake2]? = nil
     
@@ -218,6 +241,15 @@ class Earthquake2: Equatable
             return true
         }
         return false
+    }
+    
+    func AddToRelated(_ Other: Earthquake2)
+    {
+        if Related == nil
+        {
+            Related = [Earthquake2]()
+        }
+        Related?.append(Other)
     }
     
     static let DefaultTimeDelta = 5.0 * 24.0 * 60.0 * 50.0
@@ -336,5 +368,74 @@ class Earthquake2: Equatable
             }
         }
         return Final
+    }
+    
+    public static func Combined(_ From: [Earthquake2]) -> [Earthquake2]
+    {
+        //First, scan the passed array to see if it already has combined earthquakes. If so,
+        //return the array as is.
+        for Quake in From
+        {
+            if Quake.IsCluster
+            {
+                return From
+            }
+        }
+        
+        var Final = [Earthquake2]()
+        for Quake in From
+        {
+            if ContainsEarthquake(Code: Quake.Code, In: Final)
+            {
+                continue
+            }
+            for FQuake in Final
+            {
+                if FQuake.IsRelated(Quake, MaxDistanceDelta: 100.0)
+                {
+                    FQuake.AddToRelated(Quake)
+                    continue
+                }
+            }
+            Final.append(Quake)
+        }
+        Final = FinalizeCombined(Final)
+        return Final
+    }
+    
+    public static func FinalizeCombined(_ List: [Earthquake2]) -> [Earthquake2]
+    {
+        var Final = [Earthquake2]()
+        for Quake in List
+        {
+            if !Quake.IsCluster
+            {
+                Final.append(Quake)
+            }
+            else
+            {
+                var Quakes = [Earthquake2]()
+                Quakes.append(Quake)
+                Quakes.append(contentsOf: Quake.Related!)
+                Quakes.sort(by: {$0.Magnitude > $1.Magnitude})
+                let Biggest = Quakes.first!
+                Quakes.removeFirst()
+                Biggest.Related = Quakes
+                Final.append(Biggest)
+            }
+        }
+        return Final
+    }
+    
+    public static func ContainsEarthquake(Code: String, In List: [Earthquake2]) -> Bool
+    {
+        for Quake in List
+        {
+            if Quake.Contains(Code: Quake.Code)
+            {
+                return true
+            }
+        }
+        return false
     }
 }
