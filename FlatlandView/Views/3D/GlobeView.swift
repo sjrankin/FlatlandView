@@ -50,7 +50,7 @@ class GlobeView: SCNView, GlobeProtocol
     /// Display the globe in attract mode.
     func AttractEarth()
     {
-        let Rotate = SCNAction.rotateBy(x: 0.0, y: CGFloat(-360.0.Radians), z: 0.0, duration: 10.0)
+        let Rotate = SCNAction.rotateBy(x: 0.0, y: CGFloat(360.0.Radians), z: 0.0, duration: 10.0)
         let RotateForever = SCNAction.repeatForever(Rotate)
         EarthNode?.runAction(RotateForever)
         SeaNode?.runAction(RotateForever)
