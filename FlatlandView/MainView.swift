@@ -649,6 +649,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
             let Controller = SettingWindow?.contentViewController as? MainSettingsBase
             Controller?.MainDelegate = self
             Controller?.LoadData(DataType: .Earthquakes, Raw: LatestEarthquakes as Any)
+            Controller?.LoadData(DataType: .Earthquakes2, Raw: LatestEarthquakes2 as Any)
             WindowController.showWindow(nil)
         }
     }
@@ -1098,7 +1099,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                 #endif
             
             case .Earthquakes2:
-                #if true
+                #if false
                 break
                 #else
                 if let EarthquakeData = Actual as? [Earthquake2]
