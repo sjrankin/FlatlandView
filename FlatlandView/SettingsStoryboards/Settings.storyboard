@@ -3057,7 +3057,7 @@ Gw
                                                         <gridCells>
                                                             <gridCell row="rEl-Mj-uVu" column="pmE-rg-G1i" id="E9P-Ph-bdU">
                                                                 <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rzC-LW-3cz">
-                                                                    <rect key="frame" x="-6" y="47" width="64" height="32"/>
+                                                                    <rect key="frame" x="-6" y="117" width="64" height="32"/>
                                                                     <buttonCell key="cell" type="push" title="Edit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4Ad-K1-hDU">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -3069,7 +3069,7 @@ Gw
                                                             </gridCell>
                                                             <gridCell row="0fe-Xg-qNm" column="pmE-rg-G1i" id="E3O-4Y-Ihc">
                                                                 <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6xf-uM-bco">
-                                                                    <rect key="frame" x="-6" y="20" width="75" height="32"/>
+                                                                    <rect key="frame" x="-6" y="90" width="75" height="32"/>
                                                                     <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sHV-mk-ZuO">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -3365,11 +3365,23 @@ Gw
                                     <action selector="HandleRunMagnitudeColorsButton:" target="zQf-lG-HN1" id="N4f-cJ-upK"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pjz-PV-OHO">
+                                <rect key="frame" x="187" y="12" width="87" height="32"/>
+                                <buttonCell key="cell" type="push" title="Quake2" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iPt-bv-ZgA">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleQuake2:" target="zQf-lG-HN1" id="y1G-Cr-i8J"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="xnu-oj-TOY" firstAttribute="leading" secondItem="hcJ-5K-d05" secondAttribute="leading" constant="20" symbolic="YES" id="6h4-Qf-VIU"/>
                             <constraint firstAttribute="trailing" secondItem="Z3J-lL-RZD" secondAttribute="trailing" constant="20" symbolic="YES" id="AZE-6R-H9P"/>
+                            <constraint firstItem="Pjz-PV-OHO" firstAttribute="baseline" secondItem="cCj-Zm-0EL" secondAttribute="baseline" id="NRm-8L-UBx"/>
                             <constraint firstAttribute="bottom" secondItem="cCj-Zm-0EL" secondAttribute="bottom" constant="19" id="TfG-lD-dXH"/>
+                            <constraint firstItem="Pjz-PV-OHO" firstAttribute="leading" secondItem="cCj-Zm-0EL" secondAttribute="trailing" constant="19" id="i3I-xh-RUV"/>
                             <constraint firstItem="Z3J-lL-RZD" firstAttribute="baseline" secondItem="cCj-Zm-0EL" secondAttribute="baseline" id="pa5-pG-nHW"/>
                             <constraint firstItem="cCj-Zm-0EL" firstAttribute="leading" secondItem="xnu-oj-TOY" secondAttribute="leading" id="sIF-Lb-0QI"/>
                             <constraint firstItem="xnu-oj-TOY" firstAttribute="top" secondItem="hcJ-5K-d05" secondAttribute="top" constant="20" symbolic="YES" id="ye2-Jv-Npm"/>
@@ -3383,6 +3395,7 @@ Gw
                         <outlet property="EarthquakeViewButton" destination="cCj-Zm-0EL" id="doe-Ib-E7A"/>
                         <outlet property="FrequencyCombo" destination="BzK-rI-t4F" id="r6R-1c-isq"/>
                         <outlet property="MinMagCombo" destination="HZ3-5Y-FhV" id="gjt-jH-HXw"/>
+                        <outlet property="Quake2Button" destination="Pjz-PV-OHO" id="z0Q-Ye-xxJ"/>
                         <outlet property="ShapeCombo" destination="cOU-Cr-bzK" id="i64-Id-S3g"/>
                     </connections>
                 </viewController>
