@@ -15,15 +15,6 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        let ListStyle = Settings.GetEnum(ForKey: .EarthquakeListStyle, EnumType: EarthquakeListStyles.self, Default: .Individual)
-        if let Index = [EarthquakeListStyles.Clustered, EarthquakeListStyles.Individual].firstIndex(of: ListStyle)
-        {
-        (view.window?.windowController as? Earthquake2DWindow)!.ListSegment.selectedSegment = Index
-        }
-        else
-        {
-            (view.window?.windowController as? Earthquake2DWindow)!.ListSegment.selectedSegment = 0
-        }
         EqTable.tableColumns[1].sortDescriptorPrototype = LocationDescriptor
         EqTable.tableColumns[2].sortDescriptorPrototype = MagnitudeDescriptor
         EqTable.tableColumns[3].sortDescriptorPrototype = CountDescriptor
@@ -33,6 +24,23 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         USGSSource = USGS()
         USGSSource?.Delegate = self
         USGSSource?.GetEarthquakes(Every: 60.0)
+    }
+    
+    override func viewDidLayout()
+    {
+        let Window = view.window
+        if let WindowController = Window?.windowController as? Earthquake2Window
+        {
+            let ListStyle = Settings.GetEnum(ForKey: .EarthquakeListStyle, EnumType: EarthquakeListStyles.self, Default: .Individual)
+            if let Index = [EarthquakeListStyles.Clustered, EarthquakeListStyles.Individual].firstIndex(of: ListStyle)
+            {
+                WindowController.ListSegment.selectedSegment = Index
+            }
+            else
+            {
+                WindowController.ListSegment.selectedSegment = 0
+            }
+        }
     }
     
     var USGSSource: USGS? = nil
@@ -70,7 +78,7 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
             CellIdentifier = "CountColumn"
             if EarthquakeList[row].ClusterCount > 0
             {
-            CellContents = "\(EarthquakeList[row].ClusterCount)"
+                CellContents = "\(EarthquakeList[row].ClusterCount)"
             }
             else
             {
@@ -85,12 +93,24 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         if tableColumn == tableView.tableColumns[5]
         {
             CellIdentifier = "CoordinatesColumn"
-            CellContents = "\(EarthquakeList[row].Latitude), \(EarthquakeList[row].Longitude)"
+            CellContents = "\(EarthquakeList[row].Latitude.RoundedTo(3)), \(EarthquakeList[row].Longitude.RoundedTo(3))"
         }
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
         return Cell
+    }
+    
+    func SetEarthquakeType(_ List: [Earthquake2]) -> [Earthquake2]
+    {
+        if Settings.GetEnum(ForKey: .EarthquakeListStyle, EnumType: EarthquakeListStyles.self, Default: .Individual) == .Individual
+        {
+            return Earthquake2.FlatList(List)
+        }
+        else
+        {
+            return Earthquake2.Combined(List)
+        }
     }
     
     func LoadData(DataType: AsynchronousDataTypes, Raw: Any)
@@ -100,19 +120,7 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
             case .Earthquakes2:
                 if let RawEarthquakes = Raw as? [Earthquake2]
                 {
-                    if USGS.SameEarthquakes(EarthquakeList, RawEarthquakes)
-                    {
-                        return
-                    }
-                    EarthquakeList = RawEarthquakes
-                    if Settings.GetEnum(ForKey: .EarthquakeListStyle, EnumType: EarthquakeListStyles.self, Default: .Individual) == .Individual
-                    {
-                        EarthquakeList = Earthquake2.FlatList(EarthquakeList)
-                    }
-                    else
-                    {
-                        EarthquakeList = Earthquake2.Combined(EarthquakeList)
-                    }
+                    EarthquakeList = SetEarthquakeType(RawEarthquakes)
                     EqIndex = 1
                     EqTable.reloadData()
                 }
@@ -126,7 +134,7 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
     {
         if Actual != nil
         {
-        LoadData(DataType: DataType, Raw: Actual!)
+            LoadData(DataType: DataType, Raw: Actual!)
         }
     }
     
@@ -220,7 +228,6 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
     {
         if let Frame = self.view.window?.frame
         {
-            print("Window frame at close \(Frame)")
             Settings.SetRect(.EarthquakeViewWindowFrame, Frame)
         }
         self.view.window?.close()
@@ -236,6 +243,7 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
             }
             let NewStyle = [EarthquakeListStyles.Clustered, EarthquakeListStyles.Individual][Segment.selectedSegment]
             Settings.SetEnum(NewStyle, EnumType: EarthquakeListStyles.self, ForKey: .EarthquakeListStyle)
+            EarthquakeList = SetEarthquakeType(EarthquakeList)
             EqIndex = 1
             EqTable.reloadData()
         }
