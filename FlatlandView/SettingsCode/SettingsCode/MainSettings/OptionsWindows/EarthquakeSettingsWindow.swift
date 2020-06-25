@@ -21,11 +21,12 @@ class EarthquakeSettingsWindow: NSViewController
     
     var LocalEarthquakeData = [Earthquake]()
     var LocalEarthquakeData2 = [Earthquake2]()
-
+    
     var CurrentMagIndex = -1
     
     func InitializeAsynchronousEarthquakes()
     {
+        HighlightRecentSwitch.state = Settings.GetBool(.HighlightRecentEarthquakes) ? .on : .off
         let EnableEarthquakes = Settings.GetBool(.EnableEarthquakes)
         EarthquakeSwitch.state = EnableEarthquakes ? .on : .off
         let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
@@ -39,19 +40,19 @@ class EarthquakeSettingsWindow: NSViewController
         {
             case 30.0:
                 FrequencyCombo.selectItem(at: 0)
-            
+                
             case 60.0:
                 FrequencyCombo.selectItem(at: 1)
-            
+                
             case 600:
                 FrequencyCombo.selectItem(at: 2)
-            
+                
             case 1800:
                 FrequencyCombo.selectItem(at: 3)
-            
+                
             case 3600:
                 FrequencyCombo.selectItem(at: 4)
-            
+                
             default:
                 FrequencyCombo.selectItem(at: 1)
         }
@@ -86,7 +87,7 @@ class EarthquakeSettingsWindow: NSViewController
         ShapeCombo.selectItem(withObjectValue: EShape.rawValue)
         if LocalEarthquakeData.isEmpty
         {
-        EarthquakeViewButton.isEnabled = false
+            EarthquakeViewButton.isEnabled = false
         }
         else
         {
@@ -111,19 +112,19 @@ class EarthquakeSettingsWindow: NSViewController
             {
                 case 0:
                     Settings.SetDouble(.EarthquakeFetchInterval, 30.0)
-                
+                    
                 case 1:
                     Settings.SetDouble(.EarthquakeFetchInterval, 60.0)
-                
+                    
                 case 2:
                     Settings.SetDouble(.EarthquakeFetchInterval, 600.0)
-                
+                    
                 case 3:
                     Settings.SetDouble(.EarthquakeFetchInterval, 1800.0)
-                
+                    
                 case 4:
                     Settings.SetDouble(.EarthquakeFetchInterval, 3600.0)
-                
+                    
                 default:
                     return
             }
@@ -216,29 +217,29 @@ class EarthquakeSettingsWindow: NSViewController
                     LocalEarthquakeData = RawData
                     if EarthquakeViewButton != nil
                     {
-                    EarthquakeViewButton.isEnabled = true
+                        EarthquakeViewButton.isEnabled = true
                     }
-            }
+                }
                 
             case .Earthquakes2:
-                    if let RawData = Raw as? [Earthquake2]
+                if let RawData = Raw as? [Earthquake2]
+                {
+                    LocalEarthquakeData2 = RawData
+                    if Quake2Button != nil
                     {
-                        LocalEarthquakeData2 = RawData
-                        if Quake2Button != nil
-                        {
-                            Quake2Button.isEnabled = true
-                        }
+                        Quake2Button.isEnabled = true
                     }
-            
+                }
+                
             default:
                 break
         }
     }
-
+    
     @IBAction func HandleQuake2(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "Earthquake2Window") as? Earthquake2DWindow
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "Earthquake2Window") as? Earthquake2Window
         {
             let Window = WindowController.window
             let Controller = Window?.contentViewController as? Earthquake2Controller
@@ -269,6 +270,15 @@ class EarthquakeSettingsWindow: NSViewController
         }
     }
     
+    @IBAction func HandleHighlightRecentChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.HighlightRecentEarthquakes, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var HighlightRecentSwitch: NSSwitch!
     @IBOutlet weak var Quake2Button: NSButton!
     @IBOutlet weak var MinMagCombo: NSComboBox!
     @IBOutlet weak var BaseColorWell: NSColorWell!
