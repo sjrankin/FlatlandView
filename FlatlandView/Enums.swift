@@ -435,6 +435,10 @@ enum EarthquakeShapes: String, CaseIterable
     case Pyramid = "Pyramid"
     /// Earthquake is a box.
     case Box = "Box"
+    /// Earthquake is a cylinder.
+    case Cylinder = "Cylinder"
+    /// Earthquake is a capsule.
+    case Capsule = "Capsule"
     /// Earthquake is a magnitude value.
     case Magnitude = "Magnitude"
 }
@@ -454,9 +458,12 @@ enum GlobeRadius: CGFloat, CaseIterable
     case CityNames = 10.5
 }
 
+/// Styles of listing earthquakes.
 enum EarthquakeListStyles: String, CaseIterable
 {
+    /// All earthquakes are listed individually.
     case Individual = "Individual"
+    /// Earthquakes are clustered together.
     case Clustered = "Clustered"
 }
 
