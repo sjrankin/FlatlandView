@@ -66,18 +66,25 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         {
             case .Maps:
                 break
+                
             case .Map2D:
                 break
+                
             case .Map3D:
                 break
+                
             case .Cities:
                 break
+                
             case .UserLocation:
                 break
+                
             case .OtherLocations:
                 break
+                
             case .Other:
                 break
+                
             case .Earthquakes:
                 (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes, Raw: LiveEarthquakes as Any)
                 (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes2, Raw: LiveEarthquakes2 as Any)
@@ -133,12 +140,14 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
             if let Quakes = Raw as? [Earthquake]
             {
                 LiveEarthquakes = Quakes
+                (SettingMap[.Earthquakes]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes, Raw: LiveEarthquakes as Any)
             }
             
             case .Earthquakes2:
             if let Quakes = Raw as? [Earthquake2]
             {
                 LiveEarthquakes2 = Quakes
+                (SettingMap[.Earthquakes]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes2, Raw: LiveEarthquakes2 as Any)
             }
         }
     }
