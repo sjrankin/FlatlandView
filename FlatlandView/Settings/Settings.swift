@@ -698,12 +698,12 @@ class Settings
     {
         let ColorDict: [EarthquakeMagnitudes: NSColor] =
         [
-            .Mag4: NSColor.TeaGreen,
-            .Mag5: NSColor.ArtichokeGreen,
-            .Mag6: NSColor.orange,
-            .Mag7: NSColor.UltraPink,
-            .Mag8: NSColor.Sunglow,
-            .Mag9: NSColor.Scarlet
+            .Mag4: NSColor(HexString: "#FEFC78")!,
+            .Mag5: NSColor(HexString: "#FEFB00")!,
+            .Mag6: NSColor(HexString: "#FFD478")!,
+            .Mag7: NSColor(HexString: "#FF9300")!,
+            .Mag8: NSColor(HexString: "#FF2F92")!,
+            .Mag9: NSColor(HexString: "#FF2400")!
         ]
         return ColorDict
     }
