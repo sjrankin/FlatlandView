@@ -206,6 +206,10 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeMagnitudeColors = "EarthquakeMagnitudeColors"
     /// Determines how to list earthquakes.
     case EarthquakeListStyle = "EarthquakeListStyle"
+    /// Boolean: Highlight recent earthquakes.
+    case HighlightRecentEarthquakes = "HighlightRecentEarthquakes"
+    /// Double: Number of seconds of age an earthquake must be to be considered "recent."
+    case RecentEarthquakeDefinition = "RecentEarthquakeDefinition"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
