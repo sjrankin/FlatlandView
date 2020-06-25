@@ -993,6 +993,16 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                         World3DView.PlotEarthquakes()
                     }
             }
+                
+            case .EarthquakeMagnitudeColors:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                    {
+                        World3DView.ClearEarthquakes()
+                        World3DView.PlotEarthquakes()
+                    }
+                }
             
             case .BackgroundColor3D:
                 let NewBackgroundColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
