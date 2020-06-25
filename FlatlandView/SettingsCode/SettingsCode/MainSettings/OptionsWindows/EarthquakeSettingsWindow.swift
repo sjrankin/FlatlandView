@@ -26,6 +26,7 @@ class EarthquakeSettingsWindow: NSViewController
     
     func InitializeAsynchronousEarthquakes()
     {
+        InitializeMagnitudeColors()
         HighlightRecentSwitch.state = Settings.GetBool(.HighlightRecentEarthquakes) ? .on : .off
         let EnableEarthquakes = Settings.GetBool(.EnableEarthquakes)
         EarthquakeSwitch.state = EnableEarthquakes ? .on : .off
@@ -260,16 +261,6 @@ class EarthquakeSettingsWindow: NSViewController
         }
     }
     
-    @IBAction func HandleRunMagnitudeColorsButton(_ sender: Any)
-    {
-        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "MagnitudeColorWindow") as? MagColorWindow
-        {
-            let Window = WindowController.window
-            self.view.window?.beginSheet(Window!, completionHandler: nil)
-        }
-    }
-    
     @IBAction func HandleHighlightRecentChanged(_ sender: Any)
     {
         if let Switch = sender as? NSSwitch
@@ -278,6 +269,80 @@ class EarthquakeSettingsWindow: NSViewController
         }
     }
     
+    func InitializeMagnitudeColors()
+    {
+        MagnitudeDictionary = Settings.GetMagnitudeColors()
+        for (Magnitude, Color) in MagnitudeDictionary
+        {
+            switch Magnitude
+            {
+                case .Mag4:
+                    Mag4Color.color = Color
+                    
+                case .Mag5:
+                    Mag5Color.color = Color
+                    
+                case .Mag6:
+                    Mag6Color.color = Color
+                    
+                case .Mag7:
+                    Mag7Color.color = Color
+                    
+                case .Mag8:
+                    Mag8Color.color = Color
+                    
+                case .Mag9:
+                    Mag9Color.color = Color
+            }
+        }
+    }
+    
+    @IBAction func HandleResetMagnitudeColors(_ sender: Any)
+    {
+        MagnitudeDictionary = Settings.DefaultMagnitudeColors()
+        InitializeMagnitudeColors()
+    }
+    
+    @IBAction func HandleMagnitudeColorEvent(_ sender: Any)
+    {
+        if let ColorWell = sender as? NSColorWell
+        {
+            switch ColorWell
+            {
+                case Mag4Color:
+                    MagnitudeDictionary[.Mag4] = ColorWell.color
+                    
+                case Mag5Color:
+                    MagnitudeDictionary[.Mag5] = ColorWell.color
+                    
+                case Mag6Color:
+                    MagnitudeDictionary[.Mag6] = ColorWell.color
+                    
+                case Mag7Color:
+                    MagnitudeDictionary[.Mag7] = ColorWell.color
+                    
+                case Mag8Color:
+                    MagnitudeDictionary[.Mag8] = ColorWell.color
+                    
+                case Mag9Color:
+                    MagnitudeDictionary[.Mag9] = ColorWell.color
+                    
+                default:
+                    return
+            }
+            
+            Settings.SetMagnitudeColors(MagnitudeDictionary)
+        }
+    }
+    
+    var MagnitudeDictionary = [EarthquakeMagnitudes: NSColor]()
+    
+    @IBOutlet weak var Mag4Color: NSColorWell!
+    @IBOutlet weak var Mag5Color: NSColorWell!
+    @IBOutlet weak var Mag6Color: NSColorWell!
+    @IBOutlet weak var Mag7Color: NSColorWell!
+    @IBOutlet weak var Mag8Color: NSColorWell!
+    @IBOutlet weak var Mag9Color: NSColorWell!
     @IBOutlet weak var HighlightRecentSwitch: NSSwitch!
     @IBOutlet weak var Quake2Button: NSButton!
     @IBOutlet weak var MinMagCombo: NSComboBox!
@@ -286,7 +351,8 @@ class EarthquakeSettingsWindow: NSViewController
     @IBOutlet weak var AgeCombo: NSComboBox!
     @IBOutlet weak var ShapeCombo: NSComboBox!
     @IBOutlet weak var EarthquakeSwitch: NSSwitch!
-    @IBOutlet weak var MagColorTable: NSTableView!
     @IBOutlet weak var FrequencyCombo: NSComboBox!
     @IBOutlet weak var EarthquakeViewButton: NSButton!
+    
+    
 }
