@@ -172,7 +172,15 @@ extension GlobeView
                             
                         case .MagnitudeRange:
                             let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
-                            BaseColor = MagnitudeColors[MagRange.rawValue]!
+                            let Colors = Settings.GetMagnitudeColors()
+                            for (Magnitude, Color) in Colors
+                            {
+                                if Magnitude == MagRange
+                                {
+                                    BaseColor = Color
+                                }
+                            }
+//                            BaseColor = MagnitudeColors[MagRange.rawValue]!
                             
                         case .Population:
                             let ClosestPopulation = PopulationOfClosestCity(To: Quake)
@@ -383,6 +391,16 @@ extension GlobeView
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
                 
+            case .Cylinder:
+                FinalNode = SCNNode(geometry: SCNCylinder(radius: CGFloat(Percent * 0.25), height: CGFloat(2.5 * Percent)))
+                YRotation = Quake.Latitude + 90.0
+                XRotation = Quake.Longitude + 180.0
+                
+            case .Capsule:
+                FinalNode = SCNNode(geometry: SCNCapsule(capRadius: CGFloat(Percent * 0.25), height: CGFloat(2.5 * Percent)))
+                YRotation = Quake.Latitude + 90.0
+                XRotation = Quake.Longitude + 180.0
+                
             case .Sphere:
                 let ERadius = Quake.Magnitude * 0.1
                 let QSphere = SCNSphere(radius: CGFloat(ERadius))
@@ -448,6 +466,16 @@ extension GlobeView
                 
             case .Box:
                 FinalNode = SCNNode(geometry: SCNBox(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5, chamferRadius: 0.1))
+                YRotation = Quake.Latitude + 90.0
+                XRotation = Quake.Longitude + 180.0
+                
+            case .Cylinder:
+                FinalNode = SCNNode(geometry: SCNCylinder(radius: CGFloat(Percent * 0.25), height: CGFloat(2.5 * Percent)))
+                YRotation = Quake.Latitude + 90.0
+                XRotation = Quake.Longitude + 180.0
+                
+            case .Capsule:
+                FinalNode = SCNNode(geometry: SCNCapsule(capRadius: CGFloat(Percent * 0.25), height: CGFloat(2.5 * Percent)))
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
                 
@@ -735,7 +763,7 @@ extension GlobeView
     /// - Returns: An `SCNNode` to be used as an indicator of a recent earthquake.
     func HighlightEarthquake(_ Quake: Earthquake) -> SCNNode
     {
-        let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
+        let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
         let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.1)
         let Indicator = SCNNode(geometry: IndicatorShape)
@@ -747,6 +775,13 @@ extension GlobeView
                                         y: CGFloat(360.0.Radians),
                                         z: CGFloat(0.0.Radians),
                                         duration: 1.0)
+        let ScaleDuration = 1.0 - (Quake.Magnitude / 10.0)
+        let ToScale = 1.2 + (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
+        let ScaleUp = SCNAction.scale(to: CGFloat(ToScale), duration: 1.0 + ScaleDuration)
+        let ScaleDown = SCNAction.scale(to: 1.0, duration: 1.0 + ScaleDuration)
+        let ScaleGroup = SCNAction.sequence([ScaleUp, ScaleDown])
+        let ScaleForever = SCNAction.repeatForever(ScaleGroup)
+        Indicator.runAction(ScaleForever)
         let Forever = SCNAction.repeatForever(Rotate)
         Indicator.runAction(Forever)
         let Final = SCNNode()
