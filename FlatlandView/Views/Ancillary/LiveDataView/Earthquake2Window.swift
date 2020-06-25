@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class Earthquake2DWindow: NSWindowController, NSWindowDelegate
+class Earthquake2Window: NSWindowController, NSWindowDelegate
 {
     override func windowDidLoad()
     {
