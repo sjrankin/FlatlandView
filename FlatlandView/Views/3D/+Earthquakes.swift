@@ -135,6 +135,15 @@ extension GlobeView
         {
             if let QNode = MakeEarthquakeNode(Quake)
             {
+                if Settings.GetBool(.HighlightRecentEarthquakes)
+                {
+                    let RecentDefinition = Settings.GetDouble(.RecentEarthquakeDefinition, 24.0 * 60.0 * 60.0)
+                    if Quake.GetAge() <= RecentDefinition
+                    {
+                        let Ind = HighlightEarthquake(Quake)
+                        Surface.addChildNode(Ind)
+                    }
+                }
                 var BaseColor = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
                 let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
                 if !InAgeRange(Quake, InRange: AgeRange)
@@ -719,5 +728,35 @@ extension GlobeView
         MagNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
         
         return MagNode
+    }
+    
+    /// Visually highlight the passed earthquake.
+    /// - Parameter Quake: The earthquake to highlight.
+    /// - Returns: An `SCNNode` to be used as an indicator of a recent earthquake.
+    func HighlightEarthquake(_ Quake: Earthquake) -> SCNNode
+    {
+        let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
+        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+        let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.1)
+        let Indicator = SCNNode(geometry: IndicatorShape)
+        Indicator.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "EarthquakeHighlight2")
+        Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
+        Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
+        
+        let Rotate = SCNAction.rotateBy(x: CGFloat(0.0.Radians),
+                                        y: CGFloat(360.0.Radians),
+                                        z: CGFloat(0.0.Radians),
+                                        duration: 1.0)
+        let Forever = SCNAction.repeatForever(Rotate)
+        Indicator.runAction(Forever)
+        let Final = SCNNode()
+        let YRotation = Quake.Latitude + 90.0
+        let XRotation = Quake.Longitude + 180.0
+        let ZRotation = 0.0
+        Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
+        Final.position = SCNVector3(X, Y, Z)
+        Final.addChildNode(Indicator)
+        Final.name = "EarthquakeNode"
+        return Final
     }
 }
