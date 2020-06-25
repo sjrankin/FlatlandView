@@ -64,8 +64,6 @@
 		17BD9E8224867D400054B25E /* ConfirmDialogWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */; };
 		17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */; };
 		17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8524867DB60054B25E /* ConfirmProtocol.swift */; };
-		17C58A5C24A094160046E108 /* MagColorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C58A5B24A094160046E108 /* MagColorWindow.swift */; };
-		17C58A5E24A094410046E108 /* MagnitudeColorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C58A5D24A094410046E108 /* MagnitudeColorCode.swift */; };
 		17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BB82491C8E400CACED5 /* SCNRegular.swift */; };
 		17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BBC2491EAA200CACED5 /* SCNPin.swift */; };
 		17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */; };
@@ -173,8 +171,6 @@
 		17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogWindow.swift; sourceTree = "<group>"; };
 		17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogCode.swift; sourceTree = "<group>"; };
 		17BD9E8524867DB60054B25E /* ConfirmProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmProtocol.swift; sourceTree = "<group>"; };
-		17C58A5B24A094160046E108 /* MagColorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagColorWindow.swift; sourceTree = "<group>"; };
-		17C58A5D24A094410046E108 /* MagnitudeColorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnitudeColorCode.swift; sourceTree = "<group>"; };
 		17CC8BB82491C8E400CACED5 /* SCNRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNRegular.swift; sourceTree = "<group>"; };
 		17CC8BBC2491EAA200CACED5 /* SCNPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPin.swift; sourceTree = "<group>"; };
 		17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorWindow.swift; sourceTree = "<group>"; };
@@ -273,7 +269,6 @@
 			isa = PBXGroup;
 			children = (
 				174F0108248CD01E00F610DD /* MapManager */,
-				17C58A5A24A093D70046E108 /* MagnitudeColors */,
 				173A104D248B39B300793216 /* GetLocation */,
 				17BD9E8024867D290054B25E /* Confirmation */,
 				17B4410E24861CD40050A5DF /* CityColor */,
@@ -475,15 +470,6 @@
 				17BD9E8524867DB60054B25E /* ConfirmProtocol.swift */,
 			);
 			path = Confirmation;
-			sourceTree = "<group>";
-		};
-		17C58A5A24A093D70046E108 /* MagnitudeColors */ = {
-			isa = PBXGroup;
-			children = (
-				17C58A5B24A094160046E108 /* MagColorWindow.swift */,
-				17C58A5D24A094410046E108 /* MagnitudeColorCode.swift */,
-			);
-			path = MagnitudeColors;
 			sourceTree = "<group>";
 		};
 		17DDA0432484E91F0090E1EB /* SettingsCode */ = {
@@ -724,7 +710,6 @@
 				178A86A02489108C00BE8D46 /* +CubicEarth.swift in Sources */,
 				1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */,
 				17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */,
-				17C58A5E24A094410046E108 /* MagnitudeColorCode.swift in Sources */,
 				1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */,
 				1759AE5B249F7781003F79F5 /* MainSettingsBase.swift in Sources */,
 				17EF33A8247A936900A5B55D /* Solar.swift in Sources */,
@@ -769,7 +754,6 @@
 				17F440D7247CD72E00FD440E /* +DrawGrid.swift in Sources */,
 				1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */,
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
-				17C58A5C24A094160046E108 /* MagColorWindow.swift in Sources */,
 				17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */,
 				17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */,
 				1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */,
