@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SceneKit
 
-class AboutController: NSViewController
+class AboutController: NSViewController, SCNSceneRendererDelegate
 {
     override func viewDidLoad()
     {
