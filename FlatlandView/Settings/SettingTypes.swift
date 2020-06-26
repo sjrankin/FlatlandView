@@ -96,6 +96,8 @@ enum SettingTypes: String, CaseIterable
     case ShowPOIEmission = "ShowPOIEmission"
     /// Boolean: If true, the 3D view will try to attract people via animation and other effects.
     case InAttractMode = "InAttractMode"
+    /// Boolean: If true, the scene's camera is set to HDR mode.
+    case UseHDRCamera = "UserHDRCamera"
     #if DEBUG
     //3D debug settings.
     /// Render 3D elements as wireframes.
