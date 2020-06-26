@@ -108,7 +108,7 @@ extension GlobeView
         EarthquakeList2.removeAll()
         EarthquakeList2 = Earthquake2.LargestList(NewList)
         PlottedEarthquakes.removeAll()
-        PlotEarthquakes2()
+        //PlotEarthquakes2()
     }
     
     /// Plot a passed list of earthquakes on the passed surface.
@@ -180,7 +180,6 @@ extension GlobeView
                                     BaseColor = Color
                                 }
                             }
-//                            BaseColor = MagnitudeColors[MagRange.rawValue]!
                             
                         case .Population:
                             let ClosestPopulation = PopulationOfClosestCity(To: Quake)
@@ -239,7 +238,7 @@ extension GlobeView
         {
             return
         }
-        print("Plotting \(List.count) earthquakes")
+        print("Plotting \(List.count) earthquakes!!!!")
         let Oldest = OldestEarthquakeOccurence2(List)
         let Biggest = Cities.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
         var MaxSignificance = 0
@@ -364,11 +363,11 @@ extension GlobeView
                 Arrow.scale = SCNVector3(0.75, 0.75, 0.75)
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
-                let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: 0.25)
+                let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: 1.0)
                 let RotateForever = SCNAction.repeatForever(Rotate)
                 
                 let BounceDistance: CGFloat = 0.5
-                let BounceDuration = 0.8
+                let BounceDuration = 1.0
                 let BounceAway = SCNAction.move(by: SCNVector3(0.0, -BounceDistance, 0.0), duration: BounceDuration)
                 BounceAway.timingMode = .easeOut
                 let BounceTo = SCNAction.move(by: SCNVector3(0.0, BounceDistance, 0.0), duration: BounceDuration)
@@ -376,10 +375,16 @@ extension GlobeView
                 let BounceSequence = SCNAction.sequence([BounceAway, BounceTo])
                 let MoveForever = SCNAction.repeatForever(BounceSequence)
                 
-                //let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
-                //Arrow.runAction(AnimationGroup)
+                let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
+                Arrow.runAction(AnimationGroup)
                 Arrow.runAction(RotateForever)
+                #if false
                 FinalNode = Arrow
+                #else
+                let Encapsulate = SCNNode()
+                Encapsulate.addChildNode(Arrow)
+                FinalNode = Encapsulate
+                #endif
                 
             case .Pyramid:
                 FinalNode = SCNNode(geometry: SCNPyramid(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5))
@@ -456,8 +461,11 @@ extension GlobeView
                 
                 //let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
                 //Arrow.runAction(AnimationGroup)
-                Arrow.runAction(RotateForever)
-                FinalNode = Arrow
+                //Arrow.runAction(RotateForever)
+                
+                let EncapsulatedArrow = SCNNode()
+                EncapsulatedArrow.addChildNode(EncapsulatedArrow)
+                FinalNode = EncapsulatedArrow//Arrow
                 
             case .Pyramid:
                 FinalNode = SCNNode(geometry: SCNPyramid(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5))
@@ -767,7 +775,7 @@ extension GlobeView
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
         let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.1)
         let Indicator = SCNNode(geometry: IndicatorShape)
-        Indicator.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "EarthquakeHighlight2")
+        Indicator.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "RedCheckerboardTextureTransparent") //EarthquakeHighlight2")
         Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
         Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
         
