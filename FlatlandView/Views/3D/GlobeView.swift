@@ -171,7 +171,8 @@ class GlobeView: SCNView, GlobeProtocol
         self.showsStatistics = false
         #endif
         
-        let Camera = SCNCamera()
+        Camera = SCNCamera()
+        Camera.wantsHDR = Settings.GetBool(.UseHDRCamera)
         Camera.fieldOfView = 90.0
         Camera.usesOrthographicProjection = true
         Camera.orthographicScale = 14
@@ -205,6 +206,8 @@ class GlobeView: SCNView, GlobeProtocol
         UpdateEarthView()
         SetHourResetTimer()
     }
+    
+    var Camera: SCNCamera = SCNCamera()
     
     /// Setup lights to use to view the 3D scene.
     func SetupLights()
@@ -266,6 +269,11 @@ class GlobeView: SCNView, GlobeProtocol
         let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 1.0)
         RotationAction.timingMode = .easeOut
         self.pointOfView?.runAction(RotationAction)
+    }
+    
+    func SetHDR()
+    {
+        Camera.wantsHDR = Settings.GetBool(.UseHDRCamera)
     }
     
     /// Set the hour reset timer.
@@ -359,9 +367,26 @@ class GlobeView: SCNView, GlobeProtocol
             MoonNode?.position = SCNVector3(0.0, 0.0, -100.0)
             MoonNode?.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
             self.scene?.rootNode.addChildNode(MoonNode!)
+            
+            MetalMoonLight = SCNLight()
+            MetalMoonLight.categoryBitMask = MetalMoonMask
+            MetalMoonLight.type = .directional
+            MetalMoonLight.intensity = 800
+            MetalMoonLight.castsShadow = true
+            MetalMoonLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
+            MetalMoonLight.shadowMode = .forward
+            MetalMoonLight.shadowRadius = 4.0
+            MetalMoonLight.color = NSColor.cyan
+            MetalMoonNode = SCNNode()
+            MetalMoonNode.light = MetalMoonLight
+            MetalMoonNode.position = SCNVector3(0.0, 0.0, -100.0)
+            MetalMoonNode.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
+            self.scene?.rootNode.addChildNode(MetalMoonNode)
         }
         else
         {
+            MetalMoonNode.removeAllActions()
+            MetalMoonNode.removeFromParentNode()
             MoonNode?.removeAllActions()
             MoonNode?.removeFromParentNode()
             MoonNode = nil
