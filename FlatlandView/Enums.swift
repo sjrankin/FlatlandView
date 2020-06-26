@@ -443,6 +443,46 @@ enum EarthquakeShapes: String, CaseIterable
     case Magnitude = "Magnitude"
 }
 
+/// Types of earthquake indicators.
+enum EarthquakeIndicators: String, CaseIterable
+{
+    /// No indicator.
+    case None = "None"
+    /// Static ring of a solid color.
+    case StaticRing = "Static Ring"
+    /// Animated ring with a texture.
+    case AnimatedRing = "Animated Ring"
+    /// Glowing sphere with a solid color.
+    case GlowingSphere = "Glowing Sphere"
+}
+
+/// Definitions of "recent" earthquakes.
+enum EarthquakeRecents: String, CaseIterable
+{
+    /// One day old.
+    case Day1 = "Last 24 Hours"
+    /// Two days old.
+    case Day2 = "Last 48 Hours"
+    /// Three days old.
+    case Day3 = "Last 72 Hours"
+    /// Seven days old.
+    case Day7 = "Last Week"
+    /// Ten days old.
+    case Day10 = "Last 10 Days"
+}
+
+/// Textures to use for earthquake indicators that use textures.
+enum EarthquakeTextures: String, CaseIterable
+{
+    case SolidColor = "Solid Color"
+    case Gradient = "Color Gradient"
+    case DiagonalLines = "Diagonal Lines"
+    case TransparentDiagonalLines = "Transparent Diagonals"
+    case Checkerboard = "Black/White Checkerboard"
+    case CheckerBoardTransparent = "Black/Transparent Checkerboard"
+    case RedCheckerboard = "Red/Transparent Checkerboard"
+}
+
 /// Radius values.
 enum GlobeRadius: CGFloat, CaseIterable
 {
