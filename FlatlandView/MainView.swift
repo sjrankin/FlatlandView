@@ -922,6 +922,23 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                     World3DView.PlotCities()
                 }
                 
+            case .EarthquakeStyles:
+                if Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self, Default: .None) == .None
+                {
+                    Earthquakes?.StopReceivingEarthquakes()
+                    World3DView.ClearEarthquakes()
+                }
+                else
+                {
+                    let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
+                    Earthquakes?.GetEarthquakes(Every: FetchInterval)
+                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                    {
+                        World3DView.ClearEarthquakes()
+                        World3DView.PlotEarthquakes()
+                    }
+                }
+                /*
             case .EnableEarthquakes:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
@@ -938,6 +955,19 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                     Earthquakes?.StopReceivingEarthquakes()
                     World3DView.ClearEarthquakes()
                 }
+ */
+            
+            case .RecentEarthquakeDefinition:
+                World3DView.ClearEarthquakes()
+                World3DView.PlotEarthquakes()
+                
+            case .EarthquakeTextures:
+                World3DView.ClearEarthquakes()
+                World3DView.PlotEarthquakes()
+                
+            case .EarthquakeColor:
+                World3DView.ClearEarthquakes()
+                World3DView.PlotEarthquakes()
                 
             case .EarthquakeFetchInterval:
                 let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
