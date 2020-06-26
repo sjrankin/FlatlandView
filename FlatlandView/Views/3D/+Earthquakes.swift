@@ -116,10 +116,17 @@ extension GlobeView
     /// - Parameter On: The 3D surface upon which to plot the earthquakes.
     func PlotEarthquakes(_ List: [Earthquake], On Surface: SCNNode)
     {
+        #if true
+        if Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self, Default: .None) == .None
+        {
+            return
+        }
+        #else
         if !Settings.GetBool(.EnableEarthquakes)
         {
             return
         }
+        #endif
         print("Plotting \(List.count) earthquakes")
         let Oldest = OldestEarthquakeOccurence(List)
         let Biggest = Cities.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
@@ -234,10 +241,17 @@ extension GlobeView
     /// - Parameter On: The 3D surface upon which to plot the earthquakes.
     func PlotEarthquakes2(_ List: [Earthquake2], On Surface: SCNNode)
     {
+        #if true
+        if Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self, Default: .None) == .None
+        {
+            return
+        }
+        #else
         if !Settings.GetBool(.EnableEarthquakes)
         {
             return
         }
+        #endif
         print("Plotting \(List.count) earthquakes!!!!")
         let Oldest = OldestEarthquakeOccurence2(List)
         let Biggest = Cities.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
