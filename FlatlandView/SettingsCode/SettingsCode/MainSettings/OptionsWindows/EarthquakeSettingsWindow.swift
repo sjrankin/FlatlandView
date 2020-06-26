@@ -27,7 +27,6 @@ class EarthquakeSettingsWindow: NSViewController
     func InitializeAsynchronousEarthquakes()
     {
         InitializeMagnitudeColors()
-        HighlightRecentSwitch.state = Settings.GetBool(.HighlightRecentEarthquakes) ? .on : .off
         let EnableEarthquakes = Settings.GetBool(.EnableEarthquakes)
         EarthquakeSwitch.state = EnableEarthquakes ? .on : .off
         let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
@@ -261,11 +260,13 @@ class EarthquakeSettingsWindow: NSViewController
         }
     }
     
-    @IBAction func HandleHighlightRecentChanged(_ sender: Any)
+    @IBAction func HandleSetupRecentEarthquakes(_ sender: Any)
     {
-        if let Switch = sender as? NSSwitch
+        let Storyboard = NSStoryboard(name: "RecentEarthquakes", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "RecentEarthquakeWindow") as? RecentEarthquakeWindow
         {
-            Settings.SetBool(.HighlightRecentEarthquakes, Switch.state == .on ? true : false)
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
         }
     }
     
@@ -343,7 +344,6 @@ class EarthquakeSettingsWindow: NSViewController
     @IBOutlet weak var Mag7Color: NSColorWell!
     @IBOutlet weak var Mag8Color: NSColorWell!
     @IBOutlet weak var Mag9Color: NSColorWell!
-    @IBOutlet weak var HighlightRecentSwitch: NSSwitch!
     @IBOutlet weak var Quake2Button: NSButton!
     @IBOutlet weak var MinMagCombo: NSComboBox!
     @IBOutlet weak var BaseColorWell: NSColorWell!
