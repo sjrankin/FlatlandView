@@ -189,8 +189,10 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeFetchInterval = "EarthquakeFetchInterval"
     /// Double: Minimum magnitude to be included.
     case MinimumMagnitude = "MinimumMagnitude"
+    
     /// Boolean: Determines if remote earthquake data is fetched.
     case EnableEarthquakes = "EnableEarthquakes"
+
     /// How to modify the base color on a per-earthquake basis.
     case ColorDetermination = "ColorDetermination"
     /// NSColor: The base earthquake color.
@@ -210,8 +212,14 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeListStyle = "EarthquakeListStyle"
     /// Boolean: Highlight recent earthquakes.
     case HighlightRecentEarthquakes = "HighlightRecentEarthquakes"
-    /// Double: Number of seconds of age an earthquake must be to be considered "recent."
+    /// The age an earthquake must be to be considered "recent."
     case RecentEarthquakeDefinition = "RecentEarthquakeDefinition"
+    /// Texture to use for earthquake indicators that use textures.
+    case EarthquakeTextures = "EarthquakeTextures"
+    /// Earthquake indicator style.
+    case EarthquakeStyles = "EarthquakeStyles"
+    /// Earthquake indicator color for indicators that use colors.
+    case EarthquakeColor = "EarthquakeColor"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
