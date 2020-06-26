@@ -81,6 +81,7 @@ class View3DSettingsWindow: NSViewController
         #endif
         Background3DColorWell.color = Settings.GetColor(.BackgroundColor3D, NSColor.black)
         UseAmbientLight.state = Settings.GetBool(.UseAmbientLight) ? .on : .off
+        HDRCamera.state = Settings.GetBool(.UseHDRCamera) ? .on : .off
     }
     
     @IBAction func Handle3DGridLineChanged(_ sender: Any)
@@ -259,6 +260,15 @@ class View3DSettingsWindow: NSViewController
         }
     }
     
+    @IBAction func HandleHDRCameraChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.UseHDRCamera, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var HDRCamera: NSSwitch!
     @IBOutlet weak var Show3DMinorGridLines: NSSwitch!
     @IBOutlet weak var Show3DPolarCircles: NSSwitch!
     @IBOutlet weak var Show3DPrimeMeridians: NSSwitch!
