@@ -127,6 +127,7 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         }
     }
     
+    /// The view is closing so tell the main view.
     override func viewWillDisappear()
     {
         MainDelegate?.DidClose("MainSettings")
