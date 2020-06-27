@@ -224,7 +224,7 @@ extension GlobeView
                 let Shape = Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
                 if  Shape == .Arrow || Shape == .StaticArrow
                 {
-                    if let ANode = QNode as? SCNSimpleArrow
+                    if let ANode = QNode.childNodes.first as? SCNSimpleArrow
                     {
                         ANode.Color = BaseColor
                     }
