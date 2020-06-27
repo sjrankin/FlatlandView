@@ -627,9 +627,16 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         if let WindowController = Storyboard.instantiateController(withIdentifier: "AboutWindow") as? AboutWindow
         {
             let Window = WindowController.window
-            self.view.window?.beginSheet(Window!, completionHandler: nil)
+            AboutDelegate = Window?.contentView as? WindowManagement
+            self.view.window?.beginSheet(Window!)
+            {
+                _ in
+                self.AboutDelegate = nil
+            }
         }
     }
+    
+    var AboutDelegate: WindowManagement? = nil
     
     @IBAction func DebugShow(_ sender: Any)
     {
@@ -648,11 +655,14 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
             let SettingWindow = WindowController.window
             let Controller = SettingWindow?.contentViewController as? MainSettingsBase
             Controller?.MainDelegate = self
+            MainSettingsDelegate = Controller
             Controller?.LoadData(DataType: .Earthquakes, Raw: LatestEarthquakes as Any)
             Controller?.LoadData(DataType: .Earthquakes2, Raw: LatestEarthquakes2 as Any)
             WindowController.showWindow(nil)
         }
     }
+    
+    var MainSettingsDelegate: WindowManagement? = nil
     
     @IBAction func HandleHourTypeChanged(_ sender: Any)
     {
@@ -704,6 +714,8 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
     
     func WillClose()
     {
+        MainSettingsDelegate?.MainClosing()
+        AboutDelegate?.MainClosing()
         print("Flatland closing.")
     }
     
@@ -723,6 +735,18 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
     /// - Parameter From: The caller's label.
     func Refresh(_ From: String)
     {
+    }
+    
+    func DidClose(_ WhatClosed: String)
+    {
+        switch WhatClosed
+        {
+            case "MainSettings":
+                MainSettingsDelegate = nil
+                
+            default:
+                break
+        }
     }
     
     // MARK: - Settings changed required functions.
@@ -923,22 +947,10 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                 }
                 
             case .EarthquakeStyles:
-                if Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self, Default: .None) == .None
-                {
-                    Earthquakes?.StopReceivingEarthquakes()
-                    World3DView.ClearEarthquakes()
-                }
-                else
-                {
-                    let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
-                    Earthquakes?.GetEarthquakes(Every: FetchInterval)
-                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
-                    {
+
                         World3DView.ClearEarthquakes()
                         World3DView.PlotEarthquakes()
-                    }
-                }
-                /*
+
             case .EnableEarthquakes:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
@@ -955,7 +967,6 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
                     Earthquakes?.StopReceivingEarthquakes()
                     World3DView.ClearEarthquakes()
                 }
- */
             
             case .RecentEarthquakeDefinition:
                 World3DView.ClearEarthquakes()
