@@ -217,12 +217,8 @@ extension GlobeView
     /// - Parameter ToSurface: The surface node where the arrow will be added.
     func PlotBouncingArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode)
     {
-        #if false
-        let (X, Y, Z) = ToECEF(/*51.5074*/ 0.0, 0.0, Radius: Radius + 0.7)
-        #else
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.7)
-        #endif
-        let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2, Color: NSColor.systemYellow)
+        let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2, Color: NSColor.systemTeal)
         Arrow.LightMask = SunMask | MoonMask
         Arrow.scale = SCNVector3(0.75, 0.75, 0.75)
         
