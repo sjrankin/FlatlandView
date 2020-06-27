@@ -62,6 +62,7 @@
 		178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86AA2489135C00BE8D46 /* GlobeView.swift */; };
 		1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */; };
 		1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105E2495BA6900626FD9 /* SCNTriangle.swift */; };
+		17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A978A124A71F09004EECAC /* WindowManagement.swift */; };
 		17B4411024861CE30050A5DF /* CityColorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4410F24861CE30050A5DF /* CityColorWindow.swift */; };
 		17B4411224861CFD0050A5DF /* CityColorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4411124861CFD0050A5DF /* CityColorCode.swift */; };
 		17BD9E8224867D400054B25E /* ConfirmDialogWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */; };
@@ -172,6 +173,7 @@
 		178A86AA2489135C00BE8D46 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
 		1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSimpleArrow.swift; sourceTree = "<group>"; };
 		1792105E2495BA6900626FD9 /* SCNTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangle.swift; sourceTree = "<group>"; };
+		17A978A124A71F09004EECAC /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
 		17B4410F24861CE30050A5DF /* CityColorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorWindow.swift; sourceTree = "<group>"; };
 		17B4411124861CFD0050A5DF /* CityColorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorCode.swift; sourceTree = "<group>"; };
 		17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogWindow.swift; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 				1750961B2482531100A3757C /* MainWindow.swift */,
 				1767A8E524794A0100C434B5 /* MainView.swift */,
 				17EF3388247A4E3D00A5B55D /* MainProtocol.swift */,
+				17A978A124A71F09004EECAC /* WindowManagement.swift */,
 				1767A8E924794A0300C434B5 /* Main.storyboard */,
 				17EF33BE247A958B00A5B55D /* Versioning.swift */,
 				17EF339B247A68C600A5B55D /* Enums.swift */,
@@ -724,6 +727,7 @@
 				178A869C2488C3D100BE8D46 /* AboutDetailsWindow.swift in Sources */,
 				17EF3397247A670B00A5B55D /* MapItem.swift in Sources */,
 				17EF33B7247A94BA00A5B55D /* City.swift in Sources */,
+				17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */,
 				1757CACF24949C6300ECA8C1 /* 3DDebugController.swift in Sources */,
 				178A86A02489108C00BE8D46 /* +CubicEarth.swift in Sources */,
 				1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */,
