@@ -712,6 +712,7 @@ class MainView: NSViewController, MainProtocol, SettingChangedProtocol, Asynchro
         }
     }
     
+    /// Handle closing events.
     func WillClose()
     {
         MainSettingsDelegate?.MainClosing()
