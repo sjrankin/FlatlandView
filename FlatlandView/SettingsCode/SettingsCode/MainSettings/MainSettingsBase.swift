@@ -9,7 +9,8 @@
 import Foundation
 import AppKit
 
-class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSource
+class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
+                        WindowManagement
 {
     public weak var MainDelegate: MainProtocol? = nil
     
@@ -126,6 +127,11 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         }
     }
     
+    override func viewWillDisappear()
+    {
+        MainDelegate?.DidClose("MainSettings")
+    }
+    
     @IBAction func HandleCloseClicked(_ sender: Any)
     {
         MainDelegate?.Refresh("MainSettings")
@@ -154,6 +160,11 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
     
     var LiveEarthquakes = [Earthquake]()
     var LiveEarthquakes2 = [Earthquake2]()
+    
+    func MainClosing()
+    {
+        self.view.window?.close()
+    }
     
     @IBOutlet weak var DialogBox: NSBox!
     @IBOutlet weak var OptionsContainer: ContainerController!
