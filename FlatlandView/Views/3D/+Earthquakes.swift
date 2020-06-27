@@ -116,17 +116,10 @@ extension GlobeView
     /// - Parameter On: The 3D surface upon which to plot the earthquakes.
     func PlotEarthquakes(_ List: [Earthquake], On Surface: SCNNode)
     {
-        #if true
-        if Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self, Default: .None) == .None
-        {
-            return
-        }
-        #else
         if !Settings.GetBool(.EnableEarthquakes)
         {
             return
         }
-        #endif
         print("Plotting \(List.count) earthquakes")
         let Oldest = OldestEarthquakeOccurence(List)
         let Biggest = Cities.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
@@ -142,21 +135,29 @@ extension GlobeView
         {
             if let QNode = MakeEarthquakeNode(Quake)
             {
-                if Settings.GetBool(.HighlightRecentEarthquakes)
-                {
-                    let RecentDefinition = Settings.GetDouble(.RecentEarthquakeDefinition, 24.0 * 60.0 * 60.0)
-                    if Quake.GetAge() <= RecentDefinition
-                    {
-                        let Ind = HighlightEarthquake(Quake)
-                        Surface.addChildNode(Ind)
-                    }
-                }
                 var BaseColor = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
                 let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
                 if !InAgeRange(Quake, InRange: AgeRange)
                 {
                     continue
                 }
+                
+                let HighlightHow = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
+                                                    Default: .None)
+                if HighlightHow != .None
+                {
+                    let HowRecent = Settings.GetEnum(ForKey: .RecentEarthquakeDefinition, EnumType: EarthquakeRecents.self,
+                                                     Default: .Day1)
+                    if let RecentSeconds = RecentMap[HowRecent]
+                    {
+                        if Quake.GetAge() <= RecentSeconds
+                        {
+                            let Ind = HighlightEarthquake(Quake)
+                            Surface.addChildNode(Ind)
+                        }
+                    }
+                }
+                
                 if Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere) == .Magnitude
                 {
                     BaseColor = NSColor.red
@@ -220,7 +221,8 @@ extension GlobeView
                             }
                     }
                 }
-                if Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere) == .Arrow
+                let Shape = Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
+                if  Shape == .Arrow || Shape == .StaticArrow
                 {
                     if let ANode = QNode as? SCNSimpleArrow
                     {
@@ -241,17 +243,10 @@ extension GlobeView
     /// - Parameter On: The 3D surface upon which to plot the earthquakes.
     func PlotEarthquakes2(_ List: [Earthquake2], On Surface: SCNNode)
     {
-        #if true
-        if Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self, Default: .None) == .None
-        {
-            return
-        }
-        #else
         if !Settings.GetBool(.EnableEarthquakes)
         {
             return
         }
-        #endif
         print("Plotting \(List.count) earthquakes!!!!")
         let Oldest = OldestEarthquakeOccurence2(List)
         let Biggest = Cities.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
@@ -400,6 +395,18 @@ extension GlobeView
                 FinalNode = Encapsulate
                 #endif
                 
+            case .StaticArrow:
+                RadialOffset = 0.7
+                let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
+                                           Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
+                Arrow.LightMask = SunMask | MoonMask
+                Arrow.scale = SCNVector3(0.75, 0.75, 0.75)
+                YRotation = Quake.Latitude + 90.0
+                XRotation = Quake.Longitude + 180.0
+                let Encapsulate = SCNNode()
+                Encapsulate.addChildNode(Arrow)
+                FinalNode = Encapsulate
+                
             case .Pyramid:
                 FinalNode = SCNNode(geometry: SCNPyramid(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5))
                 YRotation = Quake.Latitude + 90.0 + 180.0
@@ -480,6 +487,19 @@ extension GlobeView
                 let EncapsulatedArrow = SCNNode()
                 EncapsulatedArrow.addChildNode(EncapsulatedArrow)
                 FinalNode = EncapsulatedArrow//Arrow
+            
+            case .StaticArrow:
+                RadialOffset = 0.7
+                let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
+                                           Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
+                Arrow.LightMask = SunMask | MoonMask
+                Arrow.scale = SCNVector3(0.75, 0.75, 0.75)
+                YRotation = Quake.Latitude + 90.0
+                XRotation = Quake.Longitude + 180.0
+                
+                let EncapsulatedArrow = SCNNode()
+                EncapsulatedArrow.addChildNode(EncapsulatedArrow)
+                FinalNode = EncapsulatedArrow
                 
             case .Pyramid:
                 FinalNode = SCNNode(geometry: SCNPyramid(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5))
@@ -785,35 +805,81 @@ extension GlobeView
     /// - Returns: An `SCNNode` to be used as an indicator of a recent earthquake.
     func HighlightEarthquake(_ Quake: Earthquake) -> SCNNode
     {
-        let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
-        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
-        let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.1)
-        let Indicator = SCNNode(geometry: IndicatorShape)
-        Indicator.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "RedCheckerboardTextureTransparent") //EarthquakeHighlight2")
-        Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
-        Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
-        
-        let Rotate = SCNAction.rotateBy(x: CGFloat(0.0.Radians),
-                                        y: CGFloat(360.0.Radians),
-                                        z: CGFloat(0.0.Radians),
-                                        duration: 1.0)
-        let ScaleDuration = 1.0 - (Quake.Magnitude / 10.0)
-        let ToScale = 1.2 + (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
-        let ScaleUp = SCNAction.scale(to: CGFloat(ToScale), duration: 1.0 + ScaleDuration)
-        let ScaleDown = SCNAction.scale(to: 1.0, duration: 1.0 + ScaleDuration)
-        let ScaleGroup = SCNAction.sequence([ScaleUp, ScaleDown])
-        let ScaleForever = SCNAction.repeatForever(ScaleGroup)
-        Indicator.runAction(ScaleForever)
-        let Forever = SCNAction.repeatForever(Rotate)
-        Indicator.runAction(Forever)
-        let Final = SCNNode()
-        let YRotation = Quake.Latitude + 90.0
-        let XRotation = Quake.Longitude + 180.0
-        let ZRotation = 0.0
-        Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
-        Final.position = SCNVector3(X, Y, Z)
-        Final.addChildNode(Indicator)
-        Final.name = "EarthquakeNode"
-        return Final
+        switch Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
+        Default: .None)
+        {
+            case .AnimatedRing:
+                let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
+                let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+                let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.1)
+                let Indicator = SCNNode(geometry: IndicatorShape)
+                Indicator.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "RedCheckerboardTextureTransparent") //EarthquakeHighlight2")
+                Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
+                Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
+                
+                let Rotate = SCNAction.rotateBy(x: CGFloat(0.0.Radians),
+                                                y: CGFloat(360.0.Radians),
+                                                z: CGFloat(0.0.Radians),
+                                                duration: 1.0)
+                let ScaleDuration = 1.0 - (Quake.Magnitude / 10.0)
+                let ToScale = 1.2 + (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
+                let ScaleUp = SCNAction.scale(to: CGFloat(ToScale), duration: 1.0 + ScaleDuration)
+                let ScaleDown = SCNAction.scale(to: 1.0, duration: 1.0 + ScaleDuration)
+                let ScaleGroup = SCNAction.sequence([ScaleUp, ScaleDown])
+                let ScaleForever = SCNAction.repeatForever(ScaleGroup)
+                Indicator.runAction(ScaleForever)
+                let Forever = SCNAction.repeatForever(Rotate)
+                Indicator.runAction(Forever)
+                let Final = SCNNode()
+                let YRotation = Quake.Latitude + 90.0
+                let XRotation = Quake.Longitude + 180.0
+                let ZRotation = 0.0
+                Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
+                Final.position = SCNVector3(X, Y, Z)
+                Final.addChildNode(Indicator)
+                Final.name = "EarthquakeNode"
+                return Final
+                
+            case .StaticRing:
+                let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
+                let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+                let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.1)
+                let Indicator = SCNNode(geometry: IndicatorShape)
+                let StaticColor = Settings.GetColor(.EarthquakeColor, NSColor.red)
+                Indicator.geometry?.firstMaterial?.diffuse.contents = StaticColor
+                Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
+                Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
+                let Final = SCNNode()
+                let YRotation = Quake.Latitude + 90.0
+                let XRotation = Quake.Longitude + 180.0
+                let ZRotation = 0.0
+                Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
+                Final.position = SCNVector3(X, Y, Z)
+                Final.addChildNode(Indicator)
+                Final.name = "EarthquakeNode"
+                return Final
+                
+            case .GlowingSphere:
+                let Radius = Double(GlobeRadius.Primary.rawValue)
+                let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+                let IndicatorShape = SCNSphere(radius: 0.75)
+                let Indicator = SCNNode(geometry: IndicatorShape)
+                let Color = Settings.GetColor(.EarthquakeColor, NSColor.red).withAlphaComponent(0.45)
+                Indicator.geometry?.firstMaterial?.diffuse.contents = Color
+                Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
+                Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
+                let Final = SCNNode()
+                let YRotation = Quake.Latitude + 90.0
+                let XRotation = Quake.Longitude + 180.0
+                let ZRotation = 0.0
+                Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
+                Final.position = SCNVector3(X, Y, Z)
+                Final.addChildNode(Indicator)
+                Final.name = "EarthquakeNode"
+                return Final
+                
+            case .None:
+                return SCNNode()
+        }
     }
 }
