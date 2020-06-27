@@ -865,5 +865,15 @@ class GlobeView: SCNView, GlobeProtocol
             // 9 to 10
             EarthquakeMagnitudes.Mag9.rawValue: NSColor.Scarlet
         ]
+    
+    let RecentMap: [EarthquakeRecents: Double] =
+    [
+        .Day05: 12.0 * 60.0 * 60.0,
+        .Day1: 24.0 * 60.0 * 60.0,
+        .Day2: 2.0 * 24.0 * 60.0 * 60.0,
+        .Day3: 3.0 * 24.0 * 60.0 * 60.0,
+        .Day7: 7.0 * 24.0 * 60.0 * 60.0,
+        .Day10: 10.0 * 24.0 * 60.0 * 60.0,
+    ]
 }
 
