@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SceneKit
 
-class AboutController: NSViewController, SCNSceneRendererDelegate
+class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagement
 {
     override func viewDidLoad()
     {
@@ -264,6 +264,13 @@ class AboutController: NSViewController, SCNSceneRendererDelegate
     }
     
     var CurrentView = ViewTypes.Globe3D
+    
+    func MainClosing()
+    {
+        let Window = self.view.window
+        let Parent = Window?.sheetParent
+        Parent!.endSheet(Window!, returnCode: .OK)
+    }
     
     @IBOutlet weak var ViewTypeButton: NSButton!
     @IBOutlet weak var AboutWorld: SCNView!
