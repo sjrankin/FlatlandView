@@ -429,8 +429,10 @@ enum EarthquakeShapes: String, CaseIterable
 {
     /// Earthquake is a sphere.
     case Sphere = "Sphere"
-    /// Earthquake is a floating arrow.
-    case Arrow = "Bouncing Arrow"
+    /// Earthquake is an animated arrow.
+    case Arrow = "Animated Arrow"
+    /// Earthquake is a static arrow.
+    case StaticArrow = "Static Arrow"
     /// Earthquake is a pyramid.
     case Pyramid = "Pyramid"
     /// Earthquake is a box.
@@ -459,6 +461,8 @@ enum EarthquakeIndicators: String, CaseIterable
 /// Definitions of "recent" earthquakes.
 enum EarthquakeRecents: String, CaseIterable
 {
+    /// Twelve hours old.
+    case Day05 = "Last 12 Hours"
     /// One day old.
     case Day1 = "Last 24 Hours"
     /// Two days old.
