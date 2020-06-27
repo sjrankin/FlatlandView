@@ -189,10 +189,8 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeFetchInterval = "EarthquakeFetchInterval"
     /// Double: Minimum magnitude to be included.
     case MinimumMagnitude = "MinimumMagnitude"
-    
     /// Boolean: Determines if remote earthquake data is fetched.
     case EnableEarthquakes = "EnableEarthquakes"
-
     /// How to modify the base color on a per-earthquake basis.
     case ColorDetermination = "ColorDetermination"
     /// NSColor: The base earthquake color.
