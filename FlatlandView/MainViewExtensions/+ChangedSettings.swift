@@ -371,6 +371,10 @@ extension MainView: SettingChangedProtocol
                     DebugTimeValue.isHidden = false
                     DebugTimeLabel.textColor = NSColor.white
                     DebugTimeLabel.isHidden = false
+                    DebugRotationalLabel.textColor = NSColor.white
+                    DebugRotationalLabel.isHidden = false
+                    DebugRotationalValue.textColor = NSColor.white
+                    DebugRotationalValue.isHidden = false
                 }
                 else
                 {
@@ -378,6 +382,10 @@ extension MainView: SettingChangedProtocol
                     DebugTimeValue.isHidden = true
                     DebugTimeLabel.textColor = NSColor.white
                     DebugTimeLabel.isHidden = true
+                    DebugRotationalLabel.textColor = NSColor.white
+                    DebugRotationalLabel.isHidden = true
+                    DebugRotationalValue.textColor = NSColor.white
+                    DebugRotationalValue.isHidden = true
                 }
                 World3DView.StopClock()
                 World3DView.StartClock()
