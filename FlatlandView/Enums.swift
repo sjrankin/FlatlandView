@@ -318,6 +318,8 @@ enum LocationShapes2D: String, CaseIterable
 /// Speeds for the velocity of stars in the star view. Actual value determined at run-time.
 enum StarSpeeds: String, CaseIterable
 {
+    /// Do not show moving stars.
+    case Off = "Off"
     /// Slow speed.
     case Slow = "Slow"
     /// Medium speed.
@@ -533,7 +535,20 @@ enum SettingGroups: String, CaseIterable
     case Other = "Other Settings"
     /// Earthquake live view settings.
     case Earthquakes = "Earthquake Settings"
+    #if DEBUG
+    /// Settings for controlling debugging.
+    case DebugSettings = "Debug Settings"
+    #endif
 }
+
+#if DEBUG
+/// Time states for debugging
+enum TimeControls: String, CaseIterable
+{
+    case Run = "Run"
+    case Pause = "Pause"
+}
+#endif
 
 /// Layer names for 2D mode.
 enum LayerNames: String
