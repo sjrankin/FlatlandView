@@ -119,7 +119,8 @@ extension GlobeView
             let DisplayString = GetScriptHours("\(DisplayHour)", Actual: DisplayHour)
             HourLabelList.append((DisplayString, DisplayHour))
         }
-        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: NSColor.yellow, RadialOffset: 6.0)
+        let Color = Settings.GetColor(.HourColor, NSColor.systemOrange)
+        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, RadialOffset: 6.0)
     }
     
     /// Make the hour node such that each label shows number of hours away from noon.
@@ -152,8 +153,8 @@ extension GlobeView
             }
             HourLabelList.append(("\(Prefix)\(DisplayString)", DisplayHour))
         }
-        let LetterColor = NSColor(red: 239.0 / 255.0, green: 204.0 / 255.0, blue: 0.0 / 255.0, alpha: 1.0)
-        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: LetterColor, RadialOffset: 6.0)
+        let Color = Settings.GetColor(.HourColor, NSColor.systemOrange)
+        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, RadialOffset: 6.0)
     }
     
     /// Make the hour node such that `0` is always under the user's location (if set) with offsets
@@ -191,8 +192,8 @@ extension GlobeView
             }
             HourLabelList.append(("\(Prefix)\(DisplayString)", DisplayHour))
         }
-        let LetterColor = NSColor(red: 227.0 / 255.0, green: 1.0, blue: 0.0, alpha: 1.0)
-        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: LetterColor)
+        let Color = Settings.GetColor(.HourColor, NSColor.systemOrange)
+        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color)
     }
     
     /// Given an array of words, place a set of words in the hour ring over the Earth.
