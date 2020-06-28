@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17132" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="16097"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17132"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -465,9 +466,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="cv7-Wm-L4p">
-                                <rect key="frame" x="670" y="44" width="124" height="16"/>
+                                <rect key="frame" x="630" y="44" width="200" height="38"/>
                                 <rows>
                                     <gridRow id="MNw-W1-Dfp"/>
+                                    <gridRow id="OIy-W6-pet"/>
                                 </rows>
                                 <columns>
                                     <gridColumn id="3id-wv-DRd"/>
@@ -476,7 +478,7 @@
                                 <gridCells>
                                     <gridCell row="MNw-W1-Dfp" column="3id-wv-DRd" id="uKY-w5-5Lv">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jrQ-uz-Pof">
-                                            <rect key="frame" x="-2" y="0.0" width="52" height="16"/>
+                                            <rect key="frame" x="-2" y="22" width="52" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Up time" id="GuT-Wh-57f">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -486,10 +488,34 @@
                                     </gridCell>
                                     <gridCell row="MNw-W1-Dfp" column="5cP-Za-1cq" id="EdD-G4-KzB">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gsk-BO-n4A">
-                                            <rect key="frame" x="52" y="0.0" width="74" height="16"/>
+                                            <rect key="frame" x="74" y="22" width="74" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="00000000" id="hgF-AS-tpg">
                                                 <font key="font" size="14" name="SFMono-Regular"/>
                                                 <color key="textColor" name="systemYellowColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="OIy-W6-pet" column="3id-wv-DRd" id="COg-yf-NQ4">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pfw-q7-7G0">
+                                            <rect key="frame" x="-2" y="0.0" width="74" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Debug time" id="bMn-ed-RuU">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="OIy-W6-pet" column="5cP-Za-1cq" id="bp1-mq-kr2">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4kO-dH-pM6">
+                                            <rect key="frame" x="74" y="0.0" width="128" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="124" id="hf3-J8-V2o"/>
+                                                <constraint firstAttribute="height" constant="16" id="vCV-vL-Zh7"/>
+                                            </constraints>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Debug time value" id="nAA-Rp-1ij">
+                                                <font key="font" size="13" name="SFMono-Regular"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
@@ -731,7 +757,7 @@
                             <constraint firstItem="f0s-yU-n89" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="kUA-JN-AWH"/>
                             <constraint firstAttribute="bottom" secondItem="f0s-yU-n89" secondAttribute="bottom" id="sz2-kd-TWm"/>
                             <constraint firstAttribute="bottom" secondItem="QaS-kA-VXe" secondAttribute="bottom" id="uvT-IV-cuD"/>
-                            <constraint firstAttribute="trailing" secondItem="cv7-Wm-L4p" secondAttribute="trailing" constant="106" id="wCT-v8-Mk6"/>
+                            <constraint firstAttribute="trailing" secondItem="cv7-Wm-L4p" secondAttribute="trailing" constant="70" id="wCT-v8-Mk6"/>
                         </constraints>
                     </view>
                     <connections>
@@ -740,6 +766,8 @@
                         <outlet property="DailySeconds" destination="mQw-sc-GjS" id="ztC-H9-Rgi"/>
                         <outlet property="DailySecondsLabel" destination="lxY-1l-DQz" id="qn5-Ha-rPQ"/>
                         <outlet property="DebugGrid" destination="cv7-Wm-L4p" id="dwP-d2-Ide"/>
+                        <outlet property="DebugTimeLabel" destination="Pfw-q7-7G0" id="ybP-1u-2Ej"/>
+                        <outlet property="DebugTimeValue" destination="4kO-dH-pM6" id="MbK-M5-CEH"/>
                         <outlet property="DeclinationLabel" destination="qWx-Qe-aYq" id="yfs-iG-Mpb"/>
                         <outlet property="DeclinationTextLabel" destination="ebi-Mh-mcS" id="SX8-wU-suI"/>
                         <outlet property="FlatView" destination="jzK-yC-9yN" id="Rqo-BK-KcW"/>
