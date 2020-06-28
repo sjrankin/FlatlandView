@@ -44,6 +44,9 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         SettingMap[.OtherLocations] = SettingEntry(CreateSettingDialog("OtherLocations"))
         SettingMap[.Other] = SettingEntry(CreateSettingDialog("OtherSettings"))
         SettingMap[.Earthquakes] = SettingEntry(CreateSettingDialog("EarthquakeSettings"))
+        #if DEBUG
+        SettingMap[.DebugSettings] = SettingEntry(CreateSettingDialog("DebugSettings"))
+        #endif
     }
     
     var SettingMap = [SettingGroups: SettingEntry]()
@@ -86,6 +89,11 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
             case .Other:
                 break
                 
+                #if DEBUG
+            case .DebugSettings:
+                break
+                #endif
+                
             case .Earthquakes:
                 (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes, Raw: LiveEarthquakes as Any)
                 (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes2, Raw: LiveEarthquakes2 as Any)
@@ -110,6 +118,12 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         }
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
+        #if DEBUG
+        if CellContents == "Debug Settings"
+        {
+            Cell?.textField?.textColor = NSColor.Maroon
+        }
+        #endif
         return Cell
     }
     
