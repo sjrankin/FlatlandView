@@ -13,6 +13,8 @@ import SceneKit
 /// Provide the main 3D view for Flatland.
 class GlobeView: SCNView, GlobeProtocol
 {
+    public weak var MainDelegate: MainProtocol? = nil
+    
     override init(frame: CGRect)
     {
         super.init(frame: frame)
@@ -518,10 +520,42 @@ class GlobeView: SCNView, GlobeProtocol
     /// if this function is called too infrequently, the Earth will show jerky motion as it rotates.
     @objc func UpdateEarthView()
     {
+        #if false
         if IgnoreClock
         {
             return
         }
+        #endif
+        #if DEBUG
+        if Settings.GetBool(.DebugTime)
+        {
+            if Settings.GetEnum(ForKey: .TimeControl, EnumType: TimeControls.self, Default: .Run) == .Pause
+            {
+                return
+            }
+            if Settings.GetBool(.EnableStopTime)
+            {
+                if DebugTime >= StopTime
+                {
+                    return
+                }
+            }
+            let DebugSecondsIncrement = Settings.GetDouble(.TimeMultiplier, 1.0)
+            DebugTime = DebugTime.advanced(by: DebugSecondsIncrement)
+            let TZ = TimeZone(abbreviation: "UTC")
+            var Cal = Calendar(identifier: .gregorian)
+            Cal.timeZone = TZ!
+            let Hour = Cal.component(.hour, from: DebugTime)
+            let Minute = Cal.component(.minute, from: DebugTime)
+            let Second = Cal.component(.second, from: DebugTime)
+            let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+            let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
+            let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+            UpdateEarth(With: PrettyPercent)
+            MainDelegate?.DebugTimeChanged(DebugTime)
+            return
+        }
+        #endif
         let Now = Date()
         let TZ = TimeZone(abbreviation: "UTC")
         var Cal = Calendar(identifier: .gregorian)
@@ -534,6 +568,27 @@ class GlobeView: SCNView, GlobeProtocol
         let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
         UpdateEarth(With: PrettyPercent)
     }
+    
+    #if DEBUG
+    /// Holds the current debug time.
+    var DebugTime: Date = Date()
+    /// Holds the current stop time.
+    var StopTime: Date = Date()
+    
+    /// Set the debug time.
+    /// - Parameter NewTime: The new time for the debug clock.
+    func SetDebugTime(_ NewTime: Date)
+    {
+        DebugTime = NewTime
+    }
+    
+    /// Set the stop time.
+    /// - Parameter NewTime: The time when to stop updating the clock.
+    func SetStopTime(_ NewTime: Date)
+    {
+        StopTime = NewTime
+    }
+    #endif
     
     /// Update the rotation of the Earth.
     /// - Parameter With: The percent time of day it is. Determines the rotation position of the Earth
