@@ -117,6 +117,7 @@ class MapList
             MapItem(.StylizedSea1, false, "LandMask2", "WorldNorth", "WorldSouth"),
             MapItem(.EarthquakeMap, false, "EarthquakeLandMap", "EarthquakeLandMapNorthCenter", "EarthquakeLandMapSouthCenter"),
             MapItem(.RedTectonicLines, false, "TectonicLinesRed", "TectonicBaseNorthCenterRed", "TectonicBaseSouthCenterRed"),
+            MapItem(.CitiesAtNight, false, "CitiesAtNight", "CitiesAtNightNorthCenter", "CitiesAtNightSouthCenter"),
     ]
 }
 
@@ -209,4 +210,5 @@ enum MapTypes: String, CaseIterable
     case StylizedSea1 = "Stylized Sea 1"
     case EarthquakeMap = "Earthquake Map"
     case RedTectonicLines = "Red Tectonic Lines"
+    case CitiesAtNight = "Cities at Night"
 }
