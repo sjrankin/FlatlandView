@@ -56,6 +56,10 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         DebugTimeValue.isHidden = true
         DebugTimeLabel.textColor = NSColor.white
         DebugTimeLabel.isHidden = true
+        DebugRotationalLabel.textColor = NSColor.white
+        DebugRotationalLabel.isHidden = true
+        DebugRotationalValue.textColor = NSColor.white
+        DebugRotationalValue.isHidden = true
     }
     
     var Earthquakes: USGS? = nil
@@ -745,6 +749,15 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             DebugTimeValue.stringValue = Utility.MakeTimeString(TheDate: NewTime)
         }
     }
+    
+    func DebugRotationChanged(_ NewRotation: Double)
+    {
+        DebugRotationalLabel.textColor = NSColor.white
+        DebugRotationalLabel.isHidden = false
+        DebugRotationalValue.textColor = NSColor.white
+        DebugRotationalValue.isHidden = false
+        DebugRotationalValue.stringValue = "\((NewRotation * 100.0).RoundedTo(2))%"
+    }
    
     /// Hide or show the info grid.
     /// - Note: For fun, the grid is shown or hidden using animation.
@@ -827,6 +840,8 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     // MARK: - Interface builder outlets.
     
+    @IBOutlet weak var DebugRotationalLabel: NSTextField!
+    @IBOutlet weak var DebugRotationalValue: NSTextField!
     @IBOutlet weak var DebugTimeValue: NSTextField!
     @IBOutlet weak var DebugTimeLabel: NSTextField!
     @IBOutlet weak var StarView: Starfield!
