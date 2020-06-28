@@ -305,6 +305,7 @@ class GlobeView: SCNView, GlobeProtocol
         UpdateHourLabels(With: HourType)
     }
     
+    /// Create an ambient light for the scene.
     func CreateAmbientLight()
     {
         let Ambient = SCNLight()
@@ -322,6 +323,7 @@ class GlobeView: SCNView, GlobeProtocol
         self.scene?.rootNode.addChildNode(AmbientLightNode!)
     }
     
+    /// Remove the ambient light from the scene.
     func RemoveAmbientLight()
     {
         AmbientLightNode?.removeAllActions()
@@ -474,12 +476,6 @@ class GlobeView: SCNView, GlobeProtocol
         
     }
     
-    func SetClockMultiplier(_ Multiplier: Double)
-    {
-        //        ClockMultiplier = Multiplier
-        //AddEarth(FastAnimate: true)
-    }
-    
     /// Stop the rotational clock.
     func StopClock()
     {
@@ -518,14 +514,10 @@ class GlobeView: SCNView, GlobeProtocol
     /// Called periodically to update the rotation of the Earth. Regardless of the frequency of
     /// being called, the Earth will always be updated to the correct position when called. However,
     /// if this function is called too infrequently, the Earth will show jerky motion as it rotates.
+    /// - Note: When compiled in #DEBUG mode, code is included for debugging time functionality but
+    ///         only when the proper settings are enabled.
     @objc func UpdateEarthView()
     {
-        #if false
-        if IgnoreClock
-        {
-            return
-        }
-        #endif
         #if DEBUG
         if Settings.GetBool(.DebugTime)
         {
@@ -552,6 +544,7 @@ class GlobeView: SCNView, GlobeProtocol
             let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
             let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
             UpdateEarth(With: PrettyPercent)
+            MainDelegate?.DebugRotationChanged(PrettyPercent)
             MainDelegate?.DebugTimeChanged(DebugTime)
             return
         }
@@ -597,7 +590,7 @@ class GlobeView: SCNView, GlobeProtocol
     {
         let Degrees = 180.0 - (360.0) * Percent
         let Radians = Degrees.Radians
-        let Rotate = SCNAction.rotateTo(x: 0.0, y: CGFloat(-Radians), z: 0.0, duration: 1.0)
+        let Rotate = SCNAction.rotateTo(x: 0.0, y: CGFloat(-Radians), z: 0.0, duration: 1.0, usesShortestUnitArc: true)
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
         LineNode?.runAction(Rotate)
