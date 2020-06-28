@@ -56,25 +56,6 @@ class View3DSettingsWindow: NSViewController
         }
         let CurrentPole = Settings.GetEnum(ForKey: .PolarShape, EnumType: PolarShapes.self, Default: .None)
         PoleShapeCombo.selectItem(withObjectValue: CurrentPole.rawValue)
-        if Settings.GetBool(.ShowMovingStars)
-        {
-            SampleStars.Show()
-        }
-        else
-        {
-            SampleStars.Hide()
-        }
-        switch Settings.GetEnum(ForKey: .StarSpeeds, EnumType: StarSpeeds.self, Default: .Medium)
-        {
-            case .Slow:
-                StarSpeedSegment.selectedSegment = 0
-            
-            case .Medium:
-                StarSpeedSegment.selectedSegment = 1
-            
-            case .Fast:
-                StarSpeedSegment.selectedSegment = 2
-        }
         #if DEBUG
         #else
         DebugButton.removeFromSuperview()
@@ -82,6 +63,7 @@ class View3DSettingsWindow: NSViewController
         Background3DColorWell.color = Settings.GetColor(.BackgroundColor3D, NSColor.black)
         UseAmbientLight.state = Settings.GetBool(.UseAmbientLight) ? .on : .off
         HDRCamera.state = Settings.GetBool(.UseHDRCamera) ? .on : .off
+        HourColorWell.color = Settings.GetColor(.HourColor, NSColor.systemOrange)
     }
     
     @IBAction func Handle3DGridLineChanged(_ sender: Any)
@@ -115,68 +97,9 @@ class View3DSettingsWindow: NSViewController
         }
     }
     
-    @IBAction func HandleMovingStarChanged(_ sender: Any)
-    {
-        if let Button = sender as? NSButton
-        {
-            Settings.SetBool(.ShowMovingStars, Button.state == .on ? true : false)
-            if Settings.GetBool(.ShowMovingStars)
-            {
-                SampleStars.Show()
-            }
-            else
-            {
-                SampleStars.Hide()
-            }
-        }
-    }
+
     
-    @IBAction func HandleStarSpeedChanged(_ sender: Any)
-    {
-        if let Segment = sender as? NSSegmentedControl
-        {
-            switch Segment.selectedSegment
-            {
-                case 0:
-                    SampleStars.Hide()
-                    Settings.SetBool(.ShowMovingStars, false)
-                
-                case 1:
-                    SampleStars.Show()
-                    Settings.SetEnum(.Slow, EnumType: StarSpeeds.self, ForKey: .StarSpeeds)
-                    Settings.SetBool(.ShowMovingStars, true)
-                
-                case 2:
-                    SampleStars.Show()
-                    Settings.SetEnum(.Medium, EnumType: StarSpeeds.self, ForKey: .StarSpeeds)
-                    Settings.SetBool(.ShowMovingStars, true)
-                
-                case 3:
-                    SampleStars.Show()
-                    Settings.SetEnum(.Fast, EnumType: StarSpeeds.self, ForKey: .StarSpeeds)
-                    Settings.SetBool(.ShowMovingStars, true)
-                
-                default:
-                    return
-            }
-            if Settings.GetBool(.ShowMovingStars)
-            {
-                var NewSpeed = 1.0
-                switch Settings.GetEnum(ForKey: .StarSpeeds, EnumType: StarSpeeds.self, Default: .Medium)
-                {
-                    case .Slow:
-                        NewSpeed = 1.0
-                    
-                    case .Medium:
-                        NewSpeed = 3.0
-                    
-                    case .Fast:
-                        NewSpeed = 7.0
-                }
-                SampleStars.Show(SpeedMultiplier: NewSpeed)
-            }
-        }
-    }
+   
     
     @IBAction func HandleMoonLightChanged(_ sender: Any)
     {
@@ -267,7 +190,26 @@ class View3DSettingsWindow: NSViewController
             Settings.SetBool(.UseHDRCamera, Switch.state == .on ? true : false)
         }
     }
+
+    @IBAction func HandleStarsButtonPressed(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "View3DStarsWindow") as? StarField3DWindow
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+        }
+    }
     
+    @IBAction func HandleHourColorChanged(_ sender: Any)
+    {
+        if let ColorWell = sender as? NSColorWell
+        {
+            Settings.SetColor(.HourColor, ColorWell.color)
+        }
+    }
+    
+    @IBOutlet weak var HourColorWell: NSColorWell!
     @IBOutlet weak var HDRCamera: NSSwitch!
     @IBOutlet weak var Show3DMinorGridLines: NSSwitch!
     @IBOutlet weak var Show3DPolarCircles: NSSwitch!
@@ -275,8 +217,6 @@ class View3DSettingsWindow: NSViewController
     @IBOutlet weak var Show3DTropics: NSSwitch!
     @IBOutlet weak var Show3DEquator: NSSwitch!
     @IBOutlet weak var Show3DGridLines: NSSwitch!
-    @IBOutlet weak var SampleStars: Starfield!
-    @IBOutlet weak var StarSpeedSegment: NSSegmentedControl!
     @IBOutlet weak var UseAmbientLight: NSSwitch!
     @IBOutlet weak var Background3DColorWell: NSColorWell!
     @IBOutlet weak var PoleShapeCombo: NSComboBox!
