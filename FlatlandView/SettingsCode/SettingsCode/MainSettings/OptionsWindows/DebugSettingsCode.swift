@@ -39,6 +39,7 @@ class DebugSettingsCode: NSViewController
         TimeMultiplierCombo.addItem(withObjectValue: "10.0")
         TimeMultiplierCombo.addItem(withObjectValue: "100.0")
         TimeMultiplierCombo.addItem(withObjectValue: "600.0")
+        TimeMultiplierCombo.addItem(withObjectValue: "1200.0")
         let Multiplier = Settings.GetDouble(.TimeMultiplier, 1.0)
         TimeMultiplierCombo.selectItem(withObjectValue: "\(String.WithTrailingZero(Multiplier))")
         TestTimeSetter.timeZone = TimeZone(abbreviation: "UTC")!
