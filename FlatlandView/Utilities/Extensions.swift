@@ -1339,6 +1339,25 @@ extension NSBezierPath
     }
 }
 
+// MARK: - String extensions.
+
+extension String
+{
+    public static func WithTrailingZero(_ Raw: Double) -> String
+    {
+        let Converted = "\(Raw)"
+        if Converted.hasSuffix(".0")
+        {
+            return Converted
+        }
+        if Raw == Double(Int(Raw))
+        {
+            return Converted + ".0"
+        }
+        return Converted
+    }
+}
+
 // MARK: - Array extenions.
 
 /// Array extensions.
