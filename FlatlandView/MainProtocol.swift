@@ -14,4 +14,6 @@ protocol MainProtocol: class
     func Refresh(_ From: String)
     /// Called when a window is closed.
     func DidClose(_ WhatClosed: String)
+    /// Debug time changed.
+    func DebugTimeChanged(_ NewTime: Date)
 }
