@@ -74,8 +74,6 @@ enum SettingTypes: String, CaseIterable
     case MinorGrid3DGap = "MinorGrid3DGap"
     /// Double: Alpha level for the 3D globe.
     case GlobeTransparencyLevel = "GlobeTransparencyLevel"
-    /// Boolean: Show moving stars in the background.
-    case ShowMovingStars = "ShowMovingStars"
     /// Determines how fast stars move when visible.
     case StarSpeeds = "StarSpeeds"
     /// Boolean: Show moonlight on 3D globes for the night side.
@@ -98,6 +96,8 @@ enum SettingTypes: String, CaseIterable
     case InAttractMode = "InAttractMode"
     /// Boolean: If true, the scene's camera is set to HDR mode.
     case UseHDRCamera = "UserHDRCamera"
+    /// NSColor: Color of the hours.
+    case HourColor = "HourColor"
     #if DEBUG
     //3D debug settings.
     /// Render 3D elements as wireframes.
@@ -222,6 +222,22 @@ enum SettingTypes: String, CaseIterable
     // MARK: - General settings.
     /// The last settings viewed by the user.
     case LastSettingsViewed = "LastSettingsViewed"
+    
+    #if DEBUG
+    // MARK: - Time debug settings.
+    /// Boolean: Enables debugging of time.
+    case DebugTime = "DebugTime"
+    /// Controls whether time is running or paused.
+    case TimeControl = "TimeControl"
+    /// Starting time one time resumes.
+    case TestTime = "TestTime"
+    /// Time will stop advancing once this time is reached.
+    case StopTimeAt = "StopTimeAt"
+    /// Double: Value to multipy time by.
+    case TimeMultiplier = "TimeMultiplier"
+    /// Boolean: Enables or disables the stop time.
+    case EnableStopTime = "EnableStopTime"
+    #endif
     
     // MARK: - Settings used in areas outside of the Settings system.
     /// Live data viewer.
