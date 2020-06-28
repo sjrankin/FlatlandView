@@ -584,6 +584,8 @@ class GlobeView: SCNView, GlobeProtocol
     #endif
     
     /// Update the rotation of the Earth.
+    /// - Note: The rotation must be called with `usesShortestUnitArc` set to `true` or every midnight
+    ///         UTC, the Earth will spin backwards by 360°.
     /// - Parameter With: The percent time of day it is. Determines the rotation position of the Earth
     ///                   and supporting 3D nodes.
     func UpdateEarth(With Percent: Double)
@@ -600,8 +602,6 @@ class GlobeView: SCNView, GlobeProtocol
         }
     }
     
-    var IgnoreClock = false
-    
     /// Add an Earth view to the 3D view.
     /// - Parameter FastAnimated: Used for debugging.
     func AddEarth(FastAnimate: Bool = false)
@@ -611,7 +611,6 @@ class GlobeView: SCNView, GlobeProtocol
             ShowCubicEarth()
             return
         }
-        IgnoreClock = FastAnimate
         if EarthNode != nil
         {
             EarthNode?.removeAllActions()
