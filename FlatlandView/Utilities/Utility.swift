@@ -203,7 +203,6 @@ class Utility
     }
     
     /// Make a string with the elapsed time.
-    ///
     /// - Parameters:
     ///   - Seconds: Duration of the elapsed time in seconds.
     ///   - AppendSeconds: If true, the numer of seconds is added to the final string.
@@ -245,7 +244,6 @@ class Utility
     }
     
     /// Create a Date structure with the passed time.
-    ///
     /// - Parameters:
     ///   - Hours: Hours value.
     ///   - Minutes: Minutes value.
