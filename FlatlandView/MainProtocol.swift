@@ -16,4 +16,6 @@ protocol MainProtocol: class
     func DidClose(_ WhatClosed: String)
     /// Debug time changed.
     func DebugTimeChanged(_ NewTime: Date)
+    /// Debug rotation changed.
+    func DebugRotationChanged(_ NewRotation: Double)
 }
