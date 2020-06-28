@@ -466,10 +466,11 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="cv7-Wm-L4p">
-                                <rect key="frame" x="630" y="44" width="200" height="38"/>
+                                <rect key="frame" x="609" y="35" width="221" height="60"/>
                                 <rows>
                                     <gridRow id="MNw-W1-Dfp"/>
                                     <gridRow id="OIy-W6-pet"/>
+                                    <gridRow id="xVJ-D7-taw"/>
                                 </rows>
                                 <columns>
                                     <gridColumn id="3id-wv-DRd"/>
@@ -478,7 +479,7 @@
                                 <gridCells>
                                     <gridCell row="MNw-W1-Dfp" column="3id-wv-DRd" id="uKY-w5-5Lv">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jrQ-uz-Pof">
-                                            <rect key="frame" x="-2" y="22" width="52" height="16"/>
+                                            <rect key="frame" x="-2" y="44" width="52" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Up time" id="GuT-Wh-57f">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -488,7 +489,7 @@
                                     </gridCell>
                                     <gridCell row="MNw-W1-Dfp" column="5cP-Za-1cq" id="EdD-G4-KzB">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gsk-BO-n4A">
-                                            <rect key="frame" x="74" y="22" width="74" height="16"/>
+                                            <rect key="frame" x="95" y="44" width="74" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="00000000" id="hgF-AS-tpg">
                                                 <font key="font" size="14" name="SFMono-Regular"/>
                                                 <color key="textColor" name="systemYellowColor" catalog="System" colorSpace="catalog"/>
@@ -498,7 +499,7 @@
                                     </gridCell>
                                     <gridCell row="OIy-W6-pet" column="3id-wv-DRd" id="COg-yf-NQ4">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pfw-q7-7G0">
-                                            <rect key="frame" x="-2" y="0.0" width="74" height="16"/>
+                                            <rect key="frame" x="-2" y="22" width="74" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Debug time" id="bMn-ed-RuU">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -508,13 +509,33 @@
                                     </gridCell>
                                     <gridCell row="OIy-W6-pet" column="5cP-Za-1cq" id="bp1-mq-kr2">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4kO-dH-pM6">
-                                            <rect key="frame" x="74" y="0.0" width="128" height="16"/>
+                                            <rect key="frame" x="95" y="22" width="128" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="124" id="hf3-J8-V2o"/>
                                                 <constraint firstAttribute="height" constant="16" id="vCV-vL-Zh7"/>
                                             </constraints>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Debug time value" id="nAA-Rp-1ij">
                                                 <font key="font" size="13" name="SFMono-Regular"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="xVJ-D7-taw" column="3id-wv-DRd" id="urJ-hL-ZUv">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PCa-0z-Dl8">
+                                            <rect key="frame" x="-2" y="0.0" width="95" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Debug rotation" id="xjv-lO-oFB">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="xVJ-D7-taw" column="5cP-Za-1cq" id="1HQ-qP-AX9">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Pr-TG-Vx3">
+                                            <rect key="frame" x="95" y="0.0" width="37" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="NXX-QW-vo3">
+                                                <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
@@ -749,7 +770,7 @@
                             <constraint firstAttribute="trailing" secondItem="jzK-yC-9yN" secondAttribute="trailing" id="XnK-10-cbc"/>
                             <constraint firstAttribute="trailing" secondItem="rl2-NN-bVz" secondAttribute="trailing" id="YjK-3d-cSP"/>
                             <constraint firstItem="rl2-NN-bVz" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="cxS-5e-yBf"/>
-                            <constraint firstAttribute="bottom" secondItem="cv7-Wm-L4p" secondAttribute="bottom" constant="44" id="dhv-oG-Yr5"/>
+                            <constraint firstAttribute="bottom" secondItem="cv7-Wm-L4p" secondAttribute="bottom" constant="35" id="dhv-oG-Yr5"/>
                             <constraint firstAttribute="bottom" secondItem="rl2-NN-bVz" secondAttribute="bottom" id="fBK-1g-LPF"/>
                             <constraint firstItem="QaS-kA-VXe" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="fSL-zj-Cel"/>
                             <constraint firstItem="tNb-wZ-7xd" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="ghH-JP-tw4"/>
@@ -766,6 +787,8 @@
                         <outlet property="DailySeconds" destination="mQw-sc-GjS" id="ztC-H9-Rgi"/>
                         <outlet property="DailySecondsLabel" destination="lxY-1l-DQz" id="qn5-Ha-rPQ"/>
                         <outlet property="DebugGrid" destination="cv7-Wm-L4p" id="dwP-d2-Ide"/>
+                        <outlet property="DebugRotationalLabel" destination="PCa-0z-Dl8" id="pY4-DU-Icw"/>
+                        <outlet property="DebugRotationalValue" destination="8Pr-TG-Vx3" id="jMb-XZ-EzR"/>
                         <outlet property="DebugTimeLabel" destination="Pfw-q7-7G0" id="ybP-1u-2Ej"/>
                         <outlet property="DebugTimeValue" destination="4kO-dH-pM6" id="MbK-M5-CEH"/>
                         <outlet property="DeclinationLabel" destination="qWx-Qe-aYq" id="yfs-iG-Mpb"/>
