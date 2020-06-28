@@ -149,11 +149,9 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         switch tableView
         {
             case MapTypeTable:
-                print("MapCategoryList.count=\(MapCategoryList.count)")
                 return MapCategoryList.count
             
             case MapListTable:
-                print("MapList.count=\(MapList.count)")
                 return MapList.count
             
             default:
@@ -196,6 +194,11 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
         return Cell
+    }
+    
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat
+    {
+        return 22.0
     }
     
     @IBOutlet weak var MapSampleViewSegment: NSSegmentedControl!
