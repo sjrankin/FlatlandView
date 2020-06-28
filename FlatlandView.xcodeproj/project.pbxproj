@@ -17,6 +17,10 @@
 		173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173EB18A2490D1B7006CDB86 /* +Orbits.swift */; };
 		1740F49B2493173A00F6FAAE /* Hours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740F49A2493173A00F6FAAE /* Hours.swift */; };
 		1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744316E2480F2C10087B00A /* ActualMapIO.swift */; };
+		174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174623D024A81B2B007F5D4C /* DebugSettingsCode.swift */; };
+		174623D324A83026007F5D4C /* +ChangedSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174623D224A83026007F5D4C /* +ChangedSettings.swift */; };
+		174623D624A83FF0007F5D4C /* StarField3DWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174623D524A83FF0007F5D4C /* StarField3DWindow.swift */; };
+		174623D824A8400E007F5D4C /* StarField3DCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174623D724A8400E007F5D4C /* StarField3DCode.swift */; };
 		174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 174F0106248CCD6C00F610DD /* MapManager.storyboard */; };
 		174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F0109248CD03200F610DD /* MapManagerWindow.swift */; };
 		174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F010B248CD05E00F610DD /* MapManagerCode.swift */; };
@@ -125,6 +129,10 @@
 		173EB18A2490D1B7006CDB86 /* +Orbits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Orbits.swift"; sourceTree = "<group>"; };
 		1740F49A2493173A00F6FAAE /* Hours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hours.swift; sourceTree = "<group>"; };
 		1744316E2480F2C10087B00A /* ActualMapIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapIO.swift; sourceTree = "<group>"; };
+		174623D024A81B2B007F5D4C /* DebugSettingsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsCode.swift; sourceTree = "<group>"; };
+		174623D224A83026007F5D4C /* +ChangedSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ChangedSettings.swift"; sourceTree = "<group>"; };
+		174623D524A83FF0007F5D4C /* StarField3DWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarField3DWindow.swift; sourceTree = "<group>"; };
+		174623D724A8400E007F5D4C /* StarField3DCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarField3DCode.swift; sourceTree = "<group>"; };
 		174F0106248CCD6C00F610DD /* MapManager.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapManager.storyboard; sourceTree = "<group>"; };
 		174F0109248CD03200F610DD /* MapManagerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManagerWindow.swift; sourceTree = "<group>"; };
 		174F010B248CD05E00F610DD /* MapManagerCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManagerCode.swift; sourceTree = "<group>"; };
@@ -264,6 +272,15 @@
 			path = GetLocation;
 			sourceTree = "<group>";
 		};
+		174623D424A83FD4007F5D4C /* StarField3D */ = {
+			isa = PBXGroup;
+			children = (
+				174623D524A83FF0007F5D4C /* StarField3DWindow.swift */,
+				174623D724A8400E007F5D4C /* StarField3DCode.swift */,
+			);
+			path = StarField3D;
+			sourceTree = "<group>";
+		};
 		174F0108248CD01E00F610DD /* MapManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,6 +293,7 @@
 		174F010D248CD0F700F610DD /* MainSettings */ = {
 			isa = PBXGroup;
 			children = (
+				174623D424A83FD4007F5D4C /* StarField3D */,
 				1759FC6324A61302001B1D4B /* RecentEarthquakes */,
 				174F0108248CD01E00F610DD /* MapManager */,
 				173A104D248B39B300793216 /* GetLocation */,
@@ -296,6 +314,7 @@
 			children = (
 				17523CD1247B8E11005209FC /* +MoreLocations.swift */,
 				17523CD3247B8E62005209FC /* WorldHeritageSite.swift */,
+				174623D224A83026007F5D4C /* +ChangedSettings.swift */,
 			);
 			path = MainViewExtensions;
 			sourceTree = "<group>";
@@ -360,6 +379,7 @@
 				1759AE67249F8215003F79F5 /* OtherLocationsWindow.swift */,
 				1759AE69249F823A003F79F5 /* EarthquakeSettingsWindow.swift */,
 				1759AE6B249F8264003F79F5 /* CitySettingsWindow.swift */,
+				174623D024A81B2B007F5D4C /* DebugSettingsCode.swift */,
 			);
 			path = OptionsWindows;
 			sourceTree = "<group>";
@@ -717,6 +737,8 @@
 				17F782BF249741B8000A568E /* Earthquake.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
 				174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */,
+				174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */,
+				174623D824A8400E007F5D4C /* StarField3DCode.swift in Sources */,
 				17EF33B4247A940900A5B55D /* OrbitalElements.swift in Sources */,
 				1720B383248B522C001202E5 /* GetLocationWindow.swift in Sources */,
 				17EF3390247A4F5D00A5B55D /* SettingTypes.swift in Sources */,
@@ -741,6 +763,7 @@
 				174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */,
 				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
 				1759AE60249F817B003F79F5 /* MapSelector.swift in Sources */,
+				174623D624A83FF0007F5D4C /* StarField3DWindow.swift in Sources */,
 				1759AE6A249F823A003F79F5 /* EarthquakeSettingsWindow.swift in Sources */,
 				17F782C524979218000A568E /* +Earthquakes.swift in Sources */,
 				1720B38E248B82A9001202E5 /* +2DCities.swift in Sources */,
@@ -754,6 +777,7 @@
 				177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */,
 				17EF3393247A66D200A5B55D /* MapManager.swift in Sources */,
 				17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */,
+				174623D324A83026007F5D4C /* +ChangedSettings.swift in Sources */,
 				1759AE66249F81F6003F79F5 /* View3DSettingsWindow.swift in Sources */,
 				17FCCCD724A31EF500393F36 /* Earthquake2Window.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
