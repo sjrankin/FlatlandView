@@ -18,6 +18,7 @@ class Earthquake2: Equatable
     init(Sequence: Int)
     {
         self.Sequence = Sequence
+        Marked = false
     }
     
     init(_ OldStyle: Earthquake)
@@ -36,6 +37,7 @@ class Earthquake2: Equatable
         MMI = OldStyle.MMI
         Felt = OldStyle.Felt
         Significance = OldStyle.Significance
+        Marked = false
     }
     
     init(_ Other: Earthquake2)
@@ -54,6 +56,7 @@ class Earthquake2: Equatable
         MMI = Other.MMI
         Felt = Other.Felt
         Significance = Other.Significance
+        Marked = false
     }
     
     /// The sequence value.
@@ -307,6 +310,17 @@ class Earthquake2: Equatable
         }
         Current.append(Quake)
     }
+    
+    public func AddRelated(_ Quake: Earthquake2)
+    {
+        if Related == nil
+        {
+            Related = [Earthquake2]()
+        }
+        Related?.append(Quake)
+    }
+    
+    public var Marked: Bool = false
     
     /// Takes all cluster earthquakes in the passed list and changes them such that the top-most
     /// earthquake is the one with the greatest magnitude.
