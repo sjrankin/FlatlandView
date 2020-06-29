@@ -109,7 +109,7 @@ extension GlobeView
         Node.position = SCNVector3(0.0, 0.0, 0.0)
         Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
-        Node.name = "Hour Node"
+        Node.name = GlobeNodeNames.HourNode.rawValue
         var HourLabelList = [(String, Int)]()
         
         for Hour in 0 ... 23
@@ -133,7 +133,7 @@ extension GlobeView
         Node.position = SCNVector3(0.0, 0.0, 0.0)
         Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
-        Node.name = "Hour Node"
+        Node.name = GlobeNodeNames.HourNode.rawValue
         var HourLabelList = [(String, Int)]()
         
         for Hour in 0 ... 23
@@ -168,7 +168,7 @@ extension GlobeView
         Node.position = SCNVector3(0.0, 0.0, 0.0)
         Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
-        Node.name = "Hour Node"
+        Node.name = GlobeNodeNames.HourNode.rawValue
         
         var HourList = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
         HourList = HourList.Shift(By: -6)
@@ -215,7 +215,7 @@ extension GlobeView
         Node.position = SCNVector3(0.0, 0.0, 0.0)
         Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
-        Node.name = "Hour Node"
+        Node.name = GlobeNodeNames.HourNode.rawValue
 
         let VisualScript = Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English)
         
