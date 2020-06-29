@@ -13,8 +13,60 @@ import SceneKit
 
 class Utility
 {
+    /// Mean radius of the Earth in meters.
+    public static let EarthRadius: Double = 6367444.7
+    
+    /// Calculates the haversine distance (two points on the surface of a sphere).
+    /// - Note: [Swift Algorithm Club - HaversineDistance](https://github.com/raywenderlich/swift-algorithm-club/blob/master/HaversineDistance/HaversineDistance.playground/Contents.swift)
+    /// - Parameter Point1: First point.
+    /// - Parameter Point2: Second point.
+    /// - Returns: Distance between the two points, in meters.
+    public static func HaversineDistance(Point1: GeoPoint2, Point2: GeoPoint2) -> Double
+    {
+        let Haversine =
+            {
+                (Angle: Double) -> Double in
+                return (1.0 - cos(Angle)) / 2.0
+            }
+        let AHaversine =
+            {
+                (Angle: Double) -> Double in
+                return 2.0 * asin(sqrt(Angle))
+            }
+        let Lat1 = Point1.Latitude.Radians
+        let Lon1 = Point1.Longitude.Radians
+        let Lat2 = Point2.Latitude.Radians
+        let Lon2 = Point2.Longitude.Radians
+        
+        let Distance = EarthRadius * AHaversine(Haversine(Lat2 - Lat1) + cos(Lat1) * cos(Lat2) * Haversine(Lon2 - Lon1))
+        return Distance
+    }
+    
+    /// Calculates the distance between the two passed earthquakes. Assumes both earthquakes are at the
+    /// surface of the Earth.
+    /// - Parameter Quake1: First earthquake.
+    /// - Parameter Quake2: Second earthquake.
+    /// - Returns: Distance between the two earthquakes, in meters.
+    public static func HaversineDistance(Quake1: Earthquake2, Quake2: Earthquake2) -> Double
+    {
+        return HaversineDistance(Point1: GeoPoint2(Quake1.Latitude, Quake1.Longitude),
+                                 Point2: GeoPoint2(Quake2.Latitude, Quake2.Longitude))
+    }
+    
+    /// Calculates the distance between the two coordinates.
+    /// - Parameter Latitude1: Latitude of first location.
+    /// - Parameter Longitude1: Longitude of first location.
+    /// - Parameter Latitude2: Latitude of second location.
+    /// - Parameter Longitude2: Longitude of second location.
+    /// - Returns: Distance between the two locations, in meters.
+    public static func HaversineDistance(Latitude1: Double, Longitude1: Double,
+                                         Latitude2: Double, Longitude2: Double) -> Double
+    {
+        return HaversineDistance(Point1: GeoPoint2(Latitude1, Longitude1),
+                                 Point2: GeoPoint2(Latitude2, Longitude2))
+    }
+    
     /// Return the width of the string.
-    ///
     /// - Parameters:
     ///   - TheString: The string to measure.
     ///   - TheFont: The font that will be used to render the string.
@@ -27,7 +79,6 @@ class Utility
     }
     
     /// Return the height of the string.
-    ///
     /// - Parameters:
     ///   - TheString: The string to measure.
     ///   - TheFont: The font that will be used to render the string.
@@ -39,9 +90,8 @@ class Utility
         return TextHeight.height
     }
     
-    //https://stackoverflow.com/questions/1324379/how-to-calculate-the-width-of-a-text-string-of-a-specific-font-and-font-size
     /// Return the width of the string.
-    ///
+    /// - Note: [Calculate width of string](https://stackoverflow.com/questions/1324379/how-to-calculate-the-width-of-a-text-string-of-a-specific-font-and-font-size)
     /// - Parameters:
     ///   - TheString: The string to measure.
     ///   - FontName: The font the string will be rendered in.
@@ -59,7 +109,6 @@ class Utility
     }
     
     /// Return the height of the string.
-    ///
     /// - Parameters:
     ///   - TheString: The string to measure.
     ///   - FontName: The font the string will be rendered in.
