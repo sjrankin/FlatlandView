@@ -575,6 +575,19 @@ enum LayerNames: String
     case CityLayer = "City Layer"
 }
 
+/// 3D view node names.
+enum GlobeNodeNames: String
+{
+    /// Nodes related to earthquakes.
+    case EarthquakeNodes = "EarthquakeNodes"
+    
+    /// Node that marks the home location.
+    case HomeNode = "HomeNode"
+    
+    /// Node used to draw an hour.
+    case HourNode = "HourNode"
+}
+
 /// Z position enum and layer values. Defines which layers are on top of other layers.
 /// Higher values mean closer to the user which means more likely to be visible.
 enum LayerZLevels: Int
