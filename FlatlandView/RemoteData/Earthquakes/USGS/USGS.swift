@@ -137,7 +137,7 @@ class USGS
     {
         let url = URL(string: "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson")
         //let url = URL(string: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson")
-        _ = URLSession.shared.downloadTask(with: url!)
+        URLSession.shared.downloadTask(with: url!)
         {
             Local, Response, error in
             guard let HTTPResponse = Response as? HTTPURLResponse,
@@ -309,5 +309,71 @@ class USGS
         let SList1 = List1.sorted(by: {$0.Code < $1.Code})
         let SList2 = List2.sorted(by: {$0.Code < $1.Code})
         return SList1 == SList2
+    }
+    
+    /// Flatten the passed list of earthquakes. All earthquakes will be at the top-most level
+    /// of the array.
+    /// - Parameter Quakes: The array of earthquakes to flatten.
+    /// - Returns: Array of earthquakes, all at the top-most level.
+    public static func FlattenEarthquakes(_ Quakes: [Earthquake2]) -> [Earthquake2]
+    {
+        var Final = [Earthquake2]()
+        for Quake in Quakes
+        {
+            if let Related = Quake.Related
+            {
+                for RelatedQuake in Related
+                {
+                    Final.append(RelatedQuake)
+                }
+                Quake.Related?.removeAll()
+                Quake.Related = nil
+                Quake.Marked = false
+                Final.append(Quake)
+            }
+            else
+            {
+                Quake.Marked = false
+                Final.append(Quake)
+            }
+        }
+        return Final
+    }
+    
+    /// Compress the passed list of earthquakes. All earthquakes within a certain radius will be
+    /// put into a single earthquake node.
+    /// - Note: The passed array is flattened before processing.
+    /// - Parameter Quakes: The array of earthquakes to compress/combine.
+    /// - Parameter Closeness: How close earthquakes must be to be considered to be comrpessed. Units
+    ///                        are kilometers. Default is `100.0`.
+    /// - Returns: Array of compressed earthquakes.
+    public static func CompressEarthquakes(_ Quakes: [Earthquake2], Closeness: Double = 100.0) -> [Earthquake2]
+    {
+        var Final = [Earthquake2]()
+        var Flattened = FlattenEarthquakes(Quakes)
+        Flattened.sort(by: {$0.Magnitude > $1.Magnitude})
+        for Quake in Flattened
+        {
+            var Added = false
+            for Other in Final
+            {
+                if Other.Marked
+                {
+                    continue
+                }
+                let Distance = Utility.HaversineDistance(Quake1: Quake, Quake2: Other) / 1000.0
+                if Distance < Closeness
+                {
+                    Other.AddRelated(Quake)
+                    Added = true
+                    break
+                }
+            }
+            if !Added
+            {
+                Final.append(Quake)
+            }
+        }
+        return Final
     }
 }
