@@ -456,6 +456,8 @@ enum EarthquakeIndicators: String, CaseIterable
     case StaticRing = "Static Ring"
     /// Animated ring with a texture.
     case AnimatedRing = "Animated Ring"
+    /// Rings that radiate outward from the earthquake.
+    case RadiatingRings = "Radiating Rings"
     /// Glowing sphere with a solid color.
     case GlowingSphere = "Glowing Sphere"
 }
