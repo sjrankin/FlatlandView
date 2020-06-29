@@ -86,7 +86,7 @@ extension GlobeView
         }
         
         HomeNode = SCNNode()
-        HomeNode?.name = "HomeNode"
+        HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
         HomeNode?.addChildNode(ConeNode)
         
         if IsCurrentLocation
@@ -327,7 +327,7 @@ extension GlobeView
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
         HomeNode?.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        HomeNode?.name = "HomeNode"
+        HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
         ToSurface.addChildNode(HomeNode!)
     }
     
