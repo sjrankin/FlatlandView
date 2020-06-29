@@ -243,7 +243,15 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
             }
             let NewStyle = [EarthquakeListStyles.Clustered, EarthquakeListStyles.Individual][Segment.selectedSegment]
             Settings.SetEnum(NewStyle, EnumType: EarthquakeListStyles.self, ForKey: .EarthquakeListStyle)
-            EarthquakeList = SetEarthquakeType(EarthquakeList)
+            if NewStyle == .Clustered
+            {
+                EarthquakeList = USGS.CompressEarthquakes(EarthquakeList)
+            }
+            else
+            {
+                EarthquakeList = USGS.FlattenEarthquakes(EarthquakeList)
+            }
+//            EarthquakeList = SetEarthquakeType(EarthquakeList)
             EqIndex = 1
             EqTable.reloadData()
         }
