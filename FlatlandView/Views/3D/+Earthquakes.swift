@@ -35,9 +35,10 @@ extension GlobeView
     {
         if let Earth = EarthNode
         {
+            print("Clearing earthquake nodes.")
             for Node in Earth.childNodes
             {
-                if Node.name == "EarthquakeNode"
+                if Node.name == GlobeNodeNames.EarthquakeNodes.rawValue
                 {
                     Node.removeAllActions()
                     Node.removeFromParentNode()
@@ -70,9 +71,12 @@ extension GlobeView
     {
         if SameEarthquakes(NewList, EarthquakeList)
         {
+            #if DEBUG
             print("No new earthquakes")
+            #endif
             return
         }
+        ClearEarthquakes()
         EarthquakeList.removeAll()
         EarthquakeList = NewList
         PlottedEarthquakes.removeAll()
@@ -355,12 +359,12 @@ extension GlobeView
             case .Magnitude:
                 #if false
                 FinalNode = PlotMagnitudes2Y(Quake)
-                FinalNode.name = "EarthquakeNode"
+                FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 return FinalNode
                 return nil
                 #else
                 FinalNode = PlotMagnitudes(Quake)
-                FinalNode.name = "EarthquakeNode"
+                FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 return FinalNode
                 #endif
                 
@@ -434,7 +438,7 @@ extension GlobeView
         }
         
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: FinalRadius + RadialOffset)
-        FinalNode.name = "EarthquakeNode"
+        FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
         FinalNode.categoryBitMask = SunMask | MoonMask
         FinalNode.position = SCNVector3(X, Y, Z)
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
@@ -457,7 +461,7 @@ extension GlobeView
         {
             case .Magnitude:
                 FinalNode = PlotMagnitudes2(Quake)
-                FinalNode.name = "EarthquakeNode"
+                FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 return FinalNode
                 
             case .Arrow:
@@ -528,7 +532,7 @@ extension GlobeView
         }
         
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: FinalRadius + RadialOffset)
-        FinalNode.name = "EarthquakeNode"
+        FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
         FinalNode.categoryBitMask = SunMask | MoonMask
         FinalNode.position = SCNVector3(X, Y, Z)
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
@@ -707,7 +711,7 @@ extension GlobeView
     
     func PlotMagnitudes2Y(_ Quake: Earthquake) -> SCNNode
     {
-        let NodeCount = NodesWithName("EarthquakeNode", In: EarthNode!)
+        let NodeCount = NodesWithName(GlobeNodeNames.EarthquakeNodes.rawValue, In: EarthNode!)
         print("Plotting magnitudes [\(NodeCount)]")
         let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
         var MultipleQuakesSign = ""
@@ -723,7 +727,7 @@ extension GlobeView
                                              Extrusion: CGFloat(Quake.Magnitude),
                                              Mask: MetalSunMask | MetalMoonMask,
                                              TextFont: EqFont, TextColor: NSColor.red)
-        Final.name = "EarthquakeNode"
+        Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
         return Final
     }
     
@@ -756,7 +760,7 @@ extension GlobeView
         let MagNode = SCNNode(geometry: MagText)
         MagNode.categoryBitMask = MetalSunMask | MetalMoonMask
         MagNode.scale = SCNVector3(0.03, 0.03, 0.03)
-        MagNode.name = "EarthquakeNode"
+        MagNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
         MagNode.position = SCNVector3(X, Y, Z)
         
         let YRotation = -Quake.Latitude
@@ -789,7 +793,7 @@ extension GlobeView
         let MagNode = SCNNode(geometry: MagText)
         MagNode.categoryBitMask = MetalSunMask | MetalMoonMask
         MagNode.scale = SCNVector3(0.03, 0.03, 0.03)
-        MagNode.name = "EarthquakeNode"
+        MagNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
         MagNode.position = SCNVector3(X, Y, Z)
         
         let YRotation = -Quake.Latitude
@@ -837,7 +841,7 @@ extension GlobeView
                 Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
                 Final.position = SCNVector3(X, Y, Z)
                 Final.addChildNode(Indicator)
-                Final.name = "EarthquakeNode"
+                Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 return Final
                 
             case .StaticRing:
@@ -856,7 +860,7 @@ extension GlobeView
                 Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
                 Final.position = SCNVector3(X, Y, Z)
                 Final.addChildNode(Indicator)
-                Final.name = "EarthquakeNode"
+                Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 return Final
                 
             case .GlowingSphere:
@@ -875,7 +879,7 @@ extension GlobeView
                 Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
                 Final.position = SCNVector3(X, Y, Z)
                 Final.addChildNode(Indicator)
-                Final.name = "EarthquakeNode"
+                Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 return Final
                 
             case .None:
