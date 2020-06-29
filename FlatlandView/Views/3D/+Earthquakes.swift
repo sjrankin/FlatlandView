@@ -882,6 +882,47 @@ extension GlobeView
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 return Final
                 
+            case .RadiatingRings:
+                let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
+                let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+                let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.15)
+                let Indicator = SCNNode(geometry: IndicatorShape)
+                let InitialAlpha: CGFloat = 0.8
+                Indicator.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.EarthquakeColor, NSColor.red).withAlphaComponent(InitialAlpha)
+                Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
+                Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
+                Indicator.scale = SCNVector3(0.1, 0.1, 0.1)
+
+                let ScaleDuration = 1.0 + (1.0 - (Quake.Magnitude / 10.0))
+                let ToScale = 1.2 + (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
+                let ScaleUp = SCNAction.scale(to: CGFloat(ToScale), duration: ScaleDuration)
+                //let FadeTo = SCNAction.fadeOpacity(to: 0.25, duration: ScaleDuration * (1.0 / 3.0) - 0.1)
+                //let Wait = SCNAction.wait(duration: ScaleDuration * (2.0 / 3.0))
+                let FinalFade = SCNAction.fadeOut(duration: 0.1)
+                //let FadeSequence = SCNAction.sequence([Wait, FadeTo, FinalFade])
+                let Wait2 = SCNAction.wait(duration: ScaleDuration - 0.1)
+                let FadeSequence2 = SCNAction.sequence([Wait2, FinalFade])
+                let Group = SCNAction.group([ScaleUp, FadeSequence2])
+                let ResetAction = SCNAction.run
+                {
+                    Node in
+                    Node.scale = SCNVector3(0.1, 0.1, 1.0)
+                    Node.opacity = InitialAlpha
+                }
+                let Sequence = SCNAction.sequence([Group, ResetAction])
+                let Forever = SCNAction.repeatForever(Sequence)
+                Indicator.runAction(Forever)
+
+                let Final = SCNNode()
+                let YRotation = Quake.Latitude + 90.0
+                let XRotation = Quake.Longitude + 180.0
+                let ZRotation = 0.0
+                Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
+                Final.position = SCNVector3(X, Y, Z)
+                Final.addChildNode(Indicator)
+                Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
+                return Final
+                
             case .None:
                 return SCNNode()
         }
