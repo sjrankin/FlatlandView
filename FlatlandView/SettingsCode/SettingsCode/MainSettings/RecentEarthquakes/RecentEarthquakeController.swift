@@ -21,7 +21,7 @@ class RecentEarthquakeController: NSViewController
         {
             TexturesCombo.addItem(withObjectValue: Texture.rawValue)
         }
-        let CurrentTexture = Settings.GetEnum(ForKey: .EarthquakeTextures, EnumType: EarthquakeTextures.self, Default: .SolidColor)
+        let CurrentTexture = Settings.GetEnum(ForKey: .EarthquakeTextures, EnumType: EarthquakeTextures.self, Default: .Gradient1)
         TexturesCombo.selectItem(withObjectValue: CurrentTexture.rawValue)
         
         EarthquakeStyleCombo.removeAllItems()
@@ -31,7 +31,7 @@ class RecentEarthquakeController: NSViewController
         }
         let CurrentStyle = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self, Default: .None)
         EarthquakeStyleCombo.selectItem(withObjectValue: CurrentStyle.rawValue)
-        
+
         RecentCombo.removeAllItems()
         for Recent in EarthquakeRecents.allCases
         {
@@ -84,7 +84,7 @@ class RecentEarthquakeController: NSViewController
             {
                 if let Item = EarthquakeTextures(rawValue: Raw)
                 {
-                    Settings.SetEnum(Item, EnumType: EarthquakeTextures.self, ForKey: .EarthquakeStyles)
+                    Settings.SetEnum(Item, EnumType: EarthquakeTextures.self, ForKey: .EarthquakeTextures)
                 }
             }
         }
