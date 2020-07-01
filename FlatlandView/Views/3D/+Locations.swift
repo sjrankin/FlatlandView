@@ -217,8 +217,14 @@ extension GlobeView
     /// - Parameter ToSurface: The surface node where the arrow will be added.
     func PlotBouncingArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode)
     {
+        #if true
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.3)
+        let Arrow = SCN3DArrow(Length: 2.0, Width: 0.85, Color: NSColor.systemTeal,
+                               StemColor: NSColor.systemBlue)
+        #else
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.7)
         let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2, Color: NSColor.systemTeal)
+        #endif
         Arrow.LightMask = SunMask | MoonMask
         Arrow.scale = SCNVector3(0.75, 0.75, 0.75)
         
@@ -226,16 +232,19 @@ extension GlobeView
         let RotateForever = SCNAction.repeatForever(Rotate)
         
         let BounceDistance: CGFloat = 0.5
-        let BounceDuration = 0.8
+        let BounceDuration = 1.0
         let BounceAway = SCNAction.move(by: SCNVector3(0.0, -BounceDistance, 0.0), duration: BounceDuration)
         BounceAway.timingMode = .easeOut
         let BounceTo = SCNAction.move(by: SCNVector3(0.0, BounceDistance, 0.0), duration: BounceDuration)
         BounceTo.timingMode = .easeIn
         let BounceSequence = SCNAction.sequence([BounceAway, BounceTo])
         let MoveForever = SCNAction.repeatForever(BounceSequence)
-        
+        #if true
+        Arrow.runAction(MoveForever)
+        #else
         let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
         Arrow.runAction(AnimationGroup)
+        #endif
         
         HomeNode = SCNNode()
         HomeNode?.castsShadow = true
