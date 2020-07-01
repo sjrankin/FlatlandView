@@ -913,6 +913,18 @@ class GlobeView: SCNView, GlobeProtocol
             EarthquakeMagnitudes.Mag9.rawValue: NSColor.Scarlet
         ]
     
+    let TextureMap: [EarthquakeTextures: String] =
+    [
+        .SolidColor: "",
+        .CheckerBoardTransparent: "CheckerboardTextureTransparent",
+        .Checkerboard: "CheckerboardTexture",
+        .DiagonalLines: "DiagonalLineTexture",
+        .Gradient1: "EarthquakeHighlight",
+        .Gradient2: "EarthquakeHighlight2",
+        .RedCheckerboard: "RedCheckerboardTextureTransparent",
+        .TransparentDiagonalLines: "DiagonalLineTextureTransparent"
+    ]
+    
     let RecentMap: [EarthquakeRecents: Double] =
     [
         .Day05: 12.0 * 60.0 * 60.0,
