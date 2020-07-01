@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
 		1707A7AF249CACAB00A90FCA /* Earthquake2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1707A7AE249CACAB00A90FCA /* Earthquake2.swift */; };
 		1720B383248B522C001202E5 /* GetLocationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B382248B522C001202E5 /* GetLocationWindow.swift */; };
 		1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B384248B5255001202E5 /* GetLocationCode.swift */; };
@@ -119,6 +120,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
 		1707A7AE249CACAB00A90FCA /* Earthquake2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake2.swift; sourceTree = "<group>"; };
 		1720B382248B522C001202E5 /* GetLocationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationWindow.swift; sourceTree = "<group>"; };
 		1720B384248B5255001202E5 /* GetLocationCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationCode.swift; sourceTree = "<group>"; };
@@ -576,6 +578,7 @@
 				17CC8BBC2491EAA200CACED5 /* SCNPin.swift */,
 				1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */,
 				1792105E2495BA6900626FD9 /* SCNTriangle.swift */,
+				17078AE424AC66FC00782E20 /* SCN3DArrow.swift */,
 			);
 			path = Shapes;
 			sourceTree = "<group>";
@@ -768,6 +771,7 @@
 				17F782C524979218000A568E /* +Earthquakes.swift in Sources */,
 				1720B38E248B82A9001202E5 /* +2DCities.swift in Sources */,
 				1720B38A248B8181001202E5 /* +NightMask.swift in Sources */,
+				17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */,
 				1767A8E624794A0100C434B5 /* MainView.swift in Sources */,
 				17D55F2F249DE4DA00A64B2B /* +2DEarthquakes.swift in Sources */,
 				178A86A22489127C00BE8D46 /* +Hours.swift in Sources */,
