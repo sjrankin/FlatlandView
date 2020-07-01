@@ -244,19 +244,19 @@ class Miscellaneous
         {
             case .OneMinute:
                 return 0b0000_0001
-            
+                
             case .FiveMinutes:
                 return 0b0000_0010
-            
+                
             case .TenMinutes:
                 return 0b0000_0100
-            
+                
             case .ThirtyMinutes:
                 return 0b0000_1000
-            
+                
             case .SixtyMinutes:
                 return 0b0001_0000
-            
+                
             case .AtEvent:
                 return 0b0010_0000
         }
@@ -664,25 +664,25 @@ class Miscellaneous
         {
             case 1:
                 DayName = "Sunday"
-            
+                
             case 2:
                 DayName = "Monday"
-            
+                
             case 3:
                 DayName = "Tuesday"
-            
+                
             case 4:
                 DayName = "Wednesday"
-            
+                
             case 5:
                 DayName = "Thursday"
-            
+                
             case 6:
                 DayName = "Friday"
-            
+                
             case 7:
                 DayName = "Saturday"
-            
+                
             default:
                 DayName = ""
         }
@@ -1147,27 +1147,41 @@ class Miscellaneous
         {
             case 0:
                 FinalHue = -1.0
+                #if true
+                //https://stackoverflow.com/questions/55982244/how-to-nskeyedunarchiver-unarchiveobject
+                let ColorBlock = UserDefaults.standard.data(forKey: "ClockBackgroundColor")
+                do
+                {
+                    let BGColor = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSColor.self, from: ColorBlock!)
+                    return BGColor!
+                }
+                catch
+                {
+                    return NSColor.black
+                }
+                #else
                 let ColorBlock = UserDefaults.standard.data(forKey: "ClockBackgroundColor")
                 let BGColor = NSKeyedUnarchiver.unarchiveObject(with: ColorBlock!) as? NSColor
                 return BGColor!
-            
+                #endif
+                
             case 1:
                 //One cycle a minute
                 let Percent = Second / 60.0
                 return GetColorForTime(TimePercent: Percent, FinalHue: &FinalHue)
-            
+                
             case 2:
                 //One cycle an hour
                 let TotalSeconds = CGFloat((Minute * 60.0) + Second)
                 let Percent = TotalSeconds / (60.0 * 60.0)
                 return GetColorForTime(TimePercent: Percent, FinalHue: &FinalHue)
-            
+                
             case 3:
                 //One cycle a day
                 let TotalSeconds = CGFloat((((Hour * 60.0) + Minute) * 60.0) + Second)
                 let Percent = TotalSeconds / (24.0 * 60.0 * 60.0)
                 return GetColorForTime(TimePercent: Percent, FinalHue: &FinalHue)
-            
+                
             default:
                 return NSColor.black
         }
@@ -1225,46 +1239,46 @@ class Miscellaneous
             {
                 case NSColor.black:
                     return "Black"
-                
+                    
                 case NSColor.blue:
                     return "Blue"
-                
+                    
                 case NSColor.brown:
                     return "Brown"
-                
+                    
                 case NSColor.clear:
                     return "Clear"
-                
+                    
                 case NSColor.darkGray:
                     return "Dark Gray"
-                
+                    
                 case NSColor.gray:
                     return "Gray"
-                
+                    
                 case NSColor.green:
                     return "Green"
-                
+                    
                 case NSColor.lightGray:
                     return "Light Gray"
-                
+                    
                 case NSColor.magenta:
                     return "Magenta"
-                
+                    
                 case NSColor.orange:
                     return "Orange"
-                
+                    
                 case NSColor.purple:
                     return "Purple"
-                
+                    
                 case NSColor.red:
                     return "Red"
-                
+                    
                 case NSColor.white:
                     return "White"
-                
+                    
                 case NSColor.yellow:
                     return "Yellow"
-                
+                    
                 default:
                     break
             }
@@ -1354,7 +1368,7 @@ class Miscellaneous
             57 : "LVII",
             58 : "LVIII",
             59 : "LIX"
-    ]
+        ]
 }
 
 
