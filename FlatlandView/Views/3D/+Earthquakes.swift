@@ -736,31 +736,36 @@ extension GlobeView
     /// - Returns: Node with extruded text indicating the earthquake.
     func PlotMagnitudes(_ Quake: Earthquake) -> SCNNode
     {
+        let DrawScale = 0.03
         let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
         var MultipleQuakesSign = ""
         if Quake.Related != nil
         {
             MultipleQuakesSign = "+"
         }
+        #if true
+        let Magnitude = "M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
+        #else
         let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
+        #endif
         let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.Magnitude))
         let FontSize = CGFloat(15.0 + Quake.Magnitude)
         MagText.font = NSFont(name: "Avenir-Heavy", size: FontSize)
-        #if true
-        let (X, Y, Z) = Utility.ToECEF(Quake.Latitude, Quake.Longitude,
-                                       LatitudeOffset: -1.0, LongitudeOffset: -0.5,
-                                       Radius: Radius)
-        #else
-        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude,
-                               Radius: Radius)
-        #endif
+
         MagText.firstMaterial?.diffuse.contents = NSColor.red
         MagText.firstMaterial?.specular.contents = NSColor.white
         MagText.firstMaterial?.lightingModel = .physicallyBased
         let MagNode = SCNNode(geometry: MagText)
         MagNode.categoryBitMask = MetalSunMask | MetalMoonMask
-        MagNode.scale = SCNVector3(0.03, 0.03, 0.03)
+        MagNode.scale = SCNVector3(DrawScale, DrawScale, DrawScale)
         MagNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
+        var YOffset = (MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) * CGFloat(DrawScale)
+        YOffset = MagNode.boundingBox.max.y * CGFloat(DrawScale) * 3.5
+        let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * CGFloat(DrawScale) -
+            (MagNode.boundingBox.min.y * CGFloat(DrawScale))
+        let (X, Y, Z) = Utility.ToECEF(Quake.Latitude, Quake.Longitude,
+                                       LatitudeOffset: Double(-YOffset), LongitudeOffset: Double(XOffset),
+                                       Radius: Radius)
         MagNode.position = SCNVector3(X, Y, Z)
         
         let YRotation = -Quake.Latitude
