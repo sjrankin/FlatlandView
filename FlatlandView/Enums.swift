@@ -482,13 +482,14 @@ enum EarthquakeRecents: String, CaseIterable
 /// Textures to use for earthquake indicators that use textures.
 enum EarthquakeTextures: String, CaseIterable
 {
-    case SolidColor = "Solid Color"
-    case Gradient = "Color Gradient"
+    case Gradient1 = "Simple Gradient"
+    case Gradient2 = "Three-color Gradient"
     case DiagonalLines = "Diagonal Lines"
     case TransparentDiagonalLines = "Transparent Diagonals"
     case Checkerboard = "Black/White Checkerboard"
     case CheckerBoardTransparent = "Black/Transparent Checkerboard"
     case RedCheckerboard = "Red/Transparent Checkerboard"
+    case SolidColor = "Solid Color"
 }
 
 /// Radius values.
