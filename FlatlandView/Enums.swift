@@ -445,6 +445,8 @@ enum EarthquakeShapes: String, CaseIterable
     case Capsule = "Capsule"
     /// Earthquake is a magnitude value.
     case Magnitude = "Magnitude"
+    /// Magnitude of the earthquake oriented to point radially to the center of the Earth.
+    case VerticalMagnitude = "Vertical Magnitude"
 }
 
 /// Types of earthquake indicators.
