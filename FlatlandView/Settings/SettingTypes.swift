@@ -98,6 +98,10 @@ enum SettingTypes: String, CaseIterable
     case UseHDRCamera = "UserHDRCamera"
     /// NSColor: Color of the hours.
     case HourColor = "HourColor"
+    /// NSColor: Color of major grid lines.
+    case GridLineColor = "GridLineColor"
+    /// NSColor: Color of minor grid lines.
+    case MinorGridLineColor = "MinorGridLineColor"
     #if DEBUG
     //3D debug settings.
     /// Render 3D elements as wireframes.
