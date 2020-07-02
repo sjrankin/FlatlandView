@@ -459,6 +459,11 @@ extension GlobeView
                 YRotation = Quake.Latitude + 90.0 + 180.0
                 XRotation = Quake.Longitude + 180.0
                 
+            case .Cone:
+                FinalNode = SCNNode(geometry: SCNCone(topRadius: 0.0, bottomRadius: 0.5, height: CGFloat(3.5 * Percent)))
+                YRotation = Quake.Latitude + 90.0 + 180.0
+                XRotation = Quake.Longitude + 180.0
+                
             case .Box:
                 FinalNode = SCNNode(geometry: SCNBox(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5, chamferRadius: 0.1))
                 YRotation = Quake.Latitude + 90.0
@@ -515,7 +520,7 @@ extension GlobeView
                 Arrow.scale = SCNVector3(0.75, 0.75, 0.75)
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
-                let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: 0.25)
+                //let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: 0.25)
                 //let RotateForever = SCNAction.repeatForever(Rotate)
                 
                 let BounceDistance: CGFloat = 0.5
@@ -524,7 +529,7 @@ extension GlobeView
                 BounceAway.timingMode = .easeOut
                 let BounceTo = SCNAction.move(by: SCNVector3(0.0, BounceDistance, 0.0), duration: BounceDuration)
                 BounceTo.timingMode = .easeIn
-                let BounceSequence = SCNAction.sequence([BounceAway, BounceTo])
+                //let BounceSequence = SCNAction.sequence([BounceAway, BounceTo])
                 //let MoveForever = SCNAction.repeatForever(BounceSequence)
                 
                 //let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
@@ -550,6 +555,11 @@ extension GlobeView
                 
             case .Pyramid:
                 FinalNode = SCNNode(geometry: SCNPyramid(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5))
+                YRotation = Quake.Latitude + 90.0 + 180.0
+                XRotation = Quake.Longitude + 180.0
+                
+            case .Cone:
+                FinalNode = SCNNode(geometry: SCNCone(topRadius: 0.0, bottomRadius: 0.5, height: CGFloat(2.5 * Percent)))
                 YRotation = Quake.Latitude + 90.0 + 180.0
                 XRotation = Quake.Longitude + 180.0
                 
