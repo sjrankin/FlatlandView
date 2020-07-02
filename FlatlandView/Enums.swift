@@ -591,6 +591,9 @@ enum GlobeNodeNames: String
     
     /// Node used to draw an hour.
     case HourNode = "HourNode"
+    
+    /// Node used to indicate recent earthquakes.
+    case IndicatorNode = "IndicatorNode"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
