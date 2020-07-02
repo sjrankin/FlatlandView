@@ -132,7 +132,7 @@ extension MainView: SettingChangedProtocol
                 World3DView.PlotWorldHeritageSites()
                 
             case .Show3DEquator, .Show3DTropics, .Show3DMinorGrid, .Show3DPolarCircles, .Show3DPrimeMeridians,
-                 .MinorGrid3DGap, .Show3DGridLines:
+                 .MinorGrid3DGap, .Show3DGridLines, .GridLineColor, .MinorGridLineColor:
                 World3DView.SetLineLayer()
                 
             case .LocalLongitude, .LocalLatitude:
