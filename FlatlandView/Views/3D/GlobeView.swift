@@ -454,9 +454,9 @@ class GlobeView: SCNView, GlobeProtocol
     
     let SunMask: Int = 0x1 << 1
     let MetalSunMask: Int = 0x1 << 2
-    let MoonMask: Int = 0x1 << 4
-    let MetalMoonMask: Int = 0x1 << 8
-    let GridMask: Int = 0x1 << 16
+    let MoonMask: Int = 0x1 << 3
+    let MetalMoonMask: Int = 0x1 << 4
+    let GridMask: Int = 0x1 << 5
     
     var MetalSunLight = SCNLight()
     var MetalMoonLight = SCNLight()
@@ -842,10 +842,8 @@ class GlobeView: SCNView, GlobeProtocol
             LineNode = SCNNode(geometry: LineSphere)
             LineNode?.categoryBitMask = GridMask
             LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
-            let Maroon = NSColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
-            let GridLineImage = MakeGridLines(Width: 3600, Height: 1800, LineColor: Maroon)
+            let GridLineImage = MakeGridLines(Width: 3600, Height: 1800)
             LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLineImage
-            //LineNode?.geometry?.firstMaterial?.emission.contents = Maroon
             LineNode?.castsShadow = false
             SystemNode?.addChildNode(self.LineNode!)
         }
