@@ -56,13 +56,11 @@ class EarthquakeSettingsWindow: NSViewController
             default:
                 FrequencyCombo.selectItem(at: 1)
         }
-        MinMagCombo.removeAllItems()
-        for QuakeM in EarthquakeMagnitudes.allCases
-        {
-            MinMagCombo.addItem(withObjectValue: "\(QuakeM.rawValue)")
-        }
-        let MinMag = Settings.GetDouble(.MinimumMagnitude, EarthquakeMagnitudes.Mag6.rawValue)
-        MinMagCombo.selectItem(withObjectValue: MinMag)
+
+        let MinMagValue = Settings.GetDouble(.MinimumMagnitude, 5.0)
+        let IMinMag = Int(MinMagValue)
+        MinMagSegment.selectedSegment = IMinMag - 4
+
         let ColDet = Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
         ColorDetCombo.removeAllItems()
         for Method in EarthquakeColorMethods.allCases
@@ -131,7 +129,7 @@ class EarthquakeSettingsWindow: NSViewController
         }
     }
     
-    @IBAction func HandleMinMagComboChanged(_ sender: Any)
+    @IBAction func HandleMinMagComboChangedX(_ sender: Any)
     {
         if let Combo = sender as? NSComboBox
         {
@@ -145,6 +143,15 @@ class EarthquakeSettingsWindow: NSViewController
                     }
                 }
             }
+        }
+    }
+    
+    @IBAction func HandleMinMagChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            let Index = Segment.selectedSegment
+            Settings.SetDouble(.MinimumMagnitude, Double(Index + 4))
         }
     }
     
@@ -345,7 +352,7 @@ class EarthquakeSettingsWindow: NSViewController
     @IBOutlet weak var Mag8Color: NSColorWell!
     @IBOutlet weak var Mag9Color: NSColorWell!
     @IBOutlet weak var Quake2Button: NSButton!
-    @IBOutlet weak var MinMagCombo: NSComboBox!
+    @IBOutlet weak var MinMagSegment: NSSegmentedControl!
     @IBOutlet weak var BaseColorWell: NSColorWell!
     @IBOutlet weak var ColorDetCombo: NSComboBox!
     @IBOutlet weak var AgeCombo: NSComboBox!
