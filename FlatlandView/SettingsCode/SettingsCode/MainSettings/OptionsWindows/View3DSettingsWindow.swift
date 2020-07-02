@@ -64,6 +64,8 @@ class View3DSettingsWindow: NSViewController
         UseAmbientLight.state = Settings.GetBool(.UseAmbientLight) ? .on : .off
         HDRCamera.state = Settings.GetBool(.UseHDRCamera) ? .on : .off
         HourColorWell.color = Settings.GetColor(.HourColor, NSColor.systemOrange)
+        GridLineColorWell.color = Settings.GetColor(.GridLineColor, NSColor.red)
+        MinorGridLineColorWell.color = Settings.GetColor(.MinorGridLineColor, NSColor.yellow)
     }
     
     @IBAction func Handle3DGridLineChanged(_ sender: Any)
@@ -209,6 +211,24 @@ class View3DSettingsWindow: NSViewController
         }
     }
     
+    @IBAction func HandleGridLineColorChanged(_ sender: Any)
+    {
+        if let ColorWell = sender as? NSColorWell
+        {
+            Settings.SetColor(.GridLineColor, ColorWell.color)
+        }
+    }
+    
+    @IBAction func HandleMinorGridLineColorChanged(_ sender: Any)
+    {
+        if let ColorWell = sender as? NSColorWell
+        {
+            Settings.SetColor(.MinorGridLineColor, ColorWell.color)
+        }
+    }
+    
+    @IBOutlet weak var MinorGridLineColorWell: NSColorWell!
+    @IBOutlet weak var GridLineColorWell: NSColorWell!
     @IBOutlet weak var HourColorWell: NSColorWell!
     @IBOutlet weak var HDRCamera: NSSwitch!
     @IBOutlet weak var Show3DMinorGridLines: NSSwitch!
