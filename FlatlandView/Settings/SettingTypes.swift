@@ -187,7 +187,7 @@ enum SettingTypes: String, CaseIterable
     //Earthquake asynchronous settings.
     /// Double: How often, in seconds, to fetch earthquake data.
     case EarthquakeFetchInterval = "EarthquakeFetchInterval"
-    /// Double: Minimum magnitude to be included.
+    /// Minimum magnitude for an earthquake to be included.
     case MinimumMagnitude = "MinimumMagnitude"
     /// Boolean: Determines if remote earthquake data is fetched.
     case EnableEarthquakes = "EnableEarthquakes"
