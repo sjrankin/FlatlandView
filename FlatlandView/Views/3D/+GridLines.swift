@@ -23,13 +23,11 @@ extension GlobeView
     /// - TODO: Back port the macOS code to iOS (assuming it will work on iOS).
     /// - Parameter Width: Width of the image to return.
     /// - Parameter Height: Height of the image to return.
-    /// - Parameter LineColor: The major grid line color.
-    /// - Parameter MinorLineColor: The minor grid line color.
     /// - Returns: Image of the specified size with the grid lines drawn as per user settings.
-    func MakeGridLines(Width: CGFloat, Height: CGFloat,
-                       LineColor: NSColor = NSColor.red,
-                       MinorLineColor: NSColor = NSColor.yellow) -> NSImage
+    func MakeGridLines(Width: CGFloat, Height: CGFloat) -> NSImage
     {
+        let LineColor = Settings.GetColor(.GridLineColor, NSColor.red)
+        let MinorLineColor = Settings.GetColor(.MinorGridLineColor, NSColor.yellow)
         let Base = NSImage(Color: NSColor.clear, Size: NSSize(width: Width, height: Height))
         let Line = NSBezierPath()
         if Settings.GetBool(.Show3DMinorGrid)
@@ -48,7 +46,7 @@ extension GlobeView
                 Line.move(to: NSPoint(x: 0.0, y: Y))
                 Line.line(to: NSPoint(x: Width, y: Y))
             }
-            Line.lineWidth = 3.0
+            Line.lineWidth = 4.0
             MinorLineColor.withAlphaComponent(1.0).setStroke()
             Line.stroke()
             Base.unlockFocus()
