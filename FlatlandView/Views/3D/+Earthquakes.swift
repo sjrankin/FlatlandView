@@ -69,6 +69,7 @@ extension GlobeView
     ///                      previous list, no action is taken.
     func NewEarthquakeList(_ NewList: [Earthquake])
     {
+        RemoveExpiredIndicators(NewList)
         if SameEarthquakes(NewList, EarthquakeList)
         {
             #if DEBUG
@@ -115,6 +116,42 @@ extension GlobeView
         //PlotEarthquakes2()
     }
     
+    func RemoveExpiredIndicators(_ Quakes: [Earthquake])
+    {
+        let HighlightHow = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
+                                            Default: .None)
+        if HighlightHow == .None
+        {
+            for (_, Node) in IndicatorAgeMap
+            {
+                Node.removeAllActions()
+                Node.removeFromParentNode()
+            }
+            IndicatorAgeMap.removeAll()
+            return
+        }
+        else
+        {
+            let HowRecent = Settings.GetEnum(ForKey: .RecentEarthquakeDefinition, EnumType: EarthquakeRecents.self,
+                                             Default: .Day1)
+            for Quake in Quakes
+            {
+            if let RecentSeconds = RecentMap[HowRecent]
+            {
+                if Quake.GetAge() > RecentSeconds
+                {
+                    if let INode = IndicatorAgeMap[Quake.Code]
+                    {
+                        INode.removeAllActions()
+                        INode.removeFromParentNode()
+                        IndicatorAgeMap.removeValue(forKey: Quake.Code)
+                    }
+                }
+            }
+            }
+        }
+    }
+    
     /// Plot a passed list of earthquakes on the passed surface.
     /// - Parameter List: The list of earthquakes to plot.
     /// - Parameter On: The 3D surface upon which to plot the earthquakes.
@@ -157,6 +194,7 @@ extension GlobeView
                         if Quake.GetAge() <= RecentSeconds
                         {
                             let Ind = HighlightEarthquake(Quake)
+                            Ind.name = GlobeNodeNames.IndicatorNode.rawValue
                             Surface.addChildNode(Ind)
                         }
                     }
@@ -823,10 +861,16 @@ extension GlobeView
     }
     
     /// Visually highlight the passed earthquake.
+    /// - Note: If the indicator is already present, it is not redrawn.
     /// - Parameter Quake: The earthquake to highlight.
     /// - Returns: An `SCNNode` to be used as an indicator of a recent earthquake.
     func HighlightEarthquake(_ Quake: Earthquake) -> SCNNode
     {
+        let Final = SCNNode()
+        if IndicatorAgeMap[Quake.Code] != nil
+        {
+            return Final
+        }
         switch Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
                                 Default: .None)
         {
@@ -865,7 +909,6 @@ extension GlobeView
                 Indicator.runAction(ScaleForever)
                 let Forever = SCNAction.repeatForever(Rotate)
                 Indicator.runAction(Forever)
-                let Final = SCNNode()
                 let YRotation = Quake.Latitude + 90.0
                 let XRotation = Quake.Longitude + 180.0
                 let ZRotation = 0.0
@@ -873,7 +916,6 @@ extension GlobeView
                 Final.position = SCNVector3(X, Y, Z)
                 Final.addChildNode(Indicator)
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
-                return Final
                 
             case .StaticRing:
                 let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
@@ -884,7 +926,6 @@ extension GlobeView
                 Indicator.geometry?.firstMaterial?.diffuse.contents = StaticColor
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
                 Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
-                let Final = SCNNode()
                 let YRotation = Quake.Latitude + 90.0
                 let XRotation = Quake.Longitude + 180.0
                 let ZRotation = 0.0
@@ -892,7 +933,6 @@ extension GlobeView
                 Final.position = SCNVector3(X, Y, Z)
                 Final.addChildNode(Indicator)
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
-                return Final
                 
             case .GlowingSphere:
                 let Radius = Double(GlobeRadius.Primary.rawValue)
@@ -903,7 +943,6 @@ extension GlobeView
                 Indicator.geometry?.firstMaterial?.diffuse.contents = Color
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
                 Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
-                let Final = SCNNode()
                 let YRotation = Quake.Latitude + 90.0
                 let XRotation = Quake.Longitude + 180.0
                 let ZRotation = 0.0
@@ -911,7 +950,6 @@ extension GlobeView
                 Final.position = SCNVector3(X, Y, Z)
                 Final.addChildNode(Indicator)
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
-                return Final
                 
             case .RadiatingRings:
                 let Radius = Double(GlobeRadius.Primary.rawValue)
@@ -955,7 +993,6 @@ extension GlobeView
                 let Forever = SCNAction.repeatForever(Sequence)
                 Indicator.runAction(Forever)
                 
-                let Final = SCNNode()
                 let YRotation = Quake.Latitude + 90.0
                 let XRotation = Quake.Longitude + 180.0
                 let ZRotation = 0.0
@@ -963,10 +1000,15 @@ extension GlobeView
                 Final.position = SCNVector3(X, Y, Z)
                 Final.addChildNode(Indicator)
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
-                return Final
                 
             case .None:
                 return SCNNode()
         }
+        
+        if !IndicatorAgeMap.contains(where: {$0.key == Quake.Code})
+        {
+            IndicatorAgeMap[Quake.Code] = Final
+        }
+        return Final
     }
 }
