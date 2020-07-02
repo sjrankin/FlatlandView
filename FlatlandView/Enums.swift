@@ -437,6 +437,8 @@ enum EarthquakeShapes: String, CaseIterable
     case StaticArrow = "Static Arrow"
     /// Earthquake is a pyramid.
     case Pyramid = "Pyramid"
+    /// Earthquake is a cone.
+    case Cone = "Cone"
     /// Earthquake is a box.
     case Box = "Box"
     /// Earthquake is a cylinder.
