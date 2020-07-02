@@ -934,5 +934,7 @@ class GlobeView: SCNView, GlobeProtocol
         .Day7: 7.0 * 24.0 * 60.0 * 60.0,
         .Day10: 10.0 * 24.0 * 60.0 * 60.0,
     ]
+    
+    var IndicatorAgeMap = [String: SCNNode]()
 }
 
