@@ -324,8 +324,8 @@
 			isa = PBXGroup;
 			children = (
 				17523CD1247B8E11005209FC /* +MoreLocations.swift */,
-				17523CD3247B8E62005209FC /* WorldHeritageSite.swift */,
 				174623D224A83026007F5D4C /* +ChangedSettings.swift */,
+				17523CD3247B8E62005209FC /* WorldHeritageSite.swift */,
 			);
 			path = MainViewExtensions;
 			sourceTree = "<group>";
