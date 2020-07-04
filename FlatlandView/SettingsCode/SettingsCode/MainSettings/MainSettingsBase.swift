@@ -13,6 +13,12 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
                         WindowManagement
 {
     public weak var MainDelegate: MainProtocol? = nil
+    {
+        didSet
+        {
+            (SettingMap[.Earthquakes]!.Controller as! EarthquakeSettingsWindow).MainDelegate = MainDelegate
+        }
+    }
     
     override func viewDidLoad()
     {
@@ -95,6 +101,7 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
                 #endif
                 
             case .Earthquakes:
+                (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).MainDelegate = MainDelegate
                 (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes, Raw: LiveEarthquakes as Any)
                 (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes2, Raw: LiveEarthquakes2 as Any)
         }
