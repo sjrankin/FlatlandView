@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class View2DSettingsWindow: NSViewController
+class View2DSettingsWindow: NSViewController, NSTableViewDelegate, NSTableViewDataSource
 {
     override func viewDidLoad()
     {
@@ -31,7 +31,7 @@ class View2DSettingsWindow: NSViewController
             .Classic1: "SunX",
             .Classic2: "Sun2Up",
             .PlaceHolder: "SunPlaceHolder"
-    ]
+        ]
     
     func Initialize2DMap()
     {
@@ -70,13 +70,13 @@ class View2DSettingsWindow: NSViewController
         {
             case .VeryLight:
                 DarkIndex = 0
-            
+                
             case .Light:
                 DarkIndex = 1
-            
+                
             case .Dark:
                 DarkIndex = 2
-            
+                
             case .VeryDark:
                 DarkIndex = 3
         }
@@ -100,19 +100,19 @@ class View2DSettingsWindow: NSViewController
             {
                 case Show2DEquator:
                     Settings.SetBool(.Show2DEquator, IsChecked)
-                
+                    
                 case Show2DTropics:
                     Settings.SetBool(.Show2DTropics, IsChecked)
-                
+                    
                 case Show2DNoonMeridians:
                     Settings.SetBool(.Show2DNoonMeridians, IsChecked)
-                
+                    
                 case Show2DPrimeMeridians:
                     Settings.SetBool(.Show2DPrimeMeridians, IsChecked)
-                
+                    
                 case Show2DPolarCircles:
                     Settings.SetBool(.Show2DPolarCircles, IsChecked)
-                
+                    
                 default:
                     return
             }
@@ -167,8 +167,8 @@ class View2DSettingsWindow: NSViewController
     {
         if let Table = sender as? NSTableView
         {
-                    let SelectedSun = SunImageList[Table.selectedRow].0
-                    Settings.SetEnum(SelectedSun, EnumType: SunNames.self, ForKey: .SunType)
+            let SelectedSun = SunImageList[Table.selectedRow].0
+            Settings.SetEnum(SelectedSun, EnumType: SunNames.self, ForKey: .SunType)
         }
     }
     
