@@ -52,7 +52,7 @@ class GlobeView: SCNView, GlobeProtocol
     /// Display the globe in attract mode.
     func AttractEarth()
     {
-        let Rotate = SCNAction.rotateBy(x: 0.0, y: CGFloat(360.0.Radians), z: 0.0, duration: 10.0)
+        let Rotate = SCNAction.rotateBy(x: 0.0, y: CGFloat(360.0.Radians), z: 0.0, duration: 30.0)
         let RotateForever = SCNAction.repeatForever(Rotate)
         EarthNode?.runAction(RotateForever)
         SeaNode?.runAction(RotateForever)
@@ -61,7 +61,14 @@ class GlobeView: SCNView, GlobeProtocol
         {
             HourNode?.runAction(RotateForever)
         }
-    }
+        #if false
+        let RotateCamera = SCNAction.rotateBy(x: CGFloat(0.0.Radians), y: CGFloat(0.0.Radians), z: CGFloat(90.0.Radians),
+                                              duration: 5.0)
+        let CameraMove = SCNAction.move(to: SCNVector3(12.0, 0.0, 0.0), duration: 5.0)
+        let RotateSequence = SCNAction.group([CameraMove, RotateCamera])
+        CameraNode.runAction(RotateSequence)
+        #endif
+        }
     
     /// Hide the globe view.
     public func Hide()
@@ -140,7 +147,6 @@ class GlobeView: SCNView, GlobeProtocol
         }
         SetDebugOption(DebugTypes)
         #endif
-        //        self.debugOptions = [.showBoundingBoxes, .renderAsWireframe]
         self.allowsCameraControl = true
         
         #if false
