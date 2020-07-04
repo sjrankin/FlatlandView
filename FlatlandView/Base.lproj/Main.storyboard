@@ -719,23 +719,23 @@
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="BYb-mp-jpP"/>
                                     </imageView>
                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8k3-gX-b5q">
-                                        <rect key="frame" x="80" y="80" width="740" height="740"/>
+                                        <rect key="frame" x="78" y="78" width="744" height="744"/>
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="31R-XZ-RDf"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="cwg-B1-UOR" firstAttribute="leading" secondItem="jzK-yC-9yN" secondAttribute="leading" constant="60" id="6Tc-Rq-OP2"/>
-                                    <constraint firstAttribute="trailing" secondItem="8k3-gX-b5q" secondAttribute="trailing" constant="80" id="7Sd-5z-Hmy"/>
-                                    <constraint firstItem="8k3-gX-b5q" firstAttribute="top" secondItem="jzK-yC-9yN" secondAttribute="top" constant="80" id="C1N-ZV-QKi"/>
+                                    <constraint firstAttribute="trailing" secondItem="8k3-gX-b5q" secondAttribute="trailing" constant="78" id="7Sd-5z-Hmy"/>
+                                    <constraint firstItem="8k3-gX-b5q" firstAttribute="top" secondItem="jzK-yC-9yN" secondAttribute="top" constant="78" id="C1N-ZV-QKi"/>
                                     <constraint firstItem="2Al-xH-sRq" firstAttribute="leading" secondItem="jzK-yC-9yN" secondAttribute="leading" constant="80" id="Fey-Jj-xIn"/>
                                     <constraint firstAttribute="bottom" secondItem="2Al-xH-sRq" secondAttribute="bottom" constant="80" id="Il9-EC-GXp"/>
                                     <constraint firstItem="cwg-B1-UOR" firstAttribute="top" secondItem="jzK-yC-9yN" secondAttribute="top" constant="60" id="J24-cQ-UC8"/>
                                     <constraint firstItem="VJd-ng-L0g" firstAttribute="top" secondItem="jzK-yC-9yN" secondAttribute="top" constant="80" id="Jcr-gB-bFR"/>
-                                    <constraint firstItem="8k3-gX-b5q" firstAttribute="leading" secondItem="jzK-yC-9yN" secondAttribute="leading" constant="80" id="MpZ-0D-uON"/>
+                                    <constraint firstItem="8k3-gX-b5q" firstAttribute="leading" secondItem="jzK-yC-9yN" secondAttribute="leading" constant="78" id="MpZ-0D-uON"/>
                                     <constraint firstAttribute="trailing" secondItem="6Gz-l1-6AA" secondAttribute="trailing" constant="80" id="NpL-8V-rWT"/>
                                     <constraint firstItem="6Gz-l1-6AA" firstAttribute="leading" secondItem="jzK-yC-9yN" secondAttribute="leading" constant="80" id="SfT-r7-fhj"/>
                                     <constraint firstItem="6Gz-l1-6AA" firstAttribute="top" secondItem="jzK-yC-9yN" secondAttribute="top" constant="80" id="Wk6-J0-f4w"/>
-                                    <constraint firstAttribute="bottom" secondItem="8k3-gX-b5q" secondAttribute="bottom" constant="80" id="XWJ-8W-jSR"/>
+                                    <constraint firstAttribute="bottom" secondItem="8k3-gX-b5q" secondAttribute="bottom" constant="78" id="XWJ-8W-jSR"/>
                                     <constraint firstAttribute="trailing" secondItem="VJd-ng-L0g" secondAttribute="trailing" constant="80" id="ehQ-mg-gBl"/>
                                     <constraint firstItem="q1S-Rx-kJK" firstAttribute="top" secondItem="jzK-yC-9yN" secondAttribute="top" constant="5" id="fVX-I7-Bsh"/>
                                     <constraint firstAttribute="bottom" secondItem="cwg-B1-UOR" secondAttribute="bottom" constant="60" id="hNi-tZ-Feq"/>
