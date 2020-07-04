@@ -776,6 +776,31 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         LocalInfoGrid.layer?.add(Animate, forKey: "fade")
     }
     
+    /// Insert debug earthquake at the specified location.
+    func InsertEarthquake(Latitude: Double, Longitude: Double, Magnitude: Double)
+    {
+        #if DEBUG
+        Earthquakes?.InsertDebugEarthquake(Latitude: Latitude, Longitude: Longitude, Magnitude: Magnitude)
+        #endif
+    }
+    
+    /// Insert debug earthquake at a random location.
+    func InsertEarthquake(Magnitude: Double)
+    {
+        #if DEBUG
+        let Latitude = Double.random(in: -90.0 ... 90.0)
+        let Longitude = Double.random(in: -180.0 ... 180.0)
+        Earthquakes?.InsertDebugEarthquake(Latitude: Latitude, Longitude: Longitude, Magnitude: Magnitude)
+        #endif
+    }
+    
+    func ForceFetchEarthquakes()
+    {
+        #if DEBUG
+        Earthquakes?.ForceFetch()
+        #endif
+    }
+    
     // MARK: - Asynchronous data protocol functions.
     
     func AsynchronousDataAvailable(DataType: AsynchronousDataTypes, Actual: Any?)
