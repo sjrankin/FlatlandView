@@ -200,12 +200,6 @@ extension GlobeView
                     }
                 }
                 
-                if Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere) == .Magnitude
-                {
-                    BaseColor = NSColor.red
-                }
-                else
-                {
                     QNode.geometry?.firstMaterial?.emission.contents = nil
                     switch Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
                     {
@@ -262,7 +256,7 @@ extension GlobeView
                                 BaseColor = NSColor(hue: H, saturation: CGFloat(Percent) * S, brightness: B, alpha: 0.8)
                             }
                     }
-                }
+                
                 let Shape = Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
                 if  Shape == .Arrow || Shape == .StaticArrow
                 {
@@ -805,7 +799,24 @@ extension GlobeView
         let FontSize = CGFloat(15.0 + Quake.Magnitude)
         MagText.font = NSFont(name: "Avenir-Heavy", size: FontSize)
         
+        #if false
         MagText.firstMaterial?.diffuse.contents = NSColor.red
+        #else
+        var BaseColor = NSColor.red
+        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+        print("MagRange=\(MagRange)")
+        let Colors = Settings.GetMagnitudeColors()
+        for (Magnitude, Color) in Colors
+        {
+            if Magnitude == MagRange
+            {
+                print(">>> Found mag range \(MagRange)")
+                BaseColor = Color
+                break
+            }
+        }
+        MagText.firstMaterial?.specular.contents = NSColor.black//BaseColor
+        #endif
         MagText.firstMaterial?.specular.contents = NSColor.white
         MagText.firstMaterial?.lightingModel = .physicallyBased
         let MagNode = SCNNode(geometry: MagText)
