@@ -250,7 +250,7 @@ Gw
         <!--Window Controller-->
         <scene sceneID="XPZ-d4-qK6">
             <objects>
-                <windowController id="4Lh-3r-kNU" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="MapFinderWindow" id="4Lh-3r-kNU" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Lwj-kK-IO2">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
