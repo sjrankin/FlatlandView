@@ -481,7 +481,7 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="116" minWidth="40" maxWidth="1000" id="b8W-rl-B2B">
+                                                <tableColumn identifier="SunNameColumn" width="116" minWidth="40" maxWidth="1000" id="b8W-rl-B2B">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -561,6 +561,7 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
+                                                <action selector="HandleTableClicked:" target="XBZ-BX-yfE" id="Qvj-rE-ITt"/>
                                                 <outlet property="dataSource" destination="XBZ-BX-yfE" id="P6f-ey-5vl"/>
                                                 <outlet property="delegate" destination="XBZ-BX-yfE" id="ouY-Zd-qM8"/>
                                             </connections>
@@ -1997,8 +1998,8 @@ DQ
                                     </gridCell>
                                     <gridCell row="1xO-jg-hdu" column="5bV-At-ox8" id="iXJ-LM-8Xh">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ccK-jC-1vj">
-                                            <rect key="frame" x="-2" y="52" width="132" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Home location shape" id="ZPa-qa-JVn">
+                                            <rect key="frame" x="-2" y="52" width="201" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Home location shape (3D mode)" id="ZPa-qa-JVn">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -3301,14 +3302,6 @@ DQ
                                     <action selector="HandleDebugEarthquakes:" target="zQf-lG-HN1" id="gTK-Cp-dU1"/>
                                 </connections>
                             </button>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J8i-TH-PMl">
-                                <rect key="frame" x="48" y="68" width="385" height="149"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="385" id="BRi-fg-3cp"/>
-                                    <constraint firstAttribute="height" constant="149" id="VA1-uk-jw7"/>
-                                </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="PointingFinger" id="6ob-Wg-HSI"/>
-                            </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="YUj-YR-IHN" firstAttribute="top" secondItem="hcJ-5K-d05" secondAttribute="top" constant="171" id="0mX-hl-Bqc"/>
@@ -3320,10 +3313,8 @@ DQ
                             <constraint firstItem="Pjz-PV-OHO" firstAttribute="baseline" secondItem="cCj-Zm-0EL" secondAttribute="baseline" id="NRm-8L-UBx"/>
                             <constraint firstAttribute="bottom" secondItem="cCj-Zm-0EL" secondAttribute="bottom" constant="19" id="TfG-lD-dXH"/>
                             <constraint firstItem="nOz-xq-Ar0" firstAttribute="baseline" secondItem="Pjz-PV-OHO" secondAttribute="baseline" id="TsW-ce-Ti2"/>
-                            <constraint firstItem="J8i-TH-PMl" firstAttribute="leading" secondItem="hcJ-5K-d05" secondAttribute="leading" constant="48" id="cce-Gj-pPR"/>
                             <constraint firstAttribute="trailing" secondItem="YUj-YR-IHN" secondAttribute="trailing" constant="20" symbolic="YES" id="hfb-dc-i52"/>
                             <constraint firstItem="Pjz-PV-OHO" firstAttribute="leading" secondItem="cCj-Zm-0EL" secondAttribute="trailing" constant="19" id="i3I-xh-RUV"/>
-                            <constraint firstItem="cCj-Zm-0EL" firstAttribute="top" secondItem="J8i-TH-PMl" secondAttribute="bottom" constant="28" id="rwb-HU-KyY"/>
                             <constraint firstItem="cCj-Zm-0EL" firstAttribute="leading" secondItem="xnu-oj-TOY" secondAttribute="leading" id="sIF-Lb-0QI"/>
                             <constraint firstItem="xnu-oj-TOY" firstAttribute="top" secondItem="hcJ-5K-d05" secondAttribute="top" constant="20" symbolic="YES" id="ye2-Jv-Npm"/>
                         </constraints>
@@ -4203,7 +4194,6 @@ DQ
     <resources>
         <image name="GlobeIcon" width="24" height="24"/>
         <image name="NorthCenterIcon" width="24" height="24"/>
-        <image name="PointingFinger" width="1561.440185546875" height="832.59136962890625"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
     </resources>
 </document>
