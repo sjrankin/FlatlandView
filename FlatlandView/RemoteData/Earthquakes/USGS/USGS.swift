@@ -44,13 +44,13 @@ class USGS
     @objc func GetNewEarthquakeData()
     {
         DispatchQueue.global(qos: .background).async
+        {
+            self.GetUSGSEarthquakeData
             {
-                self.GetUSGSEarthquakeData
-                    {
-                        Results in
-                        if let Raw = Results
-                        {
-                            do
+                Results in
+                if let Raw = Results
+                {
+                    do
                             {
                                 let RawData = Data(Raw.utf8)
                                 if let json = try JSONSerialization.jsonObject(with: RawData, options: []) as? [String: Any]
@@ -68,17 +68,17 @@ class USGS
                                     }
                                 }
                             }
-                            catch
-                            {
-                                print("JSON error \(error)")
-                            }
-                            self.HaveAllEarthquakes()
-                        }
-                        else
-                        {
-                            print("Nothing to do")
-                        }
+                    catch
+                    {
+                        print("JSON error \(error)")
+                    }
+                    self.HaveAllEarthquakes()
                 }
+                else
+                {
+                    print("Nothing to do")
+                }
+            }
         }
     }
     
@@ -87,12 +87,41 @@ class USGS
     func HaveAllEarthquakes()
     {
         DispatchQueue.main.async
-            {
-                var FinalList = self.RemoveDuplicates(From: self.EarthquakeList)
-                FinalList = self.FilterForMagnitude(FinalList, Magnitude: Settings.GetDouble(.MinimumMagnitude))
-                self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: FinalList as Any)
-                self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes2, Actual: self.EarthquakeList2 as Any )
+        {
+            var FinalList = self.RemoveDuplicates(From: self.EarthquakeList)
+            FinalList = self.FilterForMagnitude(FinalList, Magnitude: Settings.GetDouble(.MinimumMagnitude))
+            FinalList.append(contentsOf: self.DebugEarthquakes)
+            self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: FinalList as Any)
+            self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes2, Actual: self.EarthquakeList2 as Any )
         }
+    }
+    
+    /// Force fetch earthquake data regardless of the fetch cycle.
+    func ForceFetch()
+    {
+        let count = DebugEarthquakes.count
+        print("Forcing fetch of earthquakes [\(count)]")
+        GetNewEarthquakeData()
+    }
+    
+    /// Insert a debug earthquake.
+    /// - Note: Will be returned at the next fetch cycle.
+    /// - Parameter Latitude: The latitude of the debug earthquake.
+    /// - Parameter Longitude: The longitude of the debug earthquake.
+    /// - Parameter Magnitude: The magnitude of the debug earthquake.
+    func InsertDebugEarthquake(Latitude: Double, Longitude: Double, Magnitude: Double)
+    {
+        let DebugQuake = Earthquake(Sequence: 100000)
+        DebugQuake.Latitude = Latitude
+        DebugQuake.Longitude = Longitude
+        DebugQuake.Magnitude = Magnitude
+        DebugEarthquakes.append(DebugQuake)
+    }
+    
+    /// Remove all debug earthquakes.
+    func ClearDebugEarthquakes()
+    {
+        DebugEarthquakes.removeAll()
     }
     
     /// Remove duplicate entries from the passed list of earthquakes.
@@ -141,7 +170,7 @@ class USGS
         {
             Local, Response, error in
             guard let HTTPResponse = Response as? HTTPURLResponse,
-                (200 ... 299).contains(HTTPResponse.statusCode) else
+                  (200 ... 299).contains(HTTPResponse.statusCode) else
             {
                 let HTTPResponse = Response as! HTTPURLResponse
                 print("Response error: \(HTTPResponse)")
@@ -203,8 +232,8 @@ class USGS
                                         NewEarthquake.Depth = A[2]
                                     }
                                 }
-                        }
-                        
+                            }
+                            
                         case "properties":
                             for (PropKey, PropVal) in SubDict!
                             {
@@ -218,48 +247,48 @@ class USGS
                                         else
                                         {
                                             NewEarthquake.Magnitude = 0.0
-                                    }
-                                    
+                                        }
+                                        
                                     case "place":
                                         NewEarthquake.Place = PropVal as! String
-                                    
+                                        
                                     case "time":
                                         var TimeDouble = PropVal as! Double
                                         TimeDouble = TimeDouble / 1000.0
                                         NewEarthquake.Time = Date(timeIntervalSince1970: TimeDouble)
-                                    
+                                        
                                     case "tsunami":
                                         NewEarthquake.Tsunami = PropVal as! Int
-                                    
+                                        
                                     case "code":
                                         NewEarthquake.Code = PropVal as! String
-                                    
+                                        
                                     case "status":
                                         NewEarthquake.Status = PropVal as! String
-                                    
+                                        
                                     case "updated":
                                         NewEarthquake.Updated = PropVal as! Int
-                                    
+                                        
                                     case "mmi":
                                         if let MMI = PropVal as? Double
                                         {
-                                        NewEarthquake.MMI = MMI
-                                    }
-                                    
+                                            NewEarthquake.MMI = MMI
+                                        }
+                                        
                                     case "felt":
                                         if let Felt = PropVal as? Int
                                         {
-                                        NewEarthquake.Felt = Felt
-                                    }
-                                    
+                                            NewEarthquake.Felt = Felt
+                                        }
+                                        
                                     case "sig":
                                         NewEarthquake.Significance = PropVal as! Int
-                                    
+                                        
                                     default:
                                         continue
                                 }
-                        }
-                        
+                            }
+                            
                         default:
                             continue
                     }
@@ -278,6 +307,7 @@ class USGS
     /// Current list of earthquakes.
     var EarthquakeList = [Earthquake]()
     var EarthquakeList2 = [Earthquake2]()
+    var DebugEarthquakes = [Earthquake]()
     
     /// Determines if two lists of earthquakes have the same contents. This function works regardless
     /// of the order of the contents.
