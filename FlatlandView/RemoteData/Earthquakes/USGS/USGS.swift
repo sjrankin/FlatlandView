@@ -99,8 +99,6 @@ class USGS
     /// Force fetch earthquake data regardless of the fetch cycle.
     func ForceFetch()
     {
-        let count = DebugEarthquakes.count
-        print("Forcing fetch of earthquakes [\(count)]")
         GetNewEarthquakeData()
     }
     
