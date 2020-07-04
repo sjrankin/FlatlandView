@@ -86,7 +86,7 @@ extension MainView: SettingChangedProtocol
                 }
                 
             case .ShowNight:
-                break
+                SetNightMask()
                 
             case .NightDarkness:
                 let NewMask = GetNightMask(ForDate: Date())
