@@ -11,6 +11,8 @@ import AppKit
 
 class EarthquakeSettingsWindow: NSViewController
 {
+    public weak var MainDelegate: MainProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -26,6 +28,10 @@ class EarthquakeSettingsWindow: NSViewController
     
     func InitializeAsynchronousEarthquakes()
     {
+        #if DEBUG
+        #else
+        EarthquakeDebugButton.removeFromSuperview()
+        #endif
         InitializeMagnitudeColors()
         let EnableEarthquakes = Settings.GetBool(.EnableEarthquakes)
         EarthquakeSwitch.state = EnableEarthquakes ? .on : .off
@@ -237,9 +243,6 @@ class EarthquakeSettingsWindow: NSViewController
                         Quake2Button.isEnabled = true
                     }
                 }
-                
-            default:
-                break
         }
     }
     
@@ -266,6 +269,24 @@ class EarthquakeSettingsWindow: NSViewController
             WindowController.showWindow(nil)
         }
     }
+    
+    #if DEBUG
+    @IBAction func HandleDebugEarthquakes(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "EarthquakeDebugger", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeDebuggerWindow") as? EarthquakeDebugWindow
+        {
+            let Window = WindowController.window
+            let ViewController = Window?.contentViewController as? EarthquakeDebugController
+            if MainDelegate == nil
+            {
+                fatalError("Where's my main delegate?")
+            }
+            ViewController?.MainDelegate = MainDelegate
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+        }
+    }
+    #endif
     
     @IBAction func HandleSetupRecentEarthquakes(_ sender: Any)
     {
@@ -345,6 +366,7 @@ class EarthquakeSettingsWindow: NSViewController
     
     var MagnitudeDictionary = [EarthquakeMagnitudes: NSColor]()
     
+    @IBOutlet weak var EarthquakeDebugButton: NSButton!
     @IBOutlet weak var Mag4Color: NSColorWell!
     @IBOutlet weak var Mag5Color: NSColorWell!
     @IBOutlet weak var Mag6Color: NSColorWell!
