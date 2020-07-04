@@ -3291,17 +3291,39 @@ DQ
                                     </subviews>
                                 </view>
                             </box>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nOz-xq-Ar0">
+                                <rect key="frame" x="290" y="12" width="80" height="32"/>
+                                <buttonCell key="cell" type="push" title="Debug" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OeT-KS-UcF">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleDebugEarthquakes:" target="zQf-lG-HN1" id="gTK-Cp-dU1"/>
+                                </connections>
+                            </button>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J8i-TH-PMl">
+                                <rect key="frame" x="48" y="68" width="385" height="149"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="385" id="BRi-fg-3cp"/>
+                                    <constraint firstAttribute="height" constant="149" id="VA1-uk-jw7"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="PointingFinger" id="6ob-Wg-HSI"/>
+                            </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="YUj-YR-IHN" firstAttribute="top" secondItem="hcJ-5K-d05" secondAttribute="top" constant="171" id="0mX-hl-Bqc"/>
                             <constraint firstItem="YUj-YR-IHN" firstAttribute="leading" secondItem="hcJ-5K-d05" secondAttribute="leading" constant="576" id="1ik-P3-XTQ"/>
+                            <constraint firstItem="nOz-xq-Ar0" firstAttribute="leading" secondItem="Pjz-PV-OHO" secondAttribute="trailing" constant="28" id="1q6-TZ-UBl"/>
                             <constraint firstItem="xnu-oj-TOY" firstAttribute="leading" secondItem="hcJ-5K-d05" secondAttribute="leading" constant="20" symbolic="YES" id="6h4-Qf-VIU"/>
                             <constraint firstItem="YUj-YR-IHN" firstAttribute="top" secondItem="xnu-oj-TOY" secondAttribute="bottom" constant="2" id="FMw-HM-ZeE"/>
                             <constraint firstItem="YUj-YR-IHN" firstAttribute="bottom" secondItem="Pjz-PV-OHO" secondAttribute="bottom" constant="13" id="MTH-SU-VOV"/>
                             <constraint firstItem="Pjz-PV-OHO" firstAttribute="baseline" secondItem="cCj-Zm-0EL" secondAttribute="baseline" id="NRm-8L-UBx"/>
                             <constraint firstAttribute="bottom" secondItem="cCj-Zm-0EL" secondAttribute="bottom" constant="19" id="TfG-lD-dXH"/>
+                            <constraint firstItem="nOz-xq-Ar0" firstAttribute="baseline" secondItem="Pjz-PV-OHO" secondAttribute="baseline" id="TsW-ce-Ti2"/>
+                            <constraint firstItem="J8i-TH-PMl" firstAttribute="leading" secondItem="hcJ-5K-d05" secondAttribute="leading" constant="48" id="cce-Gj-pPR"/>
                             <constraint firstAttribute="trailing" secondItem="YUj-YR-IHN" secondAttribute="trailing" constant="20" symbolic="YES" id="hfb-dc-i52"/>
                             <constraint firstItem="Pjz-PV-OHO" firstAttribute="leading" secondItem="cCj-Zm-0EL" secondAttribute="trailing" constant="19" id="i3I-xh-RUV"/>
+                            <constraint firstItem="cCj-Zm-0EL" firstAttribute="top" secondItem="J8i-TH-PMl" secondAttribute="bottom" constant="28" id="rwb-HU-KyY"/>
                             <constraint firstItem="cCj-Zm-0EL" firstAttribute="leading" secondItem="xnu-oj-TOY" secondAttribute="leading" id="sIF-Lb-0QI"/>
                             <constraint firstItem="xnu-oj-TOY" firstAttribute="top" secondItem="hcJ-5K-d05" secondAttribute="top" constant="20" symbolic="YES" id="ye2-Jv-Npm"/>
                         </constraints>
@@ -3310,6 +3332,7 @@ DQ
                         <outlet property="AgeCombo" destination="uCw-UV-gsy" id="kHV-Ni-R7X"/>
                         <outlet property="BaseColorWell" destination="Jce-zp-FgN" id="c3P-8d-Ofi"/>
                         <outlet property="ColorDetCombo" destination="r5N-9D-loN" id="oRU-on-ipi"/>
+                        <outlet property="EarthquakeDebugButton" destination="nOz-xq-Ar0" id="uZs-oh-SeC"/>
                         <outlet property="EarthquakeSwitch" destination="RMM-vx-leg" id="uGO-Bj-k28"/>
                         <outlet property="EarthquakeViewButton" destination="cCj-Zm-0EL" id="doe-Ib-E7A"/>
                         <outlet property="FrequencyCombo" destination="BzK-rI-t4F" id="r6R-1c-isq"/>
@@ -4002,6 +4025,93 @@ DQ
             </objects>
             <point key="canvasLocation" x="2898" y="2115"/>
         </scene>
+        <!--Window Controller-->
+        <scene sceneID="aqy-on-Nq9">
+            <objects>
+                <windowController id="DHc-K4-5L6" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Fr2-vz-RtG">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="2932" y="555" width="480" height="270"/>
+                        <rect key="screenRect" x="2560" y="144" width="2304" height="1296"/>
+                        <view key="contentView" id="vPX-OK-8fT">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <toolbar key="toolbar" implicitIdentifier="09D11707-F4A3-4FD5-970E-AC5832E91C2B" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="d6d-Em-94g">
+                            <allowedToolbarItems>
+                                <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="JuI-1o-RO0"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="kNu-j4-trs"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="1dx-Ix-58d"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="eFi-7b-q5b"/>
+                                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="HV1-zs-qi4"/>
+                            </allowedToolbarItems>
+                            <defaultToolbarItems>
+                                <toolbarItem reference="JuI-1o-RO0"/>
+                                <toolbarItem reference="kNu-j4-trs"/>
+                                <toolbarItem reference="HV1-zs-qi4"/>
+                                <toolbarItem reference="1dx-Ix-58d"/>
+                            </defaultToolbarItems>
+                        </toolbar>
+                        <connections>
+                            <outlet property="delegate" destination="DHc-K4-5L6" id="ZEL-gq-JZ5"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="nbP-T0-V89" kind="relationship" relationship="window.shadowedContentViewController" id="biz-VY-kya"/>
+                    </connections>
+                </windowController>
+                <customObject id="CFM-UI-1CC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3595" y="2106"/>
+        </scene>
+        <!--Split View Controller-->
+        <scene sceneID="kDI-YU-9Ew">
+            <objects>
+                <splitViewController id="nbP-T0-V89" sceneMemberID="viewController">
+                    <splitViewItems>
+                        <splitViewItem canCollapse="YES" holdingPriority="260" behavior="sidebar" id="Za5-hs-ZNM"/>
+                        <splitViewItem id="S7u-3v-KcO"/>
+                    </splitViewItems>
+                    <splitView key="splitView" dividerStyle="thin" vertical="YES" id="6oK-Mt-Em2">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </splitView>
+                    <connections>
+                        <segue destination="ZOS-o8-fyr" kind="relationship" relationship="splitItems" id="Xfb-uV-HGx"/>
+                        <segue destination="pbY-Af-8K4" kind="relationship" relationship="splitItems" id="hK9-3A-311"/>
+                    </connections>
+                </splitViewController>
+                <customObject id="h7O-ml-PQV" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3608" y="2569"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="DLV-f8-Tub">
+            <objects>
+                <viewController id="ZOS-o8-fyr" sceneMemberID="viewController">
+                    <view key="view" id="rzx-aJ-RFp">
+                        <rect key="frame" x="0.0" y="0.0" width="149" height="331"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="C0w-Um-iq4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3688" y="3110"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="JAQ-Sm-PdK">
+            <objects>
+                <viewController id="pbY-Af-8K4" sceneMemberID="viewController">
+                    <view key="view" id="fRA-SW-L6y">
+                        <rect key="frame" x="0.0" y="0.0" width="302" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="QBl-I6-Nad" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4121" y="3094"/>
+        </scene>
         <!--Star Field3D Code-->
         <scene sceneID="bxh-Iu-aql">
             <objects>
@@ -4093,6 +4203,7 @@ DQ
     <resources>
         <image name="GlobeIcon" width="24" height="24"/>
         <image name="NorthCenterIcon" width="24" height="24"/>
+        <image name="PointingFinger" width="1561.440185546875" height="832.59136962890625"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
     </resources>
 </document>
