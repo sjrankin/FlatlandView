@@ -12,6 +12,13 @@ import AppKit
 /// Main window class.
 class MainWindow: NSWindowController, NSWindowDelegate
 {
+    /// Early initializations.
+    override func windowDidLoad()
+    {
+        //Make sure we get mouse events.
+        window?.acceptsMouseMovedEvents = true
+    }
+    
     /// Handle resize window events.
     func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize
     {
