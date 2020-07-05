@@ -21,25 +21,6 @@ class Earthquake2: Equatable
         Marked = false
     }
     
-    init(_ OldStyle: Earthquake)
-    {
-        Sequence = OldStyle.Sequence
-        Code = OldStyle.Code
-        Place = OldStyle.Place
-        Magnitude = OldStyle.Magnitude
-        Time = OldStyle.Time
-        Tsunami = OldStyle.Tsunami
-        Latitude = OldStyle.Latitude
-        Longitude = OldStyle.Longitude
-        Depth = OldStyle.Depth
-        Status = OldStyle.Status
-        Updated = OldStyle.Updated
-        MMI = OldStyle.MMI
-        Felt = OldStyle.Felt
-        Significance = OldStyle.Significance
-        Marked = false
-    }
-    
     init(_ Other: Earthquake2)
     {
         Sequence = Other.Sequence
