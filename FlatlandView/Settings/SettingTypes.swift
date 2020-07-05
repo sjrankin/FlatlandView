@@ -95,13 +95,17 @@ enum SettingTypes: String, CaseIterable
     /// Boolean: If true, the 3D view will try to attract people via animation and other effects.
     case InAttractMode = "InAttractMode"
     /// Boolean: If true, the scene's camera is set to HDR mode.
-    case UseHDRCamera = "UserHDRCamera"
+    case UseHDRCamera = "UseHDRCamera"
     /// NSColor: Color of the hours.
     case HourColor = "HourColor"
     /// NSColor: Color of major grid lines.
     case GridLineColor = "GridLineColor"
     /// NSColor: Color of minor grid lines.
     case MinorGridLineColor = "MinorGridLineColor"
+    /// Double: User camera field of view.
+    case FieldOfView = "FieldOfView"
+    /// Double: User camera orthographic scale value.
+    case OrthographicScale = "OrthographicScale"
     #if DEBUG
     //3D debug settings.
     /// Render 3D elements as wireframes.
