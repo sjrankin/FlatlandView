@@ -596,6 +596,9 @@ enum GlobeNodeNames: String
     
     /// Node used to indicate recent earthquakes.
     case IndicatorNode = "IndicatorNode"
+    
+    /// User camera node.
+    case UserCameraNode = "UserCameraNode"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
