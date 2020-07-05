@@ -118,7 +118,6 @@ class Queue<T>
         if Q!.count >= MaximumCapacity
         {
             let RemoveCount = Q!.count - MaximumCapacity + 1
-            print("removing \(RemoveCount) items")
             Q?.removeLast(RemoveCount)
         }
         Q?.append(Item)
