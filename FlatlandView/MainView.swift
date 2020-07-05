@@ -827,7 +827,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
                 if let EarthquakeData = Actual as? [Earthquake2]
                 {
                     print("Have \(EarthquakeData.count) earthquakes")
-                    World3DView.NewEarthquakeList2(EarthquakeData)
+                    //World3DView.NewEarthquakeList2(EarthquakeData)
                     Plot2DEarthquakes2(EarthquakeData)
                     LatestEarthquakes2 = EarthquakeData
                 }
