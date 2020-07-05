@@ -27,7 +27,7 @@ extension MainView
         }
     }
     
-    func Plot2DEarthquakes(_ Quakes: [Earthquake], Replot: Bool = false)
+    func Plot2DEarthquakes(_ Quakes: [Earthquake2], Replot: Bool = false)
     {
         let Now = GetUTC()
         var Cal = Calendar(identifier: .gregorian)
@@ -49,29 +49,7 @@ extension MainView
         PlotEarthquakes(Quakes, RadialTime: Radians, Replot: Replot)
     }
     
-    func Plot2DEarthquakes2(_ Quakes: [Earthquake2], Replot: Bool = false)
-    {
-        let Now = GetUTC()
-        var Cal = Calendar(identifier: .gregorian)
-        Cal.timeZone = TimeZone(abbreviation: "UTC")!
-        let Hour = Cal.component(.hour, from: Now)
-        let Minute = Cal.component(.minute, from: Now)
-        let Second = Cal.component(.second, from: Now)
-        let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
-        let Percent = Double(ElapsedSeconds) / Double(24 * 60 * 60)
-        
-        var FinalOffset = 0.0
-        var Multiplier = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            FinalOffset = 180.0
-            Multiplier = 1.0
-        }
-        let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
-        PlotEarthquakes2(Quakes, RadialTime: Radians, Replot: Replot)
-    }
-    
-    func PlotEarthquakes(_ Quakes: [Earthquake], RadialTime: Double, Replot: Bool = false)
+    func PlotEarthquakes(_ Quakes: [Earthquake2], RadialTime: Double, Replot: Bool = false)
     {
         if Quakes.isEmpty
         {
@@ -112,48 +90,7 @@ extension MainView
         CityView2D.layer!.addSublayer(LEarthquakeLayer)
     }
     
-    func PlotEarthquakes2(_ Quakes: [Earthquake2], RadialTime: Double, Replot: Bool = false)
-    {
-        if Quakes.isEmpty
-        {
-            return
-        }
-        if !Replot
-        {
-            if SameEarthquakes2(Quakes, PreviousEarthquakes2)
-            {
-                return
-            }
-        }
-        PreviousEarthquakes2 = Quakes
-        for Child in CityView2D.layer!.sublayers!
-        {
-            if Child.name == LayerNames.Earthquakes.rawValue
-            {
-                Child.removeFromSuperlayer()
-            }
-        }
-        let LEarthquakeLayer = CAShapeLayer()
-        LEarthquakeLayer.backgroundColor = NSColor.clear.cgColor
-        LEarthquakeLayer.zPosition = CGFloat(LayerZLevels.EarthquakeLayer.rawValue)
-        LEarthquakeLayer.name = LayerNames.Earthquakes.rawValue
-        LEarthquakeLayer.bounds = FlatViewMainImage.bounds
-        LEarthquakeLayer.frame = FlatViewMainImage.bounds
-        
-        for Quake in Quakes
-        {
-            let PlottedEarthquake = PlotEarthquake2(Quake: Quake, MapDiameter: LEarthquakeLayer.bounds.width)
-            PlottedEarthquake.name = LayerNames.Earthquake.rawValue
-            LEarthquakeLayer.addSublayer(PlottedEarthquake)
-        }
-        
-        let Rotation = CATransform3DMakeRotation(CGFloat(-RadialTime), 0.0, 0.0, 1.0)
-        LEarthquakeLayer.transform = Rotation
-        
-        CityView2D.layer!.addSublayer(LEarthquakeLayer)
-    }
-    
-    func PlotEarthquake(Quake: Earthquake, MapDiameter: CGFloat) -> CAShapeLayer
+    func PlotEarthquake(Quake: Earthquake2, MapDiameter: CGFloat) -> CAShapeLayer
     {
         let Half = Double(MapDiameter / 2.0)
         var BaseSize = 5.0
@@ -281,7 +218,7 @@ extension MainView
     /// - Parameter List1: First earthquake list.
     /// - Parameter List2: Second earthquake list.
     /// - Returns: True if the lists have equal contents, false if not.
-    func SameEarthquakes(_ List1: [Earthquake], _ List2: [Earthquake]) -> Bool
+    func SameEarthquakes(_ List1: [Earthquake2], _ List2: [Earthquake2]) -> Bool
     {
         if List1.count != List2.count
         {
