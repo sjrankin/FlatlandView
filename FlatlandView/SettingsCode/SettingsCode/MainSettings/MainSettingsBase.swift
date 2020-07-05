@@ -103,7 +103,6 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
             case .Earthquakes:
                 (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).MainDelegate = MainDelegate
                 (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes, Raw: LiveEarthquakes as Any)
-                (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes2, Raw: LiveEarthquakes2 as Any)
         }
         SettingMap[Options]!.Controller?.view.frame = OptionsContainer.bounds
         OptionsContainer.addSubview(SettingMap[Options]!.Controller!.view)
@@ -165,23 +164,18 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         switch DataType
         {
             case .Earthquakes:
-            if let Quakes = Raw as? [Earthquake]
+            if let Quakes = Raw as? [Earthquake2]
             {
                 LiveEarthquakes = Quakes
                 (SettingMap[.Earthquakes]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes, Raw: LiveEarthquakes as Any)
             }
-            
-            case .Earthquakes2:
-            if let Quakes = Raw as? [Earthquake2]
-            {
-                LiveEarthquakes2 = Quakes
-                (SettingMap[.Earthquakes]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes2, Raw: LiveEarthquakes2 as Any)
-            }
+                
+            default:
+                break
         }
     }
     
-    var LiveEarthquakes = [Earthquake]()
-    var LiveEarthquakes2 = [Earthquake2]()
+    var LiveEarthquakes = [Earthquake2]()
     
     func MainClosing()
     {
