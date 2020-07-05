@@ -899,8 +899,7 @@ class GlobeView: SCNView, GlobeProtocol
     var PlottedCities = [SCNNode?]()
     var WHSNodeList = [SCNNode?]()
     var GridImage: NSImage? = nil
-    var EarthquakeList = [Earthquake]()
-    var EarthquakeList2 = [Earthquake2]()
+    var EarthquakeList = [Earthquake2]()
     var CitiesToPlot = [City]()
     
     let MagnitudeColors: [Double: NSColor] =
