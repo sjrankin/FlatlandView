@@ -224,8 +224,12 @@ class USGS
                                 {
                                     if let A = GeoVal as? [Double]
                                     {
+                                        #if true
+                                        NewEarthquake.SetLocation(A[1], A[0])
+                                        #else
                                         NewEarthquake.Latitude = A[1]
                                         NewEarthquake.Longitude = A[0]
+                                        #endif
                                         NewEarthquake.Depth = A[2]
                                     }
                                 }
