@@ -171,7 +171,9 @@ class GlobeView: SCNView, GlobeProtocol
         self.autoenablesDefaultLighting = false
         self.scene = SCNScene()
         self.backgroundColor = NSColor.clear
-        self.antialiasingMode = .multisampling16X
+        //Higher antialiasing mode values tend to use a lot of alpha which SceneKit uses when doing final
+        //rendering, making the globe transparent along the edges of grid lines, which looks really weird.
+        self.antialiasingMode = .multisampling2X
         self.isJitteringEnabled = true
         #if DEBUG
         self.showsStatistics = true
@@ -940,5 +942,12 @@ class GlobeView: SCNView, GlobeProtocol
     ]
     
     var IndicatorAgeMap = [String: SCNNode]()
+    
+    // MARK: - User camera variables.
+    
+    var UserCamera: SCNCamera? = nil
+    var UserCameraNode: SCNNode? = nil
+    var UserCameraLocation = SCNVector3(0.0, 0.0, 16.0)
+    var MouseLocations = Queue<NSEvent>(WithCapacity: 5)
 }
 
