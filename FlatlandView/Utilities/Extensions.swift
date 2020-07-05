@@ -1360,6 +1360,38 @@ extension String
 
 // MARK: - Array extenions.
 
+/// Array[Double] extensions. Used for k-means clustering of earthquakes.
+extension Array where Element == Double
+{
+    var Sum: Double
+    {
+        return self.reduce(0.0, +)
+    }
+    
+    var Mean: Double
+    {
+        return Sum / Double(self.count)
+    }
+    
+    var Variance: Double
+    {
+        let TheMean = self.Mean
+        return self.map{($0 - TheMean) * ($0 - TheMean)}.Mean
+    }
+    
+    var Std: Double
+    {
+        return sqrt(Variance)
+    }
+    
+    var ZScore: [Double]
+    {
+        let TheMean = self.Mean
+        let Standard = self.Std
+        return self.map{Standard != 0 ? (($0 - TheMean) / Standard) : 0.0}
+    }
+}
+
 /// Array extensions.
 extension Array
 {
