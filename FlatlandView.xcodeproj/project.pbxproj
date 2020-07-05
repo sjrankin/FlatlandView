@@ -15,6 +15,9 @@
 		1720B38A248B8181001202E5 /* +NightMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B389248B8181001202E5 /* +NightMask.swift */; };
 		1720B38C248B81B3001202E5 /* +2DHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B38B248B81B3001202E5 /* +2DHours.swift */; };
 		1720B38E248B82A9001202E5 /* +2DCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B38D248B82A9001202E5 /* +2DCities.swift */; };
+		1727EA5824B15CD10051EA3B /* +UserCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5724B15CD10051EA3B /* +UserCamera.swift */; };
+		1727EA5A24B170730051EA3B /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5924B170730051EA3B /* Queue.swift */; };
+		1727EA5D24B184230051EA3B /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5C24B184230051EA3B /* Tree.swift */; };
 		173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173EB18A2490D1B7006CDB86 /* +Orbits.swift */; };
 		1740F49B2493173A00F6FAAE /* Hours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740F49A2493173A00F6FAAE /* Hours.swift */; };
 		1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744316E2480F2C10087B00A /* ActualMapIO.swift */; };
@@ -132,6 +135,9 @@
 		1720B389248B8181001202E5 /* +NightMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+NightMask.swift"; sourceTree = "<group>"; };
 		1720B38B248B81B3001202E5 /* +2DHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+2DHours.swift"; sourceTree = "<group>"; };
 		1720B38D248B82A9001202E5 /* +2DCities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+2DCities.swift"; sourceTree = "<group>"; };
+		1727EA5724B15CD10051EA3B /* +UserCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+UserCamera.swift"; sourceTree = "<group>"; };
+		1727EA5924B170730051EA3B /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		1727EA5C24B184230051EA3B /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		173EB18A2490D1B7006CDB86 /* +Orbits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Orbits.swift"; sourceTree = "<group>"; };
 		1740F49A2493173A00F6FAAE /* Hours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hours.swift; sourceTree = "<group>"; };
 		1744316E2480F2C10087B00A /* ActualMapIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapIO.swift; sourceTree = "<group>"; };
@@ -272,6 +278,15 @@
 			path = USGS;
 			sourceTree = "<group>";
 		};
+		1727EA5B24B184110051EA3B /* DataStructures */ = {
+			isa = PBXGroup;
+			children = (
+				1727EA5924B170730051EA3B /* Queue.swift */,
+				1727EA5C24B184230051EA3B /* Tree.swift */,
+			);
+			path = DataStructures;
+			sourceTree = "<group>";
+		};
 		173A104D248B39B300793216 /* GetLocation */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,6 +379,7 @@
 				178A869F2489108C00BE8D46 /* +CubicEarth.swift */,
 				173EB18A2490D1B7006CDB86 /* +Orbits.swift */,
 				17F782C424979218000A568E /* +Earthquakes.swift */,
+				1727EA5724B15CD10051EA3B /* +UserCamera.swift */,
 				178A869D2489101E00BE8D46 /* StarField.swift */,
 				178A86A62489132800BE8D46 /* GlobeProtocol.swift */,
 			);
@@ -580,6 +596,7 @@
 		17EF3398247A672B00A5B55D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				1727EA5B24B184110051EA3B /* DataStructures */,
 				17EF3399247A673900A5B55D /* FileIO.swift */,
 				17EF33A0247A695400A5B55D /* Extensions.swift */,
 				17EF33A2247A699300A5B55D /* Utility.swift */,
@@ -788,6 +805,7 @@
 				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
 				1759AE60249F817B003F79F5 /* MapSelector.swift in Sources */,
 				174623D624A83FF0007F5D4C /* StarField3DWindow.swift in Sources */,
+				1727EA5824B15CD10051EA3B /* +UserCamera.swift in Sources */,
 				1759AE6A249F823A003F79F5 /* EarthquakeSettingsWindow.swift in Sources */,
 				17F782C524979218000A568E /* +Earthquakes.swift in Sources */,
 				1720B38E248B82A9001202E5 /* +2DCities.swift in Sources */,
@@ -806,6 +824,7 @@
 				174623D324A83026007F5D4C /* +ChangedSettings.swift in Sources */,
 				1759AE66249F81F6003F79F5 /* View3DSettingsWindow.swift in Sources */,
 				17FCCCD724A31EF500393F36 /* Earthquake2Window.swift in Sources */,
+				1727EA5A24B170730051EA3B /* Queue.swift in Sources */,
 				17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
 				17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */,
@@ -838,6 +857,7 @@
 				178A86A4248912FA00BE8D46 /* +Locations.swift in Sources */,
 				17523CDB247B973E005209FC /* +FlatView.swift in Sources */,
 				17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */,
+				1727EA5D24B184230051EA3B /* Tree.swift in Sources */,
 				178A86A92489134300BE8D46 /* +GridLines.swift in Sources */,
 				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
 				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
