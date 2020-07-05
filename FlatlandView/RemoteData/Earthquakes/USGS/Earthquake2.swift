@@ -9,18 +9,36 @@
 import Foundation
 import AppKit
 
-/// Encapsulates one or more earthquakes. If multiple earthquakes are encapsulated it is because
-/// a simplistic algorithm has determined they are related.
-class Earthquake2: Equatable
+/// Encapsulates one or more earthquakes. Encapsulated earthquakes are those that are in a small
+/// geographic region.
+class Earthquake2: KMDataPoint
 {
+    /// Number of dimensions.
+    static var NumDimensions: UInt = 2
+    
+    /// Dimensional data.
+    var Dimensions = [Double]()
+    
+    /// Initializer.
+    required init(Values: [Double])
+    {
+        Marked = false
+        Latitude = Values[0]
+        Longitude = Values[1]
+        Dimensions = [Latitude, Longitude]
+    }
+    
     /// Initializer.
     /// - Parameter Sequence: For debugging purposes.
     init(Sequence: Int)
     {
         self.Sequence = Sequence
         Marked = false
+        Dimensions = [Double]()
     }
     
+    /// Initializer - uses data from the supplied earthquake to populate this instance.
+    /// - Parameter Other: The other earthquake that will be used to populate this instance.
     init(_ Other: Earthquake2)
     {
         Sequence = Other.Sequence
@@ -31,6 +49,7 @@ class Earthquake2: Equatable
         Tsunami = Other.Tsunami
         Latitude = Other.Latitude
         Longitude = Other.Longitude
+        Dimensions = [Latitude, Longitude]
         Depth = Other.Depth
         Status = Other.Status
         Updated = Other.Updated
@@ -141,11 +160,21 @@ class Earthquake2: Equatable
     /// Tsunami value. If 1, tsunami information _may_ exist but also may not exist.
     var Tsunami: Int = 0
     
-    /// Latitude of the earthquake.
+    /// Get or set the latitude of the earthquake.
     var Latitude: Double = 0.0
     
     /// Longitude of the earthquake.
     var Longitude: Double = 0.0
+    
+    /// Set the location of the earthquake.
+    /// - Parameter Latitude: The latitude of the earthquake.
+    /// - Parameter Longitude: The longitude of the earthquake.
+    func SetLocation(_ Latitude: Double, _ Longitude: Double)
+    {
+        Dimensions = [Latitude, Longitude]
+        self.Latitude = Latitude
+        self.Longitude = Longitude
+    }
     
     /// Depth of the earthquake in kilometers.
     var Depth: Double = 0.0
@@ -165,12 +194,19 @@ class Earthquake2: Equatable
     /// Subjective significance value. Greater values indicate greater significance.
     var Significance: Int = 0
     
+    #if true
+    static func == (lhs: Earthquake2, rhs: Earthquake2) -> Bool
+    {
+        return lhs.Latitude == rhs.Latitude && lhs.Longitude == rhs.Longitude
+    }
+    #else
     /// How to compare earthquakes.
     /// - Note: Earthquakes are compared by their unique IDs assigned by the USGS.
     static func == (lhs: Earthquake2, rhs: Earthquake2) -> Bool
     {
         return lhs.Code == rhs.Code
     }
+    #endif
     
     /// Determines if this earthquake (or any clustered/related earthquakes) have the specified
     /// Code value.
@@ -302,6 +338,11 @@ class Earthquake2: Equatable
     }
     
     public var Marked: Bool = false
+    
+    var description: String
+    {
+        return "\(Latitude),\(Longitude)"
+    }
     
     /// Takes all cluster earthquakes in the passed list and changes them such that the top-most
     /// earthquake is the one with the greatest magnitude.
