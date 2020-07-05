@@ -3080,8 +3080,8 @@ DQ
                                     <gridCell row="1Iu-L6-KWn" column="Uwu-uc-0fv" id="asb-3I-h4Z"/>
                                     <gridCell row="1Iu-L6-KWn" column="QXg-Mz-45T" id="ycG-1i-cph">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wJ9-WJ-DJD">
-                                            <rect key="frame" x="123" y="-7" width="162" height="32"/>
-                                            <buttonCell key="cell" type="push" title="Recent Earthquakes" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="l1o-c8-e2q">
+                                            <rect key="frame" x="123" y="-7" width="209" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Recent Earthquake Settings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="l1o-c8-e2q">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -3102,16 +3102,6 @@ DQ
                                 </buttonCell>
                                 <connections>
                                     <action selector="HandleViewCurrentEarthquakes:" target="zQf-lG-HN1" id="REP-U1-xhy"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pjz-PV-OHO">
-                                <rect key="frame" x="187" y="12" width="87" height="32"/>
-                                <buttonCell key="cell" type="push" title="Quake2" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iPt-bv-ZgA">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="HandleQuake2:" target="zQf-lG-HN1" id="y1G-Cr-i8J"/>
                                 </connections>
                             </button>
                             <box title="Magnitude colors" translatesAutoresizingMaskIntoConstraints="NO" id="YUj-YR-IHN">
@@ -3304,19 +3294,17 @@ DQ
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="YUj-YR-IHN" firstAttribute="top" secondItem="hcJ-5K-d05" secondAttribute="top" constant="171" id="0mX-hl-Bqc"/>
-                            <constraint firstItem="YUj-YR-IHN" firstAttribute="leading" secondItem="hcJ-5K-d05" secondAttribute="leading" constant="576" id="1ik-P3-XTQ"/>
-                            <constraint firstItem="nOz-xq-Ar0" firstAttribute="leading" secondItem="Pjz-PV-OHO" secondAttribute="trailing" constant="28" id="1q6-TZ-UBl"/>
+                            <constraint firstAttribute="trailing" secondItem="YUj-YR-IHN" secondAttribute="trailing" constant="20" symbolic="YES" id="1W2-Cn-gkh"/>
+                            <constraint firstItem="nOz-xq-Ar0" firstAttribute="leading" secondItem="hcJ-5K-d05" secondAttribute="leading" constant="296" id="5xI-mL-hxl"/>
                             <constraint firstItem="xnu-oj-TOY" firstAttribute="leading" secondItem="hcJ-5K-d05" secondAttribute="leading" constant="20" symbolic="YES" id="6h4-Qf-VIU"/>
-                            <constraint firstItem="YUj-YR-IHN" firstAttribute="top" secondItem="xnu-oj-TOY" secondAttribute="bottom" constant="2" id="FMw-HM-ZeE"/>
-                            <constraint firstItem="YUj-YR-IHN" firstAttribute="bottom" secondItem="Pjz-PV-OHO" secondAttribute="bottom" constant="13" id="MTH-SU-VOV"/>
-                            <constraint firstItem="Pjz-PV-OHO" firstAttribute="baseline" secondItem="cCj-Zm-0EL" secondAttribute="baseline" id="NRm-8L-UBx"/>
+                            <constraint firstItem="nOz-xq-Ar0" firstAttribute="baseline" secondItem="cCj-Zm-0EL" secondAttribute="baseline" id="ROj-Cw-JDm"/>
                             <constraint firstAttribute="bottom" secondItem="cCj-Zm-0EL" secondAttribute="bottom" constant="19" id="TfG-lD-dXH"/>
-                            <constraint firstItem="nOz-xq-Ar0" firstAttribute="baseline" secondItem="Pjz-PV-OHO" secondAttribute="baseline" id="TsW-ce-Ti2"/>
-                            <constraint firstAttribute="trailing" secondItem="YUj-YR-IHN" secondAttribute="trailing" constant="20" symbolic="YES" id="hfb-dc-i52"/>
-                            <constraint firstItem="Pjz-PV-OHO" firstAttribute="leading" secondItem="cCj-Zm-0EL" secondAttribute="trailing" constant="19" id="i3I-xh-RUV"/>
+                            <constraint firstAttribute="bottom" secondItem="YUj-YR-IHN" secondAttribute="bottom" constant="6" id="W59-bH-r0Z"/>
+                            <constraint firstItem="YUj-YR-IHN" firstAttribute="top" secondItem="xnu-oj-TOY" secondAttribute="bottom" constant="2" id="djf-Ri-WP9"/>
                             <constraint firstItem="cCj-Zm-0EL" firstAttribute="leading" secondItem="xnu-oj-TOY" secondAttribute="leading" id="sIF-Lb-0QI"/>
+                            <constraint firstItem="YUj-YR-IHN" firstAttribute="top" secondItem="hcJ-5K-d05" secondAttribute="top" constant="171" id="ssR-jb-gDi"/>
                             <constraint firstItem="xnu-oj-TOY" firstAttribute="top" secondItem="hcJ-5K-d05" secondAttribute="top" constant="20" symbolic="YES" id="ye2-Jv-Npm"/>
+                            <constraint firstItem="YUj-YR-IHN" firstAttribute="leading" secondItem="hcJ-5K-d05" secondAttribute="leading" constant="576" id="zmC-Rx-gdU"/>
                         </constraints>
                     </view>
                     <connections>
@@ -3334,7 +3322,6 @@ DQ
                         <outlet property="Mag8Color" destination="xst-g4-f0e" id="p8d-xA-NZD"/>
                         <outlet property="Mag9Color" destination="Cra-s3-JsV" id="jt2-05-PrB"/>
                         <outlet property="MinMagSegment" destination="GQl-Ji-wXq" id="2CI-WU-kLH"/>
-                        <outlet property="Quake2Button" destination="Pjz-PV-OHO" id="z0Q-Ye-xxJ"/>
                         <outlet property="ShapeCombo" destination="cOU-Cr-bzK" id="i64-Id-S3g"/>
                     </connections>
                 </viewController>
