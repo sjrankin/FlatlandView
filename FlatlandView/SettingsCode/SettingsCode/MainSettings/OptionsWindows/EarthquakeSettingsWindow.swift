@@ -21,8 +21,7 @@ class EarthquakeSettingsWindow: NSViewController
         self.view.layer?.backgroundColor = NSColor.clear.cgColor
     }
     
-    var LocalEarthquakeData = [Earthquake]()
-    var LocalEarthquakeData2 = [Earthquake2]()
+    var LocalEarthquakeData = [Earthquake2]()
     
     var CurrentMagIndex = -1
     
@@ -96,14 +95,6 @@ class EarthquakeSettingsWindow: NSViewController
         else
         {
             EarthquakeViewButton.isEnabled = true
-        }
-        if LocalEarthquakeData2.isEmpty
-        {
-            Quake2Button.isEnabled = false
-        }
-        else
-        {
-            Quake2Button.isEnabled = true
         }
     }
     
@@ -225,7 +216,7 @@ class EarthquakeSettingsWindow: NSViewController
         switch DataType
         {
             case .Earthquakes:
-                if let RawData = Raw as? [Earthquake]
+                if let RawData = Raw as? [Earthquake2]
                 {
                     LocalEarthquakeData = RawData
                     if EarthquakeViewButton != nil
@@ -234,38 +225,19 @@ class EarthquakeSettingsWindow: NSViewController
                     }
                 }
                 
-            case .Earthquakes2:
-                if let RawData = Raw as? [Earthquake2]
-                {
-                    LocalEarthquakeData2 = RawData
-                    if Quake2Button != nil
-                    {
-                        Quake2Button.isEnabled = true
-                    }
-                }
-        }
-    }
-    
-    @IBAction func HandleQuake2(_ sender: Any)
-    {
-        let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "Earthquake2Window") as? Earthquake2Window
-        {
-            let Window = WindowController.window
-            let Controller = Window?.contentViewController as? Earthquake2Controller
-            Controller?.LoadData(DataType: .Earthquakes2, Raw: LocalEarthquakeData2 as Any)
-            WindowController.showWindow(nil)
+            default:
+                break
         }
     }
     
     @IBAction func HandleViewCurrentEarthquakes(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "DataViewWindow") as? LiveDataViewWindow
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "Earthquake2Window") as? Earthquake2Window
         {
             let Window = WindowController.window
-            let Controller = Window?.contentViewController as? LiveDataViewer
-            Controller?.LoadData(DataType: .Earthquakes, Raw: LocalEarthquakeData as Any)
+            let Controller = Window?.contentViewController as? Earthquake2Controller
+            Controller?.LoadData(DataType: .Earthquakes2, Raw: LocalEarthquakeData as Any)
             WindowController.showWindow(nil)
         }
     }
