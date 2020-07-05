@@ -60,6 +60,10 @@ class Settings
         InitializeColor(.SouthAmericanCityColor, NSColor.cyan)
         InitializeColor(.CapitalCityColor, NSColor.yellow)
         InitializeColor(.WorldCityColor, NSColor.red)
+        
+        InitializeDouble(.FieldOfView, 90.0)
+        InitializeDouble(.OrthographicScale, 14.0)
+        InitializeBool(.UseHDRCamera, false)
     }
     
     /// Determines if settings were initialized.
