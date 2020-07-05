@@ -645,7 +645,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             Controller?.MainDelegate = self
             MainSettingsDelegate = Controller
             Controller?.LoadData(DataType: .Earthquakes, Raw: LatestEarthquakes as Any)
-            Controller?.LoadData(DataType: .Earthquakes2, Raw: LatestEarthquakes2 as Any)
             WindowController.showWindow(nil)
         }
     }
@@ -811,7 +810,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
                 #if false
                 break
                 #else
-                if let EarthquakeData = Actual as? [Earthquake]
+                if let EarthquakeData = Actual as? [Earthquake2]
                 {
                     print("\(EarthquakeData.count) earthquakes returned")
                     World3DView.NewEarthquakeList(EarthquakeData)
@@ -820,23 +819,12 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
                 }
                 #endif
                 
-            case .Earthquakes2:
-                #if false
+            default:
                 break
-                #else
-                if let EarthquakeData = Actual as? [Earthquake2]
-                {
-                    print("Have \(EarthquakeData.count) earthquakes")
-                    //World3DView.NewEarthquakeList2(EarthquakeData)
-                    Plot2DEarthquakes2(EarthquakeData)
-                    LatestEarthquakes2 = EarthquakeData
-                }
-                #endif
         }
     }
     
-    var LatestEarthquakes = [Earthquake]()
-    var LatestEarthquakes2 = [Earthquake2]()
+    var LatestEarthquakes = [Earthquake2]()
     
     // MARK: - City variables.
     
@@ -860,8 +848,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     var CityLayer: CAShapeLayer? = nil
     var EarthquakeLayer: CAShapeLayer? = nil
-    var PreviousEarthquakes = [Earthquake]()
-    var PreviousEarthquakes2 = [Earthquake2]()
+    var PreviousEarthquakes = [Earthquake2]()
     
     // MARK: - Interface builder outlets.
     
