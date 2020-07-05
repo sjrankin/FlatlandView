@@ -92,7 +92,6 @@ class USGS
             FinalList = self.FilterForMagnitude(FinalList, Magnitude: Settings.GetDouble(.MinimumMagnitude))
             FinalList.append(contentsOf: self.DebugEarthquakes)
             self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: FinalList as Any)
-            self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes2, Actual: self.EarthquakeList2 as Any )
         }
     }
     
@@ -109,7 +108,7 @@ class USGS
     /// - Parameter Magnitude: The magnitude of the debug earthquake.
     func InsertDebugEarthquake(Latitude: Double, Longitude: Double, Magnitude: Double)
     {
-        let DebugQuake = Earthquake(Sequence: 100000)
+        let DebugQuake = Earthquake2(Sequence: 100000)
         DebugQuake.Latitude = Latitude
         DebugQuake.Longitude = Longitude
         DebugQuake.Magnitude = Magnitude
@@ -126,9 +125,9 @@ class USGS
     /// - Note: Duplicates are defined as earthquakes with the same code.
     /// - Parameter From: The source list of earthquakes with possible duplicates.
     /// - Returns: List of earthquakes with no duplicates.
-    func RemoveDuplicates(From: [Earthquake]) -> [Earthquake]
+    func RemoveDuplicates(From: [Earthquake2]) -> [Earthquake2]
     {
-        var Unique = [String: Earthquake]()
+        var Unique = [String: Earthquake2]()
         for Quake in From
         {
             if let _ = Unique[Quake.Code]
@@ -145,9 +144,9 @@ class USGS
     /// - Parameter List: The source list to filter.
     /// - Parameter Magnitude: The minimum magnitude an earthquake must have to be returned.
     /// - Returns: List of earthquakes from `List` that have a magnitude greater or equal to `Magnitude`.
-    func FilterForMagnitude(_ List: [Earthquake], Magnitude: Double) -> [Earthquake]
+    func FilterForMagnitude(_ List: [Earthquake2], Magnitude: Double) -> [Earthquake2]
     {
-        var Final = [Earthquake]()
+        var Final = [Earthquake2]()
         for Quake in List
         {
             if Quake.Magnitude >= Magnitude
@@ -203,7 +202,7 @@ class USGS
         var Seq = 0
         for OneFeature in JSON
         {
-            let NewEarthquake = Earthquake(Sequence: Seq)
+            let NewEarthquake = Earthquake2(Sequence: Seq)
             for subset in OneFeature
             {
                 
@@ -295,36 +294,18 @@ class USGS
                 if NewEarthquake.Magnitude >= Minimum
                 {
                     EarthquakeList.append(NewEarthquake)
-                    let NEq2 = Earthquake2(NewEarthquake)
-                    Earthquake2.AddEarthquake(New: NEq2, To: &EarthquakeList2)
                 }
             }
         }
     }
     
     /// Current list of earthquakes.
-    var EarthquakeList = [Earthquake]()
-    var EarthquakeList2 = [Earthquake2]()
-    var DebugEarthquakes = [Earthquake]()
+    var EarthquakeList = [Earthquake2]()
+    var DebugEarthquakes = [Earthquake2]()
     
     /// Determines if two lists of earthquakes have the same contents. This function works regardless
     /// of the order of the contents.
-    /// - Parameter List1: First earthquake list.
-    /// - Parameter List2: Second earthquake list.
-    /// - Returns: True if the lists have equal contents, false if not.
-    public static func SameEarthquakes(_ List1: [Earthquake], _ List2: [Earthquake]) -> Bool
-    {
-        if List1.count != List2.count
-        {
-            return false
-        }
-        let SList1 = List1.sorted(by: {$0.Code < $1.Code})
-        let SList2 = List2.sorted(by: {$0.Code < $1.Code})
-        return SList1 == SList2
-    }
-    
-    /// Determines if two lists of earthquakes have the same contents. This function works regardless
-    /// of the order of the contents.
+    /// - Note: Equality is based on the `Code` of each earthquake, assigned by the USGS.
     /// - Parameter List1: First earthquake list.
     /// - Parameter List2: Second earthquake list.
     /// - Returns: True if the lists have equal contents, false if not.
