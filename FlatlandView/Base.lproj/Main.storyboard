@@ -670,7 +670,7 @@
                                     </gridCell>
                                 </gridCells>
                             </gridView>
-                            <sceneView jitteringEnabled="YES" allowsCameraControl="YES" preferredRenderingAPI="1" translatesAutoresizingMaskIntoConstraints="NO" id="QaS-kA-VXe" customClass="GlobeView" customModule="Flatland" customModuleProvider="target">
+                            <sceneView jitteringEnabled="YES" preferredRenderingAPI="1" translatesAutoresizingMaskIntoConstraints="NO" id="QaS-kA-VXe" customClass="GlobeView" customModule="Flatland" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="900" height="900"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="900" id="Tob-c4-8TY"/>
