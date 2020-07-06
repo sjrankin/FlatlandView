@@ -34,7 +34,8 @@ extension GlobeView
             print("Clearing earthquake nodes.")
             for Node in Earth.childNodes
             {
-                if Node.name == GlobeNodeNames.EarthquakeNodes.rawValue
+                if Node.name == GlobeNodeNames.EarthquakeNodes.rawValue ||
+                    Node.name == GlobeNodeNames.IndicatorNode.rawValue
                 {
                     Node.removeAllActions()
                     Node.removeFromParentNode()
