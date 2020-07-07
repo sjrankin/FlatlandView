@@ -1258,7 +1258,7 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="560" height="162"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ehp-Mk-3d0">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ehp-Mk-3d0">
                                 <rect key="frame" x="243" y="4" width="75" height="32"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="h3Y-HB-Tf4">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1268,7 +1268,7 @@ Gw
                                     <action selector="HandleClosePressed:" target="4hf-h8-ezI" id="BTt-8l-qD7"/>
                                 </connections>
                             </button>
-                            <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="fov-cr-kBj">
+                            <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="fov-cr-kBj">
                                 <rect key="frame" x="20" y="48" width="405" height="102"/>
                                 <rows>
                                     <gridRow id="Xbd-4G-rMm"/>
@@ -1285,7 +1285,7 @@ Gw
                                 <gridCells>
                                     <gridCell row="Xbd-4G-rMm" column="LFP-43-xaX" id="sdZ-sI-ISZ">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7PC-hR-kd2">
-                                            <rect key="frame" x="-2" y="81" width="102" height="16"/>
+                                            <rect key="frame" x="-2" y="84" width="102" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show wireframe" id="wa9-M6-tWn">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1303,7 +1303,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="Xbd-4G-rMm" column="hL3-hb-0QL" id="fzV-Nh-QM3">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HNb-cB-SoV">
-                                            <rect key="frame" x="230" y="81" width="133" height="16"/>
+                                            <rect key="frame" x="230" y="84" width="133" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show light influences" id="zfP-zF-y7H">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1321,7 +1321,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="4AX-gh-UGG" column="LFP-43-xaX" id="W3f-0e-I7D">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ePv-wk-OZm">
-                                            <rect key="frame" x="-2" y="54" width="138" height="16"/>
+                                            <rect key="frame" x="-2" y="57" width="138" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show bounding boxes" id="Iep-sT-wtK">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1339,7 +1339,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="4AX-gh-UGG" column="hL3-hb-0QL" id="sxw-Qv-pMD">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OdQ-Lc-8hK">
-                                            <rect key="frame" x="230" y="54" width="116" height="16"/>
+                                            <rect key="frame" x="230" y="57" width="116" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show light extents" id="zDz-US-wDk">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1357,7 +1357,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="A3w-Om-63N" column="LFP-43-xaX" id="pO3-yz-1bs">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JGs-c2-pIE">
-                                            <rect key="frame" x="-2" y="27" width="92" height="16"/>
+                                            <rect key="frame" x="-2" y="30" width="92" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show skeleton" id="bUw-lQ-Ocn">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1377,7 +1377,7 @@ Gw
                                     <gridCell row="A3w-Om-63N" column="gOZ-Ym-RMI" id="Kdj-Ln-ArB"/>
                                     <gridCell row="jtz-JK-90v" column="LFP-43-xaX" id="DrF-o4-yzy">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qKS-eH-wgq">
-                                            <rect key="frame" x="-2" y="0.0" width="109" height="16"/>
+                                            <rect key="frame" x="-2" y="3" width="109" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show constraints" id="SRA-Ya-Vwh">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1393,8 +1393,24 @@ Gw
                                             </connections>
                                         </switch>
                                     </gridCell>
-                                    <gridCell row="jtz-JK-90v" column="hL3-hb-0QL" id="Tof-pN-VGr"/>
-                                    <gridCell row="jtz-JK-90v" column="gOZ-Ym-RMI" id="6ue-dO-YAl"/>
+                                    <gridCell row="jtz-JK-90v" column="hL3-hb-0QL" yPlacement="center" id="Tof-pN-VGr">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tHa-7C-nlb">
+                                            <rect key="frame" x="230" y="3" width="96" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Show statistics" id="RAP-EM-59E">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="jtz-JK-90v" column="gOZ-Ym-RMI" id="6ue-dO-YAl">
+                                        <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="Oc0-kQ-bwE">
+                                            <rect key="frame" x="365" y="-2" width="42" height="24"/>
+                                            <connections>
+                                                <action selector="HandleSwitchChanged:" target="4hf-h8-ezI" id="eA3-op-jbc"/>
+                                            </connections>
+                                        </switch>
+                                    </gridCell>
                                 </gridCells>
                             </gridView>
                         </subviews>
@@ -1402,7 +1418,7 @@ Gw
                             <constraint firstItem="fov-cr-kBj" firstAttribute="leading" secondItem="oot-D3-zuN" secondAttribute="leading" constant="20" symbolic="YES" id="AKE-iG-mcc"/>
                             <constraint firstItem="Ehp-Mk-3d0" firstAttribute="centerX" secondItem="oot-D3-zuN" secondAttribute="centerX" id="m2y-es-DXY"/>
                             <constraint firstItem="fov-cr-kBj" firstAttribute="top" secondItem="oot-D3-zuN" secondAttribute="top" constant="12" id="pCg-RV-MK6"/>
-                            <constraint firstAttribute="bottom" secondItem="Ehp-Mk-3d0" secondAttribute="bottom" constant="28" id="tvL-gr-Xus"/>
+                            <constraint firstAttribute="bottom" secondItem="Ehp-Mk-3d0" secondAttribute="bottom" constant="11" id="tvL-gr-Xus"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1410,6 +1426,7 @@ Gw
                         <outlet property="ConstraintSwitch" destination="6iG-nP-n8k" id="0Gp-hQ-17P"/>
                         <outlet property="LightExtentsSwitch" destination="eFd-5t-Rtl" id="mvI-bh-c8Q"/>
                         <outlet property="LightInfluenceSwitch" destination="CL1-Ib-3a9" id="4nS-Oo-DXg"/>
+                        <outlet property="ShowStatsSwitch" destination="Oc0-kQ-bwE" id="3oo-kj-BBE"/>
                         <outlet property="SkeletonSwitch" destination="Q4d-g5-ASH" id="UKu-fN-lAA"/>
                         <outlet property="WireframeSwitch" destination="12g-n0-PRp" id="jdz-EA-eyB"/>
                     </connections>
