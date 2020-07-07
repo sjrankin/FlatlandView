@@ -46,6 +46,11 @@ class ThreeDDebugController: NSViewController
             Show in
             self.LightExtentsSwitch.state = Show ? .on : .off
         }
+        Settings.QueryBool(.ShowStatistics)
+        {
+            Show in
+            self.ShowStatsSwitch.state = Show ? .on : .off
+        }
     }
     
     @IBAction func HandleClosePressed(_ sender: Any)
@@ -78,6 +83,9 @@ class ThreeDDebugController: NSViewController
                 
                 case ConstraintSwitch:
                     Settings.SetBool(.ShowConstraints, Switch.state == .on ? true : false)
+                    
+                case ShowStatsSwitch:
+                    Settings.SetBool(.ShowStatistics, Switch.state == .on ? true : false)
                 
                 default:
                     return
@@ -86,6 +94,7 @@ class ThreeDDebugController: NSViewController
         }
     }
     
+    @IBOutlet weak var ShowStatsSwitch: NSSwitch!
     @IBOutlet weak var LightExtentsSwitch: NSSwitch!
     @IBOutlet weak var LightInfluenceSwitch: NSSwitch!
     @IBOutlet weak var ConstraintSwitch: NSSwitch!
