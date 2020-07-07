@@ -19,8 +19,12 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         EqTable.tableColumns[2].sortDescriptorPrototype = MagnitudeDescriptor
         EqTable.tableColumns[3].sortDescriptorPrototype = CountDescriptor
         EqTable.tableColumns[4].sortDescriptorPrototype = DateDescriptor
+        #if true
+        UpdateTable()
+        #else
         EqIndex = 1
         EqTable.reloadData()
+        #endif
         USGSSource = USGS()
         USGSSource?.Delegate = self
         USGSSource?.GetEarthquakes(Every: 60.0)
@@ -52,6 +56,12 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         return EarthquakeList.count
     }
     
+    func UpdateTable()
+    {
+        EqIndex = 1
+        EqTable.reloadData()
+    }
+    
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         var CellContents = ""
@@ -60,8 +70,12 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         if tableColumn == tableView.tableColumns[0]
         {
             CellIdentifier = "IndexColumn"
+            #if true
+            CellContents = "\(row + 1)"
+            #else
             CellContents = "\(EqIndex)"
             EqIndex = EqIndex + 1
+            #endif
         }
         if tableColumn == tableView.tableColumns[1]
         {
@@ -121,8 +135,12 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
                 if let RawEarthquakes = Raw as? [Earthquake2]
                 {
                     EarthquakeList = SetEarthquakeType(RawEarthquakes)
+                    #if true
+                    UpdateTable()
+                    #else
                     EqIndex = 1
                     EqTable.reloadData()
+                    #endif
                 }
                 
             default:
@@ -148,8 +166,12 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         if let Order = EarthquakeDescriptors(rawValue: SortDescriptor.key!)
         {
             SortEarthquakes(By: Order, Ascending: SortDescriptor.ascending)
+            #if true
+            UpdateTable()
+            #else
             EqIndex = 1
             EqTable.reloadData()
+            #endif
         }
     }
     
@@ -245,15 +267,19 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
             Settings.SetEnum(NewStyle, EnumType: EarthquakeListStyles.self, ForKey: .EarthquakeListStyle)
             if NewStyle == .Clustered
             {
-                EarthquakeList = USGS.CompressEarthquakes(EarthquakeList)
+                EarthquakeList = USGS.CombineEarthquakes(EarthquakeList)
             }
             else
             {
                 EarthquakeList = USGS.FlattenEarthquakes(EarthquakeList)
             }
 //            EarthquakeList = SetEarthquakeType(EarthquakeList)
+            #if true
+            UpdateTable()
+            #else
             EqIndex = 1
             EqTable.reloadData()
+            #endif
         }
     }
     
