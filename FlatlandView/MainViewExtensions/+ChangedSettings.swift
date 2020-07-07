@@ -299,10 +299,15 @@ extension MainView: SettingChangedProtocol
                 
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
-                 .ShowLightInfluences, .ShowConstraints:
+                 .ShowLightInfluences, .ShowConstraints, .ShowStatistics:
                 let ViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld)
                 if ViewType == .Globe3D || ViewType == .CubicWorld
                 {
+                    Settings.QueryBool(.ShowStatistics)
+                    {
+                        Show in
+                        World3DView.showsStatistics = Show
+                    }
                     var DebugTypes = [DebugOptions3D]()
                     Settings.QueryBool(.ShowSkeletons)
                     {
