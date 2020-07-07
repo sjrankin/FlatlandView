@@ -176,7 +176,7 @@ class GlobeView: SCNView, GlobeProtocol
         self.antialiasingMode = .multisampling2X
         self.isJitteringEnabled = true
         #if DEBUG
-        self.showsStatistics = true
+        self.showsStatistics = Settings.GetBool(.ShowStatistics)
         #else
         self.showsStatistics = false
         #endif
