@@ -120,6 +120,8 @@ enum SettingTypes: String, CaseIterable
     case ShowLightInfluences = "ShowLightInfluences"
     /// Show light extents.
     case ShowLightExtents = "ShowLightExtents"
+    /// Show rendering statistics.
+    case ShowStatistics = "ShowStatistics"
     #endif
     
     // MARK: - Local and home locations.
