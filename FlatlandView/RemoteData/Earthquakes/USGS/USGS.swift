@@ -89,6 +89,9 @@ class USGS
         DispatchQueue.main.async
         {
             var FinalList = self.RemoveDuplicates(From: self.EarthquakeList)
+            //let KM = KMeans(K: 100, Points: FinalList)
+            //let Clustered = KM.Run()
+            //print("Clustered.count=\(Clustered.count)")
             FinalList = self.FilterForMagnitude(FinalList, Magnitude: Settings.GetDouble(.MinimumMagnitude))
             FinalList.append(contentsOf: self.DebugEarthquakes)
             self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: FinalList as Any)
@@ -353,14 +356,14 @@ class USGS
         return Final
     }
     
-    /// Compress the passed list of earthquakes. All earthquakes within a certain radius will be
+    /// Combined the passed list of earthquakes. All earthquakes within a certain radius will be
     /// put into a single earthquake node.
     /// - Note: The passed array is flattened before processing.
     /// - Parameter Quakes: The array of earthquakes to compress/combine.
     /// - Parameter Closeness: How close earthquakes must be to be considered to be comrpessed. Units
     ///                        are kilometers. Default is `100.0`.
     /// - Returns: Array of compressed earthquakes.
-    public static func CompressEarthquakes(_ Quakes: [Earthquake2], Closeness: Double = 100.0) -> [Earthquake2]
+    public static func CombineEarthquakes(_ Quakes: [Earthquake2], Closeness: Double = 100.0) -> [Earthquake2]
     {
         var Final = [Earthquake2]()
         var Flattened = FlattenEarthquakes(Quakes)
