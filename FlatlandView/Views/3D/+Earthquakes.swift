@@ -41,6 +41,7 @@ extension GlobeView
                     Node.removeFromParentNode()
                 }
             }
+            IndicatorAgeMap.removeAll()
         }
         PlottedEarthquakes.removeAll()
     }
@@ -446,7 +447,7 @@ extension GlobeView
         {
             MultipleQuakesSign = "+"
         }
-        #if true
+        #if false
         let Magnitude = "M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
         #else
         let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
