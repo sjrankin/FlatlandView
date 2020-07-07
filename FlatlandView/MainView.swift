@@ -585,6 +585,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     @IBAction func ViewTypeNorthCentered(_ sender: Any)
     {
+        World3DView.ClearEarthquakes()
         Settings.SetEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
         let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
         FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: MapValue, ViewType: .FlatNorthCenter)!)
@@ -593,6 +594,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     @IBAction func ViewTypeSouthCentered(_ sender: Any)
     {
+        World3DView.ClearEarthquakes()
         Settings.SetEnum(.FlatSouthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
         let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
         FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: MapValue, ViewType: .FlatSouthCenter)!)
