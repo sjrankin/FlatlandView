@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class EarthquakeSettingsWindow: NSViewController
+class EarthquakeSettingsWindow: NSViewController, FontProtocol
 {
     public weak var MainDelegate: MainProtocol? = nil
     
@@ -270,6 +270,18 @@ class EarthquakeSettingsWindow: NSViewController
         }
     }
     
+    @IBAction func HandleEarthquakeFontPressed(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "FontPickerUI", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "FontPickerWindow") as? FontPickerWindow
+        {
+            let Window = WindowController.window
+            let WindowView = Window?.contentViewController as? FontPickerController
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+            WindowView?.FontDelegate = self
+        }
+    }
+    
     func InitializeMagnitudeColors()
     {
         MagnitudeDictionary = Settings.GetMagnitudeColors()
@@ -337,6 +349,28 @@ class EarthquakeSettingsWindow: NSViewController
     }
     
     var MagnitudeDictionary = [EarthquakeMagnitudes: NSColor]()
+    
+    // MARK: - Font protocol functions.
+    
+    func CurrentFont() -> StoredFont
+    {
+        return Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.orange))
+    }
+    
+    func WantsContinuousUpdates() -> Bool
+    {
+        return false
+    }
+    
+    func NewFont(_ NewFont: StoredFont)
+    {
+        print("New font: \(NewFont)")
+    }
+    
+    func Closed(_ OK: Bool, _ SelectedFont: StoredFont?)
+    {
+        print("Font picker closed")
+    }
     
     @IBOutlet weak var EarthquakeDebugButton: NSButton!
     @IBOutlet weak var Mag4Color: NSColorWell!
