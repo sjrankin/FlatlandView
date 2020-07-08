@@ -31,6 +31,8 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         FileIO.Initialize()
         PrimaryMapList = ActualMapIO.LoadMapList()
         
+        FontHelper.Initialize()
+        
         BackgroundView.wantsLayer = true
         let NewBackgroundColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
         BackgroundView.layer?.backgroundColor = NewBackgroundColor.cgColor
