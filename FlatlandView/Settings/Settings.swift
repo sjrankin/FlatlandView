@@ -688,6 +688,46 @@ class Settings
         NotifySubscribers(Setting: ForKey, OldValue: OldValue, NewValue: NewValue)
     }
     
+    // MARK: - Font settings.
+    
+    /// Return a stored font object.
+    /// - Note: Stored fonts are stored in serialized form. Serialized stored fonts are strings. So therefore,
+    ///         if no string can be found, nil is returned.
+    /// - Parameter Setting: Where the stored font resides.
+    /// - Returns: Deserialized stored string on success, nil if not found.
+    public static func GetFont(_ Setting: SettingTypes) -> StoredFont?
+    {
+        if let Raw = Settings.GetString(Setting)
+        {
+            return StoredFont(RawValue: Raw)
+        }
+        return nil
+    }
+    
+    /// Return a stored font object.
+    /// - Parameter Setting: Where the stored font resides.
+    /// - Parameter Default: The default to use if no stored font is found. If no stored font is found, the
+    ///                      default is written to user settings.
+    /// - Returns: The stored font at the specified setting, `Default` if not found.
+    public static func GetFont(_ Setting: SettingTypes, _ Default: StoredFont) -> StoredFont
+    {
+        if let Stored = GetFont(Setting)
+        {
+            return Stored
+        }
+        SetFont(Setting, Default)
+        return Default
+    }
+    
+    /// Save a stored font object.
+    /// - Parameter Setting: Where to save the stored font.
+    /// - Paramater Value: The stored font to save. It is serialized before being saved.
+    public static func SetFont(_ Setting: SettingTypes, _ Value: StoredFont)
+    {
+        let Serialized = Value.SerializeFont()
+        UserDefaults.standard.set(Serialized, forKey: Setting.rawValue)
+    }
+    
     // MARK: - Special settings.
     
     /// Parse a single entry in the stored earthquake magnitude level to color.
