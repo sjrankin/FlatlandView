@@ -21,11 +21,6 @@ extension GlobeView
         }
     }
     
-    /// Plot earthquakes on the globe.
-    func PlotEarthquakes2()
-    {
-    }
-    
     /// Remove all earthquake nodes from the globe.
     func ClearEarthquakes()
     {
@@ -82,6 +77,9 @@ extension GlobeView
         PlotEarthquakes()
     }
     
+    /// Go through all current earthquakes and remove indicators for those earthquakes that are no longer
+    /// "recent" (as defined by the user).
+    /// - Parameter Quakes: The list of earthquakes to check for which indicators to remove.
     func RemoveExpiredIndicators(_ Quakes: [Earthquake2])
     {
         let HighlightHow = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
@@ -102,18 +100,18 @@ extension GlobeView
                                              Default: .Day1)
             for Quake in Quakes
             {
-            if let RecentSeconds = RecentMap[HowRecent]
-            {
-                if Quake.GetAge() > RecentSeconds
+                if let RecentSeconds = RecentMap[HowRecent]
                 {
-                    if let INode = IndicatorAgeMap[Quake.Code]
+                    if Quake.GetAge() > RecentSeconds
                     {
-                        INode.removeAllActions()
-                        INode.removeFromParentNode()
-                        IndicatorAgeMap.removeValue(forKey: Quake.Code)
+                        if let INode = IndicatorAgeMap[Quake.Code]
+                        {
+                            INode.removeAllActions()
+                            INode.removeFromParentNode()
+                            IndicatorAgeMap.removeValue(forKey: Quake.Code)
+                        }
                     }
                 }
-            }
             }
         }
     }
@@ -166,62 +164,62 @@ extension GlobeView
                     }
                 }
                 
-                    QNode.geometry?.firstMaterial?.emission.contents = nil
-                    switch Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
-                    {
-                        case .Age:
-                            let QuakeAge = Quake.GetAge()
-                            let Percent = CGFloat(QuakeAge / Oldest)
-                            let (H, S, B) = BaseColor.HSB
-                            BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
-                            
-                        case .Magnitude:
+                QNode.geometry?.firstMaterial?.emission.contents = nil
+                switch Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
+                {
+                    case .Age:
+                        let QuakeAge = Quake.GetAge()
+                        let Percent = CGFloat(QuakeAge / Oldest)
+                        let (H, S, B) = BaseColor.HSB
+                        BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
+                        
+                    case .Magnitude:
+                        let (H, S, B) = BaseColor.HSB
+                        let Percent = CGFloat(Quake.Magnitude) / 10.0
+                        BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
+                        
+                    case .MagnitudeRange:
+                        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+                        let Colors = Settings.GetMagnitudeColors()
+                        for (Magnitude, Color) in Colors
+                        {
+                            if Magnitude == MagRange
+                            {
+                                BaseColor = Color
+                            }
+                        }
+                        
+                    case .Population:
+                        let ClosestPopulation = PopulationOfClosestCity(To: Quake)
+                        if ClosestPopulation == 0 || Biggest == 0
+                        {
+                            BaseColor = BaseColor.withAlphaComponent(0.5)
+                        }
+                        else
+                        {
+                            if Biggest > 0
+                            {
+                                let Percent = ClosestPopulation / Biggest
+                                let (H, S, B) = BaseColor.HSB
+                                BaseColor = NSColor(hue: H, saturation: S, brightness: B * CGFloat(Percent), alpha: 0.5)
+                            }
+                        }
+                        
+                    case .Significance:
+                        let Significance = Quake.Significance
+                        if Significance <= 0
+                        {
                             let (H, S, B) = BaseColor.HSB
                             let Percent = CGFloat(Quake.Magnitude) / 10.0
                             BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
-                            
-                        case .MagnitudeRange:
-                            let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
-                            let Colors = Settings.GetMagnitudeColors()
-                            for (Magnitude, Color) in Colors
-                            {
-                                if Magnitude == MagRange
-                                {
-                                    BaseColor = Color
-                                }
-                            }
-                            
-                        case .Population:
-                            let ClosestPopulation = PopulationOfClosestCity(To: Quake)
-                            if ClosestPopulation == 0 || Biggest == 0
-                            {
-                                BaseColor = BaseColor.withAlphaComponent(0.5)
-                            }
-                            else
-                            {
-                                if Biggest > 0
-                                {
-                                    let Percent = ClosestPopulation / Biggest
-                                    let (H, S, B) = BaseColor.HSB
-                                    BaseColor = NSColor(hue: H, saturation: S, brightness: B * CGFloat(Percent), alpha: 0.5)
-                                }
-                            }
-                            
-                        case .Significance:
-                            let Significance = Quake.Significance
-                            if Significance <= 0
-                            {
-                                let (H, S, B) = BaseColor.HSB
-                                let Percent = CGFloat(Quake.Magnitude) / 10.0
-                                BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
-                            }
-                            else
-                            {
-                                let Percent = Significance / MaxSignificance
-                                let (H, S, B) = NSColor.red.HSB
-                                BaseColor = NSColor(hue: H, saturation: CGFloat(Percent) * S, brightness: B, alpha: 0.8)
-                            }
-                    }
+                        }
+                        else
+                        {
+                            let Percent = Significance / MaxSignificance
+                            let (H, S, B) = NSColor.red.HSB
+                            BaseColor = NSColor(hue: H, saturation: CGFloat(Percent) * S, brightness: B, alpha: 0.8)
+                        }
+                }
                 
                 let Shape = Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
                 if  Shape == .Arrow || Shape == .StaticArrow
@@ -466,7 +464,7 @@ extension GlobeView
         var YOffset = (MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) * CGFloat(DrawScale)
         YOffset = MagNode.boundingBox.max.y * CGFloat(DrawScale) * 3.5
         let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * CGFloat(DrawScale) -
-                      (MagNode.boundingBox.min.y * CGFloat(DrawScale))
+            (MagNode.boundingBox.min.y * CGFloat(DrawScale))
         let (X, Y, Z) = Utility.ToECEF(Quake.Latitude, Quake.Longitude,
                                        LatitudeOffset: Double(-YOffset), LongitudeOffset: Double(XOffset),
                                        Radius: Radius)
@@ -599,7 +597,6 @@ extension GlobeView
                 {
                     Indicator.geometry?.firstMaterial?.diffuse.contents = NSImage(named: TextureName)
                 }
-                //Indicator.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.EarthquakeColor, NSColor.red).withAlphaComponent(InitialAlpha)
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
                 Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
                 Indicator.scale = SCNVector3(0.1, 0.1, 0.1)
