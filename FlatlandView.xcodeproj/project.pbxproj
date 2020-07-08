@@ -29,6 +29,12 @@
 		174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 174F0106248CCD6C00F610DD /* MapManager.storyboard */; };
 		174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F0109248CD03200F610DD /* MapManagerWindow.swift */; };
 		174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F010B248CD05E00F610DD /* MapManagerCode.swift */; };
+		1750043924B46110006528A4 /* FontPickerUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1750043824B46110006528A4 /* FontPickerUI.storyboard */; };
+		1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750043A24B46175006528A4 /* FontPickerWindow.swift */; };
+		1750043F24B46271006528A4 /* FontPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750043E24B46271006528A4 /* FontPickerController.swift */; };
+		1750044324B4640B006528A4 /* FontProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750044224B4640B006528A4 /* FontProtocol.swift */; };
+		1750044524B46E73006528A4 /* FontNameWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750044424B46E73006528A4 /* FontNameWindow.swift */; };
+		1750044724B46E92006528A4 /* FontNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750044624B46E92006528A4 /* FontNameView.swift */; };
 		1750961C2482531100A3757C /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750961B2482531100A3757C /* MainWindow.swift */; };
 		17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CD1247B8E11005209FC /* +MoreLocations.swift */; };
 		17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CD3247B8E62005209FC /* WorldHeritageSite.swift */; };
@@ -71,6 +77,7 @@
 		178A86A72489132800BE8D46 /* GlobeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86A62489132800BE8D46 /* GlobeProtocol.swift */; };
 		178A86A92489134300BE8D46 /* +GridLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86A82489134300BE8D46 /* +GridLines.swift */; };
 		178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86AA2489135C00BE8D46 /* GlobeView.swift */; };
+		178B1B3324B5A830007ACBCA /* FontDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178B1B3224B5A830007ACBCA /* FontDataType.swift */; };
 		1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */; };
 		1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105E2495BA6900626FD9 /* SCNTriangle.swift */; };
 		17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A978A124A71F09004EECAC /* WindowManagement.swift */; };
@@ -86,6 +93,7 @@
 		17D55F2F249DE4DA00A64B2B /* +2DEarthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D55F2E249DE4DA00A64B2B /* +2DEarthquakes.swift */; };
 		17DDA0452484E9750090E1EB /* UserLocationEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */; };
 		17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */; };
+		17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3EDC524B5B222007C1D72 /* FontHelper.swift */; };
 		17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790424AEC8D100BB0473 /* K-Means.swift */; };
 		17EB790824AEEE6B00BB0473 /* EarthquakeDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790724AEEE6B00BB0473 /* EarthquakeDebugWindow.swift */; };
 		17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790924AEEE9800BB0473 /* EarthquakeDebugController.swift */; };
@@ -151,6 +159,12 @@
 		174F0106248CCD6C00F610DD /* MapManager.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapManager.storyboard; sourceTree = "<group>"; };
 		174F0109248CD03200F610DD /* MapManagerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManagerWindow.swift; sourceTree = "<group>"; };
 		174F010B248CD05E00F610DD /* MapManagerCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManagerCode.swift; sourceTree = "<group>"; };
+		1750043824B46110006528A4 /* FontPickerUI.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FontPickerUI.storyboard; sourceTree = "<group>"; };
+		1750043A24B46175006528A4 /* FontPickerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPickerWindow.swift; sourceTree = "<group>"; };
+		1750043E24B46271006528A4 /* FontPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPickerController.swift; sourceTree = "<group>"; };
+		1750044224B4640B006528A4 /* FontProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontProtocol.swift; sourceTree = "<group>"; };
+		1750044424B46E73006528A4 /* FontNameWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontNameWindow.swift; sourceTree = "<group>"; };
+		1750044624B46E92006528A4 /* FontNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontNameView.swift; sourceTree = "<group>"; };
 		1750961B2482531100A3757C /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		17523CD1247B8E11005209FC /* +MoreLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MoreLocations.swift"; sourceTree = "<group>"; };
 		17523CD3247B8E62005209FC /* WorldHeritageSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSite.swift; sourceTree = "<group>"; };
@@ -196,6 +210,7 @@
 		178A86A62489132800BE8D46 /* GlobeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeProtocol.swift; sourceTree = "<group>"; };
 		178A86A82489134300BE8D46 /* +GridLines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+GridLines.swift"; sourceTree = "<group>"; };
 		178A86AA2489135C00BE8D46 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
+		178B1B3224B5A830007ACBCA /* FontDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontDataType.swift; sourceTree = "<group>"; };
 		1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSimpleArrow.swift; sourceTree = "<group>"; };
 		1792105E2495BA6900626FD9 /* SCNTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangle.swift; sourceTree = "<group>"; };
 		17A978A124A71F09004EECAC /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
@@ -211,6 +226,7 @@
 		17D55F2E249DE4DA00A64B2B /* +2DEarthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+2DEarthquakes.swift"; sourceTree = "<group>"; };
 		17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorController.swift; sourceTree = "<group>"; };
 		17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditingProtocol.swift; sourceTree = "<group>"; };
+		17E3EDC524B5B222007C1D72 /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
 		17EB790424AEC8D100BB0473 /* K-Means.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "K-Means.swift"; sourceTree = "<group>"; };
 		17EB790724AEEE6B00BB0473 /* EarthquakeDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDebugWindow.swift; sourceTree = "<group>"; };
 		17EB790924AEEE9800BB0473 /* EarthquakeDebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDebugController.swift; sourceTree = "<group>"; };
@@ -336,6 +352,20 @@
 				17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */,
 			);
 			path = MainSettings;
+			sourceTree = "<group>";
+		};
+		1750043724B460F6006528A4 /* FontPicker */ = {
+			isa = PBXGroup;
+			children = (
+				1750043824B46110006528A4 /* FontPickerUI.storyboard */,
+				1750043A24B46175006528A4 /* FontPickerWindow.swift */,
+				1750043E24B46271006528A4 /* FontPickerController.swift */,
+				1750044224B4640B006528A4 /* FontProtocol.swift */,
+				1750044424B46E73006528A4 /* FontNameWindow.swift */,
+				1750044624B46E92006528A4 /* FontNameView.swift */,
+				178B1B3224B5A830007ACBCA /* FontDataType.swift */,
+			);
+			path = FontPicker;
 			sourceTree = "<group>";
 		};
 		17523CD0247B8DF8005209FC /* MainViewExtensions */ = {
@@ -607,6 +637,7 @@
 				17EF33C0247A95E300A5B55D /* ColorList.swift */,
 				17EB790424AEC8D100BB0473 /* K-Means.swift */,
 				1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */,
+				17E3EDC524B5B222007C1D72 /* FontHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -653,6 +684,7 @@
 		17FC2210249878F8005A0929 /* Ancillary */ = {
 			isa = PBXGroup;
 			children = (
+				1750043724B460F6006528A4 /* FontPicker */,
 				17FC221124987996005A0929 /* LiveDataView */,
 			);
 			path = Ancillary;
@@ -732,6 +764,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */,
+				1750043924B46110006528A4 /* FontPickerUI.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
 				1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */,
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
@@ -774,6 +807,7 @@
 				17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */,
 				1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */,
 				1740F49B2493173A00F6FAAE /* Hours.swift in Sources */,
+				1750044324B4640B006528A4 /* FontProtocol.swift in Sources */,
 				17EF33B9247A94DB00A5B55D /* Cities.swift in Sources */,
 				17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */,
 				177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */,
@@ -782,9 +816,11 @@
 				17DDA0452484E9750090E1EB /* UserLocationEditorController.swift in Sources */,
 				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
 				17829D4824B31D0200118DB1 /* EarthquakeDetailWindow.swift in Sources */,
+				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
 				174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */,
 				174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */,
+				1750043F24B46271006528A4 /* FontPickerController.swift in Sources */,
 				174623D824A8400E007F5D4C /* StarField3DCode.swift in Sources */,
 				17829D4A24B31D2300118DB1 /* EarthquakeDetailController.swift in Sources */,
 				17EF33B4247A940900A5B55D /* OrbitalElements.swift in Sources */,
@@ -811,6 +847,7 @@
 				174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */,
 				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
 				1759AE60249F817B003F79F5 /* MapSelector.swift in Sources */,
+				178B1B3324B5A830007ACBCA /* FontDataType.swift in Sources */,
 				174623D624A83FF0007F5D4C /* StarField3DWindow.swift in Sources */,
 				1727EA5824B15CD10051EA3B /* +UserCamera.swift in Sources */,
 				1759AE6A249F823A003F79F5 /* EarthquakeSettingsWindow.swift in Sources */,
@@ -841,6 +878,7 @@
 				1759FC6724A615A2001B1D4B /* RecentEarthquakeWindow.swift in Sources */,
 				173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */,
 				1720B38C248B81B3001202E5 /* +2DHours.swift in Sources */,
+				17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */,
 				1759AE59249F7715003F79F5 /* ContainerController.swift in Sources */,
 				17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */,
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
@@ -856,6 +894,7 @@
 				1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */,
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
 				17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */,
+				1750044524B46E73006528A4 /* FontNameWindow.swift in Sources */,
 				1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */,
 				17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */,
 				1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */,
@@ -870,6 +909,7 @@
 				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
 				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
 				1759AE5E249F811E003F79F5 /* OtherOptions.swift in Sources */,
+				1750044724B46E92006528A4 /* FontNameView.swift in Sources */,
 				1759AE6C249F8264003F79F5 /* CitySettingsWindow.swift in Sources */,
 				17EF33A3247A699300A5B55D /* Utility.swift in Sources */,
 				17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */,
