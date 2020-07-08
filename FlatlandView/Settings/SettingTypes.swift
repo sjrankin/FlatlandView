@@ -98,6 +98,8 @@ enum SettingTypes: String, CaseIterable
     case UseHDRCamera = "UseHDRCamera"
     /// NSColor: Color of the hours.
     case HourColor = "HourColor"
+    /// String: Name of the hour font.
+    case HourFontName = "HourFontName"
     /// NSColor: Color of major grid lines.
     case GridLineColor = "GridLineColor"
     /// NSColor: Color of minor grid lines.
@@ -228,6 +230,8 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeStyles = "EarthquakeStyles"
     /// Earthquake indicator color for indicators that use colors.
     case EarthquakeColor = "EarthquakeColor"
+    /// String: Name of the font to use to display earthquake magnitudes.
+    case EarthquakeFontName = "EarthquakeFontName"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
