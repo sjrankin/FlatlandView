@@ -211,6 +211,9 @@ enum CityDisplayTypes: String, CaseIterable
     /// relative population.
     case Cylinders = "Cylinders"
     
+    /// Each city is a pyramid with the height (and base) determined by the relative population.
+    case Pyramids = "Pyramids"
+    
     /// City names displayed with a variation in the size of the text indicating population.
     case Names = "Names"
 }
@@ -599,6 +602,9 @@ enum GlobeNodeNames: String
     
     /// User camera node.
     case UserCameraNode = "UserCameraNode"
+    
+    /// City nodes.
+    case CityNode = "CityNode"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
