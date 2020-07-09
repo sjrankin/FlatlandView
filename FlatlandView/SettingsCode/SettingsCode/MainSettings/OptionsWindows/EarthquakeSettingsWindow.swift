@@ -96,6 +96,15 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         {
             EarthquakeViewButton.isEnabled = true
         }
+        let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+        if let FontName = FontHelper.PrettyFontName(From: EqFont.PostscriptName)
+        {
+            EarthquakeFontButton.title = FontName
+        }
+        else
+        {
+            EarthquakeFontButton.title = "Huh?"
+        }
     }
     
     @IBAction func HandleFetchFrequencyChanged(_ sender: Any)
@@ -352,7 +361,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
     
     // MARK: - Font protocol functions.
     
-    func CurrentFont() -> StoredFont
+    func CurrentFont() -> StoredFont?
     {
         return Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.orange))
     }
@@ -364,14 +373,40 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
     
     func NewFont(_ NewFont: StoredFont)
     {
-        print("New font: \(NewFont)")
+        print("Have new font: \(FontHelper.PrettyFontName(From: NewFont.PostscriptName)!)")
+        Settings.SetFont(.EarthquakeFontName, NewFont)
+        let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+        if let FontName = FontHelper.PrettyFontName(From: EqFont.PostscriptName)
+        {
+            EarthquakeFontButton.title = FontName
+        }
+        else
+        {
+            EarthquakeFontButton.title = "Huh?"
+        }
     }
     
     func Closed(_ OK: Bool, _ SelectedFont: StoredFont?)
     {
-        print("Font picker closed")
+        if OK
+        {
+            if let NewFont = SelectedFont
+            {
+            Settings.SetFont(.EarthquakeFontName, NewFont)
+            let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+            if let FontName = FontHelper.PrettyFontName(From: EqFont.PostscriptName)
+            {
+                EarthquakeFontButton.title = FontName
+            }
+            else
+            {
+                EarthquakeFontButton.title = "Huh?"
+            }
+            }
+        }
     }
     
+    @IBOutlet weak var EarthquakeFontButton: NSButton!
     @IBOutlet weak var EarthquakeDebugButton: NSButton!
     @IBOutlet weak var Mag4Color: NSColorWell!
     @IBOutlet weak var Mag5Color: NSColorWell!
