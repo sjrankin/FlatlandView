@@ -297,6 +297,19 @@ extension MainView: SettingChangedProtocol
             case .UseAmbientLight:
                 World3DView.SetupLights()
                 
+            case .EarthquakeFontName:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                    {
+                        World3DView.ClearEarthquakes()
+                        World3DView.PlotEarthquakes()
+                    }
+                }
+                
+            case .HourFontName:
+                World3DView.UpdateHours()
+                
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints, .ShowStatistics:
