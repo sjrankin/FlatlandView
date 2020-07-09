@@ -89,9 +89,11 @@ class USGS
         DispatchQueue.main.async
         {
             var FinalList = self.RemoveDuplicates(From: self.EarthquakeList)
-            //let KM = KMeans(K: 100, Points: FinalList)
-            //let Clustered = KM.Run()
-            //print("Clustered.count=\(Clustered.count)")
+            #if false
+            let KM = KMeans(K: 100, Points: FinalList)
+            let Clustered = KM.Run()
+            print("Clustered.count=\(Clustered.count)")
+            #endif
             FinalList = self.FilterForMagnitude(FinalList, Magnitude: Settings.GetDouble(.MinimumMagnitude))
             FinalList.append(contentsOf: self.DebugEarthquakes)
             self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: FinalList as Any)
