@@ -452,7 +452,12 @@ extension GlobeView
         #endif
         let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.Magnitude))
         let FontSize = CGFloat(15.0 + Quake.Magnitude)
+        #if true
+        let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+        MagText.font = NSFont(name: EqFont.PostscriptName, size: FontSize)
+        #else
         MagText.font = NSFont(name: "Avenir-Heavy", size: FontSize)
+        #endif
         
         MagText.firstMaterial?.specular.contents = NSColor.black
         MagText.firstMaterial?.specular.contents = NSColor.white
