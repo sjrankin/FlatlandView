@@ -724,8 +724,10 @@ class Settings
     /// - Paramater Value: The stored font to save. It is serialized before being saved.
     public static func SetFont(_ Setting: SettingTypes, _ Value: StoredFont)
     {
+        let PreviousFont = GetFont(Setting)
         let Serialized = Value.SerializeFont()
         UserDefaults.standard.set(Serialized, forKey: Setting.rawValue)
+        NotifySubscribers(Setting: Setting, OldValue: PreviousFont, NewValue: Value)
     }
     
     // MARK: - Special settings.
