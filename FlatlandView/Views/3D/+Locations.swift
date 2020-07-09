@@ -9,6 +9,7 @@
 import Foundation
 import AppKit
 import SceneKit
+import CoreImage
 
 extension GlobeView
 {
@@ -170,7 +171,7 @@ extension GlobeView
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         if EnableEmission
         {
-        ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
+            ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
         }
         ConeNode.castsShadow = true
         ConeNode.position = SCNVector3(X, Y, Z)
@@ -182,7 +183,7 @@ extension GlobeView
     }
     
     func PlotLocationAsSphere(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
-                           WithColor: NSColor = NSColor.magenta)
+                              WithColor: NSColor = NSColor.magenta)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
         
@@ -369,6 +370,84 @@ extension GlobeView
         PlottedCities.append(CityNode)
     }
     
+    /// Create a material that is essentially a square with the passed color and a black border.
+    /// - Parameter With: The color of the center of the material.
+    /// - Returns: `SCNMaterial` of the bordered color.
+    func MakeOutlineCubeTexture(With Color: NSColor) -> SCNMaterial
+    {
+        let Outline = NSImage(named: "BlockTexture2")
+        let OutlineSize = Outline?.size
+        let bsize = NSSize(width: OutlineSize!.width / 2, height: OutlineSize!.height / 2)
+        let Bottom = NSImage(size: bsize)
+        Bottom.lockFocus()
+        Color.drawSwatch(in: NSRect(origin: .zero, size: bsize))
+        Bottom.unlockFocus()
+        let OutlineData = Outline?.tiffRepresentation
+        let OutlineImage = CIImage(data: OutlineData!)
+        let BottomData = Bottom.tiffRepresentation
+        let BottomImage = CIImage(data: BottomData!)
+        let Filter = CIFilter.sourceAtopCompositing()
+        Filter.setDefaults()
+        Filter.inputImage = OutlineImage
+        Filter.backgroundImage = BottomImage
+        let ResultImage = Filter.outputImage
+        let Rep = NSCIImageRep(ciImage: ResultImage!)
+        let Final = NSImage(size: OutlineSize!)
+        Final.addRepresentation(Rep)
+        let Material = SCNMaterial()
+        Material.diffuse.contents = Final
+        return Material
+    }
+    
+    /// Plot a city in the shape of a pyramid.
+    /// - Parameter Latitude: The latitude of the city.
+    /// - Parameter Longitude: The longitude of the city.
+    /// - Parameter ToSurface: The surface that defines the globe.
+    /// - Parameter WithColor: The color of the city shape.
+    /// - Parameter RelativeSize: The relative size of the city. Used to determine how large of a
+    ///                           city shape to create.
+    /// - Parameter LargestSize: The largest city size. This value is multiplied by `RelativeSize`
+    ///                          which is assumed to be a normal value.
+    func PlotPyramidCity(Latitude: Double, Longitude: Double, Radius: Double,
+                         ToSurface: SCNNode, WithColor: NSColor, RelativeSize: Double = 1.0,
+                         LargestSize: Double = 1.0)
+    {
+        var CitySize = CGFloat(RelativeSize * LargestSize)
+        if CitySize < 0.33
+        {
+            CitySize = 0.33
+        }
+        var HDim = CitySize * 0.1
+        if HDim < 0.25
+        {
+            HDim = 0.25
+        }
+        var CityNode = SCNNode()
+        let CityShape = SCNPyramid(width: HDim, height: CitySize, length: HDim)
+            CityNode = SCNNode(geometry: CityShape)
+        CityNode.categoryBitMask = MetalSunMask | MetalMoonMask
+        let SideImage = MakeOutlineCubeTexture(With: WithColor)
+        CityNode.geometry?.materials.removeAll()
+        CityNode.geometry?.materials.append(SideImage)
+        CityNode.geometry?.materials.append(SideImage)
+        CityNode.geometry?.materials.append(SideImage)
+        CityNode.geometry?.materials.append(SideImage)
+        CityNode.geometry?.materials.append(SideImage)
+        CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+        CityNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
+        CityNode.castsShadow = true
+        CityNode.geometry?.firstMaterial?.roughness.contents = NSNumber(value: 0.7)
+        CityNode.geometry?.firstMaterial?.metalness.contents = NSNumber(value: 1.0)
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
+        CityNode.position = SCNVector3(X, Y, Z)
+        CityNode.name = "CityNode"
+        let YRotation = Latitude + 270.0
+        let XRotation = Longitude + 180.0
+        CityNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        ToSurface.addChildNode(CityNode)
+        PlottedCities.append(CityNode)
+    }
+    
     /// Plot a city on the 3D sphere. The city display is a float ball whose radius is relative to
     /// the overall size of selected cities and altitude over the Earth is also relative to the population.
     /// - Parameter Latitude: The latitude of the city.
@@ -403,16 +482,25 @@ extension GlobeView
         {
             let Sphere = SCNSphere(radius: CitySize)
             CityNode = SCNNode(geometry: Sphere)
+            CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+            CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         }
         else
         {
             let Side = CitySize * 2.0
-            let Box = SCNBox(width: Side, height: Side, length: Side, chamferRadius: 0.1)
+            let Box = SCNBox(width: Side, height: Side, length: Side, chamferRadius: 0.05)
             CityNode = SCNNode(geometry: Box)
+            let SideImage = MakeOutlineCubeTexture(With: WithColor)
+            CityNode.geometry?.materials.removeAll()
+            CityNode.geometry?.materials.append(SideImage)
+            CityNode.geometry?.materials.append(SideImage)
+            CityNode.geometry?.materials.append(SideImage)
+            CityNode.geometry?.materials.append(SideImage)
+            CityNode.geometry?.materials.append(SideImage)
+            CityNode.geometry?.materials.append(SideImage)
+            CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         }
         CityNode.categoryBitMask = SunMask | MoonMask
-        CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
-        CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         
         var CylinderLength = CGFloat(LongestStem * RelativeHeight)
         if CylinderLength < 0.1
@@ -461,8 +549,8 @@ extension GlobeView
     /// - Parameter IsBox: If true, the shape of the city is based on `SCNBox`. If false, the shape
     ///                    is based on `SCNCylinder`.
     func PlotSimpleCityShape(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
-                        WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
-                        LargestSize: Double = 1.0, IsBox: Bool = true)
+                             WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
+                             LargestSize: Double = 1.0, IsBox: Bool = true)
     {
         var CitySize = CGFloat(RelativeSize * LargestSize)
         if CitySize < 0.33
@@ -509,10 +597,17 @@ extension GlobeView
     /// - Parameter WithColor: The color to use for the diffuse surface of the text.
     func PlotCityName(_ SomeCity: City, Radius: Double, ToSurface: SCNNode, WithColor: NSColor)
     {
-        Utility.MakeFloatingWord(Radius: Radius, Word: "• " + SomeCity.Name, Scale: 0.02,
-                                 Latitude: SomeCity.Latitude, Longitude: SomeCity.Longitude,
-                                 Extrusion: 1.0, Mask: SunMask | MoonMask,
-                                 TextColor: WithColor, OnSurface: EarthNode!)
+        let Font = Settings.GetFont(.CityFontName, StoredFont("Arial", 24.0, NSColor.black))
+        let TheFont = NSFont(name: Font.PostscriptName, size: 24.0)
+        let Letters = Utility.MakeFloatingWord(Radius: Radius, Word: "• " + SomeCity.Name, Scale: 0.02,
+                                               Latitude: SomeCity.Latitude, Longitude: SomeCity.Longitude,
+                                               Extrusion: 1.0, Mask: SunMask | MoonMask,
+                                               TextFont: TheFont, TextColor: WithColor, OnSurface: EarthNode!,
+                                               WithTag: GlobeNodeNames.CityNode.rawValue)
+        for Letter in Letters
+        {
+            PlottedCities.append(Letter)
+        }
     }
     
     /// Plot cities and locations on the Earth.
@@ -544,7 +639,7 @@ extension GlobeView
         PlottedCities.removeAll()
         
         let CityList = Cities()
-         CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)  
+        CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)
         
         if Settings.GetBool(.ShowUserLocations)
         {
@@ -568,7 +663,7 @@ extension GlobeView
             {
                 let ShowEmission = Settings.GetBool(.ShowPOIEmission) 
                 PlotLocationAsCone(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius, ToSurface: Surface,
-                                  WithColor: City.CityColor, EnableEmission: ShowEmission)
+                                   WithColor: City.CityColor, EnableEmission: ShowEmission)
             }
             else
             {
@@ -588,34 +683,39 @@ extension GlobeView
                         PlotEmbeddedCitySphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                                ToSurface: Surface, WithColor: CityColor, RelativeSize: 1.0,
                                                LargestSize: 0.15)
-                    
+                        
                     case .RelativeEmbedded:
                         PlotEmbeddedCitySphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                                ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
                                                LargestSize: 0.35)
-                    
+                        
                     case .RelativeFloatingSpheres:
                         PlotFloatingCity(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                          ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
                                          RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0,
                                          IsASphere: true)
-                    
+                        
                     case .RelativeFloatingBoxes:
                         PlotFloatingCity(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                          ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
                                          RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0,
                                          IsASphere: false)
-                    
+                        
                     case .RelativeHeight:
                         PlotSimpleCityShape(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                       ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                       LargestSize: 2.0, IsBox: true)
-                    
+                                            ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                            LargestSize: 2.0, IsBox: true)
+                        
                     case .Cylinders:
                         PlotSimpleCityShape(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                       ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                       LargestSize: 2.0, IsBox: false)
-                    
+                                            ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                            LargestSize: 2.0, IsBox: false)
+                        
+                    case .Pyramids:
+                        PlotPyramidCity(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                        ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                        LargestSize: 2.0)
+                        
                     case .Names:
                         PlotCityName(City, Radius: Double(GlobeRadius.CityNames.rawValue),
                                      ToSurface: Surface, WithColor: CityColor)
@@ -649,23 +749,23 @@ extension GlobeView
                 {
                     case .Hide:
                         break
-                    
+                        
                     case .Arrow:
                         PlotArrow(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                   ToSurface: Surface, IsCurrentLocation: true)
-                    
+                        
                     case .Flag:
                         PlotHomeFlag(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                      ToSurface: Surface, EmissiveColor: NSColor.orange)
-                    
+                        
                     case .Pulsate:
                         PlotPulsatingHome(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                           ToSurface: Surface, WithColor: NSColor.systemBlue)
-                    
+                        
                     case .Pin:
                         PlotPinHome(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                     ToSurface: Surface)
-                    
+                        
                     case .BouncingArrow:
                         PlotBouncingArrow(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
                                           ToSurface: Surface)
@@ -689,10 +789,10 @@ extension GlobeView
         {
             case .Pole:
                 PlotPolarPoles(On: EarthNode!, With: GlobeRadius.Primary.rawValue)
-            
+                
             case .Flag:
                 PlotPolarFlags(On: EarthNode!, With: GlobeRadius.Primary.rawValue)
-            
+                
             case .None:
                 return
         }
@@ -820,24 +920,24 @@ extension GlobeView
                 {
                     case .Either:
                         FinalList.append(Site)
-                    
+                        
                     case .Both:
                         if Site.Category == "Mixed"
                         {
                             FinalList.append(Site)
-                    }
-                    
+                        }
+                        
                     case .Natural:
                         if Site.Category == "Natural"
                         {
                             FinalList.append(Site)
-                    }
-                    
+                        }
+                        
                     case .Cultural:
                         if Site.Category == "Cultural"
                         {
                             FinalList.append(Site)
-                    }
+                        }
                 }
             }
             for Site in FinalList
@@ -849,13 +949,13 @@ extension GlobeView
                 {
                     case "Mixed":
                         DepthOffset = -0.05
-                    
+                        
                     case "Cultural":
                         DepthOffset = 0.0
-                    
+                        
                     case "Natural":
                         DepthOffset = 0.05
-                    
+                        
                     default:
                         DepthOffset = -0.08
                 }
@@ -869,13 +969,13 @@ extension GlobeView
                 {
                     case "Mixed":
                         NodeColor = NSColor.magenta
-                    
+                        
                     case "Natural":
                         NodeColor = NSColor.green
-                    
+                        
                     case "Cultural":
                         NodeColor = NSColor.red
-                    
+                        
                     default:
                         NodeColor = NSColor.white
                 }
@@ -980,26 +1080,26 @@ extension GlobeView
             return
         }
         let ColorChange = SCNAction.customAction(duration: Duration, action:
-        {
-            (TheNode, Time) in
-            let Percent: CGFloat = Time / CGFloat(Duration)
-            var Red = From.r + (RDelta * Percent)
-            if RDelta < 0.0
-            {
-                Red = abs(Red)
-            }
-            var Green = From.g + (GDelta * Percent)
-            if GDelta < 0.0
-            {
-                Green = abs(Green)
-            }
-            var Blue = From.b + (BDelta * Percent)
-            if BDelta < 0.0
-            {
-                Blue = abs(Blue)
-            }
-            TheNode.geometry?.firstMaterial?.diffuse.contents = NSColor(calibratedRed: Red, green: Green, blue: Blue, alpha: 1.0)
-        }
+                                                    {
+                                                        (TheNode, Time) in
+                                                        let Percent: CGFloat = Time / CGFloat(Duration)
+                                                        var Red = From.r + (RDelta * Percent)
+                                                        if RDelta < 0.0
+                                                        {
+                                                            Red = abs(Red)
+                                                        }
+                                                        var Green = From.g + (GDelta * Percent)
+                                                        if GDelta < 0.0
+                                                        {
+                                                            Green = abs(Green)
+                                                        }
+                                                        var Blue = From.b + (BDelta * Percent)
+                                                        if BDelta < 0.0
+                                                        {
+                                                            Blue = abs(Blue)
+                                                        }
+                                                        TheNode.geometry?.firstMaterial?.diffuse.contents = NSColor(calibratedRed: Red, green: Green, blue: Blue, alpha: 1.0)
+                                                    }
         )
         let Wait = SCNAction.wait(duration: Delay)
         let Sequence = SCNAction.sequence([Wait, ColorChange])
