@@ -9,11 +9,12 @@
 import Foundation
 import AppKit
 
-class FontNameView: NSViewController
+class FontNameView: NSViewController, NSTableViewDelegate, NSTableViewDataSource
 {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        NameTable.reloadData()
     }
     
     func LoadNames(_ FontNames: [String])
