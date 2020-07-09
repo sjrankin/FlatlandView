@@ -16,6 +16,7 @@ class FontPickerController: NSViewController, NSTableViewDelegate, NSTableViewDa
     {
         didSet
         {
+            WantsContinuousUpdates = FontDelegate!.WantsContinuousUpdates()
             PopulateUI()
             InitializeWith(FontDelegate?.CurrentFont())
         }
@@ -42,54 +43,41 @@ class FontPickerController: NSViewController, NSTableViewDelegate, NSTableViewDa
     {
         if let Font = CallerFont
         {
-            
+            if let Family = FontHelper.FontFamilyForPostscriptFile(Font.PostscriptName)
+            {
+                FontSizeBox.stringValue = "\(Font.FontSize.RoundedTo(0))"
+                FontSizeSlider.doubleValue = Double(Font.FontSize)
+                FontColorPicker.color = Font.FontColor
+            SelectThenHighlight(Family, Font.PostscriptName)
+            }
+        }
+    }
+    
+    func SelectThenHighlight(_ FontFamily: String, _ PSName: String)
+    {
+        if let FamilyIndex = FontHelper.FamilyIndex(FontFamily, In: FontData)
+        {
+            let FData = FontData[FamilyIndex]
+            if let StyleIndex = FontHelper.StyleIndex(PSName, In: FData)
+            {
+                let ISet = IndexSet(integer: FamilyIndex)
+                FontTable.selectRowIndexes(ISet, byExtendingSelection: false)
+                FontTable.scrollRowToVisible(FamilyIndex)
+                PopulateStyleControl(With: FamilyIndex)
+                FontStyleCombo.selectItem(at: StyleIndex)
+                UpdateSampleText()
+            }
         }
     }
     
     func PopulateUI()
     {
-        #if true
         FontData = FontHelper.FontData
-        #else
-        let FontFamilies = NSFontManager.shared.availableFontFamilies
-        for FontFamilyName in FontFamilies
-        {
-            let FD = FontDataType(FontFamilyName)
-            if let MemberData = NSFontManager.shared.availableMembers(ofFontFamily: FontFamilyName)
-            {
-                var PSNames = [(String, String)]()
-                for Member in MemberData
-                {
-                    if let PSName = Member[0] as? String
-                    {
-                        if let FontName = Member[1] as? String
-                        {
-                            PSNames.append((FontName, PSName))
-                        }
-                    }
-                }
-                for (FontName, PSName) in PSNames
-                {
-                    FD.Variants.append((FontName, PSName))
-                }
-            }
-            FontData.append(FD)
-        }
-        FontData.sort(by: {$0.FontFamilyName.caseInsensitiveCompare($1.FontFamilyName) == .orderedAscending})
-        #endif
         FontTable.reloadData()
         SampleTextField.stringValue = ""
     }
     
     var FontData = [FontDataType]()
-    
-    func SelectFontName(_ FromFont: NSFont?)
-    {
-        if FromFont == nil
-        {
-            FontTable.deselectAll(self)
-        }
-    }
     
     func numberOfRows(in tableView: NSTableView) -> Int
     {
@@ -113,13 +101,8 @@ class FontPickerController: NSViewController, NSTableViewDelegate, NSTableViewDa
     
     @IBAction func HandleFontColorChanged(_ sender: Any)
     {
-        if WantsContinuousUpdates
-        {
-            if let Picker =  sender as? NSColorWell
-            {
-                UpdateSampleText()
-            }
-        }
+        UpdateSampleText()
+        UpdateOnChange()
     }
     
     @IBAction func HandleFontNameClicked(_ sender: Any)
@@ -129,6 +112,7 @@ class FontPickerController: NSViewController, NSTableViewDelegate, NSTableViewDa
             let ItemIndex = Table.selectedRow
             PopulateStyleControl(With: ItemIndex)
             UpdateSampleText()
+            UpdateOnChange()
         }
     }
     
@@ -145,7 +129,8 @@ class FontPickerController: NSViewController, NSTableViewDelegate, NSTableViewDa
         {
             FontStyleCombo.addItem(withObjectValue: SomeStyle)
         }
-        FontStyleCombo.selectItem(at: ReasonableIndex(For: FData))
+        let Reasonable = ReasonableIndex(For: FData)
+        FontStyleCombo.selectItem(at: Reasonable)
         let Count = FData.Variants.count
         let Plural = Count != 1 ? "s" : ""
         let StyleText = "\(Count) style\(Plural)"
@@ -183,6 +168,7 @@ class FontPickerController: NSViewController, NSTableViewDelegate, NSTableViewDa
     @IBAction func HandleFontStyleChanged(_ sender: Any)
     {
         UpdateSampleText()
+        UpdateOnChange()
     }
     
     @IBAction func HandleShowFontListPressed(_ sender: Any)
@@ -191,33 +177,72 @@ class FontPickerController: NSViewController, NSTableViewDelegate, NSTableViewDa
         if let WindowController = Storyboard.instantiateController(withIdentifier: "FontNameWindow") as? FontNameWindow
         {
             let WindowView = WindowController.contentViewController as? FontNameView
-            WindowView?.LoadNames(FontNameList)
-            let Window = WindowController.window
-            self.view.window?.beginSheet(Window!, completionHandler: nil)
+            if let Font = ReadUI()
+            {
+                if let Family = FontHelper.FontFamilyForPostscriptFile(Font.PostscriptName)
+                {
+                    if let FData = FontHelper.FontDataFor(Family, In: FontData)
+                    {
+                        var FontNames = [String]()
+                        for Variant in FData.Variants
+                        {
+                            FontNames.append(Variant.Postscript)
+                        }
+                        FontNames.sort()
+                        WindowView?.LoadNames(FontNames)
+                        let Window = WindowController.window
+                        self.view.window?.beginSheet(Window!, completionHandler: nil)
+                    }
+                }
+            }
         }
     }
     
-    var FontNameList = [String]()
-    
     func UpdateSampleText()
+    {
+        if let Font = ReadUI()
+        {
+        let SampleFont = NSFont(name: Font.PostscriptName, size: CGFloat(Font.FontSize))
+        SampleTextField.textColor = Font.FontColor
+        SampleTextField.font = SampleFont
+        if let FamilyName = FontHelper.FontFamilyForPostscriptFile(Font.PostscriptName)
+        {
+            if let FontStyle = FontHelper.PostscriptStyle(In: FamilyName, Postscript: Font.PostscriptName)
+            {
+                SampleTextField.stringValue = "\(FamilyName) \(FontStyle)"
+                return
+            }
+        }
+        }
+        SampleTextField.stringValue = "Huh?"
+    }
+    
+    func ReadUI() -> StoredFont?
     {
         let FontFamilyIndex = FontTable.selectedRow
         if FontFamilyIndex < 0
         {
-            SampleTextField.stringValue = "Huh?"
-            return
+            return nil
         }
         let FData = FontData[FontFamilyIndex]
         let FontSize = FontSizeSlider.doubleValue
-        let FontColor = FontColorPicker.color
+        let FontColor = FontColorPicker.color.usingColorSpace(.sRGB)!
         let StyleIndex = FontStyleCombo.indexOfSelectedItem
         let FontStyle = FData.Variants[StyleIndex].1
-        let SampleFont = NSFont(name: FontStyle, size: CGFloat(FontSize))
-        SampleTextField.textColor = FontColor
-        SampleTextField.font = SampleFont
-        SampleTextField.stringValue = "\(FData.FontFamilyName) \(FData.Variants[StyleIndex].0)"
+        let Final = StoredFont(FontStyle, CGFloat(FontSize), FontColor)
+        return Final
     }
     
+    func UpdateOnChange()
+    {
+        if WantsContinuousUpdates
+        {
+           if let Final = ReadUI()
+           {
+            FontDelegate?.NewFont(Final)
+           }
+        }
+    }
     
     @IBAction func HandleFontSizeSliderChanged(_ sender: Any)
     {
@@ -227,27 +252,41 @@ class FontPickerController: NSViewController, NSTableViewDelegate, NSTableViewDa
             let ForText = "\(SliderValue.RoundedTo(0))"
             FontSizeBox.stringValue = ForText
             UpdateSampleText()
+            UpdateOnChange()
         }
     }
     
-    func FontFamilyForPostscriptName(_ Name: String) -> String?
+    func controlTextDidEndEditing(_ obj: Notification)
     {
-        for FData in FontData
+        if let TextField = obj.object as? NSTextField
         {
-            for (_, PSName) in FData.Variants
+            switch TextField
             {
-                if PSName == Name
-                {
-                    return FData.FontFamilyName
-                }
+                case FontSizeBox:
+                    if let DVal = Double(TextField.stringValue)
+                    {
+                        if DVal >= 8.0 && DVal <= 96.0
+                        {
+                            FontSizeSlider.doubleValue = DVal
+                            UpdateSampleText()
+                            UpdateOnChange()
+                            return
+                        }
+                    }
+                    TextField.stringValue = "\(FontSizeSlider.doubleValue.RoundedTo(0))"
+                    UpdateSampleText()
+                    UpdateOnChange()
+                    
+                default:
+                    return
             }
         }
-        return nil
     }
     
     @IBAction func HandleOKClicked(_ sender: Any)
     {
-        FontDelegate?.Closed(true, nil)
+        let Final = ReadUI()
+        FontDelegate?.Closed(true, Final)
         view.window?.close()
     }
     
