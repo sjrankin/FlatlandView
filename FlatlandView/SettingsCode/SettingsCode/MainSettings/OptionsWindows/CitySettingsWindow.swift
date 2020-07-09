@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class CitySettingsWindow: NSViewController
+class CitySettingsWindow: NSViewController, FontProtocol
 {
     override func viewDidLoad()
     {
@@ -44,6 +44,15 @@ class CitySettingsWindow: NSViewController
         else
         {
             PopulationSegment.selectedSegment = 1
+        }
+        let EqFont = Settings.GetFont(.CityFontName, StoredFont("Avenir-Medium", 8.0, NSColor.black))
+        if let FontName = FontHelper.PrettyFontName(From: EqFont.PostscriptName)
+        {
+            CityFontButton.title = FontName
+        }
+        else
+        {
+            CityFontButton.title = "Huh?"
         }
     }
     
@@ -130,6 +139,66 @@ class CitySettingsWindow: NSViewController
         }
     }
     
+    @IBAction func HandleCityFontButtonPressed(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "FontPickerUI", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "FontPickerWindow") as? FontPickerWindow
+        {
+            let Window = WindowController.window
+            let WindowView = Window?.contentViewController as? FontPickerController
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+            WindowView?.FontDelegate = self
+        }
+    }
+    
+    // MARK: - Font protocol functions.
+    
+    func CurrentFont() -> StoredFont?
+    {
+        return Settings.GetFont(.CityFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.orange))
+    }
+    
+    func WantsContinuousUpdates() -> Bool
+    {
+        return false
+    }
+    
+    func NewFont(_ NewFont: StoredFont)
+    {
+        print("Have new font: \(FontHelper.PrettyFontName(From: NewFont.PostscriptName)!)")
+        Settings.SetFont(.CityFontName, NewFont)
+        let EqFont = Settings.GetFont(.CityFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+        if let FontName = FontHelper.PrettyFontName(From: EqFont.PostscriptName)
+        {
+            CityFontButton.title = FontName
+        }
+        else
+        {
+            CityFontButton.title = "Huh?"
+        }
+    }
+    
+    func Closed(_ OK: Bool, _ SelectedFont: StoredFont?)
+    {
+        if OK
+        {
+            if let NewFont = SelectedFont
+            {
+                Settings.SetFont(.CityFontName, NewFont)
+                let EqFont = Settings.GetFont(.CityFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+                if let FontName = FontHelper.PrettyFontName(From: EqFont.PostscriptName)
+                {
+                    CityFontButton.title = FontName
+                }
+                else
+                {
+                    CityFontButton.title = "Huh?"
+                }
+            }
+        }
+    }
+    
+    @IBOutlet weak var CityFontButton: NSButton!
     @IBOutlet weak var ShowCapitalCitiesSwitch: NSSwitch!
     @IBOutlet weak var ShowSouthAmericanCitiesSwitch: NSSwitch!
     @IBOutlet weak var ShowNorthAmericanCitiesSwitch: NSSwitch!
