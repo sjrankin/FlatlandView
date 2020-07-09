@@ -2513,12 +2513,13 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="800" height="420"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <gridView ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="n1J-uV-E0q">
-                                <rect key="frame" x="20" y="312" width="304" height="88"/>
+                            <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="n1J-uV-E0q">
+                                <rect key="frame" x="20" y="285" width="309" height="115"/>
                                 <rows>
                                     <gridRow yPlacement="center" bottomPadding="15" id="TsM-BP-zWK"/>
                                     <gridRow yPlacement="center" id="PeY-Iq-6Wm"/>
                                     <gridRow yPlacement="center" id="AcL-L4-IEf"/>
+                                    <gridRow yPlacement="center" id="UwB-HM-dJN"/>
                                 </rows>
                                 <columns>
                                     <gridColumn id="gJm-Jp-caa"/>
@@ -2527,7 +2528,7 @@ DQ
                                 <gridCells>
                                     <gridCell row="TsM-BP-zWK" column="gJm-Jp-caa" id="UW2-LF-6Er">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZsO-Vo-DbV">
-                                            <rect key="frame" x="-2" y="70" width="73" height="16"/>
+                                            <rect key="frame" x="-2" y="97" width="73" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show cities" id="f4a-nn-eSz">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2537,7 +2538,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="TsM-BP-zWK" column="njo-0a-p7e" id="bRL-CA-D2M">
                                         <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" state="on" translatesAutoresizingMaskIntoConstraints="NO" id="Ge8-Ew-8io">
-                                            <rect key="frame" x="99" y="65" width="42" height="24"/>
+                                            <rect key="frame" x="99" y="92" width="42" height="24"/>
                                             <connections>
                                                 <action selector="ShowCitiesChanged:" target="0mr-g3-PTP" id="cnE-vL-F6h"/>
                                             </connections>
@@ -2545,7 +2546,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="PeY-Iq-6Wm" column="gJm-Jp-caa" id="xfv-nE-Yga">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tGJ-QQ-pQQ">
-                                            <rect key="frame" x="-2" y="29" width="69" height="16"/>
+                                            <rect key="frame" x="-2" y="56" width="69" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="City shape" id="4Yd-kU-kat">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2555,7 +2556,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="PeY-Iq-6Wm" column="njo-0a-p7e" id="0NS-Tv-hJt">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T7y-jv-cVL">
-                                            <rect key="frame" x="101" y="23" width="185" height="25"/>
+                                            <rect key="frame" x="101" y="50" width="185" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="182" id="0Sd-ng-BvM"/>
                                             </constraints>
@@ -2576,7 +2577,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="AcL-L4-IEf" column="gJm-Jp-caa" id="tYF-Uu-n4L">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ffz-wU-n75">
-                                            <rect key="frame" x="-2" y="3" width="99" height="16"/>
+                                            <rect key="frame" x="-2" y="30" width="99" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Population type" id="WFW-lU-3sd">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2586,7 +2587,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="AcL-L4-IEf" column="njo-0a-p7e" id="lEv-kU-cuk">
                                         <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aCx-q6-egO">
-                                            <rect key="frame" x="99" y="-2" width="207" height="24"/>
+                                            <rect key="frame" x="99" y="25" width="207" height="24"/>
                                             <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="wFz-85-tI9">
                                                 <font key="font" metaFont="system"/>
                                                 <segments>
@@ -2598,6 +2599,31 @@ DQ
                                                 <action selector="HandlePopulationTypeChanged:" target="0mr-g3-PTP" id="CNd-VV-Kkc"/>
                                             </connections>
                                         </segmentedControl>
+                                    </gridCell>
+                                    <gridCell row="UwB-HM-dJN" column="gJm-Jp-caa" id="uwC-1e-KDc">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tAb-bd-DOo">
+                                            <rect key="frame" x="-2" y="3" width="93" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="City name font" id="Lky-i1-oxA">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="UwB-HM-dJN" column="njo-0a-p7e" id="lyP-12-RIs">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jtq-XD-5Ha">
+                                            <rect key="frame" x="95" y="-7" width="220" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="208" id="SDT-nl-MnJ"/>
+                                            </constraints>
+                                            <buttonCell key="cell" type="push" title="City font name" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CpX-Tg-KN6">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="HandleCityFontButtonPressed:" target="0mr-g3-PTP" id="YxC-NL-7Qo"/>
+                                            </connections>
+                                        </button>
                                     </gridCell>
                                 </gridCells>
                             </gridView>
@@ -2774,10 +2800,12 @@ DQ
                             <constraint firstItem="bBl-AS-Q3K" firstAttribute="top" secondItem="n1J-uV-E0q" secondAttribute="top" id="aPN-tM-2hd"/>
                             <constraint firstAttribute="bottom" secondItem="bBl-AS-Q3K" secondAttribute="bottom" constant="143" id="bEB-fg-o5O"/>
                             <constraint firstItem="bBl-AS-Q3K" firstAttribute="top" secondItem="4Ga-Ry-V3W" secondAttribute="top" constant="20" symbolic="YES" id="fxn-dd-MhA"/>
+                            <constraint firstItem="n1J-uV-E0q" firstAttribute="leading" secondItem="4Ga-Ry-V3W" secondAttribute="leading" constant="20" symbolic="YES" id="fzv-aE-Gkm"/>
                             <constraint firstAttribute="trailing" secondItem="bBl-AS-Q3K" secondAttribute="trailing" constant="20" symbolic="YES" id="yv2-Fu-wMD"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="CityFontButton" destination="jtq-XD-5Ha" id="98D-I9-uXj"/>
                         <outlet property="CityShapeCombo" destination="T7y-jv-cVL" id="sAr-Qc-F4T"/>
                         <outlet property="PopulationSegment" destination="aCx-q6-egO" id="rXN-fe-HnZ"/>
                         <outlet property="ShowAfricanCitiesSwitch" destination="pHe-4W-MdJ" id="fcf-Rq-a5X"/>
