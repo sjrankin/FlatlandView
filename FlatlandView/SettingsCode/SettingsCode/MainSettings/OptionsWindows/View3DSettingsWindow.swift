@@ -108,10 +108,6 @@ class View3DSettingsWindow: NSViewController, FontProtocol
         }
     }
     
-
-    
-   
-    
     @IBAction func HandleMoonLightChanged(_ sender: Any)
     {
         if let Button = sender as? NSSwitch
