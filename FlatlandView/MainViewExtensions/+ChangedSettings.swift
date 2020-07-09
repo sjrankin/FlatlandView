@@ -307,6 +307,9 @@ extension MainView: SettingChangedProtocol
                     }
                 }
                 
+            case .CityFontName:
+                World3DView.PlotCities()
+                
             case .HourFontName:
                 World3DView.UpdateHours()
                 
