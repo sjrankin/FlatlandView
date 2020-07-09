@@ -180,6 +180,8 @@ enum SettingTypes: String, CaseIterable
     case CityShapes = "CityShapes"
     /// Determines how the relative size of cities is calculated.
     case PopulationType = "PopulationType"
+    /// The font to use for city names.
+    case CityFontName = "CityFontName"
     
     // MARK: - World Heritage Site settings
     /// Boolean: Determines whether World Heritage Sites are shown.
