@@ -1198,12 +1198,13 @@ class Utility
     /// - Parameter TextColor: The color of the word.
     /// - Parameter OnSurface: Where the word will be plotted.
     /// - Parameter WithTag: Tag value to assign to the word. If nil, "WordLetterNode" is used.
+    /// - Returns: Array with letter nodes.
     public static func MakeFloatingWord(Radius: Double, Word: String, Scale: CGFloat = 0.07,
                                         Latitude: Double, Longitude: Double,
                                         Extrusion: CGFloat = 1.0, Mask: Int = 0,
                                         TextFont: NSFont? = nil,
                                         TextColor: NSColor = NSColor.gray,
-                                        OnSurface: SCNNode, WithTag: String? = nil)
+                                        OnSurface: SCNNode, WithTag: String? = nil) -> [SCNNode]
     {
         var WordFont: NSFont = NSFont()
         if let SomeFont = TextFont
@@ -1214,6 +1215,7 @@ class Utility
         {
          WordFont = NSFont.systemFont(ofSize: 24.0)
         }
+        var LetterNodes = [SCNNode]()
         let FontAttribute = [NSAttributedString.Key.font: WordFont]
         var CumulativeLetterLocation: CGFloat = CGFloat(Longitude)
         let EqCircumference = 2.0 * Radius * Double.pi
@@ -1255,7 +1257,9 @@ class Utility
             AngleAdjustment = AngleAdjustment * 10.0
             CumulativeLetterLocation = CumulativeLetterLocation + CGFloat(AngleAdjustment)
             #endif
+            LetterNodes.append(LetterNode)
         }
+        return LetterNodes
     }
     
     /// Create an `SCNNode` of a word that floats over a globe.
