@@ -154,7 +154,7 @@ DQ
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="280" id="2I6-4H-Zj5"/>
                                             </constraints>
-                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="Boh-aE-RFV">
+                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="Boh-aE-RFV">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -195,7 +195,7 @@ DQ
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="280" id="g9u-r0-XGZ"/>
                                             </constraints>
-                                            <sliderCell key="cell" alignment="left" minValue="8" maxValue="96" doubleValue="62.104919201520914" tickMarkPosition="above" sliderType="linear" id="ioS-Ms-cGi"/>
+                                            <sliderCell key="cell" continuous="YES" alignment="left" minValue="8" maxValue="96" doubleValue="62.104919201520914" tickMarkPosition="above" sliderType="linear" id="ioS-Ms-cGi"/>
                                             <connections>
                                                 <action selector="HandleFontSizeSliderChanged:" target="j7z-rW-Y95" id="CSo-LQ-cZa"/>
                                             </connections>
@@ -264,7 +264,7 @@ DQ
                                     <constraint firstAttribute="width" constant="473" id="aab-AY-ie7"/>
                                     <constraint firstAttribute="height" constant="88" id="ch4-1n-A5s"/>
                                 </constraints>
-                                <textFieldCell key="cell" allowsUndo="NO" alignment="center" title="Multiline Label" id="BsE-3i-FWO">
+                                <textFieldCell key="cell" allowsUndo="NO" alignment="center" title="Please Wait" id="BsE-3i-FWO">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -363,7 +363,7 @@ Gw
                                     <rect key="frame" x="1" y="1" width="399" height="166"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="2Sv-OU-pIc">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="2Sv-OU-pIc">
                                             <rect key="frame" x="0.0" y="0.0" width="399" height="166"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -371,7 +371,7 @@ Gw
                                             <tableViewGridLines key="gridStyleMask" dashed="YES"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="396" minWidth="40" maxWidth="1000" id="Mk2-71-0gZ">
+                                                <tableColumn identifier="FontNameColumn" width="396" minWidth="40" maxWidth="1000" id="Mk2-71-0gZ">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="FontNameColumn">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -383,14 +383,14 @@ Gw
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView id="9Lw-oX-bQ1">
+                                                        <tableCellView id="qxG-ie-m0n">
                                                             <rect key="frame" x="1" y="1" width="396" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xGm-Hv-YuA">
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uf2-wU-CP9">
                                                                     <rect key="frame" x="0.0" y="1" width="396" height="16"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Wxg-or-q58">
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="a5X-EI-Vtv">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -398,7 +398,7 @@ Gw
                                                                 </textField>
                                                             </subviews>
                                                             <connections>
-                                                                <outlet property="textField" destination="xGm-Hv-YuA" id="GVu-pl-2vg"/>
+                                                                <outlet property="textField" destination="Uf2-wU-CP9" id="IWf-ve-NeP"/>
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
