@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SceneKit
 
-class View3DSettingsWindow: NSViewController
+class View3DSettingsWindow: NSViewController, FontProtocol
 {
     override func viewDidLoad()
     {
@@ -66,6 +66,15 @@ class View3DSettingsWindow: NSViewController
         HourColorWell.color = Settings.GetColor(.HourColor, NSColor.systemOrange)
         GridLineColorWell.color = Settings.GetColor(.GridLineColor, NSColor.red)
         MinorGridLineColorWell.color = Settings.GetColor(.MinorGridLineColor, NSColor.yellow)
+        let EqFont = Settings.GetFont(.HourFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+        if let FontName = FontHelper.PrettyFontName(From: EqFont.PostscriptName)
+        {
+            HourFontButton.title = FontName
+        }
+        else
+        {
+            HourFontButton.title = "Huh?"
+        }
     }
     
     @IBAction func Handle3DGridLineChanged(_ sender: Any)
@@ -227,6 +236,66 @@ class View3DSettingsWindow: NSViewController
         }
     }
     
+    @IBAction func HandleHourFontButtonPressed(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "FontPickerUI", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "FontPickerWindow") as? FontPickerWindow
+        {
+            let Window = WindowController.window
+            let WindowView = Window?.contentViewController as? FontPickerController
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+            WindowView?.FontDelegate = self
+        }
+    }
+    
+    // MARK: - Font protocol functions.
+    
+    func CurrentFont() -> StoredFont?
+    {
+        return Settings.GetFont(.HourFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.orange))
+    }
+    
+    func WantsContinuousUpdates() -> Bool
+    {
+        return false
+    }
+    
+    func NewFont(_ NewFont: StoredFont)
+    {
+        print("Have new font: \(FontHelper.PrettyFontName(From: NewFont.PostscriptName)!)")
+        Settings.SetFont(.HourFontName, NewFont)
+        let EqFont = Settings.GetFont(.HourFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+        if let FontName = FontHelper.PrettyFontName(From: EqFont.PostscriptName)
+        {
+            HourFontButton.title = FontName
+        }
+        else
+        {
+            HourFontButton.title = "Huh?"
+        }
+    }
+    
+    func Closed(_ OK: Bool, _ SelectedFont: StoredFont?)
+    {
+        if OK
+        {
+            if let NewFont = SelectedFont
+            {
+                Settings.SetFont(.HourFontName, NewFont)
+                let EqFont = Settings.GetFont(.HourFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+                if let FontName = FontHelper.PrettyFontName(From: EqFont.PostscriptName)
+                {
+                    HourFontButton.title = FontName
+                }
+                else
+                {
+                    HourFontButton.title = "Huh?"
+                }
+            }
+        }
+    }
+    
+    @IBOutlet weak var HourFontButton: NSButton!
     @IBOutlet weak var MinorGridLineColorWell: NSColorWell!
     @IBOutlet weak var GridLineColorWell: NSColorWell!
     @IBOutlet weak var HourColorWell: NSColorWell!
