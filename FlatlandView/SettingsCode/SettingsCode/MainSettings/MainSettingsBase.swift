@@ -50,6 +50,7 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         SettingMap[.OtherLocations] = SettingEntry(CreateSettingDialog("OtherLocations"))
         SettingMap[.Other] = SettingEntry(CreateSettingDialog("OtherSettings"))
         SettingMap[.Earthquakes] = SettingEntry(CreateSettingDialog("EarthquakeSettings"))
+        SettingMap[.PerformanceSettings] = SettingEntry(CreateSettingDialog("PerformanceSettings"))
         #if DEBUG
         SettingMap[.DebugSettings] = SettingEntry(CreateSettingDialog("DebugSettings"))
         #endif
@@ -93,6 +94,9 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
                 break
                 
             case .Other:
+                break
+                
+            case .PerformanceSettings:
                 break
                 
                 #if DEBUG
@@ -187,12 +191,16 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
     @IBOutlet weak var SideBar: NSTableView!
 }
 
+/// Setting table entry.
 class SettingEntry
 {
+    /// Initializer.
+    /// - Parameter: The controller for the setting dialog.
     init(_ Controller: NSViewController?)
     {
         self.Controller = Controller
     }
     
+    /// The controller for the given setting window.
     public var Controller: NSViewController? = nil
 }
