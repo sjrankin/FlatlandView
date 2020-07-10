@@ -122,4 +122,15 @@ class StoredFont: CustomStringConvertible
     {
         return "\(PostscriptName),\(FontSize),\(FontColor.Hex)"
     }
+    
+    /// Return the stored font as an NSFont.
+    /// - Returns: `NSFont` equivalent of the stored font.
+    func AsFont() -> NSFont
+    {
+        if PostscriptName.isEmpty
+        {
+            return NSFont()
+        }
+        return NSFont(name: PostscriptName, size: FontSize)!
+    }
 }
