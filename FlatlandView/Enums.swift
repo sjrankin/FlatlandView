@@ -545,10 +545,27 @@ enum SettingGroups: String, CaseIterable
     case Other = "Other Settings"
     /// Earthquake live view settings.
     case Earthquakes = "Earthquake Settings"
+    /// Settings for controlling performance.
+    case PerformanceSettings = "Performance Settings"
     #if DEBUG
     /// Settings for controlling debugging.
     case DebugSettings = "Debug Settings"
     #endif
+}
+
+/// Determines how roughly text is drawn. Smoother text looks nicer but takes more time.
+enum TextSmoothnesses: CGFloat, CaseIterable
+{
+    /// Smoothest possible.
+    case Smoothest = 0.0
+    /// Smooth.
+    case Smooth = 0.1
+    /// Medium.
+    case Medium = 0.2
+    /// Rough.
+    case Rough = 0.3
+    /// Roughest (we allow).
+    case Roughest = 0.5
 }
 
 #if DEBUG
@@ -600,7 +617,7 @@ enum NodeScales: CGFloat
     case BouncingArrowScale = 0.751
     
     /// Hour text scale.
-    case HourText = 0.7
+    case HourText = 0.07
 }
 
 /// Layer names for 2D mode.
