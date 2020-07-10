@@ -49,6 +49,31 @@ class SCNPin: SCNNode
         MakeGeometry()
     }
     
+    /// Holds the current category bit mask value.
+    private var _LightMask: Int = 0
+    {
+        didSet
+        {
+            Pin.categoryBitMask = _LightMask
+            KnobTop.categoryBitMask = _LightMask
+            KnobCenter.categoryBitMask = _LightMask
+            KnobBottom.categoryBitMask = _LightMask
+        }
+    }
+    /// Set the category bit mask value for all sub-parts of the pin.
+    /// - Note: Use this property, _not_ `categoryBitMask`.
+    public var LightMask: Int
+    {
+        get
+        {
+            return _LightMask
+        }
+        set
+        {
+            _LightMask = newValue
+        }
+    }
+    
     /// Holds the height of the knob.
     private var _KnobHeight: CGFloat = 2.0
     {
@@ -233,9 +258,9 @@ class SCNPin: SCNNode
         let KnobCenterShape = SCNCylinder(radius: _KnobRadius * 0.45, height: _KnobHeight * 0.9)
         KnobCenterShape.firstMaterial?.diffuse.contents = _KnobColor
         KnobCenterShape.firstMaterial?.specular.contents = _KnobSpecular
-        let KnobTop = SCNNode(geometry: KnobTopShape)
-        let KnobBottom = SCNNode(geometry: KnobBottomShape)
-        let KnobCenter = SCNNode(geometry: KnobCenterShape)
+         KnobTop = SCNNode(geometry: KnobTopShape)
+         KnobBottom = SCNNode(geometry: KnobBottomShape)
+         KnobCenter = SCNNode(geometry: KnobCenterShape)
         KnobTop.position = SCNVector3(0.0, 0.5, 0.0)
         KnobBottom.position = SCNVector3(0.0, -0.5, 0.0)
         let KnobUI = SCNNode()
@@ -244,11 +269,16 @@ class SCNPin: SCNNode
         KnobUI.addChildNode(KnobCenter)
         KnobUI.position = SCNVector3(0.0, 1.0, 0.0)
         let PinShape = SCNCylinder(radius: _PinRadius, height: _PinHeight)
-        let Pin = SCNNode(geometry: PinShape)
+         Pin = SCNNode(geometry: PinShape)
         Pin.geometry?.firstMaterial?.diffuse.contents = _PinColor
         Pin.geometry?.firstMaterial?.specular.contents = _PinSpecular
         Pin.position = SCNVector3(0.0, 2.5, 0.0)
         self.addChildNode(KnobUI)
         self.addChildNode(Pin)
     }
+    
+    private var KnobTop = SCNNode()
+    private var KnobBottom = SCNNode()
+    private var KnobCenter = SCNNode()
+    private var Pin = SCNNode()
 }
