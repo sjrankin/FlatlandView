@@ -73,6 +73,7 @@ extension GlobeView
         ClearEarthquakes()
         EarthquakeList.removeAll()
         EarthquakeList = NewList
+        EarthquakeList = USGS.CombineEarthquakes(EarthquakeList)
         PlottedEarthquakes.removeAll()
         PlotEarthquakes()
     }
@@ -250,6 +251,16 @@ extension GlobeView
         var YRotation: Double = 0.0
         var XRotation: Double = 0.0
         var RadialOffset: Double = 0.0
+        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+        let MagColors = Settings.GetMagnitudeColors()
+        var MagColor = NSColor.black
+        for (Magnitude, Color) in MagColors
+        {
+            if Magnitude == MagRange
+            {
+                MagColor = Color
+            }
+        }
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         {
             case .Magnitude:
@@ -267,7 +278,9 @@ extension GlobeView
                 let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
                                            Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
                 Arrow.LightMask = SunMask | MoonMask
-                Arrow.scale = SCNVector3(0.75, 0.75, 0.75)
+                Arrow.scale = SCNVector3(NodeScales.ArrowScale.rawValue,
+                                         NodeScales.ArrowScale.rawValue,
+                                         NodeScales.ArrowScale.rawValue)
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
                 let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: 1.0)
@@ -298,7 +311,9 @@ extension GlobeView
                 let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
                                            Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
                 Arrow.LightMask = SunMask | MoonMask
-                Arrow.scale = SCNVector3(0.75, 0.75, 0.75)
+                Arrow.scale = SCNVector3(NodeScales.StaticArrow.rawValue,
+                                         NodeScales.StaticArrow.rawValue,
+                                         NodeScales.StaticArrow.rawValue)
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
                 let Encapsulate = SCNNode()
@@ -438,10 +453,10 @@ extension GlobeView
     /// - Returns: Node with extruded text indicating the earthquake.
     func PlotMagnitudes(_ Quake: Earthquake2, Vertically: Bool = false) -> SCNNode
     {
-        let DrawScale = 0.03
         let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
         var MultipleQuakesSign = ""
-        if Quake.Related != nil
+        let MultipleQuakes = Quake.Related != nil && Quake.Related!.count > 0
+        if MultipleQuakes
         {
             MultipleQuakesSign = "+"
         }
@@ -452,24 +467,22 @@ extension GlobeView
         #endif
         let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.Magnitude))
         let FontSize = CGFloat(15.0 + Quake.Magnitude)
-        #if true
         let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
         MagText.font = NSFont(name: EqFont.PostscriptName, size: FontSize)
-        #else
-        MagText.font = NSFont(name: "Avenir-Heavy", size: FontSize)
-        #endif
         
         MagText.firstMaterial?.specular.contents = NSColor.black
         MagText.firstMaterial?.specular.contents = NSColor.white
         MagText.firstMaterial?.lightingModel = .physicallyBased
         let MagNode = SCNNode(geometry: MagText)
         MagNode.categoryBitMask = MetalSunMask | MetalMoonMask
-        MagNode.scale = SCNVector3(DrawScale, DrawScale, DrawScale)
+        MagNode.scale = SCNVector3(NodeScales.EarthquakeText.rawValue,
+                                   NodeScales.EarthquakeText.rawValue,
+                                   NodeScales.EarthquakeText.rawValue)
         MagNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
-        var YOffset = (MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) * CGFloat(DrawScale)
-        YOffset = MagNode.boundingBox.max.y * CGFloat(DrawScale) * 3.5
-        let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * CGFloat(DrawScale) -
-            (MagNode.boundingBox.min.y * CGFloat(DrawScale))
+        var YOffset = (MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) * NodeScales.EarthquakeText.rawValue
+        YOffset = MagNode.boundingBox.max.y * NodeScales.EarthquakeText.rawValue * 3.5
+        let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * NodeScales.EarthquakeText.rawValue -
+            (MagNode.boundingBox.min.y * NodeScales.EarthquakeText.rawValue)
         let (X, Y, Z) = Utility.ToECEF(Quake.Latitude, Quake.Longitude,
                                        LatitudeOffset: Double(-YOffset), LongitudeOffset: Double(XOffset),
                                        Radius: Radius)
@@ -489,6 +502,56 @@ extension GlobeView
         MagNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
         
         return MagNode
+    }
+    
+    func MakeTextBox(With Bounding: (min: SCNVector3, max: SCNVector3), _ Scale: Double,
+                     _ NodeColor: NSColor) -> SCNNode
+    {
+        let Box = SCNNode()
+        Box.name = GlobeNodeNames.EarthquakeNodes.rawValue
+        Box.categoryBitMask = MetalSunMask | MetalMoonMask
+        
+        let UpperShape = SCNBox(width: Bounding.max.x, height: 1.0, length: 1.0, chamferRadius: 0.0)
+        let Upper = SCNNode(geometry: UpperShape)
+        Upper.categoryBitMask = MetalSunMask | MetalMoonMask
+        Upper.geometry?.firstMaterial?.diffuse.contents = NSColor.white
+        Upper.geometry?.firstMaterial?.specular.contents = NSColor.white
+        Upper.geometry?.firstMaterial?.lightingModel = .physicallyBased
+        
+        let LowerShape = SCNBox(width: Bounding.max.x, height: 1.0, length: 1.0, chamferRadius: 0.0)
+        let Lower = SCNNode(geometry: LowerShape)
+        Lower.categoryBitMask = MetalSunMask | MetalMoonMask
+        Lower.geometry?.firstMaterial?.diffuse.contents = NSColor.white
+        Lower.geometry?.firstMaterial?.specular.contents = NSColor.white
+        Lower.geometry?.firstMaterial?.lightingModel = .physicallyBased
+        
+        let LeftShape = SCNBox(width: 1.0, height: Bounding.max.y, length: 1.0, chamferRadius: 0.0)
+        let Left = SCNNode(geometry: LeftShape)
+        Left.categoryBitMask = MetalSunMask | MetalMoonMask
+        Left.geometry?.firstMaterial?.diffuse.contents = NSColor.white
+        Left.geometry?.firstMaterial?.specular.contents = NSColor.white
+        Left.geometry?.firstMaterial?.lightingModel = .physicallyBased
+        
+        let RightShape = SCNBox(width: 1.0, height: Bounding.max.y, length: 1.0, chamferRadius: 0.0)
+        let Right = SCNNode(geometry: RightShape)
+        Right.categoryBitMask = MetalSunMask | MetalMoonMask
+        Right.geometry?.firstMaterial?.diffuse.contents = NSColor.white
+        Right.geometry?.firstMaterial?.specular.contents = NSColor.white
+        Right.geometry?.firstMaterial?.lightingModel = .physicallyBased
+        
+        Upper.position = SCNVector3(Bounding.min.x, Bounding.min.y, 0.0)
+        Lower.position = SCNVector3(Bounding.min.x, Bounding.max.y, 0.0)
+        Left.position = SCNVector3(Bounding.min.x, Bounding.min.y, 0.0)
+        Right.position = SCNVector3(Bounding.max.x, Bounding.min.y, 0.0)
+        
+        Box.addChildNode(Upper)
+        Box.addChildNode(Lower)
+        Box.addChildNode(Left)
+        Box.addChildNode(Right)
+        
+        Box.scale = SCNVector3(Scale, Scale, Scale)
+        
+        return Box
     }
     
     /// Visually highlight the passed earthquake.
@@ -532,7 +595,8 @@ extension GlobeView
                                                 z: CGFloat(0.0.Radians),
                                                 duration: 1.0)
                 let ScaleDuration = 1.0 - (Quake.Magnitude / 10.0)
-                let ToScale = 1.2 + (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
+                var ToScale = (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
+                ToScale = ToScale + Double(NodeScales.AnimatedRingBase.rawValue)
                 let ScaleUp = SCNAction.scale(to: CGFloat(ToScale), duration: 1.0 + ScaleDuration)
                 let ScaleDown = SCNAction.scale(to: 1.0, duration: 1.0 + ScaleDuration)
                 let ScaleGroup = SCNAction.sequence([ScaleUp, ScaleDown])
@@ -604,10 +668,12 @@ extension GlobeView
                 }
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
                 Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
-                Indicator.scale = SCNVector3(0.1, 0.1, 0.1)
+                Indicator.scale = SCNVector3(NodeScales.RadiatingRings.rawValue,
+                                             NodeScales.RadiatingRings.rawValue,
+                                             NodeScales.RadiatingRings.rawValue)
                 
                 let ScaleDuration = 1.0 + (1.0 - (Quake.Magnitude / 10.0))
-                let ToScale = 1.2 + (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
+                let ToScale = Double(NodeScales.RadiatingRingBase.rawValue) + (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
                 let ScaleUp = SCNAction.scale(to: CGFloat(ToScale), duration: ScaleDuration)
                 let FinalFade = SCNAction.fadeOut(duration: 0.1)
                 let Wait2 = SCNAction.wait(duration: ScaleDuration - 0.1)
@@ -616,7 +682,9 @@ extension GlobeView
                 let ResetAction = SCNAction.run
                 {
                     Node in
-                    Node.scale = SCNVector3(0.1, 0.1, 1.0)
+                    Node.scale = SCNVector3(NodeScales.RadiatingRings.rawValue,
+                                            NodeScales.RadiatingRings.rawValue,
+                                            NodeScales.RadiatingRings.rawValue)
                     Node.opacity = InitialAlpha
                 }
                 let Sequence = SCNAction.sequence([Group, ResetAction])
