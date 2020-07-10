@@ -16,7 +16,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
         Settings.Initialize()
         Settings.AddSubscriber(self)
         
