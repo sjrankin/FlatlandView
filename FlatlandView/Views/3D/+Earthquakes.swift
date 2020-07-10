@@ -251,16 +251,7 @@ extension GlobeView
         var YRotation: Double = 0.0
         var XRotation: Double = 0.0
         var RadialOffset: Double = 0.0
-        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
-        let MagColors = Settings.GetMagnitudeColors()
-        var MagColor = NSColor.black
-        for (Magnitude, Color) in MagColors
-        {
-            if Magnitude == MagRange
-            {
-                MagColor = Color
-            }
-        }
+
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         {
             case .Magnitude:
@@ -454,16 +445,10 @@ extension GlobeView
     func PlotMagnitudes(_ Quake: Earthquake2, Vertically: Bool = false) -> SCNNode
     {
         let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
-        var MultipleQuakesSign = ""
-        let MultipleQuakes = Quake.Related != nil && Quake.Related!.count > 0
-        if MultipleQuakes
-        {
-            MultipleQuakesSign = "+"
-        }
         #if false
-        let Magnitude = "M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
+        let Magnitude = "M\(Quake.Magnitude.RoundedTo(2))"
         #else
-        let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))\(MultipleQuakesSign)"
+        let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))"
         #endif
         let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.Magnitude))
         let FontSize = CGFloat(15.0 + Quake.Magnitude)
@@ -488,6 +473,31 @@ extension GlobeView
                                        Radius: Radius)
         MagNode.position = SCNVector3(X, Y, Z)
         
+        if Quake.IsCluster
+        {
+            let LowerShape = SCNBox(width: MagNode.boundingBox.max.x, height: 4.0, length: 1.0, chamferRadius: 0.0)
+            let Lower = SCNNode(geometry: LowerShape)
+            Lower.categoryBitMask = MetalSunMask | MetalMoonMask
+            Lower.geometry?.firstMaterial?.diffuse.contents = NSColor.systemRed
+            Lower.geometry?.firstMaterial?.specular.contents = NSColor.white
+            Lower.geometry?.firstMaterial?.lightingModel = .physicallyBased
+            Lower.geometry?.firstMaterial?.emission.contents = NSColor.systemOrange
+            let WidthOffset = MagNode.boundingBox.max.x / 2.0
+            Lower.position = SCNVector3(MagNode.boundingBox.min.x + WidthOffset, 3.5, 0.0)
+            MagNode.addChildNode(Lower)
+            
+            let UpperShape = SCNBox(width: MagNode.boundingBox.max.x, height: 4.0, length: 1.0, chamferRadius: 0.0)
+            let Upper = SCNNode(geometry: UpperShape)
+            Upper.categoryBitMask = MetalSunMask | MetalMoonMask
+            Upper.geometry?.firstMaterial?.diffuse.contents = NSColor.systemRed
+            Upper.geometry?.firstMaterial?.specular.contents = NSColor.white
+            Upper.geometry?.firstMaterial?.lightingModel = .physicallyBased
+            Upper.geometry?.firstMaterial?.emission.contents = NSColor.systemOrange
+            Upper.position = SCNVector3(MagNode.boundingBox.min.x + WidthOffset,
+                                        MagNode.boundingBox.max.y + 3.5, 0.0)
+            MagNode.addChildNode(Upper)
+        }
+        
         var YRotation = -Quake.Latitude
         var XRotation = Quake.Longitude
         var ZRotation = 0.0
@@ -502,56 +512,6 @@ extension GlobeView
         MagNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
         
         return MagNode
-    }
-    
-    func MakeTextBox(With Bounding: (min: SCNVector3, max: SCNVector3), _ Scale: Double,
-                     _ NodeColor: NSColor) -> SCNNode
-    {
-        let Box = SCNNode()
-        Box.name = GlobeNodeNames.EarthquakeNodes.rawValue
-        Box.categoryBitMask = MetalSunMask | MetalMoonMask
-        
-        let UpperShape = SCNBox(width: Bounding.max.x, height: 1.0, length: 1.0, chamferRadius: 0.0)
-        let Upper = SCNNode(geometry: UpperShape)
-        Upper.categoryBitMask = MetalSunMask | MetalMoonMask
-        Upper.geometry?.firstMaterial?.diffuse.contents = NSColor.white
-        Upper.geometry?.firstMaterial?.specular.contents = NSColor.white
-        Upper.geometry?.firstMaterial?.lightingModel = .physicallyBased
-        
-        let LowerShape = SCNBox(width: Bounding.max.x, height: 1.0, length: 1.0, chamferRadius: 0.0)
-        let Lower = SCNNode(geometry: LowerShape)
-        Lower.categoryBitMask = MetalSunMask | MetalMoonMask
-        Lower.geometry?.firstMaterial?.diffuse.contents = NSColor.white
-        Lower.geometry?.firstMaterial?.specular.contents = NSColor.white
-        Lower.geometry?.firstMaterial?.lightingModel = .physicallyBased
-        
-        let LeftShape = SCNBox(width: 1.0, height: Bounding.max.y, length: 1.0, chamferRadius: 0.0)
-        let Left = SCNNode(geometry: LeftShape)
-        Left.categoryBitMask = MetalSunMask | MetalMoonMask
-        Left.geometry?.firstMaterial?.diffuse.contents = NSColor.white
-        Left.geometry?.firstMaterial?.specular.contents = NSColor.white
-        Left.geometry?.firstMaterial?.lightingModel = .physicallyBased
-        
-        let RightShape = SCNBox(width: 1.0, height: Bounding.max.y, length: 1.0, chamferRadius: 0.0)
-        let Right = SCNNode(geometry: RightShape)
-        Right.categoryBitMask = MetalSunMask | MetalMoonMask
-        Right.geometry?.firstMaterial?.diffuse.contents = NSColor.white
-        Right.geometry?.firstMaterial?.specular.contents = NSColor.white
-        Right.geometry?.firstMaterial?.lightingModel = .physicallyBased
-        
-        Upper.position = SCNVector3(Bounding.min.x, Bounding.min.y, 0.0)
-        Lower.position = SCNVector3(Bounding.min.x, Bounding.max.y, 0.0)
-        Left.position = SCNVector3(Bounding.min.x, Bounding.min.y, 0.0)
-        Right.position = SCNVector3(Bounding.max.x, Bounding.min.y, 0.0)
-        
-        Box.addChildNode(Upper)
-        Box.addChildNode(Lower)
-        Box.addChildNode(Left)
-        Box.addChildNode(Right)
-        
-        Box.scale = SCNVector3(Scale, Scale, Scale)
-        
-        return Box
     }
     
     /// Visually highlight the passed earthquake.
