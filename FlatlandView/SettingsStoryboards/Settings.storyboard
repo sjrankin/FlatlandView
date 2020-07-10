@@ -4281,6 +4281,119 @@ DQ
             </objects>
             <point key="canvasLocation" x="2894" y="2614.5"/>
         </scene>
+        <!--Performance Options-->
+        <scene sceneID="Cah-fb-ohb">
+            <objects>
+                <viewController storyboardIdentifier="PerformanceSettings" id="ODn-DF-m9e" customClass="PerformanceOptions" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="cb6-yx-dRK">
+                        <rect key="frame" x="0.0" y="0.0" width="800" height="420"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <box title="3D Settings" translatesAutoresizingMaskIntoConstraints="NO" id="pEZ-hj-cs4">
+                                <rect key="frame" x="17" y="278" width="536" height="122"/>
+                                <view key="contentView" id="oxX-Hz-ERE">
+                                    <rect key="frame" x="3" y="3" width="530" height="104"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="XPv-3g-Nty">
+                                            <rect key="frame" x="9" y="19" width="492" height="75"/>
+                                            <rows>
+                                                <gridRow id="cIY-M3-3nV"/>
+                                                <gridRow id="3zY-fp-ARy"/>
+                                                <gridRow id="qKl-DK-IY5"/>
+                                            </rows>
+                                            <columns>
+                                                <gridColumn id="jB3-mA-TES"/>
+                                                <gridColumn id="b3l-W2-f0o"/>
+                                            </columns>
+                                            <gridCells>
+                                                <gridCell row="cIY-M3-3nV" column="jB3-mA-TES" id="fhC-fx-J7d">
+                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7s2-PH-QJQ">
+                                                        <rect key="frame" x="-2" y="57" width="94" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Chamfer hours" id="frn-K8-r83">
+                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="cIY-M3-3nV" column="b3l-W2-f0o" id="BBR-yo-9lF">
+                                                    <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="0b4-eJ-zWJ">
+                                                        <rect key="frame" x="115" y="52" width="42" height="24"/>
+                                                        <connections>
+                                                            <action selector="HandleHourChamferChanged:" target="ODn-DF-m9e" id="iIp-74-dxG"/>
+                                                        </connections>
+                                                    </switch>
+                                                </gridCell>
+                                                <gridCell row="3zY-fp-ARy" column="jB3-mA-TES" id="RVh-tq-zt3">
+                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H2l-g0-tag">
+                                                        <rect key="frame" x="-2" y="30" width="111" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Chamfer live data" id="Luk-lF-uLk">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="3zY-fp-ARy" column="b3l-W2-f0o" id="l4z-q6-hAE">
+                                                    <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="NPN-g3-VqL">
+                                                        <rect key="frame" x="115" y="25" width="42" height="24"/>
+                                                        <connections>
+                                                            <action selector="HandleLiveDataChamferSwitch:" target="ODn-DF-m9e" id="AUN-kl-Q2F"/>
+                                                        </connections>
+                                                    </switch>
+                                                </gridCell>
+                                                <gridCell row="qKl-DK-IY5" column="jB3-mA-TES" id="PNa-Oc-VXi">
+                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="URJ-2G-RLM">
+                                                        <rect key="frame" x="-2" y="3" width="115" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Label smoothness" id="2TK-sy-6fH">
+                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="qKl-DK-IY5" column="b3l-W2-f0o" id="XQV-AM-sUJ">
+                                                    <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="okE-ba-oLA">
+                                                        <rect key="frame" x="115" y="-2" width="379" height="24"/>
+                                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Hv3-bz-vcN">
+                                                            <font key="font" metaFont="system"/>
+                                                            <segments>
+                                                                <segment label="Smoothest" width="78"/>
+                                                                <segment label="Smooth" width="77" selected="YES" tag="1"/>
+                                                                <segment label="Medium" width="77"/>
+                                                                <segment label="Rough"/>
+                                                                <segment label="Roughest"/>
+                                                            </segments>
+                                                        </segmentedCell>
+                                                        <connections>
+                                                            <action selector="HandleSmoothnessChanged:" target="ODn-DF-m9e" id="PJO-Cp-q1s"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                </gridCell>
+                                            </gridCells>
+                                        </gridView>
+                                    </subviews>
+                                </view>
+                            </box>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="pEZ-hj-cs4" firstAttribute="top" secondItem="cb6-yx-dRK" secondAttribute="top" constant="20" symbolic="YES" id="5n0-9g-bXa"/>
+                            <constraint firstAttribute="trailing" secondItem="pEZ-hj-cs4" secondAttribute="trailing" constant="250" id="FDx-ST-yyq"/>
+                            <constraint firstItem="pEZ-hj-cs4" firstAttribute="leading" secondItem="cb6-yx-dRK" secondAttribute="leading" constant="20" symbolic="YES" id="Hd6-Hw-vMv"/>
+                            <constraint firstAttribute="bottom" secondItem="pEZ-hj-cs4" secondAttribute="bottom" constant="282" id="li9-T4-p0f"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="HourChamferSwitch" destination="0b4-eJ-zWJ" id="A1L-NI-U6v"/>
+                        <outlet property="LiveDataChamferSwitch" destination="NPN-g3-VqL" id="mwF-PT-YHd"/>
+                        <outlet property="SmoothSegment" destination="okE-ba-oLA" id="dxU-Al-ip7"/>
+                    </connections>
+                </viewController>
+                <customObject id="G81-0Q-vrw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3114" y="-561"/>
+        </scene>
     </scenes>
     <resources>
         <image name="GlobeIcon" width="24" height="24"/>
