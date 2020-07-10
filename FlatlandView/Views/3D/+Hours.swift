@@ -209,7 +209,6 @@ extension GlobeView
     func PlotHourLabels(Radius: Double, Labels: [(String, Int)], LetterColor: NSColor = NSColor.systemYellow,
                         RadialOffset: CGFloat = 0.0) -> SCNNode
     {
-        print("Plotting hours")
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
         let Node = SCNNode(geometry: NodeShape)
         Node.position = SCNVector3(0.0, 0.0, 0.0)
@@ -236,12 +235,12 @@ extension GlobeView
                 let Radians = WorkingAngle.Radians
                 let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
                 let FontSize: CGFloat = VisualScript == .English ? 20.0 : 14.0
-                #if true
+                if Settings.GetBool(.UseHourChamfer)
+                {
+                    HourText.chamferRadius = FontSize / 4.0
+                }
                 let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium", 20.0, NSColor.yellow))
                 HourText.font = NSFont(name: FontData.PostscriptName, size: FontSize)
-                #else
-                HourText.font = NSFont(name: "Avenir-Heavy", size: FontSize)
-                #endif
                 var CharWidth: Float = 0
                 if Letter == " "
                 {
@@ -284,7 +283,8 @@ extension GlobeView
                 }
                 HourText.firstMaterial?.diffuse.contents = FinalLetterColor
                 HourText.firstMaterial?.specular.contents = SpecularColor
-                HourText.flatness = 0.2
+                //HourText.flatness = 0.2
+                HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
                 let HourTextNode = SCNNode(geometry: HourText)
