@@ -560,6 +560,49 @@ enum TimeControls: String, CaseIterable
 }
 #endif
 
+/// Scales for 3D nodes.
+enum NodeScales: CGFloat
+{
+    /// Earthquake text.
+    case EarthquakeText = 0.03
+    
+    /// Animated ring base scale.
+    case AnimatedRingBase = 1.2
+    
+    /// Radiating rings.
+    case RadiatingRings = 0.1
+    
+    /// Radiating ring expansion base.
+    case RadiatingRingBase = 1.0
+    
+    /// Earthquake arrow.
+    case ArrowScale = 0.75
+    
+    /// Static earthquake arrow.
+    case StaticArrow = 0.74
+    
+    /// Scale of the home pin.
+    case PinScale = 0.25
+    
+    /// Scale of city names.
+    case CityNameScale = 0.02
+    
+    /// Scale of Unesco sites.
+    case UnescoScale = 0.55
+    
+    /// Minimum pulsating indicator scale.
+    case PulsatingHomeMinScale = 0.4
+    
+    /// Maximum pulsating indicator scale.
+    case PulsatingHomeMaxScale = 0.76
+    
+    /// Bouncing arrow scale.
+    case BouncingArrowScale = 0.751
+    
+    /// Hour text scale.
+    case HourText = 0.7
+}
+
 /// Layer names for 2D mode.
 enum LayerNames: String
 {
