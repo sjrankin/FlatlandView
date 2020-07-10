@@ -132,8 +132,8 @@ extension GlobeView
         HomeNode?.castsShadow = true
         HomeNode?.position = SCNVector3(X, Y, Z)
         
-        let PulseOut = SCNAction.scale(to: 0.75, duration: 1.0)
-        let PulseIn = SCNAction.scale(to: 0.4, duration: 1.0)
+        let PulseOut = SCNAction.scale(to: NodeScales.PulsatingHomeMaxScale.rawValue, duration: 1.0)
+        let PulseIn = SCNAction.scale(to: NodeScales.PulsatingHomeMinScale.rawValue, duration: 1.0)
         let PulseSequence = SCNAction.sequence([PulseOut, PulseIn])
         let Forever = SCNAction.repeatForever(PulseSequence)
         HomeNode?.runAction(Forever)
@@ -227,7 +227,9 @@ extension GlobeView
         let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2, Color: NSColor.systemTeal)
         #endif
         Arrow.LightMask = SunMask | MoonMask
-        Arrow.scale = SCNVector3(0.75, 0.75, 0.75)
+        Arrow.scale = SCNVector3(NodeScales.BouncingArrowScale.rawValue,
+                                 NodeScales.BouncingArrowScale.rawValue,
+                                 NodeScales.BouncingArrowScale.rawValue)
         
         let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: 0.25)
         let RotateForever = SCNAction.repeatForever(Rotate)
@@ -270,8 +272,10 @@ extension GlobeView
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.9)
         let Pin = SCNPin(KnobHeight: 2.0, KnobRadius: 1.0, PinHeight: 1.4, PinRadius: 0.15,
                          KnobColor: NSColor.Gold, PinColor: NSColor.gray) 
-        Pin.scale = SCNVector3(0.25, 0.25, 0.25)
-        Pin.categoryBitMask = SunMask | MoonMask
+        Pin.scale = SCNVector3(NodeScales.PinScale.rawValue,
+                               NodeScales.PinScale.rawValue,
+                               NodeScales.PinScale.rawValue)
+        Pin.LightMask = SunMask | MoonMask
         
         HomeNode = SCNNode()
         HomeNode?.castsShadow = true
@@ -567,14 +571,22 @@ extension GlobeView
         {
             let CityShape = SCNBox(width: HDim, height: CitySize, length: HDim, chamferRadius: 0.02)
             CityNode = SCNNode(geometry: CityShape)
+            let SideImage = MakeOutlineCubeTexture(With: WithColor)
+            CityNode.geometry?.materials.removeAll()
+            CityNode.geometry?.materials.append(SideImage)
+            CityNode.geometry?.materials.append(SideImage)
+            CityNode.geometry?.materials.append(SideImage)
+            CityNode.geometry?.materials.append(SideImage)
+            CityNode.geometry?.materials.append(SideImage)
+            CityNode.geometry?.materials.append(SideImage)
         }
         else
         {
             let CityShape = SCNCylinder(radius: HDim / 2.0, height: CitySize)
+            CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
             CityNode = SCNNode(geometry: CityShape)
         }
         CityNode.categoryBitMask = MetalSunMask | MetalMoonMask
-        CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         CityNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
         CityNode.castsShadow = true
@@ -599,7 +611,8 @@ extension GlobeView
     {
         let Font = Settings.GetFont(.CityFontName, StoredFont("Arial", 24.0, NSColor.black))
         let TheFont = NSFont(name: Font.PostscriptName, size: 24.0)
-        let Letters = Utility.MakeFloatingWord(Radius: Radius, Word: "• " + SomeCity.Name, Scale: 0.02,
+        let Letters = Utility.MakeFloatingWord(Radius: Radius, Word: "• " + SomeCity.Name,
+                                               Scale: NodeScales.CityNameScale.rawValue,
                                                Latitude: SomeCity.Latitude, Longitude: SomeCity.Longitude,
                                                Extrusion: 1.0, Mask: SunMask | MoonMask,
                                                TextFont: TheFont, TextColor: WithColor, OnSurface: EarthNode!,
@@ -962,7 +975,9 @@ extension GlobeView
                 let SiteShape = SCNRegular.Geometry(VertexCount: 3, Radius: 0.2, Depth: 0.1 + DepthOffset)
                 let SiteNode = SCNNode(geometry: SiteShape)
                 SiteNode.categoryBitMask = SunMask | MoonMask
-                SiteNode.scale = SCNVector3(0.55, 0.55, 0.55)
+                SiteNode.scale = SCNVector3(NodeScales.UnescoScale.rawValue,
+                                            NodeScales.UnescoScale.rawValue,
+                                            NodeScales.UnescoScale.rawValue)
                 WHSNodeList.append(SiteNode)
                 var NodeColor = NSColor.black
                 switch Site.Category
