@@ -126,6 +126,14 @@ enum SettingTypes: String, CaseIterable
     case ShowStatistics = "ShowStatistics"
     #endif
     
+    // MARK: - Performance and optimization settings.
+    /// Boolean: If true, hours have a chamfer value set.
+    case UseHourChamfer = "UseHourChamfer"
+    /// Boolean: If true, live data labels have a chamfer value set.
+    case UseLiveDataChamfer = "UseLiveDataChamfer"
+    /// CGFloat: Determines text smoothness.
+    case TextSmoothness = "TextSmoothness"
+    
     // MARK: - Local and home locations.
     /// Boolean: Show user locations.
     case ShowUserLocations = "ShowUserLocations"
