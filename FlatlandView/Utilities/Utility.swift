@@ -1128,7 +1128,8 @@ class Utility
                 WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
                 HourText.firstMaterial?.diffuse.contents = LetterColor
                 HourText.firstMaterial?.specular.contents = SpecularColor
-                HourText.flatness = 0.1
+//                HourText.flatness = 0.1
+                HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
                 let HourTextNode = SCNNode(geometry: HourText)
@@ -1415,7 +1416,8 @@ class Utility
                 WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
                 HourText.firstMaterial?.diffuse.contents = LetterColor
                 HourText.firstMaterial?.specular.contents = SpecularColor
-                HourText.flatness = 0.1
+                //HourText.flatness = 0.1
+                HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
                 let HourTextNode = SCNNode(geometry: HourText)
