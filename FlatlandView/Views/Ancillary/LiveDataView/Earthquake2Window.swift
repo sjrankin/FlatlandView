@@ -30,6 +30,6 @@ class Earthquake2Window: NSWindowController, NSWindowDelegate
             window?.setFrame(OldFrame, display: true)
         }
     }
-    
+ 
     @IBOutlet weak var ListSegment: NSSegmentedControl!
 }
