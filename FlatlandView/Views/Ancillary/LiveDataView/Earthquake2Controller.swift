@@ -36,11 +36,11 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
             let ListStyle = Settings.GetEnum(ForKey: .EarthquakeListStyle, EnumType: EarthquakeListStyles.self, Default: .Individual)
             if let Index = [EarthquakeListStyles.Clustered, EarthquakeListStyles.Individual].firstIndex(of: ListStyle)
             {
-                WindowController.ListSegment.selectedSegment = Index
+                QuakeTypeSegment.selectedSegment = Index
             }
             else
             {
-                WindowController.ListSegment.selectedSegment = 0
+                QuakeTypeSegment.selectedSegment = 0
             }
             
             AgeCombo.removeAllItems()
@@ -128,7 +128,6 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
     func UpdateTable()
     {
         let SecondsFilter = Double(AgeFilterValue())
-        print("Seconds Filter=\(SecondsFilter)")
         EarthquakeList.removeAll()
         for Quake in SourceData
         {
@@ -257,12 +256,7 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         if let Order = EarthquakeDescriptors(rawValue: SortDescriptor.key!)
         {
             SortEarthquakes(By: Order, Ascending: SortDescriptor.ascending)
-            #if true
             UpdateTable()
-            #else
-            EqIndex = 1
-            EqTable.reloadData()
-            #endif
         }
     }
     
@@ -345,7 +339,22 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         self.view.window?.close()
     }
     
-    @IBAction func HandleListTypeChanged(_ sender: Any)
+    @IBAction func HandleAgeComboChanged(_ sender: Any)
+    {
+        if let Combo = sender as? NSComboBox
+        {
+            if let Raw = Combo.objectValueOfSelectedItem as? String
+            {
+                if let MagAge = EarthquakeAges(rawValue: Raw)
+                {
+                    Settings.SetEnum(MagAge, EnumType: EarthquakeAges.self, ForKey: .EarthquakeListAge)
+                }
+            }
+            UpdateTable()
+        }
+    }
+    
+    @IBAction func HandleQuakeTypeChanged(_ sender: Any)
     {
         if let Segment = sender as? NSSegmentedControl
         {
@@ -367,27 +376,12 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
     
-    @IBAction func HandleAgeComboChanged(_ sender: Any)
-    {
-        print("At HandleAgeComboChanged")
-        if let Combo = sender as? NSComboBox
-        {
-            if let Raw = Combo.objectValueOfSelectedItem as? String
-            {
-                if let MagAge = EarthquakeAges(rawValue: Raw)
-                {
-                    Settings.SetEnum(MagAge, EnumType: EarthquakeAges.self, ForKey: .EarthquakeListAge)
-                }
-            }
-            UpdateTable()
-        }
-    }
-    
     let LocationDescriptor = NSSortDescriptor(key: EarthquakeDescriptors.Location.rawValue, ascending: true)
     let MagnitudeDescriptor = NSSortDescriptor(key: EarthquakeDescriptors.Magnitude.rawValue, ascending: false)
     let DateDescriptor = NSSortDescriptor(key: EarthquakeDescriptors.Date.rawValue, ascending: false)
     let CountDescriptor = NSSortDescriptor(key: EarthquakeDescriptors.Count.rawValue, ascending: false)
     
+    @IBOutlet weak var QuakeTypeSegment: NSSegmentedControl!
     @IBOutlet weak var EqTable: NSTableView!
     @IBOutlet weak var AgeCombo: NSComboBox!
     
