@@ -445,6 +445,18 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         return nil
     }
     
+    @IBAction func ShowEarthquakeList(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "Earthquake2Window") as? Earthquake2Window
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? Earthquake2Controller
+            Controller?.LoadData(DataType: .Earthquakes2, Raw: PreviousEarthquakes as Any)
+            WindowController.showWindow(nil)
+        }
+    }
+    
     /// Handle the snapshot command.
     @IBAction func FileSnapshot(_ sender: Any)
     {
@@ -810,17 +822,16 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         switch DataType
         {
             case .Earthquakes:
-                #if false
-                break
-                #else
                 if let EarthquakeData = Actual as? [Earthquake2]
                 {
+                    #if DEBUG
                     print("\(EarthquakeData.count) earthquakes returned")
+                    #endif
                     World3DView.NewEarthquakeList(EarthquakeData)
                     Plot2DEarthquakes(EarthquakeData)
                     LatestEarthquakes = EarthquakeData
+                    (view.window?.windowController as? MainWindow)!.EarthquakeButton.isEnabled = true
                 }
-                #endif
                 
             default:
                 break
