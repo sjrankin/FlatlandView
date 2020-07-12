@@ -167,6 +167,12 @@
                                                 <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="asJ-Ir-hPw"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Earthquake List" id="SUU-dV-2SX">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="ShowEarthquakeList:" target="Ady-hI-5gd" id="Hee-dX-Fah"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Reset View" id="rzn-Ok-idw">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -430,6 +436,20 @@
                                         <action selector="ResetCurrentView:" target="Oky-zY-oP4" id="DQU-kl-ics"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="C3085BC0-F57C-4C5A-8DE6-6BF4F32E4C3F" label="Earthquakes" paletteLabel="Earthquakes" image="EarthquakeIcon" sizingBehavior="auto" id="Ibw-3X-wuc">
+                                    <nil key="toolTip"/>
+                                    <button key="view" id="3yq-kA-feU">
+                                        <rect key="frame" x="13" y="14" width="48" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="EarthquakeIcon" imagePosition="overlaps" alignment="center" enabled="NO" imageScaling="proportionallyUpOrDown" inset="2" id="gkb-UE-E4I">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="ShowEarthquakeList:" target="Oky-zY-oP4" id="vpP-YT-9gp"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="xfc-oc-jDS"/>
@@ -448,6 +468,7 @@
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="EarthquakeButton" destination="3yq-kA-feU" id="Daa-kW-3V3"/>
                         <outlet property="HourSegment" destination="LKb-xg-m5I" id="2aL-ui-Wrc"/>
                         <outlet property="ViewSegment" destination="OO8-3g-cKV" id="qi9-LG-aEu"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -827,6 +848,7 @@
         <image name="CubeIcon" width="24" height="24"/>
         <image name="DebugIcon" width="24" height="24"/>
         <image name="DeltaIcon" width="24" height="24"/>
+        <image name="EarthquakeIcon" width="24" height="32"/>
         <image name="GearIcon" width="24" height="24"/>
         <image name="GlobeIcon" width="24" height="24"/>
         <image name="InfoIcon" width="24" height="24"/>
