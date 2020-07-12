@@ -19,15 +19,12 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         EqTable.tableColumns[2].sortDescriptorPrototype = MagnitudeDescriptor
         EqTable.tableColumns[3].sortDescriptorPrototype = CountDescriptor
         EqTable.tableColumns[4].sortDescriptorPrototype = DateDescriptor
-        #if true
-        UpdateTable()
-        #else
-        EqIndex = 1
-        EqTable.reloadData()
-        #endif
+        //UpdateTable()
         USGSSource = USGS()
         USGSSource?.Delegate = self
         USGSSource?.GetEarthquakes(Every: 60.0)
+        
+        EqTable.doubleAction = #selector(HandleDoubleClick)
     }
     
     override func viewDidLayout()
@@ -35,6 +32,7 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         let Window = view.window
         if let WindowController = Window?.windowController as? Earthquake2Window
         {
+            UpdateTable()
             let ListStyle = Settings.GetEnum(ForKey: .EarthquakeListStyle, EnumType: EarthquakeListStyles.self, Default: .Individual)
             if let Index = [EarthquakeListStyles.Clustered, EarthquakeListStyles.Individual].firstIndex(of: ListStyle)
             {
@@ -43,6 +41,39 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
             else
             {
                 WindowController.ListSegment.selectedSegment = 0
+            }
+            
+            AgeCombo.removeAllItems()
+            for Age in EarthquakeAges.allCases
+            {
+                AgeCombo.addItem(withObjectValue: Age.rawValue)
+            }
+            let PreviousAge = Settings.GetEnum(ForKey: .EarthquakeListAge, EnumType: EarthquakeAges.self, Default: .Age5)
+            if let Index = EarthquakeAges.allCases.firstIndex(of: PreviousAge)
+            {
+                AgeCombo.selectItem(at: Index)
+            }
+            else
+            {
+                AgeCombo.selectItem(at: EarthquakeAges.allCases.count - 1)
+            }
+        }
+    }
+    
+    @objc func HandleDoubleClick(_ sender: Any)
+    {
+        if let Table = sender as? NSTableView
+        {
+            let Index = Table.selectedRow
+            let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
+            if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeDetailWindow") as? EarthquakeDetailWindow
+            {
+                let Window = WindowController.window
+                if let Controller = Window?.contentViewController as? EarthquakeDetailController
+                {
+                    Controller.DisplayEarthquake(EarthquakeList[Index])
+                }
+                self.view.window?.beginSheet(Window!, completionHandler: nil)
             }
         }
     }
@@ -56,8 +87,58 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         return EarthquakeList.count
     }
     
+    func AgeFilterValue() -> Int
+    {
+        if let Current = AgeCombo.objectValueOfSelectedItem as? String
+        {
+            if let Age = EarthquakeAges(rawValue: Current)
+            {
+                if let Index = EarthquakeAges.allCases.firstIndex(of: Age)
+                {
+                    let FinalAge = 24 * 60 * 60 * Index
+                    return FinalAge
+                }
+            }
+        }
+        return 30 * 24 * 60 * 60
+    }
+    
+    func CombineQuakes()
+    {
+        var Used = [String]()
+        for Quake in EarthquakeList
+        {
+            for Other in SourceData
+            {
+                if Used.contains(Other.Code)
+                {
+                    continue
+                }
+                let Distance = Quake.DistanceTo(Other)
+                //print("Distance = \(Distance)")
+                if Distance < 500
+                {
+                    Quake.AddRelated(Other)
+                    Used.append(Other.Code)
+                }
+            }
+        }
+    }
+    
     func UpdateTable()
     {
+        let SecondsFilter = Double(AgeFilterValue())
+        print("Seconds Filter=\(SecondsFilter)")
+        EarthquakeList.removeAll()
+        for Quake in SourceData
+        {
+            if Quake.GetAge() <= SecondsFilter
+            {
+                EarthquakeList.append(Quake)
+            }
+        }
+        EarthquakeList.sort(by: {$0.GetAge() < $1.GetAge()})
+        CombineQuakes()
         EqIndex = 1
         EqTable.reloadData()
     }
@@ -70,24 +151,24 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         if tableColumn == tableView.tableColumns[0]
         {
             CellIdentifier = "IndexColumn"
-            #if true
             CellContents = "\(row + 1)"
-            #else
-            CellContents = "\(EqIndex)"
-            EqIndex = EqIndex + 1
-            #endif
         }
         if tableColumn == tableView.tableColumns[1]
+        {
+            CellIdentifier = "CodeColumn"
+            CellContents = EarthquakeList[row].Code
+        }
+        if tableColumn == tableView.tableColumns[2]
         {
             CellIdentifier = "LocationColumn"
             CellContents = EarthquakeList[row].Place
         }
-        if tableColumn == tableView.tableColumns[2]
+        if tableColumn == tableView.tableColumns[3]
         {
             CellIdentifier = "MagnitudeColumn"
             CellContents = "\(EarthquakeList[row].Magnitude)"
         }
-        if tableColumn == tableView.tableColumns[3]
+        if tableColumn == tableView.tableColumns[4]
         {
             CellIdentifier = "CountColumn"
             if EarthquakeList[row].ClusterCount > 0
@@ -99,12 +180,12 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
                 CellContents = "Ø"
             }
         }
-        if tableColumn == tableView.tableColumns[4]
+        if tableColumn == tableView.tableColumns[5]
         {
             CellIdentifier = "DateColumn"
             CellContents = EarthquakeList[row].Time.PrettyDateTime()
         }
-        if tableColumn == tableView.tableColumns[5]
+        if tableColumn == tableView.tableColumns[6]
         {
             CellIdentifier = "CoordinatesColumn"
             CellContents = "\(EarthquakeList[row].Latitude.RoundedTo(3)), \(EarthquakeList[row].Longitude.RoundedTo(3))"
@@ -115,15 +196,27 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         return Cell
     }
     
+    @IBAction func HandleEarthquakeClicked(_ sender: Any)
+    {
+        if let Table = sender as? NSTableView
+        {
+            let Index = Table.selectedRow
+            if Index > -1
+            {
+                print("Selected \(EarthquakeList[Index].Place)")
+            }
+        }
+    }
+    
     func SetEarthquakeType(_ List: [Earthquake2]) -> [Earthquake2]
     {
         if Settings.GetEnum(ForKey: .EarthquakeListStyle, EnumType: EarthquakeListStyles.self, Default: .Individual) == .Individual
         {
-            return Earthquake2.FlatList(List)
+            return USGS.CombineEarthquakes(List)
         }
         else
         {
-            return Earthquake2.Combined(List)
+            return USGS.FlattenEarthquakes(List)
         }
     }
     
@@ -135,18 +228,16 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
                 if let RawEarthquakes = Raw as? [Earthquake2]
                 {
                     EarthquakeList = SetEarthquakeType(RawEarthquakes)
-                    #if true
+                    SourceData = EarthquakeList
                     UpdateTable()
-                    #else
-                    EqIndex = 1
-                    EqTable.reloadData()
-                    #endif
                 }
                 
             default:
                 break
         }
     }
+    
+    var SourceData = [Earthquake2]()
     
     func AsynchronousDataAvailable(DataType: AsynchronousDataTypes, Actual: Any?)
     {
@@ -245,7 +336,6 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
     
-    
     @IBAction func HandleClosePressed(_ sender: Any)
     {
         if let Frame = self.view.window?.frame
@@ -273,13 +363,23 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
             {
                 EarthquakeList = USGS.FlattenEarthquakes(EarthquakeList)
             }
-//            EarthquakeList = SetEarthquakeType(EarthquakeList)
-            #if true
             UpdateTable()
-            #else
-            EqIndex = 1
-            EqTable.reloadData()
-            #endif
+        }
+    }
+    
+    @IBAction func HandleAgeComboChanged(_ sender: Any)
+    {
+        print("At HandleAgeComboChanged")
+        if let Combo = sender as? NSComboBox
+        {
+            if let Raw = Combo.objectValueOfSelectedItem as? String
+            {
+                if let MagAge = EarthquakeAges(rawValue: Raw)
+                {
+                    Settings.SetEnum(MagAge, EnumType: EarthquakeAges.self, ForKey: .EarthquakeListAge)
+                }
+            }
+            UpdateTable()
         }
     }
     
@@ -287,7 +387,9 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
     let MagnitudeDescriptor = NSSortDescriptor(key: EarthquakeDescriptors.Magnitude.rawValue, ascending: false)
     let DateDescriptor = NSSortDescriptor(key: EarthquakeDescriptors.Date.rawValue, ascending: false)
     let CountDescriptor = NSSortDescriptor(key: EarthquakeDescriptors.Count.rawValue, ascending: false)
+    
     @IBOutlet weak var EqTable: NSTableView!
+    @IBOutlet weak var AgeCombo: NSComboBox!
     
     enum EarthquakeDescriptors: String
     {
