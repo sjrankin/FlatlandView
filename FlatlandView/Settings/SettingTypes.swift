@@ -242,6 +242,8 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeColor = "EarthquakeColor"
     /// String: Name of the font to use to display earthquake magnitudes.
     case EarthquakeFontName = "EarthquakeFontName"
+    /// Age of earthquakes to view in the earthquake list dialog.
+    case EarthquakeListAge = "EarthquakeListAge"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
