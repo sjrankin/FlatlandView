@@ -183,7 +183,7 @@ class Earthquake2: KMDataPoint
     var Status: String = ""
     
     /// When updated.
-    var Updated: Int = 0
+    var Updated: Date? = nil
     
     /// Shakemap intensity.
     var MMI: Double = 0.0
@@ -292,16 +292,32 @@ class Earthquake2: KMDataPoint
         {
             return false
         }
-        var LatD = (Latitude - Quake.Latitude)
-        var LonD = (Longitude - Quake.Longitude)
-        LatD = LatD * LatD
-        LonD = LonD * LonD
-        let Distance = sqrt(LatD + LonD)
-        if Distance > MaxDistanceDelta
+        return IsCloseBy(Quake)
+    }
+    
+    func IsCloseBy(_ Quake: Earthquake2, MaxDistanceDelta: Double = DefaultClusterDistance) -> Bool
+    {
+        let DistanceToQuake = Distance(To: Quake)
+        if DistanceToQuake > MaxDistanceDelta
         {
             return false
         }
         return true
+    }
+    
+    func DistanceTo(_ Quake: Earthquake2) -> Double
+    {
+        let Lat1 = Latitude.Radians
+        let Lon1 = Longitude.Radians
+        let Lat2 = Quake.Latitude.Radians
+        let Lon2 = Quake.Longitude.Radians
+        let LonDelta = Lon2 - Lon1
+        let LatDelta = Lat2 - Lat1
+        let Step1 = pow(sin(LatDelta / 2), 2) +
+            cos(Lat1) * cos(Lat2) * pow(sin(LonDelta / 2), 2)
+        let Step2 = 2 * asin(sqrt(Step1))
+        let Step3 = Step2 * 6371
+        return Step3
     }
     
     /// Construct the earthquake list.
@@ -344,6 +360,7 @@ class Earthquake2: KMDataPoint
         return "\(Latitude),\(Longitude)"
     }
     
+    #if false
     /// Takes all cluster earthquakes in the passed list and changes them such that the top-most
     /// earthquake is the one with the greatest magnitude.
     /// - Parameter From: Source earthquake list.
@@ -474,4 +491,5 @@ class Earthquake2: KMDataPoint
         }
         return false
     }
+    #endif
 }
