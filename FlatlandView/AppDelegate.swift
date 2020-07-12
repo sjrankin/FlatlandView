@@ -14,6 +14,11 @@ import Cocoa
     {
         // Insert code here to initialize your application
     }
+    
+    func applicationWillFinishLaunching(_ notification: Notification)
+    {
+        print("At applicationWillFinishLaunching")
+    }
 
     /// Close the application after the last window is closed.
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool
