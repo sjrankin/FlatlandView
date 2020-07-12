@@ -14,8 +14,8 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        print("viewDidLoad")
     }
-    
     
     @IBAction func HandleClosePressed(_ sender: Any)
     {
@@ -26,6 +26,7 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
     
     func DisplayEarthquake(_ Quake: Earthquake2)
     {
+        print("DisplayEarthquake")
         QuakeSource = Quake
         RelatedEarthquakeTable.reloadData()
         PrimaryEarthquakeTable.reloadData()
@@ -74,47 +75,8 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
                 if tableColumn == tableView.tableColumns[0]
                 {
                     CellIdentifier = "QuakeAttributeColumn"
-                    switch row
-                    {
-                        case 0:
-                            CellContents = "Code"
-                            
-                        case 1:
-                            CellContents = "Place"
-                            
-                        case 2:
-                            CellContents = "Magnitude"
-                            
-                        case 3:
-                            CellContents = "Time"
-                            
-                        case 4:
-                            CellContents = "Location"
-                            
-                        case 5:
-                            CellContents = "Depth"
-                            
-                        case 6:
-                            CellContents = "Tsunami"
-
-                        case 7:
-                            CellContents = "Status"
-                            
-                        case 8:
-                            CellContents = "Updated"
-                            
-                        case 9:
-                            CellContents = "MMI"
-                            
-                        case 10:
-                            CellContents = "Felt"
-                            
-                        case 11:
-                            CellContents = "Significance"
-
-                        default:
-                            return nil
-                    }
+                    CellContents = ["Code", "Place", "Magnitude", "Time", "Location", "Depth", "Tsunami", "Status",
+                                    "Updated", "MMI", "Felt", "Significance"][row]
                 }
                 if tableColumn == tableView.tableColumns[1]
                 {
@@ -146,7 +108,14 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
                             CellContents = QuakeSource!.Status
                             
                         case 8:
-                            CellContents = "\(QuakeSource!.Updated)"
+                            if let Updated = QuakeSource!.Updated
+                            {
+                                CellContents = "\(Updated)"
+                            }
+                            else
+                            {
+                                CellContents = ""
+                            }
                             
                         case 9:
                             CellContents = "\(QuakeSource!.MMI.RoundedTo(3))"
@@ -165,19 +134,30 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
             case RelatedEarthquakeTable:
                 if tableColumn == tableView.tableColumns[0]
                 {
+                    CellIdentifier = "CodeColumn"
+                    CellContents = QuakeSource!.Related![row].Code
+                }
+                if tableColumn == tableView.tableColumns[1]
+                {
                     CellIdentifier = "MagnitudeColumn"
                     CellContents = "\(QuakeSource!.Related![row].Magnitude.RoundedTo(3))"
                 }
-                if tableColumn == tableView.tableColumns[1]
+                if tableColumn == tableView.tableColumns[2]
                 {
                     CellIdentifier = "DateColumn"
                     CellContents = "\(QuakeSource!.Related![row].Time)"
                 }
-                if tableColumn == tableView.tableColumns[2]
+                if tableColumn == tableView.tableColumns[3]
                 {
                     CellIdentifier = "CoordinateColumn"
                     let Crd = "\(QuakeSource!.Related![row].Latitude.RoundedTo(2)), \(QuakeSource!.Related![row].Longitude.RoundedTo(2))"
                     CellContents = Crd
+                }
+                if tableColumn == tableView.tableColumns[4]
+                {
+                    CellIdentifier = "DistanceColumn"
+                    let Distance = QuakeSource!.DistanceTo(QuakeSource!.Related![row]).RoundedTo(1)
+                    CellContents = "\(Distance)"
                 }
                 
             default:
