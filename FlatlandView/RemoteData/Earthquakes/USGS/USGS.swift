@@ -273,7 +273,9 @@ class USGS
                                         NewEarthquake.Status = PropVal as! String
                                         
                                     case "updated":
-                                        NewEarthquake.Updated = PropVal as! Int
+                                        var UpdatedDouble = PropVal as! Double
+                                        UpdatedDouble = UpdatedDouble / 1000.0
+                                        NewEarthquake.Updated = Date(timeIntervalSince1970: UpdatedDouble)
                                         
                                     case "mmi":
                                         if let MMI = PropVal as? Double
