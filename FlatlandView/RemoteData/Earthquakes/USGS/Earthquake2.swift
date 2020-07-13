@@ -305,12 +305,38 @@ class Earthquake2: KMDataPoint
         return true
     }
     
+    /// Returns the distance between the instance earthquake to the passed earthquake.
+    /// - Parameter Quake: The quake used to calculate the distance.
+    /// - Returns: Distance between the instance earthquake and the passed earthquake, in kilometers.
     func DistanceTo(_ Quake: Earthquake2) -> Double
     {
+        #if true
+        return DistanceTo(Quake.Latitude, Quake.Longitude)
+        #else
         let Lat1 = Latitude.Radians
         let Lon1 = Longitude.Radians
         let Lat2 = Quake.Latitude.Radians
         let Lon2 = Quake.Longitude.Radians
+        let LonDelta = Lon2 - Lon1
+        let LatDelta = Lat2 - Lat1
+        let Step1 = pow(sin(LatDelta / 2), 2) +
+            cos(Lat1) * cos(Lat2) * pow(sin(LonDelta / 2), 2)
+        let Step2 = 2 * asin(sqrt(Step1))
+        let Step3 = Step2 * 6371
+        return Step3
+        #endif
+    }
+    
+    /// Returns the distance between the instance earthquake and the passed coordinates.
+    /// - Parameter OtherLatitude: The latitude of the other point.
+    /// - Parameter OtherLongitude: The longitude of the other point.
+    /// - Returns: Distance between the instance earthquake and the passed coordinate, in kilometers.
+    func DistanceTo(_ OtherLatitude: Double, _ OtherLongitude: Double) -> Double
+    {
+        let Lat1 = Latitude.Radians
+        let Lon1 = Longitude.Radians
+        let Lat2 = OtherLatitude.Radians
+        let Lon2 = OtherLongitude.Radians
         let LonDelta = Lon2 - Lon1
         let LatDelta = Lat2 - Lat1
         let Step1 = pow(sin(LatDelta / 2), 2) +
