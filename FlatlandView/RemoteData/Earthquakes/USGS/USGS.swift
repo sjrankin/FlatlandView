@@ -89,13 +89,10 @@ class USGS
         DispatchQueue.main.async
         {
             var FinalList = self.RemoveDuplicates(From: self.EarthquakeList)
-            #if false
-            let KM = KMeans(K: 100, Points: FinalList)
-            let Clustered = KM.Run()
-            print("Clustered.count=\(Clustered.count)")
-            #endif
             FinalList = self.FilterForMagnitude(FinalList, Magnitude: Settings.GetDouble(.MinimumMagnitude))
+            #if DEBUG
             FinalList.append(contentsOf: self.DebugEarthquakes)
+            #endif
             self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: FinalList as Any)
         }
     }
@@ -118,6 +115,73 @@ class USGS
         DebugQuake.Longitude = Longitude
         DebugQuake.Magnitude = Magnitude
         DebugEarthquakes.append(DebugQuake)
+    }
+    
+    /// Insert a cluster of earthquakes for debug purposes.
+    /// - Parameter Count: The number of earthquakes to insert.
+    /// - Parameter Within: The number of earthquakes that will be within 500 kilometers of the first earthquake.
+    ///                     If nil, all earthquakes will be within range.
+    func InsertEarthquakeCluster(_ Count: Int, Within Distance: Int? = nil, ClusterRange: Double = 500.0)
+    {
+        let Base = Earthquake2(Sequence: 200000)
+        let (Lat, Lon) = RandomLocation()
+        Base.Latitude = Lat
+        Base.Longitude = Lon
+        Base.Code = "Cluster Base"
+        Base.Magnitude = Double.random(in: 5.0 ... 9.5)
+        DebugEarthquakes.append(Base)
+        var FinalCount = Count
+        if let InRange = Distance
+        {
+            if InRange < FinalCount
+            {
+                FinalCount = FinalCount - InRange
+                for Index in 0 ..< InRange
+                {
+                    let OutOfRangeQuake = Earthquake2(Sequence: 200002)
+                    let (Lat, Lon) = RandomLocation()
+                    OutOfRangeQuake.Latitude = Lat
+                    OutOfRangeQuake.Longitude = Lon
+                    OutOfRangeQuake.Code = "Cluster far \(Index)"
+                    OutOfRangeQuake.Magnitude = Double.random(in: 5.0 ... 9.5)
+                    DebugEarthquakes.append(OutOfRangeQuake)
+                }
+            }
+        }
+        for Index in 0 ..< FinalCount
+        {
+            let InRangeQuake = Earthquake2(Sequence: 200001)
+            let (Lat, Lon) = RandomLocation(Near: Base, Distance: ClusterRange)
+            InRangeQuake.Latitude = Lat
+            InRangeQuake.Longitude = Lon
+            InRangeQuake.Code = "Cluster close \(Index)"
+            InRangeQuake.Magnitude = Double.random(in: 5.0 ... 9.5)
+            DebugEarthquakes.append(InRangeQuake)
+        }
+    }
+    
+    /// Create a random location based on the passed earthquake and maximum distance.
+    /// - Note: This is not optimized and if you are unlucky, will never return.
+    /// - Parameter Near: The base earthquake.
+    /// - Parameter Distance: The maximum distance of a random location from `Near`.
+    /// - Returns: Tuple with the latitude and longitude of a randomly generated location.
+    func RandomLocation(Near Quake: Earthquake2, Distance: Double) -> (Latitude: Double, Longitude: Double)
+    {
+        while true
+        {
+            let (Lat, Lon) = RandomLocation()
+            if Quake.DistanceTo(Lat, Lon) <= Distance
+            {
+                return (Lat, Lon)
+            }
+        }
+    }
+    
+    /// Create a random location somewhere on the surface of the world.
+    /// - Returns: Tuple with the latitude and longitude of a randomly generated location.
+    func RandomLocation() -> (Latitude: Double, Longitude: Double)
+    {
+        return (Latitude: Double.random(in: -90.0 ... 90.0), Longitude: Double.random(in: -180.0 ... 180.0))
     }
     
     /// Remove all debug earthquakes.
@@ -360,39 +424,44 @@ class USGS
         return Final
     }
     
+    /// Place an earthquake in the proper location. Passed earthquakes are added to earthquakes already in
+    /// `To` if they are close enough. Otherwise, the are added at the end of the array.
+    /// - Parameter Quake: The earthquake to place into the passed earthquake list.
+    /// - Parameter To: The earthquake list where `Quake` will be placed.
+    /// - Parameter InRange: How close `Quake` must be to an earthquake in `To` in order for it to be added
+    ///                      to that earthquake.
+    private static func AddForCombined(_ Quake: Earthquake2, To: inout [Earthquake2], InRange: Double)
+    {
+        if To.isEmpty
+        {
+            To.append(Quake)
+            return
+        }
+        for Combined in To
+        {
+            let Distance = Combined.DistanceTo(Quake)
+            if Distance <= InRange
+            {
+                Combined.AddRelated(Quake)
+                return
+            }
+        }
+        To.append(Quake)
+    }
+    
     /// Combined the passed list of earthquakes. All earthquakes within a certain radius will be
     /// put into a single earthquake node.
-    /// - Note: The passed array is flattened before processing.
-    /// - Parameter Quakes: The array of earthquakes to compress/combine.
-    /// - Parameter Closeness: How close earthquakes must be to be considered to be comrpessed. Units
+    /// - Note: This function assumes the passed earthquake list is flat.
+    /// - Parameter Quakes: The array of earthquakes to combine.
+    /// - Parameter Closeness: How close earthquakes must be to be considered to be combined. Units
     ///                        are kilometers. Default is `100.0`.
-    /// - Returns: Array of compressed earthquakes.
+    /// - Returns: Array of combined earthquakes.
     public static func CombineEarthquakes(_ Quakes: [Earthquake2], Closeness: Double = 100.0) -> [Earthquake2]
     {
         var Final = [Earthquake2]()
-        var Flattened = FlattenEarthquakes(Quakes)
-        Flattened.sort(by: {$0.Magnitude > $1.Magnitude})
-        for Quake in Flattened
+        for Quake in Quakes
         {
-            var Added = false
-            for Other in Final
-            {
-                if Other.Marked
-                {
-                    continue
-                }
-                let Distance = Utility.HaversineDistance(Quake1: Quake, Quake2: Other) / 1000.0
-                if Distance < Closeness
-                {
-                    Other.AddRelated(Quake)
-                    Added = true
-                    break
-                }
-            }
-            if !Added
-            {
-                Final.append(Quake)
-            }
+            AddForCombined(Quake, To: &Final, InRange: Closeness)
         }
         return Final
     }
