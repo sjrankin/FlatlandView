@@ -173,13 +173,24 @@
                                     <gridCell row="mXY-1v-UeD" column="Ka4-qq-BwB" id="xoV-ia-2FB"/>
                                 </gridCells>
                             </gridView>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mg6-Pl-4Ne">
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="LS1-hB-qPU">
                                 <rect key="frame" x="275" y="9" width="48" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="PointingFinger" id="XlD-p3-dqy"/>
-                            </imageView>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="XXg-Ld-dwX"/>
+                                    <constraint firstAttribute="width" constant="48" id="ykD-tZ-fiF"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="PointingFinger" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="7Gi-mG-60C">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandlePointingFingerButton:" target="3dI-Jh-0EZ" id="iIS-bc-2jK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="LS1-hB-qPU" secondAttribute="trailing" constant="20" symbolic="YES" id="2P6-64-UFa"/>
+                            <constraint firstItem="LS1-hB-qPU" firstAttribute="bottom" secondItem="ddj-gt-Xuj" secondAttribute="bottom" id="Iel-2O-3qv"/>
                             <constraint firstAttribute="bottom" secondItem="ddj-gt-Xuj" secondAttribute="bottom" constant="9" id="dWd-di-XD7"/>
                             <constraint firstItem="ddj-gt-Xuj" firstAttribute="centerX" secondItem="nGe-BB-V4m" secondAttribute="centerX" id="day-Ek-Wqe"/>
                             <constraint firstItem="4Go-zL-SDm" firstAttribute="leading" secondItem="nGe-BB-V4m" secondAttribute="leading" constant="20" symbolic="YES" id="fyF-gt-cpI"/>

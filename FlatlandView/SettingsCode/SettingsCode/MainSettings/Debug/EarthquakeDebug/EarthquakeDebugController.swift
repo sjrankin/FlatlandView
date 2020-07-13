@@ -75,6 +75,11 @@ class EarthquakeDebugController: NSViewController
         Parent?.endSheet(Window!, returnCode: .OK)
     }
     
+    @IBAction func HandlePointingFingerButton(_ sender: Any)
+    {
+        MainDelegate?.InsertEarthquakeCluster(10) 
+    }
+    
     @IBOutlet weak var MagnitudeSegment: NSSegmentedControl!
     @IBOutlet weak var LatitudeBox: NSTextField!
     @IBOutlet weak var LongitudeBox: NSTextField!
