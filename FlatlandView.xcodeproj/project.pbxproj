@@ -339,15 +339,14 @@
 		174F010D248CD0F700F610DD /* MainSettings */ = {
 			isa = PBXGroup;
 			children = (
+				17562D5C24BC15AA00900079 /* Debug */,
 				174623D424A83FD4007F5D4C /* StarField3D */,
-				17EB790624AEEE5100BB0473 /* EarthquakeDebug */,
 				1759FC6324A61302001B1D4B /* RecentEarthquakes */,
 				174F0108248CD01E00F610DD /* MapManager */,
 				173A104D248B39B300793216 /* GetLocation */,
 				17BD9E8024867D290054B25E /* Confirmation */,
 				17B4410E24861CD40050A5DF /* CityColor */,
 				17B4410D24861CB90050A5DF /* UserLocation */,
-				1757CACB24949C2A00ECA8C1 /* 3DDebug */,
 				1759AE5C249F80EB003F79F5 /* OptionsWindows */,
 				1759AE58249F7715003F79F5 /* ContainerController.swift */,
 				1759AE5A249F7781003F79F5 /* MainSettingsBase.swift */,
@@ -419,6 +418,15 @@
 				178A86A62489132800BE8D46 /* GlobeProtocol.swift */,
 			);
 			path = 3D;
+			sourceTree = "<group>";
+		};
+		17562D5C24BC15AA00900079 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				17EB790624AEEE5100BB0473 /* EarthquakeDebug */,
+				1757CACB24949C2A00ECA8C1 /* 3DDebug */,
+			);
+			path = Debug;
 			sourceTree = "<group>";
 		};
 		1757CACB24949C2A00ECA8C1 /* 3DDebug */ = {
