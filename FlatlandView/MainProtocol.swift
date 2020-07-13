@@ -28,6 +28,9 @@ protocol MainProtocol: class
     /// Insert debug earthquake at a random location.
     func InsertEarthquake(Magnitude: Double)
     
+    /// Insert a debug cluster of earthquakes.
+    func InsertEarthquakeCluster(_ Count: Int)
+    
     /// Fetch earthquakes out of sequence.
     func ForceFetchEarthquakes()
 }
