@@ -467,6 +467,8 @@ enum EarthquakeIndicators: String, CaseIterable
     case RadiatingRings = "Radiating Rings"
     /// Glowing sphere with a solid color.
     case GlowingSphere = "Glowing Sphere"
+    /// Ring of triangles.
+    case TriangleRing = "Triangle Ring"
 }
 
 /// Definitions of "recent" earthquakes.
