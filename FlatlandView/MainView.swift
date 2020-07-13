@@ -808,10 +808,20 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         #endif
     }
     
+    /// Force fetch earthquakes.
     func ForceFetchEarthquakes()
     {
         #if DEBUG
         Earthquakes?.ForceFetch()
+        #endif
+    }
+    
+    /// Insert a cluster of earthquakes for debugging.
+    /// - Parameter Count: Number of earthquakes to insert.
+    func InsertEarthquakeCluster(_ Count: Int)
+    {
+        #if DEBUG
+        Earthquakes?.InsertEarthquakeCluster(Count)
         #endif
     }
     
