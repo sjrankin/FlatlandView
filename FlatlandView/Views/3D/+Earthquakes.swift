@@ -73,7 +73,7 @@ extension GlobeView
         ClearEarthquakes()
         EarthquakeList.removeAll()
         EarthquakeList = NewList
-        EarthquakeList = USGS.CombineEarthquakes(EarthquakeList)
+        EarthquakeList = USGS.CombineEarthquakes(EarthquakeList, Closeness: 500.0)
         PlottedEarthquakes.removeAll()
         PlotEarthquakes()
     }
@@ -448,8 +448,7 @@ extension GlobeView
         #if false
         let Magnitude = "M\(Quake.Magnitude.RoundedTo(2))"
         #else
-//        let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))"
-        let Magnitude = Quake.Code
+        let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))"
         #endif
         let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.Magnitude))
         let FontSize = CGFloat(15.0 + Quake.Magnitude)
@@ -659,6 +658,9 @@ extension GlobeView
                 Final.position = SCNVector3(X, Y, Z)
                 Final.addChildNode(Indicator)
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
+                
+            case .TriangleRing:
+                return SCNNode()
                 
             case .None:
                 return SCNNode()
