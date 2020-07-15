@@ -36,7 +36,7 @@
             <objects>
                 <viewController id="AMw-QG-LKq" customClass="RecentEarthquakeController" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="tPJ-Gn-LxS">
-                        <rect key="frame" x="0.0" y="0.0" width="546" height="247"/>
+                        <rect key="frame" x="0.0" y="0.0" width="546" height="278"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Xr-DS-biF">
@@ -49,20 +49,23 @@
                                     <action selector="HandleClosePressed:" target="AMw-QG-LKq" id="uOa-9p-dF1"/>
                                 </connections>
                             </button>
-                            <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="qF9-vo-ISg">
-                                <rect key="frame" x="20" y="98" width="453" height="129"/>
+                            <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="qF9-vo-ISg">
+                                <rect key="frame" x="20" y="98" width="484" height="160"/>
                                 <constraints>
-                                    <constraint firstItem="BMt-5d-tWg" firstAttribute="top" secondItem="Bdi-2T-5cZ" secondAttribute="bottom" constant="15" id="WRC-Og-JNE"/>
-                                    <constraint firstAttribute="bottom" secondItem="VNG-yb-XjT" secondAttribute="bottom" constant="7" id="hUw-wP-RrK"/>
-                                    <constraint firstItem="WaR-Kb-9o6" firstAttribute="baseline" secondItem="BMt-5d-tWg" secondAttribute="baseline" id="hYi-lS-Ckf"/>
-                                    <constraint firstItem="WaR-Kb-9o6" firstAttribute="top" secondItem="VDp-7U-1gH" secondAttribute="bottom" constant="18" id="mfm-dM-aqv"/>
-                                    <constraint firstItem="VDp-7U-1gH" firstAttribute="top" secondItem="kWE-5G-beS" secondAttribute="bottom" constant="12" id="qZa-Sj-Jur"/>
+                                    <constraint firstItem="Bdi-2T-5cZ" firstAttribute="top" secondItem="E6x-1N-cGh" secondAttribute="bottom" constant="18" id="C9W-Ux-5oB"/>
+                                    <constraint firstItem="E6x-1N-cGh" firstAttribute="top" secondItem="BWu-ab-zkW" secondAttribute="bottom" constant="18" id="F5d-I6-Tj3"/>
+                                    <constraint firstItem="dbD-2x-XcA" firstAttribute="baseline" secondItem="E6x-1N-cGh" secondAttribute="baseline" id="TMu-IC-0yc"/>
+                                    <constraint firstItem="VDp-7U-1gH" firstAttribute="top" secondItem="dbD-2x-XcA" secondAttribute="bottom" constant="21" id="bAi-GH-E4r"/>
+                                    <constraint firstItem="WaR-Kb-9o6" firstAttribute="baseline" secondItem="BMt-5d-tWg" secondAttribute="baseline" id="lbX-R6-FDs"/>
+                                    <constraint firstItem="dbD-2x-XcA" firstAttribute="top" secondItem="kWE-5G-beS" secondAttribute="bottom" constant="21" id="q0c-3E-hbp"/>
+                                    <constraint firstItem="LjY-Ye-GB0" firstAttribute="top" secondItem="BMt-5d-tWg" secondAttribute="bottom" constant="6" id="zYj-OU-eZO"/>
                                 </constraints>
                                 <rows>
                                     <gridRow yPlacement="center" id="s9L-gH-LuF"/>
                                     <gridRow yPlacement="center" id="Iru-5r-4do"/>
                                     <gridRow yPlacement="center" id="tjn-wT-onf"/>
                                     <gridRow yPlacement="center" id="zod-bx-TyZ"/>
+                                    <gridRow yPlacement="center" id="HG2-tQ-8A5"/>
                                 </rows>
                                 <columns>
                                     <gridColumn id="o3W-mg-skD"/>
@@ -71,8 +74,8 @@
                                 <gridCells>
                                     <gridCell row="s9L-gH-LuF" column="o3W-mg-skD" id="2hE-EQ-lFK">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kWE-5G-beS">
-                                            <rect key="frame" x="-2" y="109" width="151" height="16"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Recent earthquake style" id="oQb-ks-L5c">
+                                            <rect key="frame" x="-2" y="139" width="182" height="17"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Recent earthquake style - 3D" id="oQb-ks-L5c">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -81,7 +84,7 @@
                                     </gridCell>
                                     <gridCell row="s9L-gH-LuF" column="n0N-K4-KwD" id="e24-zh-lQj">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BWu-ab-zkW">
-                                            <rect key="frame" x="153" y="103" width="303" height="25"/>
+                                            <rect key="frame" x="184" y="134" width="303" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="300" id="Td3-aC-XeG"/>
                                                 <constraint firstAttribute="height" constant="19" id="gkc-Ap-iag"/>
@@ -102,9 +105,9 @@
                                         </comboBox>
                                     </gridCell>
                                     <gridCell row="Iru-5r-4do" column="o3W-mg-skD" id="0es-Bx-fbl">
-                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VDp-7U-1gH">
-                                            <rect key="frame" x="-2" y="80" width="102" height="17"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="&quot;Recent&quot; means" id="AdA-Mp-dLA">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dbD-2x-XcA">
+                                            <rect key="frame" x="-2" y="103" width="182" height="15"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Recent earthquake style - 2D" id="owM-e2-ivb">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -112,8 +115,40 @@
                                         </textField>
                                     </gridCell>
                                     <gridCell row="Iru-5r-4do" column="n0N-K4-KwD" id="Xip-mq-A9I">
+                                        <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="E6x-1N-cGh">
+                                            <rect key="frame" x="184" y="97" width="303" height="25"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="300" id="QDX-us-YsV"/>
+                                                <constraint firstAttribute="height" constant="19" id="bcG-32-8JY"/>
+                                            </constraints>
+                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="aHg-8f-agZ">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <objectValues>
+                                                    <string>Item 1</string>
+                                                    <string>Item 2</string>
+                                                    <string>Item 3</string>
+                                                </objectValues>
+                                            </comboBoxCell>
+                                            <connections>
+                                                <action selector="HandleEarthquakeStyle2DChanged:" target="AMw-QG-LKq" id="scM-zZ-5Qf"/>
+                                            </connections>
+                                        </comboBox>
+                                    </gridCell>
+                                    <gridCell row="tjn-wT-onf" column="o3W-mg-skD" id="kFI-7Y-lb0">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VDp-7U-1gH">
+                                            <rect key="frame" x="-2" y="65" width="102" height="17"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="&quot;Recent&quot; means" id="AdA-Mp-dLA">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="tjn-wT-onf" column="n0N-K4-KwD" id="a2H-3V-ytl">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Bdi-2T-5cZ">
-                                            <rect key="frame" x="153" y="75" width="203" height="25"/>
+                                            <rect key="frame" x="184" y="60" width="203" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="19" id="P9K-s9-Hmh"/>
                                                 <constraint firstAttribute="width" constant="200" id="vAu-4i-hNn"/>
@@ -133,9 +168,9 @@
                                             </connections>
                                         </comboBox>
                                     </gridCell>
-                                    <gridCell row="tjn-wT-onf" column="o3W-mg-skD" id="kFI-7Y-lb0">
+                                    <gridCell row="zod-bx-TyZ" column="o3W-mg-skD" id="adj-xe-Enu">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WaR-Kb-9o6">
-                                            <rect key="frame" x="-2" y="47" width="112" height="15"/>
+                                            <rect key="frame" x="-2" y="38" width="112" height="15"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Highlight textures" id="7Dq-IA-Wib">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -143,9 +178,9 @@
                                             </textFieldCell>
                                         </textField>
                                     </gridCell>
-                                    <gridCell row="tjn-wT-onf" column="n0N-K4-KwD" id="a2H-3V-ytl">
+                                    <gridCell row="zod-bx-TyZ" column="n0N-K4-KwD" id="2Hf-Yh-rKO">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BMt-5d-tWg">
-                                            <rect key="frame" x="153" y="41" width="303" height="25"/>
+                                            <rect key="frame" x="184" y="32" width="303" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="19" id="CBd-ik-Vp8"/>
                                                 <constraint firstAttribute="width" constant="300" id="u3z-Rk-1tv"/>
@@ -165,7 +200,7 @@
                                             </connections>
                                         </comboBox>
                                     </gridCell>
-                                    <gridCell row="zod-bx-TyZ" column="o3W-mg-skD" id="adj-xe-Enu">
+                                    <gridCell row="HG2-tQ-8A5" column="o3W-mg-skD" id="e5g-Rr-dUo">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VNG-yb-XjT">
                                             <rect key="frame" x="-2" y="7" width="93" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Highlight color" id="8uv-S6-w54">
@@ -175,9 +210,9 @@
                                             </textFieldCell>
                                         </textField>
                                     </gridCell>
-                                    <gridCell row="zod-bx-TyZ" column="n0N-K4-KwD" id="2Hf-Yh-rKO">
+                                    <gridCell row="HG2-tQ-8A5" column="n0N-K4-KwD" id="z0d-eg-rsy">
                                         <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="LjY-Ye-GB0">
-                                            <rect key="frame" x="153" y="0.0" width="130" height="30"/>
+                                            <rect key="frame" x="184" y="0.0" width="130" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="O2p-YS-WTs"/>
                                                 <constraint firstAttribute="width" constant="130" id="h6D-Dc-PRX"/>
@@ -202,6 +237,7 @@
                     <connections>
                         <outlet property="EarthquakeColorWell" destination="LjY-Ye-GB0" id="AA8-u3-ZRa"/>
                         <outlet property="EarthquakeStyleCombo" destination="BWu-ab-zkW" id="ovh-9D-cgd"/>
+                        <outlet property="EarthquakeStyleCombo2D" destination="E6x-1N-cGh" id="XBy-Up-qFL"/>
                         <outlet property="RecentCombo" destination="Bdi-2T-5cZ" id="k2W-Hy-yhI"/>
                         <outlet property="TexturesCombo" destination="BMt-5d-tWg" id="pzj-P3-d2c"/>
                     </connections>
