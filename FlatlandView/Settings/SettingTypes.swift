@@ -238,6 +238,8 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeTextures = "EarthquakeTextures"
     /// Earthquake indicator style.
     case EarthquakeStyles = "EarthquakeStyles"
+    /// Earthquake indicator style for 2D earthquakes.
+    case Earthquake2DStyles = "Earthquake2DStyles"
     /// Earthquake indicator color for indicators that use colors.
     case EarthquakeColor = "EarthquakeColor"
     /// String: Name of the font to use to display earthquake magnitudes.
