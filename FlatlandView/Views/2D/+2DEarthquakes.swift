@@ -16,14 +16,14 @@ extension MainView
     {
         if let SubLayers = CityView2D.layer?.sublayers
         {
-        for Layer in SubLayers
-        {
-            if Layer.name == LayerNames.Earthquakes.rawValue
+            for Layer in SubLayers
             {
-                Layer.removeAllAnimations()
-                Layer.removeFromSuperlayer()
+                if Layer.name == LayerNames.Earthquakes.rawValue
+                {
+                    Layer.removeAllAnimations()
+                    Layer.removeFromSuperlayer()
+                }
             }
-        }
         }
     }
     
@@ -37,7 +37,7 @@ extension MainView
         let Second = Cal.component(.second, from: Now)
         let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
         let Percent = Double(ElapsedSeconds) / Double(24 * 60 * 60)
-
+        
         var FinalOffset = 0.0
         var Multiplier = -1.0
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
@@ -57,11 +57,12 @@ extension MainView
         }
         if !Replot
         {
-        if SameEarthquakes(Quakes, PreviousEarthquakes)
-        {
-            return
+            if SameEarthquakes(Quakes, PreviousEarthquakes)
+            {
+                return
+            }
         }
-        }
+        Quakes2D = USGS.CombineEarthquakes(Quakes, Closeness: 500.0)
         PreviousEarthquakes = Quakes
         for Child in CityView2D.layer!.sublayers!
         {
@@ -77,8 +78,13 @@ extension MainView
         LEarthquakeLayer.bounds = FlatViewMainImage.bounds
         LEarthquakeLayer.frame = FlatViewMainImage.bounds
         
-        for Quake in Quakes
+        let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
+        for Quake in Quakes2D
         {
+            if !InAgeRange(Quake, InRange: AgeRange)
+            {
+                continue
+            }
             let PlottedEarthquake = PlotEarthquake(Quake: Quake, MapDiameter: LEarthquakeLayer.bounds.width)
             PlottedEarthquake.name = LayerNames.Earthquake.rawValue
             LEarthquakeLayer.addSublayer(PlottedEarthquake)
@@ -90,62 +96,24 @@ extension MainView
         CityView2D.layer!.addSublayer(LEarthquakeLayer)
     }
     
-    func PlotEarthquake(Quake: Earthquake2, MapDiameter: CGFloat) -> CAShapeLayer
+    /// Determines if a given earthquake happened in the number of days prior to the instance.
+    /// - Parameter Quake: The earthquake to test against `InRange`.
+    /// - Parameter InRange: The range of allowable earthquakes.
+    /// - Returns: True if `Quake` is within the age range specified by `InRange`, false if not.
+    func InAgeRange(_ Quake: Earthquake2, InRange: EarthquakeAges) -> Bool
     {
-        let Half = Double(MapDiameter / 2.0)
-        var BaseSize = 5.0
-        BaseSize = BaseSize + (2.0 * (Quake.Magnitude / 5.0))
-        let BearingOffset = 180.0
-        let Ratio: Double = Half / HalfCircumference
-        var LongitudeAdjustment = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            LongitudeAdjustment = 1.0
-        }
-        var Distance = DistanceFromContextPole(To: GeoPoint2(Quake.Latitude, Quake.Longitude))
-        Distance = Distance * Ratio
-        let PointModifier = Double(CGFloat(Half) - CGFloat(BaseSize / 2.0))
-        var LocationBearing = Bearing(Start: GeoPoint2(90.0, 0.0), End: GeoPoint2(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
-        let PointX = Distance * cos(LocationBearing) + PointModifier
-        let PointY = Distance * sin(LocationBearing) + PointModifier
-        let Location = SCNStar.StarPath(VertexCount: 9, Height: BaseSize, Base: BaseSize / 2.0,
-                                        XOffset: CGFloat(PointX), YOffset: CGFloat(PointY))
-        let Layer = CAShapeLayer()
-        Layer.frame = FlatViewMainImage.bounds
-        Layer.bounds = FlatViewMainImage.bounds
-        Layer.backgroundColor = NSColor.clear.cgColor
-        
-        let MagnitudeColors: [Double: NSColor] =
-            [
-                //0 to 4.9
-                EarthquakeMagnitudes.Mag4.rawValue: NSColor.ArtichokeGreen,
-                //5 to 5.9
-                EarthquakeMagnitudes.Mag5.rawValue: NSColor.TeaGreen,
-                //6 to 6.9
-                EarthquakeMagnitudes.Mag6.rawValue: NSColor.PacificBlue,
-                //7 to 7.9
-                EarthquakeMagnitudes.Mag7.rawValue: NSColor.UltraPink,
-                //8 to 8.9
-                EarthquakeMagnitudes.Mag8.rawValue: NSColor.Sunglow,
-                // 9 to 10
-                EarthquakeMagnitudes.Mag9.rawValue: NSColor.Scarlet
-        ]
-        
-        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
-        let BaseColor = MagnitudeColors[MagRange.rawValue]!
-        Layer.zPosition = CGFloat(Quake.Magnitude)
-        Layer.fillColor = BaseColor.cgColor
-        Layer.strokeColor = NSColor.Maroon.cgColor
-        Layer.lineWidth = 0.5
-        Layer.path = Location.cgPath
-        return Layer
+        let Index = EarthquakeAges.allCases.firstIndex(of: InRange)! + 1
+        let Seconds = Index * (60 * 60 * 24)
+        let Delta = Date().timeIntervalSinceReferenceDate - Quake.Time.timeIntervalSinceReferenceDate
+        return Int(Delta) < Seconds
     }
     
-    func PlotEarthquake2(Quake: Earthquake2, MapDiameter: CGFloat) -> CAShapeLayer
+    func PlotEarthquake(Quake: Earthquake2, MapDiameter: CGFloat) -> CAShapeLayer
     {
+        let HighlightHow = Settings.GetEnum(ForKey: .Earthquake2DStyles, EnumType: EarthquakeIndicators2D.self,
+                                            Default: .None)
         let Half = Double(MapDiameter / 2.0)
-        var BaseSize = 5.0
+        var BaseSize = 8.0
         BaseSize = BaseSize + (2.0 * (Quake.Magnitude / 5.0))
         let BearingOffset = 180.0
         let Ratio: Double = Half / HalfCircumference
@@ -168,29 +136,66 @@ extension MainView
         Layer.bounds = FlatViewMainImage.bounds
         Layer.backgroundColor = NSColor.clear.cgColor
         
-        let MagnitudeColors: [Double: NSColor] =
-            [
-                //0 to 4.9
-                EarthquakeMagnitudes.Mag4.rawValue: NSColor.ArtichokeGreen,
-                //5 to 5.9
-                EarthquakeMagnitudes.Mag5.rawValue: NSColor.TeaGreen,
-                //6 to 6.9
-                EarthquakeMagnitudes.Mag6.rawValue: NSColor.PacificBlue,
-                //7 to 7.9
-                EarthquakeMagnitudes.Mag7.rawValue: NSColor.UltraPink,
-                //8 to 8.9
-                EarthquakeMagnitudes.Mag8.rawValue: NSColor.Sunglow,
-                // 9 to 10
-                EarthquakeMagnitudes.Mag9.rawValue: NSColor.Scarlet
-        ]
-        
+        var BaseColor = NSColor.red
         let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
-        let BaseColor = MagnitudeColors[MagRange.rawValue]!
+        let Colors = Settings.GetMagnitudeColors()
+        for (Magnitude, Color) in Colors
+        {
+            if Magnitude == MagRange
+            {
+                BaseColor = Color
+            }
+        }
         Layer.zPosition = CGFloat(Quake.Magnitude)
-        Layer.fillColor = BaseColor.cgColor
-        Layer.strokeColor = NSColor.Maroon.cgColor
-        Layer.lineWidth = 0.5
+        Layer.fillColor = BaseColor.withAlphaComponent(0.75).cgColor
+        if Quake.IsCluster
+        {
+            #if true
+            let SColor = BaseColor.Darker(By: 0.75).withAlphaComponent(0.75)
+            Layer.strokeColor = SColor.cgColor
+            #else
+            Layer.strokeColor = NSColor.magenta.withAlphaComponent(0.75).cgColor
+            #endif
+            Layer.lineWidth = 2.0
+        }
+        else
+        {
+            Layer.strokeColor = NSColor.black.withAlphaComponent(0.75).cgColor
+            Layer.lineWidth = 1.0
+        }
         Layer.path = Location.cgPath
+        
+        if HighlightHow != .None
+        {
+            let HowRecent = Settings.GetEnum(ForKey: .RecentEarthquakeDefinition, EnumType: EarthquakeRecents.self,
+                                             Default: .Day1)
+            let RecentSeconds = RecentMap[HowRecent]!
+            if Quake.GetAge() <= RecentSeconds
+            {
+                switch HighlightHow
+                {
+                    case .Ring:
+                        let PointXI = PointX - BaseSize
+                        let PointYI = PointY - BaseSize
+                        let IndLayer = CAShapeLayer()
+                        IndLayer.frame = FlatViewMainImage.bounds
+                        IndLayer.bounds = FlatViewMainImage.bounds
+                        IndLayer.backgroundColor = NSColor.clear.cgColor
+                        IndLayer.zPosition = Layer.zPosition - 0.01
+                        let RingRect = NSRect(x: PointXI, y: PointYI, width: BaseSize * 2.0, height: BaseSize * 2.0)
+                        let Ring = CGPath(ellipseIn: RingRect, transform: nil)
+                        IndLayer.strokeColor = NSColor.red.withAlphaComponent(0.85).cgColor
+                        IndLayer.lineWidth = 2.5
+                        IndLayer.fillColor = NSColor.clear.cgColor
+                        IndLayer.path = Ring
+                        Layer.addSublayer(IndLayer)
+                        
+                    case .None:
+                        break
+                }
+            }
+        }
+        
         return Layer
     }
     
@@ -219,22 +224,6 @@ extension MainView
     /// - Parameter List2: Second earthquake list.
     /// - Returns: True if the lists have equal contents, false if not.
     func SameEarthquakes(_ List1: [Earthquake2], _ List2: [Earthquake2]) -> Bool
-    {
-        if List1.count != List2.count
-        {
-            return false
-        }
-        let SList1 = List1.sorted(by: {$0.Code < $1.Code})
-        let SList2 = List2.sorted(by: {$0.Code < $1.Code})
-        return SList1 == SList2
-    }
-    
-    /// Determines if two lists of earthquakes have the same contents. This function works regardless
-    /// of the order of the contents.
-    /// - Parameter List1: First earthquake list.
-    /// - Parameter List2: Second earthquake list.
-    /// - Returns: True if the lists have equal contents, false if not.
-    func SameEarthquakes2(_ List1: [Earthquake2], _ List2: [Earthquake2]) -> Bool
     {
         if List1.count != List2.count
         {
