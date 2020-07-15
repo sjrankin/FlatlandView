@@ -449,20 +449,113 @@ class USGS
         To.append(Quake)
     }
     
+    /// Return an `Earthquake2` class with the greatest magnitude of `Quake` and its child earthquakes. If
+    /// `Quake` does not have any related earthquakes, it is returned as is.
+    /// - Parameter From: The earthquake whose child earthquakes are used to determine the greatest earthquake.
+    /// - Returns: `Earthquake2` class with the greatest earthquake (based on magnitude) of `Quake`. If a child
+    ///            earthquake has a greater magnitude than `Quake`, `Quake` is converted to a child earthquake.
+    private static func GetGreatestMagnitude(From Quake: Earthquake2) -> Earthquake2
+    {
+        let ParentMagnitude = Quake.Magnitude
+        var MaxChild: Earthquake2? = nil
+            MaxChild = Quake.Related!.max(by: {(E1, E2) -> Bool in E1.Magnitude > E2.Magnitude})
+            if MaxChild!.Magnitude < ParentMagnitude
+            {
+                return Quake
+            }
+        for ChildQuake in Quake.Related!
+        {
+            if ChildQuake.Code != MaxChild?.Code
+            {
+                MaxChild?.AddRelated(ChildQuake)
+            }
+        }
+        let OldParent = Earthquake2(Quake)
+        MaxChild?.AddRelated(OldParent)
+        return MaxChild!
+    }
+    
+    /// Return an `Earthquake2` class with the earliest date of `Quake` and its child earthquakes. If
+    /// `Quake` does not have any related earthquakes, it is returned as is.
+    /// - Parameter From: The earthquake whose child earthquakes are used to determine the earliest date.
+    /// - Returns: `Earthquake2` class with the earliest earthquake (based on date) of `Quake`. If a child
+    ///            earthquake has an earlier date than `Quake`, `Quake` is converted to a child earthquake.
+    private static func GetEarliestEarthquake(From Quake: Earthquake2) -> Earthquake2
+    {
+        let ParentDate = Quake.Time
+        var EarliestChild: Earthquake2? = nil
+        EarliestChild = Quake.Related!.max(by: {(E1, E2) -> Bool in E1.Time < E2.Time})
+        if EarliestChild!.Time > ParentDate
+        {
+            return Quake
+        }
+        for ChildQuake in Quake.Related!
+        {
+            if ChildQuake.Code != EarliestChild?.Code
+            {
+                EarliestChild?.AddRelated(ChildQuake)
+            }
+        }
+        let OldParent = Earthquake2(Quake)
+        EarliestChild?.AddRelated(OldParent)
+        return EarliestChild!
+    }
+    
     /// Combined the passed list of earthquakes. All earthquakes within a certain radius will be
     /// put into a single earthquake node.
     /// - Note: This function assumes the passed earthquake list is flat.
     /// - Parameter Quakes: The array of earthquakes to combine.
     /// - Parameter Closeness: How close earthquakes must be to be considered to be combined. Units
     ///                        are kilometers. Default is `100.0`.
+    /// - Parameter RelatedOrderedBy: Determines how earthquakes with related earthquakes are ordered. Defaults
+    ///                               to `.ByGreatestMagnitude`.
     /// - Returns: Array of combined earthquakes.
-    public static func CombineEarthquakes(_ Quakes: [Earthquake2], Closeness: Double = 100.0) -> [Earthquake2]
+    public static func CombineEarthquakes(_ Quakes: [Earthquake2], Closeness: Double = 100.0,
+                                          RelatedOrderedBy: MultipleQuakeOrders = .ByGreatestMagnitude) -> [Earthquake2]
     {
-        var Final = [Earthquake2]()
+        var Combined = [Earthquake2]()
         for Quake in Quakes
         {
-            AddForCombined(Quake, To: &Final, InRange: Closeness)
+            AddForCombined(Quake, To: &Combined, InRange: Closeness)
         }
-        return Final
+        switch RelatedOrderedBy
+        {
+            case .Unordered:
+                return Combined
+                
+            case .ByGreatestMagnitude:
+                var Fixed = [Earthquake2]()
+                for Quake in Combined
+                {
+                    if Quake.IsCluster
+                    {
+                        let Greatest = GetGreatestMagnitude(From: Quake)
+                        Fixed.append(Greatest)
+                    }
+                    else
+                    {
+                        Fixed.append(Quake)
+                    }
+                }
+                return Fixed
+                
+            case .ByEarliestDate:
+                var Fixed = [Earthquake2]()
+                for Quake in Combined
+                {
+                    if Quake.IsCluster
+                    {
+                        let Greatest = GetGreatestMagnitude(From: Quake)
+                        Fixed.append(Greatest)
+                    }
+                    else
+                    {
+                        Fixed.append(Quake)
+                    }
+                }
+                return Fixed
+        }
     }
 }
+
+
