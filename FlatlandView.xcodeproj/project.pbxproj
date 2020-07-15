@@ -10,6 +10,7 @@
 		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
 		1707A7AF249CACAB00A90FCA /* Earthquake2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1707A7AE249CACAB00A90FCA /* Earthquake2.swift */; };
 		1718812924B85B9D00EE1E71 /* PerformanceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718812824B85B9D00EE1E71 /* PerformanceOptions.swift */; };
+		171A583E24BED5A700F9CA76 /* SCNTriangleRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171A583D24BED5A700F9CA76 /* SCNTriangleRing.swift */; };
 		1720B383248B522C001202E5 /* GetLocationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B382248B522C001202E5 /* GetLocationWindow.swift */; };
 		1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B384248B5255001202E5 /* GetLocationCode.swift */; };
 		1720B388248B68A1001202E5 /* AutoLocationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B387248B68A1001202E5 /* AutoLocationProtocol.swift */; };
@@ -141,6 +142,7 @@
 		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
 		1707A7AE249CACAB00A90FCA /* Earthquake2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake2.swift; sourceTree = "<group>"; };
 		1718812824B85B9D00EE1E71 /* PerformanceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceOptions.swift; sourceTree = "<group>"; };
+		171A583D24BED5A700F9CA76 /* SCNTriangleRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangleRing.swift; sourceTree = "<group>"; };
 		1720B382248B522C001202E5 /* GetLocationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationWindow.swift; sourceTree = "<group>"; };
 		1720B384248B5255001202E5 /* GetLocationCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationCode.swift; sourceTree = "<group>"; };
 		1720B387248B68A1001202E5 /* AutoLocationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLocationProtocol.swift; sourceTree = "<group>"; };
@@ -662,6 +664,7 @@
 				1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */,
 				1792105E2495BA6900626FD9 /* SCNTriangle.swift */,
 				17078AE424AC66FC00782E20 /* SCN3DArrow.swift */,
+				171A583D24BED5A700F9CA76 /* SCNTriangleRing.swift */,
 			);
 			path = Shapes;
 			sourceTree = "<group>";
@@ -871,6 +874,7 @@
 				17D55F2F249DE4DA00A64B2B /* +2DEarthquakes.swift in Sources */,
 				17EB790824AEEE6B00BB0473 /* EarthquakeDebugWindow.swift in Sources */,
 				178A86A22489127C00BE8D46 /* +Hours.swift in Sources */,
+				171A583E24BED5A700F9CA76 /* SCNTriangleRing.swift in Sources */,
 				17EF33AE247A93C400A5B55D /* TimeHelper.swift in Sources */,
 				17EF33BB247A94F900A5B55D /* CitiesData.swift in Sources */,
 				177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */,
