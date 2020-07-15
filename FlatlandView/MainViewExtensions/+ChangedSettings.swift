@@ -307,6 +307,12 @@ extension MainView: SettingChangedProtocol
                     }
                 }
                 
+            case .Earthquake2DStyles:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    Plot2DEarthquakes(LatestEarthquakes, Replot: true)
+                }
+                
             case .CityFontName:
                 World3DView.PlotCities()
                 
