@@ -701,6 +701,40 @@ extension NSColor
         }
     }
     
+    /// Return a color based on the instance color but with the hue inverted (eg, `1.0 - self.Hue`).
+    /// - Returns: Color based on the instance color but with an inverted hue.
+    var InvertedHue: NSColor
+    {
+        let (H, S, B) = self.HSB
+        let NewH = 1.0 - H
+        return NSColor(calibratedHue: NewH, saturation: S, brightness: B, alpha: self.Alpha)
+    }
+    
+    /// Returns the alpha value of the instance color.
+    var Alpha: CGFloat
+    {
+        var Red: CGFloat = 0.0
+        var Green: CGFloat = 0.0
+        var Blue: CGFloat = 0.0
+        var Alpha: CGFloat = 0.0
+        self.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+        return Alpha
+    }
+    
+    /// Return a darkened version of the instance color.
+    /// - Parameter By: The percent to darken the color. Multiplies this value by the brightness value of
+    ///                 the instance color. If the caller ignores the context and passes a value greater than
+    ///                 `1.0`, this function will lighten the color. Negative values are converted to positive
+    ///                 values.
+    /// - Returns: New color with the brightness channel modified as described in the `By` section.
+    func Darker(By: CGFloat = 0.5) -> NSColor
+    {
+        let FinalBy = abs(By)
+        let (H, S, B) = self.HSB
+        let A = self.Alpha
+        return NSColor(calibratedHue: H, saturation: S, brightness: B * FinalBy, alpha: A)
+    }
+    
     /// Returns the YUV equivalent of the instance color, in Y, U, V order.
     /// - See
     ///   - [YUV](https://en.wikipedia.org/wiki/YUV)
