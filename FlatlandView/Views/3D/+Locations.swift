@@ -30,11 +30,7 @@ extension GlobeView
                    IsCurrentLocation: Bool = false, WithColor: NSColor = NSColor.red)
     {
         let RadialOffset = IsCurrentLocation ? 0.25 : 0.1
-        #if false
-        let (X, Y, Z) = ToECEF(0.0, 0.0, Radius: Radius + RadialOffset)
-        #else
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
-        #endif
         var ConeTop: CGFloat = 0.0
         var ConeBottom: CGFloat = 0.0
         if IsCurrentLocation
@@ -49,6 +45,9 @@ extension GlobeView
         }
         let Cone = SCNCone(topRadius: ConeTop, bottomRadius: ConeBottom, height: 0.3)
         let ConeNode = SCNNode(geometry: Cone)
+        ConeNode.scale = SCNVector3(NodeScales.HomeArrowScale.rawValue,
+                                    NodeScales.HomeArrowScale.rawValue,
+                                    NodeScales.HomeArrowScale.rawValue)
         ConeNode.categoryBitMask = SunMask | MoonMask
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -94,6 +93,9 @@ extension GlobeView
         {
             let Cylinder = SCNCylinder(radius: 0.04, height: 0.5)
             let CylinderNode = SCNNode(geometry: Cylinder)
+            CylinderNode.scale = SCNVector3(NodeScales.HomeArrowScale.rawValue,
+                                            NodeScales.HomeArrowScale.rawValue,
+                                            NodeScales.HomeArrowScale.rawValue)
             CylinderNode.categoryBitMask = SunMask | MoonMask
             CylinderNode.geometry?.firstMaterial?.diffuse.contents = NSColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
             CylinderNode.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -218,21 +220,13 @@ extension GlobeView
     /// - Parameter ToSurface: The surface node where the arrow will be added.
     func PlotBouncingArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode)
     {
-        #if true
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.3)
         let Arrow = SCN3DArrow(Length: 2.0, Width: 0.85, Color: NSColor.systemTeal,
                                StemColor: NSColor.systemBlue)
-        #else
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.7)
-        let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2, Color: NSColor.systemTeal)
-        #endif
         Arrow.LightMask = SunMask | MoonMask
         Arrow.scale = SCNVector3(NodeScales.BouncingArrowScale.rawValue,
                                  NodeScales.BouncingArrowScale.rawValue,
                                  NodeScales.BouncingArrowScale.rawValue)
-        
-        let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: 0.25)
-        let RotateForever = SCNAction.repeatForever(Rotate)
         
         let BounceDistance: CGFloat = 0.5
         let BounceDuration = 1.0
@@ -242,12 +236,7 @@ extension GlobeView
         BounceTo.timingMode = .easeIn
         let BounceSequence = SCNAction.sequence([BounceAway, BounceTo])
         let MoveForever = SCNAction.repeatForever(BounceSequence)
-        #if true
         Arrow.runAction(MoveForever)
-        #else
-        let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
-        Arrow.runAction(AnimationGroup)
-        #endif
         
         HomeNode = SCNNode()
         HomeNode?.castsShadow = true
