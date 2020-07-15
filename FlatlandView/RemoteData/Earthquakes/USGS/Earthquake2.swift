@@ -39,7 +39,9 @@ class Earthquake2: KMDataPoint
     
     /// Initializer - uses data from the supplied earthquake to populate this instance.
     /// - Parameter Other: The other earthquake that will be used to populate this instance.
-    init(_ Other: Earthquake2)
+    /// - Parameter IncludeRelated: If true, related earthquakes in `Other` are assigned to this
+    ///                             instance.
+    init(_ Other: Earthquake2, IncludeRelated: Bool = false)
     {
         Sequence = Other.Sequence
         Code = Other.Code
@@ -57,6 +59,13 @@ class Earthquake2: KMDataPoint
         Felt = Other.Felt
         Significance = Other.Significance
         Marked = false
+        if IncludeRelated
+        {
+            if let OtherRelated = Other.Related
+            {
+                Related = OtherRelated
+            }
+        }
     }
     
     /// The sequence value.
