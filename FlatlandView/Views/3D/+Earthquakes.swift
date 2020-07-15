@@ -660,7 +660,16 @@ extension GlobeView
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 
             case .TriangleRing:
-                return SCNNode()
+                let Radius = Double(GlobeRadius.Primary.rawValue)
+                let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+                let TRing = SCNTriangeRing(Count: 6, Inner: 2.0, Outer: 4.0)
+                let YRotation = Quake.Latitude + 90.0
+                let XRotation = Quake.Longitude + 180.0
+                let ZRotation = 0.0
+                Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
+                Final.position = SCNVector3(X, Y, Z)
+                Final.addChildNode(TRing)
+                Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 
             case .None:
                 return SCNNode()
