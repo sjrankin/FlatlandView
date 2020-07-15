@@ -45,7 +45,8 @@ extension MainView
         {
             let Where = GeoPoint2(SomeCity.Latitude, SomeCity.Longitude)
             let CityColor = Cities.ColorForCity(SomeCity)
-            let OneCityLayer = PlotLocation(Where, SomeCity.Name, CityColor, NSColor.red,
+            let OutlineColor = CityColor.InvertedHue
+            let OneCityLayer = PlotLocation(Where, SomeCity.Name, CityColor, OutlineColor,
                                          (CityLayer?.bounds.width)!, .Circle)
             OneCityLayer.name = LayerNames.PlottedCity.rawValue
             CityLayer?.addSublayer(OneCityLayer)
