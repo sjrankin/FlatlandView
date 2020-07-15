@@ -874,6 +874,19 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     var EarthquakeLayer: CAShapeLayer? = nil
     var PreviousEarthquakes = [Earthquake2]()
     
+    // MARK: - 2D view variables.
+    
+    var Quakes2D = [Earthquake2]()
+    let RecentMap: [EarthquakeRecents: Double] =
+        [
+            .Day05: 12.0 * 60.0 * 60.0,
+            .Day1: 24.0 * 60.0 * 60.0,
+            .Day2: 2.0 * 24.0 * 60.0 * 60.0,
+            .Day3: 3.0 * 24.0 * 60.0 * 60.0,
+            .Day7: 7.0 * 24.0 * 60.0 * 60.0,
+            .Day10: 10.0 * 24.0 * 60.0 * 60.0,
+        ]
+    
     // MARK: - Interface builder outlets.
     
     @IBOutlet weak var DebugRotationalLabel: NSTextField!
