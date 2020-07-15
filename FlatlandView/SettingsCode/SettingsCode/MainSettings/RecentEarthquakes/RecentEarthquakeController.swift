@@ -31,6 +31,14 @@ class RecentEarthquakeController: NSViewController
         }
         let CurrentStyle = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self, Default: .None)
         EarthquakeStyleCombo.selectItem(withObjectValue: CurrentStyle.rawValue)
+        
+        EarthquakeStyleCombo2D.removeAllItems()
+        for Style in EarthquakeIndicators2D.allCases
+        {
+            EarthquakeStyleCombo2D.addItem(withObjectValue: Style.rawValue)
+        }
+        let CurrentStyle2D = Settings.GetEnum(ForKey: .Earthquake2DStyles, EnumType: EarthquakeIndicators2D.self, Default: .None)
+        EarthquakeStyleCombo2D.selectItem(withObjectValue: CurrentStyle2D.rawValue)
 
         RecentCombo.removeAllItems()
         for Recent in EarthquakeRecents.allCases
@@ -57,6 +65,20 @@ class RecentEarthquakeController: NSViewController
                 if let Item = EarthquakeIndicators(rawValue: Raw)
                 {
                     Settings.SetEnum(Item, EnumType: EarthquakeIndicators.self, ForKey: .EarthquakeStyles)
+                }
+            }
+        }
+    }
+    
+    @IBAction func HandleEarthquakeStyle2DChanged(_ sender: Any)
+    {
+        if let Combo = sender as? NSComboBox
+        {
+            if let Raw = Combo.objectValueOfSelectedItem as? String
+            {
+                if let Item = EarthquakeIndicators2D(rawValue: Raw)
+                {
+                    Settings.SetEnum(Item, EnumType: EarthquakeIndicators2D.self, ForKey: .Earthquake2DStyles)
                 }
             }
         }
@@ -102,4 +124,5 @@ class RecentEarthquakeController: NSViewController
     @IBOutlet weak var TexturesCombo: NSComboBox!
     @IBOutlet weak var RecentCombo: NSComboBox!
     @IBOutlet weak var EarthquakeStyleCombo: NSComboBox!
+    @IBOutlet weak var EarthquakeStyleCombo2D: NSComboBox!
 }
