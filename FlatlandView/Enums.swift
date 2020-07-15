@@ -471,6 +471,27 @@ enum EarthquakeIndicators: String, CaseIterable
     case TriangleRing = "Triangle Ring"
 }
 
+///Types of earthquake indicators for 2D mode.
+enum EarthquakeIndicators2D: String, CaseIterable
+{
+    /// No indicator.
+    case None = "None"
+    /// Static ring of a solid color.
+    case Ring = "Ring"
+}
+
+/// Determines how earthquakes with related earthquakes are sorted. This affects only the earthquake
+/// and its related quakes, not full lists of earthquakes.
+enum MultipleQuakeOrders
+{
+    /// Earthquakes are not ordered.
+    case Unordered
+    /// The parent earthquake is the earliest earthquake.
+    case ByEarliestDate
+    /// The parent earthquake has the greatest magnitude.
+    case ByGreatestMagnitude
+}
+
 /// Definitions of "recent" earthquakes.
 enum EarthquakeRecents: String, CaseIterable
 {
@@ -620,6 +641,9 @@ enum NodeScales: CGFloat
     
     /// Hour text scale.
     case HourText = 0.07
+    
+    /// Scale of the static (in relation to motion) home arrow.
+    case HomeArrowScale = 2.02
 }
 
 /// Layer names for 2D mode.
