@@ -203,6 +203,7 @@ class Earthquake2: KMDataPoint
     /// Subjective significance value. Greater values indicate greater significance.
     var Significance: Int = 0
     
+    /*
     #if true
     static func == (lhs: Earthquake2, rhs: Earthquake2) -> Bool
     {
@@ -216,7 +217,8 @@ class Earthquake2: KMDataPoint
         return lhs.Code == rhs.Code
     }
     #endif
-    
+ */
+ 
     /// Determines if this earthquake (or any clustered/related earthquakes) have the specified
     /// Code value.
     /// - Parameter Code: The value to look for.
@@ -395,136 +397,15 @@ class Earthquake2: KMDataPoint
         return "\(Latitude),\(Longitude)"
     }
     
-    #if false
-    /// Takes all cluster earthquakes in the passed list and changes them such that the top-most
-    /// earthquake is the one with the greatest magnitude.
-    /// - Parameter From: Source earthquake list.
-    /// - Returns: Array of earthquakes as described.
-    public static func LargestList(_ From: [Earthquake2]) -> [Earthquake2]
+    // MARK: - Hashable functions.
+    
+    static func == (lhs: Earthquake2, rhs: Earthquake2) -> Bool
     {
-        var Final = [Earthquake2]()
-        for Quake in From
-        {
-            if Quake.IsCluster
-            {
-                if let Biggest = Quake.GreatestMagnitudeEarthquake
-                {
-                    let NewQuake = Earthquake2(Biggest)
-                    if let InSameArea = Quake.Related
-                    {
-                        NewQuake.Related = [Earthquake2]()
-                        for SmallerQuake in InSameArea
-                        {
-                            NewQuake.Related?.append(SmallerQuake)
-                        }
-                    }
-                    Final.append(NewQuake)
-                }
-            }
-            else
-            {
-                Final.append(Quake)
-            }
-        }
-        return Final
+        return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
     }
     
-    /// Takes the passed list of potentially clustered earthquakes and returns a flat list with all
-    /// earthquakes at the same level.
-    /// - Parameter From: The source list of earthquakes.
-    /// - Returns: List of earthquakes with no sub-lists.
-    public static func FlatList(_ From: [Earthquake2]) -> [Earthquake2]
+    var hasValue: Int
     {
-        var Final = [Earthquake2]()
-        for Quake in From
-        {
-            if Quake.IsCluster
-            {
-                if let Clustered = Quake.Related
-                {
-                    for Small in Clustered
-                    {
-                        Final.append(Small)
-                    }
-                }
-                let NewQuake = Earthquake2(Quake)
-                Final.append(NewQuake)
-            }
-            else
-            {
-                Final.append(Quake)
-            }
-        }
-        return Final
+        return ObjectIdentifier(self).hashValue
     }
-    
-    public static func Combined(_ From: [Earthquake2]) -> [Earthquake2]
-    {
-        //First, scan the passed array to see if it already has combined earthquakes. If so,
-        //return the array as is.
-        for Quake in From
-        {
-            if Quake.IsCluster
-            {
-                return From
-            }
-        }
-        
-        var Final = [Earthquake2]()
-        for Quake in From
-        {
-            if ContainsEarthquake(Code: Quake.Code, In: Final)
-            {
-                continue
-            }
-            for FQuake in Final
-            {
-                if FQuake.IsRelated(Quake, MaxDistanceDelta: 100.0)
-                {
-                    FQuake.AddToRelated(Quake)
-                    continue
-                }
-            }
-            Final.append(Quake)
-        }
-        Final = FinalizeCombined(Final)
-        return Final
-    }
-    
-    public static func FinalizeCombined(_ List: [Earthquake2]) -> [Earthquake2]
-    {
-        var Final = [Earthquake2]()
-        for Quake in List
-        {
-            if !Quake.IsCluster
-            {
-                Final.append(Quake)
-            }
-            else
-            {
-                var Quakes = [Earthquake2]()
-                Quakes.append(Quake)
-                Quakes.append(contentsOf: Quake.Related!)
-                Quakes.sort(by: {$0.Magnitude > $1.Magnitude})
-                let Biggest = Quakes.first!
-                Quakes.removeFirst()
-                Biggest.Related = Quakes
-                Final.append(Biggest)
-            }
-        }
-        return Final
-    }
-    
-    public static func ContainsEarthquake(Code: String, In List: [Earthquake2]) -> Bool
-    {
-        for Quake in List
-        {
-            if Quake.Contains(Code: Quake.Code)
-            {
-                return true
-            }
-        }
-        return false
-    }
-    #endif
 }
