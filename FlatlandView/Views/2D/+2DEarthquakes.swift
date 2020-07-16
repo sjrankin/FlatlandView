@@ -62,7 +62,11 @@ extension MainView
                 return
             }
         }
+        #if true
+        Quakes2D = Quakes
+        #else
         Quakes2D = USGS.CombineEarthquakes(Quakes, Closeness: 500.0)
+        #endif
         PreviousEarthquakes = Quakes
         for Child in CityView2D.layer!.sublayers!
         {
