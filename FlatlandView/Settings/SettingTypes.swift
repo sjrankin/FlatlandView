@@ -246,6 +246,8 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeFontName = "EarthquakeFontName"
     /// Age of earthquakes to view in the earthquake list dialog.
     case EarthquakeListAge = "EarthquakeListAge"
+    /// Maximum distance (in kilometers) that earthquakes must be to be combined.
+    case CombineDistance = "CombineDistance"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
