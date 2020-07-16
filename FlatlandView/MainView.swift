@@ -832,15 +832,21 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         switch DataType
         {
             case .Earthquakes:
-                if let EarthquakeData = Actual as? [Earthquake2]
+                if let _ = Actual as? [Earthquake2]
                 {
-                    #if DEBUG
-                    print("\(EarthquakeData.count) earthquakes returned")
-                    #endif
-                    World3DView.NewEarthquakeList(EarthquakeData)
-                    Plot2DEarthquakes(EarthquakeData)
-                    LatestEarthquakes = EarthquakeData
-                    (view.window?.windowController as? MainWindow)!.EarthquakeButton.isEnabled = true
+                    let MinMag = Settings.GetDouble(.MinimumMagnitude)
+                    let HowClose = Settings.GetDouble(.CombineDistance, 100.0)
+                    let Age = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
+                    if let Filtered = Earthquakes?.GetCurrentEarthquakes(HowClose, MinMag, Age)
+                    {
+                        #if DEBUG
+                        print("\(Filtered.count) earthquakes returned")
+                        #endif
+                        World3DView.NewEarthquakeList(Filtered)
+                        Plot2DEarthquakes(Filtered)
+                        LatestEarthquakes = Filtered
+                        (view.window?.windowController as? MainWindow)!.EarthquakeButton.isEnabled = true
+                    }
                 }
                 
             default:
