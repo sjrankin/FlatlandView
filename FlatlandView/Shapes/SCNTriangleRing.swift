@@ -10,24 +10,32 @@ import Foundation
 import AppKit
 import SceneKit
 
-class SCNTriangeRing: SCNNode
+class SCNTriangleRing: SCNNode
 {
     public static let MinimumTriangleCount: Int = 4
-    public static let MaximumTriangleCount: Int = 10
+    public static let MaximumTriangleCount: Int = 20
     
-    private var Triangles = [SCNNode]()
-    
-     init(Count: Int, Inner: CGFloat, Outer: CGFloat)
+    override init()
     {
         super.init()
+        MakeGeometry()
+    }
+    
+    init(Count: Int, Inner: CGFloat, Outer: CGFloat, Extrusion: CGFloat, Mask: Int)
+    {
+        super.init()
+        _Extrusion = Extrusion
+        _LightMask = Mask
         _InnerRadius = Inner
         _OuterRadius = Outer
-        TriangleCount = Count
+        _TriangleCount = Count
+        MakeGeometry()
     }
     
     required init?(coder: NSCoder)
     {
         super.init(coder: coder)
+        MakeGeometry()
     }
     
     public var _PointsOut: Bool = true
@@ -64,8 +72,8 @@ class SCNTriangeRing: SCNNode
         }
         set
         {
-            var FinalCount = min(newValue, SCNTriangeRing.MaximumTriangleCount)
-            FinalCount = max(FinalCount, SCNTriangeRing.MinimumTriangleCount)
+            var FinalCount = min(newValue, SCNTriangleRing.MaximumTriangleCount)
+            FinalCount = max(FinalCount, SCNTriangleRing.MinimumTriangleCount)
             _TriangleCount = FinalCount
         }
     }
@@ -200,6 +208,25 @@ class SCNTriangeRing: SCNNode
         }
     }
     
+    private var _TriangleRotationDuration: Double = 0.0
+    {
+        didSet
+        {
+            MakeGeometry()
+        }
+    }
+    public var TriangleRotationDuration: Double
+    {
+        get
+        {
+            return _TriangleRotationDuration
+        }
+        set
+        {
+            _TriangleRotationDuration = newValue
+        }
+    }
+    
     private func MakeTriangle(Top: NSPoint, Base1: NSPoint, Base2: NSPoint) -> SCNNode
     {
         let Path = NSBezierPath()
@@ -211,42 +238,57 @@ class SCNTriangeRing: SCNNode
         let Geo = SCNShape(path: Path, extrusionDepth: _Extrusion)
         let GeoNode = SCNNode(geometry: Geo)
         GeoNode.categoryBitMask = _LightMask
-        GeoNode.geometry?.firstMaterial?.diffuse.contents = Color
-        GeoNode.geometry?.firstMaterial?.specular.contents = Specular
+        let NodeColor = _Color
+        let NodeSpecular = _Specular
+        GeoNode.geometry?.firstMaterial?.diffuse.contents = NodeColor
+        GeoNode.geometry?.firstMaterial?.specular.contents = NodeSpecular
+        GeoNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
         return GeoNode
     }
     
     func MakeGeometry()
     {
-        for Triangle in Triangles
+        for Triangle in self.childNodes
         {
+            Triangle.removeAllActions()
             Triangle.removeFromParentNode()
         }
-        Triangles.removeAll()
-        if TriangleCount < 1
+        if _TriangleCount < 1
         {
             return
         }
         
         var Circumference: CGFloat = 1.0
+        var YOffset: CGFloat = 0.0
         if PointsOut
         {
-        Circumference = InnerRadius * 2.0 * CGFloat.pi
+            Circumference = _InnerRadius * 2.0 * CGFloat.pi
+            YOffset = _InnerRadius
         }
         else
         {
-        Circumference = OuterRadius * 2.0 * CGFloat.pi
+            Circumference = _OuterRadius * 2.0 * CGFloat.pi
+            YOffset = _OuterRadius
         }
-        let Base = Circumference / CGFloat(TriangleCount)
-        for Count in 0 ..< TriangleCount
+        let Base = Circumference / CGFloat(_TriangleCount)
+        for Count in 0 ..< _TriangleCount
         {
-            let Triangle = MakeTriangle(Top: NSPoint(x: 0.0, y: OuterRadius - InnerRadius),
-                                        Base1: NSPoint(x: -Base / 2.0, y: 0.0),
-                                        Base2: NSPoint(x: Base / 2.0, y: 0.0))
-            let Angle = (CGFloat(Count) / CGFloat(TriangleCount)) * 360.0
-            Triangle.eulerAngles = SCNVector3(0.0, 0.0, Angle.Radians)
+            let Triangle = MakeTriangle(Top: NSPoint(x: 0.0, y: _OuterRadius),
+                                        Base1: NSPoint(x: -Base / 2.0, y: YOffset),
+                                        Base2: NSPoint(x: Base / 2.0, y: YOffset))
+            Triangle.position = SCNVector3(0.0, 1.0, 0.0)
+            if _TriangleRotationDuration > 0.0
+            {
+                let Rotation = SCNAction.rotateBy(x: CGFloat(0.0.Radians),
+                                                  y: CGFloat(360.0.Radians),
+                                                  z: CGFloat(0.0.Radians),
+                                                  duration: _TriangleRotationDuration)
+                let Forever = SCNAction.repeatForever(Rotation)
+                Triangle.runAction(Forever)
+            }
+            let Angle = (CGFloat(Count) / CGFloat(_TriangleCount)) * 360.0
+            Triangle.eulerAngles = SCNVector3(0.0, 0.0, Angle.Radians) 
             self.addChildNode(Triangle)
-            Triangles.append(Triangle)
         }
     }
 }
