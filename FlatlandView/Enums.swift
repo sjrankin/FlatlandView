@@ -644,6 +644,9 @@ enum NodeScales: CGFloat
     
     /// Scale of the static (in relation to motion) home arrow.
     case HomeArrowScale = 2.02
+    
+    /// Scale of triangle rings.
+    case TriangleRing = 0.41
 }
 
 /// Layer names for 2D mode.
