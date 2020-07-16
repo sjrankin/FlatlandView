@@ -68,6 +68,7 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
     {
         var CellContents = ""
         var CellIdentifier = ""
+        var CellToolTip: String? = nil
         
         switch tableView
         {
@@ -88,6 +89,7 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
                             
                         case 1:
                             CellContents = QuakeSource!.Place
+                            CellToolTip = QuakeSource!.Place
                             
                         case 2:
                             CellContents = "\(QuakeSource!.Magnitude.RoundedTo(3))"
@@ -152,6 +154,7 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
                     CellIdentifier = "CoordinateColumn"
                     let Crd = "\(QuakeSource!.Related![row].Latitude.RoundedTo(2)), \(QuakeSource!.Related![row].Longitude.RoundedTo(2))"
                     CellContents = Crd
+                    CellToolTip = QuakeSource!.Place
                 }
                 if tableColumn == tableView.tableColumns[4]
                 {
@@ -166,6 +169,10 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
+        if let ToolTip = CellToolTip
+        {
+            Cell?.toolTip = ToolTip
+        }
         return Cell
     }
     
