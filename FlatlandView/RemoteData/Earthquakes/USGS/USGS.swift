@@ -83,18 +83,93 @@ class USGS
     }
     
     /// Called by `GetNewEarthquakeData` when all data for a given asynchronous call have been
-    /// received and parsed. Calls `Delegate` on the main thread.
+    /// received and parsed. Calls `Delegate` on the main thread. The array of earthquakes passed
+    /// to the delegate is flat and uncombined. Callers should call `GetCurrentEarthquakes` to get
+    /// combined, cleaned up earthquakes.
     func HaveAllEarthquakes()
     {
         DispatchQueue.main.async
         {
             var FinalList = self.RemoveDuplicates(From: self.EarthquakeList)
-            FinalList = self.FilterForMagnitude(FinalList, Magnitude: Settings.GetDouble(.MinimumMagnitude))
+            self.CurrentList = FinalList
             #if DEBUG
             FinalList.append(contentsOf: self.DebugEarthquakes)
             #endif
             self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: FinalList as Any)
         }
+    }
+    
+    private var CurrentList = [Earthquake2]()
+    
+    /// Return the set of current earthquakes (updated when `HaveAllEarthquakes` is called asynchronously)
+    /// filtered by the passed parameters.
+    /// - Parameter Closeness: How close earthquakes must be to be able to be combined. Units are kilometers.
+    ///                        Defaults to 100 kilometers.
+    /// - Parameter MinMag: The minimum magnitude earthquake to return. Defaults to magnitude 5.0.
+    /// - Parameter Age: Earthquakes older than this value are not included.
+    /// - Returns: Filtered list of earthquakes.
+    public func GetCurrentEarthquakes(_ Closeness: Double = 100.0, _ MinMag: Double = 5.0,
+                                      _ Age: EarthquakeAges) -> [Earthquake2]
+    {
+        let Unique = RemoveDuplicates(From: CurrentList)
+        var Current = [Earthquake2]()
+        for Quake in Unique
+        {
+            if !InAgeRange(Quake, InRange: Age)
+            {
+                continue
+            }
+            Current.append(Quake)
+        }
+        Current = FilterForMagnitude(Current, Magnitude: MinMag)
+        Current = USGS.CombineEarthquakes(Current, Closeness: Closeness)
+        Current = CleanUpCombined(Current)
+        return Current
+    }
+    
+    /// Determines if a given earthquake happened in the number of days prior to the instance.
+    /// - Parameter Quake: The earthquake to test against `InRange`.
+    /// - Parameter InRange: The range of allowable earthquakes.
+    /// - Returns: True if `Quake` is within the age range specified by `InRange`, false if not.
+    func InAgeRange(_ Quake: Earthquake2, InRange: EarthquakeAges) -> Bool
+    {
+        let Index = EarthquakeAges.allCases.firstIndex(of: InRange)! + 1
+        let Seconds = Index * (60 * 60 * 24)
+        let Delta = Date().timeIntervalSinceReferenceDate - Quake.Time.timeIntervalSinceReferenceDate
+        return Int(Delta) < Seconds
+    }
+    
+    /// Removed duplicate related earthquakes.
+    /// - Parameter Quakes: The array of earthquakes whose related earthquakes will be cleaned up.
+    /// - Returns: New array of earthquakes with duplicate combined earthquakes removed.
+    func CleanUpCombined(_ Quakes: [Earthquake2]) -> [Earthquake2]
+    {
+        let Working = Quakes
+        for Quake in Working
+        {
+            if let RelatedQuakes = Quake.Related
+            {
+                var NewRelated = [String: Earthquake2]()
+                for RQuake in RelatedQuakes
+                {
+                    if RQuake.Code == Quake.Code
+                    {
+                        continue
+                    }
+                    if let _ = NewRelated[RQuake.Code]
+                    {
+                        continue
+                    }
+                    NewRelated[RQuake.Code] = RQuake
+                }
+                Quake.Related = [Earthquake2]()
+                for (_, SubQuake) in NewRelated
+                {
+                    Quake.Related?.append(SubQuake)
+                }
+            }
+        }
+        return Working
     }
     
     /// Force fetch earthquake data regardless of the fetch cycle.
@@ -293,12 +368,7 @@ class USGS
                                 {
                                     if let A = GeoVal as? [Double]
                                     {
-                                        #if true
                                         NewEarthquake.SetLocation(A[1], A[0])
-                                        #else
-                                        NewEarthquake.Latitude = A[1]
-                                        NewEarthquake.Longitude = A[0]
-                                        #endif
                                         NewEarthquake.Depth = A[2]
                                     }
                                 }
@@ -458,11 +528,12 @@ class USGS
     {
         let ParentMagnitude = Quake.Magnitude
         var MaxChild: Earthquake2? = nil
-            MaxChild = Quake.Related!.max(by: {(E1, E2) -> Bool in E1.Magnitude > E2.Magnitude})
-            if MaxChild!.Magnitude < ParentMagnitude
-            {
-                return Quake
-            }
+        MaxChild = Quake.Related!.max(by: {(E1, E2) -> Bool in E1.Magnitude > E2.Magnitude})
+        MaxChild?.Related?.removeAll()
+        if MaxChild!.Magnitude < ParentMagnitude
+        {
+            return Quake
+        }
         for ChildQuake in Quake.Related!
         {
             if ChildQuake.Code != MaxChild?.Code
