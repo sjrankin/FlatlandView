@@ -73,7 +73,6 @@ extension GlobeView
         ClearEarthquakes()
         EarthquakeList.removeAll()
         EarthquakeList = NewList
-        EarthquakeList = USGS.CombineEarthquakes(EarthquakeList, Closeness: 500.0)
         PlottedEarthquakes.removeAll()
         PlotEarthquakes()
     }
@@ -627,6 +626,7 @@ extension GlobeView
                     Indicator.geometry?.firstMaterial?.diffuse.contents = NSImage(named: TextureName)
                 }
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
+                Indicator.geometry?.firstMaterial?.lightingModel = .physicallyBased
                 Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
                 Indicator.scale = SCNVector3(NodeScales.RadiatingRings.rawValue,
                                              NodeScales.RadiatingRings.rawValue,
@@ -660,15 +660,33 @@ extension GlobeView
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 
             case .TriangleRing:
-                let Radius = Double(GlobeRadius.Primary.rawValue)
+                let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
                 let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
-                let TRing = SCNTriangeRing(Count: 6, Inner: 2.0, Outer: 4.0)
-                let YRotation = Quake.Latitude + 90.0
-                let XRotation = Quake.Longitude + 180.0
+                let InnerRadius: CGFloat = 0.8
+                let OuterRadius: CGFloat = 1.6
+                let TRing = SCNTriangleRing(Count: 13, Inner: InnerRadius, Outer: OuterRadius, Extrusion: 0.15,
+                                            Mask: MetalSunMask | MetalMoonMask)
+                TRing.Color = NSColor.yellow
+                TRing.TriangleRotationDuration = 10.0 - Quake.Magnitude + 2.0
+                TRing.position = SCNVector3(0.0, -OuterRadius / 4.0, 0.0)
+                TRing.scale = SCNVector3(NodeScales.TriangleRing.rawValue,
+                                         NodeScales.TriangleRing.rawValue,
+                                         NodeScales.TriangleRing.rawValue)
+
+                let Rotate = SCNAction.rotateBy(x: CGFloat(0.0.Radians),
+                                                y: CGFloat(0.0.Radians),
+                                                z: CGFloat(360.0.Radians),
+                                                duration: 5.0)
+                let Forever = SCNAction.repeatForever(Rotate)
+                //Final.runAction(Forever)
+                
+                let YRotation = Quake.Latitude
+                let XRotation = Quake.Longitude - 180.0
                 let ZRotation = 0.0
                 Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
                 Final.position = SCNVector3(X, Y, Z)
                 Final.addChildNode(TRing)
+                
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 
             case .None:
