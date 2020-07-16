@@ -412,29 +412,14 @@
                                     </gridCell>
                                 </gridCells>
                             </gridView>
-                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pXr-qv-6nY">
-                                <rect key="frame" x="553" y="13" width="177" height="24"/>
-                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="ZGP-Ck-HP2">
-                                    <font key="font" metaFont="system"/>
-                                    <segments>
-                                        <segment label="Combined" width="85"/>
-                                        <segment label="Individual" width="85" selected="YES" tag="1"/>
-                                    </segments>
-                                </segmentedCell>
-                                <connections>
-                                    <action selector="HandleQuakeTypeChanged:" target="49g-mc-16a" id="sjY-TC-zpg"/>
-                                </connections>
-                            </segmentedControl>
                         </subviews>
                         <constraints>
                             <constraint firstItem="6iH-Fe-ssf" firstAttribute="centerX" secondItem="SlG-NH-G7g" secondAttribute="centerX" id="3zh-bg-7QE"/>
                             <constraint firstItem="FQn-pT-m8b" firstAttribute="top" secondItem="6iH-Fe-ssf" secondAttribute="top" id="BnD-HV-W4B"/>
-                            <constraint firstAttribute="bottom" secondItem="pXr-qv-6nY" secondAttribute="bottom" constant="15" id="E7v-Du-09E"/>
                             <constraint firstAttribute="bottom" secondItem="6iH-Fe-ssf" secondAttribute="bottom" constant="15" id="Iss-hm-9mW"/>
                             <constraint firstItem="YQu-wF-hqY" firstAttribute="top" secondItem="SlG-NH-G7g" secondAttribute="top" constant="20" id="LMC-x3-pwO"/>
                             <constraint firstItem="YQu-wF-hqY" firstAttribute="leading" secondItem="SlG-NH-G7g" secondAttribute="leading" constant="20" id="MO5-Vr-4bB"/>
                             <constraint firstItem="FQn-pT-m8b" firstAttribute="leading" secondItem="YQu-wF-hqY" secondAttribute="leading" id="QAD-xG-XsX"/>
-                            <constraint firstItem="pXr-qv-6nY" firstAttribute="trailing" secondItem="YQu-wF-hqY" secondAttribute="trailing" id="i1a-bi-SOp"/>
                             <constraint firstAttribute="bottom" secondItem="YQu-wF-hqY" secondAttribute="bottom" constant="46" id="mde-mB-Wns"/>
                             <constraint firstAttribute="trailing" secondItem="YQu-wF-hqY" secondAttribute="trailing" constant="20" id="n2r-85-AGC"/>
                         </constraints>
@@ -442,7 +427,6 @@
                     <connections>
                         <outlet property="AgeCombo" destination="0bG-rA-HwH" id="tud-Om-FaQ"/>
                         <outlet property="EqTable" destination="Tq3-nX-vD0" id="paM-aA-gB9"/>
-                        <outlet property="QuakeTypeSegment" destination="pXr-qv-6nY" id="dno-PU-nxC"/>
                     </connections>
                 </viewController>
                 <customObject id="XV7-94-x8g" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
