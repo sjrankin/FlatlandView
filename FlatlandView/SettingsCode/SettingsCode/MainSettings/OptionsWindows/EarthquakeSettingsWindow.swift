@@ -105,6 +105,18 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         {
             EarthquakeFontButton.title = "Huh?"
         }
+        let MagView = Settings.GetEnum(ForKey: .EarthquakeMagnitudeViews, EnumType: EarthquakeMagnitudeViews.self, Default: .No)
+        switch MagView
+        {
+            case .No:
+                MagnitudeViewSegment.selectedSegment = 0
+                
+            case .Horizontal:
+                MagnitudeViewSegment.selectedSegment = 1
+                
+            case .Vertical:
+                MagnitudeViewSegment.selectedSegment = 2
+        }
     }
     
     @IBAction func HandleFetchFrequencyChanged(_ sender: Any)
@@ -406,6 +418,28 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandleMagnitudeViewChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    Settings.SetEnum(EarthquakeMagnitudeViews.No, EnumType: EarthquakeMagnitudeViews.self, ForKey: .EarthquakeMagnitudeViews)
+                    
+                case 1:
+                    Settings.SetEnum(EarthquakeMagnitudeViews.Horizontal, EnumType: EarthquakeMagnitudeViews.self, ForKey: .EarthquakeMagnitudeViews)
+                    
+                case 2:
+                    Settings.SetEnum(EarthquakeMagnitudeViews.Vertical, EnumType: EarthquakeMagnitudeViews.self, ForKey: .EarthquakeMagnitudeViews)
+            
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBOutlet weak var MagnitudeViewSegment: NSSegmentedControl!
     @IBOutlet weak var EarthquakeFontButton: NSButton!
     @IBOutlet weak var EarthquakeDebugButton: NSButton!
     @IBOutlet weak var Mag4Color: NSColorWell!
@@ -414,7 +448,6 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
     @IBOutlet weak var Mag7Color: NSColorWell!
     @IBOutlet weak var Mag8Color: NSColorWell!
     @IBOutlet weak var Mag9Color: NSColorWell!
-    @IBOutlet weak var Quake2Button: NSButton!
     @IBOutlet weak var MinMagSegment: NSSegmentedControl!
     @IBOutlet weak var BaseColorWell: NSColorWell!
     @IBOutlet weak var ColorDetCombo: NSComboBox!
