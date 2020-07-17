@@ -260,20 +260,23 @@ class SCNTriangleRing: SCNNode
         
         var Circumference: CGFloat = 1.0
         var YOffset: CGFloat = 0.0
+        var TopValue: CGFloat = 0.0
         if PointsOut
         {
             Circumference = _InnerRadius * 2.0 * CGFloat.pi
             YOffset = _InnerRadius
+            TopValue = _OuterRadius
         }
         else
         {
             Circumference = _OuterRadius * 2.0 * CGFloat.pi
             YOffset = _OuterRadius
+            TopValue = _InnerRadius
         }
         let Base = Circumference / CGFloat(_TriangleCount)
         for Count in 0 ..< _TriangleCount
         {
-            let Triangle = MakeTriangle(Top: NSPoint(x: 0.0, y: _OuterRadius),
+            let Triangle = MakeTriangle(Top: NSPoint(x: 0.0, y: TopValue),
                                         Base1: NSPoint(x: -Base / 2.0, y: YOffset),
                                         Base2: NSPoint(x: Base / 2.0, y: YOffset))
             Triangle.position = SCNVector3(0.0, 1.0, 0.0)
@@ -290,5 +293,6 @@ class SCNTriangleRing: SCNNode
             Triangle.eulerAngles = SCNVector3(0.0, 0.0, Angle.Radians) 
             self.addChildNode(Triangle)
         }
+        self.position = SCNVector3(0.8, 0.4, 0.0)
     }
 }
