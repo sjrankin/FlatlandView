@@ -448,10 +448,6 @@ enum EarthquakeShapes: String, CaseIterable
     case Cylinder = "Cylinder"
     /// Earthquake is a capsule.
     case Capsule = "Capsule"
-    /// Earthquake is a magnitude value.
-    case Magnitude = "Magnitude"
-    /// Magnitude of the earthquake oriented to point radially to the center of the Earth.
-    case VerticalMagnitude = "Vertical Magnitude"
 }
 
 /// Types of earthquake indicators.
@@ -467,8 +463,21 @@ enum EarthquakeIndicators: String, CaseIterable
     case RadiatingRings = "Radiating Rings"
     /// Glowing sphere with a solid color.
     case GlowingSphere = "Glowing Sphere"
-    /// Ring of triangles.
-    case TriangleRing = "Triangle Ring"
+    /// Ring of triangles. Triangles point outwards.
+    case TriangleRingOut = "Triangle Ring Outward"
+    /// Ring of triangles. Triangles point inwards.
+    case TriangleRingIn = "Triangle Ring Inward"
+}
+
+/// Ways to view earthquake magnitudes.
+enum EarthquakeMagnitudeViews: String, CaseIterable
+{
+    /// Do not show magnitudes.
+    case No = "Not Shown"
+    /// Magnitudes are roughly parallel with the surface of the Earth.
+    case Horizontal = "HorizontalMagnitude"
+    /// Magnitudes are perpendicular to the surface of the Earth.
+    case Vertical = "VerticalMagnitude"
 }
 
 ///Types of earthquake indicators for 2D mode.
