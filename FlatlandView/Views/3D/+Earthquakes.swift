@@ -138,7 +138,9 @@ extension GlobeView
         }
         for Quake in List
         {
-            if let QNode = MakeEarthquakeNode(Quake)
+            let (QShape, MagShape) = MakeEarthquakeNode(Quake)
+//            if let QNode = MakeEarthquakeNode(Quake)
+            if let QNode = QShape
             {
                 var BaseColor = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
                 let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
@@ -233,15 +235,25 @@ extension GlobeView
                 {
                     QNode.geometry?.firstMaterial?.diffuse.contents = BaseColor
                 }
+                
+                if MagShape != nil
+                {
+                MagShape?.geometry?.firstMaterial?.diffuse.contents = BaseColor
+                MagShape?.geometry?.firstMaterial?.specular.contents = NSColor.white
+                Surface.addChildNode(MagShape!)
+                }
+                
                 Surface.addChildNode(QNode)
             }
         }
     }
     
-    /// Create a shape for the passed earthquake.
+    /// Create a shape for the passed earthquake. Additionally, an extruded text shape may be returned.
     /// - Parameter Quake: The earthquake whose shape will be created.
-    /// - Returns: `SCNNode` to be used to mark the earthquake.
-    func MakeEarthquakeNode(_ Quake: Earthquake2) -> SCNNode?
+    /// - Returns: Tuple of two `SCNNode`s. The first is a shape to be used to indicate an earthquake and the
+    ///            second (which may not be present, depending on the value of `.EarthquakeMagnitudeViews`)
+    ///            is extruded text with the value of the magntiude of the earthquake.
+    func MakeEarthquakeNode(_ Quake: Earthquake2) -> (Shape: SCNNode?, Magnitude: SCNNode?)
     {
         let QuakeRadius = 6371.0 - Quake.Depth
         let Percent = QuakeRadius / 6371.0
@@ -250,19 +262,24 @@ extension GlobeView
         var YRotation: Double = 0.0
         var XRotation: Double = 0.0
         var RadialOffset: Double = 0.0
+        
+        var MagNode: SCNNode? = nil
+        switch Settings.GetEnum(ForKey: .EarthquakeMagnitudeViews, EnumType: EarthquakeMagnitudeViews.self, Default: .No)
+        {
+            case .No:
+                break
+                
+            case .Horizontal:
+                MagNode = PlotMagnitudes(Quake)
+                MagNode?.name = GlobeNodeNames.EarthquakeNodes.rawValue
+                
+            case .Vertical:
+                MagNode = PlotMagnitudes(Quake, Vertically: true)
+                MagNode?.name = GlobeNodeNames.EarthquakeNodes.rawValue
+        }
 
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         {
-            case .Magnitude:
-                FinalNode = PlotMagnitudes(Quake)
-                FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
-                return FinalNode
-                
-            case .VerticalMagnitude:
-                FinalNode = PlotMagnitudes(Quake, Vertically: true)
-                FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
-                return FinalNode
-                
             case .Arrow:
                 RadialOffset = 0.7
                 let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
@@ -346,7 +363,7 @@ extension GlobeView
         FinalNode.categoryBitMask = SunMask | MoonMask
         FinalNode.position = SCNVector3(X, Y, Z)
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        return FinalNode
+        return (FinalNode, MagNode)
     }
     
     /// Determines if a given earthquake happened in the number of days prior to the instance.
@@ -524,8 +541,9 @@ extension GlobeView
         {
             return Final
         }
-        switch Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
-                                Default: .None)
+        let IndicatorType = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
+                                             Default: .None)
+        switch IndicatorType
         {
             case .AnimatedRing:
                 let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
@@ -659,13 +677,14 @@ extension GlobeView
                 Final.addChildNode(Indicator)
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 
-            case .TriangleRing:
+            case .TriangleRingIn, .TriangleRingOut:
                 let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
                 let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
                 let InnerRadius: CGFloat = 0.8
                 let OuterRadius: CGFloat = 1.6
                 let TRing = SCNTriangleRing(Count: 13, Inner: InnerRadius, Outer: OuterRadius, Extrusion: 0.15,
                                             Mask: MetalSunMask | MetalMoonMask)
+                TRing.PointsOut = IndicatorType == .TriangleRingOut ? true: false
                 TRing.Color = NSColor.yellow
                 TRing.TriangleRotationDuration = 10.0 - Quake.Magnitude + 2.0
                 TRing.position = SCNVector3(0.0, -OuterRadius / 4.0, 0.0)
@@ -673,19 +692,25 @@ extension GlobeView
                                          NodeScales.TriangleRing.rawValue,
                                          NodeScales.TriangleRing.rawValue)
 
-                let Rotate = SCNAction.rotateBy(x: CGFloat(0.0.Radians),
-                                                y: CGFloat(0.0.Radians),
-                                                z: CGFloat(360.0.Radians),
-                                                duration: 5.0)
-                let Forever = SCNAction.repeatForever(Rotate)
-                //Final.runAction(Forever)
-                
                 let YRotation = Quake.Latitude
                 let XRotation = Quake.Longitude - 180.0
                 let ZRotation = 0.0
                 Final.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
                 Final.position = SCNVector3(X, Y, Z)
                 Final.addChildNode(TRing)
+                
+                let Rotate = SCNAction.rotateBy(x: CGFloat(0.0.Radians),
+                                                y: CGFloat(0.0.Radians),
+                                                z: CGFloat(360.0.Radians),
+                                                duration: 5.0)
+                let Forever = SCNAction.repeatForever(Rotate)
+                //let TB = TRing.boundingBox
+                //print("TB.width=\(TB.max.x - TB.min.x), TB.height=\(TB.max.y - TB.min.y)")
+                //print("Original pivot point: \(TRing.pivot)")
+                //let XPivot: CGFloat = 0.5//1.0 / (TB.max.x - TB.min.x) * 0.25
+                //let YPivot: CGFloat = 0.5//1.0 / (TB.max.y - TB.min.y) * 0.5
+                //TRing.pivot = SCNMatrix4MakeTranslation(XPivot, YPivot, 0.0)
+                //TRing.runAction(Forever)
                 
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 
