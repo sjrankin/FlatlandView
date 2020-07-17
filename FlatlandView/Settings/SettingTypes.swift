@@ -248,6 +248,8 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeListAge = "EarthquakeListAge"
     /// Maximum distance (in kilometers) that earthquakes must be to be combined.
     case CombineDistance = "CombineDistance"
+    /// How (or if) to display earthquake magnitude values.
+    case EarthquakeMagnitudeViews = "EarthquakeMagnitudeViews"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
