@@ -206,15 +206,32 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
             return
         }
         TextAdded = true
-        var Words = [String]()
-        Words.append("Build \(Versioning.Build) (\(Versioning.BuildDate))")
-        Words.append(Versioning.MakeVersionString())
-        Words.append(Versioning.ApplicationName)
-        HourNode = Utility.MakeAboutSentence(Radius: 12.0, Words: Words)
-        AboutWorld.scene?.rootNode.addChildNode(HourNode!)
+        let NameNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: "Flatland", SpacingConstant: 25.0,
+                                                 Latitude: 0.0, Longitude: 0.0, Extrusion: 5.0,
+                                                 TextFont: NSFont(name: "Avenir-Black", size: 28),
+                                                 TextColor: NSColor.systemRed,
+                                                 TextSpecular: NSColor.systemOrange)
+        let VersionNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: Versioning.MakeVersionString(),
+                                                     SpacingConstant: 25.0,
+                                                     Latitude: 0.0, Longitude: 60.0, Extrusion: 4.0,
+                                                     TextFont: NSFont(name: "Avenir-Heavy", size: 24),
+                                                     TextColor: NSColor.gray,
+                                                     TextSpecular: NSColor.white)
+        let BuildNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: "Build \(Versioning.Build) (\(Versioning.BuildDate))",
+                                                     SpacingConstant: 25.0,
+                                                     Latitude: 0.0, Longitude: 120.0, Extrusion: 4.0,
+                                                     TextFont: NSFont(name: "Avenir-Heavy", size: 24),
+                                                     TextColor: NSColor.gray,
+                                                     TextSpecular: NSColor.white)
+        let TextNode = SCNNode()
+        NameNodes.forEach({TextNode.addChildNode($0)})
+        VersionNodes.forEach({TextNode.addChildNode($0)})
+        BuildNodes.forEach({TextNode.addChildNode($0)})
+        TextNode.position = SCNVector3(0.0, 0.0, 0.0)
+        AboutWorld.scene?.rootNode.addChildNode(TextNode)
         let Rotation = SCNAction.rotateBy(x: 0.0, y: -CGFloat.pi / 180.0, z: 0.0, duration: 0.06)
         let Forever = SCNAction.repeatForever(Rotation)
-        HourNode?.runAction(Forever)
+        TextNode.runAction(Forever)
     }
     
     var TextAdded = false
