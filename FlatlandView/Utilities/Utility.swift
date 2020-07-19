@@ -781,14 +781,14 @@ class Utility
                 "h",
                 "m",
                 "s"
-        ]
+            ]
         let LongMap: [String] =
             [
                 "Day",
                 "Hour",
                 "Minute",
                 "Second"
-        ]
+            ]
         var Working = RawSeconds < 0 ? 0 : RawSeconds
         let Days = Working / SecondsInDay
         Working = Working % SecondsInDay
@@ -851,7 +851,7 @@ class Utility
             "Sed mattis laoreet molestie. Sed consequat in erat nec venenatis. Phasellus ac dui sed erat varius vehicula. Morbi tempus massa nibh, eu scelerisque enim consequat in. Donec lobortis tincidunt sapien nec sodales. Aliquam sit amet dapibus orci. Phasellus venenatis diam tincidunt, mollis velit vitae, gravida lorem. Curabitur efficitur, massa quis rhoncus efficitur, tortor justo dapibus nisi, quis fringilla felis felis id leo. Duis lectus ante, rutrum id felis aliquet, imperdiet volutpat turpis. Quisque lectus leo, elementum vel facilisis id, elementum ac enim. Cras nec lacus a ipsum rutrum blandit. Aliquam aliquam erat id arcu semper, ac viverra dui ultricies. Donec ornare malesuada felis in tincidunt. Duis faucibus porta sem eu hendrerit.",
             "Phasellus sed diam sagittis, efficitur orci nec, fringilla mi. Maecenas id hendrerit dolor. Praesent tincidunt nisl ac augue sollicitudin, in dictum risus ullamcorper. Aliquam luctus libero a ligula scelerisque venenatis. Donec consequat metus tortor, venenatis tristique dolor viverra et. In dignissim diam non elit ultricies, nec consequat sapien maximus. Sed gravida pellentesque tellus id bibendum. Vestibulum rhoncus enim a arcu volutpat lobortis. Aliquam lobortis massa malesuada nibh faucibus, id mollis nunc volutpat. Suspendisse tincidunt, justo ut finibus convallis, lacus metus pretium odio, sed dignissim leo lectus aliquet libero. Suspendisse tincidunt orci et consequat euismod. Vivamus feugiat nunc ut lorem pharetra, vel porttitor sem malesuada. Pellentesque scelerisque porttitor maximus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed metus scelerisque, mattis magna porta, eleifend est.",
             "Nam sed eleifend nunc, at interdum lacus. Praesent pulvinar mauris non urna gravida, eget rhoncus arcu sagittis. Vivamus vitae ante diam. Vestibulum maximus mauris auctor magna molestie blandit. Vivamus eget molestie metus. Aenean nec nunc sit amet leo varius iaculis. Morbi eget nunc condimentum, posuere ipsum vel, porta nibh. Vestibulum orci lectus, laoreet ac quam ac, ornare fringilla orci. Duis dictum tellus mattis nisi imperdiet ultricies. Pellentesque nibh risus, rhoncus a purus vitae, tristique fringilla dolor. Ut ornare lectus consectetur egestas laoreet. Vivamus sodales libero dui, non ornare orci pulvinar fringilla. Sed a sollicitudin massa. Ut at dui congue, mollis velit eu, venenatis leo. Integer sodales eget dui sed bibendum.",
-    ]
+        ]
     
     public static func LoremIpsum(_ Paragraphs: Int) -> String
     {
@@ -902,8 +902,8 @@ class Utility
                     let Blue: CGFloat = CGFloat((Value & 0x0000ff00) >> 8) / 255.0
                     let Alpha: CGFloat = CGFloat((Value & 0x000000ff) >> 0) / 255.0
                     return (Red: Red, Green: Green, Blue: Blue, Alpha: Alpha)
-            }
-            
+                }
+                
             case 6:
                 if let Value = UInt(Working, radix: 16)
                 {
@@ -911,8 +911,8 @@ class Utility
                     let Green: CGFloat = CGFloat((Value & 0x00ff00) >> 8) / 255.0
                     let Blue: CGFloat = CGFloat((Value & 0x0000ff) >> 0) / 255.0
                     return (Red: Red, Green: Green, Blue: Blue, Alpha: 1.0)
-            }
-            
+                }
+                
             default:
                 break
         }
@@ -1128,7 +1128,7 @@ class Utility
                 WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
                 HourText.firstMaterial?.diffuse.contents = LetterColor
                 HourText.firstMaterial?.specular.contents = SpecularColor
-//                HourText.flatness = 0.1
+                //                HourText.flatness = 0.1
                 HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
@@ -1185,7 +1185,6 @@ class Utility
     
     /// Create an `SCNNode` of a word that floats over a globe.
     /// - Note: Each child node has a name of `LetterNode`.
-    /// - TODO: Have the text follow the curve of the globe.
     /// - Parameter Radius: The radius of the globe.
     /// - Parameter Word: The word to draw.
     /// - Parameter Scale: The scale for the final node.
@@ -1199,13 +1198,15 @@ class Utility
     /// - Parameter TextColor: The color of the word.
     /// - Parameter OnSurface: Where the word will be plotted.
     /// - Parameter WithTag: Tag value to assign to the word. If nil, "WordLetterNode" is used.
+    /// - Parameter AngleOffset: Offset to apply to letter positions.
     /// - Returns: Array with letter nodes.
     public static func MakeFloatingWord(Radius: Double, Word: String, Scale: CGFloat = 0.07,
                                         Latitude: Double, Longitude: Double,
                                         Extrusion: CGFloat = 1.0, Mask: Int = 0,
                                         TextFont: NSFont? = nil,
                                         TextColor: NSColor = NSColor.gray,
-                                        OnSurface: SCNNode, WithTag: String? = nil) -> [SCNNode]
+                                        OnSurface: SCNNode, WithTag: String? = nil,
+                                        AngleOffset: Double = 0.0) -> [SCNNode]
     {
         var WordFont: NSFont = NSFont()
         if let SomeFont = TextFont
@@ -1214,11 +1215,11 @@ class Utility
         }
         else
         {
-         WordFont = NSFont.systemFont(ofSize: 24.0)
+            WordFont = NSFont.systemFont(ofSize: 24.0)
         }
         var LetterNodes = [SCNNode]()
         let FontAttribute = [NSAttributedString.Key.font: WordFont]
-        var CumulativeLetterLocation: CGFloat = CGFloat(Longitude)
+        var CumulativeLetterLocation: CGFloat = CGFloat(Longitude + AngleOffset)
         let EqCircumference = 2.0 * Radius * Double.pi
         for (_, Letter) in Word.enumerated()
         {
@@ -1236,7 +1237,7 @@ class Utility
             }
             else
             {
-            LetterNode.name = "WordLetterNode"
+                LetterNode.name = "WordLetterNode"
             }
             let (X, Y, Z) = ToECEF(Latitude, Double(CumulativeLetterLocation),
                                    LatitudeOffset: -1.0, LongitudeOffset: -0.5,
@@ -1260,6 +1261,82 @@ class Utility
             #endif
             LetterNodes.append(LetterNode)
         }
+        return LetterNodes
+    }
+    
+    /// Create an `SCNNode` of a word that floats over a globe.
+    /// - Note: Each child node has a name of `LetterNode`.
+    /// - Parameter Radius: The radius of the globe.
+    /// - Parameter Word: The word to draw.
+    /// - Parameter Scale: The scale for the final node.
+    /// - Parameter SpacingConstant: The constant used to help control spacing between letters.
+    /// - Parameter Latitude: The latitude of the word.
+    /// - Parameter Longitude: The longitude of the word.
+    /// - Parameter Extrusion: Depth of the word.
+    /// - Parameter Mask: The light mask. Defaults to nil.
+    /// - Parameter TextFont: The font to use to draw the text. Defaults to `nil`. If not specified
+    ///                       of if `nil` is passed, the current system font (of size `24.0`) is
+    ///                       used.
+    /// - Parameter TextColor: The color of the word.
+    /// - Parameter WithTag: Tag value to assign to the word. If nil, "WordLetterNode" is used.
+    /// - Returns: `SCNNode` that contains all of the letters.
+    public static func MakeFloatingWord2(Radius: Double, Word: String, Scale: CGFloat = 0.07,
+                                         SpacingConstant: Double = 30.0,
+                                        Latitude: Double, Longitude: Double,
+                                        Extrusion: CGFloat = 1.0, Mask: Int? = nil,
+                                        TextFont: NSFont? = nil,
+                                        TextColor: NSColor = NSColor.gray,
+                                        TextSpecular: NSColor = NSColor.white,
+                                         WithTag: String? = nil) -> [SCNNode]
+    {
+        var WordFont: NSFont = NSFont()
+        if let SomeFont = TextFont
+        {
+            WordFont = SomeFont
+        }
+        else
+        {
+            WordFont = NSFont.systemFont(ofSize: 24.0)
+        }
+        var LetterNodes = [SCNNode]()
+        let FontAttribute = [NSAttributedString.Key.font: WordFont]
+        var CumulativeLetterLocation: CGFloat = CGFloat(Longitude)
+        let EqCircumference = 2.0 * Radius * Double.pi
+        for (_, Letter) in Word.enumerated()
+        {
+            let LetterSize = NSString(string: String(Letter)).size(withAttributes: FontAttribute)
+            let LetterShape = SCNText(string: String(Letter), extrusionDepth: Extrusion)
+            LetterShape.font = WordFont
+            LetterShape.firstMaterial?.diffuse.contents = TextColor
+            LetterShape.firstMaterial?.specular.contents = TextSpecular
+            let LetterNode = SCNNode(geometry: LetterShape)
+            if let LightMask = Mask
+            {
+                LetterNode.categoryBitMask = LightMask
+            }
+            LetterNode.scale = SCNVector3(Scale, Scale, Scale)
+            if let Tag = WithTag
+            {
+                LetterNode.name = Tag
+            }
+            else
+            {
+                LetterNode.name = "WordLetterNode"
+            }
+            let (X, Y, Z) = ToECEF(Latitude, Double(CumulativeLetterLocation),
+                                   LatitudeOffset: -1.0, LongitudeOffset: -0.5,
+                                   Radius: Radius)
+            LetterNode.position = SCNVector3(X, Y, Z)
+            let YRotation = -Latitude
+            let XRotation = Double(CumulativeLetterLocation)
+            let ZRotation = 0.0
+            LetterNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
+            var AngleAdjustment = Double(LetterSize.width) / EqCircumference
+            AngleAdjustment = AngleAdjustment * SpacingConstant
+            CumulativeLetterLocation = CumulativeLetterLocation + CGFloat(AngleAdjustment)
+            LetterNodes.append(LetterNode)
+        }
+        
         return LetterNodes
     }
     
@@ -1330,113 +1407,6 @@ class Utility
             CumulativeLetterLocation = CumulativeLetterLocation + CGFloat(AngleAdjustment)
         }
         return FinalNode
-    }
-    
-    /// Given an array of words, place a set of words in the hour ring over the Earth.
-    /// - TODO: Split into multiple functions rather than change the behavior via parameters.
-    /// - Note: Pay attention to the word order - it must be reversed in `Words` in order for
-    ///         words to appear correctly as people would expect.
-    /// - Parameter Radius: The radius of the word.
-    /// - Parameter Words: Array of words (if order is significant, the first word in the order
-    ///                    must be the last entry in the array) to display as expected.
-    /// - Parameter Scale: The scale to apply to the text node. Defaults to `0.07`.
-    /// - Parameter Extrusion: The extrusion depth of the text. Defaults to `5.0`.
-    /// - Parameter IsAboutText: If true, the text is drawn in the context of the About Flatland
-    ///                          display. Otherwise, it is drawn without regards to that context.
-    /// - Parameter TextColor: The color of the text to use if `IsAboutText` is false.
-    /// - Returns: Node for words to display above a spherical Earth.
-    public static func MakeSentence(Radius: Double, Words: [String], Scale: CGFloat = 0.07,
-                                    Extrusion: CGFloat = 5.0, IsAboutText: Bool = true,
-                                    TextColor: NSColor = NSColor.gray,
-                                    StartingAngle: Int = -100) -> SCNNode
-    {
-        let NodeShape = SCNSphere(radius: CGFloat(Radius))
-        let Node = SCNNode(geometry: NodeShape)
-        Node.position = SCNVector3(0.0, 0.0, 0.0)
-        Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
-        Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
-        Node.name = "Hour Node"
-        
-        let StartAngle = StartingAngle
-        var Angle = StartAngle
-        for Word in Words
-        {
-            var WorkingAngle: CGFloat = CGFloat(Angle)
-            var PreviousEnding: CGFloat = 0.0
-            for (_, Letter) in Word.enumerated()
-            {
-                let Radians = WorkingAngle.Radians
-                let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
-                var LetterColor = NSColor.systemYellow
-                var SpecularColor = NSColor.white
-                var VerticalOffset: CGFloat = 0.8
-                if IsAboutText
-                {
-                    if Word == Versioning.ApplicationName
-                    {
-                        HourText.font = NSFont(name: "Avenir-Black", size: 28.0)
-                        LetterColor = NSColor.systemRed
-                        SpecularColor = NSColor.systemOrange
-                    }
-                    else
-                    {
-                        HourText.font = NSFont(name: "Avenir-Heavy", size: 24.0)
-                        VerticalOffset = 0.6
-                    }
-                }
-                else
-                {
-                    HourText.font = NSFont.systemFont(ofSize: 24.0)
-                    VerticalOffset = 0.6
-                    LetterColor = TextColor
-                    SpecularColor = NSColor.white
-                }
-                var CharWidth: Float = 0
-                if Letter == " "
-                {
-                    CharWidth = 3.5
-                }
-                else
-                {
-                    CharWidth = Float(abs(HourText.boundingBox.max.x - HourText.boundingBox.min.x))
-                }
-                PreviousEnding = CGFloat(CharWidth)
-                if Letter == "V"
-                {
-                    PreviousEnding = CGFloat(12.0)
-                }
-                if Letter == "l"
-                {
-                    PreviousEnding = CGFloat(6.0)
-                }
-                if ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].contains(Letter)
-                {
-                    PreviousEnding = CGFloat(10.0)
-                }
-                WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
-                HourText.firstMaterial?.diffuse.contents = LetterColor
-                HourText.firstMaterial?.specular.contents = SpecularColor
-                //HourText.flatness = 0.1
-                HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
-                let X = CGFloat(Radius) * cos(Radians)
-                let Z = CGFloat(Radius) * sin(Radians)
-                let HourTextNode = SCNNode(geometry: HourText)
-                HourTextNode.scale = SCNVector3(Scale, Scale, Scale)
-                HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
-                if IsAboutText
-                {
-                    let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
-                    HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
-                }
-                Node.addChildNode(HourTextNode)
-            }
-            if IsAboutText
-            {
-                Angle = Angle + 65
-            }
-        }
-        
-        return Node
     }
     
     /// Convert the passed latitude and longitude values into a 3D coordinate that can be plotted
