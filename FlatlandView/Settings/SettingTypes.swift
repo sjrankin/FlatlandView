@@ -250,6 +250,8 @@ enum SettingTypes: String, CaseIterable
     case CombineDistance = "CombineDistance"
     /// How (or if) to display earthquake magnitude values.
     case EarthquakeMagnitudeViews = "EarthquakeMagnitudeViews"
+    /// NSColor: The color of the bars that indicate a combined earthquake.
+    case CombinedEarthquakeColor = "CombinedEarthquakeColor"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
