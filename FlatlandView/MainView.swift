@@ -26,6 +26,12 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
             Earthquakes?.GetEarthquakes(Every: FetchInterval)
         }
+        #if false
+        let Tiles = EarthData()
+        Tiles.Delegate = self
+        SatelliteView = Imaging.InitializeImage(Width: 512 * 20, Height: 512 * 10, Background: NSColor.systemRed)
+        Tiles.DownloadTiles(.MODISAqua, ForDate: Date(), Completed: TileReceiver(Done:Row:Column:Image:))
+        #endif
         
         FileIO.Initialize()
         PrimaryMapList = ActualMapIO.LoadMapList()
@@ -62,6 +68,40 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         DebugRotationalValue.textColor = NSColor.white
         DebugRotationalValue.isHidden = true
     }
+    
+    func TileReceiver(Done: Bool, Row: Int, Column: Int, Image: NSImage?)
+    {
+        if let TileImage = Image
+        {
+            print("Received tile for \(Row) x \(Column).")
+        TileImages.append((Row, Column, TileImage))
+            return
+        }
+        if Done
+        {
+            var testlist = [NSImage]()
+            testlist = TileImages.map({$0.2})
+            let im0 = testlist[0]
+            let im1 = testlist[5]
+            DispatchQueue.global(qos: .background).async
+            {
+                let Start = CACurrentMediaTime()
+                print("Received \(Row) x \(Column) tiles. \(self.TileImages.count) images.")
+                for (Row, Column, Image) in self.TileImages
+                {
+                    print("Processing image at \(Column), \(Row)")
+                    let TileRect = NSRect(x: Column * 512, y: Row * 512, width: 512, height: 512)
+                    //Imaging.PasteImage(Target: &self.SatelliteView, Tile: Image, In: TileRect)
+                }
+                //let test = self.SatelliteView
+                let End = CACurrentMediaTime() - Start
+                print("done assembling satellite image - \(End.RoundedTo(1)) seconds")
+            }
+        }
+    }
+    
+    var TileImages = [(Int, Int, NSImage)]()
+    var SatelliteView: NSImage = NSImage()
     
     var Earthquakes: USGS? = nil
     
@@ -452,7 +492,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         {
             let Window = WindowController.window
             let Controller = Window?.contentViewController as? Earthquake2Controller
-            Controller?.LoadData(DataType: .Earthquakes2, Raw: PreviousEarthquakes as Any)
+            Controller?.LoadData(DataType: .Earthquakes, Raw: PreviousEarthquakes as Any)
             WindowController.showWindow(nil)
         }
     }
@@ -839,9 +879,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
                     let Age = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
                     if let Filtered = Earthquakes?.GetCurrentEarthquakes(HowClose, MinMag, Age)
                     {
-                        #if DEBUG
-                        print("\(Filtered.count) earthquakes returned")
-                        #endif
                         World3DView.NewEarthquakeList(Filtered)
                         Plot2DEarthquakes(Filtered)
                         LatestEarthquakes = Filtered
