@@ -317,6 +317,16 @@ extension MainView: SettingChangedProtocol
                     }
                 }
                 
+            case .CombinedEarthquakeColor:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                    {
+                        World3DView.ClearEarthquakes()
+                        World3DView.PlotEarthquakes()
+                    }
+                }
+                
             case .Earthquake2DStyles:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
