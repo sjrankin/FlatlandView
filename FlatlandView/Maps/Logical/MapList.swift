@@ -211,4 +211,13 @@ enum MapTypes: String, CaseIterable
     case EarthquakeMap = "Earthquake Map"
     case RedTectonicLines = "Red Tectonic Lines"
     case CitiesAtNight = "Cities at Night"
+    case GIBS_MODIS_Terra_CorrectedReflectance_TrueColor = "MODIS Terra True Color"
+    case GIBS_MODIS_Terra_CorrectedReflectance_721 = "MODIS Terra Bands 721"
+    case GIBS_MODIS_Terra_CorrectedReflectance_367 = "MODIS Terra Bands 367"
+    case GIBS_MODIS_Aqua_CorrectedReflectance_TrueColor = "MODIS Aqua True Color"
+    case GIBS_MODIS_Aqua_CorrectedReflectance_721 = "MODIS Aqua Bands 721"
+    case GIBS_SNPP_VIIRS_CorrectedReflectance_TrueColor = "Suomi NPP True Color"
+    case GIBS_SNPP_VIIRS_CorrectedReflectance_M11I2I1 = "Suomi NPP Bands M11, I2, I1"
+    case GIBS_NOAA20_VIIRS_CorrectedReflectance_TrueColor = "NOAA 20 True Color"
+    case GIBS_NOAA20_VIIRS_CorrectedReflectance_M3I3I11 = "NOAA 20 Bands M3 I3 I11"
 }
