@@ -9,7 +9,6 @@
 import Foundation
 import AppKit
 import ImageIO
-import Photos
 
 /// Class to help with file I/O operations.
 class FileIO
