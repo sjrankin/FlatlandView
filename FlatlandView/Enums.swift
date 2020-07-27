@@ -358,7 +358,8 @@ enum AsynchronousDataTypes: String, CaseIterable
 {
     /// USGS earthquakes.
     case Earthquakes = "Earthquakes"
-    case Earthquakes2 = "Earthquakes2"
+    /// NASA Earth data.
+    case EarthImageTile = "EarthImageTile"
 }
 
 /// Methods for determining colors of earthquakes.
