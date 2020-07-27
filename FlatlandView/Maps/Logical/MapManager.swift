@@ -114,6 +114,17 @@ class MapManager
                         .Topographical1, .Topographical2, .SurrealTopographic, .EarthquakeMap,
                         .OnlyTectonic, .TectonicOverlay, .StaticAerosol, .Normalized]
             
+            case .Satellite:
+                return [.GIBS_MODIS_Terra_CorrectedReflectance_TrueColor,
+                        .GIBS_MODIS_Terra_CorrectedReflectance_721,
+                        .GIBS_MODIS_Terra_CorrectedReflectance_367,
+                        .GIBS_MODIS_Aqua_CorrectedReflectance_TrueColor,
+                        .GIBS_MODIS_Aqua_CorrectedReflectance_721,
+                        .GIBS_SNPP_VIIRS_CorrectedReflectance_TrueColor,
+                        .GIBS_SNPP_VIIRS_CorrectedReflectance_M11I2I1,
+                        .GIBS_NOAA20_VIIRS_CorrectedReflectance_TrueColor,
+                        .GIBS_NOAA20_VIIRS_CorrectedReflectance_M3I3I11]
+                
             case .TimeZone:
                 return [.TimeZoneMap1, .ColorfulTimeZones, .TimeZone4, .HatchedTimeZones, .PaperTimeZones,
                         .SurrealTimeZone]
@@ -176,6 +187,8 @@ enum MapCategories: String, CaseIterable
     case Standard = "Standard"
     /// Physically-based maps.
     case Physical = "Physical"
+    /// Maps made of satellite images.
+    case Satellite = "Satellite"
     /// Maps with time zones marked on them.
     case TimeZone = "Time Zone"
     /// Political maps (other than what are in `.Standard` maps).
