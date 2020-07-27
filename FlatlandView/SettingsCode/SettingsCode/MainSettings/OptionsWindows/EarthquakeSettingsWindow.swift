@@ -117,6 +117,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
             case .Vertical:
                 MagnitudeViewSegment.selectedSegment = 2
         }
+        CombinedColorWell.color = Settings.GetColor(.CombinedEarthquakeColor, NSColor.orange)
     }
     
     @IBAction func HandleFetchFrequencyChanged(_ sender: Any)
@@ -204,6 +205,14 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandleCombinedColorChanged(_ sender: Any)
+    {
+        if let ColorWell = sender as? NSColorWell
+        {
+            Settings.SetColor(.CombinedEarthquakeColor, ColorWell.color)
+        }
+    }
+    
     @IBAction func HandleAgeComboChanged(_ sender: Any)
     {
         if let Combo = sender as? NSComboBox
@@ -258,7 +267,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         {
             let Window = WindowController.window
             let Controller = Window?.contentViewController as? Earthquake2Controller
-            Controller?.LoadData(DataType: .Earthquakes2, Raw: LocalEarthquakeData as Any)
+            Controller?.LoadData(DataType: .Earthquakes, Raw: LocalEarthquakeData as Any)
             WindowController.showWindow(nil)
         }
     }
@@ -439,6 +448,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBOutlet weak var CombinedColorWell: NSColorWell!
     @IBOutlet weak var MagnitudeViewSegment: NSSegmentedControl!
     @IBOutlet weak var EarthquakeFontButton: NSButton!
     @IBOutlet weak var EarthquakeDebugButton: NSButton!
