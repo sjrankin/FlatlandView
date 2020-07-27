@@ -329,7 +329,6 @@ class Utility
     }
     
     /// Convert a Date structure into a string.
-    ///
     /// - Parameter Raw: The date to convert into a string.
     /// - Returns: String equivalent of the passed date.
     public static func MakeStringFrom(_ Raw: Date) -> String
@@ -344,6 +343,29 @@ class Utility
         let DatePart = "\(PadLeft(Value: Year, Count: 4))-\(PadLeft(Value: Month, Count: 2))-\(PadLeft(Value: Day, Count: 2)) "
         let TimePart = "\(PadLeft(Value: Hour, Count: 2)):\(PadLeft(Value: Minute, Count: 2)):\(PadLeft(Value: Second, Count: 2))"
         return DatePart + TimePart
+    }
+    
+    /// Convert the passed `Date` into a calendar date to be used for returning Earth time data from NASA.
+    /// - Parameter From: The `Date` to convert.
+    /// - Returns: String in the format `YYYY-MM-DD`.
+    public static func MakeEarthDate(From Raw: Date) -> String
+    {
+        let Cal = Calendar.current
+        let Year = Cal.component(.year, from: Raw)
+        let Month = Cal.component(.month, from: Raw)
+        let Day  = Cal.component(.day, from: Raw)
+        let YearS = "\(Year)"
+        var MonthS = "\(Month)"
+        if MonthS.count == 1
+        {
+            MonthS = "0" + MonthS
+        }
+        var DayS = "\(Day)"
+        if DayS.count == 1
+        {
+            DayS = "0" + DayS
+        }
+        return "\(YearS)-\(MonthS)-\(DayS)"
     }
     
     /// Given a Date structure, return the date.
@@ -1283,10 +1305,12 @@ class Utility
     public static func MakeFloatingWord2(Radius: Double, Word: String, Scale: CGFloat = 0.07,
                                          SpacingConstant: Double = 30.0,
                                         Latitude: Double, Longitude: Double,
+                                        LatitudeOffset: Double = -1.0, LongitudeOffset: Double = -0.5,
                                         Extrusion: CGFloat = 1.0, Mask: Int? = nil,
                                         TextFont: NSFont? = nil,
                                         TextColor: NSColor = NSColor.gray,
                                         TextSpecular: NSColor = NSColor.white,
+                                        IsMetallic: Bool = false,
                                          WithTag: String? = nil) -> [SCNNode]
     {
         var WordFont: NSFont = NSFont()
@@ -1309,6 +1333,10 @@ class Utility
             LetterShape.font = WordFont
             LetterShape.firstMaterial?.diffuse.contents = TextColor
             LetterShape.firstMaterial?.specular.contents = TextSpecular
+            if IsMetallic
+            {
+                LetterShape.firstMaterial?.lightingModel = .physicallyBased
+            }
             let LetterNode = SCNNode(geometry: LetterShape)
             if let LightMask = Mask
             {
@@ -1324,7 +1352,7 @@ class Utility
                 LetterNode.name = "WordLetterNode"
             }
             let (X, Y, Z) = ToECEF(Latitude, Double(CumulativeLetterLocation),
-                                   LatitudeOffset: -1.0, LongitudeOffset: -0.5,
+                                   LatitudeOffset: LatitudeOffset, LongitudeOffset: LongitudeOffset,
                                    Radius: Radius)
             LetterNode.position = SCNVector3(X, Y, Z)
             let YRotation = -Latitude
