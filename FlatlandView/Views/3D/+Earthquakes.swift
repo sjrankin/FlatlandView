@@ -26,7 +26,6 @@ extension GlobeView
     {
         if let Earth = EarthNode
         {
-            print("Clearing earthquake nodes.")
             for Node in Earth.childNodes
             {
                 if Node.name == GlobeNodeNames.EarthquakeNodes.rawValue ||
@@ -125,7 +124,6 @@ extension GlobeView
         {
             return
         }
-        print("Plotting \(List.count) earthquakes")
         let Oldest = OldestEarthquakeOccurence(List)
         let Biggest = Cities.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
         var MaxSignificance = 0
@@ -466,6 +464,25 @@ extension GlobeView
         #else
         let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))"
         #endif
+        
+        #if false
+        //var YOffset = (MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) * NodeScales.EarthquakeText.rawValue
+        //YOffset = MagNode.boundingBox.max.y * NodeScales.EarthquakeText.rawValue * 3.5
+        //let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * NodeScales.EarthquakeText.rawValue -
+        //    (MagNode.boundingBox.min.y * NodeScales.EarthquakeText.rawValue)
+        let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+        let FontSize = CGFloat(15.0 + Quake.Magnitude)
+        let MagFont = NSFont(name: EqFont.PostscriptName, size: FontSize)
+        let MagNodes = Utility.MakeFloatingWord2(Radius: Radius, Word: Magnitude, Scale: NodeScales.EarthquakeText.rawValue,
+                                                 Latitude: Quake.Latitude, Longitude: Quake.Longitude, //LatitudeOffset: -YOffset,
+                                                 /*LongitudeOffset: XOffset,*/ Extrusion: CGFloat(Quake.Magnitude),
+                                                 Mask: MetalSunMask | MetalMoonMask, TextFont: MagFont, TextColor: NSColor.black,
+                                                 TextSpecular: NSColor.white, IsMetallic: true)
+        let MagNode = SCNNode()
+        MagNode.position = SCNVector3(0.0, 0.0, 0.0)
+        MagNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
+        MagNodes.forEach({MagNode.addChildNode($0)})
+        #else
         let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.Magnitude))
         let FontSize = CGFloat(15.0 + Quake.Magnitude)
         let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
@@ -488,27 +505,24 @@ extension GlobeView
                                        LatitudeOffset: Double(-YOffset), LongitudeOffset: Double(XOffset),
                                        Radius: Radius)
         MagNode.position = SCNVector3(X, Y, Z)
-        
+        #endif
+
         if Quake.IsCluster
         {
             let LowerShape = SCNBox(width: MagNode.boundingBox.max.x, height: 4.0, length: 1.0, chamferRadius: 0.0)
             let Lower = SCNNode(geometry: LowerShape)
-            Lower.categoryBitMask = MetalSunMask | MetalMoonMask
-            Lower.geometry?.firstMaterial?.diffuse.contents = NSColor.systemRed
+            Lower.categoryBitMask = SunMask | MoonMask
+            Lower.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.CombinedEarthquakeColor, NSColor.systemRed)
             Lower.geometry?.firstMaterial?.specular.contents = NSColor.white
-            Lower.geometry?.firstMaterial?.lightingModel = .physicallyBased
-            Lower.geometry?.firstMaterial?.emission.contents = NSColor.systemOrange
             let WidthOffset = MagNode.boundingBox.max.x / 2.0
             Lower.position = SCNVector3(MagNode.boundingBox.min.x + WidthOffset, 3.5, 0.0)
             MagNode.addChildNode(Lower)
             
             let UpperShape = SCNBox(width: MagNode.boundingBox.max.x, height: 4.0, length: 1.0, chamferRadius: 0.0)
             let Upper = SCNNode(geometry: UpperShape)
-            Upper.categoryBitMask = MetalSunMask | MetalMoonMask
-            Upper.geometry?.firstMaterial?.diffuse.contents = NSColor.systemRed
+            Upper.categoryBitMask = SunMask | MoonMask
+            Upper.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.CombinedEarthquakeColor, NSColor.systemRed)
             Upper.geometry?.firstMaterial?.specular.contents = NSColor.white
-            Upper.geometry?.firstMaterial?.lightingModel = .physicallyBased
-            Upper.geometry?.firstMaterial?.emission.contents = NSColor.systemOrange
             Upper.position = SCNVector3(MagNode.boundingBox.min.x + WidthOffset,
                                         MagNode.boundingBox.max.y + 3.5, 0.0)
             MagNode.addChildNode(Upper)
@@ -685,7 +699,7 @@ extension GlobeView
                 let TRing = SCNTriangleRing(Count: 13, Inner: InnerRadius, Outer: OuterRadius, Extrusion: 0.15,
                                             Mask: MetalSunMask | MetalMoonMask)
                 TRing.PointsOut = IndicatorType == .TriangleRingOut ? true: false
-                TRing.Color = NSColor.yellow
+                TRing.Color = Settings.GetColor(.EarthquakeColor, NSColor.red)
                 TRing.TriangleRotationDuration = 10.0 - Quake.Magnitude + 2.0
                 TRing.position = SCNVector3(0.0, -OuterRadius / 4.0, 0.0)
                 TRing.scale = SCNVector3(NodeScales.TriangleRing.rawValue,
