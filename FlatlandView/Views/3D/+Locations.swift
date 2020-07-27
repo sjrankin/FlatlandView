@@ -375,6 +375,7 @@ extension GlobeView
         Bottom.lockFocus()
         Color.drawSwatch(in: NSRect(origin: .zero, size: bsize))
         Bottom.unlockFocus()
+        
         let OutlineData = Outline?.tiffRepresentation
         let OutlineImage = CIImage(data: OutlineData!)
         let BottomData = Bottom.tiffRepresentation
