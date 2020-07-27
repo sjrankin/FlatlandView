@@ -179,7 +179,7 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
     {
         switch DataType
         {
-            case .Earthquakes2:
+            case .Earthquakes:
                 if let RawEarthquakes = Raw as? [Earthquake2]
                 {
                     EarthquakeList = RawEarthquakes
