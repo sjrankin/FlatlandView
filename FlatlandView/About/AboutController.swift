@@ -23,7 +23,11 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
     
     func InitializeAboutView()
     {
+        #if DEBUG
         AboutWorld.allowsCameraControl = true
+        #else
+        AboutWorld.allowsCameraControl = false
+        #endif
         AboutWorld.autoenablesDefaultLighting = false
         AboutWorld.scene = SCNScene()
         AboutWorld.backgroundColor = NSColor.black
@@ -37,7 +41,7 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         CameraNode = SCNNode()
         CameraNode.camera = Camera
         //The camera's position is higher up in the scene to help show the shadows.
-        CameraNode.position = SCNVector3(0.0, 10.0, 16.0)
+        CameraNode.position = SCNVector3(0.0, 10.0, 18.0)
         
         let Light = SCNLight()
         Light.type = .directional
@@ -207,29 +211,28 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         }
         TextAdded = true
         let NameNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: "Flatland", SpacingConstant: 25.0,
-                                                 Latitude: 0.0, Longitude: 0.0, Extrusion: 5.0,
-                                                 TextFont: NSFont(name: "Avenir-Black", size: 28),
+                                                 Latitude: 10.0, Longitude: 0.0, Extrusion: 5.0,
+                                                 TextFont: NSFont(name: "Copperplate", size: 32),
                                                  TextColor: NSColor.systemRed,
                                                  TextSpecular: NSColor.systemOrange)
-        let VersionNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: Versioning.MakeVersionString(),
+        let VersionData = Versioning.MakeVersionString() + ", Build \(Versioning.Build) (\(Versioning.BuildDate))"
+        let VersionNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: VersionData,
                                                      SpacingConstant: 25.0,
-                                                     Latitude: 0.0, Longitude: 60.0, Extrusion: 4.0,
+                                                     Latitude: 0.0, Longitude: 0.0, Extrusion: 4.0,
                                                      TextFont: NSFont(name: "Avenir-Heavy", size: 24),
-                                                     TextColor: NSColor.gray,
+                                                     TextColor: NSColor.systemYellow,
                                                      TextSpecular: NSColor.white)
-        let BuildNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: "Build \(Versioning.Build) (\(Versioning.BuildDate))",
-                                                     SpacingConstant: 25.0,
-                                                     Latitude: 0.0, Longitude: 120.0, Extrusion: 4.0,
-                                                     TextFont: NSFont(name: "Avenir-Heavy", size: 24),
-                                                     TextColor: NSColor.gray,
-                                                     TextSpecular: NSColor.white)
+        let CopyNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: Versioning.CopyrightText(), Latitude: -10.0, Longitude: 0.0,
+                                                  Extrusion: 3.0, TextFont: NSFont(name: "Avenir-Heavy", size: 24),
+                                                  TextColor: NSColor.systemTeal,
+                                                  TextSpecular: NSColor.white)
         let TextNode = SCNNode()
         NameNodes.forEach({TextNode.addChildNode($0)})
         VersionNodes.forEach({TextNode.addChildNode($0)})
-        BuildNodes.forEach({TextNode.addChildNode($0)})
+        CopyNodes.forEach({TextNode.addChildNode($0)})
         TextNode.position = SCNVector3(0.0, 0.0, 0.0)
         AboutWorld.scene?.rootNode.addChildNode(TextNode)
-        let Rotation = SCNAction.rotateBy(x: 0.0, y: -CGFloat.pi / 180.0, z: 0.0, duration: 0.06)
+        let Rotation = SCNAction.rotateBy(x: 0.0, y: -CGFloat.pi / 180.0, z: 0.0, duration: 0.05)
         let Forever = SCNAction.repeatForever(Rotation)
         TextNode.runAction(Forever)
     }
