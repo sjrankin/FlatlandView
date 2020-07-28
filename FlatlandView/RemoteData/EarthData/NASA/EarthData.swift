@@ -12,132 +12,186 @@ import AppKit
 class EarthData
 {
     public weak var Delegate: AsynchronousDataProtocol? = nil
+    public weak var MainDelegate: MainProtocol? = nil
     
-    func GetEarthTiles()
+    var AccessLock: NSObject = NSObject()
+    
+    /// Map loaded handler definition. First parameter is the completed map and the second is the duration
+    /// from the call to `LoadMap` to the call of this completion handler.
+    typealias MapLoadedHandler = ((NSImage, Double) -> ())?
+    
+    func LoadMap(_ Map: inout SatelliteMap, Completed: MapLoadedHandler = nil)
     {
-        DispatchQueue.global(qos: .background).async
+        let StartTime = CACurrentMediaTime()
+        MainDelegate?.SetIndicatorColor(NSColor.systemYellow)
+        MainDelegate?.SetIndicatorText("Getting tiles")
+        MainDelegate?.SetIndicatorPercent(0.0)
+        
+        Map.URLs.removeAll()
+        let TilesX = Map.HorizontalTileCount
+        let TilesY = Map.VerticalTileCount
+        
+        var DayComponent = DateComponents()
+        DayComponent.day = -1
+        let Cal = Calendar.current
+        let Yesterday = Cal.date(byAdding: DayComponent, to: Date())!
+        
+        Map.URLs = SatelliteMap.GenerateTiles(From: Map, When: Yesterday)
+        let ExpectedCount = Map.URLs.count
+        
+        TileMap.removeAll()
+        Results.removeAll()
+        DownloadCount = 0
+        
+        for (Path, Row, Column) in Map.URLs
         {
-            let url = URL(string: "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/2012-07-09/250m/6/13/36.jpg")
-            if let ImageData = try? Data(contentsOf: url!)
+            if let TileURL = URL(string: Path)
             {
-                if let Image = NSImage(data: ImageData)
+                GetTile(From: TileURL, Row: Row, Column: Column, ExpectedCount: ExpectedCount,
+                        MaxRows: Map.VerticalTileCount, MaxColumns: Map.HorizontalTileCount)
                 {
-                    print("Image=\(Image)")
-                }
-            }
-        }
-    }
-    
-    var StartTime: Double = 0
-    var CurrentTiles = [(Int, Int, NSImage)]()
-    
-    /// Download tiles for the specified satellite and date.
-    /// - Note: Control returns immediately as the tiles are downloaded in the background.
-    /// - Parameter For: Determines the satellite and wavelengths.
-    /// - Parameter ForDate: The date for which the tiles are desired.
-    /// - Parameter Completed: Completion handler. Called when each tile is downloaded and when all tiles are
-    ///                        downloaded. Parameters are All downloaded (true if all downloaded, false if not),
-    ///                        Tile row, Tile column, Tile image. The Tile image is set to nil if all tiles
-    ///                        have been downloaded. When completed the Tile Row is set to the expected row count and
-    ///                        the Tile Column is set to the expected column count.
-    func DownloadTiles(_ For: EarthDataTiles = .MODISTerra, ForDate: Date, Completed: ((Bool, Int, Int, NSImage?) -> ())? = nil)
-    {
-        DispatchQueue.global(qos: .background).async
-        {
-            self.DownloadCompletionHandler = Completed
-            self.CurrentTiles.removeAll()
-            //max column is 79
-            //max row is 39
-            self.StartTime = CACurrentMediaTime()
-            for Row in 0 ... 9
-            {
-                for Column in 0 ... 19
-                {
-                    var TileURL = "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/"
-                    TileURL.append(self.TileMap[For]!.rawValue)
-                    let EarthDate = Utility.MakeEarthDate(From: ForDate)
-                    let TileMatrix = "4"
-                    let TileRow = "\(Row)"
-                    let TileColumn = "\(Column)"
-                    TileURL.append("/default/\(EarthDate)/250m/\(TileMatrix)/\(TileRow)/\(TileColumn).jpg")
-                    if let FinalURL = URL(string: TileURL)
+                    //Called when all tiles are downloaded - time to start assembling them.
+                    self.CreateMapFromTiles(TilesX: TilesX, TilesY: TilesY)
                     {
-                        self.GetTile(From: FinalURL, Row: Row, Column: Column, TotalExpected: 40,
-                                     MaxRows: 10, MaxColumns: 20)
+                        Image, Duration in
+                        let TotalDuration = Duration + CACurrentMediaTime() - StartTime
+                        Completed?(Image, TotalDuration)
                     }
                 }
             }
         }
     }
     
-    var DownloadCompletionHandler: ((Bool, Int, Int, NSImage?) -> ())? = nil
+    func CreateMapFromTiles(TilesX: Int, TilesY: Int, Completion: MapLoadedHandler = nil)
+    {
+        let Start = CACurrentMediaTime()
+        MainDelegate?.SetIndicatorPercent(0.0)
+        MainDelegate?.SetIndicatorText("Making map")
+        MainDelegate?.SetIndicatorColor(NSColor.systemBlue)
+        
+        for Result in Results
+        {
+            if let _ = TileMap[Result.ID]
+            {
+                TileMap.removeValue(forKey: Result.ID)
+            }
+        }
+        if TileMap.count > 0
+        {
+            for (_, (Row, Column)) in TileMap
+            {
+                print("Missing tile at row \(Row), column \(Column)")
+            }
+        }
+        
+        DispatchQueue.global(qos: .background).async
+        {
+            var Count = 0
+            let TileSize = 128
+            let BackgroundHeight = TilesY * TileSize
+            let BackgroundWidth = TilesX * TileSize
+            var Background = NSImage(size: NSSize(width: BackgroundWidth / 2, height: BackgroundHeight / 2))
+            Background.lockFocus()
+            NSColor.systemYellow.drawSwatch(in: NSRect(origin: .zero, size: Background.size))
+            Background.unlockFocus()
+            Background = self.ResizeImage(Image: Background, Longest: CGFloat(TilesX * TileSize))
+            autoreleasepool
+            {
+                for (Row, Column, _, Tile) in self.Results
+                {
+                    let FinalTileY = (TilesY - Row) - 1
+                    let Point = NSPoint(x: Column * TileSize, y: FinalTileY * TileSize)
+                    let ReducedTile = self.ResizeImage(Image: Tile, Longest: CGFloat(TileSize))
+                    Background = self.BlitImage(ReducedTile, On: Background, At: Point)!
+                    Count = Count + 1
+                    OperationQueue.main.addOperation
+                    {
+                        self.MainDelegate?.SetIndicatorPercent(Double(Count) / Double(self.Results.count))
+                    }
+                }
+            }
+            let Duration = CACurrentMediaTime() - Start
+            Completion?(Background, Duration)
+        }
+    }
     
-    let TileMap: [EarthDataTiles: EarthDataTileTypes] =
-        [
-            .SuomiTrueColor: .Suomi_Reflectance_TrueColor,
-            .SuomiDayNightBand: .Suomi_DayNightBand_ENCC,
-            .NOAATrueColor: .NOAA_Reflectance_TrueColor,
-            .MODISTerra: .MODIS_Terra_Reflectance_TrueColor,
-            .MODISAqua: .MODIS_Aqua_Reflectange_TrueColor
-        ]
+    var TileMap = [UUID: (Int, Int)]()
+    var Results = [(Row: Int, Column: Int, ID: UUID, Image: NSImage)]()
+    var DownloadCount = 0
     
-    /// Get a single image tile at the specificed URL.
-    /// - Parameter From: The URL of the tile to retrieve.
-    /// - Parameter Row: The row index of the tile.
-    /// - Parameter Column: The column index of the tile.
-    /// - Parameter TotalExpected: The number of expected tiles to receive.
-    /// - Parameter MaxRows: The maximum number of rows.
-    /// - Parameter MaxColumns: The maximum number of columns.
-    func GetTile(From TileURL: URL, Row: Int, Column: Int, TotalExpected: Int,
-                 MaxRows: Int, MaxColumns: Int)
+    func GetTile(From: URL, Row: Int, Column: Int, ExpectedCount: Int,
+                 MaxRows: Int, MaxColumns: Int,
+                 Completed: (() -> ())? = nil)
     {
         DispatchQueue.global(qos: .background).async
         {
             do
             {
-                let ImageData = try Data(contentsOf: TileURL)
+                let ImageData = try Data(contentsOf: From)
                 if let Image = NSImage(data: ImageData)
                 {
-                    self.CurrentTiles.append((Row, Column, Image))
-                    if let Handler = self.DownloadCompletionHandler
+                    objc_sync_enter(self.AccessLock)
+                    defer{objc_sync_exit(self.AccessLock)}
+                    let ID = UUID()
+                    self.Results.append((Row, Column, ID, Image))
+                    self.TileMap[ID] = (Row, Column)
+                    self.DownloadCount = self.DownloadCount + 1
+                    self.MainDelegate?.SetIndicatorPercent(Double(self.DownloadCount) / Double(ExpectedCount))
+                    if self.DownloadCount == ExpectedCount
                     {
-                        Handler(false, Row, Column, Image)
-                    }
-                    if self.CurrentTiles.count == TotalExpected
-                    {
-                        let LoadSeconds = CACurrentMediaTime() - self.StartTime
-                        #if DEBUG
-                        print("Load time for all tiles: \(LoadSeconds.RoundedTo(1)) seconds")
-                        #endif
-                        if let Handler = self.DownloadCompletionHandler
-                        {
-                            Handler(true, MaxRows, MaxColumns, nil)
-                        }
+                        Completed?()
                     }
                 }
             }
             catch
             {
-                print("Error returned for row \(Row), column \(Column): \(error)")
+                print("Error on tile \(Column)x\(Row): \(error.localizedDescription)")
             }
         }
     }
-}
-
-enum EarthDataTileTypes: String
-{
-    case Suomi_Reflectance_TrueColor = "VIIRS_SNPP_CorrectedReflectance_TrueColor"
-    case Suomi_DayNightBand_ENCC = "VIIRS_SNPP_DayNightBand_ENCC"
-    case NOAA_Reflectance_TrueColor = "VIIRS_NOAA20_CorrectedReflectance_TrueColor"
-    case MODIS_Terra_Reflectance_TrueColor = "MODIS_Terra_CorrectedReflectance_TrueColor"
-    case MODIS_Aqua_Reflectange_TrueColor = "MODIS_Aqua_CorrectedReflectance_TrueColor"
-}
-
-enum EarthDataTiles: String, CaseIterable
-{
-    case SuomiTrueColor = "Suomi True Color"
-    case SuomiDayNightBand = "Suomi Day/Night Band"
-    case NOAATrueColor = "NOAA 20 True Color"
-    case MODISTerra = "MODIS Terra True Color"
-    case MODISAqua = "MODIS Aque True Color"
+    
+    func BlitImage(_ Tile: NSImage, On Background: NSImage, At Point: NSPoint) -> NSImage?
+    {
+        autoreleasepool
+        {
+            let CIBGImg = Background.tiffRepresentation
+            let BGImg = CIImage(data: CIBGImg!)
+            let Offscreen = NSBitmapImageRep(ciImage: BGImg!)
+            guard let Context = NSGraphicsContext(bitmapImageRep: Offscreen) else
+            {
+                return nil
+            }
+            NSGraphicsContext.saveGraphicsState()
+            NSGraphicsContext.current = Context
+            Tile.draw(at: Point, from: NSRect(origin: .zero, size: Tile.size),
+                      operation: .sourceAtop, fraction: 1.0)
+            NSGraphicsContext.restoreGraphicsState()
+            let Final = NSImage(size: Background.size)
+            Final.addRepresentation(Offscreen)
+            return Final
+        }
+    }
+    
+    public func ResizeImage(Image: NSImage, Longest: CGFloat) -> NSImage
+    {
+        let ImageMax = max(Image.size.width, Image.size.height)
+        if ImageMax <= Longest
+        {
+            print("resize returned early")
+            return Image
+        }
+        let Ratio = Longest / ImageMax
+        let NewSize = NSSize(width: Image.size.width * Ratio, height: Image.size.height * Ratio)
+        print(">>>> NewSize=\(NewSize)")
+        let NewImage = NSImage(size: NewSize)
+        NewImage.lockFocus()
+        Image.draw(in: NSMakeRect(0, 0, NewSize.width, NewSize.height),
+                   from: NSMakeRect(0, 0, Image.size.width, Image.size.height),
+                   operation: NSCompositingOperation.sourceOver,
+                   fraction: CGFloat(1))
+        NewImage.unlockFocus()
+        NewImage.size = NewSize
+        print("resized image to \(NewImage.size)")
+        return NewImage
+    }
 }
