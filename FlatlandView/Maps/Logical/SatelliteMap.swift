@@ -16,7 +16,7 @@ class SatelliteMap
         
     }
     
-    public func GetQueryFor(_ Imaged: Date, X: Int, Y: Int) -> String?
+    public func GetQueryFor(_ Imaged: Date, X: Int, Y: Int) -> String
     {
         var TileURL = "https://gibs.earthdata.nasa.gov/"
         TileURL.append(Service)
@@ -76,4 +76,20 @@ class SatelliteMap
     public var FileType = "jpg"
     
     public var ObservationDate = Date()
+    
+    public var URLs = [(Path: String, Row: Int, Column: Int)]()
+    
+    public static func GenerateTiles(From: SatelliteMap, When: Date) -> [(Path: String, Row: Int, Column: Int)]
+    {
+        var TileList = [(Path: String, Row: Int, Column: Int)]()
+        for Row in 0 ..< From.VerticalTileCount
+        {
+            for Column in 0 ..< From.HorizontalTileCount
+            {
+                let Path = From.GetQueryFor(When, X: Column, Y: Row)
+                TileList.append((Path, Row, Column))
+            }
+        }
+        return TileList
+    }
 }
