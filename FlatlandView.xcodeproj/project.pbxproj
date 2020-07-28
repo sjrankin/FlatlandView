@@ -21,6 +21,7 @@
 		1727EA5A24B170730051EA3B /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5924B170730051EA3B /* Queue.swift */; };
 		1727EA5D24B184230051EA3B /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5C24B184230051EA3B /* Tree.swift */; };
 		1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */; };
+		172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F35AC24CFFBBA00C8FDDC /* PiePercent.swift */; };
 		173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173EB18A2490D1B7006CDB86 /* +Orbits.swift */; };
 		1740F49B2493173A00F6FAAE /* Hours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740F49A2493173A00F6FAAE /* Hours.swift */; };
 		1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744316E2480F2C10087B00A /* ActualMapIO.swift */; };
@@ -166,6 +167,7 @@
 		1727EA5924B170730051EA3B /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		1727EA5C24B184230051EA3B /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMDataPoint.swift; sourceTree = "<group>"; };
+		172F35AC24CFFBBA00C8FDDC /* PiePercent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiePercent.swift; sourceTree = "<group>"; };
 		173EB18A2490D1B7006CDB86 /* +Orbits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Orbits.swift"; sourceTree = "<group>"; };
 		1740F49A2493173A00F6FAAE /* Hours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hours.swift; sourceTree = "<group>"; };
 		1744316E2480F2C10087B00A /* ActualMapIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapIO.swift; sourceTree = "<group>"; };
@@ -334,6 +336,14 @@
 				1727EA5C24B184230051EA3B /* Tree.swift */,
 			);
 			path = DataStructures;
+			sourceTree = "<group>";
+		};
+		172F35AB24CFFBA900C8FDDC /* Indicators */ = {
+			isa = PBXGroup;
+			children = (
+				172F35AC24CFFBBA00C8FDDC /* PiePercent.swift */,
+			);
+			path = Indicators;
 			sourceTree = "<group>";
 		};
 		173A104D248B39B300793216 /* GetLocation */ = {
@@ -801,6 +811,7 @@
 		17FC2210249878F8005A0929 /* Ancillary */ = {
 			isa = PBXGroup;
 			children = (
+				172F35AB24CFFBA900C8FDDC /* Indicators */,
 				1750043724B460F6006528A4 /* FontPicker */,
 				17FC221124987996005A0929 /* LiveDataView */,
 			);
@@ -936,6 +947,7 @@
 				17829D4824B31D0200118DB1 /* EarthquakeDetailWindow.swift in Sources */,
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
+				172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */,
 				174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */,
 				174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */,
 				1718812924B85B9D00EE1E71 /* PerformanceOptions.swift in Sources */,
