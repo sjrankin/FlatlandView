@@ -26,12 +26,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
             Earthquakes?.GetEarthquakes(Every: FetchInterval)
         }
-        #if false
-        let Tiles = EarthData()
-        Tiles.Delegate = self
-        SatelliteView = Imaging.InitializeImage(Width: 512 * 20, Height: 512 * 10, Background: NSColor.systemRed)
-        Tiles.DownloadTiles(.MODISAqua, ForDate: Date(), Completed: TileReceiver(Done:Row:Column:Image:))
-        #endif
         
         FileIO.Initialize()
         PrimaryMapList = ActualMapIO.LoadMapList()
@@ -68,40 +62,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         DebugRotationalValue.textColor = NSColor.white
         DebugRotationalValue.isHidden = true
     }
-    
-    func TileReceiver(Done: Bool, Row: Int, Column: Int, Image: NSImage?)
-    {
-        if let TileImage = Image
-        {
-            print("Received tile for \(Row) x \(Column).")
-        TileImages.append((Row, Column, TileImage))
-            return
-        }
-        if Done
-        {
-            var testlist = [NSImage]()
-            testlist = TileImages.map({$0.2})
-            let im0 = testlist[0]
-            let im1 = testlist[5]
-            DispatchQueue.global(qos: .background).async
-            {
-                let Start = CACurrentMediaTime()
-                print("Received \(Row) x \(Column) tiles. \(self.TileImages.count) images.")
-                for (Row, Column, Image) in self.TileImages
-                {
-                    print("Processing image at \(Column), \(Row)")
-                    let TileRect = NSRect(x: Column * 512, y: Row * 512, width: 512, height: 512)
-                    //Imaging.PasteImage(Target: &self.SatelliteView, Tile: Image, In: TileRect)
-                }
-                //let test = self.SatelliteView
-                let End = CACurrentMediaTime() - Start
-                print("done assembling satellite image - \(End.RoundedTo(1)) seconds")
-            }
-        }
-    }
-    
-    var TileImages = [(Int, Int, NSImage)]()
-    var SatelliteView: NSImage = NSImage()
     
     var Earthquakes: USGS? = nil
     
@@ -459,6 +419,9 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         SetStatusIndicatorValue(0.5)
     }
     
+    /// Sets the text of the indicator label.
+    /// - Note: There is not much room so keeping the text short is ideal.
+    /// - Parameter NewText: The text to display. Set to an empty string to hide the text.
     func SetStatusIndicatorLabel(_ NewText: String)
     {
         OperationQueue.main.addOperation
@@ -467,6 +430,8 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         }
     }
     
+    /// Show or hide the status indicator.
+    /// - Parameter IsVisible: Set to true to show the indicator, false to hide it.
     func SetStatusIndicatorVisibility(IsVisible: Bool)
     {
         OperationQueue.main.addOperation
@@ -475,6 +440,8 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         }
     }
     
+    /// Set the value of the indicator.
+    /// - Parameter NewValue: The value to set the indicator to. Must be in the range 0.0 to 1.0.
     func SetStatusIndicatorValue(_ NewValue: Double)
     {
         OperationQueue.main.addOperation
@@ -483,6 +450,9 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         }
     }
     
+    /// Set the color of the completed portion of the indicator.
+    /// - Note: The incomplete portion is not set here and defaults to clear.
+    /// - Parameter Color: The color of the completed part of the indicator.
     func SetStatusIndicatorColor(_ Color: NSColor)
     {
         OperationQueue.main.addOperation
@@ -900,6 +870,34 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         #if DEBUG
         Earthquakes?.InsertEarthquakeCluster(Count)
         #endif
+    }
+    
+    /// Sets the indicator value.
+    /// - Parameter Percent: New indicator percent. Must be in the range 0.0 to 1.0.
+    func SetIndicatorPercent(_ Percent: Double)
+    {
+        SetStatusIndicatorValue(Percent)
+    }
+    
+    /// Sets the indicator text. Pass an empty string to clear the text.
+    /// - Parameter NewText: The text to set the indicator label to.
+    func SetIndicatorText(_ NewText: String)
+    {
+        SetStatusIndicatorLabel(NewText)
+    }
+    
+    /// Sets the color of the completed portion of the indicator.
+    /// - Parameter NewColor: The color to set the indicator to.
+    func SetIndicatorColor(_ NewColor: NSColor)
+    {
+        SetStatusIndicatorColor(NewColor)
+    }
+    
+    /// Sets the visibility of the indicator. Only affects the pie chart, not the text.
+    /// - Parameter IsVisible: Determines the visibility.
+    func SetIndicatorVisibility(_ IsVisible: Bool)
+    {
+        SetStatusIndicatorVisibility(IsVisible: IsVisible)
     }
     
     // MARK: - Asynchronous data protocol functions.
