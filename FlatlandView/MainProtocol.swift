@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 protocol MainProtocol: class
 {
@@ -33,4 +34,16 @@ protocol MainProtocol: class
     
     /// Fetch earthquakes out of sequence.
     func ForceFetchEarthquakes()
+    
+    /// Set the indicator percent.
+    func SetIndicatorPercent(_ Percent: Double)
+    
+    /// Set the indicator text.
+    func SetIndicatorText(_ NewText: String)
+    
+    /// Set the indicator color.
+    func SetIndicatorColor(_ NewColor: NSColor)
+    
+    /// Set the visibility of the indicator.
+    func SetIndicatorVisibility(_ IsVisible: Bool)
 }
