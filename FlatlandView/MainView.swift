@@ -452,6 +452,43 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         LocalSunsetLabel.textColor = Color
         DeclinationTextLabel.textColor = Color
         DailySecondsLabel.textColor = Color
+        StatusLabel.textColor = Color
+        SetStatusIndicatorColor(Color)
+        SetStatusIndicatorLabel("")
+        SetStatusIndicatorVisibility(IsVisible: true)
+        SetStatusIndicatorValue(0.5)
+    }
+    
+    func SetStatusIndicatorLabel(_ NewText: String)
+    {
+        OperationQueue.main.addOperation
+        {
+            self.StatusLabel.stringValue = NewText
+        }
+    }
+    
+    func SetStatusIndicatorVisibility(IsVisible: Bool)
+    {
+        OperationQueue.main.addOperation
+        {
+            self.StatusIndicator.isHidden = !IsVisible
+        }
+    }
+    
+    func SetStatusIndicatorValue(_ NewValue: Double)
+    {
+        OperationQueue.main.addOperation
+        {
+            self.StatusIndicator.CurrentPercent = CGFloat(NewValue)
+        }
+    }
+    
+    func SetStatusIndicatorColor(_ Color: NSColor)
+    {
+        OperationQueue.main.addOperation
+        {
+            self.StatusIndicator.Color = Color
+        }
     }
     
     // MARK: - Menu/toolbar event handlers.
@@ -963,6 +1000,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     @IBOutlet weak var LocalSunsetLabel: NSTextField!
     @IBOutlet weak var DeclinationTextLabel: NSTextField!
     @IBOutlet weak var DailySecondsLabel: NSTextField!
-    
+    @IBOutlet weak var StatusLabel: NSTextField!
+    @IBOutlet weak var StatusIndicator: PiePercent!
 }
 
