@@ -377,6 +377,7 @@
 			isa = PBXGroup;
 			children = (
 				1748913024C5747C00B5F6AF /* EarthData.swift */,
+				17F44AA724CEF67700A02B19 /* SatelliteMap.swift */,
 			);
 			path = NASA;
 			sourceTree = "<group>";
@@ -584,7 +585,6 @@
 				17EF3392247A66D200A5B55D /* MapManager.swift */,
 				17EF3394247A66F000A5B55D /* MapList.swift */,
 				17EF3396247A670B00A5B55D /* MapItem.swift */,
-				17F44AA724CEF67700A02B19 /* SatelliteMap.swift */,
 			);
 			path = Logical;
 			sourceTree = "<group>";
