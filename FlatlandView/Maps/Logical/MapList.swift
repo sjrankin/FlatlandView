@@ -214,6 +214,7 @@ enum MapTypes: String, CaseIterable
     case GIBS_MODIS_Terra_CorrectedReflectance_TrueColor = "MODIS Terra True Color"
     case GIBS_MODIS_Terra_CorrectedReflectance_721 = "MODIS Terra Bands 721"
     case GIBS_MODIS_Terra_CorrectedReflectance_367 = "MODIS Terra Bands 367"
+    case GIBS_MODIS_Terra_SurfaceReflectance_143 = "MODIS Terra Bands 143"
     case GIBS_MODIS_Aqua_CorrectedReflectance_TrueColor = "MODIS Aqua True Color"
     case GIBS_MODIS_Aqua_CorrectedReflectance_721 = "MODIS Aqua Bands 721"
     case GIBS_SNPP_VIIRS_CorrectedReflectance_TrueColor = "Suomi NPP True Color"
