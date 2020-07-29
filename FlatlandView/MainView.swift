@@ -19,6 +19,14 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         Settings.Initialize()
         Settings.AddSubscriber(self)
         
+        SetIndicatorText("")
+        let Yesterday = Date().Yesterday
+        var Maps = EarthData.MakeSatelliteMapDefinitions()
+        let Earth = EarthData()
+        Earth.MainDelegate = self
+        Earth.Delegate = self
+        Earth.LoadMap(&Maps[0], For: Yesterday.Yesterday, Completed: EarthMapReceived)
+        
         Earthquakes = USGS()
         Earthquakes?.Delegate = self
         if Settings.GetBool(.EnableEarthquakes)
@@ -61,6 +69,11 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         DebugRotationalLabel.isHidden = true
         DebugRotationalValue.textColor = NSColor.white
         DebugRotationalValue.isHidden = true
+    }
+    
+    func EarthMapReceived(Image: NSImage, Duration: Double, ImageDate: Date)
+    {
+        print("Map generation duration \(Duration), Date: \(ImageDate)")
     }
     
     var Earthquakes: USGS? = nil
