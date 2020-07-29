@@ -238,7 +238,7 @@ extension GlobeView
                 let FontSize: CGFloat = VisualScript == .English ? 20.0 : 14.0
                 if Settings.GetBool(.UseHourChamfer)
                 {
-                    HourText.chamferRadius = FontSize / 4.0
+                    HourText.chamferRadius = 0.2
                 }
                 let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium", 20.0, NSColor.yellow))
                 HourText.font = NSFont(name: FontData.PostscriptName, size: FontSize)
@@ -284,7 +284,6 @@ extension GlobeView
                 }
                 HourText.firstMaterial?.diffuse.contents = FinalLetterColor
                 HourText.firstMaterial?.specular.contents = SpecularColor
-                //HourText.flatness = 0.2
                 HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
