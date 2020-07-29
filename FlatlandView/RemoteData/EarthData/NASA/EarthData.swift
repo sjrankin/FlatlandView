@@ -18,25 +18,22 @@ class EarthData
     
     /// Map loaded handler definition. First parameter is the completed map and the second is the duration
     /// from the call to `LoadMap` to the call of this completion handler.
-    typealias MapLoadedHandler = ((NSImage, Double) -> ())?
+    typealias MapLoadedHandler = ((NSImage, Double, Date) -> ())?
     
-    func LoadMap(_ Map: inout SatelliteMap, Completed: MapLoadedHandler = nil)
+    func LoadMap(_ Map: inout SatelliteMap, For ImageDate: Date, Completed: MapLoadedHandler = nil)
     {
         let StartTime = CACurrentMediaTime()
-        MainDelegate?.SetIndicatorColor(NSColor.systemYellow)
-        MainDelegate?.SetIndicatorText("Getting tiles")
+        MainDelegate?.SetIndicatorVisibility(true)
         MainDelegate?.SetIndicatorPercent(0.0)
+        MainDelegate?.SetIndicatorColor(NSColor.yellow)
+        MainDelegate?.SetIndicatorText("Getting tiles")
         
         Map.URLs.removeAll()
         let TilesX = Map.HorizontalTileCount
         let TilesY = Map.VerticalTileCount
         
-        var DayComponent = DateComponents()
-        DayComponent.day = -1
-        let Cal = Calendar.current
-        let Yesterday = Cal.date(byAdding: DayComponent, to: Date())!
-        
-        Map.URLs = SatelliteMap.GenerateTiles(From: Map, When: Yesterday)
+        let test = Date().DaysAgo(5)
+        Map.URLs = SatelliteMap.GenerateTileInformation(From: Map, When: test)//Date().DaysAgo(5))
         let ExpectedCount = Map.URLs.count
         
         TileMap.removeAll()
@@ -51,18 +48,18 @@ class EarthData
                         MaxRows: Map.VerticalTileCount, MaxColumns: Map.HorizontalTileCount)
                 {
                     //Called when all tiles are downloaded - time to start assembling them.
-                    self.CreateMapFromTiles(TilesX: TilesX, TilesY: TilesY)
+                    self.CreateMapFromTiles(TilesX: TilesX, TilesY: TilesY, When: test)//ImageDate)
                     {
-                        Image, Duration in
+                        Image, Duration, When in
                         let TotalDuration = Duration + CACurrentMediaTime() - StartTime
-                        Completed?(Image, TotalDuration)
+                        Completed?(Image, TotalDuration, When)
                     }
                 }
             }
         }
     }
     
-    func CreateMapFromTiles(TilesX: Int, TilesY: Int, Completion: MapLoadedHandler = nil)
+    func CreateMapFromTiles(TilesX: Int, TilesY: Int, When: Date, Completion: MapLoadedHandler = nil)
     {
         let Start = CACurrentMediaTime()
         MainDelegate?.SetIndicatorPercent(0.0)
@@ -111,7 +108,7 @@ class EarthData
                 }
             }
             let Duration = CACurrentMediaTime() - Start
-            Completion?(Background, Duration)
+            Completion?(Background, Duration, When)
         }
     }
     
@@ -123,6 +120,7 @@ class EarthData
                  MaxRows: Int, MaxColumns: Int,
                  Completed: (() -> ())? = nil)
     {
+        print("Getting tile: \(From.path)")
         DispatchQueue.global(qos: .background).async
         {
             do
@@ -177,12 +175,10 @@ class EarthData
         let ImageMax = max(Image.size.width, Image.size.height)
         if ImageMax <= Longest
         {
-            print("resize returned early")
             return Image
         }
         let Ratio = Longest / ImageMax
         let NewSize = NSSize(width: Image.size.width * Ratio, height: Image.size.height * Ratio)
-        print(">>>> NewSize=\(NewSize)")
         let NewImage = NSImage(size: NewSize)
         NewImage.lockFocus()
         Image.draw(in: NSMakeRect(0, 0, NewSize.width, NewSize.height),
@@ -191,7 +187,44 @@ class EarthData
                    fraction: CGFloat(1))
         NewImage.unlockFocus()
         NewImage.size = NewSize
-        print("resized image to \(NewImage.size)")
         return NewImage
+    }
+    
+    public static func MakeSatelliteMapDefinitions() -> [SatelliteMap]
+    {
+        var Maps = [SatelliteMap]()
+        
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_MODIS_Terra_CorrectedReflectance_TrueColor,
+                                 Layer: "MODIS_Terra_CorrectedReflectance_TrueColor",
+                                 ForDate: Date()))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_MODIS_Terra_CorrectedReflectance_721,
+                                 Layer: "MODIS_Terra_CorrectedReflectance_Bands721",
+                                 ForDate: Date()))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_MODIS_Terra_CorrectedReflectance_367,
+                                 Layer: "MODIS_Terra_CorrectedReflectance_Bands367",
+                                 ForDate: Date()))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_MODIS_Terra_SurfaceReflectance_143,
+                                 Layer: "MODIS_Terra_CorrectedReflectance_Bands143",
+                                 ForDate: Date(), MatrixSet: "500m"))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_MODIS_Aqua_CorrectedReflectance_TrueColor,
+                                 Layer: "MODIS_Aqua_CorrectedReflectance_TrueColor",
+                                 ForDate: Date()))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_MODIS_Aqua_CorrectedReflectance_721,
+                                 Layer: "MODIS_Aqua_CorrectedReflectance_Bands721",
+                                 ForDate: Date()))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_SNPP_VIIRS_CorrectedReflectance_TrueColor,
+                                 Layer: "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+                                 ForDate: Date()))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_SNPP_VIIRS_CorrectedReflectance_M11I2I1,
+                                 Layer: "VIIRS_SNPP_CorrectedReflectance_BandsM11-I2-I1",
+                                 ForDate: Date()))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_NOAA20_VIIRS_CorrectedReflectance_TrueColor,
+                                 Layer: "VIIRS_NOAA_CorrectedReflectance_TrueColor",
+                                 ForDate: Date()))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_NOAA20_VIIRS_CorrectedReflectance_M3I3I11,
+                                 Layer: "VIIRS_NOAA20_CorrectedReflectance_BandsM3-I3-M11",
+                                 ForDate: Date()))
+        
+        return Maps
     }
 }
