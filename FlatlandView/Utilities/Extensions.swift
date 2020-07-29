@@ -1392,6 +1392,34 @@ extension String
     }
 }
 
+// MARK: - Date extensions.
+
+extension Date
+{
+    /// Returns the data for yesterday. The time components are undefined but probably are the same as
+    /// when this property was called.
+    var Yesterday: Date
+    {
+        var DayComponent = DateComponents()
+        DayComponent.day = -1
+        let Cal = Calendar.current
+        let Yesterday = Cal.date(byAdding: DayComponent, to: self)!
+        return Yesterday
+    }
+    
+    /// Return the date a specified number of days ago.
+    /// - Parameter Days: The number of days prior to the day this function was called.
+    /// - Returns: The date, `Days` ago.
+    func DaysAgo(_ Days: Int) -> Date
+    {
+        var DayComponent = DateComponents()
+        DayComponent.day = -Days
+        let Cal = Calendar.current
+        let Ago = Cal.date(byAdding: DayComponent, to: self)!
+        return Ago
+    }
+}
+
 // MARK: - Array extenions.
 
 /// Array[Double] extensions. Used for k-means clustering of earthquakes.
