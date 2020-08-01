@@ -108,6 +108,21 @@ enum SettingTypes: String, CaseIterable
     case FieldOfView = "FieldOfView"
     /// Double: User camera orthographic scale value.
     case OrthographicScale = "OrthographicScale"
+    /// Bool: If true, grid lines are drawn on the map itself. If false, they are drawn
+    /// semi-three dimensionally.
+    case GridLinesDrawnOnMap = "GridLineDrawnOnMap"
+    /// Bool: If true, city names are drawn on the map itself. If false, they are drawn
+    /// with 3D extruded text.
+    case CityNamesDrawnOnMap = "CityNamesDrawnOnMap"
+    /// Bool: If true, earthquake magnitude values are drawn on the map itself. If false,
+    /// they are drawn with 3D extruded text.
+    case MagnitudeValuesDrawnOnMap = "MagnitudeValuesDrawnOnMap"
+    /// Bool: If true, earthquake regions are drawn on the map. If false, they are not drawn.
+    case DrawEarthquakeRegions = "DrawEarthquakeRegions"
+    /// NSColor: The color to use to draw earthquake region bords.
+    case EarthquakeRegionBorderColor = "EarthquakeRegionBorderColor"
+    /// Double: The width of earthquake borders.
+    case EarthquakeRegionBorderWidth = "EarthquakeRegionBorderWidth"
     #if DEBUG
     //3D debug settings.
     /// Render 3D elements as wireframes.
@@ -252,6 +267,10 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeMagnitudeViews = "EarthquakeMagnitudeViews"
     /// NSColor: The color of the bars that indicate a combined earthquake.
     case CombinedEarthquakeColor = "CombinedEarthquakeColor"
+    /// String: Contains all regions monitored for a set of earthquake parameters.
+    /// - Warning: Do not access this setting directly.
+    /// - Note: See also `GetEarthquakeRegions` and `SetEarthquakeRegions`.
+    case EarthquakeRegions = "EarthquakeRegions"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
