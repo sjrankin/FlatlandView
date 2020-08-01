@@ -20,7 +20,7 @@ class EarthData
     /// from the call to `LoadMap` to the call of this completion handler.
     typealias MapLoadedHandler = ((NSImage, Double, Date) -> ())?
     
-    func LoadMap(_ Map: inout SatelliteMap, For ImageDate: Date, Completed: MapLoadedHandler = nil)
+    func LoadMap(_ Map: SatelliteMap, For ImageDate: Date, Completed: MapLoadedHandler = nil)
     {
         let StartTime = CACurrentMediaTime()
         MainDelegate?.SetIndicatorVisibility(true)
@@ -32,34 +32,37 @@ class EarthData
         let TilesX = Map.HorizontalTileCount
         let TilesY = Map.VerticalTileCount
         
-        let test = Date().DaysAgo(5)
-        Map.URLs = SatelliteMap.GenerateTileInformation(From: Map, When: test)//Date().DaysAgo(5))
-        let ExpectedCount = Map.URLs.count
-        
-        TileMap.removeAll()
-        Results.removeAll()
-        DownloadCount = 0
-        
-        for (Path, Row, Column) in Map.URLs
+        DispatchQueue.main.async
         {
-            if let TileURL = URL(string: Path)
+            Map.URLs = SatelliteMap.GenerateTileInformation(From: Map, When: ImageDate)
+            let ExpectedCount = Map.URLs.count
+            
+            self.TileMap.removeAll()
+            self.Results.removeAll()
+            self.DownloadCount = 0
+            
+            for (Path, Row, Column) in Map.URLs
             {
-                GetTile(From: TileURL, Row: Row, Column: Column, ExpectedCount: ExpectedCount,
-                        MaxRows: Map.VerticalTileCount, MaxColumns: Map.HorizontalTileCount)
+                if let TileURL = URL(string: Path)
                 {
-                    //Called when all tiles are downloaded - time to start assembling them.
-                    self.CreateMapFromTiles(TilesX: TilesX, TilesY: TilesY, When: test)//ImageDate)
+                    self.GetTile(From: TileURL, Row: Row, Column: Column, ExpectedCount: ExpectedCount,
+                                 MaxRows: Map.VerticalTileCount, MaxColumns: Map.HorizontalTileCount)
                     {
-                        Image, Duration, When in
-                        let TotalDuration = Duration + CACurrentMediaTime() - StartTime
-                        Completed?(Image, TotalDuration, When)
+                        //Called when all tiles are downloaded - time to start assembling them.
+                        self.CreateMapFromTiles(TilesX: TilesX, TilesY: TilesY, When: ImageDate)
+                        {
+                            Image, Duration, When in
+                            let TotalDuration = Duration + CACurrentMediaTime() - StartTime
+                            Completed?(Image, TotalDuration, When)
+                        }
                     }
                 }
             }
         }
     }
     
-    func CreateMapFromTiles(TilesX: Int, TilesY: Int, When: Date, Completion: MapLoadedHandler = nil)
+    func CreateMapFromTiles(TilesX: Int, TilesY: Int, When: Date,
+                            Completion: MapLoadedHandler = nil)
     {
         let Start = CACurrentMediaTime()
         MainDelegate?.SetIndicatorPercent(0.0)
@@ -120,7 +123,6 @@ class EarthData
                  MaxRows: Int, MaxColumns: Int,
                  Completed: (() -> ())? = nil)
     {
-        print("Getting tile: \(From.path)")
         DispatchQueue.global(qos: .background).async
         {
             do
