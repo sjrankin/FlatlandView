@@ -29,6 +29,8 @@ class CitySettingsWindow: NSViewController, FontProtocol
         ShowEuropeanCitiesSwitch.state = Settings.GetBool(.ShowEuropeanCities) ? .on : .off
         ShowNorthAmericanCitiesSwitch.state = Settings.GetBool(.ShowNorthAmericanCities) ? .on : .off
         ShowSouthAmericanCitiesSwitch.state = Settings.GetBool(.ShowSouthAmericanCities) ? .on : .off
+        FloatingCityNameSwitch.state = Settings.GetBool(.CityNamesDrawnOnMap) ? .off : .on
+        
         CityShapeCombo.removeAllItems()
         for Shape in CityDisplayTypes.allCases
         {
@@ -198,6 +200,15 @@ class CitySettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandleFloatingCityNameChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.CityNamesDrawnOnMap, Switch.state == .on ? false : true)
+        }
+    }
+    
+    @IBOutlet weak var FloatingCityNameSwitch: NSSwitch!
     @IBOutlet weak var CityFontButton: NSButton!
     @IBOutlet weak var ShowCapitalCitiesSwitch: NSSwitch!
     @IBOutlet weak var ShowSouthAmericanCitiesSwitch: NSSwitch!
