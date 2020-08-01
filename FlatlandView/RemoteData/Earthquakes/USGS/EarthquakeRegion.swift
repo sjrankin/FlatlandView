@@ -13,6 +13,30 @@ import AppKit
 /// local parameters for displaying earthquakes.
 class EarthquakeRegion: CustomStringConvertible
 {
+    /// Create an empty earthquake region.
+    init()
+    {
+        IsFallback = false
+        AlwaysInvisible = false
+    }
+    
+    /// Create the fallback earthquake region.
+    init(FallBack: Bool)
+    {
+        IsFallback = FallBack
+        AlwaysInvisible = true
+        MinimumMagnitude = 5.0
+        MaximumMagnitude = 10.0
+        UpperLeft = GeoPoint2(90.0, -180.0)
+        LowerRight = GeoPoint2(-90.0, 180.0)
+        RegionName = "World Fallback"
+        BorderColor = NSColor.clear
+        BorderWidth = 0.0
+        Notification = .None
+        SoundName = .None
+        Age = 5
+    }
+    
     /// Returns the string value of the region. Used for serialization.
     var description: String
     {
@@ -41,6 +65,10 @@ class EarthquakeRegion: CustomStringConvertible
         }
     }
     
+    /// If true, this is the fallback region, which is the entire world. Defaults to false.
+    var IsFallback: Bool = false
+    /// If true, the region never has its area plotted on the map. Defaults to false.
+    var AlwaysInvisible: Bool = false
     /// The minimum magnitude to display.
     var MinimumMagnitude: Double = 5.0
     /// The maximum magnitude to display.
