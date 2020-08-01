@@ -353,6 +353,19 @@ enum DebugOptions3D: UInt, CaseIterable
 }
 #endif
 
+/// Time units.
+public enum TimeUnits
+{
+    /// Represents a calendar year.
+    case Year
+    /// Represents a calendar day.
+    case Day
+    /// Represents an hour.
+    case Hour
+    /// Represents a minute.
+    case Minute
+}
+
 /// Defines the types of asynchronous data that may be received.
 enum AsynchronousDataTypes: String, CaseIterable
 {
