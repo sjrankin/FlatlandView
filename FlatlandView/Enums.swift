@@ -27,6 +27,26 @@ enum ViewTypes: String, CaseIterable
     case CubicWorld = "Cubic"
 }
 
+/// Types of earthquake notifications.
+enum EarthquakeNotifications: String, CaseIterable
+{
+    /// No asynchronous notification.
+    case None = "None"
+    /// Play a sound.
+    case Sound = "Sound"
+    /// Display a pop-up.
+    case Popup = "Popup"
+    /// Play a sound and display a pop-up.
+    case Both = "Both"
+}
+
+/// Notification sounds.
+enum NotificationSounds: String, CaseIterable
+{
+    /// No sound.
+    case None = "None"
+}
+
 /// Types of hour labels.
 enum HourValueTypes: String, CaseIterable
 {
