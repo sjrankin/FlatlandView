@@ -52,7 +52,6 @@ public class GeoPoint2: CustomStringConvertible
     }
     
     /// Initializer.
-    ///
     /// - Parameters:
     ///   - Lat: Initial latitude.
     ///   - Lon: Initial longitude.
@@ -62,6 +61,30 @@ public class GeoPoint2: CustomStringConvertible
         Latitude = Lat
         Longitude = Lon
         NameEn = Label
+    }
+    
+    /// Initializer.
+    /// - Parameter Raw: String to convert to a latitude, longitude pair. Format is `latitude,longitude`.
+    /// - Returns: Nil on failure.
+    init?(Raw: String)
+    {
+        let Parts = Raw.split(separator: ",", omittingEmptySubsequences: true)
+        if Parts.count != 2
+        {
+            return nil
+        }
+        let LatString = String(Parts[0])
+        let LonString = String(Parts[1])
+        guard let Lat = Double(LatString) else
+        {
+            return nil
+        }
+        guard let Lon = Double(LonString) else
+        {
+            return nil
+        }
+        Latitude = Lat
+        Longitude = Lon
     }
     
     /// Contains the database record ID.
@@ -386,6 +409,28 @@ public class GeoPoint2: CustomStringConvertible
         {
             Longitude = NewX
         }
+    }
+    
+    /// Converts the current latitude and longitude values into absolute coordintes on an equirectangular
+    /// plain. Intended for use for plotting earthquake regions.
+    /// - Parameter Width: Width of the target equirectanglular plain.
+    /// - Parameter Height: Height of the target equirectangular plain.
+    /// - Returns: Tuple with (X, Y) coordinates on the target equirectangular plain.
+    public func ToEquirectangular(Width: Int, Height: Int) -> (X: Int, Y: Int)
+    {
+        var AdjustedLatitude: Double = 0
+        if Latitude > 0.0
+        {
+            AdjustedLatitude = abs(Latitude - 90)
+        }
+        else
+        {
+            AdjustedLatitude = abs(Latitude) + 90
+        }
+        let AdjustedLongitude = Longitude + 180
+        let LatPercent = AdjustedLatitude / 180.0
+        let LonPercent = AdjustedLongitude / 360.0
+        return (X: Int(LonPercent * Double(Width)), Y: Int(LatPercent * Double(Height)))
     }
     
     /// Contains the altitude of the location.
