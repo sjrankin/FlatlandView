@@ -20,12 +20,12 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         Settings.AddSubscriber(self)
         
         SetIndicatorText("")
-        let Yesterday = Date().Yesterday
-        var Maps = EarthData.MakeSatelliteMapDefinitions()
+        let Earlier = Date().HoursAgo(36)
+        let Maps = EarthData.MakeSatelliteMapDefinitions()
         let Earth = EarthData()
         Earth.MainDelegate = self
         Earth.Delegate = self
-        Earth.LoadMap(&Maps[0], For: Yesterday.Yesterday, Completed: EarthMapReceived)
+        Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
         
         Earthquakes = USGS()
         Earthquakes?.Delegate = self
@@ -73,7 +73,14 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     func EarthMapReceived(Image: NSImage, Duration: Double, ImageDate: Date)
     {
+        SetIndicatorText("")
+        SetIndicatorVisibility(false)
+        //let Brightened = Image.SetImageBrightness(To: 0.1)
         print("Map generation duration \(Duration), Date: \(ImageDate)")
+//        World3DView.AddEarth(WithMap: Brightened)
+        let Maps = EarthData.MakeSatelliteMapDefinitions()
+        Maps[0].CachedMap = Image
+//        World3DView.AddEarth(WithMap: Image)
     }
     
     var Earthquakes: USGS? = nil
