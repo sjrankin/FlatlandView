@@ -49,6 +49,7 @@ class View3DSettingsWindow: NSViewController, FontProtocol
         Show3DEquator.state = Settings.GetBool(.Show3DEquator) ? .on : .off
         ShowMoonlightSwitch.state = Settings.GetBool(.ShowMoonLight) ? .on : .off
         Show3DGridLines.state = Settings.GetBool(.Show3DGridLines) ? .on : .off
+        GridLinesDrawnOnMapSwitch.state = Settings.GetBool(.GridLinesDrawnOnMap) ? .on : .off
         PoleShapeCombo.removeAllItems()
         for PoleShape in PolarShapes.allCases
         {
@@ -291,6 +292,15 @@ class View3DSettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandleGridLinesDrawnOnMapChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.GridLinesDrawnOnMap, Switch.state == .on)
+        }
+    }
+    
+    @IBOutlet weak var GridLinesDrawnOnMapSwitch: NSSwitch!
     @IBOutlet weak var HourFontButton: NSButton!
     @IBOutlet weak var MinorGridLineColorWell: NSColorWell!
     @IBOutlet weak var GridLineColorWell: NSColorWell!
