@@ -118,6 +118,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
                 MagnitudeViewSegment.selectedSegment = 2
         }
         CombinedColorWell.color = Settings.GetColor(.CombinedEarthquakeColor, NSColor.orange)
+        FloatingMagnitudeCheck.state = Settings.GetBool(.MagnitudeValuesDrawnOnMap) ? .off : .on
     }
     
     @IBAction func HandleFetchFrequencyChanged(_ sender: Any)
@@ -448,6 +449,15 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandleFloatingMagnitudeCheckChanged(_ sender: Any)
+    {
+        if let Check = sender as? NSButton
+        {
+            Settings.SetBool(.MagnitudeValuesDrawnOnMap, Check.state == .off)
+        }
+    }
+    
+    @IBOutlet weak var FloatingMagnitudeCheck: NSButton!
     @IBOutlet weak var CombinedColorWell: NSColorWell!
     @IBOutlet weak var MagnitudeViewSegment: NSSegmentedControl!
     @IBOutlet weak var EarthquakeFontButton: NSButton!
