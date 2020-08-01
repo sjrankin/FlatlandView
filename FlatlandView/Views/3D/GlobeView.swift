@@ -612,7 +612,7 @@ class GlobeView: SCNView, GlobeProtocol
     
     /// Add an Earth view to the 3D view.
     /// - Parameter FastAnimated: Used for debugging.
-    func AddEarth(FastAnimate: Bool = false)
+    func AddEarth(FastAnimate: Bool = false, WithMap: NSImage? = nil)
     {
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .CubicWorld
         {
@@ -660,7 +660,14 @@ class GlobeView: SCNView, GlobeProtocol
         let MapType = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
         var BaseMap: NSImage? = nil
         var SecondaryMap = NSImage()
+        if let OtherMap = WithMap
+        {
+            BaseMap = OtherMap
+        }
+        else
+        {
         BaseMap = MapManager.ImageFor(MapType: MapType, ViewType: .Globe3D)
+        }
         if BaseMap == nil
         {
             print("Error retrieving base map \(MapType). Trying standard map.")
