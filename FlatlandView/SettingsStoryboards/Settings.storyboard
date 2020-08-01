@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17132" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17140" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17132"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17140"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17140"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -343,7 +343,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MUb-wl-wgo">
-                                <rect key="frame" x="363" y="3" width="75" height="32"/>
+                                <rect key="frame" x="362" y="3" width="76" height="32"/>
                                 <buttonCell key="cell" type="push" title="Apply" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="uEM-k1-dnt">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -352,29 +352,73 @@
                                     <action selector="HandleApplyPressed:" target="J9P-22-Vzp" id="Xgp-Za-ic5"/>
                                 </connections>
                             </button>
-                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nR2-lJ-icJ">
-                                <rect key="frame" x="630" y="18" width="152" height="24"/>
-                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="stt-ut-57F">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="ESS-9T-6d0">
+                                <rect key="frame" x="19" y="10" width="331" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="EGs-2L-hbu"/>
+                                    <constraint firstAttribute="width" constant="327" id="qVg-gF-PID"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="Multiline Label" id="sl1-Lw-JCL">
                                     <font key="font" metaFont="system"/>
-                                    <segments>
-                                        <segment image="NorthCenterIcon" width="48"/>
-                                        <segment image="SouthCenterIcon" width="48" tag="1"/>
-                                        <segment image="GlobeIcon" width="48" selected="YES">
-                                            <nil key="label"/>
-                                        </segment>
-                                    </segments>
-                                </segmentedCell>
-                            </segmentedControl>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="pnu-Hd-CNW">
+                                <rect key="frame" x="481" y="16" width="295" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="295" id="PZY-VN-Qu2"/>
+                                </constraints>
+                                <rows>
+                                    <gridRow id="25d-yX-VTO"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn id="yal-5i-zf2"/>
+                                    <gridColumn leadingPadding="20" id="lQh-Gq-Pcb"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="25d-yX-VTO" column="yal-5i-zf2" id="xXq-KH-Pkn">
+                                        <button key="contentView" hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KvK-Tw-vIZ">
+                                            <rect key="frame" x="-2" y="2" width="125" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Transparent map" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="eaw-on-k18">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="HandleTransparentMapCheckChanged:" target="J9P-22-Vzp" id="eou-Q4-qRW"/>
+                                            </connections>
+                                        </button>
+                                    </gridCell>
+                                    <gridCell row="25d-yX-VTO" column="lQh-Gq-Pcb" id="wSc-fA-Kc3">
+                                        <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nR2-lJ-icJ">
+                                            <rect key="frame" x="145" y="-2" width="152" height="24"/>
+                                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="stt-ut-57F">
+                                                <font key="font" metaFont="system"/>
+                                                <segments>
+                                                    <segment image="NorthCenterIcon" width="48"/>
+                                                    <segment image="SouthCenterIcon" width="48" tag="1"/>
+                                                    <segment image="GlobeIcon" width="48" selected="YES">
+                                                        <nil key="label"/>
+                                                    </segment>
+                                                </segments>
+                                            </segmentedCell>
+                                        </segmentedControl>
+                                    </gridCell>
+                                </gridCells>
+                            </gridView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="MUb-wl-wgo" firstAttribute="centerX" secondItem="edt-ju-UU7" secondAttribute="centerX" id="206-ZB-QrX"/>
+                            <constraint firstItem="ESS-9T-6d0" firstAttribute="top" secondItem="hkj-qZ-Gwc" secondAttribute="bottom" constant="8" symbolic="YES" id="29a-UY-Mx2"/>
                             <constraint firstItem="x4S-5t-PQo" firstAttribute="leading" secondItem="hkj-qZ-Gwc" secondAttribute="trailing" constant="8" symbolic="YES" id="Ep7-qx-YpW"/>
                             <constraint firstItem="Lzu-Tp-irk" firstAttribute="trailing" secondItem="YBS-dT-mA2" secondAttribute="trailing" id="GHl-5g-poj"/>
-                            <constraint firstItem="nR2-lJ-icJ" firstAttribute="top" secondItem="YBS-dT-mA2" secondAttribute="bottom" constant="15" id="H1h-Ab-8p1"/>
                             <constraint firstItem="hkj-qZ-Gwc" firstAttribute="top" secondItem="x4S-5t-PQo" secondAttribute="top" id="JJ7-Tb-IoC"/>
+                            <constraint firstItem="pnu-Hd-CNW" firstAttribute="top" secondItem="YBS-dT-mA2" secondAttribute="bottom" constant="19" id="KfA-VJ-hlO"/>
                             <constraint firstItem="YBS-dT-mA2" firstAttribute="top" secondItem="Lzu-Tp-irk" secondAttribute="bottom" constant="8" symbolic="YES" id="Lr6-Sh-a0m"/>
-                            <constraint firstItem="YBS-dT-mA2" firstAttribute="trailing" secondItem="nR2-lJ-icJ" secondAttribute="trailing" id="QbF-hv-4AF"/>
-                            <constraint firstAttribute="bottom" secondItem="nR2-lJ-icJ" secondAttribute="bottom" constant="20" symbolic="YES" id="dti-Xn-yGk"/>
+                            <constraint firstItem="pnu-Hd-CNW" firstAttribute="leading" secondItem="MUb-wl-wgo" secondAttribute="trailing" constant="49" id="Zug-Wp-edf"/>
+                            <constraint firstItem="pnu-Hd-CNW" firstAttribute="centerY" secondItem="ESS-9T-6d0" secondAttribute="centerY" id="apz-qt-y4u"/>
+                            <constraint firstItem="MUb-wl-wgo" firstAttribute="leading" secondItem="ESS-9T-6d0" secondAttribute="trailing" constant="20" id="do5-Th-Sol"/>
+                            <constraint firstAttribute="trailing" secondItem="pnu-Hd-CNW" secondAttribute="trailing" constant="24" id="lRG-wG-XBG"/>
                             <constraint firstItem="MUb-wl-wgo" firstAttribute="top" secondItem="x4S-5t-PQo" secondAttribute="bottom" constant="20" symbolic="YES" id="ndB-KA-S33"/>
                             <constraint firstItem="hkj-qZ-Gwc" firstAttribute="leading" secondItem="edt-ju-UU7" secondAttribute="leading" constant="20" symbolic="YES" id="o0j-vz-6o6"/>
                             <constraint firstAttribute="trailing" secondItem="Lzu-Tp-irk" secondAttribute="trailing" constant="20" symbolic="YES" id="uEn-K2-qI4"/>
@@ -388,6 +432,8 @@
                         <outlet property="MapSampleView" destination="YBS-dT-mA2" id="Wvf-5Y-sCt"/>
                         <outlet property="MapSampleViewSegment" destination="nR2-lJ-icJ" id="rRZ-gP-XM6"/>
                         <outlet property="MapTypeTable" destination="3AZ-fK-Jtj" id="rdM-Oo-83G"/>
+                        <outlet property="NotesField" destination="ESS-9T-6d0" id="2ou-7D-Kps"/>
+                        <outlet property="TransparentMapCheck" destination="KvK-Tw-vIZ" id="pl4-M1-ScH"/>
                     </connections>
                 </viewController>
                 <customObject id="czH-v9-Cm7" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -3106,7 +3152,7 @@ DQ
                                 </connections>
                             </button>
                             <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="xnu-oj-TOY">
-                                <rect key="frame" x="20" y="64" width="369" height="336"/>
+                                <rect key="frame" x="20" y="64" width="480" height="336"/>
                                 <rows>
                                     <gridRow yPlacement="center" bottomPadding="15" id="WH3-sD-3qQ"/>
                                     <gridRow yPlacement="center" id="nmc-9b-v4U"/>
@@ -3123,6 +3169,7 @@ DQ
                                 <columns>
                                     <gridColumn id="Uwu-uc-0fv"/>
                                     <gridColumn id="QXg-Mz-45T"/>
+                                    <gridColumn id="bOz-5N-Y5C"/>
                                 </columns>
                                 <gridCells>
                                     <gridCell row="WH3-sD-3qQ" column="Uwu-uc-0fv" id="1gk-D2-j3y">
@@ -3142,6 +3189,15 @@ DQ
                                                 <action selector="HandleEarthquakeSwitchChanged:" target="zQf-lG-HN1" id="ENc-Kr-9Or"/>
                                             </connections>
                                         </switch>
+                                    </gridCell>
+                                    <gridCell row="WH3-sD-3qQ" column="bOz-5N-Y5C" id="LlZ-lo-SNh">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X9r-we-C0c">
+                                            <rect key="frame" x="369" y="308" width="117" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Notifications" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yIL-l8-owS">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
                                     </gridCell>
                                     <gridCell row="nmc-9b-v4U" column="Uwu-uc-0fv" id="gSZ-q4-915">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cq1-H2-6HU">
@@ -3174,6 +3230,7 @@ DQ
                                             </connections>
                                         </comboBox>
                                     </gridCell>
+                                    <gridCell row="nmc-9b-v4U" column="bOz-5N-Y5C" id="8iJ-VV-WIS"/>
                                     <gridCell row="28N-0M-f6E" column="Uwu-uc-0fv" id="Tvg-do-3yo">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ou9-g6-iMc">
                                             <rect key="frame" x="-2" y="251" width="127" height="16"/>
@@ -3207,6 +3264,15 @@ DQ
                                             </connections>
                                         </segmentedControl>
                                     </gridCell>
+                                    <gridCell row="28N-0M-f6E" column="bOz-5N-Y5C" id="6HN-zE-aP3">
+                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aLg-2P-BAm">
+                                            <rect key="frame" x="369" y="241" width="89" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Regions" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="El7-4A-tRD">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
+                                    </gridCell>
                                     <gridCell row="yUI-Z0-sH7" column="Uwu-uc-0fv" id="4oH-xo-r6j">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GeG-NP-EYa">
                                             <rect key="frame" x="-2" y="225" width="28" height="16"/>
@@ -3238,6 +3304,7 @@ DQ
                                             </connections>
                                         </comboBox>
                                     </gridCell>
+                                    <gridCell row="yUI-Z0-sH7" column="bOz-5N-Y5C" id="b3J-en-AQo"/>
                                     <gridCell row="1Iu-L6-KWn" column="Uwu-uc-0fv" id="asb-3I-h4Z">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iAd-ia-aGI">
                                             <rect key="frame" x="-2" y="199" width="101" height="16"/>
@@ -3264,6 +3331,7 @@ DQ
                                             </connections>
                                         </button>
                                     </gridCell>
+                                    <gridCell row="1Iu-L6-KWn" column="bOz-5N-Y5C" id="k4j-zG-HUH"/>
                                     <gridCell row="5jV-Bj-E9O" column="Uwu-uc-0fv" id="0Oe-Nw-c70">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bBW-6v-TS9">
                                             <rect key="frame" x="-2" y="173" width="125" height="16"/>
@@ -3295,6 +3363,7 @@ DQ
                                             </connections>
                                         </comboBox>
                                     </gridCell>
+                                    <gridCell row="5jV-Bj-E9O" column="bOz-5N-Y5C" id="7AM-Cb-MKv"/>
                                     <gridCell row="pEq-BE-YjV" column="Uwu-uc-0fv" id="TCX-u1-eHC">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1eh-0h-uGi">
                                             <rect key="frame" x="-2" y="142" width="68" height="16"/>
@@ -3319,6 +3388,7 @@ DQ
                                             </connections>
                                         </colorWell>
                                     </gridCell>
+                                    <gridCell row="pEq-BE-YjV" column="bOz-5N-Y5C" id="i66-OF-weX"/>
                                     <gridCell row="6HS-6Z-toN" column="Uwu-uc-0fv" id="svK-vb-BTP">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UAd-pW-MCx">
                                             <rect key="frame" x="-2" y="106" width="100" height="16"/>
@@ -3343,6 +3413,7 @@ DQ
                                             </connections>
                                         </colorWell>
                                     </gridCell>
+                                    <gridCell row="6HS-6Z-toN" column="bOz-5N-Y5C" id="md9-fW-4U7"/>
                                     <gridCell row="x2I-0M-lm1" column="Uwu-uc-0fv" id="Fvy-WT-yH7">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gx1-F2-r9E">
                                             <rect key="frame" x="-2" y="66" width="43" height="16"/>
@@ -3374,6 +3445,7 @@ DQ
                                             </connections>
                                         </comboBox>
                                     </gridCell>
+                                    <gridCell row="x2I-0M-lm1" column="bOz-5N-Y5C" id="qmt-oO-TcD"/>
                                     <gridCell row="JJp-8w-KVR" column="Uwu-uc-0fv" id="aXN-V6-AbU">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gpW-Q8-zLW">
                                             <rect key="frame" x="-2" y="30" width="106" height="16"/>
@@ -3403,6 +3475,7 @@ DQ
                                             </connections>
                                         </segmentedControl>
                                     </gridCell>
+                                    <gridCell row="JJp-8w-KVR" column="bOz-5N-Y5C" id="qgA-EL-oCA"/>
                                     <gridCell row="H3a-Dx-S1d" column="Uwu-uc-0fv" id="aqY-7D-Byi"/>
                                     <gridCell row="H3a-Dx-S1d" column="QXg-Mz-45T" id="hXu-KR-cNS">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wJ9-WJ-DJD">
@@ -3416,6 +3489,7 @@ DQ
                                             </connections>
                                         </button>
                                     </gridCell>
+                                    <gridCell row="H3a-Dx-S1d" column="bOz-5N-Y5C" id="bZl-G0-EeN"/>
                                 </gridCells>
                             </gridView>
                         </subviews>
