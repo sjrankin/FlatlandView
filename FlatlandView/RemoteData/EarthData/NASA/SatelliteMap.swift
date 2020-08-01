@@ -124,6 +124,49 @@ class SatelliteMap
     /// Holds a list of generated paths for each valid row/column combination.
     public var URLs = [(Path: String, Row: Int, Column: Int)]()
     
+    /// Holds the cached map image. Setting this property also sets `CachedMapTimeStamp`.
+    public var CachedMap: NSImage? = nil
+    {
+        didSet
+        {
+            CachedMapTimeStamp = Date()
+        }
+    }
+    
+    /// Holds the time stamp of the cached map. This is used to determine if it's time to reload the
+    /// satellite image.
+    public var CachedMapTimeStamp: Date? = nil
+    
+    /// Determines if the cached satellite map is valid. Validity is determined by how old the image is.
+    /// - Returns: True if the image is valid, false if not.
+    public func CachedMapIsValid() -> Bool
+    {
+        if let TimeStamp = CachedMapTimeStamp
+        {
+            let TimeStampSeconds = TimeStamp.timeIntervalSinceReferenceDate
+            let NowSeconds = Date().timeIntervalSinceReferenceDate
+            let Delta = NowSeconds - TimeStampSeconds
+            if Delta < 0.0
+            {
+                CachedMapTimeStamp = nil
+                return false
+            }
+            let DeltaHours = Delta / 60 * 60 * 24.0
+            if DeltaHours < 36.0
+            {
+                return true
+            }
+            else
+            {
+                return false
+            }
+        }
+        else
+        {
+            return false
+        }
+    }
+    
     /// Generate a list of URLs - one URL for each valid row/column combination.
     /// - Parameter From: The `SatelliteMap` class with appropriate data.
     /// - Parameter When: The date desired for the images.
