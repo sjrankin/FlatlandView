@@ -69,6 +69,17 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         {
             CatIndex = 0
         }
+        else
+        {
+            if LastCategory! == .Satellite
+            {
+                TransparentMapCheck.isHidden = false
+            }
+            else
+            {
+                TransparentMapCheck.isHidden = true
+            }
+        }
         MapTypeTable.selectRowIndexes(IndexSet(integer: CatIndex!), byExtendingSelection: false)
         var MapIndex = MapManager.GetMapsInCategory(LastCategory!).firstIndex(of: LastMap)
         if MapIndex == nil
@@ -76,6 +87,7 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
             MapIndex = 0
         }
         MapListTable.selectRowIndexes(IndexSet(integer: MapIndex!), byExtendingSelection: false)
+        NotesField.stringValue = ""
     }
     
     func DisplayCurrentMap(_ Current: MapTypes)
@@ -91,6 +103,16 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         let NewCategory = MapCategoryList[MapTypeTable.clickedRow]
         MapList = MapManager.GetMapsInCategory(NewCategory)
         MapListTable.reloadData()
+        if NewCategory == .Satellite
+        {
+            TransparentMapCheck.isHidden = false
+            NotesField.stringValue = "Maps in this category are downloaded from NASA and will take time to assemble and use bandwidth."
+        }
+        else
+        {
+            TransparentMapCheck.isHidden = true
+            NotesField.stringValue = ""
+        }
     }
     
     @objc func HandleMapListClicked()
@@ -201,6 +223,12 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         return 22.0
     }
     
+    @IBAction func HandleTransparentMapCheckChanged(_ sender: Any)
+    {
+    }
+    
+    @IBOutlet weak var TransparentMapCheck: NSButton!
+    @IBOutlet weak var NotesField: NSTextField!
     @IBOutlet weak var MapSampleViewSegment: NSSegmentedControl!
     @IBOutlet weak var MapListTable: NSTableView!
     @IBOutlet weak var MapTypeTable: NSTableView!
