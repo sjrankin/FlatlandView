@@ -22,6 +22,7 @@ class MapManager
     /// - Returns: Map image for the specified map type. Nil if not found.
     public static func ImageFor(MapType: MapTypes, ViewType: ViewTypes, ImageCenter: ImageCenters = .NorthPole) -> NSImage?
     {
+        let MapCategory = CategoryFor(Map: MapType)!
         if let SomeMap = MapList.Map(For: MapType)
         {
             switch ViewType
@@ -33,7 +34,14 @@ class MapManager
                     return SomeMap.GetMapImage(For: .South)
                 
                 case .Globe3D:
+                    if MapCategory == .Satellite
+                    {
+                        
+                    }
+                    else
+                    {
                     return SomeMap.GetMapImage(For: .Global)
+                    }
                 
                 default:
                     return nil
