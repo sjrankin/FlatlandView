@@ -77,6 +77,8 @@
 		1767A8E624794A0100C434B5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E524794A0100C434B5 /* MainView.swift */; };
 		1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E724794A0300C434B5 /* Assets.xcassets */; };
 		1767A8EB24794A0300C434B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E924794A0300C434B5 /* Main.storyboard */; };
+		176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */; };
+		176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */; };
 		177D0E6B24D512130082BF58 /* +Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177D0E6A24D512130082BF58 /* +Annotation.swift */; };
 		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
 		177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D32480D49200CAD1B9 /* ActualMap.swift */; };
@@ -238,6 +240,8 @@
 		1767A8EA24794A0300C434B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1767A8EC24794A0300C434B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandView.entitlements; sourceTree = "<group>"; };
+		176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow.swift; sourceTree = "<group>"; };
+		176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController.swift; sourceTree = "<group>"; };
 		177D0E6A24D512130082BF58 /* +Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Annotation.swift"; sourceTree = "<group>"; };
 		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
 		177EE5D32480D49200CAD1B9 /* ActualMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMap.swift; sourceTree = "<group>"; };
@@ -429,6 +433,7 @@
 		174F010D248CD0F700F610DD /* MainSettings */ = {
 			isa = PBXGroup;
 			children = (
+				176EE0A724D58C7500131944 /* EarthquakeRegion */,
 				17562D5C24BC15AA00900079 /* Debug */,
 				174623D424A83FD4007F5D4C /* StarField3D */,
 				1759FC6324A61302001B1D4B /* RecentEarthquakes */,
@@ -617,6 +622,15 @@
 				1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */,
 			);
 			path = FlatlandView;
+			sourceTree = "<group>";
+		};
+		176EE0A724D58C7500131944 /* EarthquakeRegion */ = {
+			isa = PBXGroup;
+			children = (
+				176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */,
+				176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */,
+			);
+			path = EarthquakeRegion;
 			sourceTree = "<group>";
 		};
 		177EE5D72480D4AE00CAD1B9 /* Actual */ = {
@@ -985,6 +999,7 @@
 			files = (
 				178A869A2488C3B600BE8D46 /* AboutDetailsController.swift in Sources */,
 				17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */,
+				176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */,
 				1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */,
 				1740F49B2493173A00F6FAAE /* Hours.swift in Sources */,
 				1750044324B4640B006528A4 /* FontProtocol.swift in Sources */,
@@ -1115,6 +1130,7 @@
 				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
 				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
 				1759AE5E249F811E003F79F5 /* OtherOptions.swift in Sources */,
+				176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */,
 				1750044724B46E92006528A4 /* FontNameView.swift in Sources */,
 				1759AE6C249F8264003F79F5 /* CitySettingsWindow.swift in Sources */,
 				17B7D7BE24CED162000C077B /* ImageMerger.swift in Sources */,
