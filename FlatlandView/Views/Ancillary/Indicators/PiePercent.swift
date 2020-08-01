@@ -159,7 +159,8 @@ class PiePercent: NSView
         let Center = CGPoint(x: bounds.size.width / 2.0, y: bounds.size.height / 2.0)
         let Segments = [EmptySegment!, FullSegment!]
         let Count = Segments.reduce(0, {$0 + $1.Value})
-        var StartAngle = -CGFloat.pi / 2.0
+        //var StartAngle = -CGFloat.pi / 2.0
+        var StartAngle = CGFloat(90.0.Radians)
         let ClockwiseRotation = -1.0 * 2.0 * CGFloat.pi
         for Segment in Segments
         {
