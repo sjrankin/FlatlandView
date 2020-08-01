@@ -847,6 +847,39 @@ class Settings
     
     // MARK: - Special settings.
     
+    /// Load earthquake regions.
+    /// - Returns: Array of previously stored earthquake regions. Empty if no regions available.
+    public static func GetEarthquakeRegions() -> [EarthquakeRegion]
+    {
+        var Regions = [EarthquakeRegion]()
+        let Raw = UserDefaults.standard.string(forKey: SettingTypes.EarthquakeRegions.rawValue)
+        if let Parts = Raw?.split(separator: "∫", omittingEmptySubsequences: true)
+        {
+        for Part in Parts
+        {
+            if let Region = EarthquakeRegion.Decode(Raw: String(Part))
+            {
+                Regions.append(Region)
+            }
+        }
+        }
+        return Regions
+    }
+    
+    /// Save earthquake regions.
+    /// - Parameter Regions: Array of earthquake regions to save.
+    public static func SetEarthquakeRegions(_ Regions: [EarthquakeRegion])
+    {
+        var Final: String = ""
+        for Region in Regions
+        {
+            Final.append("\(Region)")
+            Final.append("∫")
+        }
+        UserDefaults.standard.setValue(Final, forKey: SettingTypes.EarthquakeRegions.rawValue)
+        NotifySubscribers(Setting: .EarthquakeRegions, OldValue: nil, NewValue: Regions as Any)
+    }
+    
     /// Parse a single entry in the stored earthquake magnitude level to color.
     /// - Parameter Mag: Raw magnitude value.
     /// - Parameter Color: Raw color value.
