@@ -29,7 +29,7 @@ class LiveDataViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         switch DataType
         {
             case .Earthquakes:
-                if let RawEarthquakes = Raw as? [Earthquake2]
+                if let RawEarthquakes = Raw as? [Earthquake]
                 {
                     let Plural = RawEarthquakes.count == 1 ? "" : "s"
                     TableSummary.stringValue = "\(RawEarthquakes.count) earthquake\(Plural)"
@@ -42,7 +42,7 @@ class LiveDataViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         }
     }
     
-    var EarthquakeList = [Earthquake2]()
+    var EarthquakeList = [Earthquake]()
     var LiveDataCategories =
     [
         "Earthquakes"
