@@ -48,7 +48,7 @@ class FontPickerController: NSViewController, NSTableViewDelegate, NSTableViewDa
                 FontSizeBox.stringValue = "\(Font.FontSize.RoundedTo(0))"
                 FontSizeSlider.doubleValue = Double(Font.FontSize)
                 FontColorPicker.color = Font.FontColor
-            SelectThenHighlight(Family, Font.PostscriptName)
+                SelectThenHighlight(Family, Font.PostscriptName)
             }
         }
     }
@@ -202,17 +202,17 @@ class FontPickerController: NSViewController, NSTableViewDelegate, NSTableViewDa
     {
         if let Font = ReadUI()
         {
-        let SampleFont = NSFont(name: Font.PostscriptName, size: CGFloat(Font.FontSize))
-        SampleTextField.textColor = Font.FontColor
-        SampleTextField.font = SampleFont
-        if let FamilyName = FontHelper.FontFamilyForPostscriptFile(Font.PostscriptName)
-        {
-            if let FontStyle = FontHelper.PostscriptStyle(In: FamilyName, Postscript: Font.PostscriptName)
+            let SampleFont = NSFont(name: Font.PostscriptName, size: CGFloat(Font.FontSize))
+            SampleTextField.textColor = Font.FontColor
+            SampleTextField.font = SampleFont
+            if let FamilyName = FontHelper.FontFamilyForPostscriptFile(Font.PostscriptName)
             {
-                SampleTextField.stringValue = "\(FamilyName) \(FontStyle)"
-                return
+                if let FontStyle = FontHelper.PostscriptStyle(In: FamilyName, Postscript: Font.PostscriptName)
+                {
+                    SampleTextField.stringValue = "\(FamilyName) \(FontStyle)"
+                    return
+                }
             }
-        }
         }
         SampleTextField.stringValue = "Huh?"
     }
@@ -237,10 +237,10 @@ class FontPickerController: NSViewController, NSTableViewDelegate, NSTableViewDa
     {
         if WantsContinuousUpdates
         {
-           if let Final = ReadUI()
-           {
-            FontDelegate?.NewFont(Final)
-           }
+            if let Final = ReadUI()
+            {
+                FontDelegate?.NewFont(Final)
+            }
         }
     }
     
