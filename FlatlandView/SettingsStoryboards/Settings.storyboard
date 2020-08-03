@@ -3291,6 +3291,9 @@ DQ
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="HandleEarthquakeRegionsButton:" target="zQf-lG-HN1" id="lXf-j4-6yI"/>
+                                            </connections>
                                         </button>
                                     </gridCell>
                                     <gridCell row="yUI-Z0-sH7" column="Uwu-uc-0fv" id="4oH-xo-r6j">
@@ -4317,7 +4320,7 @@ DQ
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <gridView fixedFrame="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="kzy-CU-luG">
-                                            <rect key="frame" x="6" y="67" width="341" height="252"/>
+                                            <rect key="frame" x="6" y="107" width="341" height="212"/>
                                             <rows>
                                                 <gridRow id="BRf-hI-cRL"/>
                                                 <gridRow id="BL6-fD-0xA"/>
@@ -4326,7 +4329,6 @@ DQ
                                                 <gridRow id="qcY-TD-JNO"/>
                                                 <gridRow id="6wR-X2-Nd8"/>
                                                 <gridRow id="upJ-oP-Sw8"/>
-                                                <gridRow id="3Rx-nc-d2E"/>
                                             </rows>
                                             <columns>
                                                 <gridColumn id="nSO-dn-FGw"/>
@@ -4334,7 +4336,7 @@ DQ
                                             <gridCells>
                                                 <gridCell row="BRf-hI-cRL" column="nSO-dn-FGw" id="BVF-x4-lRl">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="8vV-Nj-dma">
-                                                        <rect key="frame" x="0.0" y="231" width="341" height="21"/>
+                                                        <rect key="frame" x="0.0" y="191" width="341" height="21"/>
                                                         <rows>
                                                             <gridRow id="Frz-fb-ama"/>
                                                         </rows>
@@ -4355,7 +4357,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="Frz-fb-ama" column="rP4-eQ-RzT" id="fzs-Be-fsq">
                                                                 <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JGK-9J-dhB">
-                                                                    <rect key="frame" x="191" y="0.0" width="150" height="21"/>
+                                                                    <rect key="frame" x="85" y="0.0" width="150" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="150" id="3Gk-Qm-Kda"/>
                                                                         <constraint firstAttribute="height" constant="21" id="etI-wV-8bQ"/>
@@ -4365,6 +4367,9 @@ DQ
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="NWK-Dh-LTM" id="qtV-r6-ONZ"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </gridCell>
                                                         </gridCells>
@@ -4372,7 +4377,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="BL6-fD-0xA" column="nSO-dn-FGw" id="Unn-sU-ci1">
                                                     <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="A0E-SY-lTa">
-                                                        <rect key="frame" x="0.0" y="202" width="341" height="19"/>
+                                                        <rect key="frame" x="0.0" y="162" width="341" height="19"/>
                                                         <rows>
                                                             <gridRow id="wds-8o-isl"/>
                                                         </rows>
@@ -4452,7 +4457,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="lBF-Zp-mCn" column="nSO-dn-FGw" id="ueV-0I-XEA">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="ZbB-Ed-KeU">
-                                                        <rect key="frame" x="0.0" y="171" width="341" height="21"/>
+                                                        <rect key="frame" x="0.0" y="131" width="341" height="21"/>
                                                         <rows>
                                                             <gridRow id="jHE-pC-vDX"/>
                                                         </rows>
@@ -4496,6 +4501,9 @@ DQ
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="NWK-Dh-LTM" id="koJ-ad-VyA"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="jHE-pC-vDX" column="n8d-Bb-eD2" id="tHc-hb-ALD">
@@ -4520,6 +4528,9 @@ DQ
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="NWK-Dh-LTM" id="t5g-sS-OAI"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </gridCell>
                                                         </gridCells>
@@ -4527,7 +4538,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="KWf-Ms-7hh" column="nSO-dn-FGw" id="cWC-2N-6Ig">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="54S-zm-j7V">
-                                                        <rect key="frame" x="0.0" y="140" width="341" height="21"/>
+                                                        <rect key="frame" x="0.0" y="100" width="341" height="21"/>
                                                         <rows>
                                                             <gridRow id="h9B-4a-EYN"/>
                                                         </rows>
@@ -4551,7 +4562,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="wEe-NJ-MHu" id="1DN-Da-7L1">
                                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mkr-ot-m67">
-                                                                    <rect key="frame" x="128" y="3" width="24" height="16"/>
+                                                                    <rect key="frame" x="83" y="3" width="24" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Lat" id="MM6-7l-43o">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4561,7 +4572,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="yV5-9p-5ZO" id="KDi-9e-tVf">
                                                                 <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JVC-Oq-fEf">
-                                                                    <rect key="frame" x="156" y="0.0" width="70" height="21"/>
+                                                                    <rect key="frame" x="111" y="0.0" width="70" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="70" id="ItS-Kd-AZI"/>
                                                                         <constraint firstAttribute="height" constant="21" id="LJr-h7-tPM"/>
@@ -4575,17 +4586,20 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="qii-ML-xv6" id="Tge-hD-rCG">
                                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y4p-h9-2Ke">
-                                                                    <rect key="frame" x="240" y="3" width="27" height="16"/>
+                                                                    <rect key="frame" x="195" y="3" width="27" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Lon" id="x6r-TX-TmZ">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="NWK-Dh-LTM" id="rD5-3B-P0C"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="idr-EN-7o2" id="HCq-pj-ks9">
                                                                 <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8F-g2-MPp">
-                                                                    <rect key="frame" x="271" y="0.0" width="70" height="21"/>
+                                                                    <rect key="frame" x="226" y="0.0" width="70" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="CIA-Jp-N8a"/>
                                                                         <constraint firstAttribute="width" constant="70" id="RBN-qZ-SVM"/>
@@ -4595,6 +4609,9 @@ DQ
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <outlet property="delegate" destination="NWK-Dh-LTM" id="DSc-AI-c96"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </gridCell>
                                                         </gridCells>
@@ -4602,7 +4619,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="qcY-TD-JNO" column="nSO-dn-FGw" id="acg-VR-n6a">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ef-Usi">
-                                                        <rect key="frame" x="0.0" y="111" width="341" height="19"/>
+                                                        <rect key="frame" x="0.0" y="71" width="341" height="19"/>
                                                         <rows>
                                                             <gridRow id="v2J-ql-dfX"/>
                                                         </rows>
@@ -4648,7 +4665,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="6wR-X2-Nd8" column="nSO-dn-FGw" id="kuD-Yb-Cfp">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TCU-og-MA0">
-                                                        <rect key="frame" x="0.0" y="71" width="341" height="30"/>
+                                                        <rect key="frame" x="0.0" y="31" width="171" height="30"/>
                                                         <rows>
                                                             <gridRow id="YaN-Rc-9oV"/>
                                                         </rows>
@@ -4671,6 +4688,7 @@ DQ
                                                                 <colorWell key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sXw-XA-hZV">
                                                                     <rect key="frame" x="81" y="0.0" width="90" height="30"/>
                                                                     <constraints>
+                                                                        <constraint firstAttribute="height" constant="30" id="Rjn-7O-iGy"/>
                                                                         <constraint firstAttribute="width" constant="90" id="RwN-UX-6ax"/>
                                                                     </constraints>
                                                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -4683,18 +4701,49 @@ DQ
                                                     </gridView>
                                                 </gridCell>
                                                 <gridCell row="upJ-oP-Sw8" column="nSO-dn-FGw" id="LmV-ql-ybi">
-                                                    <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b4L-Oz-cIJ">
-                                                        <rect key="frame" x="-6" y="33" width="61" height="32"/>
-                                                        <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ve1-kX-YqV">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="HandleSetButton:" target="NWK-Dh-LTM" id="As4-b5-GmU"/>
-                                                        </connections>
-                                                    </button>
+                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="bim-6s-3u9">
+                                                        <rect key="frame" x="0.0" y="0.0" width="317" height="21"/>
+                                                        <rows>
+                                                            <gridRow id="3eU-Qa-lr9"/>
+                                                        </rows>
+                                                        <columns>
+                                                            <gridColumn id="v5w-22-bpA"/>
+                                                            <gridColumn id="cU8-ab-MbF"/>
+                                                        </columns>
+                                                        <gridCells>
+                                                            <gridCell row="3eU-Qa-lr9" column="v5w-22-bpA" id="foD-mp-kiv">
+                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ov9-nK-9Wm">
+                                                                    <rect key="frame" x="-2" y="3" width="82" height="16"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Border width" id="ReU-uQ-ISm">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </gridCell>
+                                                            <gridCell row="3eU-Qa-lr9" column="cU8-ab-MbF" id="4of-vj-u4d">
+                                                                <segmentedControl key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W0e-7b-so0">
+                                                                    <rect key="frame" x="82" y="-2" width="237" height="24"/>
+                                                                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="zQ8-TE-Rrk">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <segments>
+                                                                            <segment label="0" width="32"/>
+                                                                            <segment label="1" width="32" tag="1"/>
+                                                                            <segment label="2" width="32"/>
+                                                                            <segment label="4"/>
+                                                                            <segment label="8"/>
+                                                                            <segment label="16" selected="YES"/>
+                                                                            <segment label="32"/>
+                                                                        </segments>
+                                                                    </segmentedCell>
+                                                                    <connections>
+                                                                        <action selector="HandleBorderWidthChanged:" target="NWK-Dh-LTM" id="0sG-jE-edq"/>
+                                                                    </connections>
+                                                                </segmentedControl>
+                                                            </gridCell>
+                                                        </gridCells>
+                                                    </gridView>
                                                 </gridCell>
-                                                <gridCell row="3Rx-nc-d2E" column="nSO-dn-FGw" id="XBg-7e-dBH"/>
                                             </gridCells>
                                         </gridView>
                                     </subviews>
@@ -4717,7 +4766,7 @@ DQ
                                                 <rect key="frame" x="1" y="0.0" width="348" height="299"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Dm6-DL-Nh3" viewBased="YES" id="Svd-0s-QvW">
+                                                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Dm6-DL-Nh3" viewBased="YES" id="Svd-0s-QvW">
                                                         <rect key="frame" x="0.0" y="0.0" width="348" height="274"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
@@ -4850,7 +4899,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="UgZ-w5-wxa" column="Qdo-3i-Rde" id="ggL-5Z-t0L">
                                         <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
-                                            <rect key="frame" x="0.0" y="0.0" width="127" height="21"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="21"/>
                                             <rows>
                                                 <gridRow id="MvR-7n-9cc"/>
                                             </rows>
@@ -4896,6 +4945,7 @@ DQ
                     </view>
                     <connections>
                         <outlet property="AgeCombo" destination="sVk-73-Bgl" id="9N3-A4-FF3"/>
+                        <outlet property="BorderWidthSegment" destination="W0e-7b-so0" id="2ro-Lz-DZS"/>
                         <outlet property="DeleteButton" destination="ojh-YB-tvi" id="ofZ-Km-W1t"/>
                         <outlet property="LRLatitudeField" destination="JVC-Oq-fEf" id="lGM-69-kfw"/>
                         <outlet property="LRLongitudeField" destination="N8F-g2-MPp" id="PNh-N3-cZM"/>
@@ -4904,7 +4954,6 @@ DQ
                         <outlet property="RegionBorderColorWell" destination="sXw-XA-hZV" id="YAt-G0-62w"/>
                         <outlet property="RegionNameBox" destination="JGK-9J-dhB" id="rbs-oQ-GYi"/>
                         <outlet property="RegionTable" destination="Svd-0s-QvW" id="AQR-mD-Mkr"/>
-                        <outlet property="SetButton" destination="b4L-Oz-cIJ" id="xuo-HG-QoV"/>
                         <outlet property="ULLatitudeField" destination="D2o-eH-Kj8" id="myC-1x-GIz"/>
                         <outlet property="ULLongitudeField" destination="dSJ-iy-Elk" id="ZJJ-m6-qs7"/>
                     </connections>
