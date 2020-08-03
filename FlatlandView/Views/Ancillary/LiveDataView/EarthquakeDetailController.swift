@@ -24,7 +24,7 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
         Parent?.endSheet(Window!, returnCode: .OK)
     }
     
-    func DisplayEarthquake(_ Quake: Earthquake2)
+    func DisplayEarthquake(_ Quake: Earthquake)
     {
         print("DisplayEarthquake")
         QuakeSource = Quake
@@ -32,7 +32,7 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
         PrimaryEarthquakeTable.reloadData()
     }
     
-    var QuakeSource: Earthquake2? = nil
+    var QuakeSource: Earthquake? = nil
     
     func numberOfRows(in tableView: NSTableView) -> Int
     {
