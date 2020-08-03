@@ -21,7 +21,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         self.view.layer?.backgroundColor = NSColor.clear.cgColor
     }
     
-    var LocalEarthquakeData = [Earthquake2]()
+    var LocalEarthquakeData = [Earthquake]()
     
     var CurrentMagIndex = -1
     
@@ -247,7 +247,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         switch DataType
         {
             case .Earthquakes:
-                if let RawData = Raw as? [Earthquake2]
+                if let RawData = Raw as? [Earthquake]
                 {
                     LocalEarthquakeData = RawData
                     if EarthquakeViewButton != nil
@@ -376,6 +376,16 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
             }
             
             Settings.SetMagnitudeColors(MagnitudeDictionary)
+        }
+    }
+    
+    @IBAction func HandleEarthquakeRegionsButton(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeRegionWindow") as? EarthquakeRegionWindow
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
         }
     }
     
