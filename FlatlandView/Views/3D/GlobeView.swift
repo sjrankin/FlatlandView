@@ -692,6 +692,8 @@ class GlobeView: SCNView, GlobeProtocol
                 break
         }
         
+        BaseMap = AddAnnotation(To: BaseMap!, With: EarthquakeList) 
+        
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.categoryBitMask = SunMask | MoonMask
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -906,7 +908,7 @@ class GlobeView: SCNView, GlobeProtocol
     var PlottedCities = [SCNNode?]()
     var WHSNodeList = [SCNNode?]()
     var GridImage: NSImage? = nil
-    var EarthquakeList = [Earthquake2]()
+    var EarthquakeList = [Earthquake]()
     var CitiesToPlot = [City]()
     
     let MagnitudeColors: [Double: NSColor] =
