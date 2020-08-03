@@ -12,16 +12,155 @@ import AppKit
 /// Code to annotate 3D globe images.
 extension GlobeView
 {
-    /// Draw annotations on the passed image.
-    /// - Parameters To: The image to draw on.
-    /// - Returns: Image with annotations drawn.
-    func AddAnnotation(To Image: NSImage) -> NSImage
+    /// Add annotations to the image (which is presumed to be a map texture for the sphere for the Earth
+    /// in 3D mode).
+    /// - Note:
+    ///   - Various annotations on the map occur based on user settings. It is entirely possible that the user
+    ///     has disabled all annotations and this function will return the original image unchanged (but slowly,
+    ///     since some overhead will always occur).
+    ///   - In order to process the image efficiently, the image representation data is first extracted and used
+    ///     in all text-related functions. That way, the relatively slow image data extraction (which occurs even
+    ///     if you use the normal .draw functions - it's just hidden) happens only once. Additionally, boxes and
+    ///     lines are drawn on the image using Metal kernels written for this purpose.
+    /// - Parameter To: The Earth map texture.
+    /// - Parameter With: Array of earthquakes to plot.
+    /// - Returns: Annotated map image.
+    func AddAnnotation(To Image: NSImage, With Earthquakes: [Earthquake]) -> NSImage
     {
-        let GridAnnotation = AddGridLines(To: Image)
-        let RegionAnnotation = AddRegions(To: GridAnnotation)
-        let NameAnnotation = AddCityNames(To: RegionAnnotation)
-        let MagnitudeAnnotation = AddMagnitudeValues(To: NameAnnotation)
-        return MagnitudeAnnotation
+        #if true
+        let Working = Image
+        #else
+        let Drawer = BoxDrawer()
+        let Regions = Settings.GetEarthquakeRegions()
+        let Working = DrawRegions(Image: Image, Regions: Regions, Kernel: Drawer)
+        #endif
+        var Rep = GetImageRep(From: Working)
+        Rep = AddCityNames(To: Rep)
+        Rep = AddMagnitudeValues(To: Rep, With: Earthquakes)
+        let Final = GetImage(From: Rep)
+        return Final
+    }
+    
+    func AddCityNames(To: NSBitmapImageRep) -> NSBitmapImageRep
+    {
+        if Settings.GetBool(.CityNamesDrawnOnMap)
+        {
+            var Working = To
+            let CityList = Cities()
+            CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+            var PlotMe = [TextRecord]()
+            let CityFont = NSFont.boldSystemFont(ofSize: 24.0)
+            for City in CitiesToPlot
+            {
+                let CityPoint = GeoPoint2(City.Latitude, City.Longitude)
+                let CityPointLocation = CityPoint.ToEquirectangular(Width: Int(To.size.width),
+                                                                    Height: Int(To.size.height))
+                let Location = NSPoint(x: CityPointLocation.X + 15, y: CityPointLocation.Y)
+                let CityColor = Cities.ColorForCity(City)
+                let Record = TextRecord(Text: City.Name, Location: Location, Font: CityFont, Color: CityColor,
+                                        OutlineColor: NSColor.black)
+                PlotMe.append(Record)
+            }
+            
+            Working = DrawOn(Rep: Working, Messages: PlotMe)
+            return Working
+        }
+        else
+        {
+            return To
+        }
+    }
+    
+    /// Add earthquake magnitude values to the map if the proper settings are true.
+    /// - Parameter To: The map to add earthquake magnitude values.
+    /// - Returns: The map with earthquake magnitude values or the same image, depending on settings.
+    func AddMagnitudeValues(To Image: NSBitmapImageRep, With Earthquakes: [Earthquake]) -> NSBitmapImageRep
+    {
+        if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
+        {
+            var PlotMe = [TextRecord]()
+            var Working = Image
+            for Quake in Earthquakes
+            {
+                let Location = Quake.LocationAsGeoPoint2().ToEquirectangular(Width: Int(Image.size.width),
+                                                                             Height: Int(Image.size.height))
+                let LocationPoint = NSPoint(x: Location.X, y: Location.Y)
+                let EqText = "\(Quake.Magnitude.RoundedTo(3))"
+                let QuakeFont = NSFont.boldSystemFont(ofSize: CGFloat(36.0 + Quake.Magnitude))
+                let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+                var BaseColor = NSColor.systemYellow
+                let Colors = Settings.GetMagnitudeColors()
+                for (Magnitude, Color) in Colors
+                {
+                    if Magnitude == MagRange
+                    {
+                        BaseColor = Color
+                    }
+                }
+                let Record = TextRecord(Text: EqText, Location: LocationPoint,
+                                        Font: QuakeFont, Color: BaseColor, OutlineColor: NSColor.black)
+                PlotMe.append(Record)
+            }
+            Working = DrawOn(Rep: Working, Messages: PlotMe)
+            return Working
+        }
+        else
+        {
+            return Image
+        }
+    }
+    
+    /// Return an image representation from the passed `NSImage`.
+    /// - Returns: Image representation from `From`.
+    func GetImageRep(From: NSImage) -> NSBitmapImageRep
+    {
+        let ImgData = From.tiffRepresentation
+        let CImg = CIImage(data: ImgData!)
+        return NSBitmapImageRep(ciImage: CImg!)
+    }
+    
+    /// Convert the passed image representation into an `NSImage`.
+    /// - Returns: `NSImage` created from the passed image representation.
+    func GetImage(From: NSBitmapImageRep) -> NSImage
+    {
+        let Final = NSImage(size: From.size)
+        Final.addRepresentation(From)
+        return Final
+    }
+    
+    /// Draw a set of strings on the passed image.
+    /// - Parameter Image: The sourse image where to draw the text.
+    /// - Parameter Messages: Array of tuples of strings and their location where to draw.
+    /// - Parameter Font: The font to use to draw the text.
+    /// - Parameter Color: The color of the text to draw.
+    /// - Returns: Image with the text drawn on it.
+    func DrawOn(Rep: NSBitmapImageRep, Messages: [TextRecord]) -> NSBitmapImageRep
+    {
+        guard let Context = NSGraphicsContext(bitmapImageRep: Rep) else
+        {
+            fatalError("Error returned from NSGraphicsContext")
+        }
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = Context
+        for Message in Messages
+        {
+            autoreleasepool
+            {
+                var Attrs = [NSAttributedString.Key: Any]()
+                Attrs[NSAttributedString.Key.font] = Message.Font as Any
+                Attrs[NSAttributedString.Key.foregroundColor] = Message.Color as Any
+                if let Outline = Message.OutlineColor
+                {
+                    Attrs[NSAttributedString.Key.strokeColor] = Outline as Any
+                    Attrs[NSAttributedString.Key.strokeWidth] = -2.0 as Any
+                }
+                let AttrString = NSAttributedString(string: Message.Text, attributes: Attrs)
+                let FinalLocation = NSPoint(x: Message.Location.x, y: Message.Location.y - (AttrString.size().height / 2.0))
+                AttrString.draw(at: FinalLocation)
+            }
+        }
+        NSGraphicsContext.restoreGraphicsState()
+        return Rep
     }
     
     /// Add grid lines to the map if the proper settings are true.
@@ -31,7 +170,7 @@ extension GlobeView
     {
         if Settings.GetBool(.GridLinesDrawnOnMap)
         {
-         return Image
+            return Image
         }
         else
         {
@@ -55,77 +194,7 @@ extension GlobeView
             return Image
         }
     }
-    
-    /// Add city names to the map if the proper settings are true.
-    /// - Parameter To: The map to add city names.
-    /// - Returns: The map with city names or the same image, depending on settings.
-    func AddCityNames(To Image: NSImage) -> NSImage
-    {
-        if Settings.GetBool(.CityNamesDrawnOnMap)
-        {
-            return Image
-        }
-        else
-        {
-            return Image
-        }
-    }
-    
-    /// Add earthquake magnitude values to the map if the proper settings are true.
-    /// - Parameter To: The map to add earthquake magnitude values.
-    /// - Returns: The map with earthquake magnitude values or the same image, depending on settings.
-    func AddMagnitudeValues(To Image: NSImage) -> NSImage
-    {
-        if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
-        {
-            return Image
-        }
-        else
-        {
-            return Image
-        }
-    }
-    
-    /// Draw text on the passed image.
-    /// - Parameter Image: The source image to draw on.
-    /// - Parameter Text: The string to draw.
-    /// - Parameter Font: The font to use to draw the text.
-    /// - Parameter Color: The color of the text to draw.
-    /// - Parameter Location: The location where to draw the text.
-    /// - Returns: Image with the text drawn on it.
-    func DrawOn(Image: NSImage, Text: String, Font: NSFont, Color: NSColor, Location: NSPoint) -> NSImage
-    {
-        Image.lockFocus()
-        var Attrs = [NSAttributedString.Key: Any]()
-        Attrs[NSAttributedString.Key.font] = Font as Any
-        Attrs[NSAttributedString.Key.foregroundColor] = Color as Any
-        let AttrString = NSAttributedString(string: Text, attributes: Attrs)
-        AttrString.draw(at: Location)
-        Image.unlockFocus()
-        return Image
-    }
-    
-    /// Draw a set of strings on the passed image.
-    /// - Parameter Image: The sourse image where to draw the text.
-    /// - Parameter Messages: Array of tuples of strings and their location where to draw.
-    /// - Parameter Font: The font to use to draw the text.
-    /// - Parameter Color: The color of the text to draw.
-    /// - Returns: Image with the text drawn on it.
-    func DrawOn(Image: NSImage, Messages: [(String, NSPoint)], Font: NSFont, Color: NSColor) -> NSImage
-    {
-        Image.lockFocus()
-        for (Text, Location) in Messages
-        {
-            var Attrs = [NSAttributedString.Key: Any]()
-            Attrs[NSAttributedString.Key.font] = Font as Any
-            Attrs[NSAttributedString.Key.foregroundColor] = Color as Any
-            let AttrString = NSAttributedString(string: Text, attributes: Attrs)
-            AttrString.draw(at: Location)
-        }
-        Image.unlockFocus()
-        return Image
-    }
-    
+
     /// Draw a region with a color rectangle on the passed image.
     /// - Parameter Image: The image where regions will be drawn.
     /// - Parameter Regions: Array of regions to draw.
@@ -133,11 +202,16 @@ extension GlobeView
     /// - Returns: Image with regions drawn on it.
     func DrawRegions(Image: NSImage, Regions: [EarthquakeRegion], Kernel: BoxDrawer) -> NSImage
     {
-        let BorderColor = Settings.GetColor(.EarthquakeRegionBorderColor)!
-        let BorderWidth = Settings.GetDouble(.EarthquakeRegionBorderWidth)
         var Final = Image
         for Region in Regions
         {
+            if Region.IsFallback
+            {
+                //Do not draw the fall-back region.
+                continue
+            }
+            let BorderColor = Region.BorderColor
+            let BorderWidth = Region.BorderWidth
             let UL = Region.UpperLeft.ToEquirectangular(Width: Int(Image.size.width), Height: Int(Image.size.height))
             let LR = Region.LowerRight.ToEquirectangular(Width: Int(Image.size.width), Height: Int(Image.size.height))
             let RegionWidth = LR.X - UL.X
@@ -169,4 +243,19 @@ extension GlobeView
         }
         return Final
     }
+}
+
+/// Used to send information to the text plotter for drawing text on images.
+struct TextRecord
+{
+    /// The text to draw.
+    let Text: String
+    /// The location of the text to draw.
+    let Location: NSPoint
+    /// The font to use to draw the text.
+    let Font: NSFont
+    /// The color of the text.
+    let Color: NSColor
+    /// If present, the outline color of the text. If not present, no outline is drawn.
+    let OutlineColor: NSColor?
 }
