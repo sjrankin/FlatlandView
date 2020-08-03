@@ -45,7 +45,7 @@ extension GlobeView
     /// - Parameter List1: First earthquake list.
     /// - Parameter List2: Second earthquake list.
     /// - Returns: True if the lists have equal contents, false if not.
-    func SameEarthquakes(_ List1: [Earthquake2], _ List2: [Earthquake2]) -> Bool
+    func SameEarthquakes(_ List1: [Earthquake], _ List2: [Earthquake]) -> Bool
     {
         if List1.count != List2.count
         {
@@ -59,7 +59,7 @@ extension GlobeView
     /// Called when a new list of earthquakes was obtained from the remote source.
     /// - Parameter NewList: New list of earthquakes. If the new list has the same contents as the
     ///                      previous list, no action is taken.
-    func NewEarthquakeList(_ NewList: [Earthquake2])
+    func NewEarthquakeList(_ NewList: [Earthquake])
     {
         RemoveExpiredIndicators(NewList)
         if SameEarthquakes(NewList, EarthquakeList)
@@ -79,7 +79,7 @@ extension GlobeView
     /// Go through all current earthquakes and remove indicators for those earthquakes that are no longer
     /// "recent" (as defined by the user).
     /// - Parameter Quakes: The list of earthquakes to check for which indicators to remove.
-    func RemoveExpiredIndicators(_ Quakes: [Earthquake2])
+    func RemoveExpiredIndicators(_ Quakes: [Earthquake])
     {
         let HighlightHow = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
                                             Default: .None)
@@ -118,7 +118,7 @@ extension GlobeView
     /// Plot a passed list of earthquakes on the passed surface.
     /// - Parameter List: The list of earthquakes to plot.
     /// - Parameter On: The 3D surface upon which to plot the earthquakes.
-    func PlotEarthquakes(_ List: [Earthquake2], On Surface: SCNNode)
+    func PlotEarthquakes(_ List: [Earthquake], On Surface: SCNNode)
     {
         if !Settings.GetBool(.EnableEarthquakes)
         {
@@ -251,7 +251,7 @@ extension GlobeView
     /// - Returns: Tuple of two `SCNNode`s. The first is a shape to be used to indicate an earthquake and the
     ///            second (which may not be present, depending on the value of `.EarthquakeMagnitudeViews`)
     ///            is extruded text with the value of the magntiude of the earthquake.
-    func MakeEarthquakeNode(_ Quake: Earthquake2) -> (Shape: SCNNode?, Magnitude: SCNNode?)
+    func MakeEarthquakeNode(_ Quake: Earthquake) -> (Shape: SCNNode?, Magnitude: SCNNode?)
     {
         let QuakeRadius = 6371.0 - Quake.Depth
         let Percent = QuakeRadius / 6371.0
@@ -368,7 +368,7 @@ extension GlobeView
     /// - Parameter Quake: The earthquake to test against `InRange`.
     /// - Parameter InRange: The range of allowable earthquakes.
     /// - Returns: True if `Quake` is within the age range specified by `InRange`, false if not.
-    func InAgeRange(_ Quake: Earthquake2, InRange: EarthquakeAges) -> Bool
+    func InAgeRange(_ Quake: Earthquake, InRange: EarthquakeAges) -> Bool
     {
         let Index = EarthquakeAges.allCases.firstIndex(of: InRange)! + 1
         let Seconds = Index * (60 * 60 * 24)
@@ -398,7 +398,7 @@ extension GlobeView
     /// Returns the ages in seconds of the oldest earthquake in the list.
     /// - Parameter InList: The list of earthquakes to seach.
     /// - Returns: The age of the oldest earthquake in seconds.
-    func OldestEarthquakeOccurence(_ InList: [Earthquake2]) -> Double
+    func OldestEarthquakeOccurence(_ InList: [Earthquake]) -> Double
     {
         let Now = Date()
         var Oldest = Now
@@ -418,7 +418,7 @@ extension GlobeView
     /// - Returns: The population of the closest earthquake to the passed city. If no population is
     ///            available (eg, the city does not have a listed population or there are no cities
     ///            being plotted), `0` is returned.
-    func PopulationOfClosestCity(To Quake: Earthquake2, UseMetroPopulation: Bool = true) -> Int
+    func PopulationOfClosestCity(To Quake: Earthquake, UseMetroPopulation: Bool = true) -> Int
     {
         var ClosestCity: City? = nil
         var Distance: Double = Double.greatestFiniteMagnitude
@@ -456,7 +456,7 @@ extension GlobeView
     /// Plot earthquakes as text indicating the magnitude of the earthquake.
     /// - Parameter Quake: The earthquake to plot.
     /// - Returns: Node with extruded text indicating the earthquake.
-    func PlotMagnitudes(_ Quake: Earthquake2, Vertically: Bool = false) -> SCNNode
+    func PlotMagnitudes(_ Quake: Earthquake, Vertically: Bool = false) -> SCNNode
     {
         let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
         #if false
@@ -548,7 +548,7 @@ extension GlobeView
     /// - Note: If the indicator is already present, it is not redrawn.
     /// - Parameter Quake: The earthquake to highlight.
     /// - Returns: An `SCNNode` to be used as an indicator of a recent earthquake.
-    func HighlightEarthquake(_ Quake: Earthquake2) -> SCNNode
+    func HighlightEarthquake(_ Quake: Earthquake) -> SCNNode
     {
         let Final = SCNNode()
         if IndicatorAgeMap[Quake.Code] != nil
