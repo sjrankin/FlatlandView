@@ -604,7 +604,7 @@ enum SettingGroups: String, CaseIterable
     /// User location settings.
     case UserLocation = "User Location"
     /// City settings.
-    case Cities = "City Locations"
+    case Cities = "City Settings"
     /// Other location settings.
     case OtherLocations = "Other Locations"
     /// General miscellaneous settings.
