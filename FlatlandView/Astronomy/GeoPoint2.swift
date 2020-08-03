@@ -430,7 +430,9 @@ public class GeoPoint2: CustomStringConvertible
         let AdjustedLongitude = Longitude + 180
         let LatPercent = AdjustedLatitude / 180.0
         let LonPercent = AdjustedLongitude / 360.0
-        return (X: Int(LonPercent * Double(Width)), Y: Int(LatPercent * Double(Height)))
+        //Needed because macOS has inverted Y coordinates.
+        let FinalY = (1.0 - LatPercent) * Double(Height)
+        return (X: Int(LonPercent * Double(Width)), Y: Int(FinalY))
     }
     
     /// Contains the altitude of the location.
