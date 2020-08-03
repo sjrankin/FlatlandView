@@ -99,7 +99,7 @@ class USGS
         }
     }
     
-    private var CurrentList = [Earthquake2]()
+    private var CurrentList = [Earthquake]()
     
     /// Return the set of current earthquakes (updated when `HaveAllEarthquakes` is called asynchronously)
     /// filtered by the passed parameters.
@@ -109,10 +109,10 @@ class USGS
     /// - Parameter Age: Earthquakes older than this value are not included.
     /// - Returns: Filtered list of earthquakes.
     public func GetCurrentEarthquakes(_ Closeness: Double = 100.0, _ MinMag: Double = 5.0,
-                                      _ Age: EarthquakeAges) -> [Earthquake2]
+                                      _ Age: EarthquakeAges) -> [Earthquake]
     {
         let Unique = RemoveDuplicates(From: CurrentList)
-        var Current = [Earthquake2]()
+        var Current = [Earthquake]()
         for Quake in Unique
         {
             if !InAgeRange(Quake, InRange: Age)
@@ -131,7 +131,7 @@ class USGS
     /// - Parameter Quake: The earthquake to test against `InRange`.
     /// - Parameter InRange: The range of allowable earthquakes.
     /// - Returns: True if `Quake` is within the age range specified by `InRange`, false if not.
-    func InAgeRange(_ Quake: Earthquake2, InRange: EarthquakeAges) -> Bool
+    func InAgeRange(_ Quake: Earthquake, InRange: EarthquakeAges) -> Bool
     {
         let Index = EarthquakeAges.allCases.firstIndex(of: InRange)! + 1
         let Seconds = Index * (60 * 60 * 24)
@@ -142,14 +142,14 @@ class USGS
     /// Removed duplicate related earthquakes.
     /// - Parameter Quakes: The array of earthquakes whose related earthquakes will be cleaned up.
     /// - Returns: New array of earthquakes with duplicate combined earthquakes removed.
-    func CleanUpCombined(_ Quakes: [Earthquake2]) -> [Earthquake2]
+    func CleanUpCombined(_ Quakes: [Earthquake]) -> [Earthquake]
     {
         let Working = Quakes
         for Quake in Working
         {
             if let RelatedQuakes = Quake.Related
             {
-                var NewRelated = [String: Earthquake2]()
+                var NewRelated = [String: Earthquake]()
                 for RQuake in RelatedQuakes
                 {
                     if RQuake.Code == Quake.Code
@@ -162,7 +162,7 @@ class USGS
                     }
                     NewRelated[RQuake.Code] = RQuake
                 }
-                Quake.Related = [Earthquake2]()
+                Quake.Related = [Earthquake]()
                 for (_, SubQuake) in NewRelated
                 {
                     Quake.Related?.append(SubQuake)
@@ -185,7 +185,7 @@ class USGS
     /// - Parameter Magnitude: The magnitude of the debug earthquake.
     func InsertDebugEarthquake(Latitude: Double, Longitude: Double, Magnitude: Double)
     {
-        let DebugQuake = Earthquake2(Sequence: 100000)
+        let DebugQuake = Earthquake(Sequence: 100000)
         DebugQuake.Latitude = Latitude
         DebugQuake.Longitude = Longitude
         DebugQuake.Magnitude = Magnitude
@@ -198,7 +198,7 @@ class USGS
     ///                     If nil, all earthquakes will be within range.
     func InsertEarthquakeCluster(_ Count: Int, Within Distance: Int? = nil, ClusterRange: Double = 500.0)
     {
-        let Base = Earthquake2(Sequence: 200000)
+        let Base = Earthquake(Sequence: 200000)
         let (Lat, Lon) = RandomLocation()
         Base.Latitude = Lat
         Base.Longitude = Lon
@@ -213,7 +213,7 @@ class USGS
                 FinalCount = FinalCount - InRange
                 for Index in 0 ..< InRange
                 {
-                    let OutOfRangeQuake = Earthquake2(Sequence: 200002)
+                    let OutOfRangeQuake = Earthquake(Sequence: 200002)
                     let (Lat, Lon) = RandomLocation()
                     OutOfRangeQuake.Latitude = Lat
                     OutOfRangeQuake.Longitude = Lon
@@ -225,7 +225,7 @@ class USGS
         }
         for Index in 0 ..< FinalCount
         {
-            let InRangeQuake = Earthquake2(Sequence: 200001)
+            let InRangeQuake = Earthquake(Sequence: 200001)
             let (Lat, Lon) = RandomLocation(Near: Base, Distance: ClusterRange)
             InRangeQuake.Latitude = Lat
             InRangeQuake.Longitude = Lon
@@ -240,7 +240,7 @@ class USGS
     /// - Parameter Near: The base earthquake.
     /// - Parameter Distance: The maximum distance of a random location from `Near`.
     /// - Returns: Tuple with the latitude and longitude of a randomly generated location.
-    func RandomLocation(Near Quake: Earthquake2, Distance: Double) -> (Latitude: Double, Longitude: Double)
+    func RandomLocation(Near Quake: Earthquake, Distance: Double) -> (Latitude: Double, Longitude: Double)
     {
         while true
         {
@@ -269,9 +269,9 @@ class USGS
     /// - Note: Duplicates are defined as earthquakes with the same code.
     /// - Parameter From: The source list of earthquakes with possible duplicates.
     /// - Returns: List of earthquakes with no duplicates.
-    func RemoveDuplicates(From: [Earthquake2]) -> [Earthquake2]
+    func RemoveDuplicates(From: [Earthquake]) -> [Earthquake]
     {
-        var Unique = [String: Earthquake2]()
+        var Unique = [String: Earthquake]()
         for Quake in From
         {
             if let _ = Unique[Quake.Code]
@@ -288,9 +288,9 @@ class USGS
     /// - Parameter List: The source list to filter.
     /// - Parameter Magnitude: The minimum magnitude an earthquake must have to be returned.
     /// - Returns: List of earthquakes from `List` that have a magnitude greater or equal to `Magnitude`.
-    func FilterForMagnitude(_ List: [Earthquake2], Magnitude: Double) -> [Earthquake2]
+    func FilterForMagnitude(_ List: [Earthquake], Magnitude: Double) -> [Earthquake]
     {
-        var Final = [Earthquake2]()
+        var Final = [Earthquake]()
         for Quake in List
         {
             if Quake.Magnitude >= Magnitude
@@ -346,7 +346,7 @@ class USGS
         var Seq = 0
         for OneFeature in JSON
         {
-            let NewEarthquake = Earthquake2(Sequence: Seq)
+            let NewEarthquake = Earthquake(Sequence: Seq)
             for subset in OneFeature
             {
                 
@@ -445,8 +445,8 @@ class USGS
     }
     
     /// Current list of earthquakes.
-    var EarthquakeList = [Earthquake2]()
-    var DebugEarthquakes = [Earthquake2]()
+    var EarthquakeList = [Earthquake]()
+    var DebugEarthquakes = [Earthquake]()
     
     /// Determines if two lists of earthquakes have the same contents. This function works regardless
     /// of the order of the contents.
@@ -454,7 +454,7 @@ class USGS
     /// - Parameter List1: First earthquake list.
     /// - Parameter List2: Second earthquake list.
     /// - Returns: True if the lists have equal contents, false if not.
-    public static func SameEarthquakes(_ List1: [Earthquake2], _ List2: [Earthquake2]) -> Bool
+    public static func SameEarthquakes(_ List1: [Earthquake], _ List2: [Earthquake]) -> Bool
     {
         if List1.count != List2.count
         {
@@ -469,9 +469,9 @@ class USGS
     /// of the array.
     /// - Parameter Quakes: The array of earthquakes to flatten.
     /// - Returns: Array of earthquakes, all at the top-most level.
-    public static func FlattenEarthquakes(_ Quakes: [Earthquake2]) -> [Earthquake2]
+    public static func FlattenEarthquakes(_ Quakes: [Earthquake]) -> [Earthquake]
     {
-        var Final = [Earthquake2]()
+        var Final = [Earthquake]()
         for Quake in Quakes
         {
             if let Related = Quake.Related
@@ -500,7 +500,7 @@ class USGS
     /// - Parameter To: The earthquake list where `Quake` will be placed.
     /// - Parameter InRange: How close `Quake` must be to an earthquake in `To` in order for it to be added
     ///                      to that earthquake.
-    private static func AddForCombined(_ Quake: Earthquake2, To: inout [Earthquake2], InRange: Double)
+    private static func AddForCombined(_ Quake: Earthquake, To: inout [Earthquake], InRange: Double)
     {
         if To.isEmpty
         {
@@ -524,10 +524,10 @@ class USGS
     /// - Parameter From: The earthquake whose child earthquakes are used to determine the greatest earthquake.
     /// - Returns: `Earthquake2` class with the greatest earthquake (based on magnitude) of `Quake`. If a child
     ///            earthquake has a greater magnitude than `Quake`, `Quake` is converted to a child earthquake.
-    private static func GetGreatestMagnitude(From Quake: Earthquake2) -> Earthquake2
+    private static func GetGreatestMagnitude(From Quake: Earthquake) -> Earthquake
     {
         let ParentMagnitude = Quake.Magnitude
-        var MaxChild: Earthquake2? = nil
+        var MaxChild: Earthquake? = nil
         MaxChild = Quake.Related!.max(by: {(E1, E2) -> Bool in E1.Magnitude > E2.Magnitude})
         MaxChild?.Related?.removeAll()
         if MaxChild!.Magnitude < ParentMagnitude
@@ -541,7 +541,7 @@ class USGS
                 MaxChild?.AddRelated(ChildQuake)
             }
         }
-        let OldParent = Earthquake2(Quake)
+        let OldParent = Earthquake(Quake)
         MaxChild?.AddRelated(OldParent)
         return MaxChild!
     }
@@ -551,10 +551,10 @@ class USGS
     /// - Parameter From: The earthquake whose child earthquakes are used to determine the earliest date.
     /// - Returns: `Earthquake2` class with the earliest earthquake (based on date) of `Quake`. If a child
     ///            earthquake has an earlier date than `Quake`, `Quake` is converted to a child earthquake.
-    private static func GetEarliestEarthquake(From Quake: Earthquake2) -> Earthquake2
+    private static func GetEarliestEarthquake(From Quake: Earthquake) -> Earthquake
     {
         let ParentDate = Quake.Time
-        var EarliestChild: Earthquake2? = nil
+        var EarliestChild: Earthquake? = nil
         EarliestChild = Quake.Related!.max(by: {(E1, E2) -> Bool in E1.Time < E2.Time})
         if EarliestChild!.Time > ParentDate
         {
@@ -567,7 +567,7 @@ class USGS
                 EarliestChild?.AddRelated(ChildQuake)
             }
         }
-        let OldParent = Earthquake2(Quake)
+        let OldParent = Earthquake(Quake)
         EarliestChild?.AddRelated(OldParent)
         return EarliestChild!
     }
@@ -581,10 +581,10 @@ class USGS
     /// - Parameter RelatedOrderedBy: Determines how earthquakes with related earthquakes are ordered. Defaults
     ///                               to `.ByGreatestMagnitude`.
     /// - Returns: Array of combined earthquakes.
-    public static func CombineEarthquakes(_ Quakes: [Earthquake2], Closeness: Double = 100.0,
-                                          RelatedOrderedBy: MultipleQuakeOrders = .ByGreatestMagnitude) -> [Earthquake2]
+    public static func CombineEarthquakes(_ Quakes: [Earthquake], Closeness: Double = 100.0,
+                                          RelatedOrderedBy: MultipleQuakeOrders = .ByGreatestMagnitude) -> [Earthquake]
     {
-        var Combined = [Earthquake2]()
+        var Combined = [Earthquake]()
         for Quake in Quakes
         {
             AddForCombined(Quake, To: &Combined, InRange: Closeness)
@@ -595,7 +595,7 @@ class USGS
                 return Combined
                 
             case .ByGreatestMagnitude:
-                var Fixed = [Earthquake2]()
+                var Fixed = [Earthquake]()
                 for Quake in Combined
                 {
                     if Quake.IsCluster
@@ -611,7 +611,7 @@ class USGS
                 return Fixed
                 
             case .ByEarliestDate:
-                var Fixed = [Earthquake2]()
+                var Fixed = [Earthquake]()
                 for Quake in Combined
                 {
                     if Quake.IsCluster
