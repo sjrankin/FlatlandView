@@ -927,7 +927,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         switch DataType
         {
             case .Earthquakes:
-                if let _ = Actual as? [Earthquake2]
+                if let _ = Actual as? [Earthquake]
                 {
                     let MinMag = Settings.GetDouble(.MinimumMagnitude)
                     let HowClose = Settings.GetDouble(.CombineDistance, 100.0)
@@ -946,7 +946,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         }
     }
     
-    var LatestEarthquakes = [Earthquake2]()
+    var LatestEarthquakes = [Earthquake]()
     
     // MARK: - City variables.
     
@@ -970,11 +970,11 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     var CityLayer: CAShapeLayer? = nil
     var EarthquakeLayer: CAShapeLayer? = nil
-    var PreviousEarthquakes = [Earthquake2]()
+    var PreviousEarthquakes = [Earthquake]()
     
     // MARK: - 2D view variables.
     
-    var Quakes2D = [Earthquake2]()
+    var Quakes2D = [Earthquake]()
     let RecentMap: [EarthquakeRecents: Double] =
         [
             .Day05: 12.0 * 60.0 * 60.0,
