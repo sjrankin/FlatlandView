@@ -1,5 +1,5 @@
 //
-//  Earthquake2.swift
+//  Earthquake.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 6/19/20.
@@ -11,7 +11,7 @@ import AppKit
 
 /// Encapsulates one or more earthquakes. Encapsulated earthquakes are those that are in a small
 /// geographic region.
-class Earthquake2: KMDataPoint
+class Earthquake: KMDataPoint
 {
     /// Number of dimensions.
     static var NumDimensions: UInt = 2
@@ -41,7 +41,7 @@ class Earthquake2: KMDataPoint
     /// - Parameter Other: The other earthquake that will be used to populate this instance.
     /// - Parameter IncludeRelated: If true, related earthquakes in `Other` are assigned to this
     ///                             instance.
-    init(_ Other: Earthquake2, IncludeRelated: Bool = false)
+    init(_ Other: Earthquake, IncludeRelated: Bool = false)
     {
         Sequence = Other.Sequence
         Code = Other.Code
@@ -109,7 +109,7 @@ class Earthquake2: KMDataPoint
     
     /// Returns the earthquake with the greatest magnitude. If there are no related earthquakes,
     /// `self` is returned.
-    var GreatestMagnitudeEarthquake: Earthquake2?
+    var GreatestMagnitudeEarthquake: Earthquake?
     {
         get
         {
@@ -185,6 +185,13 @@ class Earthquake2: KMDataPoint
         self.Longitude = Longitude
     }
     
+    /// Return the location of the earthquake as a `GeoPoint2` class.
+    /// - Returns: A `GeoPoint2` instance initialized with the location of the earthquake.
+    func LocationAsGeoPoint2() -> GeoPoint2
+    {
+        return GeoPoint2(Latitude, Longitude)
+    }
+    
     /// Depth of the earthquake in kilometers.
     var Depth: Double = 0.0
     
@@ -243,7 +250,7 @@ class Earthquake2: KMDataPoint
     }
     
     /// Related earthquakes. Used for aftershocks.
-    var Related: [Earthquake2]? = nil
+    var Related: [Earthquake]? = nil
     
     /// Adds another earthquake to this earthquake if it occurs within a specific timeframe and
     /// distance.
@@ -252,13 +259,13 @@ class Earthquake2: KMDataPoint
     /// - Parameter Other: The other earthquake to add if it is close enough geographically and
     ///                    chronologically.
     /// - Returns: True if `Other` was added to this earthquake, false if not.
-    @discardableResult func AddIfRelated(_ Other: Earthquake2) -> Bool
+    @discardableResult func AddIfRelated(_ Other: Earthquake) -> Bool
     {
         if IsRelated(Other)
         {
             if Related == nil
             {
-                Related = [Earthquake2]()
+                Related = [Earthquake]()
             }
             for Already in Related!
             {
@@ -274,11 +281,11 @@ class Earthquake2: KMDataPoint
         return false
     }
     
-    func AddToRelated(_ Other: Earthquake2)
+    func AddToRelated(_ Other: Earthquake)
     {
         if Related == nil
         {
-            Related = [Earthquake2]()
+            Related = [Earthquake]()
         }
         Related?.append(Other)
     }
@@ -295,7 +302,7 @@ class Earthquake2: KMDataPoint
     ///                               be to be related.
     /// - Returns: True if the passed earthquake is chronologically and spatially close to this earthquake,
     ///            false otherwise.
-    func IsRelated(_ Quake: Earthquake2, MaxTimeDelta: Double = DefaultTimeDelta,
+    func IsRelated(_ Quake: Earthquake, MaxTimeDelta: Double = DefaultTimeDelta,
                    MaxDistanceDelta: Double = DefaultClusterDistance) -> Bool
     {
         let TimeDelta = abs(Quake.Time.timeIntervalSinceReferenceDate - Time.timeIntervalSinceReferenceDate)
@@ -306,7 +313,7 @@ class Earthquake2: KMDataPoint
         return IsCloseBy(Quake)
     }
     
-    func IsCloseBy(_ Quake: Earthquake2, MaxDistanceDelta: Double = DefaultClusterDistance) -> Bool
+    func IsCloseBy(_ Quake: Earthquake, MaxDistanceDelta: Double = DefaultClusterDistance) -> Bool
     {
         let DistanceToQuake = Distance(To: Quake)
         if DistanceToQuake > MaxDistanceDelta
@@ -319,7 +326,7 @@ class Earthquake2: KMDataPoint
     /// Returns the distance between the instance earthquake to the passed earthquake.
     /// - Parameter Quake: The quake used to calculate the distance.
     /// - Returns: Distance between the instance earthquake and the passed earthquake, in kilometers.
-    func DistanceTo(_ Quake: Earthquake2) -> Double
+    func DistanceTo(_ Quake: Earthquake) -> Double
     {
         #if true
         return DistanceTo(Quake.Latitude, Quake.Longitude)
@@ -361,7 +368,7 @@ class Earthquake2: KMDataPoint
     /// - Note: Duplicate earthquakes are not added.
     /// - Parameter New: The new earthquake to add to the list.
     /// - Parameter To: The existing earthquake list.
-    public static func AddEarthquake(New Quake: Earthquake2, To Current: inout [Earthquake2])
+    public static func AddEarthquake(New Quake: Earthquake, To Current: inout [Earthquake])
     {
         for Existing in Current
         {
@@ -381,11 +388,11 @@ class Earthquake2: KMDataPoint
         Current.append(Quake)
     }
     
-    public func AddRelated(_ Quake: Earthquake2)
+    public func AddRelated(_ Quake: Earthquake)
     {
         if Related == nil
         {
-            Related = [Earthquake2]()
+            Related = [Earthquake]()
         }
         Related?.append(Quake)
     }
@@ -399,7 +406,7 @@ class Earthquake2: KMDataPoint
     
     // MARK: - Hashable functions.
     
-    static func == (lhs: Earthquake2, rhs: Earthquake2) -> Bool
+    static func == (lhs: Earthquake, rhs: Earthquake) -> Bool
     {
         return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
     }
