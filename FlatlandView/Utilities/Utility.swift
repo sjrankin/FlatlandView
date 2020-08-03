@@ -47,7 +47,7 @@ class Utility
     /// - Parameter Quake1: First earthquake.
     /// - Parameter Quake2: Second earthquake.
     /// - Returns: Distance between the two earthquakes, in meters.
-    public static func HaversineDistance(Quake1: Earthquake2, Quake2: Earthquake2) -> Double
+    public static func HaversineDistance(Quake1: Earthquake, Quake2: Earthquake) -> Double
     {
         return HaversineDistance(Point1: GeoPoint2(Quake1.Latitude, Quake1.Longitude),
                                  Point2: GeoPoint2(Quake2.Latitude, Quake2.Longitude))
