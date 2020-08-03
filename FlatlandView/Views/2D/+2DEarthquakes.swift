@@ -27,7 +27,7 @@ extension MainView
         }
     }
     
-    func Plot2DEarthquakes(_ Quakes: [Earthquake2], Replot: Bool = false)
+    func Plot2DEarthquakes(_ Quakes: [Earthquake], Replot: Bool = false)
     {
         let Now = GetUTC()
         var Cal = Calendar(identifier: .gregorian)
@@ -49,7 +49,7 @@ extension MainView
         PlotEarthquakes(Quakes, RadialTime: Radians, Replot: Replot)
     }
     
-    func PlotEarthquakes(_ Quakes: [Earthquake2], RadialTime: Double, Replot: Bool = false)
+    func PlotEarthquakes(_ Quakes: [Earthquake], RadialTime: Double, Replot: Bool = false)
     {
         if Quakes.isEmpty
         {
@@ -104,7 +104,7 @@ extension MainView
     /// - Parameter Quake: The earthquake to test against `InRange`.
     /// - Parameter InRange: The range of allowable earthquakes.
     /// - Returns: True if `Quake` is within the age range specified by `InRange`, false if not.
-    func InAgeRange(_ Quake: Earthquake2, InRange: EarthquakeAges) -> Bool
+    func InAgeRange(_ Quake: Earthquake, InRange: EarthquakeAges) -> Bool
     {
         let Index = EarthquakeAges.allCases.firstIndex(of: InRange)! + 1
         let Seconds = Index * (60 * 60 * 24)
@@ -112,7 +112,7 @@ extension MainView
         return Int(Delta) < Seconds
     }
     
-    func PlotEarthquake(Quake: Earthquake2, MapDiameter: CGFloat) -> CAShapeLayer
+    func PlotEarthquake(Quake: Earthquake, MapDiameter: CGFloat) -> CAShapeLayer
     {
         let HighlightHow = Settings.GetEnum(ForKey: .Earthquake2DStyles, EnumType: EarthquakeIndicators2D.self,
                                             Default: .None)
@@ -227,7 +227,7 @@ extension MainView
     /// - Parameter List1: First earthquake list.
     /// - Parameter List2: Second earthquake list.
     /// - Returns: True if the lists have equal contents, false if not.
-    func SameEarthquakes(_ List1: [Earthquake2], _ List2: [Earthquake2]) -> Bool
+    func SameEarthquakes(_ List1: [Earthquake], _ List2: [Earthquake]) -> Bool
     {
         if List1.count != List2.count
         {
