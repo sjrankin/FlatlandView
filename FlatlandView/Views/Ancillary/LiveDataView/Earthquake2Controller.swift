@@ -64,7 +64,7 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
     }
     
     var USGSSource: USGS? = nil
-    var EarthquakeList = [Earthquake2]()
+    var EarthquakeList = [Earthquake]()
     var EqIndex = 1
     
     func numberOfRows(in tableView: NSTableView) -> Int
@@ -180,7 +180,7 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         switch DataType
         {
             case .Earthquakes:
-                if let RawEarthquakes = Raw as? [Earthquake2]
+                if let RawEarthquakes = Raw as? [Earthquake]
                 {
                     EarthquakeList = RawEarthquakes
                     SourceData = EarthquakeList
@@ -192,7 +192,7 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
     
-    var SourceData = [Earthquake2]()
+    var SourceData = [Earthquake]()
     
     func AsynchronousDataAvailable(DataType: AsynchronousDataTypes, Actual: Any?)
     {
