@@ -168,7 +168,7 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         switch DataType
         {
             case .Earthquakes:
-            if let Quakes = Raw as? [Earthquake2]
+            if let Quakes = Raw as? [Earthquake]
             {
                 LiveEarthquakes = Quakes
                 (SettingMap[.Earthquakes]!.Controller as! EarthquakeSettingsWindow).LoadData(DataType: .Earthquakes, Raw: LiveEarthquakes as Any)
@@ -179,7 +179,7 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         }
     }
     
-    var LiveEarthquakes = [Earthquake2]()
+    var LiveEarthquakes = [Earthquake]()
     
     func MainClosing()
     {
