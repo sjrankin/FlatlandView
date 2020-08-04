@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17132" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17140" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17140"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -30,8 +30,8 @@
         <!--Window Controller-->
         <scene sceneID="L0W-w4-F9w">
             <objects>
-                <windowController storyboardIdentifier="Earthquake2Window" id="dhh-Q9-iDu" customClass="Earthquake2Window" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Earthquake 2" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="4r5-es-9z6">
+                <windowController storyboardIdentifier="EarthquakeWindow" id="dhh-Q9-iDu" customClass="EarthquakeWindow" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Current Earthquakes" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="4r5-es-9z6">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="2932" y="555" width="480" height="270"/>
@@ -59,10 +59,10 @@
             </objects>
             <point key="canvasLocation" x="1050" y="161"/>
         </scene>
-        <!--Earthquake2 Controller-->
+        <!--Earthquake Controller-->
         <scene sceneID="soQ-oC-HtS">
             <objects>
-                <viewController id="49g-mc-16a" customClass="Earthquake2Controller" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="49g-mc-16a" customClass="EarthquakeController" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" id="SlG-NH-G7g">
                         <rect key="frame" x="0.0" y="0.0" width="748" height="326"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -412,6 +412,49 @@
                                     </gridCell>
                                 </gridCells>
                             </gridView>
+                            <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="wLa-6J-xQE">
+                                <rect key="frame" x="482" y="16" width="246" height="19"/>
+                                <rows>
+                                    <gridRow id="frB-wQ-Fu7"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn id="5Vn-wi-uZB"/>
+                                    <gridColumn id="hEY-JP-DmX"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="frB-wQ-Fu7" column="5Vn-wi-uZB" id="gwP-vs-zce">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lx3-Wj-UhB">
+                                            <rect key="frame" x="-2" y="2" width="100" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Magnitude filter" id="y1X-rI-ULJ">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="frB-wQ-Fu7" column="hEY-JP-DmX" id="hrD-M1-ZQi">
+                                        <comboBox key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fOc-U4-lk2">
+                                            <rect key="frame" x="102" y="-4" width="147" height="25"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="144" id="ife-lx-vK1"/>
+                                            </constraints>
+                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="Azx-Bb-x8v">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <objectValues>
+                                                    <string>Item 1</string>
+                                                    <string>Item 2</string>
+                                                    <string>Item 3</string>
+                                                </objectValues>
+                                            </comboBoxCell>
+                                            <connections>
+                                                <action selector="HandleMagComboChanged:" target="49g-mc-16a" id="0Y6-Mc-aAr"/>
+                                            </connections>
+                                        </comboBox>
+                                    </gridCell>
+                                </gridCells>
+                            </gridView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="6iH-Fe-ssf" firstAttribute="centerX" secondItem="SlG-NH-G7g" secondAttribute="centerX" id="3zh-bg-7QE"/>
@@ -420,13 +463,17 @@
                             <constraint firstItem="YQu-wF-hqY" firstAttribute="top" secondItem="SlG-NH-G7g" secondAttribute="top" constant="20" id="LMC-x3-pwO"/>
                             <constraint firstItem="YQu-wF-hqY" firstAttribute="leading" secondItem="SlG-NH-G7g" secondAttribute="leading" constant="20" id="MO5-Vr-4bB"/>
                             <constraint firstItem="FQn-pT-m8b" firstAttribute="leading" secondItem="YQu-wF-hqY" secondAttribute="leading" id="QAD-xG-XsX"/>
+                            <constraint firstItem="wLa-6J-xQE" firstAttribute="leading" secondItem="6iH-Fe-ssf" secondAttribute="trailing" constant="76" id="Rhb-5U-5RT"/>
+                            <constraint firstItem="wLa-6J-xQE" firstAttribute="trailing" secondItem="YQu-wF-hqY" secondAttribute="trailing" id="cah-9n-nCg"/>
                             <constraint firstAttribute="bottom" secondItem="YQu-wF-hqY" secondAttribute="bottom" constant="46" id="mde-mB-Wns"/>
                             <constraint firstAttribute="trailing" secondItem="YQu-wF-hqY" secondAttribute="trailing" constant="20" id="n2r-85-AGC"/>
+                            <constraint firstItem="wLa-6J-xQE" firstAttribute="centerY" secondItem="6iH-Fe-ssf" secondAttribute="centerY" id="sLY-av-Ruq"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="AgeCombo" destination="0bG-rA-HwH" id="tud-Om-FaQ"/>
                         <outlet property="EqTable" destination="Tq3-nX-vD0" id="paM-aA-gB9"/>
+                        <outlet property="MagCombo" destination="fOc-U4-lk2" id="IkC-Xx-AyN"/>
                     </connections>
                 </viewController>
                 <customObject id="XV7-94-x8g" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
