@@ -38,6 +38,29 @@ extension MainView: SettingChangedProtocol
             case .MapType:
                 let NewMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
                 let MapViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
+                #if true
+                if MapViewType == .Globe3D
+                {
+                    let (Earth, Sea) = World3DView.MakeMaps(NewMap)
+                    if Sea != nil
+                    {
+                        World3DView.AddEarth()
+                    }
+                    else
+                    {
+                        World3DView.ChangeEarthBaseMap(To: Earth)
+                    }
+                    if Settings.GetBool(.EnableEarthquakes)
+                    {
+                        World3DView.PlotEarthquakes()
+                    }
+                }
+                else
+                {
+                    FlatViewMainImage.image = MapManager.ImageFor(MapType: NewMap, ViewType: MapViewType)
+                    Plot2DEarthquakes(LatestEarthquakes, Replot: true)
+                }
+                #else
                 if let InterimImage: NSImage = MapManager.ImageFor(MapType: NewMap, ViewType: MapViewType)
                 {
                     FlatViewMainImage.image = FinalizeImage(InterimImage)
@@ -55,6 +78,7 @@ extension MainView: SettingChangedProtocol
                     }
                     Plot2DEarthquakes(LatestEarthquakes, Replot: true)
                 }
+                #endif
                 
             case .ViewType:
                 if let New = NewValue as? ViewTypes
@@ -222,23 +246,7 @@ extension MainView: SettingChangedProtocol
                 Earthquakes?.StopReceivingEarthquakes()
                 Earthquakes?.GetEarthquakes(Every: FetchInterval)
                 
-            case .MinimumMagnitude:
-                World3DView.ClearEarthquakes()
-                let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
-                Earthquakes?.StopReceivingEarthquakes()
-                Earthquakes?.GetEarthquakes(Every: FetchInterval)
-                
             case .BaseEarthquakeColor:
-                if Settings.GetBool(.EnableEarthquakes)
-                {
-                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
-                    {
-                        World3DView.ClearEarthquakes()
-                        World3DView.PlotEarthquakes()
-                    }
-                }
-                
-            case .EarthquakeAge:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
                     if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
@@ -256,6 +264,14 @@ extension MainView: SettingChangedProtocol
                         World3DView.ClearEarthquakes()
                         World3DView.PlotEarthquakes()
                     }
+                }
+                
+            case .EarthquakeRegions:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    World3DView.ClearEarthquakes()
+                    World3DView.PlotEarthquakes()
+                    //Need to call Plot2DEarthquakes here?
                 }
                 
             case .ColorDetermination:
