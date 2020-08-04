@@ -512,6 +512,8 @@ enum EarthquakeMagnitudeViews: String, CaseIterable
     case Horizontal = "HorizontalMagnitude"
     /// Magnitudes are perpendicular to the surface of the Earth.
     case Vertical = "VerticalMagnitude"
+    /// Magnitudes are stenciled onto the surface of the map.
+    case Stenciled = "Stenciled"
 }
 
 ///Types of earthquake indicators for 2D mode.
