@@ -15,12 +15,16 @@ class GlobeView: SCNView, GlobeProtocol
 {
     public weak var MainDelegate: MainProtocol? = nil
     
+    /// Initializer.
+    /// - Parameter frame: The frame of the SCNView.
     override init(frame: CGRect)
     {
         super.init(frame: frame)
         InitializeView()
     }
     
+    /// Initializer.
+    /// - Parameter coder: See Apple documentation.
     required init?(coder: NSCoder)
     {
         super.init(coder: coder)
@@ -610,6 +614,33 @@ class GlobeView: SCNView, GlobeProtocol
         }
     }
     
+    /// Return maps to be used as textures for the 3D Earth.
+    /// - Parameter Map: The map type whose image (or images) will be returned.
+    /// - Returns: Tuple with the standard Earth map and, if the map type supports it, the sea map as well.
+    func MakeMaps(_ Map: MapTypes) -> (Earth: NSImage, Sea: NSImage?)
+    {
+        let BaseMap = MapManager.ImageFor(MapType: Map, ViewType: .Globe3D)
+        var SecondaryMap: NSImage? = nil
+        switch Map
+        {
+            case .Standard:
+                SecondaryMap = MapManager.ImageFor(MapType: .StandardSea, ViewType: .Globe3D)!
+                
+            case .TectonicOverlay:
+                SecondaryMap = MapManager.ImageFor(MapType: .Dithered, ViewType: .Globe3D)!
+                
+            case .StylizedSea1:
+                SecondaryMap = NSImage(named: "JapanesePattern4")!
+                
+            default:
+                break
+        }
+        return (Earth: BaseMap!, Sea: SecondaryMap)
+    }
+    
+    /// Contains the base map of the 3D view.
+    var GlobalBaseMap: NSImage? = nil
+    
     /// Add an Earth view to the 3D view.
     /// - Parameter FastAnimated: Used for debugging.
     func AddEarth(FastAnimate: Bool = false, WithMap: NSImage? = nil)
@@ -660,23 +691,21 @@ class GlobeView: SCNView, GlobeProtocol
         let MapType = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
         var BaseMap: NSImage? = nil
         var SecondaryMap = NSImage()
+
         if let OtherMap = WithMap
         {
             BaseMap = OtherMap
         }
         else
         {
-        BaseMap = MapManager.ImageFor(MapType: MapType, ViewType: .Globe3D)
-        }
-        if BaseMap == nil
-        {
-            print("Error retrieving base map \(MapType). Trying standard map.")
-            BaseMap = MapManager.ImageFor(MapType: .Standard, ViewType: .Globe3D)
-            if BaseMap == nil
+            let (Earth, Sea) = MakeMaps(MapType)
+            BaseMap = Earth
+            if let SeaMap = Sea
             {
-                fatalError("Two-strike fatal error. Error retrieving base map \(MapTypes.Standard).")
+                SecondaryMap = SeaMap
             }
         }
+
         switch MapType
         {
             case .Standard:
@@ -692,6 +721,7 @@ class GlobeView: SCNView, GlobeProtocol
                 break
         }
         
+        GlobalBaseMap = BaseMap
         BaseMap = AddAnnotation(To: BaseMap!, With: EarthquakeList) 
         
         EarthNode = SCNNode(geometry: EarthSphere)
@@ -839,6 +869,12 @@ class GlobeView: SCNView, GlobeProtocol
         }
     }
     
+    func ChangeEarthBaseMap(To NewMap: NSImage)
+    {
+        GlobalBaseMap = NewMap
+        EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
+    }
+    
     var PreviousHourType: HourValueTypes = .None
     
     /// Draws or removes the layer that displays the set of lines (eg, longitudinal and latitudinal and
@@ -910,7 +946,7 @@ class GlobeView: SCNView, GlobeProtocol
     var GridImage: NSImage? = nil
     var EarthquakeList = [Earthquake]()
     var CitiesToPlot = [City]()
-    
+    /*
     let MagnitudeColors: [Double: NSColor] =
         [
             //0 to 4.9
@@ -926,6 +962,7 @@ class GlobeView: SCNView, GlobeProtocol
             // 9 to 10
             EarthquakeMagnitudes.Mag9.rawValue: NSColor.Scarlet
         ]
+ */
     
     let TextureMap: [EarthquakeTextures: String] =
     [
