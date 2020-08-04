@@ -257,6 +257,8 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeFontName = "EarthquakeFontName"
     /// Age of earthquakes to view in the earthquake list dialog.
     case EarthquakeListAge = "EarthquakeListAge"
+    /// Integer: Minimum magnitude earthquake to display in the earthquake list dialog.
+    case EarthquakeDisplayMagnitude = "EarthquakeDisplayMagnitude"
     /// Maximum distance (in kilometers) that earthquakes must be to be combined.
     case CombineDistance = "CombineDistance"
     /// How (or if) to display earthquake magnitude values.
