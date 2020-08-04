@@ -36,7 +36,10 @@ extension GlobeView
         #endif
         var Rep = GetImageRep(From: Working)
         Rep = AddCityNames(To: Rep)
-        Rep = AddMagnitudeValues(To: Rep, With: Earthquakes)
+        if Settings.GetEnum(ForKey: .EarthquakeMagnitudeViews, EnumType: EarthquakeMagnitudeViews.self, Default: .No) == .Stenciled
+        {
+            Rep = AddMagnitudeValues(To: Rep, With: Earthquakes)
+        }
         let Final = GetImage(From: Rep)
         return Final
     }
