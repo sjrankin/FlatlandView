@@ -11,6 +11,18 @@ import AppKit
 
 // MARK: - Array extensions.
 
+/// Extension to Arrays to return the delta between the instance and another array.
+/// - Note: See [How to find the different between two arrays](https://www.hackingwithswift.com/example-code/language/how-to-find-the-difference-between-two-arrays)
+extension Array where Element: Hashable
+{
+    func Difference(From Other: [Element]) -> [Element]
+    {
+        let ThisSet = Set(self)
+        let OtherSet = Set(Other)
+        return Array(ThisSet.symmetricDifference(OtherSet))
+    }
+}
+
 /// Array[Double] extensions. Used for k-means clustering of earthquakes.
 extension Array where Element == Double
 {
