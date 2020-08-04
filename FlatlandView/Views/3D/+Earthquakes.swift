@@ -98,6 +98,7 @@ extension GlobeView
             print("No earthquakes found.")
             return
         }
+        print("Have \(FilteredList.count) earthquakes")
         if SameEarthquakes(FilteredList, EarthquakeList)
         {
             #if DEBUG
