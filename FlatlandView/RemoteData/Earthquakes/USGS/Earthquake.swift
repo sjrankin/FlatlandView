@@ -11,7 +11,7 @@ import AppKit
 
 /// Encapsulates one or more earthquakes. Encapsulated earthquakes are those that are in a small
 /// geographic region.
-class Earthquake: KMDataPoint
+class Earthquake: KMDataPoint, Hashable
 {
     /// Number of dimensions.
     static var NumDimensions: UInt = 2
@@ -409,6 +409,11 @@ class Earthquake: KMDataPoint
     static func == (lhs: Earthquake, rhs: Earthquake) -> Bool
     {
         return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
+    }
+    
+    func hash(into hasher: inout Hasher)
+    {
+        hasher.combine(Code)
     }
     
     var hasValue: Int
