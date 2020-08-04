@@ -224,16 +224,12 @@ enum SettingTypes: String, CaseIterable
     //Earthquake asynchronous settings.
     /// Double: How often, in seconds, to fetch earthquake data.
     case EarthquakeFetchInterval = "EarthquakeFetchInterval"
-    /// Minimum magnitude for an earthquake to be included.
-    case MinimumMagnitude = "MinimumMagnitude"
     /// Boolean: Determines if remote earthquake data is fetched.
     case EnableEarthquakes = "EnableEarthquakes"
     /// How to modify the base color on a per-earthquake basis.
     case ColorDetermination = "ColorDetermination"
     /// NSColor: The base earthquake color.
     case BaseEarthquakeColor = "BaseEarthquakeColor"
-    /// Relative age (in days) of the earthquakes to display.
-    case EarthquakeAge = "EarthquakeAge"
     /// How to draw the earthquake.
     case EarthquakeShapes = "EarthquakeShapes"
     /// Boolean: Display only the largest earthquake in a region.
@@ -271,6 +267,8 @@ enum SettingTypes: String, CaseIterable
     /// - Warning: Do not access this setting directly.
     /// - Note: See also `GetEarthquakeRegions` and `SetEarthquakeRegions`.
     case EarthquakeRegions = "EarthquakeRegions"
+    /// Double: Minimum value that earthquakes must be to be included in any list.
+    case GeneralMinimumMagnitude = "GeneralMinimumMagnitude"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
