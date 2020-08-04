@@ -62,10 +62,6 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
                 FrequencyCombo.selectItem(at: 1)
         }
 
-        let MinMagValue = Settings.GetDouble(.MinimumMagnitude, 5.0)
-        let IMinMag = Int(MinMagValue)
-        MinMagSegment.selectedSegment = IMinMag - 4
-
         let ColDet = Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
         ColorDetCombo.removeAllItems()
         for Method in EarthquakeColorMethods.allCases
@@ -74,13 +70,6 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         }
         ColorDetCombo.selectItem(withObjectValue: ColDet.rawValue)
         BaseColorWell.color = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
-        AgeCombo.removeAllItems()
-        let EAge = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
-        for SomeAge in EarthquakeAges.allCases
-        {
-            AgeCombo.addItem(withObjectValue: SomeAge.rawValue)
-        }
-        AgeCombo.selectItem(withObjectValue: EAge.rawValue)
         ShapeCombo.removeAllItems()
         let EShape = Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         for SomeShape in EarthquakeShapes.allCases
@@ -116,9 +105,11 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
                 
             case .Vertical:
                 MagnitudeViewSegment.selectedSegment = 2
+                
+            case .Stenciled:
+                MagnitudeViewSegment.selectedSegment = 3
         }
         CombinedColorWell.color = Settings.GetColor(.CombinedEarthquakeColor, NSColor.orange)
-        FloatingMagnitudeCheck.state = Settings.GetBool(.MagnitudeValuesDrawnOnMap) ? .off : .on
     }
     
     @IBAction func HandleFetchFrequencyChanged(_ sender: Any)
@@ -146,32 +137,6 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
                 default:
                     return
             }
-        }
-    }
-    
-    @IBAction func HandleMinMagComboChangedX(_ sender: Any)
-    {
-        if let Combo = sender as? NSComboBox
-        {
-            if let Raw = Combo.objectValueOfSelectedItem
-            {
-                if let RawValue = Raw as? String
-                {
-                    if let Done = Double(RawValue)
-                    {
-                        Settings.SetDouble(.MinimumMagnitude, Done)
-                    }
-                }
-            }
-        }
-    }
-    
-    @IBAction func HandleMinMagChanged(_ sender: Any)
-    {
-        if let Segment = sender as? NSSegmentedControl
-        {
-            let Index = Segment.selectedSegment
-            Settings.SetDouble(.MinimumMagnitude, Double(Index + 4))
         }
     }
     
@@ -211,20 +176,6 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         if let ColorWell = sender as? NSColorWell
         {
             Settings.SetColor(.CombinedEarthquakeColor, ColorWell.color)
-        }
-    }
-    
-    @IBAction func HandleAgeComboChanged(_ sender: Any)
-    {
-        if let Combo = sender as? NSComboBox
-        {
-            if let Raw = Combo.objectValueOfSelectedItem as? String
-            {
-                if let RawValue = EarthquakeAges(rawValue: Raw)
-                {
-                    Settings.SetEnum(RawValue, EnumType: EarthquakeAges.self, ForKey: .EarthquakeAge)
-                }
-            }
         }
     }
     
@@ -453,6 +404,9 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
                 case 2:
                     Settings.SetEnum(EarthquakeMagnitudeViews.Vertical, EnumType: EarthquakeMagnitudeViews.self, ForKey: .EarthquakeMagnitudeViews)
             
+                case 3:
+                    Settings.SetEnum(EarthquakeMagnitudeViews.Stenciled, EnumType: EarthquakeMagnitudeViews.self, ForKey: .EarthquakeMagnitudeViews)
+                    
                 default:
                     return
             }
@@ -467,7 +421,6 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         }
     }
     
-    @IBOutlet weak var FloatingMagnitudeCheck: NSButton!
     @IBOutlet weak var CombinedColorWell: NSColorWell!
     @IBOutlet weak var MagnitudeViewSegment: NSSegmentedControl!
     @IBOutlet weak var EarthquakeFontButton: NSButton!
@@ -478,14 +431,10 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
     @IBOutlet weak var Mag7Color: NSColorWell!
     @IBOutlet weak var Mag8Color: NSColorWell!
     @IBOutlet weak var Mag9Color: NSColorWell!
-    @IBOutlet weak var MinMagSegment: NSSegmentedControl!
     @IBOutlet weak var BaseColorWell: NSColorWell!
     @IBOutlet weak var ColorDetCombo: NSComboBox!
-    @IBOutlet weak var AgeCombo: NSComboBox!
     @IBOutlet weak var ShapeCombo: NSComboBox!
     @IBOutlet weak var EarthquakeSwitch: NSSwitch!
     @IBOutlet weak var FrequencyCombo: NSComboBox!
     @IBOutlet weak var EarthquakeViewButton: NSButton!
-    
-    
 }
