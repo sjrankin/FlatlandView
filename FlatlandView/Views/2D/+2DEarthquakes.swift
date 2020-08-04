@@ -82,13 +82,15 @@ extension MainView
         LEarthquakeLayer.bounds = FlatViewMainImage.bounds
         LEarthquakeLayer.frame = FlatViewMainImage.bounds
         
-        let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
+        //let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
         for Quake in Quakes2D
         {
+            /*
             if !InAgeRange(Quake, InRange: AgeRange)
             {
                 continue
             }
+ */
             let PlottedEarthquake = PlotEarthquake(Quake: Quake, MapDiameter: LEarthquakeLayer.bounds.width)
             PlottedEarthquake.name = LayerNames.Earthquake.rawValue
             LEarthquakeLayer.addSublayer(PlottedEarthquake)
