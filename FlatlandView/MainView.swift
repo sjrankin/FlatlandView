@@ -515,10 +515,10 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     @IBAction func ShowEarthquakeList(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "Earthquake2Window") as? Earthquake2Window
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeWindow") as? EarthquakeWindow
         {
             let Window = WindowController.window
-            let Controller = Window?.contentViewController as? Earthquake2Controller
+            let Controller = Window?.contentViewController as? EarthquakeController
             Controller?.LoadData(DataType: .Earthquakes, Raw: PreviousEarthquakes as Any)
             WindowController.showWindow(nil)
         }
