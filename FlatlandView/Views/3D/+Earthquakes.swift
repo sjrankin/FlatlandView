@@ -17,6 +17,15 @@ extension GlobeView
     {
         if let Earth = EarthNode
         {
+            if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
+            {
+                if let BaseMap = GlobalBaseMap
+                {
+                    let NewMap = AddAnnotation(To: BaseMap, With: EarthquakeList)
+                    ChangeEarthBaseMap(To: NewMap)
+//                    AddEarth(WithMap: NewMap)
+                }
+            }
             PlotEarthquakes(EarthquakeList, On: Earth)
         }
     }
@@ -51,9 +60,30 @@ extension GlobeView
         {
             return false
         }
+        
+        let Set1 = Set<String>(List1.map{$0.Code})
+        let Set2 = Set<String>(List2.map{$0.Code})
+        let DeltaSet = Set1.subtracting(Set2)
+        if DeltaSet.count > 0
+        {
+            print("DeltaSet.count=\(DeltaSet.count)")
+            
+        }
+        
         let SList1 = List1.sorted(by: {$0.Code < $1.Code})
         let SList2 = List2.sorted(by: {$0.Code < $1.Code})
-        return SList1 == SList2
+        for Index in 0 ..< SList1.count
+        {
+            if SList1[Index].Code != SList2[Index].Code
+            {
+                for Idx in 0 ..< SList1.count
+                {
+                    print("SList1[\(Idx)]=\(SList1[Idx].Code), SList2[\(Idx)]=\(SList2[Idx].Code)")
+                }
+                return false
+            }
+        }
+        return true
     }
     
     /// Called when a new list of earthquakes was obtained from the remote source.
@@ -62,7 +92,13 @@ extension GlobeView
     func NewEarthquakeList(_ NewList: [Earthquake])
     {
         RemoveExpiredIndicators(NewList)
-        if SameEarthquakes(NewList, EarthquakeList)
+        let FilteredList = EarthquakeFilterer.FilterList(NewList)
+        if FilteredList.count == 0
+        {
+            print("No earthquakes found.")
+            return
+        }
+        if SameEarthquakes(FilteredList, EarthquakeList)
         {
             #if DEBUG
             print("No new earthquakes")
@@ -71,7 +107,7 @@ extension GlobeView
         }
         ClearEarthquakes()
         EarthquakeList.removeAll()
-        EarthquakeList = NewList
+        EarthquakeList = FilteredList
         PlottedEarthquakes.removeAll()
         PlotEarthquakes()
     }
@@ -141,11 +177,13 @@ extension GlobeView
             if let QNode = QShape
             {
                 var BaseColor = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
-                let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
+                //let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
+                /*
                 if !InAgeRange(Quake, InRange: AgeRange)
                 {
                     continue
                 }
+ */
                 
                 let HighlightHow = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
                                                     Default: .None)
@@ -274,6 +312,9 @@ extension GlobeView
             case .Vertical:
                 MagNode = PlotMagnitudes(Quake, Vertically: true)
                 MagNode?.name = GlobeNodeNames.EarthquakeNodes.rawValue
+                
+            case .Stenciled:
+                break
         }
 
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
