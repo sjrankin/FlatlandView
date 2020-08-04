@@ -113,6 +113,7 @@
 		17B7D7BA24CED129000C077B /* ImageMergeKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7B924CED129000C077B /* ImageMergeKernel.metal */; };
 		17B7D7BC24CED148000C077B /* ImageMergeParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7BB24CED148000C077B /* ImageMergeParameters.swift */; };
 		17B7D7BE24CED162000C077B /* ImageMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7BD24CED162000C077B /* ImageMerger.swift */; };
+		17BCCC3F24D7F15600030E37 /* EarthquakeFilterer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BCCC3E24D7F15600030E37 /* EarthquakeFilterer.swift */; };
 		17BD9E8224867D400054B25E /* ConfirmDialogWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */; };
 		17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */; };
 		17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8524867DB60054B25E /* ConfirmProtocol.swift */; };
@@ -276,6 +277,7 @@
 		17B7D7B924CED129000C077B /* ImageMergeKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageMergeKernel.metal; sourceTree = "<group>"; };
 		17B7D7BB24CED148000C077B /* ImageMergeParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMergeParameters.swift; sourceTree = "<group>"; };
 		17B7D7BD24CED162000C077B /* ImageMerger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMerger.swift; sourceTree = "<group>"; };
+		17BCCC3E24D7F15600030E37 /* EarthquakeFilterer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeFilterer.swift; sourceTree = "<group>"; };
 		17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogWindow.swift; sourceTree = "<group>"; };
 		17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogCode.swift; sourceTree = "<group>"; };
 		17BD9E8524867DB60054B25E /* ConfirmProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmProtocol.swift; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 				17F782C0249742A1000A568E /* USGS.swift */,
 				1707A7AE249CACAB00A90FCA /* Earthquake.swift */,
 				1723C80224D54C4C00C41EEE /* EarthquakeRegion.swift */,
+				17BCCC3E24D7F15600030E37 /* EarthquakeFilterer.swift */,
 			);
 			path = USGS;
 			sourceTree = "<group>";
@@ -1144,6 +1147,7 @@
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
 				178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */,
 				178A86972488C23C00BE8D46 /* AboutController.swift in Sources */,
+				17BCCC3F24D7F15600030E37 /* EarthquakeFilterer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
