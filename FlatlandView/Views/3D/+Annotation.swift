@@ -35,7 +35,10 @@ extension GlobeView
         let Working = DrawRegions(Image: Image, Regions: Regions, Kernel: Drawer)
         #endif
         var Rep = GetImageRep(From: Working)
-        Rep = AddCityNames(To: Rep)
+        if Settings.GetBool(.CityNamesDrawnOnMap)
+        {
+            Rep = AddCityNames(To: Rep)
+        }
         if Settings.GetEnum(ForKey: .EarthquakeMagnitudeViews, EnumType: EarthquakeMagnitudeViews.self, Default: .No) == .Stenciled
         {
             Rep = AddMagnitudeValues(To: Rep, With: Earthquakes)
@@ -44,34 +47,65 @@ extension GlobeView
         return Final
     }
     
+    /// Add annotations to the image (which is presumed to be a map texture for the sphere for the Earth
+    /// in 3D mode).
+    /// - Note:
+    ///   - Various annotations on the map occur based on user settings. It is entirely possible that the user
+    ///     has disabled all annotations and this function will return the original image unchanged (but slowly,
+    ///     since some overhead will always occur).
+    ///   - In order to process the image efficiently, the image representation data is first extracted and used
+    ///     in all text-related functions. That way, the relatively slow image data extraction (which occurs even
+    ///     if you use the normal .draw functions - it's just hidden) happens only once. Additionally, boxes and
+    ///     lines are drawn on the image using Metal kernels written for this purpose.
+    /// - Parameter To: The Earth map texture.
+    /// - Parameter With: Array of earthquakes to plot.
+    /// - Parameter Completed: Closure called upon completion. The final image is passed to the closure. The
+    ///                        closure is run on the main thread.
+    func AddAnnotation(To Image: NSImage, With Quakes: [Earthquake], Completed: ((NSImage) -> ())? = nil)
+    {
+        DispatchQueue.main.async
+        {
+            var Rep = self.GetImageRep(From: Image)
+            if Settings.GetBool(.CityNamesDrawnOnMap)
+            {
+                Rep = self.AddCityNames(To: Rep)
+            }
+            if Settings.GetEnum(ForKey: .EarthquakeMagnitudeViews, EnumType: EarthquakeMagnitudeViews.self, Default: .No) == .Stenciled
+            {
+                Rep = self.AddMagnitudeValues(To: Rep, With: Quakes)
+            }
+            let Final = self.GetImage(From: Rep)
+            OperationQueue.main.addOperation
+            {
+                Completed?(Final)
+            }
+        }
+    }
+    
+    /// Add city names to the passed image representation.
+    /// - Parameter To: The image representation where city names will be added.
+    /// - Returns: Image representation with city names.
     func AddCityNames(To: NSBitmapImageRep) -> NSBitmapImageRep
     {
-        if Settings.GetBool(.CityNamesDrawnOnMap)
+        var Working = To
+        let CityList = Cities()
+        CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        var PlotMe = [TextRecord]()
+        let CityFont = NSFont.boldSystemFont(ofSize: 24.0)
+        for City in CitiesToPlot
         {
-            var Working = To
-            let CityList = Cities()
-            CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)
-            var PlotMe = [TextRecord]()
-            let CityFont = NSFont.boldSystemFont(ofSize: 24.0)
-            for City in CitiesToPlot
-            {
-                let CityPoint = GeoPoint2(City.Latitude, City.Longitude)
-                let CityPointLocation = CityPoint.ToEquirectangular(Width: Int(To.size.width),
-                                                                    Height: Int(To.size.height))
-                let Location = NSPoint(x: CityPointLocation.X + 15, y: CityPointLocation.Y)
-                let CityColor = Cities.ColorForCity(City)
-                let Record = TextRecord(Text: City.Name, Location: Location, Font: CityFont, Color: CityColor,
-                                        OutlineColor: NSColor.black)
-                PlotMe.append(Record)
-            }
-            
-            Working = DrawOn(Rep: Working, Messages: PlotMe)
-            return Working
+            let CityPoint = GeoPoint2(City.Latitude, City.Longitude)
+            let CityPointLocation = CityPoint.ToEquirectangular(Width: Int(To.size.width),
+                                                                Height: Int(To.size.height))
+            let Location = NSPoint(x: CityPointLocation.X + 15, y: CityPointLocation.Y)
+            let CityColor = Cities.ColorForCity(City)
+            let Record = TextRecord(Text: City.Name, Location: Location, Font: CityFont, Color: CityColor,
+                                    OutlineColor: NSColor.black)
+            PlotMe.append(Record)
         }
-        else
-        {
-            return To
-        }
+        
+        Working = DrawOn(Rep: Working, Messages: PlotMe)
+        return Working
     }
     
     /// Add earthquake magnitude values to the map if the proper settings are true.
@@ -79,38 +113,31 @@ extension GlobeView
     /// - Returns: The map with earthquake magnitude values or the same image, depending on settings.
     func AddMagnitudeValues(To Image: NSBitmapImageRep, With Earthquakes: [Earthquake]) -> NSBitmapImageRep
     {
-        if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
+        var PlotMe = [TextRecord]()
+        var Working = Image
+        for Quake in Earthquakes
         {
-            var PlotMe = [TextRecord]()
-            var Working = Image
-            for Quake in Earthquakes
+            let Location = Quake.LocationAsGeoPoint2().ToEquirectangular(Width: Int(Image.size.width),
+                                                                         Height: Int(Image.size.height))
+            let LocationPoint = NSPoint(x: Location.X, y: Location.Y)
+            let EqText = "\(Quake.Magnitude.RoundedTo(3))"
+            let QuakeFont = NSFont.boldSystemFont(ofSize: CGFloat(36.0 + Quake.Magnitude))
+            let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+            var BaseColor = NSColor.systemYellow
+            let Colors = Settings.GetMagnitudeColors()
+            for (Magnitude, Color) in Colors
             {
-                let Location = Quake.LocationAsGeoPoint2().ToEquirectangular(Width: Int(Image.size.width),
-                                                                             Height: Int(Image.size.height))
-                let LocationPoint = NSPoint(x: Location.X, y: Location.Y)
-                let EqText = "\(Quake.Magnitude.RoundedTo(3))"
-                let QuakeFont = NSFont.boldSystemFont(ofSize: CGFloat(36.0 + Quake.Magnitude))
-                let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
-                var BaseColor = NSColor.systemYellow
-                let Colors = Settings.GetMagnitudeColors()
-                for (Magnitude, Color) in Colors
+                if Magnitude == MagRange
                 {
-                    if Magnitude == MagRange
-                    {
-                        BaseColor = Color
-                    }
+                    BaseColor = Color
                 }
-                let Record = TextRecord(Text: EqText, Location: LocationPoint,
-                                        Font: QuakeFont, Color: BaseColor, OutlineColor: NSColor.black)
-                PlotMe.append(Record)
             }
-            Working = DrawOn(Rep: Working, Messages: PlotMe)
-            return Working
+            let Record = TextRecord(Text: EqText, Location: LocationPoint,
+                                    Font: QuakeFont, Color: BaseColor, OutlineColor: NSColor.black)
+            PlotMe.append(Record)
         }
-        else
-        {
-            return Image
-        }
+        Working = DrawOn(Rep: Working, Messages: PlotMe)
+        return Working
     }
     
     /// Return an image representation from the passed `NSImage`.
@@ -197,7 +224,7 @@ extension GlobeView
             return Image
         }
     }
-
+    
     /// Draw a region with a color rectangle on the passed image.
     /// - Parameter Image: The image where regions will be drawn.
     /// - Parameter Regions: Array of regions to draw.
