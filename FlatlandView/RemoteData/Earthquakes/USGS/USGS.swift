@@ -90,42 +90,18 @@ class USGS
     {
         DispatchQueue.main.async
         {
+            print("Have all earthquakes")
             var FinalList = self.RemoveDuplicates(From: self.EarthquakeList)
             self.CurrentList = FinalList
             #if DEBUG
             FinalList.append(contentsOf: self.DebugEarthquakes)
             #endif
+            print("Received \(FinalList.count) unique earthquakes")
             self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: FinalList as Any)
         }
     }
     
     private var CurrentList = [Earthquake]()
-    
-    /// Return the set of current earthquakes (updated when `HaveAllEarthquakes` is called asynchronously)
-    /// filtered by the passed parameters.
-    /// - Parameter Closeness: How close earthquakes must be to be able to be combined. Units are kilometers.
-    ///                        Defaults to 100 kilometers.
-    /// - Parameter MinMag: The minimum magnitude earthquake to return. Defaults to magnitude 5.0.
-    /// - Parameter Age: Earthquakes older than this value are not included.
-    /// - Returns: Filtered list of earthquakes.
-    public func GetCurrentEarthquakes(_ Closeness: Double = 100.0, _ MinMag: Double = 5.0,
-                                      _ Age: EarthquakeAges) -> [Earthquake]
-    {
-        let Unique = RemoveDuplicates(From: CurrentList)
-        var Current = [Earthquake]()
-        for Quake in Unique
-        {
-            if !InAgeRange(Quake, InRange: Age)
-            {
-                continue
-            }
-            Current.append(Quake)
-        }
-        Current = FilterForMagnitude(Current, Magnitude: MinMag)
-        Current = USGS.CombineEarthquakes(Current, Closeness: Closeness)
-        Current = CleanUpCombined(Current)
-        return Current
-    }
     
     /// Determines if a given earthquake happened in the number of days prior to the instance.
     /// - Parameter Quake: The earthquake to test against `InRange`.
@@ -435,8 +411,9 @@ class USGS
                             continue
                     }
                 }
-                let Minimum = Settings.GetDouble(.MinimumMagnitude, 6.0)
-                if NewEarthquake.Magnitude >= Minimum
+                /// To prevent too many earthquakes from slowing things down, if an earthquake is less than
+                /// a general minimum magnitude, it won't be included.
+                if NewEarthquake.Magnitude >= Settings.GetDouble(.GeneralMinimumMagnitude, 4.0)
                 {
                     EarthquakeList.append(NewEarthquake)
                 }
