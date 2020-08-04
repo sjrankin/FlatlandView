@@ -1,5 +1,5 @@
 //
-//  Earthquake2Controller.swift
+//  EarthquakeController.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 6/24/20.
@@ -9,12 +9,13 @@
 import Foundation
 import AppKit
 
-class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
+class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
                              AsynchronousDataProtocol
 {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        let _ = Settings.GetInt(.EarthquakeDisplayMagnitude, IfZero: 4)
         EqTable.tableColumns[1].sortDescriptorPrototype = LocationDescriptor
         EqTable.tableColumns[2].sortDescriptorPrototype = MagnitudeDescriptor
         EqTable.tableColumns[3].sortDescriptorPrototype = CountDescriptor
@@ -27,22 +28,29 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
     
     override func viewDidLayout()
     {
-            UpdateTable()
-            
-            AgeCombo.removeAllItems()
-            for Age in EarthquakeAges.allCases
-            {
-                AgeCombo.addItem(withObjectValue: Age.rawValue)
-            }
-            let PreviousAge = Settings.GetEnum(ForKey: .EarthquakeListAge, EnumType: EarthquakeAges.self, Default: .Age5)
-            if let Index = EarthquakeAges.allCases.firstIndex(of: PreviousAge)
-            {
-                AgeCombo.selectItem(at: Index)
-            }
-            else
-            {
-                AgeCombo.selectItem(at: EarthquakeAges.allCases.count - 1)
-            }
+        UpdateTable()
+        
+        AgeCombo.removeAllItems()
+        for Age in EarthquakeAges.allCases
+        {
+            AgeCombo.addItem(withObjectValue: Age.rawValue)
+        }
+        let PreviousAge = Settings.GetEnum(ForKey: .EarthquakeListAge, EnumType: EarthquakeAges.self, Default: .Age5)
+        if let Index = EarthquakeAges.allCases.firstIndex(of: PreviousAge)
+        {
+            AgeCombo.selectItem(at: Index)
+        }
+        else
+        {
+            AgeCombo.selectItem(at: EarthquakeAges.allCases.count - 1)
+        }
+        MagCombo.removeAllItems()
+        for Mag in stride(from: 10, through: 4, by: -1)
+        {
+            MagCombo.addItem(withObjectValue: "\(Mag)")
+        }
+        let DisplayMag = Settings.GetInt(.EarthquakeDisplayMagnitude, IfZero: 4)
+        MagCombo.selectItem(withObjectValue: "\(DisplayMag)")
     }
     
     @objc func HandleDoubleClick(_ sender: Any)
@@ -94,7 +102,9 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
         EarthquakeList.removeAll()
         for Quake in SourceData
         {
-            if Quake.GetAge() <= SecondsFilter
+            let IsInAgeRange = Quake.GetAge() <= SecondsFilter
+            let IsInMagRange = Quake.Magnitude >= Double(Settings.GetInt(.EarthquakeDisplayMagnitude, IfZero: 4))
+            if IsInAgeRange && IsInMagRange
             {
                 EarthquakeList.append(Quake)
             }
@@ -315,6 +325,25 @@ class Earthquake2Controller: NSViewController, NSTableViewDelegate, NSTableViewD
     let DateDescriptor = NSSortDescriptor(key: EarthquakeDescriptors.Date.rawValue, ascending: false)
     let CountDescriptor = NSSortDescriptor(key: EarthquakeDescriptors.Count.rawValue, ascending: false)
     
+    @IBAction func HandleMagComboChanged(_ sender: Any)
+    {
+        if let Combo = sender as? NSComboBox
+        {
+            if let Raw = Combo.objectValueOfSelectedItem as? String
+            {
+                if let Mag = Int(Raw)
+                {
+                    if Mag >= 4 && Mag <= 10
+                    {
+                        Settings.SetInt(.EarthquakeDisplayMagnitude, Mag)
+                        UpdateTable()
+                    }
+                }
+            }
+        }
+    }
+    
+    @IBOutlet weak var MagCombo: NSComboBox!
     @IBOutlet weak var EqTable: NSTableView!
     @IBOutlet weak var AgeCombo: NSComboBox!
     

@@ -1,5 +1,5 @@
 //
-//  Earthquake2Window.swift
+//  EarthquakeWindow.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 6/24/20.
@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class Earthquake2Window: NSWindowController, NSWindowDelegate
+class EarthquakeWindow: NSWindowController, NSWindowDelegate
 {
     override func windowDidLoad()
     {
