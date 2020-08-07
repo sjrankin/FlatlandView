@@ -34,6 +34,10 @@ extension GlobeView
             let Blender = ImageBlender()
             Working = DrawRegions(Image: Image, Regions: Regions, Kernel: Blender)
         }
+        if Settings.GetBool(.GridLinesDrawnOnMap)
+        {
+            Working = AddGridLines(To: Working)
+        }
         var Rep = GetImageRep(From: Working)
         if Settings.GetBool(.CityNamesDrawnOnMap)
         {
@@ -45,41 +49,6 @@ extension GlobeView
         }
         let Final = GetImage(From: Rep)
         return Final
-    }
-    
-    /// Add annotations to the image (which is presumed to be a map texture for the sphere for the Earth
-    /// in 3D mode).
-    /// - Note:
-    ///   - Various annotations on the map occur based on user settings. It is entirely possible that the user
-    ///     has disabled all annotations and this function will return the original image unchanged (but slowly,
-    ///     since some overhead will always occur).
-    ///   - In order to process the image efficiently, the image representation data is first extracted and used
-    ///     in all text-related functions. That way, the relatively slow image data extraction (which occurs even
-    ///     if you use the normal .draw functions - it's just hidden) happens only once. Additionally, boxes and
-    ///     lines are drawn on the image using Metal kernels written for this purpose.
-    /// - Parameter To: The Earth map texture.
-    /// - Parameter With: Array of earthquakes to plot.
-    /// - Parameter Completed: Closure called upon completion. The final image is passed to the closure. The
-    ///                        closure is run on the main thread.
-    func AddAnnotation(To Image: NSImage, With Quakes: [Earthquake], Completed: ((NSImage) -> ())? = nil)
-    {
-        DispatchQueue.main.async
-        {
-            var Rep = self.GetImageRep(From: Image)
-            if Settings.GetBool(.CityNamesDrawnOnMap)
-            {
-                Rep = self.AddCityNames(To: Rep)
-            }
-            if Settings.GetEnum(ForKey: .EarthquakeMagnitudeViews, EnumType: EarthquakeMagnitudeViews.self, Default: .No) == .Stenciled
-            {
-                Rep = self.AddMagnitudeValues(To: Rep, With: Quakes)
-            }
-            let Final = self.GetImage(From: Rep)
-            OperationQueue.main.addOperation
-            {
-                Completed?(Final)
-            }
-        }
     }
     
     /// Add city names to the passed image representation.
@@ -193,14 +162,105 @@ extension GlobeView
         return Rep
     }
     
-    /// Add grid lines to the map if the proper settings are true.
-    /// - Parameter To: The map to add grid lines.
-    /// - Returns: The map with grid lines or the same image, depending on settings.
+    typealias LineDefinition = (IsHorizontal: Bool, At: Int, Thickness: Int, Color: NSColor)
+    
     func AddGridLines(To Image: NSImage) -> NSImage
     {
         if Settings.GetBool(.GridLinesDrawnOnMap)
         {
-            return Image
+            let Kernel = LineDraw()
+            let ImageWidth = Int(Image.size.width)
+            let ImageHeight = Int(Image.size.height)
+            var LineList = [LineDefinition]()
+            let LineColor = Settings.GetColor(.GridLineColor, NSColor.red)
+            let MinorLineColor = Settings.GetColor(.MinorGridLineColor, NSColor.yellow)
+            
+            if Settings.GetBool(.Show3DMinorGrid)
+            {
+                let Gap = Settings.GetDouble(.MinorGrid3DGap, 15.0)
+                for Longitude in stride(from: 0.0, to: 180.0, by: Gap)
+                {
+                    var Y = Int(Double(ImageHeight) * (Longitude / 180.0))
+                    if Y + 4 > ImageHeight
+                    {
+                        Y = Y - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: true,
+                                                At: Y,
+                                                Thickness: 4,
+                                                Color: MinorLineColor)
+                    LineList.append(Line)
+                }
+                for Latitude in stride(from: 0.0, to: 360.0, by: Gap)
+                {
+                    var X = Int(Double(ImageWidth) * (Latitude / 360.0))
+                    if X + 4 > ImageWidth
+                    {
+                        X = X - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: false,
+                                                At: X,
+                                                Thickness: 4,
+                                                Color: MinorLineColor)
+                    LineList.append(Line)
+                }
+            }
+            
+            for Longitude in Longitudes.allCases
+            {
+                if DrawLongitudeLine(Longitude)
+                {
+                    var Y = Int(Double(ImageHeight) * Longitude.rawValue)
+                    if Y + 4 > ImageHeight
+                    {
+                        Y = Y - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: true,
+                                                At: Y,
+                                                Thickness: 4,
+                                                Color: LineColor)
+                    LineList.append(Line)
+                }
+            }
+            for Latitude in Latitudes.allCases
+            {
+                if DrawLatitudeLine(Latitude)
+                {
+                    var X = Int(Double(ImageWidth) * Latitude.rawValue)
+                    if X + 4 > ImageWidth
+                    {
+                        X = X - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: false,
+                                                At: X,
+                                                Thickness: 4,
+                                                Color: LineColor)
+                    LineList.append(Line)
+                }
+            }
+            #if true
+            let Final = DrawLine(Image: Image, Lines: LineList, Kernel: Kernel)
+            #else
+            let Equator: LineDefinition = (IsHorizontal: true,
+                                           At: (ImageHeight / 2) - 4,
+                                           Thickness: 8,
+                                           Color: NSColor.red.withAlphaComponent(0.75))
+            let Meridian1: LineDefinition = (IsHorizontal: false,
+                                             At: (ImageWidth / 2) - 4,
+                                             Thickness: 8,
+                                             Color: NSColor.orange.withAlphaComponent(0.75))
+            let Meridian2: LineDefinition = (IsHorizontal: false,
+                                             At: 0,
+                                             Thickness: 4,
+                                             Color: NSColor.orange.withAlphaComponent(0.75))
+            let Meridian3: LineDefinition = (IsHorizontal: false,
+                                             At: ImageWidth - 4,
+                                             Thickness: 4,
+                                             Color: NSColor.orange.withAlphaComponent(0.75))
+            let Final = DrawLine(Image: Image, Lines: [Equator, Meridian1, Meridian2, Meridian3],
+                                 Kernel: Kernel)
+            #endif
+            return Final
         }
         else
         {
@@ -225,6 +285,20 @@ extension GlobeView
         }
     }
     
+    func DrawLine(Image: NSImage, Lines: [LineDefinition], Kernel: LineDraw) -> NSImage
+    {
+        var Final = Image
+        for Line in Lines
+        {
+            Final = Kernel.DrawLine(Background: Final,
+                                    IsHorizontal: Line.IsHorizontal,
+                                    Thickness: Line.Thickness,
+                                    At: Line.At,
+                                    WithColor: Line.Color)
+        }
+        return Final
+    }
+    
     func DrawRegions(Image: NSImage, Regions: [EarthquakeRegion], Kernel: ImageBlender) -> NSImage
     {
         var Final = Image
@@ -234,8 +308,6 @@ extension GlobeView
             {
                 continue
             }
-            let UL = Region.UpperLeft.ToEquirectangular(Width: Int(Image.size.width),
-                                                        Height: Int(Image.size.height))
             let ImageWidth = Int(Image.size.width)
             let ImageHeight = Int(Image.size.height)
             let RegionWidth = GeoPoint2.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
