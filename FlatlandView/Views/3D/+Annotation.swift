@@ -27,13 +27,13 @@ extension GlobeView
     /// - Returns: Annotated map image.
     func AddAnnotation(To Image: NSImage, With Earthquakes: [Earthquake]) -> NSImage
     {
-        #if true
-        let Working = Image
-        #else
-        let Drawer = BoxDrawer()
+        var Working = Image
         let Regions = Settings.GetEarthquakeRegions()
-        let Working = DrawRegions(Image: Image, Regions: Regions, Kernel: Drawer)
-        #endif
+        if Regions.count > 0
+        {
+            let Blender = ImageBlender()
+            Working = DrawRegions(Image: Image, Regions: Regions, Kernel: Blender)
+        }
         var Rep = GetImageRep(From: Working)
         if Settings.GetBool(.CityNamesDrawnOnMap)
         {
@@ -215,9 +215,15 @@ extension GlobeView
     {
         if Settings.GetBool(.DrawEarthquakeRegions)
         {
-            let Drawer = BoxDrawer()
+            #if true
+            let Blender = ImageBlender()
             let RegionList = Settings.GetEarthquakeRegions()
-            return DrawRegions(Image: Image, Regions: RegionList, Kernel: Drawer)
+            return DrawRegions(Image: Image, Regions: RegionList, Kernel: Blender)
+            #else
+            let Merger = BoxMerger()
+            let RegionList = Settings.GetEarthquakeRegions()
+            return DrawRegions(Image: Image, Regions: RegionList, Kernel: Merger)
+            #endif
         }
         else
         {
@@ -225,51 +231,38 @@ extension GlobeView
         }
     }
     
-    /// Draw a region with a color rectangle on the passed image.
-    /// - Parameter Image: The image where regions will be drawn.
-    /// - Parameter Regions: Array of regions to draw.
-    /// - Parameter Kernel: The Metal kernel to use to draw the regions.
-    /// - Returns: Image with regions drawn on it.
-    func DrawRegions(Image: NSImage, Regions: [EarthquakeRegion], Kernel: BoxDrawer) -> NSImage
+    func DrawRegions(Image: NSImage, Regions: [EarthquakeRegion], Kernel: ImageBlender) -> NSImage
     {
         var Final = Image
         for Region in Regions
         {
             if Region.IsFallback
             {
-                //Do not draw the fall-back region.
                 continue
             }
-            let BorderColor = Region.BorderColor
-            let BorderWidth = Region.BorderWidth
-            let UL = Region.UpperLeft.ToEquirectangular(Width: Int(Image.size.width), Height: Int(Image.size.height))
-            let LR = Region.LowerRight.ToEquirectangular(Width: Int(Image.size.width), Height: Int(Image.size.height))
-            let RegionWidth = LR.X - UL.X
-            let RegionHeight = LR.Y - UL.Y
-            
-            let TopX1 = Int(UL.X)
-            let TopY1 = Int(UL.Y)
-            Final = Kernel.DrawBox(On: Final, X: TopX1, Y: TopY1,
-                                   Width: RegionWidth, Height: Int(BorderWidth),
-                                   With: BorderColor)!
-            
-            let BottomX1 = Int(UL.X)
-            let BottomY1 = Int(UL.Y + RegionHeight - Int(BorderWidth))
-            Final = Kernel.DrawBox(On: Final, X: BottomX1, Y: BottomY1,
-                                   Width: RegionWidth, Height: Int(BorderWidth),
-                                   With: BorderColor)!
-            
-            let LeftX1 = Int(UL.X)
-            let LeftY1 = Int(UL.Y + Int(BorderWidth) - 2)
-            Final = Kernel.DrawBox(On: Final, X: LeftX1, Y: LeftY1,
-                                   Width: Int(BorderWidth), Height: (RegionHeight - Int(BorderWidth) * 2 + 1),
-                                   With: BorderColor)!
-            
-            let RightX1 = Int(UL.X + RegionWidth - Int(BorderWidth))
-            let RightY1 = Int(UL.Y + Int(BorderWidth) - 3)
-            Final = Kernel.DrawBox(On: Final, X: RightX1, Y: RightY1,
-                                   Width: Int(BorderWidth), Height: (RegionHeight - Int(BorderWidth) * 2 + 2),
-                                   With: BorderColor)!
+            let UL = Region.UpperLeft.ToEquirectangular(Width: Int(Image.size.width),
+                                                        Height: Int(Image.size.height))
+            let ImageWidth = Int(Image.size.width)
+            let ImageHeight = Int(Image.size.height)
+            let RegionWidth = GeoPoint2.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
+                                                           Longitude2: Region.LowerRight.Longitude,
+                                                           Latitude: Region.UpperLeft.Latitude,
+                                                           Width: ImageWidth, Height: ImageHeight)
+            let RegionHeight = GeoPoint2.VerticalDistance(Latitude1: Region.UpperLeft.Latitude,
+                                                          Latitude2: Region.LowerRight.Latitude,
+                                                          Longitude: Region.UpperLeft.Longitude,
+                                                          Width: ImageWidth, Height: ImageHeight)
+            var XPercent: Double = 0.0
+            var YPercent: Double = 0.0
+            let (FinalX, FinalY) = GeoPoint2.TransformToImageCoordinates(Latitude: Region.UpperLeft.Latitude,
+                                                                         Longitude: Region.UpperLeft.Longitude,
+                                                                         Width: ImageWidth,
+                                                                         Height: ImageHeight,
+                                                                         XPercent: &XPercent,
+                                                                         YPercent: &YPercent)
+            Final = Kernel.MergeImages(Background: Final, Sprite: Region.BorderColor.withAlphaComponent(0.5),
+                               SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
+                               SpriteX: FinalX, SpriteY: FinalY)
         }
         return Final
     }
