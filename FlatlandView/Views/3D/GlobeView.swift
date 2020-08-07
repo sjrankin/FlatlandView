@@ -885,6 +885,10 @@ class GlobeView: SCNView, GlobeProtocol
     ///                     slightly over the Earth.
     func SetLineLayer(Radius: CGFloat = GlobeRadius.LineSphere.rawValue)
     {
+        if Settings.GetBool(.GridLinesDrawnOnMap)
+        {
+            return
+        }
         LineNode?.removeAllActions()
         LineNode?.removeFromParentNode()
         LineNode = nil
