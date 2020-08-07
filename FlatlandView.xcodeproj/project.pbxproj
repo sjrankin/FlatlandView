@@ -103,6 +103,9 @@
 		178B1B3324B5A830007ACBCA /* FontDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178B1B3224B5A830007ACBCA /* FontDataType.swift */; };
 		1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */; };
 		1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105E2495BA6900626FD9 /* SCNTriangle.swift */; };
+		17A3788024DC24D300EE2B45 /* ImageBlender.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17A3787F24DC24D300EE2B45 /* ImageBlender.metal */; };
+		17A3788224DC250200EE2B45 /* ImageBlendParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788124DC250200EE2B45 /* ImageBlendParameters.swift */; };
+		17A3788424DC25F300EE2B45 /* ImageBlender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788324DC25F300EE2B45 /* ImageBlender.swift */; };
 		17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A978A124A71F09004EECAC /* WindowManagement.swift */; };
 		17B4411024861CE30050A5DF /* CityColorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4410F24861CE30050A5DF /* CityColorWindow.swift */; };
 		17B4411224861CFD0050A5DF /* CityColorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4411124861CFD0050A5DF /* CityColorCode.swift */; };
@@ -125,6 +128,8 @@
 		17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */; };
 		17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */; };
 		17D55F2F249DE4DA00A64B2B /* +2DEarthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D55F2E249DE4DA00A64B2B /* +2DEarthquakes.swift */; };
+		17DD791A24DA7A500046EB25 /* ResetConfirmWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD791924DA7A500046EB25 /* ResetConfirmWindow.swift */; };
+		17DD791C24DA7A8E0046EB25 /* ResetConfirmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD791B24DA7A8E0046EB25 /* ResetConfirmController.swift */; };
 		17DDA0452484E9750090E1EB /* UserLocationEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */; };
 		17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */; };
 		17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3EDC524B5B222007C1D72 /* FontHelper.swift */; };
@@ -270,6 +275,9 @@
 		178B1B3224B5A830007ACBCA /* FontDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontDataType.swift; sourceTree = "<group>"; };
 		1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSimpleArrow.swift; sourceTree = "<group>"; };
 		1792105E2495BA6900626FD9 /* SCNTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangle.swift; sourceTree = "<group>"; };
+		17A3787F24DC24D300EE2B45 /* ImageBlender.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageBlender.metal; sourceTree = "<group>"; };
+		17A3788124DC250200EE2B45 /* ImageBlendParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBlendParameters.swift; sourceTree = "<group>"; };
+		17A3788324DC25F300EE2B45 /* ImageBlender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBlender.swift; sourceTree = "<group>"; };
 		17A978A124A71F09004EECAC /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
 		17B4410F24861CE30050A5DF /* CityColorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorWindow.swift; sourceTree = "<group>"; };
 		17B4411124861CFD0050A5DF /* CityColorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorCode.swift; sourceTree = "<group>"; };
@@ -292,6 +300,8 @@
 		17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorWindow.swift; sourceTree = "<group>"; };
 		17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsWindow.swift; sourceTree = "<group>"; };
 		17D55F2E249DE4DA00A64B2B /* +2DEarthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+2DEarthquakes.swift"; sourceTree = "<group>"; };
+		17DD791924DA7A500046EB25 /* ResetConfirmWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetConfirmWindow.swift; sourceTree = "<group>"; };
+		17DD791B24DA7A8E0046EB25 /* ResetConfirmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetConfirmController.swift; sourceTree = "<group>"; };
 		17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorController.swift; sourceTree = "<group>"; };
 		17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditingProtocol.swift; sourceTree = "<group>"; };
 		17E3EDC524B5B222007C1D72 /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
@@ -648,6 +658,8 @@
 			children = (
 				176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */,
 				176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */,
+				17DD791924DA7A500046EB25 /* ResetConfirmWindow.swift */,
+				17DD791B24DA7A8E0046EB25 /* ResetConfirmController.swift */,
 			);
 			path = EarthquakeRegion;
 			sourceTree = "<group>";
@@ -695,6 +707,16 @@
 			path = RemoteData;
 			sourceTree = "<group>";
 		};
+		17A3787E24DC249E00EE2B45 /* ImageBlender */ = {
+			isa = PBXGroup;
+			children = (
+				17A3787F24DC24D300EE2B45 /* ImageBlender.metal */,
+				17A3788124DC250200EE2B45 /* ImageBlendParameters.swift */,
+				17A3788324DC25F300EE2B45 /* ImageBlender.swift */,
+			);
+			path = ImageBlender;
+			sourceTree = "<group>";
+		};
 		17B4410D24861CB90050A5DF /* UserLocation */ = {
 			isa = PBXGroup;
 			children = (
@@ -718,6 +740,7 @@
 			isa = PBXGroup;
 			children = (
 				17B7D7A624CECFC8000C077B /* Common */,
+				17A3787E24DC249E00EE2B45 /* ImageBlender */,
 				17B7D7B824CED10A000C077B /* ImageMerge */,
 				17B7D7AE24CED06B000C077B /* SolidColor */,
 				17402CA624D9818800A6A14F /* BoxMerger */,
@@ -1029,6 +1052,7 @@
 				177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */,
 				17B7D7B424CED0C4000C077B /* SolidColorImage.swift in Sources */,
 				178A86A72489132800BE8D46 /* GlobeProtocol.swift in Sources */,
+				17A3788224DC250200EE2B45 /* ImageBlendParameters.swift in Sources */,
 				17EF33B0247A93DC00A5B55D /* Miscellaneous.swift in Sources */,
 				17DDA0452484E9750090E1EB /* UserLocationEditorController.swift in Sources */,
 				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
@@ -1051,6 +1075,7 @@
 				1723C80124D53D0500C41EEE /* BoxDrawer.metal in Sources */,
 				17BD9E8224867D400054B25E /* ConfirmDialogWindow.swift in Sources */,
 				178A86932488C0E000BE8D46 /* AboutWindow.swift in Sources */,
+				17A3788024DC24D300EE2B45 /* ImageBlender.metal in Sources */,
 				1723C80324D54C4C00C41EEE /* EarthquakeRegion.swift in Sources */,
 				17B7D7AD24CED053000C077B /* ImageFlipper.swift in Sources */,
 				1748913324C6A53D00B5F6AF /* Imaging.swift in Sources */,
@@ -1117,6 +1142,7 @@
 				17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */,
 				1759AE59249F7715003F79F5 /* ContainerController.swift in Sources */,
 				17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */,
+				17DD791A24DA7A500046EB25 /* ResetConfirmWindow.swift in Sources */,
 				1760023624D2BF1800D5EA1A /* CGFloat.swift in Sources */,
 				1760023824D2BF3500D5EA1A /* Date.swift in Sources */,
 				1760023424D2BEF800D5EA1A /* Double.swift in Sources */,
@@ -1134,6 +1160,7 @@
 				17B7D7B024CED088000C077B /* SolidColorKernel.metal in Sources */,
 				1723C7FD24D53CD500C41EEE /* BoxParameters.swift in Sources */,
 				1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */,
+				17A3788424DC25F300EE2B45 /* ImageBlender.swift in Sources */,
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
 				17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */,
 				1750044524B46E73006528A4 /* FontNameWindow.swift in Sources */,
@@ -1147,6 +1174,7 @@
 				17523CDB247B973E005209FC /* +FlatView.swift in Sources */,
 				17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */,
 				1727EA5D24B184230051EA3B /* Tree.swift in Sources */,
+				17DD791C24DA7A8E0046EB25 /* ResetConfirmController.swift in Sources */,
 				17F44AA824CEF67700A02B19 /* SatelliteMap.swift in Sources */,
 				17402CAC24D9820400A6A14F /* BoxMerger.metal in Sources */,
 				178A86A92489134300BE8D46 /* +GridLines.swift in Sources */,
