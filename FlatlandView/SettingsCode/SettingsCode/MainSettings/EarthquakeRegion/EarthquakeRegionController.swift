@@ -16,6 +16,7 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
     {
         super.viewDidLoad()
         
+        RegionNameLabel.textColor = NSColor.black
         Regions = Settings.GetEarthquakeRegions()
         if Regions.count == 0
         {
@@ -68,6 +69,7 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
     func Populate(Row: Int)
     {
         CurrentRegionIndex = Row
+        RegionNameLabel.textColor = Regions[Row].IsFallback ? NSColor.systemBlue : NSColor.black
         RegionNameBox.stringValue = Regions[Row].RegionName
         RegionBorderColorWell.color = Regions[Row].BorderColor
         ULLatitudeField.stringValue = "\(Regions[Row].UpperLeft.Latitude.RoundedTo(3))"
@@ -288,6 +290,28 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         UpdateFromTextField(RegionNameBox)
     }
     
+    @IBAction func HandleResetButton(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "ResetConfirmWindow") as? ResetConfirmWindow
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!)
+            {
+                Result in
+                if Result == .OK
+                {
+                    self.Regions.removeAll()
+                    self.Regions.append(EarthquakeRegion(FallBack: true))
+                    Settings.SetEarthquakeRegions(self.Regions)
+                    self.ReloadTable()
+                    self.Populate(Row: 0)
+                }
+            }
+        }
+    }
+    
+    @IBOutlet weak var RegionNameLabel: NSTextField!
     @IBOutlet weak var DeleteButton: NSButton!
     @IBOutlet weak var LRLatitudeField: NSTextField!
     @IBOutlet weak var LRLongitudeField: NSTextField!
