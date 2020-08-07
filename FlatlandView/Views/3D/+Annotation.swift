@@ -215,15 +215,9 @@ extension GlobeView
     {
         if Settings.GetBool(.DrawEarthquakeRegions)
         {
-            #if true
             let Blender = ImageBlender()
             let RegionList = Settings.GetEarthquakeRegions()
             return DrawRegions(Image: Image, Regions: RegionList, Kernel: Blender)
-            #else
-            let Merger = BoxMerger()
-            let RegionList = Settings.GetEarthquakeRegions()
-            return DrawRegions(Image: Image, Regions: RegionList, Kernel: Merger)
-            #endif
         }
         else
         {
@@ -260,7 +254,7 @@ extension GlobeView
                                                                          Height: ImageHeight,
                                                                          XPercent: &XPercent,
                                                                          YPercent: &YPercent)
-            Final = Kernel.MergeImages(Background: Final, Sprite: Region.BorderColor.withAlphaComponent(0.5),
+            Final = Kernel.MergeImages(Background: Final, Sprite: Region.RegionColor.withAlphaComponent(0.5),
                                SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
                                SpriteX: FinalX, SpriteY: FinalY)
         }
