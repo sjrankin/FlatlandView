@@ -60,11 +60,11 @@ class ImageBlender
     func MergeImages(Background: NSImage, Sprite Color: NSColor, SpriteSize: NSSize,
                      SpriteX: Int, SpriteY: Int) -> NSImage
     {
-        if SpriteX + Int(SpriteSize.width) > Int(Background.size.width - 1)
+        if SpriteX + Int(SpriteSize.width) > Int(Background.size.width)
         {
             fatalError("Sprite will extend past the horizontal bounds of the background image.")
         }
-        if SpriteY + Int(SpriteSize.height) > Int(Background.size.height - 1)
+        if SpriteY + Int(SpriteSize.height) > Int(Background.size.height)
         {
             fatalError("Sprite will extend past the vertical bounds of the background image.")
         }
@@ -97,11 +97,11 @@ class ImageBlender
     ///            alpha level rules.
     func MergeImages(Background: NSImage, Sprite: NSImage, SpriteX: Int, SpriteY: Int) -> NSImage
     {
-        if SpriteX + Int(Sprite.size.width) > Int(Background.size.width - 1)
+        if SpriteX + Int(Sprite.size.width) > Int(Background.size.width)
         {
             fatalError("Sprite will extend past the horizontal bounds of the background image.")
         }
-        if SpriteY + Int(Sprite.size.height) > Int(Background.size.height - 1)
+        if SpriteY + Int(Sprite.size.height) > Int(Background.size.height)
         {
             fatalError("Sprite will extend past the vertical bounds of the background image.")
         }
