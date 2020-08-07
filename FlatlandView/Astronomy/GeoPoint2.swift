@@ -431,8 +431,108 @@ public class GeoPoint2: CustomStringConvertible
         let LatPercent = AdjustedLatitude / 180.0
         let LonPercent = AdjustedLongitude / 360.0
         //Needed because macOS has inverted Y coordinates.
-        let FinalY = (1.0 - LatPercent) * Double(Height)
-        return (X: Int(LonPercent * Double(Width)), Y: Int(FinalY))
+        let FinalX = Int(LonPercent * Double(Width))
+        let FinalY = Int((1.0 - LatPercent) * Double(Height))
+        return (X: FinalX, Y: FinalY)
+    }
+    
+    func Distance(ToOther: (Lat2: Double, Lon2: Double),
+                  Width: Int, Height: Int) -> Double
+    {
+        var NotUsed1: Double = 0.0
+        var NotUsed2: Double = 0.0
+        let (PX1, PY1) = TransformToImageCoordinates(Latitude: Latitude, Longitude: Longitude,
+                                                     Width: Width, Height: Height,
+                                                     XPercent: &NotUsed1, YPercent: &NotUsed2)
+        let (PX2, PY2) = TransformToImageCoordinates(Latitude: ToOther.Lat2, Longitude: ToOther.Lon2,
+                                                     Width: Width, Height: Height,
+                                                     XPercent: &NotUsed1, YPercent: &NotUsed2)
+        let DeltaX = Double(PX1 - PX2)
+        let DeltaY = Double(PY1 - PY2)
+        return sqrt((DeltaX * DeltaX) + (DeltaY * DeltaY))
+    }
+    
+    func HorizontalDistance(Longitude1: Double, Longitude2: Double, Latitude: Double,
+                            Width: Int, Height: Int) -> Double
+    {
+        return Distance(ToOther: (Latitude, Longitude2), Width: Width, Height: Height)
+    }
+    
+    func VerticalDistance(Latitude1: Double, Latitude2: Double, Longitude: Double,
+                          Width: Int, Height: Int) -> Double
+    {
+        return Distance(ToOther: (Latitude2, Longitude), Width: Width, Height: Height)
+    }
+    
+    func TransformToImageCoordinates(Latitude: Double, Longitude: Double, Width: Int, Height: Int,
+                                     XPercent: inout Double, YPercent: inout Double) -> (X: Int, Y: Int)
+    {
+        let AdjustedLon = Longitude + 180.0
+        let AdjustedLat = abs(Latitude - 90.0)
+        let LonPercent = AdjustedLon / 360.0
+        let LatPercent = AdjustedLat / 180.0
+        XPercent = LonPercent
+        YPercent = LatPercent
+        let FinalX = Int(Double(Width) * LonPercent)
+        let FinalY = Int(Double(Height) * LatPercent)
+        return (FinalX, FinalY)
+    }
+    
+    static func Distance(From: (Lat: Double, Lon: Double), To: (Lat: Double, Lon: Double),
+                  Width: Int, Height: Int) -> Double
+    {
+        var NotUsed1: Double = 0.0
+        var NotUsed2: Double = 0.0
+        let (PX1, PY1) = TransformToImageCoordinates(Latitude: From.Lat, Longitude: From.Lon,
+                                                     Width: Width, Height: Height,
+                                                     XPercent: &NotUsed1, YPercent: &NotUsed2)
+        let (PX2, PY2) = TransformToImageCoordinates(Latitude: To.Lat, Longitude: To.Lon,
+                                                     Width: Width, Height: Height,
+                                                     XPercent: &NotUsed1, YPercent: &NotUsed2)
+        let DeltaX = Double(PX1 - PX2)
+        let DeltaY = Double(PY1 - PY2)
+        return sqrt((DeltaX * DeltaX) + (DeltaY * DeltaY))
+    }
+    
+    static func HorizontalDistance(Longitude1: Double, Longitude2: Double, Latitude: Double,
+                            Width: Int, Height: Int) -> Double
+    {
+        return Distance(From: (Latitude, Longitude1), To: (Latitude, Longitude2), Width: Width, Height: Height)
+    }
+    
+    static func VerticalDistance(Latitude1: Double, Latitude2: Double, Longitude: Double,
+                          Width: Int, Height: Int) -> Double
+    {
+        return Distance(From: (Latitude1, Longitude), To: (Latitude2, Longitude), Width: Width, Height: Height)
+    }
+    
+    static func TransformToImageCoordinates(Latitude: Double, Longitude: Double, Width: Int, Height: Int,
+                                     XPercent: inout Double, YPercent: inout Double) -> (X: Int, Y: Int)
+    {
+        let AdjustedLon = Longitude + 180.0
+        let AdjustedLat = abs(Latitude - 90.0)
+        let LonPercent = AdjustedLon / 360.0
+        let LatPercent = AdjustedLat / 180.0
+        XPercent = LonPercent
+        YPercent = LatPercent
+        let FinalX = Int(Double(Width) * LonPercent)
+        let FinalY = Int(Double(Height) * LatPercent)
+        return (FinalX, FinalY)
+    }
+    
+    func TransformToImageCoordinates(Width: Int, Height: Int,
+                                     XPercent: inout Double,
+                                     YPercent: inout Double) -> (X: Int, Y: Int)
+    {
+        let AdjustedLon = Longitude + 180.0
+        let AdjustedLat = abs(Latitude - 90.0)
+        let LonPercent = AdjustedLon / 360.0
+        let LatPercent = AdjustedLat / 180.0
+        XPercent = LonPercent
+        YPercent = LatPercent
+        let FinalX = Int(Double(Width) * LonPercent)
+        let FinalY = Int(Double(Height) * LatPercent)
+        return (FinalX, FinalY)
     }
     
     /// Contains the altitude of the location.
