@@ -19,3 +19,8 @@ struct BoxMergeParameters
     let Y2: simd_uint1
 }
 
+struct ImageMergeParameters2
+{
+    let XOffset: simd_uint1
+    let YOffset: simd_uint1
+}
