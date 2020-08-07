@@ -80,7 +80,7 @@ class View3DSettingsWindow: NSViewController, FontProtocol
     
     @IBAction func Handle3DGridLineChanged(_ sender: Any)
     {
-        if let Button = sender as? NSButton
+        if let Button = sender as? NSSwitch
         {
             let IsChecked = Button.state == .on ? true : false
             switch Button
@@ -219,15 +219,16 @@ class View3DSettingsWindow: NSViewController, FontProtocol
     
     @IBAction func HandleGridLineColorChanged(_ sender: Any)
     {
-        if let ColorWell = sender as? NSColorWell
+        if let ColorWell = sender as? AlphaColorWell
         {
+            print("New grid color: \(ColorWell.color.Hex)")
             Settings.SetColor(.GridLineColor, ColorWell.color)
         }
     }
     
     @IBAction func HandleMinorGridLineColorChanged(_ sender: Any)
     {
-        if let ColorWell = sender as? NSColorWell
+        if let ColorWell = sender as? AlphaColorWell
         {
             Settings.SetColor(.MinorGridLineColor, ColorWell.color)
         }
@@ -302,8 +303,8 @@ class View3DSettingsWindow: NSViewController, FontProtocol
     
     @IBOutlet weak var GridLinesDrawnOnMapSwitch: NSSwitch!
     @IBOutlet weak var HourFontButton: NSButton!
-    @IBOutlet weak var MinorGridLineColorWell: NSColorWell!
-    @IBOutlet weak var GridLineColorWell: NSColorWell!
+    @IBOutlet weak var MinorGridLineColorWell: AlphaColorWell!
+    @IBOutlet weak var GridLineColorWell: AlphaColorWell!
     @IBOutlet weak var HourColorWell: NSColorWell!
     @IBOutlet weak var HDRCamera: NSSwitch!
     @IBOutlet weak var Show3DMinorGridLines: NSSwitch!
