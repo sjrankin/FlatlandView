@@ -100,6 +100,10 @@
 		17A3788024DC24D300EE2B45 /* ImageBlender.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17A3787F24DC24D300EE2B45 /* ImageBlender.metal */; };
 		17A3788224DC250200EE2B45 /* ImageBlendParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788124DC250200EE2B45 /* ImageBlendParameters.swift */; };
 		17A3788424DC25F300EE2B45 /* ImageBlender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788324DC25F300EE2B45 /* ImageBlender.swift */; };
+		17A3788724DD68AE00EE2B45 /* LineDrawParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788624DD68AE00EE2B45 /* LineDrawParameters.swift */; };
+		17A3788924DD69B700EE2B45 /* LineDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788824DD69B700EE2B45 /* LineDraw.swift */; };
+		17A3788B24DD69D900EE2B45 /* LineDrawKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788A24DD69D900EE2B45 /* LineDrawKernel.metal */; };
+		17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */; };
 		17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A978A124A71F09004EECAC /* WindowManagement.swift */; };
 		17B4411024861CE30050A5DF /* CityColorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4410F24861CE30050A5DF /* CityColorWindow.swift */; };
 		17B4411224861CFD0050A5DF /* CityColorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4411124861CFD0050A5DF /* CityColorCode.swift */; };
@@ -266,6 +270,10 @@
 		17A3787F24DC24D300EE2B45 /* ImageBlender.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageBlender.metal; sourceTree = "<group>"; };
 		17A3788124DC250200EE2B45 /* ImageBlendParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBlendParameters.swift; sourceTree = "<group>"; };
 		17A3788324DC25F300EE2B45 /* ImageBlender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBlender.swift; sourceTree = "<group>"; };
+		17A3788624DD68AE00EE2B45 /* LineDrawParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineDrawParameters.swift; sourceTree = "<group>"; };
+		17A3788824DD69B700EE2B45 /* LineDraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineDraw.swift; sourceTree = "<group>"; };
+		17A3788A24DD69D900EE2B45 /* LineDrawKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = LineDrawKernel.metal; sourceTree = "<group>"; };
+		17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphaColorWell.swift; sourceTree = "<group>"; };
 		17A978A124A71F09004EECAC /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
 		17B4410F24861CE30050A5DF /* CityColorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorWindow.swift; sourceTree = "<group>"; };
 		17B4411124861CFD0050A5DF /* CityColorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorCode.swift; sourceTree = "<group>"; };
@@ -685,6 +693,24 @@
 			path = ImageBlender;
 			sourceTree = "<group>";
 		};
+		17A3788524DD684100EE2B45 /* LineDraw */ = {
+			isa = PBXGroup;
+			children = (
+				17A3788624DD68AE00EE2B45 /* LineDrawParameters.swift */,
+				17A3788824DD69B700EE2B45 /* LineDraw.swift */,
+				17A3788A24DD69D900EE2B45 /* LineDrawKernel.metal */,
+			);
+			path = LineDraw;
+			sourceTree = "<group>";
+		};
+		17A3788C24DD7DEC00EE2B45 /* UIExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */,
+			);
+			path = UIExtensions;
+			sourceTree = "<group>";
+		};
 		17B4410D24861CB90050A5DF /* UserLocation */ = {
 			isa = PBXGroup;
 			children = (
@@ -708,6 +734,7 @@
 			isa = PBXGroup;
 			children = (
 				17B7D7A624CECFC8000C077B /* Common */,
+				17A3788524DD684100EE2B45 /* LineDraw */,
 				17A3787E24DC249E00EE2B45 /* ImageBlender */,
 				17B7D7B824CED10A000C077B /* ImageMerge */,
 				17B7D7AE24CED06B000C077B /* SolidColor */,
@@ -886,6 +913,7 @@
 		17FC2210249878F8005A0929 /* Ancillary */ = {
 			isa = PBXGroup;
 			children = (
+				17A3788C24DD7DEC00EE2B45 /* UIExtensions */,
 				172F35AB24CFFBA900C8FDDC /* Indicators */,
 				1750043724B460F6006528A4 /* FontPicker */,
 				17FC221124987996005A0929 /* LiveDataView */,
@@ -1024,6 +1052,7 @@
 				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
 				1760023A24D2BF6100D5EA1A /* NSImage.swift in Sources */,
 				17829D4824B31D0200118DB1 /* EarthquakeDetailWindow.swift in Sources */,
+				17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */,
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
 				1760023C24D2BF8000D5EA1A /* NSColor.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
@@ -1061,9 +1090,11 @@
 				1720B388248B68A1001202E5 /* AutoLocationProtocol.swift in Sources */,
 				1759AE62249F81A4003F79F5 /* UserLocation.swift in Sources */,
 				17B7D7B224CED0A3000C077B /* SolidColorParameters.swift in Sources */,
+				17A3788924DD69B700EE2B45 /* LineDraw.swift in Sources */,
 				174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */,
 				1760023E24D2BFBF00D5EA1A /* NSBezierPath.swift in Sources */,
 				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
+				17A3788B24DD69D900EE2B45 /* LineDrawKernel.metal in Sources */,
 				1759AE60249F817B003F79F5 /* MapSelector.swift in Sources */,
 				178B1B3324B5A830007ACBCA /* FontDataType.swift in Sources */,
 				174623D624A83FF0007F5D4C /* StarField3DWindow.swift in Sources */,
@@ -1090,6 +1121,7 @@
 				174623D324A83026007F5D4C /* +ChangedSettings.swift in Sources */,
 				1759AE66249F81F6003F79F5 /* View3DSettingsWindow.swift in Sources */,
 				17B7D7BC24CED148000C077B /* ImageMergeParameters.swift in Sources */,
+				17A3788724DD68AE00EE2B45 /* LineDrawParameters.swift in Sources */,
 				17FCCCD724A31EF500393F36 /* EarthquakeWindow.swift in Sources */,
 				1727EA5A24B170730051EA3B /* Queue.swift in Sources */,
 				17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */,
