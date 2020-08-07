@@ -3498,7 +3498,7 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="800" height="420"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <box misplaced="YES" title="3D Grid Lines" translatesAutoresizingMaskIntoConstraints="NO" id="ZWd-w1-yhq">
+                            <box title="3D Grid Lines" translatesAutoresizingMaskIntoConstraints="NO" id="ZWd-w1-yhq">
                                 <rect key="frame" x="434" y="72" width="355" height="340"/>
                                 <view key="contentView" id="deb-uW-J2f">
                                     <rect key="frame" x="3" y="3" width="349" height="322"/>
@@ -3627,7 +3627,7 @@ DQ
                                                     <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="rc4-Vj-zZA">
                                                         <rect key="frame" x="125" y="130" width="42" height="24"/>
                                                         <connections>
-                                                            <action selector="Handle3DGridLineChanged:" target="bj8-cW-W65" id="Ytl-P2-eXg"/>
+                                                            <action selector="Handle3DGridLineChanged:" target="bj8-cW-W65" id="xrk-hC-OMy"/>
                                                         </connections>
                                                     </switch>
                                                 </gridCell>
@@ -3669,7 +3669,7 @@ DQ
                                                     </textField>
                                                 </gridCell>
                                                 <gridCell row="Hu5-kc-wLm" column="4Gq-PQ-deD" id="HJU-TZ-O8C">
-                                                    <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="w0z-SA-IJS">
+                                                    <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="w0z-SA-IJS" customClass="AlphaColorWell" customModule="Flatland" customModuleProvider="target">
                                                         <rect key="frame" x="127" y="61" width="122" height="28"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="28" id="1q0-7R-bqY"/>
@@ -3692,7 +3692,7 @@ DQ
                                                     </textField>
                                                 </gridCell>
                                                 <gridCell row="XRE-nm-V9z" column="4Gq-PQ-deD" id="XkD-93-aBr">
-                                                    <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Zo8-7t-nib">
+                                                    <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Zo8-7t-nib" customClass="AlphaColorWell" customModule="Flatland" customModuleProvider="target">
                                                         <rect key="frame" x="127" y="27" width="122" height="28"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="122" id="B9r-ek-gJg"/>
@@ -3728,7 +3728,7 @@ DQ
                                 </view>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="349" id="5yO-ln-P7w"/>
-                                    <constraint firstAttribute="height" constant="321" id="eXR-TZ-2Zm"/>
+                                    <constraint firstAttribute="height" constant="336" id="eXR-TZ-2Zm"/>
                                 </constraints>
                             </box>
                             <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="ie2-Ts-40s">
@@ -3965,10 +3965,10 @@ DQ
                             <constraint firstItem="nZB-DT-VMg" firstAttribute="trailing" secondItem="ZWd-w1-yhq" secondAttribute="trailing" constant="-6" id="Lqv-nj-dq5"/>
                             <constraint firstItem="ie2-Ts-40s" firstAttribute="top" secondItem="VY2-Dy-IAY" secondAttribute="top" constant="8" id="Tjc-8A-c8m"/>
                             <constraint firstAttribute="trailing" secondItem="ZWd-w1-yhq" secondAttribute="trailing" constant="14" id="b8i-6J-WLQ"/>
-                            <constraint firstItem="2se-XD-q01" firstAttribute="bottom" secondItem="ZWd-w1-yhq" secondAttribute="bottom" constant="71" id="bHi-JN-5rz"/>
+                            <constraint firstItem="2se-XD-q01" firstAttribute="bottom" secondItem="ZWd-w1-yhq" secondAttribute="bottom" constant="56" id="bHi-JN-5rz"/>
                             <constraint firstItem="nZB-DT-VMg" firstAttribute="top" secondItem="VY2-Dy-IAY" secondAttribute="top" constant="379" id="cTT-UY-wtR"/>
                             <constraint firstItem="2se-XD-q01" firstAttribute="leading" secondItem="ie2-Ts-40s" secondAttribute="leading" id="gZD-si-cNb"/>
-                            <constraint firstAttribute="bottom" secondItem="ZWd-w1-yhq" secondAttribute="bottom" constant="91" id="v6x-PH-4te"/>
+                            <constraint firstAttribute="bottom" secondItem="ZWd-w1-yhq" secondAttribute="bottom" constant="76" id="v6x-PH-4te"/>
                             <constraint firstItem="2se-XD-q01" firstAttribute="leading" secondItem="VY2-Dy-IAY" secondAttribute="leading" constant="20" symbolic="YES" id="yes-uc-c1t"/>
                         </constraints>
                     </view>
