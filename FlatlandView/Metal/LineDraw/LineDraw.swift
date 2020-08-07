@@ -1,0 +1,129 @@
+//
+//  LineDraw.swift
+//  Flatland
+//
+//  Created by Stuart Rankin on 8/7/20.
+//  Copyright © 2020 Stuart Rankin. All rights reserved.
+//
+
+import Foundation
+import AppKit
+import simd
+import Metal
+import MetalKit
+import CoreImage
+
+/// Wrapper class around the `ImageBlender` metal kernel to merge two images together.
+class LineDraw
+{
+    private let ImageDevice = MTLCreateSystemDefaultDevice()
+    private var ImageComputePipelineState: MTLComputePipelineState? = nil
+    private lazy var ImageCommandQueue: MTLCommandQueue? =
+        {
+            return self.ImageDevice?.makeCommandQueue()
+        }()
+    
+    /// Initializer.
+    init()
+    {
+        let DefaultLibrary = ImageDevice?.makeDefaultLibrary()
+        let KernelFunction = DefaultLibrary?.makeFunction(name: "DrawLine")
+        do
+        {
+            ImageComputePipelineState = try ImageDevice?.makeComputePipelineState(function: KernelFunction!)
+        }
+        catch
+        {
+            print("Error creating pipeline state: \(error.localizedDescription)")
+        }
+    }
+    
+    /// Draw a line (vertical or horizontal) on the passed image.
+    /// - Parameters:
+    ///   - Background: The image upon which a line will be drawn.
+    ///   - IsHorizontal: If true, a horizontal line will be drawn at the Y value in `At`. If false, a vertical
+    ///                   line will be drawn at the X value in `At`.
+    ///   - Thickness: Thickness of the line. Values of `0` will generate a fatal error.
+    ///   - At: The location where the line will be drawn. Whether this is vertical or horizontal depends on
+    ///         the value of `IsHorizontal`.
+    ///   - WithColor: The color of the line. Alpha blending is supported.
+    /// - Returns: Image with a line drawn on it.
+    func DrawLine(Background: NSImage, IsHorizontal: Bool, Thickness: Int, At: Int, WithColor: NSColor) -> NSImage
+    {
+        //Validate parameters.
+        if Thickness == 0
+        {
+            fatalError("Invalid thickness for line in DrawLine.")
+        }
+        if At < 0
+        {
+            fatalError("Line location in DrawLine is negative.")
+        }
+        if IsHorizontal
+        {
+            if At + Thickness > Int(Background.size.height)
+            {
+                fatalError("Horizontal line position plus thickness is out of bounds.")
+            }
+        }
+        else
+        {
+            if At + Thickness > Int(Background.size.width)
+            {
+                fatalError("Vertical line position plus thickness is out of bounds.")
+            }
+        }
+        
+        var AdjustedBG: CGImage? = nil
+        let BGTexture = MetalLibrary.MakeTexture(From: Background, ForWriting: true,
+                                                 ImageDevice: ImageDevice!, AsCG: &AdjustedBG)
+        let Parameter = LineDrawParameters(IsHorizontal: simd_bool(IsHorizontal),
+                                           HorizontalAt: simd_uint1(At),
+                                           VerticalAt: simd_uint1(At),
+                                           Thickness: simd_uint1(Thickness),
+                                           LineColor: MetalLibrary.ToFloat4(WithColor))
+        let Parameters = [Parameter]
+        let ParameterBuffer = ImageDevice!.makeBuffer(length: MemoryLayout<LineDrawParameters>.stride, options: [])
+        memcpy(ParameterBuffer!.contents(), Parameters, MemoryLayout<LineDrawParameters>.stride)
+        
+        let CommandBuffer = ImageCommandQueue?.makeCommandBuffer()
+        let CommandEncoder = CommandBuffer?.makeComputeCommandEncoder()
+        
+        CommandEncoder?.setComputePipelineState(ImageComputePipelineState!)
+        CommandEncoder?.setTexture(BGTexture, index: 0)
+        CommandEncoder?.setBuffer(ParameterBuffer, offset: 0, index: 0)
+        
+        let w = ImageComputePipelineState!.threadExecutionWidth
+        let h = ImageComputePipelineState!.maxTotalThreadsPerThreadgroup / w
+        let ThreadGroupCount = MTLSizeMake(w, h, 1)
+        let ThreadGroups = MTLSize(width: BGTexture!.width, height: BGTexture!.height, depth: 1)
+        
+        ImageCommandQueue = ImageDevice?.makeCommandQueue()
+        CommandEncoder?.dispatchThreadgroups(ThreadGroups, threadsPerThreadgroup: ThreadGroupCount)
+        CommandEncoder?.endEncoding()
+        CommandBuffer?.commit()
+        CommandBuffer?.waitUntilCompleted()
+        
+        let ImageSize = CGSize(width: BGTexture!.width, height: BGTexture!.height)
+        let ImageByteCount = Int(BGTexture!.width * BGTexture!.height * 4)
+        let BytesPerRow = AdjustedBG!.bytesPerRow
+        var ImageBytes = [UInt8](repeating: 0, count: ImageByteCount)
+        let ORegion = MTLRegionMake2D(0, 0, BGTexture!.width, BGTexture!.height)
+        BGTexture!.getBytes(&ImageBytes, bytesPerRow: BytesPerRow, from: ORegion, mipmapLevel: 0)
+        
+        //https://stackoverflow.com/questions/49713008/pixel-colors-change-as-i-save-mtltexture-to-cgimage
+        let CIOptions = [CIImageOption.colorSpace: CGColorSpaceCreateDeviceRGB(),
+                         CIContextOption.outputPremultiplied: true,
+                         CIContextOption.useSoftwareRenderer: false] as! [CIImageOption: Any]
+        let CImg = CIImage(mtlTexture: BGTexture!, options: CIOptions)
+        let CImgRep = NSCIImageRep(ciImage: CImg!)
+        var Final = NSImage(size: ImageSize)
+        Final.addRepresentation(CImgRep)
+        
+        let Flipper = ImageFlipper()
+        Final = Flipper.FlipVertically(Source: Final)!
+        
+        return Final
+    }
+}
+
