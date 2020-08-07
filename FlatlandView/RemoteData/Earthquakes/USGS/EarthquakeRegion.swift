@@ -18,6 +18,7 @@ class EarthquakeRegion: CustomStringConvertible
     {
         IsFallback = false
         AlwaysInvisible = false
+        IsEnabled = true
         _ID = UUID()
     }
     
@@ -25,13 +26,14 @@ class EarthquakeRegion: CustomStringConvertible
     init(FallBack: Bool)
     {
         IsFallback = true
+        IsEnabled = true
         AlwaysInvisible = true
         MinimumMagnitude = 5.0
         MaximumMagnitude = 10.0
         UpperLeft = GeoPoint2(90.0, -180.0)
         LowerRight = GeoPoint2(-90.0, 180.0)
         RegionName = "World Fallback"
-        BorderColor = NSColor.clear
+        RegionColor = NSColor.clear
         BorderWidth = 0.0
         Notification = .None
         SoundName = .None
@@ -46,7 +48,7 @@ class EarthquakeRegion: CustomStringConvertible
         {
             var Value = "\(RegionName)"
             Value.append("\t")
-            Value.append("\(BorderColor.Hex)")
+            Value.append("\(RegionColor.Hex)")
             Value.append("\t")
             Value.append("\(BorderWidth)")
             Value.append("\t")
@@ -65,10 +67,14 @@ class EarthquakeRegion: CustomStringConvertible
             Value.append("\(SoundName.rawValue)")
             Value.append("\t")
             Value.append("\(IsFallback)")
+            Value.append("\t")
+            Value.append("\(IsEnabled)")
             return Value
         }
     }
     
+    /// Enabled flag.
+    var IsEnabled: Bool = true
     /// If true, this is the fallback region, which is the entire world. Defaults to false.
     var IsFallback: Bool = false
     /// If true, the region never has its area plotted on the map. Defaults to false.
@@ -84,9 +90,9 @@ class EarthquakeRegion: CustomStringConvertible
     /// The name of the region.
     var RegionName: String = ""
     /// The color of the border of the region.
-    var BorderColor: NSColor = NSColor.red
+    var RegionColor: NSColor = NSColor.red
     /// The width of the earthquake region.
-    var BorderWidth: Double = 10.0
+    var BorderWidth: Double = 0.0
     /// How to display notifications.
     var Notification: EarthquakeNotifications = .None
     /// Sound to play (depending on the value in `Notification`).
@@ -100,7 +106,7 @@ class EarthquakeRegion: CustomStringConvertible
     public static func Decode(Raw: String) -> EarthquakeRegion?
     {
         let Parts = Raw.split(separator: "\t", omittingEmptySubsequences: true)
-        if Parts.count != 11
+        if Parts.count != 12
         {
             return nil
         }
@@ -114,7 +120,7 @@ class EarthquakeRegion: CustomStringConvertible
                     Region.RegionName = Part
                     
                 case 1:
-                    Region.BorderColor = NSColor(HexString: Part)!
+                    Region.RegionColor = NSColor(HexString: Part)!
                     
                 case 2:
                     Region.BorderWidth = Double(Part)!
@@ -156,6 +162,9 @@ class EarthquakeRegion: CustomStringConvertible
                     
                 case 10:
                     Region.IsFallback = Bool(Part)!
+                    
+                case 11:
+                    Region.IsEnabled = Bool(Part)!
                     
                 default:
                     return nil
