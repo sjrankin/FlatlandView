@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17140" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17147" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17140"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17140"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17147"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17147"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -4281,7 +4281,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="Frz-fb-ama" column="rP4-eQ-RzT" id="fzs-Be-fsq">
                                                                 <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JGK-9J-dhB">
-                                                                    <rect key="frame" x="85" y="0.0" width="150" height="21"/>
+                                                                    <rect key="frame" x="191" y="0.0" width="150" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="150" id="3Gk-Qm-Kda"/>
                                                                         <constraint firstAttribute="height" constant="21" id="etI-wV-8bQ"/>
@@ -4405,7 +4405,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="jHE-pC-vDX" column="w1s-1v-kJT" id="TOj-QH-wmU">
                                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ag6-Ot-zYh">
-                                                                    <rect key="frame" x="75" y="3" width="24" height="16"/>
+                                                                    <rect key="frame" x="128" y="3" width="24" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Lat" id="lLI-Ap-dpB">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4496,7 +4496,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="yV5-9p-5ZO" id="KDi-9e-tVf">
                                                                 <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JVC-Oq-fEf">
-                                                                    <rect key="frame" x="111" y="0.0" width="70" height="21"/>
+                                                                    <rect key="frame" x="156" y="0.0" width="70" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="70" id="ItS-Kd-AZI"/>
                                                                         <constraint firstAttribute="height" constant="21" id="LJr-h7-tPM"/>
@@ -4510,7 +4510,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="qii-ML-xv6" id="Tge-hD-rCG">
                                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y4p-h9-2Ke">
-                                                                    <rect key="frame" x="195" y="3" width="27" height="16"/>
+                                                                    <rect key="frame" x="240" y="3" width="27" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Lon" id="x6r-TX-TmZ">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4523,7 +4523,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="idr-EN-7o2" id="HCq-pj-ks9">
                                                                 <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8F-g2-MPp">
-                                                                    <rect key="frame" x="226" y="0.0" width="70" height="21"/>
+                                                                    <rect key="frame" x="271" y="0.0" width="70" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="CIA-Jp-N8a"/>
                                                                         <constraint firstAttribute="width" constant="70" id="RBN-qZ-SVM"/>
@@ -4543,7 +4543,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="qcY-TD-JNO" column="nSO-dn-FGw" id="acg-VR-n6a">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ef-Usi">
-                                                        <rect key="frame" x="0.0" y="71" width="341" height="19"/>
+                                                        <rect key="frame" x="0.0" y="71" width="167" height="19"/>
                                                         <rows>
                                                             <gridRow id="v2J-ql-dfX"/>
                                                         </rows>
@@ -4589,7 +4589,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="6wR-X2-Nd8" column="nSO-dn-FGw" id="kuD-Yb-Cfp">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TCU-og-MA0">
-                                                        <rect key="frame" x="0.0" y="31" width="171" height="30"/>
+                                                        <rect key="frame" x="0.0" y="31" width="341" height="30"/>
                                                         <rows>
                                                             <gridRow id="YaN-Rc-9oV"/>
                                                         </rows>
@@ -4610,7 +4610,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="YaN-Rc-9oV" column="f9n-Q5-lW9" id="toR-YD-H2z">
                                                                 <colorWell key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sXw-XA-hZV">
-                                                                    <rect key="frame" x="81" y="0.0" width="90" height="30"/>
+                                                                    <rect key="frame" x="251" y="0.0" width="90" height="30"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="30" id="Rjn-7O-iGy"/>
                                                                         <constraint firstAttribute="width" constant="90" id="RwN-UX-6ax"/>
@@ -4823,13 +4823,14 @@ DQ
                                     </gridCell>
                                     <gridCell row="UgZ-w5-wxa" column="Qdo-3i-Rde" id="ggL-5Z-t0L">
                                         <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
-                                            <rect key="frame" x="0.0" y="0.0" width="350" height="21"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="196" height="21"/>
                                             <rows>
                                                 <gridRow id="MvR-7n-9cc"/>
                                             </rows>
                                             <columns>
                                                 <gridColumn id="zk0-Yp-NNw"/>
                                                 <gridColumn id="e7a-yF-CtL"/>
+                                                <gridColumn id="OaW-Xe-n4J"/>
                                             </columns>
                                             <gridCells>
                                                 <gridCell row="MvR-7n-9cc" column="zk0-Yp-NNw" id="cs3-Vq-G8W">
@@ -4856,6 +4857,18 @@ DQ
                                                         </connections>
                                                     </button>
                                                 </gridCell>
+                                                <gridCell row="MvR-7n-9cc" column="OaW-Xe-n4J" id="lg4-1D-V8F">
+                                                    <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eN5-aZ-P0s">
+                                                        <rect key="frame" x="127" y="-7" width="75" height="32"/>
+                                                        <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="19q-fH-mod">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="HandleResetButton:" target="NWK-Dh-LTM" id="Qsb-kn-NH1"/>
+                                                        </connections>
+                                                    </button>
+                                                </gridCell>
                                             </gridCells>
                                         </gridView>
                                     </gridCell>
@@ -4877,6 +4890,7 @@ DQ
                         <outlet property="MinMagCombo" destination="uUK-8b-WND" id="7vj-sI-opA"/>
                         <outlet property="RegionBorderColorWell" destination="sXw-XA-hZV" id="YAt-G0-62w"/>
                         <outlet property="RegionNameBox" destination="JGK-9J-dhB" id="rbs-oQ-GYi"/>
+                        <outlet property="RegionNameLabel" destination="CiD-0N-8z5" id="9yf-ad-V7H"/>
                         <outlet property="RegionTable" destination="Svd-0s-QvW" id="AQR-mD-Mkr"/>
                         <outlet property="ULLatitudeField" destination="D2o-eH-Kj8" id="myC-1x-GIz"/>
                         <outlet property="ULLongitudeField" destination="dSJ-iy-Elk" id="ZJJ-m6-qs7"/>
@@ -4885,6 +4899,89 @@ DQ
                 <customObject id="6Tv-HK-ud9" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2171.5" y="2973.5"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="MsC-aX-qXl">
+            <objects>
+                <windowController storyboardIdentifier="ResetConfirmWindow" id="igT-oC-GLy" customClass="ResetConfirmWindow" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="ZfB-pg-NjR">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="2932" y="555" width="480" height="270"/>
+                        <rect key="screenRect" x="2560" y="144" width="2304" height="1296"/>
+                        <view key="contentView" id="6cE-P5-3vv">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="igT-oC-GLy" id="Qpz-pq-hSa"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="4HK-0l-XvE" kind="relationship" relationship="window.shadowedContentViewController" id="NaZ-cL-foa"/>
+                    </connections>
+                </windowController>
+                <customObject id="HKR-Qr-s0g" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2159" y="3446"/>
+        </scene>
+        <!--Reset Confirm Controller-->
+        <scene sceneID="3dc-St-4Od">
+            <objects>
+                <viewController id="4HK-0l-XvE" customClass="ResetConfirmController" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="pwC-Cq-eFT">
+                        <rect key="frame" x="0.0" y="0.0" width="539" height="106"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="FJu-jE-1fL">
+                                <rect key="frame" x="18" y="43" width="503" height="52"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="499" id="5bK-N1-Jcv"/>
+                                    <constraint firstAttribute="height" constant="52" id="PEw-2s-rWB"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="Really reset your regions? All regions will be deleted except for the fallback region for the entire world." id="mnG-3j-bqW">
+                                    <font key="font" metaFont="system" size="15"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RXH-p3-PZg">
+                                <rect key="frame" x="440" y="13" width="85" height="32"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wqp-Z2-xd9">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="systemBold"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleCancelPressed:" target="4HK-0l-XvE" id="iM2-Mu-ecK"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SAb-R3-nUS">
+                                <rect key="frame" x="14" y="13" width="62" height="32"/>
+                                <buttonCell key="cell" type="push" title="Yes" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wgf-MP-c3I">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleYesPressed:" target="4HK-0l-XvE" id="Lbc-Cd-7qY"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="SAb-R3-nUS" secondAttribute="bottom" constant="20" symbolic="YES" id="H99-pz-GgJ"/>
+                            <constraint firstItem="SAb-R3-nUS" firstAttribute="leading" secondItem="FJu-jE-1fL" secondAttribute="leading" id="NWI-mb-dCu"/>
+                            <constraint firstItem="RXH-p3-PZg" firstAttribute="trailing" secondItem="FJu-jE-1fL" secondAttribute="trailing" id="UP5-2x-lMh"/>
+                            <constraint firstItem="SAb-R3-nUS" firstAttribute="baseline" secondItem="RXH-p3-PZg" secondAttribute="baseline" id="Wn5-j6-8r1"/>
+                            <constraint firstItem="FJu-jE-1fL" firstAttribute="centerX" secondItem="pwC-Cq-eFT" secondAttribute="centerX" id="jHa-En-pKl"/>
+                            <constraint firstItem="FJu-jE-1fL" firstAttribute="top" secondItem="pwC-Cq-eFT" secondAttribute="top" constant="11" id="oZi-Rx-Vvv"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="gc2-F3-qwc" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2074.5" y="3893"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="K1a-u9-vuh">
