@@ -18,12 +18,13 @@ class EarthquakeRegion: CustomStringConvertible
     {
         IsFallback = false
         AlwaysInvisible = false
+        _ID = UUID()
     }
     
     /// Create the fallback earthquake region.
     init(FallBack: Bool)
     {
-        IsFallback = FallBack
+        IsFallback = true
         AlwaysInvisible = true
         MinimumMagnitude = 5.0
         MaximumMagnitude = 10.0
@@ -35,6 +36,7 @@ class EarthquakeRegion: CustomStringConvertible
         Notification = .None
         SoundName = .None
         Age = 5
+        _ID = UUID()
     }
     
     /// Returns the string value of the region. Used for serialization.
@@ -61,6 +63,8 @@ class EarthquakeRegion: CustomStringConvertible
             Value.append("\(Notification.rawValue)")
             Value.append("\t")
             Value.append("\(SoundName.rawValue)")
+            Value.append("\t")
+            Value.append("\(IsFallback)")
             return Value
         }
     }
@@ -96,7 +100,7 @@ class EarthquakeRegion: CustomStringConvertible
     public static func Decode(Raw: String) -> EarthquakeRegion?
     {
         let Parts = Raw.split(separator: "\t", omittingEmptySubsequences: true)
-        if Parts.count != 10
+        if Parts.count != 11
         {
             return nil
         }
@@ -150,11 +154,25 @@ class EarthquakeRegion: CustomStringConvertible
                 case 9:
                     Region.SoundName = NotificationSounds(rawValue: Part)!
                     
+                case 10:
+                    Region.IsFallback = Bool(Part)!
+                    
                 default:
                     return nil
             }
         }
         return Region
+    }
+    
+    /// Holds the instance ID of the region.
+    private var _ID: UUID!
+    /// Get the instance ID of the region.
+    public var ID: UUID
+    {
+        get
+        {
+            return _ID
+        }
     }
 }
 
