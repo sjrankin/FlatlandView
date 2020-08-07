@@ -13,6 +13,7 @@ import Metal
 import MetalKit
 import CoreImage
 
+/// Wrapper class around the `ImageBlender` metal kernel to merge two images together.
 class ImageBlender
 {
     private let ImageDevice = MTLCreateSystemDefaultDevice()
@@ -22,6 +23,7 @@ class ImageBlender
             return self.ImageDevice?.makeCommandQueue()
         }()
     
+    /// Initializer.
     init()
     {
         let DefaultLibrary = ImageDevice?.makeDefaultLibrary()
@@ -109,7 +111,14 @@ class ImageBlender
         return Merged
     }
     
-    func DoMergeImages(Background: NSImage, Sprite: NSImage, SpriteX: Int, SpriteY: Int) -> NSImage
+    /// Set up and run the kernel to merge a sprite image with the background image.
+    /// - Parameter Background: The background image upon which the `Sprite` image will be drawn (with appropriate
+    ///                         alpha blending).
+    /// - Parameter Sprite: The (presumably) smaller image to merge with the `Background` image.
+    /// - Parameter SpriteX: The horizontal coordinate of the upper-left corner of `Sprite`.
+    /// - Parameter SpriteY: The vertical coordinate of the upper-left corner of `Sprite`.
+    /// - Returns: New image with `Sprite` merged with `Background`.
+    private func DoMergeImages(Background: NSImage, Sprite: NSImage, SpriteX: Int, SpriteY: Int) -> NSImage
     {
         var AdjustedBG: CGImage? = nil
         let BGTexture = MetalLibrary.MakeTexture(From: Background, ForWriting: true,
@@ -117,7 +126,7 @@ class ImageBlender
         var SpriteBG: CGImage? = nil
         let SPTexture = MetalLibrary.MakeTexture(From: Sprite, ForWriting: true,
                                                  ImageDevice: ImageDevice!, AsCG: &SpriteBG)
-        let Parameter = ImageMergeParameters2(XOffset: simd_uint1(SpriteX),
+        let Parameter = ImageBlendParameters(XOffset: simd_uint1(SpriteX),
                                               YOffset: simd_uint1(SpriteY))
         let Parameters = [Parameter]
         let ParameterBuffer = ImageDevice!.makeBuffer(length: MemoryLayout<ImageBlendParameters>.stride, options: [])
