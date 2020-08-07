@@ -25,37 +25,27 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         }
         RegionTable.reloadData()
         CurrentRegionIndex = 0
-        
-        MinMagCombo.removeAllItems()
-        MinMagCombo.addItem(withObjectValue: "4")
-        MinMagCombo.addItem(withObjectValue: "5")
-        MinMagCombo.addItem(withObjectValue: "6")
-        MinMagCombo.addItem(withObjectValue: "7")
-        MinMagCombo.addItem(withObjectValue: "8")
-        MinMagCombo.addItem(withObjectValue: "9")
-        MinMagCombo.addItem(withObjectValue: "10")
-        MaxMagCombo.removeAllItems()
-        MaxMagCombo.addItem(withObjectValue: "4")
-        MaxMagCombo.addItem(withObjectValue: "5")
-        MaxMagCombo.addItem(withObjectValue: "6")
-        MaxMagCombo.addItem(withObjectValue: "7")
-        MaxMagCombo.addItem(withObjectValue: "8")
-        MaxMagCombo.addItem(withObjectValue: "9")
-        MaxMagCombo.addItem(withObjectValue: "10")
+        MinMagField.stringValue = ""
+        MaxMagField.stringValue = ""
         AgeCombo.removeAllItems()
         for Days in 1 ... 30
         {
             AgeCombo.addItem(withObjectValue: "\(Days)")
         }
+        EnabledSwitch.state = .on
     }
     
+    var IsDirty = false
     var CurrentRegionIndex: Int = 0
     var Regions = [EarthquakeRegion]()
     
     @IBAction func HandleClosePressed(_ sender: Any)
     {
+        if IsDirty
+        {
         GetLastMinuteChanges()
         Settings.SetEarthquakeRegions(Regions)
+        }
         let Window = self.view.window
         let Parent = Window?.sheetParent
         Parent?.endSheet(Window!, returnCode: .OK)
@@ -69,27 +59,39 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
     func Populate(Row: Int)
     {
         CurrentRegionIndex = Row
-        RegionNameLabel.textColor = Regions[Row].IsFallback ? NSColor.systemBlue : NSColor.black
         RegionNameBox.stringValue = Regions[Row].RegionName
-        RegionBorderColorWell.color = Regions[Row].BorderColor
+        RegionBorderColorWell.color = Regions[Row].RegionColor
         ULLatitudeField.stringValue = "\(Regions[Row].UpperLeft.Latitude.RoundedTo(3))"
         ULLongitudeField.stringValue = "\(Regions[Row].UpperLeft.Longitude.RoundedTo(3))"
         LRLatitudeField.stringValue = "\(Regions[Row].LowerRight.Latitude.RoundedTo(3))"
         LRLongitudeField.stringValue = "\(Regions[Row].LowerRight.Longitude.RoundedTo(3))"
-        MinMagCombo.selectItem(at: Int(Regions[Row].MinimumMagnitude - 4))
-        MaxMagCombo.selectItem(at: Int(Regions[Row].MaximumMagnitude - 4))
+        MinMagField.stringValue = "\(Regions[Row].MinimumMagnitude.RoundedTo(3))"
+        MaxMagField.stringValue = "\(Regions[Row].MaximumMagnitude.RoundedTo(3))"
         AgeCombo.selectItem(at: Regions[Row].Age - 1)
-        if let Index = WidthMap[Int(Regions[Row].BorderWidth)]
+        EnabledSwitch.state = Regions[Row].IsEnabled ? .on : .off
+        if Regions[Row].IsFallback
         {
-            BorderWidthSegment.selectedSegment = Index
+            RegionNameLabel.textColor = NSColor.systemBlue
+            RegionNameBox.isEnabled = false
+            RegionBorderColorWell.isEnabled = false
+            ULLatitudeField.isEnabled = false
+            ULLongitudeField.isEnabled = false
+            LRLatitudeField.isEnabled = false
+            LRLongitudeField.isEnabled = false
+            EnabledSwitch.isEnabled = false
         }
         else
         {
-            BorderWidthSegment.selectedSegment = 5
+            RegionNameLabel.textColor = NSColor.black
+            RegionNameBox.isEnabled = true
+            RegionBorderColorWell.isEnabled = true
+            ULLatitudeField.isEnabled = true
+            ULLongitudeField.isEnabled = true
+            LRLatitudeField.isEnabled = true
+            LRLongitudeField.isEnabled = true
+            EnabledSwitch.isEnabled = true
         }
     }
-    
-    let WidthMap = [0: 0, 1: 1, 2: 2, 4: 3, 8: 4, 16: 5, 21: 6]
     
     @IBAction func HandleAddButton(_ sender: Any)
     {
@@ -99,6 +101,7 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         RegionTable.reloadData()
         let ISet = IndexSet(integer: CurrentRegionIndex)
         RegionTable.selectRowIndexes(ISet, byExtendingSelection: false)
+        IsDirty = true
     }
     
     @IBAction func HandleDeleteButton(_ sender: Any)
@@ -109,58 +112,12 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
             return
         }
     }
-    
-    @IBAction func HandleBorderWidthChanged(_ sender: Any)
-    {
-        if let Segment = sender as? NSSegmentedControl
-        {
-            let Index = Segment.selectedSegment
-            for (Value, ValueIndex) in WidthMap
-            {
-                if ValueIndex == Index
-                {
-                    Regions[CurrentRegionIndex].BorderWidth = Double(Value)
-                    return
-                }
-            }
-        }
-    }
-    
+
     func ReloadTable()
     {
         RegionTable.reloadData()
         let ISet = IndexSet(integer: CurrentRegionIndex)
         RegionTable.selectRowIndexes(ISet, byExtendingSelection: false)
-    }
-    
-    @IBAction func HandleMinMagnitudeChanged(_ sender: Any)
-    {
-        if let Combo = sender as? NSComboBox
-        {
-            let Index = Combo.indexOfSelectedItem
-            Regions[CurrentRegionIndex].MinimumMagnitude = Double(Index + 4)
-            let MaxIndex = MaxMagCombo.indexOfSelectedItem
-            if Index > MaxIndex
-            {
-                MaxMagCombo.selectItem(at: Index)
-            }
-            ReloadTable()
-        }
-    }
-    
-    @IBAction func HandleMaxMagnitudeChanged(_ sender: Any)
-    {
-        if let Combo = sender as? NSComboBox
-        {
-            let Index = Combo.indexOfSelectedItem
-            Regions[CurrentRegionIndex].MaximumMagnitude = Double(Index + 4)
-            let MinIndex = MinMagCombo.indexOfSelectedItem
-            if Index > MinIndex
-            {
-                MinMagCombo.selectItem(at: Index)
-                ReloadTable()
-            }
-        }
     }
     
     @IBAction func HandleAgeComboChanged(_ sender: Any)
@@ -169,6 +126,7 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         {
             let Index = Combo.indexOfSelectedItem
             Regions[CurrentRegionIndex].Age = Index + 1
+            IsDirty = true
             ReloadTable()
         }
     }
@@ -177,7 +135,8 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
     {
         if let Well = sender as? NSColorWell
         {
-            Regions[CurrentRegionIndex].BorderColor = Well.color
+            IsDirty = true
+            Regions[CurrentRegionIndex].RegionColor = Well.color
         }
     }
     
@@ -209,6 +168,14 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
+        if Regions[row].IsEnabled
+        {
+            Cell?.textField?.textColor = NSColor.black
+        }
+        else
+        {
+            Cell?.textField?.textColor = NSColor.gray
+        }
         return Cell
     }
     
@@ -246,23 +213,63 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         return Default
     }
     
+    func ValidateMagnitudes(_ Value: String, Default: Double = 5.0) -> Double
+    {
+        if let Actual = Double(Value)
+        {
+            if Actual < 0.0 || Actual > 10.0
+            {
+                return Default
+            }
+            return Actual
+        }
+        return Default
+    }
+    
     func UpdateFromTextField(_ Field: NSTextField)
     {
         switch Field
         {
             case LRLatitudeField:
+                IsDirty = true
                 Regions[CurrentRegionIndex].LowerRight.Latitude = ValidateLatitude(Field.stringValue)
                 
             case LRLongitudeField:
+                IsDirty = true
                 Regions[CurrentRegionIndex].LowerRight.Longitude = ValidateLongitude(Field.stringValue)
                 
             case ULLatitudeField:
+                IsDirty = true
                 Regions[CurrentRegionIndex].UpperLeft.Latitude = ValidateLatitude(Field.stringValue)
                 
             case ULLongitudeField:
+                IsDirty = true
                 Regions[CurrentRegionIndex].UpperLeft.Longitude = ValidateLongitude(Field.stringValue)
                 
+            case MinMagField:
+                IsDirty = true
+                let NewMin = ValidateMagnitudes(Field.stringValue)
+                Regions[CurrentRegionIndex].MinimumMagnitude = NewMin
+                let OldMax = ValidateMagnitudes(MaxMagField.stringValue)
+                if NewMin > OldMax
+                {
+                    MaxMagField.stringValue = "\(NewMin)"
+                    Regions[CurrentRegionIndex].MaximumMagnitude = NewMin
+                }
+                
+            case MaxMagField:
+                IsDirty = true
+                let NewMax = ValidateMagnitudes(Field.stringValue)
+                Regions[CurrentRegionIndex].MaximumMagnitude = NewMax
+                let OldMin = ValidateMagnitudes(MinMagField.stringValue)
+                if NewMax < OldMin
+                {
+                    MinMagField.stringValue = "\(NewMax)"
+                    Regions[CurrentRegionIndex].MinimumMagnitude = NewMax
+                }
+                
             case RegionNameBox:
+                IsDirty = true
                 Regions[CurrentRegionIndex].RegionName = Field.stringValue
                 ReloadTable()
                 
@@ -290,6 +297,16 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         UpdateFromTextField(RegionNameBox)
     }
     
+    @IBAction func HandleEnabledSwitchChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            IsDirty = true
+            Regions[CurrentRegionIndex].IsEnabled = Switch.state == .on ? true : false
+            ReloadTable()
+        }
+    }
+    
     @IBAction func HandleResetButton(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
@@ -306,11 +323,13 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
                     Settings.SetEarthquakeRegions(self.Regions)
                     self.ReloadTable()
                     self.Populate(Row: 0)
+                    self.IsDirty = true
                 }
             }
         }
     }
     
+    @IBOutlet weak var EnabledSwitch: NSSwitch!
     @IBOutlet weak var RegionNameLabel: NSTextField!
     @IBOutlet weak var DeleteButton: NSButton!
     @IBOutlet weak var LRLatitudeField: NSTextField!
@@ -319,9 +338,8 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
     @IBOutlet weak var ULLatitudeField: NSTextField!
     @IBOutlet weak var RegionBorderColorWell: NSColorWell!
     @IBOutlet weak var AgeCombo: NSComboBox!
-    @IBOutlet weak var MaxMagCombo: NSComboBox!
-    @IBOutlet weak var MinMagCombo: NSComboBox!
-    @IBOutlet weak var BorderWidthSegment: NSSegmentedControl!
+    @IBOutlet weak var MaxMagField: NSTextField!
+    @IBOutlet weak var MinMagField: NSTextField!
     @IBOutlet weak var RegionNameBox: NSTextField!
     @IBOutlet weak var RegionTable: NSTableView!
 }
