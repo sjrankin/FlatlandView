@@ -13,7 +13,7 @@ import Metal
 import MetalKit
 import CoreImage
 
-/// Wrapper class around the `ImageBlender` metal kernel to merge two images together.
+/// Wrapper class around the `LineDraw` metal kernel to draw a line on an image.
 class LineDraw
 {
     private let ImageDevice = MTLCreateSystemDefaultDevice()
@@ -38,6 +38,16 @@ class LineDraw
         }
     }
     
+    func DrawLine(Background: NSImage, IsHorizontal: Bool, Thickness: Int, At: Int, WithColor: NSColor) -> NSImage
+    {
+        let Parameter = LineDrawParameters(IsHorizontal: simd_bool(IsHorizontal),
+                                           HorizontalAt: simd_uint1(At),
+                                           VerticalAt: simd_uint1(At),
+                                           Thickness: simd_uint1(Thickness),
+                                           LineColor: MetalLibrary.ToFloat4(WithColor))
+        return DoDrawLine(Background: Background, Line: Parameter)
+    }
+    
     /// Draw a line (vertical or horizontal) on the passed image.
     /// - Parameters:
     ///   - Background: The image upon which a line will be drawn.
@@ -48,27 +58,31 @@ class LineDraw
     ///         the value of `IsHorizontal`.
     ///   - WithColor: The color of the line. Alpha blending is supported.
     /// - Returns: Image with a line drawn on it.
-    func DrawLine(Background: NSImage, IsHorizontal: Bool, Thickness: Int, At: Int, WithColor: NSColor) -> NSImage
+    private func DoDrawLine(Background: NSImage, Line: LineDrawParameters) -> NSImage
     {
         //Validate parameters.
-        if Thickness == 0
+        if Line.Thickness == 0
         {
             fatalError("Invalid thickness for line in DrawLine.")
         }
-        if At < 0
+        if Line.IsHorizontal
         {
-            fatalError("Line location in DrawLine is negative.")
-        }
-        if IsHorizontal
-        {
-            if At + Thickness > Int(Background.size.height)
+            if Line.HorizontalAt < 0
+            {
+                fatalError("Horizontal location \(Line.HorizontalAt) is less than 0.")
+            }
+            if Line.HorizontalAt + Line.Thickness > Int(Background.size.height)
             {
                 fatalError("Horizontal line position plus thickness is out of bounds.")
             }
         }
         else
         {
-            if At + Thickness > Int(Background.size.width)
+            if Line.VerticalAt < 0
+            {
+                fatalError("Vertical location \(Line.VerticalAt) is less than 0.")
+            }
+            if Line.VerticalAt + Line.Thickness > Int(Background.size.width)
             {
                 fatalError("Vertical line position plus thickness is out of bounds.")
             }
@@ -77,14 +91,11 @@ class LineDraw
         var AdjustedBG: CGImage? = nil
         let BGTexture = MetalLibrary.MakeTexture(From: Background, ForWriting: true,
                                                  ImageDevice: ImageDevice!, AsCG: &AdjustedBG)
-        let Parameter = LineDrawParameters(IsHorizontal: simd_bool(IsHorizontal),
-                                           HorizontalAt: simd_uint1(At),
-                                           VerticalAt: simd_uint1(At),
-                                           Thickness: simd_uint1(Thickness),
-                                           LineColor: MetalLibrary.ToFloat4(WithColor))
-        let Parameters = [Parameter]
-        let ParameterBuffer = ImageDevice!.makeBuffer(length: MemoryLayout<LineDrawParameters>.stride, options: [])
-        memcpy(ParameterBuffer!.contents(), Parameters, MemoryLayout<LineDrawParameters>.stride)
+        
+        let Parameters = [Line]
+        let BufferLength = MemoryLayout<LineDrawParameters>.stride
+        let ParameterBuffer = ImageDevice!.makeBuffer(length: BufferLength, options: [])
+        memcpy(ParameterBuffer!.contents(), Parameters, BufferLength)
         
         let CommandBuffer = ImageCommandQueue?.makeCommandBuffer()
         let CommandEncoder = CommandBuffer?.makeComputeCommandEncoder()
