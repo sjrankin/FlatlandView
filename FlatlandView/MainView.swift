@@ -929,25 +929,12 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             case .Earthquakes:
                 if let NewEarthquakes = Actual as? [Earthquake]
                 {
-                    #if true
                     print("Have new earthquakes")
                     World3DView.NewEarthquakeList(NewEarthquakes)
                     Plot2DEarthquakes(NewEarthquakes)
                     LatestEarthquakes = NewEarthquakes
                     (view.window?.windowController as? MainWindow)!.EarthquakeButton.isEnabled = true
                     print("Done with new earthquakes")
-                    #else
-                    let MinMag = Settings.GetDouble(.MinimumMagnitude)
-                    let HowClose = Settings.GetDouble(.CombineDistance, 100.0)
-                    let Age = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
-                    if let Filtered = Earthquakes?.GetCurrentEarthquakes(HowClose, MinMag, Age)
-                    {
-                        World3DView.NewEarthquakeList(Filtered)
-                        Plot2DEarthquakes(Filtered)
-                        LatestEarthquakes = Filtered
-                        (view.window?.windowController as? MainWindow)!.EarthquakeButton.isEnabled = true
-                    }
-                    #endif
                 }
                 
             default:
