@@ -21,9 +21,11 @@ extension GlobeView
             {
                 if let BaseMap = GlobalBaseMap
                 {
-                    let NewMap = AddAnnotation(To: BaseMap, With: EarthquakeList)
-                    ChangeEarthBaseMap(To: NewMap)
-//                    AddEarth(WithMap: NewMap)
+                    AddAnnotation(To: BaseMap, With: EarthquakeList)
+                    {
+                        [self] NewMap in
+                        ChangeEarthBaseMap(To: NewMap)
+                    }
                 }
             }
             PlotEarthquakes(EarthquakeList, On: Earth)
