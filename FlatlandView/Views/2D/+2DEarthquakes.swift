@@ -49,8 +49,9 @@ extension MainView
         PlotEarthquakes(Quakes, RadialTime: Radians, Replot: Replot)
     }
     
-    func PlotEarthquakes(_ Quakes: [Earthquake], RadialTime: Double, Replot: Bool = false)
+    func PlotEarthquakes(_ RawQuakes: [Earthquake], RadialTime: Double, Replot: Bool = false)
     {
+        let Quakes = EarthquakeFilterer.FilterList(RawQuakes)
         if Quakes.isEmpty
         {
             return
@@ -62,11 +63,7 @@ extension MainView
                 return
             }
         }
-        #if true
         Quakes2D = Quakes
-        #else
-        Quakes2D = USGS.CombineEarthquakes(Quakes, Closeness: 500.0)
-        #endif
         PreviousEarthquakes = Quakes
         for Child in CityView2D.layer!.sublayers!
         {
@@ -82,15 +79,8 @@ extension MainView
         LEarthquakeLayer.bounds = FlatViewMainImage.bounds
         LEarthquakeLayer.frame = FlatViewMainImage.bounds
         
-        //let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
         for Quake in Quakes2D
         {
-            /*
-            if !InAgeRange(Quake, InRange: AgeRange)
-            {
-                continue
-            }
- */
             let PlottedEarthquake = PlotEarthquake(Quake: Quake, MapDiameter: LEarthquakeLayer.bounds.width)
             PlottedEarthquake.name = LayerNames.Earthquake.rawValue
             LEarthquakeLayer.addSublayer(PlottedEarthquake)
