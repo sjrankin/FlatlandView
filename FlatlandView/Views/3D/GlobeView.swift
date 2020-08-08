@@ -722,7 +722,11 @@ class GlobeView: SCNView, GlobeProtocol
         }
         
         GlobalBaseMap = BaseMap
-        BaseMap = AddAnnotation(To: BaseMap!, With: EarthquakeList) 
+        AddAnnotation(To: BaseMap!, With: EarthquakeList)
+        {
+            NewMap in
+            BaseMap = NewMap
+        }
         
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.categoryBitMask = SunMask | MoonMask
@@ -887,6 +891,7 @@ class GlobeView: SCNView, GlobeProtocol
     {
         if Settings.GetBool(.GridLinesDrawnOnMap)
         {
+            print("draw grid lines on map")
             return
         }
         LineNode?.removeAllActions()
