@@ -2,14 +2,14 @@
 //  LineDrawKernel.metal
 //  Flatland
 //
-//  Created by Stuart Rankin on 8/7/20.
+//  Created by Stuart Rankin on 8/8/20.
 //  Copyright © 2020 Stuart Rankin. All rights reserved.
 //
 
 #include <metal_stdlib>
 using namespace metal;
 
-struct LineDrawParameters
+struct LineParameters
 {
     bool IsHorizontal;
     uint HorizontalAt;
@@ -19,8 +19,8 @@ struct LineDrawParameters
 };
 
 kernel void DrawLine(texture2d<float, access::read_write> Background [[texture(0)]],
-                         constant LineDrawParameters &Parameters [[buffer(0)]],
-                         uint2 gid [[thread_position_in_grid]])
+                     constant LineParameters &Parameters [[buffer(0)]],
+                     uint2 gid [[thread_position_in_grid]])
 {
     float4 BGPixel = Background.read(gid);
     float4 SpPixel = Parameters.LineColor;
