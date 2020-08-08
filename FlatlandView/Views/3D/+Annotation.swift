@@ -25,30 +25,36 @@ extension GlobeView
     /// - Parameter To: The Earth map texture.
     /// - Parameter With: Array of earthquakes to plot.
     /// - Returns: Annotated map image.
-    func AddAnnotation(To Image: NSImage, With Earthquakes: [Earthquake]) -> NSImage
+    func AddAnnotation(To Image: NSImage, With Earthquakes: [Earthquake], Completed: ((NSImage) -> ())? = nil)
     {
-        var Working = Image
-        let Regions = Settings.GetEarthquakeRegions()
-        if Regions.count > 0
+        DispatchQueue.main.async
         {
-            let Blender = ImageBlender()
-            Working = DrawRegions(Image: Image, Regions: Regions, Kernel: Blender)
+            var Working = Image
+            let Regions = Settings.GetEarthquakeRegions()
+            if Regions.count > 0
+            {
+                let Blender = ImageBlender()
+                Working = self.DrawRegions(Image: Image, Regions: Regions, Kernel: Blender)
+            }
+            if Settings.GetBool(.GridLinesDrawnOnMap)
+            {
+                Working = self.AddGridLines(To: Working)
+            }
+            var Rep = self.GetImageRep(From: Working)
+            if Settings.GetBool(.CityNamesDrawnOnMap)
+            {
+                Rep = self.AddCityNames(To: Rep)
+            }
+            if Settings.GetEnum(ForKey: .EarthquakeMagnitudeViews, EnumType: EarthquakeMagnitudeViews.self, Default: .No) == .Stenciled
+            {
+                Rep = self.AddMagnitudeValues(To: Rep, With: Earthquakes)
+            }
+            let Final = self.GetImage(From: Rep)
+            OperationQueue.main.addOperation
+            {
+                Completed?(Final)
+            }
         }
-        if Settings.GetBool(.GridLinesDrawnOnMap)
-        {
-            Working = AddGridLines(To: Working)
-        }
-        var Rep = GetImageRep(From: Working)
-        if Settings.GetBool(.CityNamesDrawnOnMap)
-        {
-            Rep = AddCityNames(To: Rep)
-        }
-        if Settings.GetEnum(ForKey: .EarthquakeMagnitudeViews, EnumType: EarthquakeMagnitudeViews.self, Default: .No) == .Stenciled
-        {
-            Rep = AddMagnitudeValues(To: Rep, With: Earthquakes)
-        }
-        let Final = GetImage(From: Rep)
-        return Final
     }
     
     /// Add city names to the passed image representation.
@@ -327,8 +333,8 @@ extension GlobeView
                                                                          XPercent: &XPercent,
                                                                          YPercent: &YPercent)
             Final = Kernel.MergeImages(Background: Final, Sprite: Region.RegionColor.withAlphaComponent(0.5),
-                               SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
-                               SpriteX: FinalX, SpriteY: FinalY)
+                                       SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
+                                       SpriteX: FinalX, SpriteY: FinalY)
         }
         return Final
     }
