@@ -33,6 +33,7 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
             AgeCombo.addItem(withObjectValue: "\(Days)")
         }
         EnabledSwitch.state = .on
+        DisplayRegionCheck.state = Settings.GetBool(.ShowEarthquakeRegions) ? .on : .off
     }
     
     var IsDirty = false
@@ -329,6 +330,15 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         }
     }
     
+    @IBAction func HandleDisplayRegionChanged(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            Settings.SetBool(.ShowEarthquakeRegions, Button.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var DisplayRegionCheck: NSButton!
     @IBOutlet weak var EnabledSwitch: NSSwitch!
     @IBOutlet weak var RegionNameLabel: NSTextField!
     @IBOutlet weak var DeleteButton: NSButton!
