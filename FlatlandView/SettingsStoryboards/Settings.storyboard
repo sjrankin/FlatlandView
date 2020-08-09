@@ -4236,15 +4236,19 @@ DQ
                                     <action selector="HandleClosePressed:" target="NWK-Dh-LTM" id="cbr-dj-zqE"/>
                                 </connections>
                             </button>
-                            <box fixedFrame="YES" title="Edit" translatesAutoresizingMaskIntoConstraints="NO" id="O8B-X1-bI5">
+                            <box title="Edit" translatesAutoresizingMaskIntoConstraints="NO" id="O8B-X1-bI5">
                                 <rect key="frame" x="365" y="49" width="395" height="345"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="zB8-OU-t7t">
                                     <rect key="frame" x="3" y="3" width="389" height="327"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <gridView fixedFrame="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="kzy-CU-luG">
+                                        <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="kzy-CU-luG">
                                             <rect key="frame" x="6" y="105" width="361" height="214"/>
+                                            <constraints>
+                                                <constraint firstItem="ZbB-Ed-KeU" firstAttribute="trailing" secondItem="A0E-SY-lTa" secondAttribute="trailing" id="2k1-sm-uYe"/>
+                                                <constraint firstItem="ZbB-Ed-KeU" firstAttribute="trailing" secondItem="8vV-Nj-dma" secondAttribute="trailing" id="IdV-rH-CIe"/>
+                                                <constraint firstAttribute="trailing" secondItem="54S-zm-j7V" secondAttribute="trailing" constant="65" id="Pmi-pV-w1k"/>
+                                            </constraints>
                                             <rows>
                                                 <gridRow id="BRf-hI-cRL"/>
                                                 <gridRow id="BL6-fD-0xA"/>
@@ -4259,8 +4263,12 @@ DQ
                                             </columns>
                                             <gridCells>
                                                 <gridCell row="BRf-hI-cRL" column="nSO-dn-FGw" id="BVF-x4-lRl">
-                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="8vV-Nj-dma">
+                                                    <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="8vV-Nj-dma">
                                                         <rect key="frame" x="0.0" y="193" width="361" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstItem="JGK-9J-dhB" firstAttribute="baseline" secondItem="CiD-0N-8z5" secondAttribute="baseline" id="UYd-g5-dmf"/>
+                                                            <constraint firstItem="JGK-9J-dhB" firstAttribute="leading" secondItem="CiD-0N-8z5" secondAttribute="trailing" constant="6" id="ixc-C3-a8f"/>
+                                                        </constraints>
                                                         <rows>
                                                             <gridRow id="Frz-fb-ama"/>
                                                         </rows>
@@ -4271,7 +4279,7 @@ DQ
                                                         <gridCells>
                                                             <gridCell row="Frz-fb-ama" column="Y9o-r6-WON" id="zMP-1D-X2x">
                                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CiD-0N-8z5">
-                                                                    <rect key="frame" x="-2" y="3" width="83" height="16"/>
+                                                                    <rect key="frame" x="-2" y="3" width="83" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Region name" id="BX9-Dg-sK1">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4280,8 +4288,8 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="Frz-fb-ama" column="rP4-eQ-RzT" id="fzs-Be-fsq">
-                                                                <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JGK-9J-dhB">
-                                                                    <rect key="frame" x="211" y="0.0" width="150" height="21"/>
+                                                                <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JGK-9J-dhB">
+                                                                    <rect key="frame" x="85" y="0.0" width="150" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="150" id="3Gk-Qm-Kda"/>
                                                                         <constraint firstAttribute="height" constant="21" id="etI-wV-8bQ"/>
@@ -4370,8 +4378,16 @@ DQ
                                                     </gridView>
                                                 </gridCell>
                                                 <gridCell row="lBF-Zp-mCn" column="nSO-dn-FGw" id="ueV-0I-XEA">
-                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="ZbB-Ed-KeU">
+                                                    <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="ZbB-Ed-KeU">
                                                         <rect key="frame" x="0.0" y="131" width="361" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstItem="Ag6-Ot-zYh" firstAttribute="baseline" secondItem="NrT-4l-d6D" secondAttribute="baseline" id="CNH-rA-6yT"/>
+                                                            <constraint firstItem="Ag6-Ot-zYh" firstAttribute="baseline" secondItem="D2o-eH-Kj8" secondAttribute="baseline" id="TAz-LW-lE6"/>
+                                                            <constraint firstItem="D2o-eH-Kj8" firstAttribute="leading" secondItem="Ag6-Ot-zYh" secondAttribute="trailing" constant="6" id="dvO-hG-bai"/>
+                                                            <constraint firstItem="Ag6-Ot-zYh" firstAttribute="baseline" secondItem="Pvk-X8-EkF" secondAttribute="baseline" id="ezk-r4-X5B"/>
+                                                            <constraint firstItem="Ag6-Ot-zYh" firstAttribute="leading" secondItem="NrT-4l-d6D" secondAttribute="trailing" constant="16" id="mOP-TT-N7d"/>
+                                                            <constraint firstItem="dSJ-iy-Elk" firstAttribute="leading" secondItem="Pvk-X8-EkF" secondAttribute="trailing" constant="79" id="y6c-s3-6b1"/>
+                                                        </constraints>
                                                         <rows>
                                                             <gridRow id="jHE-pC-vDX"/>
                                                         </rows>
@@ -4385,7 +4401,7 @@ DQ
                                                         <gridCells>
                                                             <gridCell row="jHE-pC-vDX" column="3sV-Xz-9lD" id="vRU-jC-9DB">
                                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NrT-4l-d6D">
-                                                                    <rect key="frame" x="-2" y="3" width="65" height="16"/>
+                                                                    <rect key="frame" x="-2" y="3" width="65" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Upper left" id="LLc-6C-Xgg">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4394,8 +4410,8 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="jHE-pC-vDX" column="w1s-1v-kJT" id="TOj-QH-wmU">
-                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ag6-Ot-zYh">
-                                                                    <rect key="frame" x="75" y="3" width="24" height="16"/>
+                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ag6-Ot-zYh">
+                                                                    <rect key="frame" x="75" y="3" width="24" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Lat" id="lLI-Ap-dpB">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4404,7 +4420,7 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="jHE-pC-vDX" column="et4-Wk-3Ef" id="Ks6-BV-97B">
-                                                                <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D2o-eH-Kj8">
+                                                                <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D2o-eH-Kj8">
                                                                     <rect key="frame" x="103" y="0.0" width="70" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="tIi-sa-Kj5"/>
@@ -4421,8 +4437,8 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="jHE-pC-vDX" column="n8d-Bb-eD2" id="tHc-hb-ALD">
-                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pvk-X8-EkF">
-                                                                    <rect key="frame" x="187" y="3" width="27" height="16"/>
+                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pvk-X8-EkF">
+                                                                    <rect key="frame" x="187" y="3" width="27" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Lon" id="Wsg-da-8Uh">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4431,8 +4447,8 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="jHE-pC-vDX" column="1Mh-Fo-C4L" id="gic-u9-sgV">
-                                                                <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dSJ-iy-Elk">
-                                                                    <rect key="frame" x="218" y="0.0" width="70" height="21"/>
+                                                                <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dSJ-iy-Elk">
+                                                                    <rect key="frame" x="291" y="0.0" width="70" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="VVR-Dd-ybn"/>
                                                                         <constraint firstAttribute="width" constant="70" id="m03-iH-Jed"/>
@@ -4451,8 +4467,13 @@ DQ
                                                     </gridView>
                                                 </gridCell>
                                                 <gridCell row="KWf-Ms-7hh" column="nSO-dn-FGw" id="cWC-2N-6Ig">
-                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="54S-zm-j7V">
-                                                        <rect key="frame" x="0.0" y="100" width="361" height="21"/>
+                                                    <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="54S-zm-j7V">
+                                                        <rect key="frame" x="0.0" y="100" width="296" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstItem="Mkr-ot-m67" firstAttribute="baseline" secondItem="GhJ-4k-B0S" secondAttribute="baseline" id="KOf-Wk-kYL"/>
+                                                            <constraint firstItem="Mkr-ot-m67" firstAttribute="baseline" secondItem="JVC-Oq-fEf" secondAttribute="baseline" id="mLW-wX-bo7"/>
+                                                            <constraint firstItem="Y4p-h9-2Ke" firstAttribute="baseline" secondItem="N8F-g2-MPp" secondAttribute="baseline" id="nx5-EC-A8G"/>
+                                                        </constraints>
                                                         <rows>
                                                             <gridRow id="h9B-4a-EYN"/>
                                                         </rows>
@@ -4466,7 +4487,7 @@ DQ
                                                         <gridCells>
                                                             <gridCell row="h9B-4a-EYN" column="Is7-rf-fgu" id="L6O-Vs-DR1">
                                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GhJ-4k-B0S">
-                                                                    <rect key="frame" x="-2" y="3" width="73" height="16"/>
+                                                                    <rect key="frame" x="-2" y="3" width="73" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Lower right" id="ax0-rH-w2Q">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4475,8 +4496,8 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="wEe-NJ-MHu" id="1DN-Da-7L1">
-                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mkr-ot-m67">
-                                                                    <rect key="frame" x="148" y="3" width="24" height="16"/>
+                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Mkr-ot-m67">
+                                                                    <rect key="frame" x="83" y="3" width="24" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Lat" id="MM6-7l-43o">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4485,8 +4506,8 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="yV5-9p-5ZO" id="KDi-9e-tVf">
-                                                                <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JVC-Oq-fEf">
-                                                                    <rect key="frame" x="176" y="0.0" width="70" height="21"/>
+                                                                <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JVC-Oq-fEf">
+                                                                    <rect key="frame" x="111" y="0.0" width="70" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="70" id="ItS-Kd-AZI"/>
                                                                         <constraint firstAttribute="height" constant="21" id="LJr-h7-tPM"/>
@@ -4499,8 +4520,8 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="qii-ML-xv6" id="Tge-hD-rCG">
-                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y4p-h9-2Ke">
-                                                                    <rect key="frame" x="260" y="3" width="27" height="16"/>
+                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y4p-h9-2Ke">
+                                                                    <rect key="frame" x="195" y="3" width="27" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Lon" id="x6r-TX-TmZ">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4512,8 +4533,8 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="idr-EN-7o2" id="HCq-pj-ks9">
-                                                                <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8F-g2-MPp">
-                                                                    <rect key="frame" x="291" y="0.0" width="70" height="21"/>
+                                                                <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N8F-g2-MPp">
+                                                                    <rect key="frame" x="226" y="0.0" width="70" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="CIA-Jp-N8a"/>
                                                                         <constraint firstAttribute="width" constant="70" id="RBN-qZ-SVM"/>
@@ -4533,7 +4554,12 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="qcY-TD-JNO" column="nSO-dn-FGw" id="acg-VR-n6a">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ef-Usi">
-                                                        <rect key="frame" x="0.0" y="71" width="361" height="19"/>
+                                                        <rect key="frame" x="0.0" y="71" width="167" height="19"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="trailing" secondItem="sVk-73-Bgl" secondAttribute="trailing" id="O4K-h6-qme"/>
+                                                            <constraint firstItem="sVk-73-Bgl" firstAttribute="leading" secondItem="enU-rc-XSn" secondAttribute="trailing" constant="6" id="Ttw-N2-c9M"/>
+                                                            <constraint firstItem="sVk-73-Bgl" firstAttribute="baseline" secondItem="enU-rc-XSn" secondAttribute="baseline" id="UBs-pF-kGO"/>
+                                                        </constraints>
                                                         <rows>
                                                             <gridRow id="v2J-ql-dfX"/>
                                                         </rows>
@@ -4544,7 +4570,7 @@ DQ
                                                         <gridCells>
                                                             <gridCell row="v2J-ql-dfX" column="2Wh-JC-vaT" id="9gq-dL-CVD">
                                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="enU-rc-XSn">
-                                                                    <rect key="frame" x="-2" y="2" width="95" height="16"/>
+                                                                    <rect key="frame" x="-2" y="2" width="95" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Maximum days" id="4xD-CW-YTr">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -4553,7 +4579,7 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="v2J-ql-dfX" column="s1T-DN-gqd" id="BA9-l0-IsO">
-                                                                <comboBox key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sVk-73-Bgl">
+                                                                <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sVk-73-Bgl">
                                                                     <rect key="frame" x="97" y="-4" width="73" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="70" id="9HP-2Z-5fT"/>
@@ -4579,7 +4605,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="6wR-X2-Nd8" column="nSO-dn-FGw" id="kuD-Yb-Cfp">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TCU-og-MA0">
-                                                        <rect key="frame" x="0.0" y="31" width="361" height="30"/>
+                                                        <rect key="frame" x="0.0" y="31" width="172" height="30"/>
                                                         <rows>
                                                             <gridRow id="YaN-Rc-9oV"/>
                                                         </rows>
@@ -4616,7 +4642,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="upJ-oP-Sw8" column="nSO-dn-FGw" id="LmV-ql-ybi">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="bim-6s-3u9">
-                                                        <rect key="frame" x="0.0" y="0.0" width="361" height="21"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="93" height="21"/>
                                                         <rows>
                                                             <gridRow id="3eU-Qa-lr9"/>
                                                         </rows>
@@ -4649,9 +4675,13 @@ DQ
                                             </gridCells>
                                         </gridView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="kzy-CU-luG" firstAttribute="leading" secondItem="zB8-OU-t7t" secondAttribute="leading" constant="6" id="ET7-ey-ERB"/>
+                                        <constraint firstItem="kzy-CU-luG" firstAttribute="top" secondItem="zB8-OU-t7t" secondAttribute="top" constant="8" id="zCB-tB-npi"/>
+                                    </constraints>
                                 </view>
                             </box>
-                            <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="i5x-Dl-G2s">
+                            <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="i5x-Dl-G2s">
                                 <rect key="frame" x="10" y="58" width="350" height="327"/>
                                 <rows>
                                     <gridRow id="1uy-qL-uiY"/>
@@ -4662,14 +4692,14 @@ DQ
                                 </columns>
                                 <gridCells>
                                     <gridCell row="1uy-qL-uiY" column="Qdo-3i-Rde" id="9p4-m8-iF8">
-                                        <scrollView key="contentView" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pRv-nw-PTO">
-                                            <rect key="frame" x="0.0" y="27" width="350" height="300"/>
+                                        <scrollView key="contentView" ambiguous="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pRv-nw-PTO">
+                                            <rect key="frame" x="250" y="27" width="100" height="300"/>
                                             <clipView key="contentView" id="78z-cE-5JS">
-                                                <rect key="frame" x="1" y="0.0" width="348" height="299"/>
+                                                <rect key="frame" x="1" y="0.0" width="98" height="284"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Dm6-DL-Nh3" viewBased="YES" id="Svd-0s-QvW">
-                                                        <rect key="frame" x="0.0" y="0.0" width="348" height="274"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="289" height="259"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -4692,9 +4722,8 @@ DQ
                                                                         <rect key="frame" x="1" y="1" width="160" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
-                                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0KZ-ED-sui">
+                                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="0KZ-ED-sui">
                                                                                 <rect key="frame" x="0.0" y="1" width="160" height="16"/>
-                                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="5Xa-QO-0kD">
                                                                                     <font key="font" usesAppearanceFont="YES"/>
                                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -4702,6 +4731,11 @@ DQ
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                         </subviews>
+                                                                        <constraints>
+                                                                            <constraint firstItem="0KZ-ED-sui" firstAttribute="leading" secondItem="shS-G6-kHb" secondAttribute="leading" constant="2" id="Jm7-jW-vuq"/>
+                                                                            <constraint firstItem="0KZ-ED-sui" firstAttribute="centerY" secondItem="shS-G6-kHb" secondAttribute="centerY" id="Zx9-ox-FZ6"/>
+                                                                            <constraint firstItem="0KZ-ED-sui" firstAttribute="centerX" secondItem="shS-G6-kHb" secondAttribute="centerX" id="br4-dj-2Su"/>
+                                                                        </constraints>
                                                                         <connections>
                                                                             <outlet property="textField" destination="0KZ-ED-sui" id="JEy-jG-w6W"/>
                                                                         </connections>
@@ -4724,9 +4758,8 @@ DQ
                                                                         <rect key="frame" x="164" y="1" width="80" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
-                                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1lG-hz-NUj">
+                                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="1lG-hz-NUj">
                                                                                 <rect key="frame" x="0.0" y="1" width="80" height="16"/>
-                                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="rNi-Cm-8mx">
                                                                                     <font key="font" usesAppearanceFont="YES"/>
                                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -4734,13 +4767,18 @@ DQ
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                         </subviews>
+                                                                        <constraints>
+                                                                            <constraint firstItem="1lG-hz-NUj" firstAttribute="leading" secondItem="wbj-76-Q5B" secondAttribute="leading" constant="2" id="Fh9-U1-2Ut"/>
+                                                                            <constraint firstItem="1lG-hz-NUj" firstAttribute="centerY" secondItem="wbj-76-Q5B" secondAttribute="centerY" id="gtC-yF-QUi"/>
+                                                                            <constraint firstItem="1lG-hz-NUj" firstAttribute="centerX" secondItem="wbj-76-Q5B" secondAttribute="centerX" id="u2s-LL-Yiu"/>
+                                                                        </constraints>
                                                                         <connections>
                                                                             <outlet property="textField" destination="1lG-hz-NUj" id="Urc-cJ-wPa"/>
                                                                         </connections>
                                                                     </tableCellView>
                                                                 </prototypeCellViews>
                                                             </tableColumn>
-                                                            <tableColumn identifier="AgeColumn" width="80" minWidth="40" maxWidth="1000" id="qto-Bw-YNt">
+                                                            <tableColumn identifier="AgeColumn" width="40" minWidth="40" maxWidth="1000" id="qto-Bw-YNt">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Age (days)">
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -4753,12 +4791,11 @@ DQ
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView id="Q7m-LC-izn">
-                                                                        <rect key="frame" x="247" y="1" width="80" height="17"/>
+                                                                        <rect key="frame" x="247" y="1" width="40" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
-                                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vxl-Ek-AcI">
-                                                                                <rect key="frame" x="0.0" y="1" width="80" height="16"/>
-                                                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Vxl-Ek-AcI">
+                                                                                <rect key="frame" x="0.0" y="1" width="40" height="16"/>
                                                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="GAg-YR-K8D">
                                                                                     <font key="font" usesAppearanceFont="YES"/>
                                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -4766,6 +4803,11 @@ DQ
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                         </subviews>
+                                                                        <constraints>
+                                                                            <constraint firstItem="Vxl-Ek-AcI" firstAttribute="centerX" secondItem="Q7m-LC-izn" secondAttribute="centerX" id="3hk-0M-2dm"/>
+                                                                            <constraint firstItem="Vxl-Ek-AcI" firstAttribute="centerY" secondItem="Q7m-LC-izn" secondAttribute="centerY" id="DtU-Ww-LUP"/>
+                                                                            <constraint firstItem="Vxl-Ek-AcI" firstAttribute="leading" secondItem="Q7m-LC-izn" secondAttribute="leading" constant="2" id="kX8-RM-QcC"/>
+                                                                        </constraints>
                                                                         <connections>
                                                                             <outlet property="textField" destination="Vxl-Ek-AcI" id="rE4-aF-nVu"/>
                                                                         </connections>
@@ -4785,22 +4827,22 @@ DQ
                                                 <constraint firstAttribute="height" constant="300" id="7y8-R5-hz2"/>
                                                 <constraint firstAttribute="width" constant="350" id="fDY-PR-HLJ"/>
                                             </constraints>
-                                            <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="P4L-kR-GpP">
-                                                <rect key="frame" x="1" y="284" width="348" height="15"/>
+                                            <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="P4L-kR-GpP">
+                                                <rect key="frame" x="1" y="284" width="98" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="IVZ-Wu-cI5">
+                                            <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="IVZ-Wu-cI5">
                                                 <rect key="frame" x="224" y="17" width="15" height="102"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <tableHeaderView key="headerView" id="Dm6-DL-Nh3">
-                                                <rect key="frame" x="0.0" y="0.0" width="348" height="25"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="289" height="25"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </tableHeaderView>
                                         </scrollView>
                                     </gridCell>
                                     <gridCell row="UgZ-w5-wxa" column="Qdo-3i-Rde" id="ggL-5Z-t0L">
-                                        <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
+                                        <gridView key="contentView" horizontalCompressionResistancePriority="753" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
                                             <rect key="frame" x="0.0" y="0.0" width="196" height="21"/>
                                             <rows>
                                                 <gridRow id="MvR-7n-9cc"/>
@@ -4852,15 +4894,36 @@ DQ
                                     </gridCell>
                                 </gridCells>
                             </gridView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GR1-Nq-BVa">
+                                <rect key="frame" x="8" y="17" width="115" height="18"/>
+                                <buttonCell key="cell" type="check" title="Display regions" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="1SA-oj-Bgi">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleDisplayRegionChanged:" target="NWK-Dh-LTM" id="Z3g-JA-09w"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="OnL-iF-PnW" firstAttribute="top" secondItem="O8B-X1-bI5" secondAttribute="bottom" constant="20" symbolic="YES" id="8fd-ov-FXv"/>
+                            <constraint firstItem="GR1-Nq-BVa" firstAttribute="leading" secondItem="wDz-SM-8Kb" secondAttribute="leading" constant="10" id="Eow-f0-WD3"/>
+                            <constraint firstItem="O8B-X1-bI5" firstAttribute="leading" secondItem="i5x-Dl-G2s" secondAttribute="trailing" constant="8" symbolic="YES" id="FOL-CE-V5a"/>
+                            <constraint firstItem="O8B-X1-bI5" firstAttribute="top" secondItem="wDz-SM-8Kb" secondAttribute="top" constant="11" id="Oe4-6S-hza"/>
                             <constraint firstItem="OnL-iF-PnW" firstAttribute="centerX" secondItem="wDz-SM-8Kb" secondAttribute="centerX" id="Uwn-85-My6"/>
+                            <constraint firstAttribute="trailing" secondItem="O8B-X1-bI5" secondAttribute="trailing" constant="20" symbolic="YES" id="V8M-Xy-xDl"/>
+                            <constraint firstItem="i5x-Dl-G2s" firstAttribute="top" secondItem="wDz-SM-8Kb" secondAttribute="top" constant="20" symbolic="YES" id="VAA-In-wUj"/>
+                            <constraint firstItem="O8B-X1-bI5" firstAttribute="leading" secondItem="wDz-SM-8Kb" secondAttribute="leading" constant="368" id="aCp-Lx-Xsa"/>
+                            <constraint firstItem="GR1-Nq-BVa" firstAttribute="leading" secondItem="i5x-Dl-G2s" secondAttribute="leading" id="hIH-oJ-VbP"/>
+                            <constraint firstItem="i5x-Dl-G2s" firstAttribute="leading" secondItem="wDz-SM-8Kb" secondAttribute="leading" constant="10" id="hqL-si-sOL"/>
                             <constraint firstAttribute="bottom" secondItem="OnL-iF-PnW" secondAttribute="bottom" constant="12" id="oH2-58-9BB"/>
+                            <constraint firstItem="GR1-Nq-BVa" firstAttribute="top" secondItem="OnL-iF-PnW" secondAttribute="top" id="tmX-8x-gC4"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="AgeCombo" destination="sVk-73-Bgl" id="9N3-A4-FF3"/>
                         <outlet property="DeleteButton" destination="ojh-YB-tvi" id="ofZ-Km-W1t"/>
+                        <outlet property="DisplayRegionCheck" destination="GR1-Nq-BVa" id="PDB-Ja-7Ip"/>
                         <outlet property="EnabledSwitch" destination="wit-jT-FKN" id="fyd-Us-WOR"/>
                         <outlet property="LRLatitudeField" destination="JVC-Oq-fEf" id="lGM-69-kfw"/>
                         <outlet property="LRLongitudeField" destination="N8F-g2-MPp" id="PNh-N3-cZM"/>
