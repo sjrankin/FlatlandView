@@ -580,6 +580,8 @@ enum GlobeRadius: CGFloat, CaseIterable
     case HourSphere = 11.5
     /// Location of city names (if used).
     case CityNames = 10.5
+    /// Stencil layer radius.
+    case StencilLayer = 10.04
 }
 
 /// Styles of listing earthquakes.
@@ -589,6 +591,19 @@ enum EarthquakeListStyles: String, CaseIterable
     case Individual = "Individual"
     /// Earthquakes are clustered together.
     case Clustered = "Clustered"
+}
+
+/// Stencil type classes for the stencil layer in 3D mode.
+enum StencilTypes: String, CaseIterable
+{
+    /// Earthquake magnitude values.
+    case EarthquakeMagnitudes = "EarthquakeMagnitudes"
+    /// City names.
+    case CityNames = "CityNames"
+    /// Earth grid lines.
+    case GridLines = "GridLines"
+    /// User-defined regions.
+    case UserRegions = "UserRegions"
 }
 
 /// Setting groups for the main settings.
@@ -739,6 +754,9 @@ enum GlobeNodeNames: String
     
     /// City nodes.
     case CityNode = "CityNode"
+    
+    /// Stencil node.
+    case StencilNode = "StencilNode"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
@@ -783,4 +801,20 @@ enum LayerZLevels: Int
     /// Debug layer.
     case DebugLayer = 19000
     #endif
+}
+
+/// Light masks for 3D scenes. The value of each case if the mask value for a given
+/// light and as such, each value must be unique (which is enforced by Swift).
+enum LightMasks: Int, CaseIterable
+{
+    /// Mask for the sun light.
+    case Sun = 0b00001
+    /// Mask for the metal sun light.
+    case MetalSun = 0b00010
+    /// Mask for the moon light.
+    case Moon = 0b00100
+    /// Mask for the metal moon light.
+    case MetalMoon = 0b01000
+    /// Mask for the grid light.
+    case Grid = 0b10000
 }
