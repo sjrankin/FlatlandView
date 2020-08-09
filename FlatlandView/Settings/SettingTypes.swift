@@ -269,6 +269,8 @@ enum SettingTypes: String, CaseIterable
     /// - Warning: Do not access this setting directly.
     /// - Note: See also `GetEarthquakeRegions` and `SetEarthquakeRegions`.
     case EarthquakeRegions = "EarthquakeRegions"
+    /// Boolean: Enables the visibility of 2D earthquake regions.
+    case ShowEarthquakeRegions = "ShowEarthquakeRegions"
     /// Double: Minimum value that earthquakes must be to be included in any list.
     case GeneralMinimumMagnitude = "GeneralMinimumMagnitude"
     
