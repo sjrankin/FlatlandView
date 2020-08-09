@@ -13,6 +13,25 @@ import SceneKit
 
 class Utility
 {
+    /// Return a range enum for the passed earthquake magnitude.
+    /// - Parameter For: The magnitude whose range will be returned.
+    /// - Returns: Enum from `EarthquakeMagnitudes` that indicates it's range.
+    public static func GetMagnitudeRange(For: Double) -> EarthquakeMagnitudes
+    {
+        let InitialValue = EarthquakeMagnitudes.allCases[0].rawValue
+        let Modified = For - InitialValue
+        if Modified < 0.0
+        {
+            return EarthquakeMagnitudes.allCases[0]
+        }
+        let IModified = Int(Modified)
+        if IModified > EarthquakeMagnitudes.allCases.count - 1
+        {
+            return EarthquakeMagnitudes.allCases.last!
+        }
+        return EarthquakeMagnitudes.allCases[IModified]
+    }
+    
     /// Mean radius of the Earth in meters.
     public static let EarthRadius: Double = 6367444.7
     
