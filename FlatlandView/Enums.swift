@@ -581,7 +581,7 @@ enum GlobeRadius: CGFloat, CaseIterable
     /// Location of city names (if used).
     case CityNames = 10.5
     /// Stencil layer radius.
-    case StencilLayer = 10.04
+    case StencilLayer = 10.02
 }
 
 /// Styles of listing earthquakes.
