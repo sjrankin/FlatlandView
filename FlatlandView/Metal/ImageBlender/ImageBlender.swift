@@ -48,6 +48,8 @@ class ImageBlender
     ///      unchanged).
     ///   3. If the sprite pixel has an alpha value greater than 0.0 and less than 1.0, standard
     ///                       alpha pixel blending takes place.
+    ///   4. If the background pixel has an alpha of 0.0, the sprite pixel is unconditionally placed on the
+    ///      background pixel.
     /// - Parameter Background: The background image over which a colored, rectangular sprite will be blended.
     /// - Parameter Sprite: The color of the rectangle that will be merged with the background. The blending
     ///                     of the sprite with the background depends on the alpha level of the sprite pixel.
@@ -88,6 +90,8 @@ class ImageBlender
     ///      unchanged.
     ///   3. If the sprite pixel has an alpha value greater than 0.0 and less than 1.0, standard
     ///                       alpha pixel blending takes place.
+    ///   4. If the background pixel has an alpha of 0.0, the sprite pixel is unconditionally placed on the
+    ///      background pixel.
     /// - Parameter Background: The background image over which sprite will be blended.
     /// - Parameter Sprite: The color of the rectangle that will be merged with the background. The blending
     ///                     of the sprite with the background depends on the alpha level of the sprite pixel.
