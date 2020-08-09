@@ -288,7 +288,7 @@ extension GlobeView
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
                 let HourTextNode = SCNNode(geometry: HourText)
-                HourTextNode.categoryBitMask = SunMask | MoonMask
+                HourTextNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 HourTextNode.scale = SCNVector3(NodeScales.HourText.rawValue,
                                                 NodeScales.HourText.rawValue,
                                                 NodeScales.HourText.rawValue)
