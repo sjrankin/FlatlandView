@@ -17,6 +17,7 @@ extension GlobeView
     {
         if let Earth = EarthNode
         {
+            #if false
             if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
             {
                 if let BaseMap = GlobalBaseMap
@@ -28,6 +29,12 @@ extension GlobeView
                     }
                 }
             }
+            #else
+            if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
+            {
+                UpdateStencils(EarthquakeList)
+            }
+            #endif
             PlotEarthquakes(EarthquakeList, On: Earth)
         }
     }
@@ -48,6 +55,7 @@ extension GlobeView
             }
             IndicatorAgeMap.removeAll()
         }
+        UpdateStencils()
         PlottedEarthquakes.removeAll()
     }
     
@@ -326,7 +334,7 @@ extension GlobeView
                 RadialOffset = 0.7
                 let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
                                            Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
-                Arrow.LightMask = SunMask | MoonMask
+                Arrow.LightMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 Arrow.scale = SCNVector3(NodeScales.ArrowScale.rawValue,
                                          NodeScales.ArrowScale.rawValue,
                                          NodeScales.ArrowScale.rawValue)
@@ -359,7 +367,7 @@ extension GlobeView
                 RadialOffset = 0.7
                 let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
                                            Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
-                Arrow.LightMask = SunMask | MoonMask
+                Arrow.LightMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 Arrow.scale = SCNVector3(NodeScales.StaticArrow.rawValue,
                                          NodeScales.StaticArrow.rawValue,
                                          NodeScales.StaticArrow.rawValue)
@@ -402,7 +410,7 @@ extension GlobeView
         
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: FinalRadius + RadialOffset)
         FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
-        FinalNode.categoryBitMask = SunMask | MoonMask
+        FinalNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
         FinalNode.position = SCNVector3(X, Y, Z)
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
         return (FinalNode, MagNode)
@@ -536,7 +544,7 @@ extension GlobeView
         MagText.firstMaterial?.specular.contents = NSColor.white
         MagText.firstMaterial?.lightingModel = .physicallyBased
         let MagNode = SCNNode(geometry: MagText)
-        MagNode.categoryBitMask = MetalSunMask | MetalMoonMask
+        MagNode.categoryBitMask = LightMasks.MetalSun.rawValue | LightMasks.MetalMoon.rawValue
         MagNode.scale = SCNVector3(NodeScales.EarthquakeText.rawValue,
                                    NodeScales.EarthquakeText.rawValue,
                                    NodeScales.EarthquakeText.rawValue)
@@ -555,7 +563,7 @@ extension GlobeView
         {
             let LowerShape = SCNBox(width: MagNode.boundingBox.max.x, height: 4.0, length: 1.0, chamferRadius: 0.0)
             let Lower = SCNNode(geometry: LowerShape)
-            Lower.categoryBitMask = SunMask | MoonMask
+            Lower.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
             Lower.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.CombinedEarthquakeColor, NSColor.systemRed)
             Lower.geometry?.firstMaterial?.specular.contents = NSColor.white
             let WidthOffset = MagNode.boundingBox.max.x / 2.0
@@ -564,7 +572,7 @@ extension GlobeView
             
             let UpperShape = SCNBox(width: MagNode.boundingBox.max.x, height: 4.0, length: 1.0, chamferRadius: 0.0)
             let Upper = SCNNode(geometry: UpperShape)
-            Upper.categoryBitMask = SunMask | MoonMask
+            Upper.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
             Upper.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.CombinedEarthquakeColor, NSColor.systemRed)
             Upper.geometry?.firstMaterial?.specular.contents = NSColor.white
             Upper.position = SCNVector3(MagNode.boundingBox.min.x + WidthOffset,
@@ -623,7 +631,7 @@ extension GlobeView
                     Indicator.geometry?.firstMaterial?.diffuse.contents = NSImage(named: TextureName)
                 }
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
-                Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
+                Indicator.categoryBitMask = LightMasks.MetalSun.rawValue | LightMasks.MetalMoon.rawValue
                 
                 let Rotate = SCNAction.rotateBy(x: CGFloat(0.0.Radians),
                                                 y: CGFloat(360.0.Radians),
@@ -655,7 +663,7 @@ extension GlobeView
                 let StaticColor = Settings.GetColor(.EarthquakeColor, NSColor.red)
                 Indicator.geometry?.firstMaterial?.diffuse.contents = StaticColor
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
-                Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
+                Indicator.categoryBitMask = LightMasks.MetalSun.rawValue | LightMasks.MetalMoon.rawValue
                 let YRotation = Quake.Latitude + 90.0
                 let XRotation = Quake.Longitude + 180.0
                 let ZRotation = 0.0
@@ -672,7 +680,7 @@ extension GlobeView
                 let Color = Settings.GetColor(.EarthquakeColor, NSColor.red).withAlphaComponent(0.45)
                 Indicator.geometry?.firstMaterial?.diffuse.contents = Color
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
-                Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
+                Indicator.categoryBitMask = LightMasks.MetalSun.rawValue | LightMasks.MetalMoon.rawValue
                 let YRotation = Quake.Latitude + 90.0
                 let XRotation = Quake.Longitude + 180.0
                 let ZRotation = 0.0
@@ -703,7 +711,7 @@ extension GlobeView
                 }
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
                 Indicator.geometry?.firstMaterial?.lightingModel = .physicallyBased
-                Indicator.categoryBitMask = MetalSunMask | MetalMoonMask
+                Indicator.categoryBitMask = LightMasks.MetalSun.rawValue | LightMasks.MetalMoon.rawValue
                 Indicator.scale = SCNVector3(NodeScales.RadiatingRings.rawValue,
                                              NodeScales.RadiatingRings.rawValue,
                                              NodeScales.RadiatingRings.rawValue)
@@ -741,7 +749,7 @@ extension GlobeView
                 let InnerRadius: CGFloat = 0.8
                 let OuterRadius: CGFloat = 1.6
                 let TRing = SCNTriangleRing(Count: 13, Inner: InnerRadius, Outer: OuterRadius, Extrusion: 0.15,
-                                            Mask: MetalSunMask | MetalMoonMask)
+                                            Mask: LightMasks.MetalSun.rawValue | LightMasks.MetalMoon.rawValue)
                 TRing.PointsOut = IndicatorType == .TriangleRingOut ? true: false
                 TRing.Color = Settings.GetColor(.EarthquakeColor, NSColor.red)
                 TRing.TriangleRotationDuration = 10.0 - Quake.Magnitude + 2.0
