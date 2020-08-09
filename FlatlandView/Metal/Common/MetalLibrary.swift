@@ -19,6 +19,16 @@ class MetalLibrary
     /// - Returns: SIMD float4 equivalent of the instance color.
     public static func ToFloat4(_ Color: NSColor) -> simd_float4
     {
+        #if true
+        let CColor = CIColor(color: Color)
+        var FVals = [Float]()
+        FVals.append(Float(CColor!.red))
+        FVals.append(Float(CColor!.green))
+        FVals.append(Float(CColor!.blue))
+        FVals.append(Float(CColor!.alpha))
+        let Result = simd_float4(FVals)
+        return Result
+        #else
         var FVals = [Float]()
         var Red: CGFloat = 0.0
         var Green: CGFloat = 0.0
@@ -31,6 +41,7 @@ class MetalLibrary
         FVals.append(Float(Alpha))
         let Result = simd_float4(FVals)
         return Result
+        #endif
     }
     
     /// Adjusts the colorspace of the passed image from monochrome to device RGB.
