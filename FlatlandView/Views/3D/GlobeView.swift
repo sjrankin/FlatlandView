@@ -321,7 +321,7 @@ class GlobeView: SCNView, GlobeProtocol
     func CreateAmbientLight()
     {
         let Ambient = SCNLight()
-        Ambient.categoryBitMask = SunMask
+        Ambient.categoryBitMask = LightMasks.Sun.rawValue
         Ambient.type = .ambient
         Ambient.intensity = 800
         Ambient.castsShadow = true
@@ -349,7 +349,7 @@ class GlobeView: SCNView, GlobeProtocol
     func SetSunlight()
     {
         SunLight = SCNLight()
-        SunLight.categoryBitMask = SunMask
+        SunLight.categoryBitMask = LightMasks.Sun.rawValue
         SunLight.type = .directional
         SunLight.intensity = 800
         SunLight.castsShadow = true
@@ -370,7 +370,8 @@ class GlobeView: SCNView, GlobeProtocol
         if Show
         {
             let MoonLight = SCNLight()
-            MoonLight.categoryBitMask = MoonMask
+            MoonLight.categoryBitMask = LightMasks.Moon.rawValue
+            //MoonLight.categoryBitMask = MoonMask
             MoonLight.type = .directional
             MoonLight.intensity = 300
             MoonLight.castsShadow = true
@@ -385,7 +386,8 @@ class GlobeView: SCNView, GlobeProtocol
             self.scene?.rootNode.addChildNode(MoonNode!)
             
             MetalMoonLight = SCNLight()
-            MetalMoonLight.categoryBitMask = MetalMoonMask
+            MetalMoonLight.categoryBitMask = LightMasks.MetalMoon.rawValue
+            //MetalMoonLight.categoryBitMask = MetalMoonMask
             MetalMoonLight.type = .directional
             MetalMoonLight.intensity = 800
             MetalMoonLight.castsShadow = true
@@ -413,7 +415,7 @@ class GlobeView: SCNView, GlobeProtocol
     func SetMetalLights()
     {
         MetalSunLight = SCNLight()
-        MetalSunLight.categoryBitMask = MetalSunMask
+        MetalSunLight.categoryBitMask = LightMasks.MetalSun.rawValue
         MetalSunLight.type = .directional
         MetalSunLight.intensity = 1200
         MetalSunLight.castsShadow = true
@@ -427,7 +429,7 @@ class GlobeView: SCNView, GlobeProtocol
         self.scene?.rootNode.addChildNode(MetalSunNode)
         
         MetalMoonLight = SCNLight()
-        MetalMoonLight.categoryBitMask = MetalMoonMask
+        MetalMoonLight.categoryBitMask = LightMasks.MetalMoon.rawValue
         MetalMoonLight.type = .directional
         MetalMoonLight.intensity = 800
         MetalMoonLight.castsShadow = true
@@ -449,7 +451,7 @@ class GlobeView: SCNView, GlobeProtocol
         GridLight1 = SCNLight()
         GridLight1.type = .omni
         GridLight1.color = NSColor.white
-        GridLight1.categoryBitMask = GridMask
+        GridLight1.categoryBitMask = LightMasks.Grid.rawValue
         GridLightNode1 = SCNNode()
         GridLightNode1.light = GridLight1
         GridLightNode1.position = SCNVector3(0.0, 0.0, -80.0)
@@ -457,18 +459,12 @@ class GlobeView: SCNView, GlobeProtocol
         GridLight2 = SCNLight()
         GridLight2.type = .omni
         GridLight2.color = NSColor.white
-        GridLight2.categoryBitMask = GridMask
+        GridLight2.categoryBitMask = LightMasks.Grid.rawValue
         GridLightNode2 = SCNNode()
         GridLightNode2.light = GridLight2
         GridLightNode2.position = SCNVector3(0.0, 0.0, 80.0)
         self.scene?.rootNode.addChildNode(GridLightNode2)
     }
-    
-    let SunMask: Int = 0x1 << 1
-    let MetalSunMask: Int = 0x1 << 2
-    let MoonMask: Int = 0x1 << 3
-    let MetalMoonMask: Int = 0x1 << 4
-    let GridMask: Int = 0x1 << 5
     
     var MetalSunLight = SCNLight()
     var MetalMoonLight = SCNLight()
@@ -530,37 +526,6 @@ class GlobeView: SCNView, GlobeProtocol
     ///         only when the proper settings are enabled.
     @objc func UpdateEarthView()
     {
-        #if DEBUG
-        if Settings.GetBool(.DebugTime)
-        {
-            if Settings.GetEnum(ForKey: .TimeControl, EnumType: TimeControls.self, Default: .Run) == .Pause
-            {
-                return
-            }
-            if Settings.GetBool(.EnableStopTime)
-            {
-                if DebugTime >= StopTime
-                {
-                    return
-                }
-            }
-            let DebugSecondsIncrement = Settings.GetDouble(.TimeMultiplier, 1.0)
-            DebugTime = DebugTime.advanced(by: DebugSecondsIncrement)
-            let TZ = TimeZone(abbreviation: "UTC")
-            var Cal = Calendar(identifier: .gregorian)
-            Cal.timeZone = TZ!
-            let Hour = Cal.component(.hour, from: DebugTime)
-            let Minute = Cal.component(.minute, from: DebugTime)
-            let Second = Cal.component(.second, from: DebugTime)
-            let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
-            let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
-            let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
-            UpdateEarth(With: PrettyPercent)
-            MainDelegate?.DebugRotationChanged(PrettyPercent)
-            MainDelegate?.DebugTimeChanged(DebugTime)
-            return
-        }
-        #endif
         let Now = Date()
         let TZ = TimeZone(abbreviation: "UTC")
         var Cal = Calendar(identifier: .gregorian)
@@ -608,6 +573,7 @@ class GlobeView: SCNView, GlobeProtocol
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
         LineNode?.runAction(Rotate)
+        StencilNode?.runAction(Rotate)
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
             HourNode?.runAction(Rotate)
@@ -680,6 +646,12 @@ class GlobeView: SCNView, GlobeProtocol
             HourNode?.removeFromParentNode()
             HourNode = nil
         }
+        if StencilNode != nil
+        {
+            StencilNode?.removeAllActions()
+            StencilNode?.removeFromParentNode()
+            StencilNode = nil
+        }
         
         SystemNode = SCNNode()
         
@@ -722,14 +694,18 @@ class GlobeView: SCNView, GlobeProtocol
         }
         
         GlobalBaseMap = BaseMap
-        AddAnnotation(To: BaseMap!, With: EarthquakeList)
-        {
-            NewMap in
-            BaseMap = NewMap
-        }
+        
+        StencilNode = StencilLayer()
+        StencilNode?.Parent = self
+        StencilNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        StencilNode?.geometry?.firstMaterial?.lightingModel = .blinn
+        StencilNode?.castsShadow = false
+        SystemNode?.addChildNode(StencilNode!)
+        print("Applying stencils in AddEarth")
+        StencilNode?.ApplyStencils()
         
         EarthNode = SCNNode(geometry: EarthSphere)
-        EarthNode?.categoryBitMask = SunMask | MoonMask
+        EarthNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
@@ -739,20 +715,20 @@ class GlobeView: SCNView, GlobeProtocol
         {
             case .EarthquakeMap:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal.withAlphaComponent(0.4)
                 EarthNode?.opacity = 0.75
                 
             case .StylizedSea1:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
                 
             case .Debug2:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -760,7 +736,7 @@ class GlobeView: SCNView, GlobeProtocol
                 
             case .Debug5:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemYellow
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -768,20 +744,20 @@ class GlobeView: SCNView, GlobeProtocol
                 
             case .TectonicOverlay:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
                 
             case .ASCIIArt1:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
                 
             case .BlackWhiteShiny:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
@@ -789,7 +765,7 @@ class GlobeView: SCNView, GlobeProtocol
                 
             case .Standard:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -797,7 +773,7 @@ class GlobeView: SCNView, GlobeProtocol
                 
             case .SimpleBorders2:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemBlue 
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -805,7 +781,7 @@ class GlobeView: SCNView, GlobeProtocol
                 
             case .Topographical1:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemBlue
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -813,7 +789,7 @@ class GlobeView: SCNView, GlobeProtocol
                 
             case .Pink:
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.orange
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
@@ -822,7 +798,7 @@ class GlobeView: SCNView, GlobeProtocol
             case .Bronze:
                 EarthNode?.geometry?.firstMaterial?.specular.contents = NSColor.orange
                 SeaNode = SCNNode(geometry: SeaSphere)
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor(red: 1.0,
                                                                              green: 210.0 / 255.0,
@@ -834,10 +810,10 @@ class GlobeView: SCNView, GlobeProtocol
             default:
                 //Create an empty sea node if one is not needed.
                 SeaNode = SCNNode()
-                SeaNode?.categoryBitMask = SunMask | MoonMask
+                SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
         }
         
-        PlotLocations(On: EarthNode!, WithRadius: 10)
+        PlotLocations(On: EarthNode!, WithRadius: GlobeRadius.Primary.rawValue)
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug2,
@@ -877,6 +853,50 @@ class GlobeView: SCNView, GlobeProtocol
     {
         GlobalBaseMap = NewMap
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
+        if StencilNode != nil
+        {
+            StencilNode?.removeAllActions()
+            StencilNode?.removeFromParentNode()
+            StencilNode = nil
+        }
+        StencilNode = StencilLayer()
+        StencilNode?.Parent = self
+        print("Applying stencils in ChangeEarthBaseMap")
+        StencilNode?.ApplyStencils()
+    }
+    
+    func UpdateStencils(_ Quakes: [Earthquake]? = nil, _ CityList: [City]? = nil)
+    {
+        #if true
+        StencilNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        StencilNode?.ApplyStencils()
+        #else
+        if StencilNode != nil
+        {
+            StencilNode?.removeAllActions()
+            StencilNode?.removeFromParentNode()
+            StencilNode = nil
+        }
+        for Node in SystemNode!.childNodes
+        {
+            if Node.name == GlobeNodeNames.StencilNode.rawValue
+            {
+                print("Found stencil node.")
+            }
+        }
+        StencilNode = StencilLayer()
+        if let QuakeList = Quakes
+        {
+            StencilNode?.UpdateEarthquakes(QuakeList)
+        }
+        if let CityList = CityList
+        {
+            StencilNode?.UpdateCities(CityList)
+        }
+        StencilNode?.Parent = self
+        print("Applying stencils in UpdateStencils")
+        StencilNode?.ApplyStencils()
+        #endif
     }
     
     var PreviousHourType: HourValueTypes = .None
@@ -902,7 +922,7 @@ class GlobeView: SCNView, GlobeProtocol
             let LineSphere = SCNSphere(radius: Radius)
             LineSphere.segmentCount = 100
             LineNode = SCNNode(geometry: LineSphere)
-            LineNode?.categoryBitMask = GridMask
+            LineNode?.categoryBitMask = LightMasks.Grid.rawValue
             LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
             let GridLineImage = MakeGridLines(Width: 3600, Height: 1800)
             LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLineImage
@@ -927,6 +947,7 @@ class GlobeView: SCNView, GlobeProtocol
     var EarthNode: SCNNode? = nil
     var SeaNode: SCNNode? = nil
     var HourNode: SCNNode? = nil
+    var StencilNode: StencilLayer? = nil
     var PlottedEarthquakes = Set<String>()
     
     // MARK: - GlobeProtocol functions
@@ -935,6 +956,29 @@ class GlobeView: SCNView, GlobeProtocol
     {
         let SatelliteAltitude = 10.5 * (At.Altitude / 6378.1)
         let (X, Y, Z) = ToECEF(At.Latitude, At.Longitude, Radius: SatelliteAltitude)
+    }
+    
+    func NewStencilTexture(_ Texture: NSImage)
+    {
+        #if true
+        StencilNode?.geometry?.firstMaterial?.diffuse.contents = Texture
+        #else
+        StencilNode?.geometry?.firstMaterial?.diffuse.contents = Texture
+        StencilNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        StencilNode?.geometry?.firstMaterial?.lightingModel = .blinn
+        StencilNode?.castsShadow = false
+//        SystemNode?.addChildNode(StencilNode!)
+        
+        self.prepare([StencilNode!], completionHandler:
+                        {
+                            success in
+                            if success
+                            {
+                                self.SystemNode?.addChildNode(self.StencilNode!)
+                            }
+                        }
+        )
+        #endif
     }
     
     // MARK: - Variables for extensions.
@@ -955,23 +999,6 @@ class GlobeView: SCNView, GlobeProtocol
     var GridImage: NSImage? = nil
     var EarthquakeList = [Earthquake]()
     var CitiesToPlot = [City]()
-    /*
-    let MagnitudeColors: [Double: NSColor] =
-        [
-            //0 to 4.9
-            EarthquakeMagnitudes.Mag4.rawValue: NSColor.TeaGreen,
-            //5 to 5.9
-            EarthquakeMagnitudes.Mag5.rawValue: NSColor.ArtichokeGreen,
-            //6 to 6.9
-            EarthquakeMagnitudes.Mag6.rawValue: NSColor.orange,
-            //7 to 7.9
-            EarthquakeMagnitudes.Mag7.rawValue: NSColor.UltraPink,
-            //8 to 8.9
-            EarthquakeMagnitudes.Mag8.rawValue: NSColor.Sunglow,
-            // 9 to 10
-            EarthquakeMagnitudes.Mag9.rawValue: NSColor.Scarlet
-        ]
- */
     
     let TextureMap: [EarthquakeTextures: String] =
     [
