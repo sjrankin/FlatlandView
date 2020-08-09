@@ -36,6 +36,15 @@ class SolidColorImage
         }
     }
     
+    /// Convenience function to create and return a transparent image of the specified size.
+    /// - Parameter Width: Width of the transparent image.
+    /// - Parameter Height: Height of the transparent image.
+    /// - Returns: Transparent image of the specified height and width on success, nil on failure.
+    func TransparentImage(Width: Int, Height: Int) -> NSImage?
+    {
+        return Fill(Width: Width, Height: Height, With: NSColor.clear)
+    }
+    
     func Fill(Width: Int, Height: Int, With Color: NSColor) -> NSImage?
     {
         return DoFill(With: Color, Size: NSSize(width: Width, height: Height))
