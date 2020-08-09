@@ -960,25 +960,11 @@ class GlobeView: SCNView, GlobeProtocol
     
     func NewStencilTexture(_ Texture: NSImage)
     {
-        #if true
-        StencilNode?.geometry?.firstMaterial?.diffuse.contents = Texture
-        #else
-        StencilNode?.geometry?.firstMaterial?.diffuse.contents = Texture
-        StencilNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
-        StencilNode?.geometry?.firstMaterial?.lightingModel = .blinn
-        StencilNode?.castsShadow = false
-//        SystemNode?.addChildNode(StencilNode!)
-        
-        self.prepare([StencilNode!], completionHandler:
-                        {
-                            success in
-                            if success
-                            {
-                                self.SystemNode?.addChildNode(self.StencilNode!)
-                            }
-                        }
-        )
-        #endif
+        let FinalTexture = SCNMaterial()
+        FinalTexture.diffuse.contents = Texture
+        FinalTexture.blendMode = .alpha
+        StencilNode?.geometry?.materials.removeAll()
+        StencilNode?.geometry?.materials.append(FinalTexture)
     }
     
     // MARK: - Variables for extensions.
