@@ -25,6 +25,11 @@ kernel void ImageBlender(texture2d<float, access::read_write> Sprite [[texture(0
     float4 BGPixel = Background.read(BGPosition);
     float4 SpPixel = Sprite.read(gid);
     float SpriteAlpha = SpPixel.a;
+    if (BGPixel.a == 0.0)
+        {
+        Background.write(SpPixel, BGPosition);
+        return;
+        }
     if (SpriteAlpha == 0.0)
         {
         return;
