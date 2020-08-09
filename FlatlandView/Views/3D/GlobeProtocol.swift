@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import AppKit
 
 protocol GlobeProtocol: class
 {
     func PlotSatellite(Satellite: Satellites, At: GeoPoint2)
+    func NewStencilTexture(_ Texture: NSImage)
 }
