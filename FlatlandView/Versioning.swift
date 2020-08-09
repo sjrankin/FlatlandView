@@ -118,19 +118,19 @@ public class Versioning: CustomStringConvertible
     }
     
     /// Build number.
-    public static let Build: Int = 2512
+    public static let Build: Int = 2523
     
     /// Build increment.
     private static let BuildIncrement = 1
     
     /// Build ID.
-    public static let BuildID: String = "A54F76DE-E82F-49F7-A804-BD65EB13D28F"
+    public static let BuildID: String = "1118C339-7D88-4A8F-90A0-2A18A44F2561"
     
     /// Build date.
     public static let BuildDate: String = "9 August 2020"
     
     /// Build Time.
-    public static let BuildTime: String = "17:42"
+    public static let BuildTime: String = "20:17"
     
     /// Holds the release build flag.
     private static var _IsReleaseBuild: Bool = false
