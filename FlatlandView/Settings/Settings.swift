@@ -1116,4 +1116,37 @@ class Settings
                 return NSColor.yellow
         }
     }
+    
+    /// Determines if the specific longitude line should be drawn.
+    /// - Parameter Longitude: The line whose drawing status will be returned.
+    /// - Returns: True if the line should be drawn, false if not.
+    public static func DrawLongitudeLine(_ Longitude: Longitudes) -> Bool
+    {
+        switch Longitude
+        {
+            case .AntarcticCircle, .ArcticCircle:
+                return Settings.GetBool(.Show3DPolarCircles)
+                
+            case .Equator:
+                return Settings.GetBool(.Show3DEquator)
+                
+            case .TropicOfCancer, .TropicOfCapricorn:
+                return Settings.GetBool(.Show3DTropics)
+        }
+    }
+    
+    /// Determines if the specific latitude line should be drawn.
+    /// - Parameter Latitude: The line whose drawing status will be returned.
+    /// - Returns: True if the line should be drawn, false if not.
+    public static func DrawLatitudeLine(_ Latitude: Latitudes) -> Bool
+    {
+        switch Latitude
+        {
+            case .PrimeMeridian, .OtherPrimeMeridian:
+                return Settings.GetBool(.Show3DPrimeMeridians)
+                
+            case .AntiPrimeMeridian, .OtherAntiPrimeMeridian:
+                return Settings.GetBool(.Show3DPrimeMeridians)
+        }
+    }
 }
