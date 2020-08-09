@@ -28,7 +28,7 @@ extension GlobeView
         
         let EarthCube = SCNBox(width: 10.0, height: 10.0, length: 10.0, chamferRadius: 0.5)
         EarthNode = SCNNode(geometry: EarthCube)
-        EarthNode?.categoryBitMask = SunMask | MoonMask
+        EarthNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
         
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.materials.removeAll()
