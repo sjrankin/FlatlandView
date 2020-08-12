@@ -12,5 +12,8 @@ import simd
 
 struct SolidColorParameters
 {
+    let DrawBorder: simd_bool
+    let BorderThickness: simd_uint1
+    let BorderColor: simd_float4
     let Fill: simd_float4
 }
