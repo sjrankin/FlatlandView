@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 import SceneKit
-
+#if false
 /// Implementaiton of the stencil layer for 3D mode.
 /// - Note: The stencil layer provides an alternative way to display text and some annotations to the
 ///         3D globe view.
@@ -41,6 +41,9 @@ class StencilLayer: SCNNode
         self.geometry = Sphere!
         self.position = SCNVector3(0.0, 0.0, 0.0)
         ClearStencils()
+        self.geometry?.firstMaterial?.isDoubleSided = true
+        self.geometry?.firstMaterial?.blendMode = .alpha
+        self.geometry?.firstMaterial?.transparencyMode = .aOne
     }
     
     var Sphere: SCNSphere? = nil
@@ -80,7 +83,7 @@ class StencilLayer: SCNNode
     /// Apply stencils. The stencil layer is cleared before application.
     func ApplyStencils()
     {
-        DoApplyStencils
+        DoApplyStencils(With: CurrentQuakes)
         {
             Texture in
             self.Parent?.NewStencilTexture(Texture)
@@ -90,13 +93,14 @@ class StencilLayer: SCNNode
     /// Apply stencils.
     /// - Parameter Completed: Closure called when all stencils have been applied. The completed texture
     ///                        is passed as the first parameter.
-    private func DoApplyStencils(Completed: ((NSImage) -> ())? = nil)
+    private func DoApplyStencils(With Quakes: [Earthquake], Completed: ((NSImage) -> ())? = nil)
     {
         objc_sync_enter(StencilLock)
         defer{objc_sync_exit(StencilLock)}
+        let LocalQuakes = Quakes
         let SolidColor = SolidColorImage()
         StencilTexture = SolidColor.TransparentImage(Width: 3600, Height: 1800)
-        DispatchQueue.main.async
+        DispatchQueue.global(qos: .background).async
         {
             var Working = self.StencilTexture!
             if Settings.GetBool(.ShowEarthquakeRegions)
@@ -121,7 +125,7 @@ class StencilLayer: SCNNode
                                 EnumType: EarthquakeMagnitudeViews.self,
                                 Default: .No) == .Stenciled
             {
-                Rep = self.AddMagnitudeValues(To: Rep, With: self.CurrentQuakes)
+                Rep = self.AddMagnitudeValues(To: Rep, With: LocalQuakes)
             }
             let Final = self.GetImage(From: Rep)
             OperationQueue.main.addOperation
@@ -163,6 +167,10 @@ class StencilLayer: SCNNode
     /// - Returns: The map with earthquake magnitude values or the same image, depending on settings.
     func AddMagnitudeValues(To Image: NSBitmapImageRep, With Earthquakes: [Earthquake]) -> NSBitmapImageRep
     {
+        if Earthquakes.count < 1
+        {
+            return Image
+        }
         var PlotMe = [TextRecord]()
         var Working = Image
         for Quake in Earthquakes
@@ -405,19 +413,4 @@ class StencilLayer: SCNNode
         return Final
     }
 }
-
-/// Used to send information to the text plotter for drawing text on images.
-struct TextRecord
-{
-    /// The text to draw.
-    let Text: String
-    /// The location of the text to draw.
-    let Location: NSPoint
-    /// The font to use to draw the text.
-    let Font: NSFont
-    /// The color of the text.
-    let Color: NSColor
-    /// If present, the outline color of the text. If not present, no outline is drawn.
-    let OutlineColor: NSColor?
-}
-
+#endif
