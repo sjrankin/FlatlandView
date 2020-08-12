@@ -146,7 +146,8 @@ class Starfield: SCNView
         {
             Node.geometry?.firstMaterial?.diffuse.contents = StarColor
         }
-        Node.geometry?.firstMaterial?.emission.contents = NSColor.yellow
+        Node.geometry?.firstMaterial?.selfIllumination.contents = NSColor.yellow
+//        Node.geometry?.firstMaterial?.emission.contents = NSColor.yellow
         self.scene?.rootNode.addChildNode(Node)
         let ZGone = 1.0
         let Destination = SCNVector3(P.x, P.y, CGFloat(ZGone))
