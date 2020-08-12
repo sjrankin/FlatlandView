@@ -78,7 +78,6 @@
 		1767A8EB24794A0300C434B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E924794A0300C434B5 /* Main.storyboard */; };
 		176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */; };
 		176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */; };
-		1771EAA924DEC2D4000CBDF8 /* StencilLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771EAA824DEC2D4000CBDF8 /* StencilLayer.swift */; };
 		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
 		177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D32480D49200CAD1B9 /* ActualMap.swift */; };
 		177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */; };
@@ -251,7 +250,6 @@
 		1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandView.entitlements; sourceTree = "<group>"; };
 		176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow.swift; sourceTree = "<group>"; };
 		176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController.swift; sourceTree = "<group>"; };
-		1771EAA824DEC2D4000CBDF8 /* StencilLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilLayer.swift; sourceTree = "<group>"; };
 		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
 		177EE5D32480D49200CAD1B9 /* ActualMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMap.swift; sourceTree = "<group>"; };
 		177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapGroup.swift; sourceTree = "<group>"; };
@@ -522,7 +520,6 @@
 				1727EA5724B15CD10051EA3B /* +UserCamera.swift */,
 				178A869D2489101E00BE8D46 /* StarField.swift */,
 				178A86A62489132800BE8D46 /* GlobeProtocol.swift */,
-				1771EAA824DEC2D4000CBDF8 /* StencilLayer.swift */,
 			);
 			path = 3D;
 			sourceTree = "<group>";
@@ -1133,7 +1130,6 @@
 				17B7D7BC24CED148000C077B /* ImageMergeParameters.swift in Sources */,
 				17FCCCD724A31EF500393F36 /* EarthquakeWindow.swift in Sources */,
 				1727EA5A24B170730051EA3B /* Queue.swift in Sources */,
-				1771EAA924DEC2D4000CBDF8 /* StencilLayer.swift in Sources */,
 				17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
 				17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */,
