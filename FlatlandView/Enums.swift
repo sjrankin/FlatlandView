@@ -754,9 +754,6 @@ enum GlobeNodeNames: String
     
     /// City nodes.
     case CityNode = "CityNode"
-    
-    /// Stencil node.
-    case StencilNode = "StencilNode"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
