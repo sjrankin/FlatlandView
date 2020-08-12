@@ -117,8 +117,6 @@ enum SettingTypes: String, CaseIterable
     /// Bool: If true, earthquake magnitude values are drawn on the map itself. If false,
     /// they are drawn with 3D extruded text.
     case MagnitudeValuesDrawnOnMap = "MagnitudeValuesDrawnOnMap"
-    /// Bool: If true, earthquake regions are drawn on the map. If false, they are not drawn.
-    case DrawEarthquakeRegions = "DrawEarthquakeRegions"
     /// NSColor: The color to use to draw earthquake region bords.
     case EarthquakeRegionBorderColor = "EarthquakeRegionBorderColor"
     /// Double: The width of earthquake borders.
