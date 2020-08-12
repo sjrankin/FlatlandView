@@ -32,7 +32,8 @@ class EarthData
         let TilesX = Map.HorizontalTileCount
         let TilesY = Map.VerticalTileCount
         
-        DispatchQueue.main.async
+//        DispatchQueue.main.async
+        DispatchQueue.global(qos: .background).async
         {
             Map.URLs = SatelliteMap.GenerateTileInformation(From: Map, When: ImageDate)
             let ExpectedCount = Map.URLs.count
