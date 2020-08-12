@@ -45,17 +45,51 @@ class SolidColorImage
         return Fill(Width: Width, Height: Height, With: NSColor.clear)
     }
     
+    /// Returns an image of given size and color.
+    /// - Note: To draw a border around the edge of the image, call `FillWithBorder`.
+    /// - Parameter Width: The width of the image.
+    /// - Parameter Height: The height of the image.
+    /// - Parameter With: The color of the image.
+    /// - Returns: Image created as specified on success, nil on error.
     func Fill(Width: Int, Height: Int, With Color: NSColor) -> NSImage?
     {
         return DoFill(With: Color, Size: NSSize(width: Width, height: Height))
     }
     
-    private func DoFill(With Color: NSColor, Size: NSSize) -> NSImage?
+    /// Returns an image of given size and color with a border around the image.
+    /// - Parameter Width: The width of the image.
+    /// - Parameter Height: The height of the image.
+    /// - Parameter With: The color of the image.
+    /// - Parameter BorderThickness: The thickness of the border, in pixels.
+    /// - Parameter BorderColor: The color of the border.
+    /// - Returns: Image created as specified on success, nil on error.
+    func FillWithBorder(Width: Int, Height: Int, With Color: NSColor, BorderThickness: Int,
+                        BorderColor: NSColor) -> NSImage?
     {
-        let Parameter = SolidColorParameters(Fill: MetalLibrary.ToFloat4(Color))
+        return DoFill(With: Color, Size: NSSize(width: Width, height: Height),
+                      DrawBorder: true, BorderThickness: BorderThickness,
+                      BorderColor: BorderColor)
+    }
+    
+    /// Returns an image of given size and color with a border around the image.
+    /// - Note: See [Incorrectly changing pixel colors](https://stackoverflow.com/questions/49713008/pixel-colors-change-as-i-save-mtltexture-to-cgimage)
+    /// - Parameter With: The color of the image.
+    /// - Parameter Size: The size of the image.
+    /// - Parameter DrawBorder: If true a border will be drawn around the image. If false, no border will be
+    ///                         drawn.
+    /// - Parameter BorderThickness: The thickness of the border, in pixels.
+    /// - Parameter BorderColor: The color of the border.
+    /// - Returns: Image created as specified on success, nil on error.
+    private func DoFill(With Color: NSColor, Size: NSSize, DrawBorder: Bool = false,
+                        BorderThickness: Int = 0, BorderColor: NSColor = NSColor.clear) -> NSImage?
+    {
+        let Parameter = SolidColorParameters(DrawBorder: simd_bool(DrawBorder),
+                                             BorderThickness: simd_uint1(BorderThickness),
+                                             BorderColor: MetalLibrary.ToFloat4(BorderColor),
+                                             Fill: MetalLibrary.ToFloat4(Color))
         let Parameters = [Parameter]
-        let ParameterBuffer = ImageDevice!.makeBuffer(length: /*MemoryLayout<ImageMergeParameters>.stride*/16, options: [])
-        memcpy(ParameterBuffer!.contents(), Parameters, /*MemoryLayout<ImageMergeParameters>.stride*/16)
+        let ParameterBuffer = ImageDevice!.makeBuffer(length: MemoryLayout<SolidColorParameters>.stride, options: [])
+        memcpy(ParameterBuffer!.contents(), Parameters, MemoryLayout<SolidColorParameters>.stride)
         
         let AdjustedTexture = MetalLibrary.MakeEmptyTexture(Size: Size, ImageDevice: ImageDevice!)
         
@@ -64,17 +98,12 @@ class SolidColorImage
         CommandEncoder?.setComputePipelineState(ImageComputePipelineState!)
         CommandEncoder?.setTexture(AdjustedTexture, index: 0)
         CommandEncoder?.setBuffer(ParameterBuffer, offset: 0, index: 0)
-        #if true
+
         let w = ImageComputePipelineState!.threadExecutionWidth
         let h = ImageComputePipelineState!.maxTotalThreadsPerThreadgroup / w
         let ThreadGroupCount = MTLSizeMake(w, h, 1)
         let ThreadGroups = MTLSize(width: Int(Size.width), height: Int(Size.height), depth: 1)
-        #else
-        let ThreadGroupCount = MTLSizeMake(8, 8, 1)
-        let ThreadGroups = MTLSizeMake(AdjustedTexture!.width / ThreadGroupCount.width,
-                                       AdjustedTexture!.height / ThreadGroupCount.height,
-                                       1)
-        #endif
+
         ImageCommandQueue = ImageDevice?.makeCommandQueue()
         CommandEncoder?.dispatchThreadgroups(ThreadGroups, threadsPerThreadgroup: ThreadGroupCount)
         CommandEncoder?.endEncoding()
@@ -89,14 +118,14 @@ class SolidColorImage
         AdjustedTexture!.getBytes(&ImageBytes, bytesPerRow: BytesPerRow, from: ORegion, mipmapLevel: 0)
         
         //https://stackoverflow.com/questions/49713008/pixel-colors-change-as-i-save-mtltexture-to-cgimage
-        let kciop = [CIImageOption.colorSpace: CGColorSpaceCreateDeviceRGB(),
+        let ImgOp = [CIImageOption.colorSpace: CGColorSpaceCreateDeviceRGB(),
                      CIContextOption.outputPremultiplied: true,
                      CIContextOption.useSoftwareRenderer: false] as! [CIImageOption: Any]
-        let test = CIImage(mtlTexture: AdjustedTexture!, options: kciop)
-        let rep = NSCIImageRep(ciImage: test!)
-        let test2 = NSImage(size: ImageSize)
-        test2.addRepresentation(rep)
-        return test2
+        let CImage = CIImage(mtlTexture: AdjustedTexture!, options: ImgOp)
+        let rep = NSCIImageRep(ciImage: CImage!)
+        let Final = NSImage(size: ImageSize)
+        Final.addRepresentation(rep)
+        return Final
     }
 }
 
