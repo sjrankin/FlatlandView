@@ -118,6 +118,10 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
     @objc func HandleMapListClicked()
     {
         let ListIndex = MapListTable.clickedRow
+        if ListIndex < 0
+        {
+            return
+        }
         LastMap = MapList[ListIndex]
         LastSelectedLabel.stringValue = LastMap.rawValue
         DisplayCurrentMap(LastMap)
