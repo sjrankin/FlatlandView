@@ -23,6 +23,7 @@
 		1727EA5D24B184230051EA3B /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5C24B184230051EA3B /* Tree.swift */; };
 		1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */; };
 		172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F35AC24CFFBBA00C8FDDC /* PiePercent.swift */; };
+		1737101024E2BB7300BC6CF8 /* Stenciler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1737100F24E2BB7300BC6CF8 /* Stenciler.swift */; };
 		173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173EB18A2490D1B7006CDB86 /* +Orbits.swift */; };
 		1740F49B2493173A00F6FAAE /* Hours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740F49A2493173A00F6FAAE /* Hours.swift */; };
 		1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744316E2480F2C10087B00A /* ActualMapIO.swift */; };
@@ -192,6 +193,7 @@
 		1727EA5C24B184230051EA3B /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMDataPoint.swift; sourceTree = "<group>"; };
 		172F35AC24CFFBBA00C8FDDC /* PiePercent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiePercent.swift; sourceTree = "<group>"; };
+		1737100F24E2BB7300BC6CF8 /* Stenciler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stenciler.swift; sourceTree = "<group>"; };
 		173EB18A2490D1B7006CDB86 /* +Orbits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Orbits.swift"; sourceTree = "<group>"; };
 		1740F49A2493173A00F6FAAE /* Hours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hours.swift; sourceTree = "<group>"; };
 		1744316E2480F2C10087B00A /* ActualMapIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapIO.swift; sourceTree = "<group>"; };
@@ -872,6 +874,7 @@
 				1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */,
 				17E3EDC524B5B222007C1D72 /* FontHelper.swift */,
 				1748913224C6A53D00B5F6AF /* Imaging.swift */,
+				1737100F24E2BB7300BC6CF8 /* Stenciler.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1166,6 +1169,7 @@
 				17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */,
 				1750044524B46E73006528A4 /* FontNameWindow.swift in Sources */,
 				1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */,
+				1737101024E2BB7300BC6CF8 /* Stenciler.swift in Sources */,
 				17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */,
 				1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */,
 				17EF3395247A66F000A5B55D /* MapList.swift in Sources */,
