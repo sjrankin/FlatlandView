@@ -369,6 +369,7 @@ extension GlobeView
         let CityNode = SCNNode(geometry: CityShape)
         CityNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
         //        CityNode.geometry?.firstMaterial?.emission.contents = NSImage(named: "CitySphereTexture")
         CityNode.castsShadow = true
         SunLight.intensity = 800
