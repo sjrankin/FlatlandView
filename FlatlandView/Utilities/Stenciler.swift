@@ -8,6 +8,7 @@
 
 import Foundation
 import AppKit
+import simd
 
 /// Class that stencils text and shapes onto images.
 class Stenciler
@@ -34,17 +35,24 @@ class Stenciler
     ///                         is passed, city names in the global city name database are used.
     /// - Parameter GridLines: Determines if grid lines are drawn or not drawn. Defaults to `false`. If true,
     ///                        which lines are drawn depend on user settings.
+    /// - Parameter CalledBy: The name of the caller.
+    /// - Parameter Status: Closure for handling status updates for drawing stencils. First parameter is a string
+    ///                     describing the status and the second parameter is the number of seconds since the
+    ///                     function was called.
     /// - Parameter Completed: Closure to accept the resultant image (`NSImage`) after all stencils have been
     ///                        drawn. If no stencils have been drawn (due to the values of parameters), the
     ///                        original image, unchanged, will be passed to this closure. The second parameter
     ///                        passed to the closure is the duration of execution for this function, in seconds.
+    ///                        The third parameter is the name of the caller, passed directly and unchanged.
     ///                        The closure may be called from a background thread or the UI thread.
     public static func AddStencils(To Image: NSImage,
                                    Quakes: [Earthquake]? = nil,
                                    ShowRegions: Bool = false,
                                    PlotCities: Bool = false,
                                    GridLines: Bool = false,
-                                   Completed: ((NSImage, Double) -> ())? = nil)
+                                   CalledBy: String? = nil,
+                                   Status: ((String, Double) -> ())? = nil,
+                                   Completed: ((NSImage, Double, String?) -> ())? = nil)
     {
         objc_sync_enter(StencilLock)
         defer{objc_sync_exit(StencilLock)}
@@ -52,13 +60,14 @@ class Stenciler
         if Quakes == nil && !ShowRegions && !PlotCities && !GridLines
         {
             //Nothing to do - return the image unaltered.
-            Completed?(Image, 0.0)
+            Completed?(Image, 0.0, CalledBy)
             return
         }
         let LocalQuakes = Quakes
         DispatchQueue.global(qos: .background).async
         {
             var Working = Image
+            Status?("Creating regions", CACurrentMediaTime() - StartTime)
             if ShowRegions
             {
                 let Regions = Settings.GetEarthquakeRegions()
@@ -68,22 +77,27 @@ class Stenciler
                     Working = DrawRegions(Image: Working, Regions: Regions, Kernel: Blender)
                 }
             }
+            Status?("Adding grid lines", CACurrentMediaTime() - StartTime)
             if GridLines
             {
-                Working = AddGridLines(To: Working)
+                Working = AddGridLines2(To: Working)
             }
+
             var Rep = GetImageRep(From: Working)
+            Status?("Plotting cities", CACurrentMediaTime() - StartTime)
             if PlotCities
             {
                 Rep = AddCityNames(To: Rep)
             }
+            Status?("Plotting earthquakes", CACurrentMediaTime() - StartTime)
             if let QuakeList = LocalQuakes
             {
                 Rep = AddMagnitudeValues(To: Rep, With: QuakeList)
             }
             let Final = GetImage(From: Rep)
             let Duration = CACurrentMediaTime() - StartTime
-            Completed?(Final, Duration)
+            Status?("Finished", CACurrentMediaTime() - StartTime)
+            Completed?(Final, Duration, CalledBy)
         }
     }
     
@@ -189,11 +203,126 @@ class Stenciler
     /// Add grid lines to the passed image.
     /// - Parameter To: The image to which to add gridlines.
     /// - Return: New image with grid lines drawn.
+    private static func AddGridLines2(To Image: NSImage) -> NSImage
+    {
+        if Settings.GetBool(.GridLinesDrawnOnMap)
+        {
+            //let Kernel = LineDraw()
+            let ImageWidth = Int(Image.size.width)
+            let ImageHeight = Int(Image.size.height)
+            var LineList = [LineDefinition]()
+            let LineColor = Settings.GetColor(.GridLineColor, NSColor.red)
+            let MinorLineColor = Settings.GetColor(.MinorGridLineColor, NSColor.yellow)
+            
+            if Settings.GetBool(.Show3DMinorGrid)
+            {
+                let Gap = Settings.GetDouble(.MinorGrid3DGap, 15.0)
+                for Longitude in stride(from: 0.0, to: 180.0, by: Gap)
+                {
+                    var Y = Int(Double(ImageHeight) * (Longitude / 180.0))
+                    if Y + 4 > ImageHeight
+                    {
+                        Y = Y - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: true,
+                                                At: Y,
+                                                Thickness: 4,
+                                                Color: MinorLineColor)
+                    LineList.append(Line)
+                }
+                for Latitude in stride(from: 0.0, to: 360.0, by: Gap)
+                {
+                    var X = Int(Double(ImageWidth) * (Latitude / 360.0))
+                    if X + 4 > ImageWidth
+                    {
+                        X = X - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: false,
+                                                At: X,
+                                                Thickness: 4,
+                                                Color: MinorLineColor)
+                    LineList.append(Line)
+                }
+            }
+            
+            for Longitude in Longitudes.allCases
+            {
+                if Settings.DrawLongitudeLine(Longitude)
+                {
+                    var Y = Int(Double(ImageHeight) * Longitude.rawValue)
+                    if Y + 4 > ImageHeight
+                    {
+                        Y = Y - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: true,
+                                                At: Y,
+                                                Thickness: 4,
+                                                Color: LineColor)
+                    LineList.append(Line)
+                }
+            }
+            for Latitude in Latitudes.allCases
+            {
+                if Settings.DrawLatitudeLine(Latitude)
+                {
+                    var X = Int(Double(ImageWidth) * Latitude.rawValue)
+                    if X + 4 > ImageWidth
+                    {
+                        X = X - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: false,
+                                                At: X,
+                                                Thickness: 4,
+                                                Color: LineColor)
+                    LineList.append(Line)
+                }
+            }
+
+            let Final = Image
+            Final.lockFocus()
+            for Line in LineList
+            {
+                var X = 0
+                var Y = 0
+                var LineWidth = 0
+                var LineHeight = 0
+                if Line.IsHorizontal
+                {
+                    Y = Line.At
+                    LineWidth = Int(Image.size.width)
+                    LineHeight = Line.Thickness
+                }
+                else
+                {
+                    X = Line.At
+                    LineWidth = Line.Thickness
+                    LineHeight = Int(Image.size.height)
+                }
+                let LineRect = NSRect(origin: CGPoint(x: X, y: Y), size: NSSize(width: LineWidth, height: LineHeight))
+                let Path = NSBezierPath(rect: LineRect)
+                Line.Color.setFill()
+                Line.Color.setStroke()
+                Path.stroke()
+                Path.fill()
+            }
+            Final.unlockFocus()
+            return Final
+        }
+        else
+        {
+            return Image
+        }
+    }
+    
+    /// Add grid lines to the passed image.
+    /// - Parameter To: The image to which to add gridlines.
+    /// - Return: New image with grid lines drawn.
     private static func AddGridLines(To Image: NSImage) -> NSImage
     {
         if Settings.GetBool(.GridLinesDrawnOnMap)
         {
-            let Kernel = LineDraw()
+            //let Kernel = LineDraw()
+            let Kernel = LinesDraw()
             let ImageWidth = Int(Image.size.width)
             let ImageHeight = Int(Image.size.height)
             var LineList = [LineDefinition]()
@@ -272,9 +401,27 @@ class Stenciler
         }
     }
     
-    private static func DrawLine(Image: NSImage, Lines: [LineDefinition], Kernel: LineDraw) -> NSImage
+    /// Draw lines on the passed image.
+    /// - Parameter Image: The image upon which lines will be drawn.
+    /// - Parameter Lines: The set of lines to draw.
+    /// - Parameter Kernel: The Metal kernel to use to draw lines.
+    /// - Returns: New image with lines drawn on it.
+    private static func DrawLine(Image: NSImage, Lines: [LineDefinition], Kernel: LinesDraw) -> NSImage
     {
         var Final = Image
+        #if true
+        var LinesToDraw = [LineDrawParameters]()
+        for Line in Lines
+        {
+            let LineToDraw = LineDrawParameters(IsHorizontal: simd_bool(Line.IsHorizontal),
+                                                HorizontalAt: simd_uint1(Line.At),
+                                                VerticalAt: simd_uint1(Line.At),
+                                                Thickness: simd_uint1(Line.Thickness),
+                                                LineColor: MetalLibrary.ToFloat4(Line.Color))
+            LinesToDraw.append(LineToDraw)
+        }
+        Final = Kernel.DrawLines(Background: Image, Lines: LinesToDraw)
+        #else
         for Line in Lines
         {
             Final = Kernel.DrawLine(Background: Final,
@@ -283,6 +430,7 @@ class Stenciler
                                     At: Line.At,
                                     WithColor: Line.Color)
         }
+        #endif
         return Final
     }
     
