@@ -371,7 +371,6 @@ class GlobeView: SCNView
         {
             let MoonLight = SCNLight()
             MoonLight.categoryBitMask = LightMasks.Moon.rawValue
-            //MoonLight.categoryBitMask = MoonMask
             MoonLight.type = .directional
             MoonLight.intensity = 300
             MoonLight.castsShadow = true
@@ -387,7 +386,6 @@ class GlobeView: SCNView
             
             MetalMoonLight = SCNLight()
             MetalMoonLight.categoryBitMask = LightMasks.MetalMoon.rawValue
-            //MetalMoonLight.categoryBitMask = MetalMoonMask
             MetalMoonLight.type = .directional
             MetalMoonLight.intensity = 800
             MetalMoonLight.castsShadow = true
@@ -573,7 +571,6 @@ class GlobeView: SCNView
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
         LineNode?.runAction(Rotate)
-        //StencilNode?.runAction(Rotate)
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
             HourNode?.runAction(Rotate)
@@ -646,14 +643,6 @@ class GlobeView: SCNView
             HourNode?.removeFromParentNode()
             HourNode = nil
         }
-        #if false
-        if StencilNode != nil
-        {
-            StencilNode?.removeAllActions()
-            StencilNode?.removeFromParentNode()
-            StencilNode = nil
-        }
-        #endif
         
         SystemNode = SCNNode()
         
@@ -696,17 +685,6 @@ class GlobeView: SCNView
         }
         
         GlobalBaseMap = BaseMap
-        #if false
-        StencilNode = StencilLayer()
-        StencilNode?.Parent = self
-        StencilNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
-        StencilNode?.geometry?.firstMaterial?.lightingModel = .blinn
-        StencilNode?.castsShadow = false
-        print("Adding stencil node to SystemNode.")
-        SystemNode?.addChildNode(StencilNode!)
-        print("Applying stencils in AddEarth")
-        StencilNode?.ApplyStencils()
-        #endif
         
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
@@ -829,7 +807,8 @@ class GlobeView: SCNView
                               ShowRegions: true,
                               PlotCities: true,
                               GridLines: true,
-                              Completed: GotStenciledMap(_:_:))
+                              CalledBy: "AddEarth",
+                              Completed: GotStenciledMap(_:_:_:))
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug2,
@@ -844,8 +823,6 @@ class GlobeView: SCNView
                                 {
                                     self.SystemNode?.addChildNode(self.SeaNode!)
                                 }
-                                //self.scene?.rootNode.addChildNode(self.StencilNode!)
-                                //self.StencilNode?.ApplyStencils()
                                 self.scene?.rootNode.addChildNode(self.SystemNode!)
                             }
                         }
@@ -867,8 +844,21 @@ class GlobeView: SCNView
         }
     }
     
-    func ApplyStencils()
+    /// Apply stencils to `GlobalBaseMap` as needed. When the stenciled map is ready,
+    /// `GotStenciledMap` is called.
+    /// - Notes:
+    ///    - Control returns almost immediately.
+    ///    - The user can change settings such that no stenciling is applied. In that case,
+    ///      the non-stenciled map will be available very quickly.
+    /// - Parameter Caller: Name of the caller.
+    func ApplyStencils(Caller: String? = nil)
     {
+        #if DEBUG
+        if let CallerName = Caller
+        {
+        print("ApplyStencils called by \(CallerName)")
+        }
+        #endif
         if let Map = GlobalBaseMap
         {
             let ShowEarthquakes = Settings.GetBool(.MagnitudeValuesDrawnOnMap)
@@ -882,71 +872,43 @@ class GlobeView: SCNView
                                   ShowRegions: Settings.GetBool(.ShowEarthquakeRegions),
                                   PlotCities: Settings.GetBool(.CityNamesDrawnOnMap),
                                   GridLines: Settings.GetBool(.GridLinesDrawnOnMap),
-                                  Completed: GotStenciledMap(_:_:))
+                                  CalledBy: "ApplyStencils",
+                                  Completed: GotStenciledMap(_:_:_:))
         }
     }
     
-    func GotStenciledMap(_ Image: NSImage, _ Duration: Double)
+    /// Closure for receiving a stenciled map.
+    /// - Parameter Image: The (potentially) stenciled map. Depending on user settings, it is very
+    ///                    possible no stenciling will be done and the map will be made available
+    ///                    very quickly.
+    /// - Parameter Duration: The duration, in seconds, of the stenciling process. If no steciling
+    ///                       was applied, this value will be 0.0.
+    /// - Parameter Calledby: The name of the caller. May be nil.
+    func GotStenciledMap(_ Image: NSImage, _ Duration: Double, _ CalledBy: String?)
     {
+        #if DEBUG
+        if let Caller = CalledBy
+        {
+         print("Stencil available: called by \(Caller), duration: \(Duration)")
+        }
+        else
+        {
         print("Stenciling duration: \(Duration)")
+        }
+        #endif
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = Image
     }
     
+    /// Change the base map to the passed map.
+    /// - Note: Stenciling will be applied as appropriate and the new base map will be applied
+    ///         once the stenciling process has been completed.
+    /// - Parameter To: Texture to use for the base map.
     func ChangeEarthBaseMap(To NewMap: NSImage)
     {
         GlobalBaseMap = NewMap
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
-        #if true
-        ApplyStencils()
-        #else
-        if StencilNode != nil
-        {
-            StencilNode?.removeAllActions()
-            StencilNode?.removeFromParentNode()
-            StencilNode = nil
-        }
-        StencilNode = StencilLayer()
-        StencilNode?.Parent = self
-        print("Applying stencils in ChangeEarthBaseMap")
-        StencilNode?.ApplyStencils()
-        #endif
+        ApplyStencils(Caller: #function)
     }
-    
-    #if false
-    func UpdateStencils(_ Quakes: [Earthquake]? = nil, _ CityList: [City]? = nil)
-    {
-        #if true
-        StencilNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
-        StencilNode?.ApplyStencils()
-        #else
-        if StencilNode != nil
-        {
-            StencilNode?.removeAllActions()
-            StencilNode?.removeFromParentNode()
-            StencilNode = nil
-        }
-        for Node in SystemNode!.childNodes
-        {
-            if Node.name == GlobeNodeNames.StencilNode.rawValue
-            {
-                print("Found stencil node.")
-            }
-        }
-        StencilNode = StencilLayer()
-        if let QuakeList = Quakes
-        {
-            StencilNode?.UpdateEarthquakes(QuakeList)
-        }
-        if let CityList = CityList
-        {
-            StencilNode?.UpdateCities(CityList)
-        }
-        StencilNode?.Parent = self
-        print("Applying stencils in UpdateStencils")
-        StencilNode?.ApplyStencils()
-        #endif
-    }
-    #endif
     
     var PreviousHourType: HourValueTypes = .None
     
@@ -996,7 +958,6 @@ class GlobeView: SCNView
     var EarthNode: SCNNode? = nil
     var SeaNode: SCNNode? = nil
     var HourNode: SCNNode? = nil
-//    var StencilNode: StencilLayer? = nil
     var PlottedEarthquakes = Set<String>()
     
     // MARK: - GlobeProtocol functions
@@ -1006,18 +967,7 @@ class GlobeView: SCNView
         let SatelliteAltitude = 10.5 * (At.Altitude / 6378.1)
         let (X, Y, Z) = ToECEF(At.Latitude, At.Longitude, Radius: SatelliteAltitude)
     }
-    
-    #if false
-    func NewStencilTexture(_ Texture: NSImage)
-    {
-        let FinalTexture = SCNMaterial()
-        FinalTexture.diffuse.contents = Texture
-        FinalTexture.blendMode = .alpha
-        StencilNode?.geometry?.materials.removeAll()
-        StencilNode?.geometry?.materials.append(FinalTexture)
-    }
-    #endif
-    
+
     // MARK: - Variables for extensions.
     
     /// List of hours in Japanese Kanji.
