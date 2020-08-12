@@ -53,7 +53,11 @@ extension GlobeView
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         if !IsCurrentLocation
         {
+            #if true
+            ConeNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+            #else
             ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
+            #endif
         }
         ConeNode.castsShadow = true
         
@@ -146,7 +150,11 @@ extension GlobeView
         HomeNodeHalo = SCNNode(geometry: SphereHalo)
         HomeNodeHalo?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
         HomeNodeHalo?.geometry?.firstMaterial?.diffuse.contents = NSColor.white.withAlphaComponent(0.2)
+        #if true
+        HomeNodeHalo?.geometry?.firstMaterial?.selfIllumination.contents = NSColor.yellow.withAlphaComponent(0.2)
+        #else
         HomeNodeHalo?.geometry?.firstMaterial?.emission.contents = NSColor.yellow.withAlphaComponent(0.2)
+        #endif
         HomeNodeHalo?.position = SCNVector3(X, Y, Z)
         HomeNodeHalo?.castsShadow = false
         
@@ -173,7 +181,11 @@ extension GlobeView
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         if EnableEmission
         {
+            #if true
+            ConeNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+            #else
             ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
+            #endif
         }
         ConeNode.castsShadow = true
         ConeNode.position = SCNVector3(X, Y, Z)
@@ -303,7 +315,11 @@ extension GlobeView
         FlagInteriorNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
         FlagInteriorNode.geometry?.firstMaterial?.diffuse.contents = EmissiveColor
         FlagInteriorNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+        #if true
+        FlagInteriorNode.geometry?.firstMaterial?.selfIllumination.contents = EmissiveColor
+        #else
         FlagInteriorNode.geometry?.firstMaterial?.emission.contents = EmissiveColor
+        #endif
         FlagInteriorNode.position = SCNVector3(FlagX, FlagY, 0.0)
         FlagInteriorNode.eulerAngles = SCNVector3(0.0, 90.0.Radians, 0.0)
         
