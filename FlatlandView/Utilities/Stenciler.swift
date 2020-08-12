@@ -9,6 +9,8 @@
 import Foundation
 import AppKit
 import simd
+import CoreImage
+import CoreImage.CIFilterBuiltins
 
 /// Class that stencils text and shapes onto images.
 class Stenciler
@@ -56,6 +58,7 @@ class Stenciler
     {
         objc_sync_enter(StencilLock)
         defer{objc_sync_exit(StencilLock)}
+        print("AddStencils: Image.size = \(Int(Image.size.width))x\(Int(Image.size.height))")
         let StartTime = CACurrentMediaTime()
         if Quakes == nil && !ShowRegions && !PlotCities && !GridLines
         {
@@ -104,18 +107,19 @@ class Stenciler
     /// Add city names to the passed image representation.
     /// - Parameter To: The image representation where city names will be added.
     /// - Returns: Image representation with city names.
-    private static func AddCityNames(To: NSBitmapImageRep) -> NSBitmapImageRep
+    private static func AddCityNames(To Image: NSBitmapImageRep) -> NSBitmapImageRep
     {
-        var Working = To
+        var Working = Image
         let CityList = Cities()
         let CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)
         var PlotMe = [TextRecord]()
         let CityFont = NSFont.boldSystemFont(ofSize: 24.0)
+        print("AddCityNames Image size: \(Int(Image.size.width))x\(Int(Image.size.height))")
         for City in CitiesToPlot
         {
             let CityPoint = GeoPoint2(City.Latitude, City.Longitude)
-            let CityPointLocation = CityPoint.ToEquirectangular(Width: Int(To.size.width),
-                                                                Height: Int(To.size.height))
+            let CityPointLocation = CityPoint.ToEquirectangular(Width: Int(Image.size.width),
+                                                                Height: Int(Image.size.height))
             let Location = NSPoint(x: CityPointLocation.X + 15, y: CityPointLocation.Y)
             let CityColor = Cities.ColorForCity(City)
             let Record = TextRecord(Text: City.Name, Location: Location, Font: CityFont, Color: CityColor,
@@ -138,6 +142,7 @@ class Stenciler
         }
         var PlotMe = [TextRecord]()
         var Working = Image
+        print("AddMagnitudeValues Image size: \(Int(Image.size.width))x\(Int(Image.size.height))")
         for Quake in Earthquakes
         {
             let Location = Quake.LocationAsGeoPoint2().ToEquirectangular(Width: Int(Image.size.width),
@@ -474,11 +479,21 @@ class Stenciler
     }
     
     /// Return an image representation from the passed `NSImage`.
+    /// - Note: See [Scaling an Image OSX Swift](https://stackoverflow.com/questions/43383331/scaling-an-image-osx-swift)
     /// - Returns: Image representation from `From`.
     public static func GetImageRep(From: NSImage) -> NSBitmapImageRep
     {
+        let ScaleFactor = NSScreen.main!.backingScaleFactor
+        print("Scale Factor=\(ScaleFactor)")
         let ImgData = From.tiffRepresentation
-        let CImg = CIImage(data: ImgData!)
+        var CImg = CIImage(data: ImgData!)
+        if ScaleFactor == 2.0
+        {
+        let Scaling = CIFilter.bicubicScaleTransform()
+        Scaling.inputImage = CImg
+        Scaling.scale = Float(0.5)
+        CImg = Scaling.outputImage
+        }
         return NSBitmapImageRep(ciImage: CImg!)
     }
     
