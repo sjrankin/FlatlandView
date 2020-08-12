@@ -11,7 +11,7 @@ import AppKit
 import SceneKit
 
 /// Provide the main 3D view for Flatland.
-class GlobeView: SCNView, GlobeProtocol
+class GlobeView: SCNView
 {
     public weak var MainDelegate: MainProtocol? = nil
     
@@ -573,7 +573,7 @@ class GlobeView: SCNView, GlobeProtocol
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
         LineNode?.runAction(Rotate)
-        StencilNode?.runAction(Rotate)
+        //StencilNode?.runAction(Rotate)
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
             HourNode?.runAction(Rotate)
@@ -646,12 +646,14 @@ class GlobeView: SCNView, GlobeProtocol
             HourNode?.removeFromParentNode()
             HourNode = nil
         }
+        #if false
         if StencilNode != nil
         {
             StencilNode?.removeAllActions()
             StencilNode?.removeFromParentNode()
             StencilNode = nil
         }
+        #endif
         
         SystemNode = SCNNode()
         
@@ -694,15 +696,17 @@ class GlobeView: SCNView, GlobeProtocol
         }
         
         GlobalBaseMap = BaseMap
-        
+        #if false
         StencilNode = StencilLayer()
         StencilNode?.Parent = self
         StencilNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
         StencilNode?.geometry?.firstMaterial?.lightingModel = .blinn
         StencilNode?.castsShadow = false
+        print("Adding stencil node to SystemNode.")
         SystemNode?.addChildNode(StencilNode!)
         print("Applying stencils in AddEarth")
         StencilNode?.ApplyStencils()
+        #endif
         
         EarthNode = SCNNode(geometry: EarthSphere)
         EarthNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
@@ -815,6 +819,18 @@ class GlobeView: SCNView, GlobeProtocol
         
         PlotLocations(On: EarthNode!, WithRadius: GlobeRadius.Primary.rawValue)
         
+        EarthNode?.geometry?.firstMaterial?.isDoubleSided = true
+        SeaNode?.geometry?.firstMaterial?.isDoubleSided = true
+        EarthNode?.geometry?.firstMaterial?.blendMode = .alpha
+        SeaNode?.geometry?.firstMaterial?.blendMode = .alpha
+        
+        Stenciler.AddStencils(To: BaseMap!,
+                              Quakes: EarthquakeList,
+                              ShowRegions: true,
+                              PlotCities: true,
+                              GridLines: true,
+                              Completed: GotStenciledMap(_:_:))
+        
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug2,
                                       .Debug5, .StylizedSea1, .EarthquakeMap]
@@ -828,6 +844,8 @@ class GlobeView: SCNView, GlobeProtocol
                                 {
                                     self.SystemNode?.addChildNode(self.SeaNode!)
                                 }
+                                //self.scene?.rootNode.addChildNode(self.StencilNode!)
+                                //self.StencilNode?.ApplyStencils()
                                 self.scene?.rootNode.addChildNode(self.SystemNode!)
                             }
                         }
@@ -849,10 +867,38 @@ class GlobeView: SCNView, GlobeProtocol
         }
     }
     
+    func ApplyStencils()
+    {
+        if let Map = GlobalBaseMap
+        {
+            let ShowEarthquakes = Settings.GetBool(.MagnitudeValuesDrawnOnMap)
+            var Quakes: [Earthquake]? = nil
+            if ShowEarthquakes
+            {
+                Quakes = EarthquakeList
+            }
+            Stenciler.AddStencils(To: Map,
+                                  Quakes: Quakes,
+                                  ShowRegions: Settings.GetBool(.ShowEarthquakeRegions),
+                                  PlotCities: Settings.GetBool(.CityNamesDrawnOnMap),
+                                  GridLines: Settings.GetBool(.GridLinesDrawnOnMap),
+                                  Completed: GotStenciledMap(_:_:))
+        }
+    }
+    
+    func GotStenciledMap(_ Image: NSImage, _ Duration: Double)
+    {
+        print("Stenciling duration: \(Duration)")
+        EarthNode?.geometry?.firstMaterial?.diffuse.contents = Image
+    }
+    
     func ChangeEarthBaseMap(To NewMap: NSImage)
     {
         GlobalBaseMap = NewMap
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
+        #if true
+        ApplyStencils()
+        #else
         if StencilNode != nil
         {
             StencilNode?.removeAllActions()
@@ -863,8 +909,10 @@ class GlobeView: SCNView, GlobeProtocol
         StencilNode?.Parent = self
         print("Applying stencils in ChangeEarthBaseMap")
         StencilNode?.ApplyStencils()
+        #endif
     }
     
+    #if false
     func UpdateStencils(_ Quakes: [Earthquake]? = nil, _ CityList: [City]? = nil)
     {
         #if true
@@ -898,6 +946,7 @@ class GlobeView: SCNView, GlobeProtocol
         StencilNode?.ApplyStencils()
         #endif
     }
+    #endif
     
     var PreviousHourType: HourValueTypes = .None
     
@@ -947,7 +996,7 @@ class GlobeView: SCNView, GlobeProtocol
     var EarthNode: SCNNode? = nil
     var SeaNode: SCNNode? = nil
     var HourNode: SCNNode? = nil
-    var StencilNode: StencilLayer? = nil
+//    var StencilNode: StencilLayer? = nil
     var PlottedEarthquakes = Set<String>()
     
     // MARK: - GlobeProtocol functions
@@ -958,6 +1007,7 @@ class GlobeView: SCNView, GlobeProtocol
         let (X, Y, Z) = ToECEF(At.Latitude, At.Longitude, Radius: SatelliteAltitude)
     }
     
+    #if false
     func NewStencilTexture(_ Texture: NSImage)
     {
         let FinalTexture = SCNMaterial()
@@ -966,6 +1016,7 @@ class GlobeView: SCNView, GlobeProtocol
         StencilNode?.geometry?.materials.removeAll()
         StencilNode?.geometry?.materials.append(FinalTexture)
     }
+    #endif
     
     // MARK: - Variables for extensions.
     
