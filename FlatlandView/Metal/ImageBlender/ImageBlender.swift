@@ -71,7 +71,15 @@ class ImageBlender
             fatalError("Sprite will extend past the vertical bounds of the background image.")
         }
         let SolidColor = SolidColorImage()
+        #if true
+        let SpriteImage = SolidColor.FillWithBorder(Width: Int(SpriteSize.width),
+                                                    Height: Int(SpriteSize.height),
+                                                    With: Color,
+                                                    BorderThickness: 2,
+                                                    BorderColor: NSColor.black)
+        #else
         let SpriteImage = SolidColor.Fill(Width: Int(SpriteSize.width), Height: Int(SpriteSize.height), With: Color)
+        #endif
         var Merged = DoMergeImages(Background: Background, Sprite: SpriteImage!,
                                    SpriteX: SpriteX, SpriteY: SpriteY)
         let Flipper = ImageFlipper()
@@ -121,8 +129,10 @@ class ImageBlender
     /// - Parameter Sprite: The (presumably) smaller image to merge with the `Background` image.
     /// - Parameter SpriteX: The horizontal coordinate of the upper-left corner of `Sprite`.
     /// - Parameter SpriteY: The vertical coordinate of the upper-left corner of `Sprite`.
+    /// - Parameter ForceAlphaTo1: If true, the final alpha value of blended pixels is forced to 1.0.
     /// - Returns: New image with `Sprite` merged with `Background`.
-    private func DoMergeImages(Background: NSImage, Sprite: NSImage, SpriteX: Int, SpriteY: Int) -> NSImage
+    private func DoMergeImages(Background: NSImage, Sprite: NSImage, SpriteX: Int, SpriteY: Int,
+                               ForceAlphaTo1: Bool = true) -> NSImage
     {
         var AdjustedBG: CGImage? = nil
         let BGTexture = MetalLibrary.MakeTexture(From: Background, ForWriting: true,
@@ -131,7 +141,8 @@ class ImageBlender
         let SPTexture = MetalLibrary.MakeTexture(From: Sprite, ForWriting: true,
                                                  ImageDevice: ImageDevice!, AsCG: &SpriteBG)
         let Parameter = ImageBlendParameters(XOffset: simd_uint1(SpriteX),
-                                              YOffset: simd_uint1(SpriteY))
+                                              YOffset: simd_uint1(SpriteY),
+                                              FinalAlphaPixelIs1: simd_bool(ForceAlphaTo1))
         let Parameters = [Parameter]
         let ParameterBuffer = ImageDevice!.makeBuffer(length: MemoryLayout<ImageBlendParameters>.stride, options: [])
         memcpy(ParameterBuffer!.contents(), Parameters, MemoryLayout<ImageBlendParameters>.stride)
