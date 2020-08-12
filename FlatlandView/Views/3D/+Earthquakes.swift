@@ -17,30 +17,11 @@ extension GlobeView
     {
         if let Earth = EarthNode
         {
-            #if false
-            if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
-            {
-                if let BaseMap = GlobalBaseMap
-                {
-                    AddAnnotation(To: BaseMap, With: EarthquakeList)
-                    {
-                        [self] NewMap in
-                        ChangeEarthBaseMap(To: NewMap)
-                    }
-                }
-            }
-            #else
             if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
             {
                 print("EarthquakeList.count=\(EarthquakeList.count)")
-                #if true
-                ApplyStencils()
-                #else
-                StencilNode?.UpdateEarthquakes(EarthquakeList)
-                UpdateStencils(EarthquakeList)
-                #endif
+                ApplyStencils(Caller: #function)
             }
-            #endif
             PlotEarthquakes(EarthquakeList, On: Earth)
         }
     }
@@ -61,9 +42,8 @@ extension GlobeView
             }
             IndicatorAgeMap.removeAll()
         }
-        //UpdateStencils()
         PlottedEarthquakes.removeAll()
-        ApplyStencils()
+        //ApplyStencils(Caller: #function)
     }
     
     /// Determines if two lists of earthquakes have the same contents. This function works regardless
