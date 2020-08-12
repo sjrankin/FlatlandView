@@ -24,6 +24,7 @@ struct LineArray
     constant LineParameters *Lines;
 };
 
+/// Draw lines on the passed texture.
 kernel void DrawLines(texture2d<float, access::read_write> Background [[texture(0)]],
                       constant LineArray &Parameters [[buffer(0)]],
                       uint2 gid [[thread_position_in_grid]])
