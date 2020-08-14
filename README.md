@@ -56,7 +56,8 @@ Flatland makes extensive use of threading for:
 Imagery
   * Flatland makes extensive use of imagery, especially maps of the world.
     * All maps used by Flatland **_must_** be in equirectangular format (2:1 length to height ratio).
+    * Most maps supplied with Flatland are 3600x1800 in size. This seems to be a good resolution when not zoomed too closely.
   * Flatland has many maps compiled into its resource fork and has preliminary work done for loading maps defined by customers.
     * Eventually Flatland will convert equirectangular images to polar-projected maps for 2D mode.
-  * A day/night mask overlay was created for each day of the year for both north-centered and south-centered projectsion for 2D mode.
+  * A day/night mask overlay was created for each day of the year for both north-centered and south-centered projections for 2D mode.
   * Most 3D imagery is generated in Flatland at run-time - specifically shapes and the like.
