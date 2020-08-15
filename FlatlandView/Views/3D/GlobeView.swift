@@ -856,7 +856,7 @@ class GlobeView: SCNView
         #if DEBUG
         if let CallerName = Caller
         {
-        print("ApplyStencils called by \(CallerName)")
+            Utility.Print("ApplyStencils called by \(CallerName)")
         }
         #endif
         if let Map = GlobalBaseMap
@@ -889,14 +889,15 @@ class GlobeView: SCNView
         #if DEBUG
         if let Caller = CalledBy
         {
-         print("Stencil available: called by \(Caller), duration: \(Duration)")
+            Utility.Print("Stencil available: called by \(Caller), duration: \(Duration)")
         }
         else
         {
-        print("Stenciling duration: \(Duration)")
+            Utility.Print("Stenciling duration: \(Duration)")
         }
         #endif
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = Image
+        Utility.Print("Applied stenciled map.")
     }
     
     /// Change the base map to the passed map.
@@ -922,7 +923,6 @@ class GlobeView: SCNView
     {
         if Settings.GetBool(.GridLinesDrawnOnMap)
         {
-            print("draw grid lines on map")
             return
         }
         LineNode?.removeAllActions()
