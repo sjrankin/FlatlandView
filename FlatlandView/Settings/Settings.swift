@@ -580,13 +580,13 @@ class Settings
                 return Actual
             }
         }
-
-            if let SaveMe = Default
-            {
-                SetRect(Setting, SaveMe)
-                return SaveMe
-            }
-
+        
+        if let SaveMe = Default
+        {
+            SetRect(Setting, SaveMe)
+            return SaveMe
+        }
+        
         return NSRect.zero
     }
     
@@ -862,6 +862,40 @@ class Settings
         NotifySubscribers(Setting: Setting, OldValue: PreviousFont, NewValue: Value)
     }
     
+    /// Extract the font name from a saved font record. Font records have the name as the first item in the
+    /// font record.
+    /// - Parameter From: The font record from which the font name will be extracted.
+    /// - Returns: The name of the font from the passed font record. Nil on error.
+    public static func ExtractFontName(From Saved: String) -> String?
+    {
+        let Parts = Saved.split(separator: ",", omittingEmptySubsequences: true)
+        if Parts.count < 1
+        {
+            return nil
+        }
+        let Part = String(Parts[0])
+        return Part
+    }
+    
+    /// Extract the font size from a saved font record. Font records have the size as the second item in the
+    /// font record.
+    /// - Parameter From: The font record from which the font size will be extracted.
+    /// - Returns: The size of the font from the passed font record. Nil on error.
+    public static func ExtractFontSize(From Saved: String) -> CGFloat?
+    {
+        let Parts = Saved.split(separator: ",", omittingEmptySubsequences: true)
+        if Parts.count < 2
+        {
+            return nil
+        }
+        let Part = String(Parts[1])
+        if let DFontSize = Double(Part)
+        {
+            return CGFloat(DFontSize)
+        }
+        return nil
+    }
+    
     // MARK: - Special settings.
     
     /// Load earthquake regions.
@@ -872,13 +906,13 @@ class Settings
         let Raw = UserDefaults.standard.string(forKey: SettingTypes.EarthquakeRegions.rawValue)
         if let Parts = Raw?.split(separator: "∫", omittingEmptySubsequences: true)
         {
-        for Part in Parts
-        {
-            if let Region = EarthquakeRegion.Decode(Raw: String(Part))
+            for Part in Parts
             {
-                Regions.append(Region)
+                if let Region = EarthquakeRegion.Decode(Raw: String(Part))
+                {
+                    Regions.append(Region)
+                }
             }
-        }
         }
         return Regions
     }
@@ -958,14 +992,14 @@ class Settings
     public static func DefaultMagnitudeColors() -> [EarthquakeMagnitudes: NSColor]
     {
         let ColorDict: [EarthquakeMagnitudes: NSColor] =
-        [
-            .Mag4: NSColor(HexString: "#FEFCBF")!,
-            .Mag5: NSColor(HexString: "#FEFB00")!,
-            .Mag6: NSColor(HexString: "#FFD478")!,
-            .Mag7: NSColor(HexString: "#FF9300")!,
-            .Mag8: NSColor(HexString: "#FF2F92")!,
-            .Mag9: NSColor(HexString: "#FF2400")!
-        ]
+            [
+                .Mag4: NSColor(HexString: "#FEFCBF")!,
+                .Mag5: NSColor(HexString: "#FEFB00")!,
+                .Mag6: NSColor(HexString: "#FFD478")!,
+                .Mag7: NSColor(HexString: "#FF9300")!,
+                .Mag8: NSColor(HexString: "#FF2F92")!,
+                .Mag9: NSColor(HexString: "#FF2400")!
+            ]
         return ColorDict
     }
     
@@ -982,7 +1016,7 @@ class Settings
         UserDefaults.standard.set(Final, forKey: SettingTypes.EarthquakeMagnitudeColors.rawValue)
         if Notify
         {
-        NotifySubscribers(Setting: .EarthquakeMagnitudeColors, OldValue: nil, NewValue: MagColors)
+            NotifySubscribers(Setting: .EarthquakeMagnitudeColors, OldValue: nil, NewValue: MagColors)
         }
     }
     
@@ -1052,16 +1086,16 @@ class Settings
                         {
                             case 0:
                                 ID = UUID(uuidString: Part)!
-                            
+                                
                             case 1:
                                 Lat = Double(Part)!
-                            
+                                
                             case 2:
                                 Lon = Double(Part)!
-                            
+                                
                             case 3:
                                 Name = Part
-                            
+                                
                             case 4:
                                 if let ProcessedColor = NSColor(HexString: Part)
                                 {
@@ -1070,8 +1104,8 @@ class Settings
                                 else
                                 {
                                     Color = NSColor.red
-                            }
-                            
+                                }
+                                
                             default:
                                 break
                         }
@@ -1096,22 +1130,22 @@ class Settings
         {
             case .AfricanCities:
                 return NSColor.blue
-            
+                
             case .AsianCities:
                 return NSColor.brown
-            
+                
             case .EuropeanCities:
                 return NSColor.magenta
-            
+                
             case .NorthAmericanCities:
                 return NSColor.green
-            
+                
             case .SouthAmericanCities:
                 return NSColor.cyan
-            
+                
             case .WorldCities:
                 return NSColor.red
-            
+                
             case .CapitalCities:
                 return NSColor.yellow
         }
@@ -1147,6 +1181,50 @@ class Settings
                 
             case .AntiPrimeMeridian, .OtherAntiPrimeMeridian:
                 return Settings.GetBool(.Show3DPrimeMeridians)
+        }
+    }
+    
+    // MARK: - Custom city lists
+    
+    /// Returns the list of all cities in the user's custom city list.
+    /// - Note: Invalid city IDs (eg, not property formed UUIDs) are ignored and not added to the returned list.
+    /// - Returns: List of city IDs.
+    public static func GetCustomCities() -> [UUID]
+    {
+        var IDList = [UUID]()
+        let Raw = Settings.GetString(.CustomCityList, "")
+        if Raw.isEmpty
+        {
+            return IDList
+        }
+        let Parts = Raw.split(separator: ",", omittingEmptySubsequences: true)
+        for Part in Parts
+        {
+            let RawID = String(Part)
+            if let CityID = UUID(uuidString: RawID)
+            {
+                IDList.append(CityID)
+            }
+        }
+        return IDList
+    }
+    
+    /// Save the user's custom city list.
+    /// - Parameter List: The list of custom cities created by the user. Each item in the list is a valid
+    ///                   city ID found in the city table.
+    /// - Parameter Notify: If true, subscribers are notified of changes to the list when it is set.
+    public static func SetCustomCities(_ List: [UUID], Notify: Bool = true)
+    {
+        var Working = ""
+        for ID in List
+        {
+            Working.append(ID.uuidString)
+            Working.append(",")
+        }
+        UserDefaults.standard.setValue(Working, forKey: SettingTypes.CustomCityList.rawValue)
+        if Notify
+        {
+            NotifySubscribers(Setting: .CustomCityList, OldValue: nil, NewValue: List)
         }
     }
 }
