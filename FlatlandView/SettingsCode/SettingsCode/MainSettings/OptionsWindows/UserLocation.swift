@@ -70,6 +70,8 @@ class UserLocationWindow: NSViewController, NSTableViewDataSource, NSTableViewDe
         }
         let LocalShape = Settings.GetEnum(ForKey: .HomeShape, EnumType: HomeShapes.self, Default: .Hide)
         HomeShapeCombo.selectItem(withObjectValue: LocalShape.rawValue)
+        ShowHomeLocationSwitch.state = Settings.GetBool(.ShowHomeLocation) ? .on : .off
+        HomeColorWell.color = Settings.GetColor(.HomeColor, NSColor.systemTeal)
     }
     
     @IBAction func HandleDeleteCurrentUserLocation(_ sender: Any)
@@ -416,6 +418,24 @@ class UserLocationWindow: NSViewController, NSTableViewDataSource, NSTableViewDe
         }
     }
     
+    @IBAction func HandleShowHomeLocationSwitchChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.ShowHomeLocation, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBAction func HandleHomeColorWellChanged(_ sender: Any)
+    {
+        if let ColorWell = sender as? NSColorWell
+        {
+            Settings.SetColor(.HomeColor, ColorWell.color)
+        }
+    }
+    
+    @IBOutlet weak var HomeColorWell: NSColorWell!
+    @IBOutlet weak var ShowHomeLocationSwitch: NSSwitch!
     @IBOutlet weak var POIGlowSwitch: NSSwitch!
     @IBOutlet weak var ShowUserLocationsSwitch: NSSwitch!
     @IBOutlet weak var UserTimeZoneOffsetCombo: NSComboBox!
