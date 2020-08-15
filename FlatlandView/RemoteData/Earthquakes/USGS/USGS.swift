@@ -43,7 +43,9 @@ class USGS
     /// - Note: Execution occurs on a background thread.
     @objc func GetNewEarthquakeData()
     {
-        DispatchQueue.global(qos: .background).async
+        let Queue = OperationQueue()
+        Queue.name = "Earthquake Retrieval Queue"
+        Queue.addOperation
         {
             self.GetUSGSEarthquakeData
             {
@@ -90,7 +92,6 @@ class USGS
     {
         DispatchQueue.main.async
         {
-            print("Have all earthquakes")
             var FinalList = self.RemoveDuplicates(From: self.EarthquakeList)
             self.CurrentList = FinalList
             #if DEBUG
