@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
 		1707A7AF249CACAB00A90FCA /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1707A7AE249CACAB00A90FCA /* Earthquake.swift */; };
+		1710D22224E661D5009B6BB7 /* +StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710D22124E661D5009B6BB7 /* +StatusView.swift */; };
+		1716DB1624E5011E00C4F8BD /* CustomCityWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1716DB1524E5011E00C4F8BD /* CustomCityWindow.swift */; };
+		1716DB1824E5013900C4F8BD /* CustomCityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1716DB1724E5013900C4F8BD /* CustomCityController.swift */; };
+		1716DB1A24E5575B00C4F8BD /* ClockIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1716DB1924E5575B00C4F8BD /* ClockIndicator.swift */; };
 		1718812924B85B9D00EE1E71 /* PerformanceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718812824B85B9D00EE1E71 /* PerformanceOptions.swift */; };
 		171A583E24BED5A700F9CA76 /* SCNTriangleRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171A583D24BED5A700F9CA76 /* SCNTriangleRing.swift */; };
 		1720B383248B522C001202E5 /* GetLocationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B382248B522C001202E5 /* GetLocationWindow.swift */; };
@@ -98,13 +102,14 @@
 		178B1B3324B5A830007ACBCA /* FontDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178B1B3224B5A830007ACBCA /* FontDataType.swift */; };
 		1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */; };
 		1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105E2495BA6900626FD9 /* SCNTriangle.swift */; };
+		1797ED3824E7A680005C74A0 /* StatusProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1797ED3724E7A680005C74A0 /* StatusProtocol.swift */; };
+		1797ED3A24E7AD2A005C74A0 /* StatusContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1797ED3924E7AD2A005C74A0 /* StatusContainerController.swift */; };
+		1797ED3D24E7B976005C74A0 /* FlatlandNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1797ED3C24E7B976005C74A0 /* FlatlandNotification.swift */; };
 		17A3788024DC24D300EE2B45 /* ImageBlender.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17A3787F24DC24D300EE2B45 /* ImageBlender.metal */; };
 		17A3788224DC250200EE2B45 /* ImageBlendParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788124DC250200EE2B45 /* ImageBlendParameters.swift */; };
 		17A3788424DC25F300EE2B45 /* ImageBlender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788324DC25F300EE2B45 /* ImageBlender.swift */; };
 		17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */; };
 		17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A978A124A71F09004EECAC /* WindowManagement.swift */; };
-		17B4411024861CE30050A5DF /* CityColorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4410F24861CE30050A5DF /* CityColorWindow.swift */; };
-		17B4411224861CFD0050A5DF /* CityColorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B4411124861CFD0050A5DF /* CityColorCode.swift */; };
 		17B7D7A824CECFDE000C077B /* MetalLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7A724CECFDE000C077B /* MetalLibrary.swift */; };
 		17B7D7AB24CED02B000C077B /* ImageFlipper.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AA24CED02B000C077B /* ImageFlipper.metal */; };
 		17B7D7AD24CED053000C077B /* ImageFlipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AC24CED053000C077B /* ImageFlipper.swift */; };
@@ -115,6 +120,9 @@
 		17B7D7BA24CED129000C077B /* ImageMergeKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7B924CED129000C077B /* ImageMergeKernel.metal */; };
 		17B7D7BC24CED148000C077B /* ImageMergeParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7BB24CED148000C077B /* ImageMergeParameters.swift */; };
 		17B7D7BE24CED162000C077B /* ImageMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7BD24CED162000C077B /* ImageMerger.swift */; };
+		17B8158A24E6794400956471 /* StatusView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17B8158924E6794400956471 /* StatusView.storyboard */; };
+		17B8158C24E6802500956471 /* GeneralIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B8158B24E6802500956471 /* GeneralIndicator.swift */; };
+		17B8158E24E6B27000956471 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B8158D24E6B27000956471 /* StatusViewController.swift */; };
 		17BCCC3F24D7F15600030E37 /* EarthquakeFilterer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BCCC3E24D7F15600030E37 /* EarthquakeFilterer.swift */; };
 		17BD9E8224867D400054B25E /* ConfirmDialogWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */; };
 		17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */; };
@@ -178,6 +186,10 @@
 /* Begin PBXFileReference section */
 		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
 		1707A7AE249CACAB00A90FCA /* Earthquake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
+		1710D22124E661D5009B6BB7 /* +StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+StatusView.swift"; sourceTree = "<group>"; };
+		1716DB1524E5011E00C4F8BD /* CustomCityWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCityWindow.swift; sourceTree = "<group>"; };
+		1716DB1724E5013900C4F8BD /* CustomCityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCityController.swift; sourceTree = "<group>"; };
+		1716DB1924E5575B00C4F8BD /* ClockIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockIndicator.swift; sourceTree = "<group>"; };
 		1718812824B85B9D00EE1E71 /* PerformanceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceOptions.swift; sourceTree = "<group>"; };
 		171A583D24BED5A700F9CA76 /* SCNTriangleRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangleRing.swift; sourceTree = "<group>"; };
 		1720B382248B522C001202E5 /* GetLocationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationWindow.swift; sourceTree = "<group>"; };
@@ -270,13 +282,14 @@
 		178B1B3224B5A830007ACBCA /* FontDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontDataType.swift; sourceTree = "<group>"; };
 		1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSimpleArrow.swift; sourceTree = "<group>"; };
 		1792105E2495BA6900626FD9 /* SCNTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangle.swift; sourceTree = "<group>"; };
+		1797ED3724E7A680005C74A0 /* StatusProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusProtocol.swift; sourceTree = "<group>"; };
+		1797ED3924E7AD2A005C74A0 /* StatusContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusContainerController.swift; sourceTree = "<group>"; };
+		1797ED3C24E7B976005C74A0 /* FlatlandNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlandNotification.swift; sourceTree = "<group>"; };
 		17A3787F24DC24D300EE2B45 /* ImageBlender.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageBlender.metal; sourceTree = "<group>"; };
 		17A3788124DC250200EE2B45 /* ImageBlendParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBlendParameters.swift; sourceTree = "<group>"; };
 		17A3788324DC25F300EE2B45 /* ImageBlender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBlender.swift; sourceTree = "<group>"; };
 		17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphaColorWell.swift; sourceTree = "<group>"; };
 		17A978A124A71F09004EECAC /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
-		17B4410F24861CE30050A5DF /* CityColorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorWindow.swift; sourceTree = "<group>"; };
-		17B4411124861CFD0050A5DF /* CityColorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityColorCode.swift; sourceTree = "<group>"; };
 		17B7D7A724CECFDE000C077B /* MetalLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLibrary.swift; sourceTree = "<group>"; };
 		17B7D7AA24CED02B000C077B /* ImageFlipper.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageFlipper.metal; sourceTree = "<group>"; };
 		17B7D7AC24CED053000C077B /* ImageFlipper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFlipper.swift; sourceTree = "<group>"; };
@@ -287,6 +300,9 @@
 		17B7D7B924CED129000C077B /* ImageMergeKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageMergeKernel.metal; sourceTree = "<group>"; };
 		17B7D7BB24CED148000C077B /* ImageMergeParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMergeParameters.swift; sourceTree = "<group>"; };
 		17B7D7BD24CED162000C077B /* ImageMerger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMerger.swift; sourceTree = "<group>"; };
+		17B8158924E6794400956471 /* StatusView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = StatusView.storyboard; sourceTree = "<group>"; };
+		17B8158B24E6802500956471 /* GeneralIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralIndicator.swift; sourceTree = "<group>"; };
+		17B8158D24E6B27000956471 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		17BCCC3E24D7F15600030E37 /* EarthquakeFilterer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeFilterer.swift; sourceTree = "<group>"; };
 		17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogWindow.swift; sourceTree = "<group>"; };
 		17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogCode.swift; sourceTree = "<group>"; };
@@ -358,6 +374,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1710D22324E661FE009B6BB7 /* StatusView */ = {
+			isa = PBXGroup;
+			children = (
+				1797ED3724E7A680005C74A0 /* StatusProtocol.swift */,
+				1797ED3924E7AD2A005C74A0 /* StatusContainerController.swift */,
+				17B8158924E6794400956471 /* StatusView.storyboard */,
+				17B8158D24E6B27000956471 /* StatusViewController.swift */,
+			);
+			path = StatusView;
+			sourceTree = "<group>";
+		};
 		1713766824960E1400EF715E /* Earthquakes */ = {
 			isa = PBXGroup;
 			children = (
@@ -377,6 +404,15 @@
 			path = USGS;
 			sourceTree = "<group>";
 		};
+		1716DB1424E4FCB300C4F8BD /* CustomCities */ = {
+			isa = PBXGroup;
+			children = (
+				1716DB1524E5011E00C4F8BD /* CustomCityWindow.swift */,
+				1716DB1724E5013900C4F8BD /* CustomCityController.swift */,
+			);
+			path = CustomCities;
+			sourceTree = "<group>";
+		};
 		1727EA5B24B184110051EA3B /* DataStructures */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,6 +426,8 @@
 			isa = PBXGroup;
 			children = (
 				172F35AC24CFFBBA00C8FDDC /* PiePercent.swift */,
+				1716DB1924E5575B00C4F8BD /* ClockIndicator.swift */,
+				17B8158B24E6802500956471 /* GeneralIndicator.swift */,
 			);
 			path = Indicators;
 			sourceTree = "<group>";
@@ -442,6 +480,7 @@
 		174F010D248CD0F700F610DD /* MainSettings */ = {
 			isa = PBXGroup;
 			children = (
+				1716DB1424E4FCB300C4F8BD /* CustomCities */,
 				176EE0A724D58C7500131944 /* EarthquakeRegion */,
 				17562D5C24BC15AA00900079 /* Debug */,
 				174623D424A83FD4007F5D4C /* StarField3D */,
@@ -449,7 +488,6 @@
 				174F0108248CD01E00F610DD /* MapManager */,
 				173A104D248B39B300793216 /* GetLocation */,
 				17BD9E8024867D290054B25E /* Confirmation */,
-				17B4410E24861CD40050A5DF /* CityColor */,
 				17B4410D24861CB90050A5DF /* UserLocation */,
 				1759AE5C249F80EB003F79F5 /* OptionsWindows */,
 				1759AE58249F7715003F79F5 /* ContainerController.swift */,
@@ -476,6 +514,7 @@
 		17523CD0247B8DF8005209FC /* MainViewExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				1710D22124E661D5009B6BB7 /* +StatusView.swift */,
 				17523CD1247B8E11005209FC /* +MoreLocations.swift */,
 				174623D224A83026007F5D4C /* +ChangedSettings.swift */,
 				17523CD3247B8E62005209FC /* WorldHeritageSite.swift */,
@@ -625,6 +664,7 @@
 				17EF3398247A672B00A5B55D /* Utilities */,
 				17EF3391247A66BF00A5B55D /* Maps */,
 				17EF338A247A4EAF00A5B55D /* Settings */,
+				1797ED3B24E7B95D005C74A0 /* Notifications */,
 				17EF3382247A4AF200A5B55D /* SettingsCode */,
 				17EF337D247A470400A5B55D /* SettingsStoryboards */,
 				17523CD7247B9716005209FC /* Views */,
@@ -698,6 +738,14 @@
 			path = RemoteData;
 			sourceTree = "<group>";
 		};
+		1797ED3B24E7B95D005C74A0 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				1797ED3C24E7B976005C74A0 /* FlatlandNotification.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
 		17A3787E24DC249E00EE2B45 /* ImageBlender */ = {
 			isa = PBXGroup;
 			children = (
@@ -724,15 +772,6 @@
 				17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */,
 			);
 			path = UserLocation;
-			sourceTree = "<group>";
-		};
-		17B4410E24861CD40050A5DF /* CityColor */ = {
-			isa = PBXGroup;
-			children = (
-				17B4410F24861CE30050A5DF /* CityColorWindow.swift */,
-				17B4411124861CFD0050A5DF /* CityColorCode.swift */,
-			);
-			path = CityColor;
 			sourceTree = "<group>";
 		};
 		17B7D7A524CECFB5000C077B /* Metal */ = {
@@ -919,6 +958,7 @@
 		17FC2210249878F8005A0929 /* Ancillary */ = {
 			isa = PBXGroup;
 			children = (
+				1710D22324E661FE009B6BB7 /* StatusView */,
 				17A3788C24DD7DEC00EE2B45 /* UIExtensions */,
 				172F35AB24CFFBA900C8FDDC /* Indicators */,
 				1750043724B460F6006528A4 /* FontPicker */,
@@ -1004,6 +1044,7 @@
 				1750043924B46110006528A4 /* FontPickerUI.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
 				1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */,
+				17B8158A24E6794400956471 /* StatusView.storyboard in Resources */,
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
 				17FC2213249879BE005A0929 /* LiveData.storyboard in Resources */,
 				17523CD6247B937F005209FC /* UnescoSites.db in Resources */,
@@ -1043,6 +1084,7 @@
 				178A869A2488C3B600BE8D46 /* AboutDetailsController.swift in Sources */,
 				17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */,
 				176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */,
+				1716DB1A24E5575B00C4F8BD /* ClockIndicator.swift in Sources */,
 				1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */,
 				1740F49B2493173A00F6FAAE /* Hours.swift in Sources */,
 				1750044324B4640B006528A4 /* FontProtocol.swift in Sources */,
@@ -1063,6 +1105,7 @@
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
 				1760023C24D2BF8000D5EA1A /* NSColor.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
+				17B8158E24E6B27000956471 /* StatusViewController.swift in Sources */,
 				172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */,
 				174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */,
 				174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */,
@@ -1083,6 +1126,7 @@
 				17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */,
 				178A869C2488C3D100BE8D46 /* AboutDetailsWindow.swift in Sources */,
 				17EF3397247A670B00A5B55D /* MapItem.swift in Sources */,
+				17B8158C24E6802500956471 /* GeneralIndicator.swift in Sources */,
 				17EF33B7247A94BA00A5B55D /* City.swift in Sources */,
 				17F17A4924DE793800568A4E /* LinesDrawKernel.metal in Sources */,
 				17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */,
@@ -1093,6 +1137,7 @@
 				17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */,
 				1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */,
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
+				1797ED3824E7A680005C74A0 /* StatusProtocol.swift in Sources */,
 				1759AE5B249F7781003F79F5 /* MainSettingsBase.swift in Sources */,
 				17EF33A8247A936900A5B55D /* Solar.swift in Sources */,
 				17EF339A247A673900A5B55D /* FileIO.swift in Sources */,
@@ -1125,6 +1170,7 @@
 				177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */,
 				17EF3393247A66D200A5B55D /* MapManager.swift in Sources */,
 				17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */,
+				1710D22224E661D5009B6BB7 /* +StatusView.swift in Sources */,
 				174623D324A83026007F5D4C /* +ChangedSettings.swift in Sources */,
 				1759AE66249F81F6003F79F5 /* View3DSettingsWindow.swift in Sources */,
 				17B7D7BC24CED148000C077B /* ImageMergeParameters.swift in Sources */,
@@ -1133,6 +1179,7 @@
 				17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
 				17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */,
+				1716DB1824E5013900C4F8BD /* CustomCityController.swift in Sources */,
 				1759FC6924A615BD001B1D4B /* RecentEarthquakeController.swift in Sources */,
 				17FCCCD924A31F1A00393F36 /* EarthquakeController.swift in Sources */,
 				175F18EC2499E4C30052F653 /* LiveDataViewer.swift in Sources */,
@@ -1150,7 +1197,6 @@
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
 				1759AE68249F8215003F79F5 /* OtherLocationsWindow.swift in Sources */,
 				17FC221524987B1A005A0929 /* LiveDataViewWindow.swift in Sources */,
-				17B4411224861CFD0050A5DF /* CityColorCode.swift in Sources */,
 				178A869E2489101E00BE8D46 /* StarField.swift in Sources */,
 				1760024024D2BFDC00D5EA1A /* String.swift in Sources */,
 				175F661424DE7416007B3A60 /* LineDrawParameters.swift in Sources */,
@@ -1166,11 +1212,12 @@
 				1750044524B46E73006528A4 /* FontNameWindow.swift in Sources */,
 				1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */,
 				1737101024E2BB7300BC6CF8 /* Stenciler.swift in Sources */,
+				1797ED3D24E7B976005C74A0 /* FlatlandNotification.swift in Sources */,
 				17523CD2247B8E11005209FC /* +MoreLocations.swift in Sources */,
+				1716DB1624E5011E00C4F8BD /* CustomCityWindow.swift in Sources */,
 				1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */,
 				17EF3395247A66F000A5B55D /* MapList.swift in Sources */,
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
-				17B4411024861CE30050A5DF /* CityColorWindow.swift in Sources */,
 				178A86A4248912FA00BE8D46 /* +Locations.swift in Sources */,
 				17523CDB247B973E005209FC /* +FlatView.swift in Sources */,
 				17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */,
@@ -1192,6 +1239,7 @@
 				17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */,
 				17F782C1249742A1000A568E /* USGS.swift in Sources */,
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
+				1797ED3A24E7AD2A005C74A0 /* StatusContainerController.swift in Sources */,
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
 				178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */,
 				178A86972488C23C00BE8D46 /* AboutController.swift in Sources */,
@@ -1340,6 +1388,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
 				ENABLE_HARDENED_RUNTIME = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = FlatlandView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1347,6 +1396,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Irorio.FlatlandView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_SWIFT_SYMBOLS = NO;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
