@@ -32,8 +32,9 @@ class EarthData
         let TilesX = Map.HorizontalTileCount
         let TilesY = Map.VerticalTileCount
         
-//        DispatchQueue.main.async
-        DispatchQueue.global(qos: .background).async
+        let Queue = OperationQueue()
+        Queue.name = "Load Tile Queue"
+        Queue.addOperation
         {
             Map.URLs = SatelliteMap.GenerateTileInformation(From: Map, When: ImageDate)
             let ExpectedCount = Map.URLs.count
@@ -85,7 +86,9 @@ class EarthData
             }
         }
         
-        DispatchQueue.global(qos: .background).async
+        let Queue = OperationQueue()
+        Queue.name = "Map Assembly Queue"
+        Queue.addOperation
         {
             var Count = 0
             let TileSize = 128
@@ -124,7 +127,9 @@ class EarthData
                  MaxRows: Int, MaxColumns: Int,
                  Completed: (() -> ())? = nil)
     {
-        DispatchQueue.global(qos: .background).async
+        let Queue = OperationQueue()
+        Queue.name = "Tile Retrieval Queue"
+        Queue.addOperation
         {
             do
             {
