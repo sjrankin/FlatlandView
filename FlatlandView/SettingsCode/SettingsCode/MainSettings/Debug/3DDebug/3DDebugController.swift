@@ -16,6 +16,7 @@ class ThreeDDebugController: NSViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        #if DEBUG
         Settings.QueryBool(.ShowWireframes)
         {
             Show in
@@ -51,6 +52,7 @@ class ThreeDDebugController: NSViewController
             Show in
             self.ShowStatsSwitch.state = Show ? .on : .off
         }
+        #endif
     }
     
     @IBAction func HandleClosePressed(_ sender: Any)
@@ -62,6 +64,7 @@ class ThreeDDebugController: NSViewController
     
     @IBAction func HandleSwitchChanged(_ sender: Any)
     {
+        #if DEBUG
         if let Switch = sender as? NSSwitch
         {
             switch Switch
@@ -92,6 +95,7 @@ class ThreeDDebugController: NSViewController
             }
             MainDelegate?.Refresh("ThreeDDebugController.HandleSwitchChanged")
         }
+        #endif
     }
     
     @IBOutlet weak var ShowStatsSwitch: NSSwitch!
