@@ -580,8 +580,6 @@ enum GlobeRadius: CGFloat, CaseIterable
     case HourSphere = 11.5
     /// Location of city names (if used).
     case CityNames = 10.5
-    /// Stencil layer radius.
-    case StencilLayer = 10.02
 }
 
 /// Styles of listing earthquakes.
@@ -793,6 +791,9 @@ enum LayerZLevels: Int
     
     /// Star view layer.
     case StarLayer = 4000
+    
+    /// 3D status view layer.
+    case StatusViewLayer = 20001
     
     #if DEBUG
     /// Debug layer.
