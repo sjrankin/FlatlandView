@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17140" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17147" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17140"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17140"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17147"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17147"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -486,6 +486,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="900" height="900"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="hFB-sH-wQq" customClass="StatusContainerController" customModule="Flatland" customModuleProvider="target">
+                                <rect key="frame" x="225" y="20" width="450" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="450" id="SKK-d1-4ab"/>
+                                    <constraint firstAttribute="height" constant="100" id="aOj-hc-sDh"/>
+                                </constraints>
+                            </customView>
                             <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="cv7-Wm-L4p">
                                 <rect key="frame" x="609" y="35" width="221" height="60"/>
                                 <rows>
@@ -581,7 +588,7 @@
                                 </textFieldCell>
                             </textField>
                             <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="CgY-TH-3DI">
-                                <rect key="frame" x="10" y="30" width="177" height="126"/>
+                                <rect key="frame" x="10" y="30" width="152" height="126"/>
                                 <rows>
                                     <gridRow id="zcC-RE-Tyh"/>
                                     <gridRow id="3uP-Xk-cFc"/>
@@ -607,7 +614,7 @@
                                     </gridCell>
                                     <gridCell row="zcC-RE-Tyh" column="baC-3w-CuE" id="UlT-Oy-VLn">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PlJ-ua-thu">
-                                            <rect key="frame" x="110" y="110" width="60" height="16"/>
+                                            <rect key="frame" x="94" y="110" width="60" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="24:24:24" id="y0k-de-m6T">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -626,7 +633,7 @@
                                     </gridCell>
                                     <gridCell row="3uP-Xk-cFc" column="baC-3w-CuE" id="Up2-Ch-bpf">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iKD-wh-P97">
-                                            <rect key="frame" x="110" y="88" width="60" height="16"/>
+                                            <rect key="frame" x="94" y="88" width="60" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="24:24:24" id="T15-JX-J8y">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -645,7 +652,7 @@
                                     </gridCell>
                                     <gridCell row="rsC-Hy-t0v" column="baC-3w-CuE" id="4us-0L-Ut6">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MC0-Ma-KDm">
-                                            <rect key="frame" x="110" y="66" width="60" height="16"/>
+                                            <rect key="frame" x="94" y="66" width="60" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="24:24:24" id="Hxr-Lq-g8G">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -664,7 +671,7 @@
                                     </gridCell>
                                     <gridCell row="skJ-bM-4xE" column="baC-3w-CuE" id="uf8-Jh-VVW">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qWx-Qe-aYq">
-                                            <rect key="frame" x="110" y="44" width="60" height="16"/>
+                                            <rect key="frame" x="94" y="44" width="60" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="24:24:24" id="7e5-0Y-J7N">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -683,7 +690,7 @@
                                     </gridCell>
                                     <gridCell row="ffS-u5-Or7" column="baC-3w-CuE" id="bVb-wF-Ljf">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mQw-sc-GjS">
-                                            <rect key="frame" x="110" y="23" width="69" height="15"/>
+                                            <rect key="frame" x="94" y="23" width="60" height="15"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="24:24:24" id="H6i-BV-J9y">
                                                 <font key="font" size="13" name="SFMono-Regular"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -692,7 +699,7 @@
                                     </gridCell>
                                     <gridCell row="CSK-29-VYQ" column="aNl-tK-XS6" id="05O-6s-I2o">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="irH-0B-ffi">
-                                            <rect key="frame" x="-2" y="0.0" width="100" height="16"/>
+                                            <rect key="frame" x="-2" y="0.0" width="84" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Status indicator" id="SEy-9C-xCT">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -702,7 +709,7 @@
                                     </gridCell>
                                     <gridCell row="CSK-29-VYQ" column="baC-3w-CuE" id="40J-7V-4Yf">
                                         <customView key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="ybH-HM-qfK" customClass="PiePercent" customModule="Flatland" customModuleProvider="target">
-                                            <rect key="frame" x="112" y="0.0" width="16" height="16"/>
+                                            <rect key="frame" x="96" y="0.0" width="16" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="16" id="mTQ-pl-D41"/>
                                                 <constraint firstAttribute="height" constant="16" id="rN7-0w-lsw"/>
@@ -803,9 +810,11 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="jzK-yC-9yN" secondAttribute="bottom" id="0B7-7I-OgM"/>
                             <constraint firstAttribute="trailing" secondItem="f0s-yU-n89" secondAttribute="trailing" id="0cA-1X-Tpt"/>
+                            <constraint firstItem="hFB-sH-wQq" firstAttribute="bottom" secondItem="BFj-Wa-HNl" secondAttribute="bottom" id="1wH-wf-tcd"/>
                             <constraint firstItem="jzK-yC-9yN" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="5RK-k5-enX"/>
                             <constraint firstAttribute="trailing" secondItem="QaS-kA-VXe" secondAttribute="trailing" id="9z5-pQ-zvd"/>
                             <constraint firstAttribute="bottom" secondItem="BFj-Wa-HNl" secondAttribute="bottom" constant="20" id="AAq-aW-879"/>
+                            <constraint firstItem="hFB-sH-wQq" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="DKS-YB-5Tn"/>
                             <constraint firstItem="BFj-Wa-HNl" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="GOp-fo-nyY"/>
                             <constraint firstItem="tNb-wZ-7xd" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="JrS-Kq-Azs"/>
                             <constraint firstAttribute="bottom" secondItem="CgY-TH-3DI" secondAttribute="bottom" constant="30" id="La3-kE-WV0"/>
@@ -822,9 +831,11 @@
                             <constraint firstItem="tNb-wZ-7xd" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="ghH-JP-tw4"/>
                             <constraint firstItem="f0s-yU-n89" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="iQ9-sh-haB"/>
                             <constraint firstItem="f0s-yU-n89" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="kUA-JN-AWH"/>
+                            <constraint firstItem="hFB-sH-wQq" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="rR8-6s-fQb"/>
                             <constraint firstAttribute="bottom" secondItem="f0s-yU-n89" secondAttribute="bottom" id="sz2-kd-TWm"/>
                             <constraint firstAttribute="bottom" secondItem="QaS-kA-VXe" secondAttribute="bottom" id="uvT-IV-cuD"/>
                             <constraint firstAttribute="trailing" secondItem="cv7-Wm-L4p" secondAttribute="trailing" constant="70" id="wCT-v8-Mk6"/>
+                            <constraint firstItem="hFB-sH-wQq" firstAttribute="leading" secondItem="CgY-TH-3DI" secondAttribute="trailing" constant="63" id="yTO-xy-Sys"/>
                         </constraints>
                     </view>
                     <connections>
@@ -854,6 +865,7 @@
                         <outlet property="MainTimeLabelTop" destination="tNb-wZ-7xd" id="8mc-dy-k0k"/>
                         <outlet property="NightMaskImageView" destination="8k3-gX-b5q" id="8PV-an-Q2B"/>
                         <outlet property="StarView" destination="rl2-NN-bVz" id="Hfa-nm-l5H"/>
+                        <outlet property="StatusContainer" destination="hFB-sH-wQq" id="ABH-Qi-Eeh"/>
                         <outlet property="StatusIndicator" destination="ybH-HM-qfK" id="Ac8-Qa-fd7"/>
                         <outlet property="StatusLabel" destination="irH-0B-ffi" id="7U8-Qy-gFk"/>
                         <outlet property="SunViewBottom" destination="wns-jc-4Fq" id="Fbt-Wq-Ymj"/>
