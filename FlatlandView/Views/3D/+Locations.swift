@@ -134,6 +134,7 @@ extension GlobeView
         HomeNode = SCNNode(geometry: Sphere)
         HomeNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
         HomeNode?.geometry?.firstMaterial?.diffuse.contents = WithColor
+        HomeNode?.geometry?.firstMaterial?.selfIllumination.contents = WithColor
         HomeNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
         HomeNode?.castsShadow = true
         HomeNode?.position = SCNVector3(X, Y, Z)
@@ -765,6 +766,7 @@ extension GlobeView
         {
             if let LocalLatitude = Settings.GetDoubleNil(.LocalLatitude)
             {
+                let HomeColor = Settings.GetColor(.HomeColor, NSColor.systemTeal)
                 switch Settings.GetEnum(ForKey: .HomeShape, EnumType: HomeShapes.self, Default: .Hide)
                 {
                     case .Hide:
@@ -776,11 +778,11 @@ extension GlobeView
                         
                     case .Flag:
                         PlotHomeFlag(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
-                                     ToSurface: Surface, EmissiveColor: NSColor.orange)
+                                     ToSurface: Surface, EmissiveColor: HomeColor)
                         
                     case .Pulsate:
                         PlotPulsatingHome(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
-                                          ToSurface: Surface, WithColor: NSColor.systemBlue)
+                                          ToSurface: Surface, WithColor: HomeColor)
                         
                     case .Pin:
                         PlotPinHome(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
