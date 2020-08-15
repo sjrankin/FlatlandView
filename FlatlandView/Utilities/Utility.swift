@@ -461,7 +461,6 @@ class Utility
     }
     
     /// Given a Date structure, return a pretty string with the time.
-    ///
     /// - Parameters:
     ///   - TheDate: The date structure whose time will be returned in a string.
     ///   - IncludeSeconds: If true, the number of seconds will be included in the string.
@@ -1476,5 +1475,13 @@ class Utility
         let Z = ((Radius + RadiusOffset) * sin(Lat) * sin(Lon))
         let Y = ((Radius + RadiusOffset) * cos(Lat))
         return (X, Y, Z)
+    }
+    
+    /// Print a message to the debug console prefixed by the time this function was called.
+    /// - Parameter Message: The message to print.
+    public static func Print(_ Message: String)
+    {
+        let Prefix = MakeTimeString(TheDate: Date())
+        print("\(Prefix): \(Message)")
     }
 }
