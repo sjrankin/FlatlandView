@@ -167,9 +167,10 @@ class MapManager
             case .Stylized:
                 return [.StylizedSea1]
             
+                #if DEBUG
             case .Debug:
                 return [.Debug1, .Debug3, .Debug2, .Debug4, .Debug5]
-            
+                #endif
         }
     }
     
