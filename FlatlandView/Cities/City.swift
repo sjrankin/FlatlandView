@@ -59,6 +59,31 @@ class City
         self.Longitude = Longitude
     }
     
+    /// Initializer.
+    /// - Parameters:
+    ///   - Name: The name of the city.
+    ///   - Country: The country where the city is.
+    ///   - IsCapital: Capital city flag.
+    ///   - Population: The population of the city or nil if not known.
+    ///   - MetroPopulation: The population of the metropolitan area or nil if not known.
+    ///   - Latitude: The latitude of the city.
+    ///   - Longitude: The longitude of the city.
+    ///   - Continent: Name of the continent of the city.
+    ///   - ID: ID of the city.
+    init(_ Name: String, _ Country: String, _ IsCapital: Bool, _ Population: Int?, _ MetroPopulation: Int?,
+         _ Latitude: Double, _ Longitude: Double, _ Continent: String, ID: UUID)
+    {
+        self.Continent = Continents(rawValue: Continent)!
+        self.Country = Country
+        self.Name = Name
+        self.IsCapital = IsCapital
+        self.Population = Population
+        self.MetropolitanPopulation = MetroPopulation
+        self.Latitude = Latitude
+        self.Longitude = Longitude
+        self.CityID = ID
+    }
+    
     /// Convenience property that holds a base-line location of the city after it was initially plotted.
     public var PlottedPoint: CGPoint? = nil
     
@@ -91,6 +116,12 @@ class City
     
     /// User city flag.
     public var IsUserCity: Bool = false
+    
+    /// City ID.
+    public var CityID: UUID = UUID()
+    
+    /// Used by the UI when creating custom city lists.
+    public var IsCustomCity: Bool = false
     
     /// Return a population for the city. Always returns a value.
     /// - Parameter MetroPopulation: If true, the metropolitan population is returned.
