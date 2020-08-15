@@ -164,11 +164,15 @@ enum SettingTypes: String, CaseIterable
     case UserLocations = "UserLocations"
     /// Boolean: Determines if the user's location is shown, regardless if it is available.
     case ShowHomeLocation = "ShowHomeLocation"
+    /// NSColor: Color of the home location for shapes that use it.
+    case HomeColor = "HomeColor"
     
     // MARK: - City-related settings.
     /// Boolean: Show cities on the map. This is a filter boolean meaning if it is false,
     /// no cities will be shown regardless of their settings.
     case ShowCities = "ShowCities"
+    /// Boolean: Show custom cities.
+    case ShowCustomCities = "ShowCustomCities"
     /// Boolean: Show African cities.
     case ShowAfricanCities = "ShowAfricanCities"
     /// Boolean: Show Asian cities.
@@ -197,12 +201,16 @@ enum SettingTypes: String, CaseIterable
     case CapitalCityColor = "CapitalCityColors"
     /// NSColor: Color to use for world cities.
     case WorldCityColor = "WorldCityColors"
+    /// NSColor: Color to use for custom cities.
+    case CustomCityListColor = "CustomCityListColor"
     /// NSColor: Determines the shape of cities.
     case CityShapes = "CityShapes"
     /// Determines how the relative size of cities is calculated.
     case PopulationType = "PopulationType"
     /// The font to use for city names.
     case CityFontName = "CityFontName"
+    /// List of user-customized cities.
+    case CustomCityList = "CustomCityList"
     
     // MARK: - World Heritage Site settings
     /// Boolean: Determines whether World Heritage Sites are shown.
