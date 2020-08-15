@@ -29,6 +29,7 @@ class CitySettingsWindow: NSViewController, FontProtocol
         ShowEuropeanCitiesSwitch.state = Settings.GetBool(.ShowEuropeanCities) ? .on : .off
         ShowNorthAmericanCitiesSwitch.state = Settings.GetBool(.ShowNorthAmericanCities) ? .on : .off
         ShowSouthAmericanCitiesSwitch.state = Settings.GetBool(.ShowSouthAmericanCities) ? .on : .off
+        ShowCustomCitiesSwitch.state = Settings.GetBool(.ShowCustomCities) ? .on : .off
         FloatingCityNameSwitch.state = Settings.GetBool(.CityNamesDrawnOnMap) ? .off : .on
         
         CityShapeCombo.removeAllItems()
@@ -56,6 +57,14 @@ class CitySettingsWindow: NSViewController, FontProtocol
         {
             CityFontButton.title = "Huh?"
         }
+        WorldCityColorWell.color = Settings.GetColor(.WorldCityColor, NSColor.white)
+        AfricanCityColorWell.color = Settings.GetColor(.AfricanCityColor, NSColor.cyan)
+        AsianCityColorWell.color = Settings.GetColor(.AsianCityColor, NSColor.green)
+        EuropeanCityColorWell.color = Settings.GetColor(.EuropeanCityColor, NSColor.magenta)
+        NorthAmericanCityColorWell.color = Settings.GetColor(.NorthAmericanCityColor, NSColor.blue)
+        SouthAmericanCityColorWell.color = Settings.GetColor(.SouthAmericanCityColor, NSColor.orange)
+        CapitalCityColorWell.color = Settings.GetColor(.CapitalCityColor, NSColor.yellow)
+        CustomCityListColorWell.color = Settings.GetColor(.CustomCityListColor, NSColor.gray)
     }
     
     @IBAction func ShowCitiesChanged(_ sender: Any)
@@ -97,16 +106,6 @@ class CitySettingsWindow: NSViewController, FontProtocol
         }
     }
     
-    @IBAction func HandleCityColorsPressed(_ sender: Any)
-    {
-        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "CityColorWindow") as? CityColorWindow
-        {
-            let Window = WindowController.window
-            self.view.window?.beginSheet(Window!, completionHandler: nil)
-        }
-    }
-    
     @IBAction func HandleShowCityTypeChanged(_ sender: Any)
     {
         if let Button = sender as? NSSwitch
@@ -134,6 +133,9 @@ class CitySettingsWindow: NSViewController, FontProtocol
                 
                 case ShowWorldCitiesSwitch:
                     Settings.SetBool(.ShowWorldCities, IsChecked)
+                    
+                case ShowCustomCitiesSwitch:
+                    Settings.SetBool(.ShowCustomCities, IsChecked)
                 
                 default:
                     return
@@ -208,6 +210,62 @@ class CitySettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandleCityColorChanged(_ sender: Any)
+    {
+        if let ColorWell = sender as? NSColorWell
+        {
+            switch ColorWell
+            {
+                case CapitalCityColorWell:
+                    Settings.SetColor(.CapitalCityColor, ColorWell.color)
+                    
+                case SouthAmericanCityColorWell:
+                    Settings.SetColor(.SouthAmericanCityColor, ColorWell.color)
+                    
+                case NorthAmericanCityColorWell:
+                    Settings.SetColor(.NorthAmericanCityColor, ColorWell.color)
+                    
+                case EuropeanCityColorWell:
+                    Settings.SetColor(.EuropeanCityColor, ColorWell.color)
+                    
+                case AsianCityColorWell:
+                    Settings.SetColor(.AsianCityColor, ColorWell.color)
+                    
+                case AfricanCityColorWell:
+                    Settings.SetColor(.AfricanCityColor, ColorWell.color)
+                    
+                case WorldCityColorWell:
+                    Settings.SetColor(.WorldCityColor, ColorWell.color)
+                    
+                case CustomCityListColorWell:
+                    Settings.SetColor(.CustomCityListColor, ColorWell.color)
+                
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBAction func HandleCustomCityButtonPressed(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "CustomCityWindow") as? CustomCityWindow
+        {
+            let Window = WindowController.window
+            let ViewController = Window?.contentViewController as? CustomCityController
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+        }
+    }
+    
+    @IBOutlet weak var ShowCustomCitiesSwitch: NSSwitch!
+    @IBOutlet weak var CustomCityListColorWell: NSColorWell!
+    @IBOutlet weak var CapitalCityColorWell: NSColorWell!
+    @IBOutlet weak var SouthAmericanCityColorWell: NSColorWell!
+    @IBOutlet weak var NorthAmericanCityColorWell: NSColorWell!
+    @IBOutlet weak var EuropeanCityColorWell: NSColorWell!
+    @IBOutlet weak var AsianCityColorWell: NSColorWell!
+    @IBOutlet weak var AfricanCityColorWell: NSColorWell!
+    @IBOutlet weak var WorldCityColorWell: NSColorWell!
     @IBOutlet weak var FloatingCityNameSwitch: NSSwitch!
     @IBOutlet weak var CityFontButton: NSButton!
     @IBOutlet weak var ShowCapitalCitiesSwitch: NSSwitch!
