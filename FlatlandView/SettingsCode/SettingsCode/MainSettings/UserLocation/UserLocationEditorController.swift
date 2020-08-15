@@ -9,8 +9,7 @@
 import Foundation
 import AppKit
 
-class UserLocationEditorController: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
-    NSTextFieldDelegate
+class UserLocationEditorController: NSViewController, NSTextFieldDelegate
 {
     public weak var Delegate: LocationEditingProtocol? = nil
     
@@ -19,7 +18,6 @@ class UserLocationEditorController: NSViewController, NSTableViewDelegate, NSTab
         super.viewDidLoad()
         LatitudeTextBox.delegate = self
         LongitudeTextBox.delegate = self
-        ColorSwatchTable.reloadData()
     }
     
     override func viewDidLayout()
@@ -33,8 +31,7 @@ class UserLocationEditorController: NSViewController, NSTableViewDelegate, NSTab
             NameTextBox.stringValue = ""
             LatitudeTextBox.stringValue = ""
             LongitudeTextBox.stringValue = ""
-            let ISet = IndexSet(integer: 0)
-            ColorSwatchTable.selectRowIndexes(ISet, byExtendingSelection: false)
+            POIColorWell.color = NSColor.systemYellow
         }
         else
         {
@@ -42,69 +39,14 @@ class UserLocationEditorController: NSViewController, NSTableViewDelegate, NSTab
             NameTextBox.stringValue = Name
             LatitudeTextBox.stringValue = "\(Latitude.RoundedTo(4))"
             LongitudeTextBox.stringValue = "\(Longitude.RoundedTo(4))"
-            if let Index = IndexOf(Color)
-            {
-                let ISet = IndexSet(integer: Index)
-                ColorSwatchTable.selectRowIndexes(ISet, byExtendingSelection: false)
-            }
-            else
-            {
-                let ISet = IndexSet(integer: 0)
-                ColorSwatchTable.selectRowIndexes(ISet, byExtendingSelection: false)
-            }
+            POIColorWell.color = Color
         }
-    }
-    
-    func IndexOf(_ Color: NSColor) -> Int?
-    {
-        var Index = 0
-        for SomeColor in ColorList.Colors
-        {
-            if SomeColor.Color == Color
-            {
-                return Index
-            }
-            Index = Index + 1
-        }
-        return nil
-    }
-    
-    func numberOfRows(in tableView: NSTableView) -> Int
-    {
-        return ColorList.Colors.count
-    }
-    
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
-    {
-        var CellIdentifier = ""
-        
-        if tableColumn == tableView.tableColumns[0]
-        {
-            CellIdentifier = "ColorNameColumn"
-            let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
-            Cell?.textField?.stringValue = ColorList.Colors[row].Name
-            return Cell
-        }
-        if tableColumn == tableView.tableColumns[1]
-        {
-            CellIdentifier = "ColorSwatchColumn"
-            let Color = ColorList.Colors[row].Color
-            let Swatch = NSView(frame: NSRect(x: 5, y: 2, width: 40, height: 20))
-            Swatch.wantsLayer = true
-            Swatch.layer?.backgroundColor = Color.cgColor
-            Swatch.layer?.borderColor = NSColor.black.cgColor
-            Swatch.layer?.borderWidth = 0.5
-            Swatch.layer?.cornerRadius = 5.0
-            return Swatch
-        }
-        return nil
     }
     
     @IBAction func HandleOKPressed(_ sender: Any)
     {
         var ValidData = true
-        let ColorIndex = ColorSwatchTable.selectedRow
-        let Color = ColorList.Colors[ColorIndex].Color
+        let Color = POIColorWell.color
         let PlaceName = NameTextBox.stringValue
         if PlaceName.isEmpty
         {
@@ -201,7 +143,12 @@ class UserLocationEditorController: NSViewController, NSTableViewDelegate, NSTab
         Parent!.endSheet(Window!, returnCode: .cancel)
     }
     
-    @IBOutlet weak var ColorSwatchTable: NSTableView!
+    @IBAction func HandlePOIColorWellChanged(_ sender: Any)
+    {
+        //Placeholder.
+    }
+    
+    @IBOutlet weak var POIColorWell: NSColorWell!
     @IBOutlet weak var LongitudeTextBox: NSTextField!
     @IBOutlet weak var LatitudeTextBox: NSTextField!
     @IBOutlet weak var NameTextBox: NSTextField!
