@@ -21,6 +21,7 @@ class DebugSettingsCode: NSViewController
     
     func InitializeDebugSettings()
     {
+        #if DEBUG
         DebugTimeSwitch.state = Settings.GetBool(.DebugTime) ? .on : .off
         let TimeControl = Settings.GetEnum(ForKey: .TimeControl, EnumType: TimeControls.self, Default: .Run)
         if TimeControl == .Run
@@ -49,18 +50,22 @@ class DebugSettingsCode: NSViewController
         let TimeBreakpoint = Settings.GetDate(.StopTimeAt, Date())
         StopAtTimeSetter.dateValue = TimeBreakpoint
         EnableStopTime.state = Settings.GetBool(.EnableStopTime) ? .on : .off
+        #endif
     }
     
     @IBAction func HandleDebugTimeChanged(_ sender: Any)
     {
+        #if DEBUG
         if let Switch = sender as? NSSwitch
         {
             Settings.SetBool(.DebugTime, Switch.state == .on ? true : false)
         }
+        #endif
     }
     
     @IBAction func HandleTimeControlChanged(_ sender: Any)
     {
+        #if DEBUG
         if let Segment = sender as? NSSegmentedControl
         {
             let Index = Segment.selectedSegment
@@ -76,28 +81,34 @@ class DebugSettingsCode: NSViewController
                     return
             }
         }
+        #endif
     }
     
     @IBAction func HandleTestTimeChanged(_ sender: Any)
     {
+        #if DEBUG
         if let TimePicker = sender as? NSDatePicker
         {
             print("\(TimePicker.dateValue)")
             Settings.SetDate(.TestTime, TimePicker.dateValue)
         }
+        #endif
     }
     
     @IBAction func HandleStopAtTimeChanged(_ sender: Any)
     {
+        #if DEBUG
         if let TimePicker = sender as? NSDatePicker
         {
             print("\(TimePicker.dateValue)")
             Settings.SetDate(.StopTimeAt, TimePicker.dateValue)
         }
+        #endif
     }
     
     @IBAction func HandleTimeMultiplierChanged(_ sender: Any)
     {
+        #if DEBUG
         if let Combo = sender as? NSComboBox
         {
             if let Raw = Combo.objectValueOfSelectedItem as? String
@@ -108,14 +119,17 @@ class DebugSettingsCode: NSViewController
                 }
             }
         }
+        #endif
     }
     
     @IBAction func EnableStopTimeChanged(_ sender: Any)
     {
+        #if DEBUG
         if let Switch = sender as? NSSwitch
         {
             Settings.SetBool(.EnableStopTime, Switch.state == .on ? true : false)
         }
+        #endif
     }
     
     @IBOutlet weak var EnableStopTime: NSSwitch!
