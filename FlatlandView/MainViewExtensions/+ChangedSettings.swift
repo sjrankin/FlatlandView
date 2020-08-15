@@ -130,11 +130,15 @@ extension MainView: SettingChangedProtocol
                 
             case .CityShapes:
                 World3DView.PlotCities()
+                World3DView.ApplyStencils(Caller: "SettingChanged(.CityShapes)")
                 
             case .PopulationType:
                 World3DView.PlotCities()
                 
             case .ShowHomeLocation:
+                World3DView.PlotCities()
+                
+            case .HomeColor:
                 World3DView.PlotCities()
                 
             case .UserLocations:
@@ -158,6 +162,7 @@ extension MainView: SettingChangedProtocol
             case .Show3DEquator, .Show3DTropics, .Show3DMinorGrid, .Show3DPolarCircles, .Show3DPrimeMeridians,
                  .MinorGrid3DGap, .Show3DGridLines, .GridLineColor, .MinorGridLineColor:
                 World3DView.SetLineLayer()
+                World3DView.ApplyStencils(Caller: "SettingChanged(.{Multiple})")
                 
             case .LocalLongitude, .LocalLatitude:
                 (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
@@ -208,7 +213,6 @@ extension MainView: SettingChangedProtocol
                 }
                 
             case .EarthquakeStyles:
-                
                 World3DView.ClearEarthquakes()
                 World3DView.PlotEarthquakes()
                 
@@ -221,12 +225,14 @@ extension MainView: SettingChangedProtocol
                     {
                         World3DView.ClearEarthquakes()
                         World3DView.PlotEarthquakes()
+                        World3DView.ApplyStencils(Caller: "SettingChanged(.EnableEarthquakes)")
                     }
                 }
                 else
                 {
                     Earthquakes?.StopReceivingEarthquakes()
                     World3DView.ClearEarthquakes()
+                    World3DView.ApplyStencils(Caller: "SettingChanged(.EnableEarthquakes)")
                 }
                 
             case .RecentEarthquakeDefinition:
@@ -266,6 +272,7 @@ extension MainView: SettingChangedProtocol
                     }
                 }
                 
+                #if false
             case .EarthquakeRegions:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
@@ -273,6 +280,7 @@ extension MainView: SettingChangedProtocol
                     World3DView.PlotEarthquakes()
                     //Need to call Plot2DEarthquakes here?
                 }
+                #endif
                 
             case .ColorDetermination:
                 if Settings.GetBool(.EnableEarthquakes)
@@ -281,6 +289,7 @@ extension MainView: SettingChangedProtocol
                     {
                         World3DView.ClearEarthquakes()
                         World3DView.PlotEarthquakes()
+                        World3DView.ApplyStencils(Caller: "SettingChanged(.ColorDetermination)")
                     }
                 }
                 
@@ -301,6 +310,7 @@ extension MainView: SettingChangedProtocol
                     {
                         World3DView.ClearEarthquakes()
                         World3DView.PlotEarthquakes()
+                        World3DView.ApplyStencils(Caller: "SettingChanged(.EarthquakeMagnitudeColors)")
                     }
                 }
                 
@@ -320,6 +330,7 @@ extension MainView: SettingChangedProtocol
                     {
                         World3DView.ClearEarthquakes()
                         World3DView.PlotEarthquakes()
+                        World3DView.ApplyStencils(Caller: ".EarthquakeFontName")
                     }
                 }
                 
@@ -351,9 +362,35 @@ extension MainView: SettingChangedProtocol
                 
             case .CityFontName:
                 World3DView.PlotCities()
+                World3DView.ApplyStencils(Caller: ".CityFontName")
+                
+            case .WorldCityColor, .AfricanCityColor, .AsianCityColor, .EuropeanCityColor,
+                 .NorthAmericanCityColor, .SouthAmericanCityColor, .CapitalCityColor,
+                 .CustomCityListColor:
+                World3DView.PlotCities()
+                
+            case .ShowCustomCities, .ShowAfricanCities, .ShowAsianCities,
+                 .ShowEuropeanCities, .ShowNorthAmericanCities, .ShowSouthAmericanCities,
+                 .ShowCapitalCities, .ShowWorldCities:
+                World3DView.PlotCities()
+                
+            case .CustomCityList:
+                if Settings.GetBool(.ShowCustomCities)
+                {
+                World3DView.PlotCities()
+                }
                 
             case .HourFontName:
                 World3DView.UpdateHours()
+                
+            case .GridLinesDrawnOnMap, .MagnitudeValuesDrawnOnMap,
+                 .EarthquakeRegions, .ShowEarthquakeRegions,
+                 .CityNamesDrawnOnMap:
+                if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld) == .Globe3D
+                {
+                    World3DView.ClearEarthquakes()
+                    World3DView.ApplyStencils(Caller: "SettingChanged(.{Multiple})")
+                }
                 
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
