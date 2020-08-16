@@ -43,7 +43,26 @@ class OtherOptions: NSViewController
         }
         ShowSecondsSwitch.state = Settings.GetBool(.TimeLabelSeconds) ? .on : .off
         AttractModeSwitch.state = Settings.GetBool(.InAttractMode) ? .on : .off
+        ShowSplashScreenSwitch.state = Settings.GetBool(.ShowSplashScreen) ? .on : .off
+        let SplashDuration = Settings.GetDouble(.SplashScreenDuration, 6.0)
+        let Indices = SplashMap.KeyFor(Value: SplashDuration)
+        var FinalIndex = 5
+        if Indices.count != 0
+        {
+            FinalIndex = Indices.first!
+        }
+        SplashDurationSegment.selectedSegment = FinalIndex
     }
+    
+    let SplashMap: [Int: Double] =
+    [
+        0: 2.0,
+        1: 4.0,
+        2: 6.0,
+        3: 10.0,
+        4: 15.0,
+        5: 30.0
+    ]
     
     @IBAction func HandleShowLocalDataSwitchChanged(_ sender: Any)
     {
@@ -97,6 +116,26 @@ class OtherOptions: NSViewController
         }
     }
     
+    @IBAction func HandleSplashDurationChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            let Index = Segment.selectedSegment
+            let SplashDuration = SplashMap[Index]!
+            Settings.SetDouble(.SplashScreenDuration, SplashDuration)
+        }
+    }
+    
+    @IBAction func HandleShowSplashScreenChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.ShowSplashScreen, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var SplashDurationSegment: NSSegmentedControl!
+    @IBOutlet weak var ShowSplashScreenSwitch: NSSwitch!
     @IBOutlet weak var AttractModeSwitch: NSSwitch!
     @IBOutlet weak var TimeLabelSegment: NSSegmentedControl!
     @IBOutlet weak var ShowSecondsSwitch: NSSwitch!
