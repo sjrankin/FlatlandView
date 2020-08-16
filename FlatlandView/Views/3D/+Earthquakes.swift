@@ -43,7 +43,6 @@ extension GlobeView
             IndicatorAgeMap.removeAll()
         }
         PlottedEarthquakes.removeAll()
-        //ApplyStencils(Caller: #function)
     }
     
     /// Determines if two lists of earthquakes have the same contents. This function works regardless
@@ -171,18 +170,9 @@ extension GlobeView
         for Quake in List
         {
             let (QShape, MagShape) = MakeEarthquakeNode(Quake)
-//            if let QNode = MakeEarthquakeNode(Quake)
             if let QNode = QShape
             {
                 var BaseColor = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
-                //let AgeRange = Settings.GetEnum(ForKey: .EarthquakeAge, EnumType: EarthquakeAges.self, Default: .Age30)
-                /*
-                if !InAgeRange(Quake, InRange: AgeRange)
-                {
-                    continue
-                }
- */
-                
                 let HighlightHow = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
                                                     Default: .None)
                 if HighlightHow != .None
@@ -393,6 +383,17 @@ extension GlobeView
                 let ERadius = Quake.Magnitude * 0.1
                 let QSphere = SCNSphere(radius: CGFloat(ERadius))
                 FinalNode = SCNNode(geometry: QSphere)
+                
+            case .PulsatingSphere:
+                let ERRadius = Quake.Magnitude * 0.12
+                let ScaleDuration: Double = (10 - Quake.Magnitude) * 0.1
+                let QSphere = SCNSphere(radius: CGFloat(ERRadius))
+                let ScaleUp = SCNAction.scale(to: 1.5, duration: 1.0 + ScaleDuration)
+                let ScaleDown = SCNAction.scale(to: 1.0, duration: 1.0 + ScaleDuration)
+                let ScaleGroup = SCNAction.sequence([ScaleUp, ScaleDown])
+                let ScaleForever = SCNAction.repeatForever(ScaleGroup)
+                FinalNode = SCNNode(geometry: QSphere)
+                FinalNode.runAction(ScaleForever)
         }
         
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: FinalRadius + RadialOffset)
