@@ -76,9 +76,10 @@ class View3DSettingsWindow: NSViewController, FontProtocol
         {
             HourFontButton.title = "Huh?"
         }
+        PreloadNASATilesSwitch.state = Settings.GetBool(.PreloadNASATiles) ? .on : .off
     }
     
-    @IBAction func Handle3DGridLineChanged(_ sender: Any)
+    @IBAction func HandleGridLineSettingChanged(_ sender: Any)
     {
         if let Button = sender as? NSSwitch
         {
@@ -293,6 +294,14 @@ class View3DSettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandlePreloadTilesChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.PreloadNASATiles, Switch.state == .on)
+        }
+    }
+    
     @IBAction func HandleGridLinesDrawnOnMapChanged(_ sender: Any)
     {
         if let Switch = sender as? NSSwitch
@@ -301,6 +310,7 @@ class View3DSettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBOutlet weak var PreloadNASATilesSwitch: NSSwitch!
     @IBOutlet weak var GridLinesDrawnOnMapSwitch: NSSwitch!
     @IBOutlet weak var HourFontButton: NSButton!
     @IBOutlet weak var MinorGridLineColorWell: AlphaColorWell!
