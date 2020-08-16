@@ -16,19 +16,24 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        StartupTask.insert(.Initialize)
+        StartupTask.insert(.UIInitialize)
+        StartupTask.insert(.LoadNASATiles)
+        StartupTask.insert(.LoadUSGSQuakes)
         Settings.Initialize()
         Settings.AddSubscriber(self)
         
         SetIndicatorText("")
-        #if true
-        let Earlier = Date().HoursAgo(36)
-        let Maps = EarthData.MakeSatelliteMapDefinitions()
-        let Earth = EarthData()
-        Earth.MainDelegate = self
-        Earth.Delegate = self
-        Utility.Print("Calling LoadMap")
-        Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
-        #endif
+        if Settings.GetBool(.PreloadNASATiles)
+        {
+            let Earlier = Date().HoursAgo(36)
+            let Maps = EarthData.MakeSatelliteMapDefinitions()
+            let Earth = EarthData()
+            Earth.MainDelegate = self
+            Earth.Delegate = self
+            Utility.Print("Calling LoadMap")
+            Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
+        }
         
         Earthquakes = USGS()
         Earthquakes?.Delegate = self
@@ -57,10 +62,22 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         InitializeFlatland()
         
         InitializeStatusView()
-        var StatusMessage = "Flatland initializing - please wait."
-        StatusMessage.append("\n")
-        StatusMessage.append("\(Versioning.VerySimpleVersionString()), build \(Versioning.Build)")
-        DisplayStatusText(StatusMessage, Hide: 5.0, ShowIfNotVisible: true)
+        if Settings.GetBool(.ShowSplashScreen)
+        {
+            var StatusMessage = "Flatland initializing - please wait."
+            StatusMessage.append("\n")
+            StatusMessage.append("\(Versioning.VerySimpleVersionString()), build \(Versioning.Build)")
+            let ShowDuration = Settings.GetDouble(.SplashScreenDuration, 6.0)
+            DisplayStatusText(StatusMessage, Hide: ShowDuration, ShowIfNotVisible: true)
+            if Settings.GetBool(.EnableEarthquakes) || Settings.GetBool(.PreloadNASATiles)
+            {
+                DisplaySubText("Loading data from remote sources.")
+            }
+        }
+        else
+        {
+            HideStatus()
+        }
         
         #if DEBUG
         DebugGrid.wantsLayer = true
@@ -986,6 +1003,8 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     //Status display variables.
     var StatusDelegate: StatusProtocol? = nil
     var ShowingStatus: Bool = false
+    
+    var StartupTask = Set<StartupTasks>()
     
     // MARK: - 2D view variables.
     
