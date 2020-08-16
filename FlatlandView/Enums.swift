@@ -468,6 +468,8 @@ enum EarthquakeShapes: String, CaseIterable
 {
     /// Earthquake is a sphere.
     case Sphere = "Sphere"
+    /// Earthquake is a pulsating sphere.
+    case PulsatingSphere = "Pulsating Sphere"
     /// Earthquake is an animated arrow.
     case Arrow = "Animated Arrow"
     /// Earthquake is a static arrow.
@@ -697,6 +699,9 @@ enum NodeScales: CGFloat
     /// Bouncing arrow scale.
     case BouncingArrowScale = 0.751
     
+    /// Pulsing earthquake sphere.
+    case PulsingEarthquakeSphere = 0.749
+    
     /// Hour text scale.
     case HourText = 0.07
     
@@ -845,4 +850,12 @@ enum Latitudes: Double, CaseIterable
     case AntiPrimeMeridian = 0.25
     /// Meridian on the other side of the other prime meridian.
     case OtherAntiPrimeMeridian = 0.75
+}
+
+enum StartupTasks: String, CaseIterable
+{
+    case Initialize = "Initialization"
+    case UIInitialize = "UI Iniatilization"
+    case LoadNASATiles = "Fetching Image Tiles"
+    case LoadUSGSQuakes = "Fetching USGS Earthquakes"
 }
