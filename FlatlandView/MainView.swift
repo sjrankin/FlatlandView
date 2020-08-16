@@ -20,6 +20,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         Settings.AddSubscriber(self)
         
         SetIndicatorText("")
+        #if true
         let Earlier = Date().HoursAgo(36)
         let Maps = EarthData.MakeSatelliteMapDefinitions()
         let Earth = EarthData()
@@ -27,6 +28,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         Earth.Delegate = self
         Utility.Print("Calling LoadMap")
         Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
+        #endif
         
         Earthquakes = USGS()
         Earthquakes?.Delegate = self
