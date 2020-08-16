@@ -45,7 +45,7 @@ Later, I added a 3D mode which the user can see day and night as he spins the gl
 
 ## Implementation
 
-FlatlandView is implemented with Swift for macOS, with some code in C++/Metal shader language for optimization. Flatland does not use any third-party frameworks or plug-ins.
+FlatlandView is implemented with Swift for macOS, with some code in C++/Metal shader language (<1%) for optimization. Flatland does not use any third-party frameworks or plug-ins.
 
 Asynchronous data is requested and received via standard AppKit function calls.
 
@@ -55,8 +55,9 @@ Flatland makes extensive use of threading for:
 
 Imagery
   * Flatland makes extensive use of imagery, especially maps of the world.
-    * All maps used by Flatland **_must_** be in equirectangular format (2:1 length to height ratio).
-    * Most maps supplied with Flatland are 3600x1800 in size. This seems to be a good resolution when not zoomed too closely.
+    * All maps used by Flatland _in 3D mode_ **_must_** be in equirectangular format (2:1 length to height ratio).
+      * Maps used for 2D mode must start as equirectangular and be converted to polar coordinates. Most maps for 2D mode were created as a pre-compilation step. Eventually, this will be done internally.
+    * Most maps supplied with Flatland are 3600x1800 in size. This seems to be a good resolution when not zoomed too closely. Large sized images will increase the Flatland binary excessively.
   * Flatland has many maps compiled into its resource fork and has preliminary work done for loading maps defined by customers.
     * Eventually Flatland will convert equirectangular images to polar-projected maps for 2D mode.
   * A day/night mask overlay was created for each day of the year for both north-centered and south-centered projections for 2D mode.
