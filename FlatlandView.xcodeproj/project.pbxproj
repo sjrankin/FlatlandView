@@ -110,6 +110,7 @@
 		17A3788424DC25F300EE2B45 /* ImageBlender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788324DC25F300EE2B45 /* ImageBlender.swift */; };
 		17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */; };
 		17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A978A124A71F09004EECAC /* WindowManagement.swift */; };
+		17ABAFFC24E8FB02009DDC35 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ABAFFB24E8FB02009DDC35 /* Dictionary.swift */; };
 		17B7D7A824CECFDE000C077B /* MetalLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7A724CECFDE000C077B /* MetalLibrary.swift */; };
 		17B7D7AB24CED02B000C077B /* ImageFlipper.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AA24CED02B000C077B /* ImageFlipper.metal */; };
 		17B7D7AD24CED053000C077B /* ImageFlipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AC24CED053000C077B /* ImageFlipper.swift */; };
@@ -290,6 +291,7 @@
 		17A3788324DC25F300EE2B45 /* ImageBlender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBlender.swift; sourceTree = "<group>"; };
 		17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphaColorWell.swift; sourceTree = "<group>"; };
 		17A978A124A71F09004EECAC /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
+		17ABAFFB24E8FB02009DDC35 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		17B7D7A724CECFDE000C077B /* MetalLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLibrary.swift; sourceTree = "<group>"; };
 		17B7D7AA24CED02B000C077B /* ImageFlipper.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageFlipper.metal; sourceTree = "<group>"; };
 		17B7D7AC24CED053000C077B /* ImageFlipper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFlipper.swift; sourceTree = "<group>"; };
@@ -631,6 +633,7 @@
 				1760023D24D2BFBF00D5EA1A /* NSBezierPath.swift */,
 				1760023F24D2BFDC00D5EA1A /* String.swift */,
 				1760024124D2BFFE00D5EA1A /* Array.swift */,
+				17ABAFFB24E8FB02009DDC35 /* Dictionary.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1130,6 +1133,7 @@
 				17EF33B7247A94BA00A5B55D /* City.swift in Sources */,
 				17F17A4924DE793800568A4E /* LinesDrawKernel.metal in Sources */,
 				17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */,
+				17ABAFFC24E8FB02009DDC35 /* Dictionary.swift in Sources */,
 				17B7D7A824CECFDE000C077B /* MetalLibrary.swift in Sources */,
 				1757CACF24949C6300ECA8C1 /* 3DDebugController.swift in Sources */,
 				178A86A02489108C00BE8D46 /* +CubicEarth.swift in Sources */,
