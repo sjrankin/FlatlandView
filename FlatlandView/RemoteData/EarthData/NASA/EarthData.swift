@@ -33,6 +33,7 @@ class EarthData
         let TilesY = Map.VerticalTileCount
         
         let Queue = OperationQueue()
+        Queue.qualityOfService = .background
         Queue.name = "Load Tile Queue"
         Queue.addOperation
         {
