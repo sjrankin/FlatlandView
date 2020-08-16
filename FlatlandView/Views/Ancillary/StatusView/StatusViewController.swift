@@ -19,6 +19,11 @@ class StatusViewController: NSViewController, StatusProtocol
         ResetSubTextUI()
     }
     
+    override func becomeFirstResponder() -> Bool
+    {
+        return true
+    }
+    
     func TextBackground() -> CAGradientLayer
     {
         let Layer = CAGradientLayer()
@@ -124,6 +129,12 @@ class StatusViewController: NSViewController, StatusProtocol
         {
             
         }
+    }
+    
+    override func mouseDown(with event: NSEvent)
+    {
+        super.mouseDown(with: event)
+        print("Mouse down in StatusViewController.")
     }
     
     @IBOutlet weak var SubTextField: NSTextField!
