@@ -279,10 +279,17 @@ enum SettingTypes: String, CaseIterable
     case ShowEarthquakeRegions = "ShowEarthquakeRegions"
     /// Double: Minimum value that earthquakes must be to be included in any list.
     case GeneralMinimumMagnitude = "GeneralMinimumMagnitude"
+    /// Boolean: If true, tiles from NASA servers are preloaded. Otherwise, they are not
+    ///          loaded until the user requires them.
+    case PreloadNASATiles = "PreloadNASATiles"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
     case LastSettingsViewed = "LastSettingsViewed"
+    /// Boolean: Determines if the splash screen is shown on start-up.
+    case ShowSplashScreen = "ShowSplashScreen"
+    /// Double: Amount of time the splash screen is shown, in seconds.
+    case SplashScreenDuration = "SplashScreenDuration"
     
     #if DEBUG
     // MARK: - Time debug settings.
