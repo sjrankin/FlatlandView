@@ -16,10 +16,10 @@ import CoreImage
 class MetalLibrary
 {
     /// Convert an instance of a UIColor to a SIMD float4 structure.
+    /// - Note: Works with grayscale colors as well as "normal" colors.
     /// - Returns: SIMD float4 equivalent of the instance color.
     public static func ToFloat4(_ Color: NSColor) -> simd_float4
     {
-        #if true
         let CColor = CIColor(color: Color)
         var FVals = [Float]()
         FVals.append(Float(CColor!.red))
@@ -28,23 +28,10 @@ class MetalLibrary
         FVals.append(Float(CColor!.alpha))
         let Result = simd_float4(FVals)
         return Result
-        #else
-        var FVals = [Float]()
-        var Red: CGFloat = 0.0
-        var Green: CGFloat = 0.0
-        var Blue: CGFloat = 0.0
-        var Alpha: CGFloat = 1.0
-        Color.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
-        FVals.append(Float(Red))
-        FVals.append(Float(Green))
-        FVals.append(Float(Blue))
-        FVals.append(Float(Alpha))
-        let Result = simd_float4(FVals)
-        return Result
-        #endif
     }
     
-    /// Adjusts the colorspace of the passed image from monochrome to device RGB.
+    /// Adjusts the colorspace of the passed image from monochrome to device RGB. If the passed image is
+    /// not grayscale, it is returned unchanged but converted to `CGImage`.
     /// - Parameter For: The image whose color space may potentially be changed.
     /// - Parameter ForceSize: If not nil, the size to force internal conversions to.
     /// - Returns: New image (in `CGImage` format). This image will *not* have a monochrome color space
@@ -125,14 +112,15 @@ class MetalLibrary
             }
             guard let TileTexture = ImageDevice.makeTexture(descriptor: TextureDescriptor) else
             {
+                RawData.removeAll()
                 return nil
             }
             let Region = MTLRegionMake2D(0, 0, Int(ImageWidth), Int(ImageHeight))
             TileTexture.replace(region: Region, mipmapLevel: 0, withBytes: &RawData,
                                 bytesPerRow: BytesPerRow)
-            
+            RawData.removeAll()
             return TileTexture
-        }
+            }
         return nil
     }
     
@@ -156,13 +144,14 @@ class MetalLibrary
         
         guard let TileTexture = ImageDevice.makeTexture(descriptor: TextureDescriptor) else
         {
+            RawData.removeAll()
             print("Error creating texture.")
             return nil
         }
         let Region = MTLRegionMake2D(0, 0, Int(ImageWidth), Int(ImageHeight))
         TileTexture.replace(region: Region, mipmapLevel: 0, withBytes: &RawData,
                             bytesPerRow: BytesPerRow)
-        
+        RawData.removeAll()
         return TileTexture
     }
 }
