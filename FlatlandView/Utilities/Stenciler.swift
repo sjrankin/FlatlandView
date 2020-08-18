@@ -58,6 +58,8 @@ class Stenciler
     {
         objc_sync_enter(StencilLock)
         defer{objc_sync_exit(StencilLock)}
+        let MapRatio: Double = Double(Image.size.width) / 3600.0
+        Utility.Print("Stencil on image size: \(Image.size), MapRatio=\(MapRatio)")
         let StartTime = CACurrentMediaTime()
         if Quakes == nil && !ShowRegions && !PlotCities && !GridLines
         {
@@ -67,6 +69,7 @@ class Stenciler
         }
         let LocalQuakes = Quakes
         let Queue = OperationQueue()
+        Queue.qualityOfService = .background
         Queue.name = "Stencil Queue"
         Queue.addOperation
         {
@@ -78,25 +81,26 @@ class Stenciler
                 if Regions.count > 0
                 {
                     let Blender = ImageBlender()
-                    Working = DrawRegions(Image: Working, Regions: Regions, Kernel: Blender)
+                    Working = DrawRegions(Image: Working, Regions: Regions, Ratio: MapRatio,
+                                          Kernel: Blender)
                 }
             }
             Status?("Adding grid lines", CACurrentMediaTime() - StartTime)
             if GridLines
             {
-                Working = AddGridLines2(To: Working)
+                Working = AddGridLines2(To: Working, Ratio: MapRatio)
             }
 
             var Rep = GetImageRep(From: Working)
             Status?("Plotting cities", CACurrentMediaTime() - StartTime)
             if PlotCities
             {
-                Rep = AddCityNames(To: Rep)
+                Rep = AddCityNames(To: Rep, Ratio: MapRatio)
             }
             Status?("Plotting earthquakes", CACurrentMediaTime() - StartTime)
             if let QuakeList = LocalQuakes
             {
-                Rep = AddMagnitudeValues(To: Rep, With: QuakeList)
+                Rep = AddMagnitudeValues(To: Rep, With: QuakeList, Ratio: MapRatio)
             }
             let Final = GetImage(From: Rep)
             let Duration = CACurrentMediaTime() - StartTime
@@ -107,8 +111,9 @@ class Stenciler
     
     /// Add city names to the passed image representation.
     /// - Parameter To: The image representation where city names will be added.
+    /// - Parameter Ratio: Ratio between the standard sized map and the passed map.
     /// - Returns: Image representation with city names.
-    private static func AddCityNames(To Image: NSBitmapImageRep) -> NSBitmapImageRep
+    private static func AddCityNames(To Image: NSBitmapImageRep, Ratio: Double) -> NSBitmapImageRep
     {
         let ScaleFactor = NSScreen.main!.backingScaleFactor
         var Working = Image
@@ -118,7 +123,13 @@ class Stenciler
         let CityFontRecord = Settings.GetString(.CityFontName, "Avenir")
         let CityFontName = Settings.ExtractFontName(From: CityFontRecord)!
         let BaseFontSize = Settings.ExtractFontSize(From: CityFontRecord)!
-        let CityFont = NSFont(name: CityFontName, size: BaseFontSize * ScaleFactor)!
+        var FontMultiplier: CGFloat = 1.0
+        if Image.size.width / 2.0 < 3600.0
+        {
+            FontMultiplier = 2.0
+        }
+        let FontSize = BaseFontSize * ScaleFactor * CGFloat(Ratio) * FontMultiplier
+        let CityFont = NSFont(name: CityFontName, size: FontSize)!
         for City in CitiesToPlot
         {
             let CityPoint = GeoPoint2(City.Latitude, City.Longitude)
@@ -137,8 +148,12 @@ class Stenciler
     
     /// Add earthquake magnitude values to the map if the proper settings are true.
     /// - Parameter To: The map to add earthquake magnitude values.
+    /// - Parameter With: List of earthquakes to add. This function assumes that all earthquakes in this
+    ///                   list should be plotted.
+    /// - Parameter Ratio: Ratio between the standard-sized map and the current map.
     /// - Returns: The map with earthquake magnitude values or the same image, depending on settings.
-    private static func AddMagnitudeValues(To Image: NSBitmapImageRep, With Earthquakes: [Earthquake]) -> NSBitmapImageRep
+    private static func AddMagnitudeValues(To Image: NSBitmapImageRep, With Earthquakes: [Earthquake],
+                                           Ratio: Double) -> NSBitmapImageRep
     {
         if Earthquakes.count < 1
         {
@@ -150,14 +165,19 @@ class Stenciler
         let QuakeFontRecord = Settings.GetString(.EarthquakeFontName, "Avenir")
         let QuakeFontName = Settings.ExtractFontName(From: QuakeFontRecord)!
         let BaseFontSize = Settings.ExtractFontSize(From: QuakeFontRecord)!
+        var FontMultiplier: CGFloat = 1.0
+        if Image.size.width / 2.0 < 3600.0
+        {
+            FontMultiplier = 2.0
+        }
+        let FontSize = BaseFontSize * CGFloat(Ratio) * ScaleFactor * FontMultiplier
         for Quake in Earthquakes
         {
             let Location = Quake.LocationAsGeoPoint2().ToEquirectangular(Width: Int(Image.size.width),
                                                                          Height: Int(Image.size.height))
             let LocationPoint = NSPoint(x: Location.X, y: Location.Y)
             let EqText = "\(Quake.Magnitude.RoundedTo(3))"
-            let BaseFontSize: CGFloat = BaseFontSize * ScaleFactor
-            let QuakeFont = NSFont(name: QuakeFontName, size: BaseFontSize + CGFloat(Quake.Magnitude))!
+            let QuakeFont = NSFont(name: QuakeFontName, size: FontSize + CGFloat(Quake.Magnitude))!
             let MagRange = Utility.GetMagnitudeRange(For: Quake.Magnitude)
             var BaseColor = NSColor.systemYellow
             let Colors = Settings.GetMagnitudeColors()
@@ -215,8 +235,9 @@ class Stenciler
     
     /// Add grid lines to the passed image.
     /// - Parameter To: The image to which to add gridlines.
+    /// - Parameter Ratio: Ratio between the standard sized-map and the current map.
     /// - Return: New image with grid lines drawn.
-    private static func AddGridLines2(To Image: NSImage) -> NSImage
+    private static func AddGridLines2(To Image: NSImage, Ratio: Double) -> NSImage
     {
         if Settings.GetBool(.GridLinesDrawnOnMap)
         {
@@ -327,92 +348,6 @@ class Stenciler
         }
     }
     
-    /// Add grid lines to the passed image.
-    /// - Parameter To: The image to which to add gridlines.
-    /// - Return: New image with grid lines drawn.
-    private static func AddGridLines(To Image: NSImage) -> NSImage
-    {
-        if Settings.GetBool(.GridLinesDrawnOnMap)
-        {
-            let Kernel = LinesDraw()
-            let ImageWidth = Int(Image.size.width)
-            let ImageHeight = Int(Image.size.height)
-            var LineList = [LineDefinition]()
-            let LineColor = Settings.GetColor(.GridLineColor, NSColor.red)
-            let MinorLineColor = Settings.GetColor(.MinorGridLineColor, NSColor.yellow)
-            
-            if Settings.GetBool(.Show3DMinorGrid)
-            {
-                let Gap = Settings.GetDouble(.MinorGrid3DGap, 15.0)
-                for Longitude in stride(from: 0.0, to: 180.0, by: Gap)
-                {
-                    var Y = Int(Double(ImageHeight) * (Longitude / 180.0))
-                    if Y + 4 > ImageHeight
-                    {
-                        Y = Y - 4
-                    }
-                    let Line: LineDefinition = (IsHorizontal: true,
-                                                At: Y,
-                                                Thickness: 4,
-                                                Color: MinorLineColor)
-                    LineList.append(Line)
-                }
-                for Latitude in stride(from: 0.0, to: 360.0, by: Gap)
-                {
-                    var X = Int(Double(ImageWidth) * (Latitude / 360.0))
-                    if X + 4 > ImageWidth
-                    {
-                        X = X - 4
-                    }
-                    let Line: LineDefinition = (IsHorizontal: false,
-                                                At: X,
-                                                Thickness: 4,
-                                                Color: MinorLineColor)
-                    LineList.append(Line)
-                }
-            }
-            
-            for Longitude in Longitudes.allCases
-            {
-                if Settings.DrawLongitudeLine(Longitude)
-                {
-                    var Y = Int(Double(ImageHeight) * Longitude.rawValue)
-                    if Y + 4 > ImageHeight
-                    {
-                        Y = Y - 4
-                    }
-                    let Line: LineDefinition = (IsHorizontal: true,
-                                                At: Y,
-                                                Thickness: 4,
-                                                Color: LineColor)
-                    LineList.append(Line)
-                }
-            }
-            for Latitude in Latitudes.allCases
-            {
-                if Settings.DrawLatitudeLine(Latitude)
-                {
-                    var X = Int(Double(ImageWidth) * Latitude.rawValue)
-                    if X + 4 > ImageWidth
-                    {
-                        X = X - 4
-                    }
-                    let Line: LineDefinition = (IsHorizontal: false,
-                                                At: X,
-                                                Thickness: 4,
-                                                Color: LineColor)
-                    LineList.append(Line)
-                }
-            }
-            let Final = DrawLine(Image: Image, Lines: LineList, Kernel: Kernel)
-            return Final
-        }
-        else
-        {
-            return Image
-        }
-    }
-    
     /// Draw lines on the passed image.
     /// - Parameter Image: The image upon which lines will be drawn.
     /// - Parameter Lines: The set of lines to draw.
@@ -438,9 +373,11 @@ class Stenciler
     /// Draw regions on the stencil.
     /// - Parameter Image: The image on which regions will be drawn.
     /// - Parameter Regions: List of earthquake regions to draw.
+    /// - Parameter Ratio: A ratio between the actual image size and the expected image size.
     /// - Parameter Kernel: Metal kernel wrapper to do the actual drawing.
     /// - Returns: New image with regions drawn.
-    private static func DrawRegions(Image: NSImage, Regions: [EarthquakeRegion], Kernel: ImageBlender) -> NSImage
+    private static func DrawRegions(Image: NSImage, Regions: [EarthquakeRegion], Ratio: Double,
+                                    Kernel: ImageBlender) -> NSImage
     {
         var Final = Image
         for Region in Regions
@@ -451,22 +388,26 @@ class Stenciler
             }
             let ImageWidth = Int(Image.size.width)
             let ImageHeight = Int(Image.size.height)
-            let RegionWidth = GeoPoint2.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
+            var RegionWidth = GeoPoint2.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
                                                            Longitude2: Region.LowerRight.Longitude,
                                                            Latitude: Region.UpperLeft.Latitude,
                                                            Width: ImageWidth, Height: ImageHeight)
-            let RegionHeight = GeoPoint2.VerticalDistance(Latitude1: Region.UpperLeft.Latitude,
+            RegionWidth = RegionWidth * Ratio
+            var RegionHeight = GeoPoint2.VerticalDistance(Latitude1: Region.UpperLeft.Latitude,
                                                           Latitude2: Region.LowerRight.Latitude,
                                                           Longitude: Region.UpperLeft.Longitude,
                                                           Width: ImageWidth, Height: ImageHeight)
+            RegionHeight = RegionHeight * Ratio
             var XPercent: Double = 0.0
             var YPercent: Double = 0.0
-            let (FinalX, FinalY) = GeoPoint2.TransformToImageCoordinates(Latitude: Region.UpperLeft.Latitude,
+            var (FinalX, FinalY) = GeoPoint2.TransformToImageCoordinates(Latitude: Region.UpperLeft.Latitude,
                                                                          Longitude: Region.UpperLeft.Longitude,
                                                                          Width: ImageWidth,
                                                                          Height: ImageHeight,
                                                                          XPercent: &XPercent,
                                                                          YPercent: &YPercent)
+            FinalX = Int(Double(FinalX) * Ratio)
+            FinalY = Int(Double(FinalY) * Ratio)
             Final = Kernel.MergeImages(Background: Final, Sprite: Region.RegionColor.withAlphaComponent(0.5),
                                        SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
                                        SpriteX: FinalX, SpriteY: FinalY)
