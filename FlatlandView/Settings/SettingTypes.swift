@@ -211,6 +211,8 @@ enum SettingTypes: String, CaseIterable
     case CityFontName = "CityFontName"
     /// List of user-customized cities.
     case CustomCityList = "CustomCityList"
+    /// Boolean: City nodes glow if applicable.
+    case CityNodesGlow = "CityNodesGlow"
     
     // MARK: - World Heritage Site settings
     /// Boolean: Determines whether World Heritage Sites are shown.
@@ -282,6 +284,10 @@ enum SettingTypes: String, CaseIterable
     /// Boolean: If true, tiles from NASA servers are preloaded. Otherwise, they are not
     ///          loaded until the user requires them.
     case PreloadNASATiles = "PreloadNASATiles"
+    /// List of earthquakes the use was notified about. Used to prevent excessive notifications.
+    case NotifiedEarthquakes = "NotifiedEarthquakes"
+    /// Where notifications appear.
+    case NotifyLocation = "NotifyLocation"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
