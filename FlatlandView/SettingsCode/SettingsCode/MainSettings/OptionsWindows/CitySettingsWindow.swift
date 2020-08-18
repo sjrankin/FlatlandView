@@ -65,6 +65,7 @@ class CitySettingsWindow: NSViewController, FontProtocol
         SouthAmericanCityColorWell.color = Settings.GetColor(.SouthAmericanCityColor, NSColor.orange)
         CapitalCityColorWell.color = Settings.GetColor(.CapitalCityColor, NSColor.yellow)
         CustomCityListColorWell.color = Settings.GetColor(.CustomCityListColor, NSColor.gray)
+        CityNodesGlowSwitch.state = Settings.GetBool(.CityNodesGlow) ? .on : .off
     }
     
     @IBAction func ShowCitiesChanged(_ sender: Any)
@@ -257,6 +258,15 @@ class CitySettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandleCityNodesGlowChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.CityNodesGlow, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var CityNodesGlowSwitch: NSSwitch!
     @IBOutlet weak var ShowCustomCitiesSwitch: NSSwitch!
     @IBOutlet weak var CustomCityListColorWell: NSColorWell!
     @IBOutlet weak var CapitalCityColorWell: NSColorWell!
