@@ -109,6 +109,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         //        World3DView.AddEarth(WithMap: Brightened)
         let Maps = EarthData.MakeSatelliteMapDefinitions()
         Maps[0].CachedMap = Image
+        World3DView.ChangeEarthBaseMap(To: Image)
         //        World3DView.AddEarth(WithMap: Image)
     }
     
@@ -368,6 +369,25 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     {
         let VType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+        if VType == .Globe3D
+        {
+            if let Category = MapManager.CategoryFor(Map: MapValue)
+            {
+                if Category == .Satellite
+                {
+                    //Start loading the map here.
+                    let Earlier = Date().HoursAgo(36)
+                    let Maps = EarthData.MakeSatelliteMapDefinitions()
+                    let Earth = EarthData()
+                    Earth.MainDelegate = self
+                    Earth.Delegate = self
+                    Utility.Print("Calling LoadMap")
+                    Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
+                    return
+                }
+            }
+        }
+
         if VType != .CubicWorld
         {
             FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: MapValue, ViewType: VType)!)
@@ -982,6 +1002,11 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     let CityList = Cities()
     
     // MARK: - Variables for extensions.
+    
+    var QuakeURL: URL? = nil
+    static var QuakeHandle: OpaquePointer? = nil
+    static var HistoricalQuakesInitialized = false
+    var QuakeIDCache: [String] = [String]()
     
     var UnescoURL: URL? = nil
     static var UnescoInitialized = false
