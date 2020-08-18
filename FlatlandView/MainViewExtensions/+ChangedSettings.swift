@@ -366,7 +366,7 @@ extension MainView: SettingChangedProtocol
                 
             case .WorldCityColor, .AfricanCityColor, .AsianCityColor, .EuropeanCityColor,
                  .NorthAmericanCityColor, .SouthAmericanCityColor, .CapitalCityColor,
-                 .CustomCityListColor:
+                 .CustomCityListColor, .CityNodesGlow:
                 World3DView.PlotCities()
                 
             case .ShowCustomCities, .ShowAfricanCities, .ShowAsianCities,
