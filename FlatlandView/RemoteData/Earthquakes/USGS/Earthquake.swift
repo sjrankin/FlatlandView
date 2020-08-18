@@ -209,22 +209,6 @@ class Earthquake: KMDataPoint, Hashable
     
     /// Subjective significance value. Greater values indicate greater significance.
     var Significance: Int = 0
-    
-    /*
-    #if true
-    static func == (lhs: Earthquake2, rhs: Earthquake2) -> Bool
-    {
-        return lhs.Latitude == rhs.Latitude && lhs.Longitude == rhs.Longitude
-    }
-    #else
-    /// How to compare earthquakes.
-    /// - Note: Earthquakes are compared by their unique IDs assigned by the USGS.
-    static func == (lhs: Earthquake2, rhs: Earthquake2) -> Bool
-    {
-        return lhs.Code == rhs.Code
-    }
-    #endif
- */
  
     /// Determines if this earthquake (or any clustered/related earthquakes) have the specified
     /// Code value.
