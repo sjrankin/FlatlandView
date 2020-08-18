@@ -370,8 +370,11 @@ extension GlobeView
         let CityNode = SCNNode(geometry: CityShape)
         CityNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        if Settings.GetBool(.CityNodesGlow)
+        {
         CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
         //        CityNode.geometry?.firstMaterial?.emission.contents = NSImage(named: "CitySphereTexture")
+        }
         CityNode.castsShadow = true
         SunLight.intensity = 800
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(10 - (CitySize / 2)))
@@ -446,6 +449,13 @@ extension GlobeView
         CityNode.geometry?.materials.append(SideImage)
         CityNode.geometry?.materials.append(SideImage)
         CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+        if Settings.GetBool(.CityNodesGlow)
+        {
+            for Material in CityNode.geometry!.materials
+            {
+                Material.selfIllumination.contents = WithColor
+            }
+        }
         CityNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
         CityNode.castsShadow = true
         CityNode.geometry?.firstMaterial?.roughness.contents = NSNumber(value: 0.7)
@@ -496,6 +506,10 @@ extension GlobeView
             CityNode = SCNNode(geometry: Sphere)
             CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
             CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+            if Settings.GetBool(.CityNodesGlow)
+            {
+                CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+            }
         }
         else
         {
@@ -511,6 +525,13 @@ extension GlobeView
             CityNode.geometry?.materials.append(SideImage)
             CityNode.geometry?.materials.append(SideImage)
             CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+            if Settings.GetBool(.CityNodesGlow)
+            {
+                for Material in CityNode.geometry!.materials
+                {
+                    Material.selfIllumination.contents = WithColor
+                }
+            }
         }
         CityNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
         
@@ -587,12 +608,23 @@ extension GlobeView
             CityNode.geometry?.materials.append(SideImage)
             CityNode.geometry?.materials.append(SideImage)
             CityNode.geometry?.materials.append(SideImage)
+            if Settings.GetBool(.CityNodesGlow)
+            {
+                for Material in CityNode.geometry!.materials
+                {
+                    Material.selfIllumination.contents = WithColor
+                }
+            }
         }
         else
         {
             let CityShape = SCNCylinder(radius: HDim / 2.0, height: CitySize)
             CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
             CityNode = SCNNode(geometry: CityShape)
+            if Settings.GetBool(.CityNodesGlow)
+            {
+                CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+            }
         }
         CityNode.categoryBitMask = LightMasks.MetalSun.rawValue | LightMasks.MetalMoon.rawValue
         CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
