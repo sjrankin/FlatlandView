@@ -65,6 +65,10 @@ extension MainView
         }
         Quakes2D = Quakes
         PreviousEarthquakes = Quakes
+        if CityView2D.layer!.sublayers == nil
+        {
+            return
+        }
         for Child in CityView2D.layer!.sublayers!
         {
             if Child.name == LayerNames.Earthquakes.rawValue
