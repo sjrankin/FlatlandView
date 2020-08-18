@@ -25,6 +25,7 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
     var MapList = [MapTypes]()
     var MapCategoryList = [MapCategories]()
     var Updated = false
+    var LastCategory: MapCategories? = nil
     
     func InitializeMaps()
     {
@@ -43,7 +44,7 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         MapSampleView.image = nil
         LastMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Standard)
         OriginalMap = LastMap
-        var LastCategory = MapManager.CategoryFor(Map: LastMap)
+        LastCategory = MapManager.CategoryFor(Map: LastMap)
         if LastCategory == nil
         {
             LastCategory = .Standard
@@ -106,7 +107,7 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         if NewCategory == .Satellite
         {
             TransparentMapCheck.isHidden = false
-            NotesField.stringValue = "Maps in this category are downloaded from NASA and will take time to assemble and use bandwidth."
+            NotesField.stringValue = "Maps in this category are downloaded from NASA and will take time to assemble and use your bandwidth."
         }
         else
         {
@@ -142,6 +143,22 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
     {
         //Set the updated flag to false. This way, if the user pressed the OK button, the map won't
         //be reloaded.
+        if LastCategory == .Satellite
+        {
+            let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+            if let WindowController = Storyboard.instantiateController(withIdentifier: "NASAMapConfirmWindow") as? NASAMapConfirmWindow
+            {
+                let Window = WindowController.window
+                self.view.window?.beginSheet(Window!)
+                {
+                    Result in
+                    if Result == .cancel
+                    {
+                        return
+                    }
+                }
+            }
+        }
         Updated = false
         Settings.SetEnum(LastMap, EnumType: MapTypes.self, ForKey: .MapType)
         OriginalMap = LastMap
