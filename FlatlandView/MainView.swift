@@ -99,6 +99,11 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         Utility.Print("Done with viewDidLoad")
     }
     
+    /// Called when a new NASA map has been received and fully assembled.
+    /// - Parameter Image: The NASA satellite image map.
+    /// - Parameter Duration: The number of seconds from when images started to be received to the
+    ///                       completion of the map.
+    /// - Parameter ImageDate: The date of the map.
     func EarthMapReceived(Image: NSImage, Duration: Double, ImageDate: Date)
     {
         Utility.Print("Received earth map from NASA")
