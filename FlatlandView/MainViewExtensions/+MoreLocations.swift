@@ -21,7 +21,7 @@ extension MainView
             return
         }
         UnescoInitialized = true
-        if let UnescoURL = FileIO.GetDatabaseURL()
+        if let UnescoURL = FileIO.GetUnescoDatabaseURL()
         {
             if sqlite3_open_v2(UnescoURL.path, &MainView.UnescoHandle,
                                SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
@@ -91,7 +91,7 @@ extension MainView
     /// - Parameter DB: The handle of the database for the query.
     /// - Parameter Query: The query string.
     /// - Returns: Handle for the query. Valid only for the same database the query was generated for.
-    private static func SetupQuery(DB: OpaquePointer?, Query: String) -> OpaquePointer?
+     static func SetupQuery(DB: OpaquePointer?, Query: String) -> OpaquePointer?
     {
         if DB == nil
         {
