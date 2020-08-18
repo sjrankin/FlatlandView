@@ -44,8 +44,8 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
     {
         if IsDirty
         {
-        GetLastMinuteChanges()
-        Settings.SetEarthquakeRegions(Regions)
+            GetLastMinuteChanges()
+            Settings.SetEarthquakeRegions(Regions)
         }
         let Window = self.view.window
         let Parent = Window?.sheetParent
@@ -70,6 +70,7 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         MaxMagField.stringValue = "\(Regions[Row].MaximumMagnitude.RoundedTo(3))"
         AgeCombo.selectItem(at: Regions[Row].Age - 1)
         EnabledSwitch.state = Regions[Row].IsEnabled ? .on : .off
+        EnableNotificationSwitch .state = Regions[Row].NotifyOnNewEarthquakes ? .on : .off
         if Regions[Row].IsFallback
         {
             RegionNameLabel.textColor = NSColor.systemBlue
@@ -113,7 +114,7 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
             return
         }
     }
-
+    
     func ReloadTable()
     {
         RegionTable.reloadData()
@@ -338,6 +339,32 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         }
     }
     
+    @IBAction func HandleEnableNotificationChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Regions[CurrentRegionIndex].NotifyOnNewEarthquakes = Switch.state == .on ? true : false
+        }
+    }
+    
+    @IBAction func HandleUpdateRegionButton(_ sender: Any)
+    {
+        UpdateFromTextField(RegionNameBox)
+        UpdateFromTextField(LRLatitudeField)
+        UpdateFromTextField(LRLongitudeField)
+        UpdateFromTextField(ULLatitudeField)
+        UpdateFromTextField(ULLongitudeField)
+        UpdateFromTextField(MaxMagField)
+        UpdateFromTextField(MinMagField)
+        let Index = AgeCombo.indexOfSelectedItem
+        Regions[CurrentRegionIndex].Age = Index + 1
+        Regions[CurrentRegionIndex].RegionColor = RegionBorderColorWell.color
+        Regions[CurrentRegionIndex].IsEnabled = EnabledSwitch.state == .on ? true : false
+        Regions[CurrentRegionIndex].NotifyOnNewEarthquakes = EnableNotificationSwitch.state == .on ? true : false
+        Settings.SetEarthquakeRegions(Regions)
+    }
+    
+    @IBOutlet weak var EnableNotificationSwitch: NSSwitch!
     @IBOutlet weak var DisplayRegionCheck: NSButton!
     @IBOutlet weak var EnabledSwitch: NSSwitch!
     @IBOutlet weak var RegionNameLabel: NSTextField!
