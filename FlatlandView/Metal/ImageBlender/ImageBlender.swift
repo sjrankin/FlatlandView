@@ -38,6 +38,8 @@ class ImageBlender
         }
     }
     
+    var AccessLock = NSObject()
+    
     /// Merge the background image with a color sprite block generated in this function.
     /// - Warning: The the generated color sprite block has any part that falls outside of the bounds of the
     ///            `Background` image, a fatal error will be generated.
@@ -50,6 +52,8 @@ class ImageBlender
     ///                       alpha pixel blending takes place.
     ///   4. If the background pixel has an alpha of 0.0, the sprite pixel is unconditionally placed on the
     ///      background pixel.
+    /// - Note: Only one process/thread may execute this function at a time. This is enforced with a
+    ///         call to `objc_sync_enter`.
     /// - Parameter Background: The background image over which a colored, rectangular sprite will be blended.
     /// - Parameter Sprite: The color of the rectangle that will be merged with the background. The blending
     ///                     of the sprite with the background depends on the alpha level of the sprite pixel.
@@ -62,6 +66,8 @@ class ImageBlender
     func MergeImages(Background: NSImage, Sprite Color: NSColor, SpriteSize: NSSize,
                      SpriteX: Int, SpriteY: Int) -> NSImage
     {
+        objc_sync_enter(AccessLock)
+        defer{objc_sync_exit(AccessLock)}
         if SpriteX + Int(SpriteSize.width) > Int(Background.size.width)
         {
             fatalError("Sprite will extend past the horizontal bounds of the background image.")
@@ -100,6 +106,8 @@ class ImageBlender
     ///                       alpha pixel blending takes place.
     ///   4. If the background pixel has an alpha of 0.0, the sprite pixel is unconditionally placed on the
     ///      background pixel.
+    /// - Note: Only one process/thread may execute this function at a time. This is enforced with a
+    ///         call to `objc_sync_enter`.
     /// - Parameter Background: The background image over which sprite will be blended.
     /// - Parameter Sprite: The color of the rectangle that will be merged with the background. The blending
     ///                     of the sprite with the background depends on the alpha level of the sprite pixel.
@@ -109,6 +117,8 @@ class ImageBlender
     ///            alpha level rules.
     func MergeImages(Background: NSImage, Sprite: NSImage, SpriteX: Int, SpriteY: Int) -> NSImage
     {
+        objc_sync_enter(AccessLock)
+        defer{objc_sync_exit(AccessLock)}
         if SpriteX + Int(Sprite.size.width) > Int(Background.size.width)
         {
             fatalError("Sprite will extend past the horizontal bounds of the background image.")
