@@ -852,6 +852,18 @@ enum Latitudes: Double, CaseIterable
     case OtherAntiPrimeMeridian = 0.75
 }
 
+/// Where notifications appear.
+enum NotificationLocations: String, CaseIterable
+{
+    /// Notifications appear in the system's notification center. On Macs, if Flatland has
+    /// focus, no notification will appear on the system (but will be logged).
+    case NotificationCenter = "System"
+    /// Use Flatland's notification system.
+    case Flatland = "Flatland"
+    /// Use both Flatland's and the system's notification center.
+    case Both = "Both"
+}
+
 enum StartupTasks: String, CaseIterable
 {
     case Initialize = "Initialization"
