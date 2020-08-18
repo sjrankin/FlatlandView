@@ -5,7 +5,7 @@
 //  Created by Stuart Rankin on 7/27/20.
 //  Copyright © 2020 Stuart Rankin. All rights reserved.
 //
-
+#if false
 import Foundation
 import AppKit
 import MetalKit
@@ -182,3 +182,4 @@ class PlottingTile
     var Y: Int = 0
     var Tile: NSImage = NSImage()
 }
+#endif
