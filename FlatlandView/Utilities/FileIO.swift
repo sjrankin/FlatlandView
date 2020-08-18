@@ -16,7 +16,8 @@ class FileIO
     /// Initialize needed file structures and databases.
     public static func Initialize()
     {
-        InstallDatabase()
+        InstallUnescoDatabase()
+        InstallEarthquakeHistoryDatabase()
         InitializeFileStructure()
     }
     
@@ -95,7 +96,7 @@ class FileIO
     
     /// Make sure the Unesco world heritage site database is installed.
     /// - Warning: Fatal errors will be generated on file errors.
-    public static func InstallDatabase()
+    public static func InstallUnescoDatabase()
     {
         var DBPath: URL!
         if !DirectoryExists(DatabaseDirectory)
@@ -135,11 +136,62 @@ class FileIO
         }
     }
     
+    /// Make sure the earthquake history database is installed. If not installed, an empty database will be
+    /// installed.
+    /// - Warning: Fatal errors will be generated on file errors.
+    public static func InstallEarthquakeHistoryDatabase()
+    {
+        var DBPath: URL!
+        if !DirectoryExists(DatabaseDirectory)
+        {
+            do
+            {
+                DBPath = GetDocumentDirectory()?.appendingPathComponent(DatabaseDirectory)
+                try FileManager.default.createDirectory(atPath: DBPath!.path, withIntermediateDirectories: true,
+                                                        attributes: nil)
+            }
+            catch
+            {
+                fatalError("Error creating database directory \"\(DatabaseDirectory)\"")
+            }
+        }
+        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/EarthquakeHistory.db")
+        if FileManager.default.fileExists(atPath: LookForExisting.path)
+        {
+            return
+        }
+        if let Source = Bundle.main.path(forResource: "EarthquakeHistory", ofType: "db")
+        {
+            let SourceURL = URL(fileURLWithPath: Source)
+            let DestDir = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/EarthquakeHistory.db")
+            do
+            {
+                try FileManager.default.copyItem(at: SourceURL, to: DestDir)
+            }
+            catch
+            {
+                fatalError("Error copying database. \(error.localizedDescription)")
+            }
+        }
+        else
+        {
+            fatalError("Did not find EarthquakeHistory.db in bundle.")
+        }
+    }
+    
     /// Returns the URL for the Unesco database.
     /// - Returns: URL of the Unesco database on success, nil if not found.
-    public static func GetDatabaseURL() -> URL?
+    public static func GetUnescoDatabaseURL() -> URL?
     {
         let DBURL = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/UnescoSites.db")
+        return DBURL
+    }
+    
+    /// Returns the URL for the earthquake history database.
+    /// - Returns: URL of the earthquake history database on success, nil if not found.
+    public static func GetEarthquakeHistoryDatabaseURL() -> URL?
+    {
+        let DBURL = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/EarthquakeHistory.db")
         return DBURL
     }
     
