@@ -37,6 +37,7 @@ class EarthquakeRegion: CustomStringConvertible
         BorderWidth = 0.0
         Notification = .None
         SoundName = .None
+        NotifyOnNewEarthquakes = false
         Age = 5
         _ID = UUID()
     }
@@ -69,6 +70,8 @@ class EarthquakeRegion: CustomStringConvertible
             Value.append("\(IsFallback)")
             Value.append("\t")
             Value.append("\(IsEnabled)")
+            Value.append("\t")
+            Value.append("\(NotifyOnNewEarthquakes)")
             return Value
         }
     }
@@ -99,6 +102,8 @@ class EarthquakeRegion: CustomStringConvertible
     var SoundName: NotificationSounds = .None
     /// How many days in the past to display earthquakes.
     var Age: Int = 5
+    /// Notify on new earthquakes.
+    var NotifyOnNewEarthquakes: Bool = false
     
     /// Decode a serialized earthquake region.
     /// - Parameter Raw: The raw, serialized earthquake region.
@@ -106,7 +111,7 @@ class EarthquakeRegion: CustomStringConvertible
     public static func Decode(Raw: String) -> EarthquakeRegion?
     {
         let Parts = Raw.split(separator: "\t", omittingEmptySubsequences: true)
-        if Parts.count != 12
+        if Parts.count != 13
         {
             return nil
         }
@@ -165,6 +170,9 @@ class EarthquakeRegion: CustomStringConvertible
                     
                 case 11:
                     Region.IsEnabled = Bool(Part)!
+                    
+                case 12:
+                    Region.NotifyOnNewEarthquakes = Bool(Part)!
                     
                 default:
                     return nil
