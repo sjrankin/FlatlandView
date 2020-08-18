@@ -285,6 +285,7 @@ class GlobeView: SCNView
         self.pointOfView?.runAction(RotationAction)
     }
     
+    /// Sets the HDR flag of the camera depending on user settings.
     func SetHDR()
     {
         Camera.wantsHDR = Settings.GetBool(.UseHDRCamera)
@@ -582,6 +583,7 @@ class GlobeView: SCNView
     /// - Returns: Tuple with the standard Earth map and, if the map type supports it, the sea map as well.
     func MakeMaps(_ Map: MapTypes) -> (Earth: NSImage, Sea: NSImage?)
     {
+
         let BaseMap = MapManager.ImageFor(MapType: Map, ViewType: .Globe3D)
         var SecondaryMap: NSImage? = nil
         switch Map
@@ -597,6 +599,18 @@ class GlobeView: SCNView
                 
             default:
                 break
+        }
+        if let Category = MapManager.CategoryFor(Map: Map)
+        {
+            if Category == .Satellite
+            {
+                if let TheMap = GlobalBaseMap
+                {
+                return (Earth: TheMap, Sea: SecondaryMap)
+                }
+                let LastResortMap = MapManager.ImageFor(MapType: .Standard, ViewType: .Globe3D)!
+                return (Earth: LastResortMap, Sea: nil)
+            }
         }
         return (Earth: BaseMap!, Sea: SecondaryMap)
     }
