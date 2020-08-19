@@ -269,6 +269,9 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             RotateImageTo(PrettyPercent)
         }
         
+        #if true
+        LocalInfoGrid.isHidden = true
+        #else
         if Settings.GetBool(.ShowLocalData)
         {
             let Cal = Calendar.current
@@ -338,6 +341,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             let CurrentSeconds = S + (M * 60) + (H * 60 * 60)
             DailySeconds.stringValue = "\(CurrentSeconds)"
         }
+            #endif
     }
     
     var OldSeconds: Double = 0.0
@@ -594,10 +598,13 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         if let WindowController = Storyboard.instantiateController(withIdentifier: "TodayWindow") as? TodayWindow
         {
             let Window = WindowController.window
-            let ViewController = Window?.contentViewController as? TodayCode
-            self.view.window?.beginSheet(Window!, completionHandler: nil)
+            let Controller = Window?.contentViewController as? TodayCode
+            TodayDelegate = Controller
+            WindowController.showWindow(nil)
         }
     }
+    
+    var TodayDelegate: WindowManagement? = nil
     
     @IBAction func ShowEarthquakeList(_ sender: Any)
     {
@@ -873,6 +880,8 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     {
         MainSettingsDelegate?.MainClosing()
         AboutDelegate?.MainClosing()
+        TodayDelegate?.MainClosing()
+        
         print("Flatland closing.")
     }
     
