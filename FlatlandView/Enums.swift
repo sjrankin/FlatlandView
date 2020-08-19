@@ -871,3 +871,10 @@ enum StartupTasks: String, CaseIterable
     case LoadNASATiles = "Fetching Image Tiles"
     case LoadUSGSQuakes = "Fetching USGS Earthquakes"
 }
+
+/// Constants for environmental variables.
+enum EnvironmentVars: String, CaseIterable
+{
+    /// Value that determines whether to enable or disable downloading images from NASA.
+    case SatelliteMaps = "enable_nasa_tiles"
+}
