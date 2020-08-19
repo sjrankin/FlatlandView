@@ -52,6 +52,13 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         LastSelectedLabel.stringValue = LastMap.rawValue
         DisplayCurrentMap(LastMap)
         MapCategoryList = MapManager.GetMapCategories()
+        if !Settings.GetBool(.EnableNASATiles)
+        {
+           if let SatelliteIndex = MapCategoryList.firstIndex(of: .Satellite)
+           {
+            MapCategoryList.remove(at: SatelliteIndex)
+           }
+        }
         if let CurrentCategory = MapManager.CategoryFor(Map: LastMap)
         {
             MapList = MapManager.GetMapsInCategory(CurrentCategory)
