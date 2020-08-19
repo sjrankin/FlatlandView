@@ -18,11 +18,25 @@ class EarthData
     
     /// Map loaded handler definition. First parameter is the completed map and the second is the duration
     /// from the call to `LoadMap` to the call of this completion handler. The third parameter is the date
-    /// used to retrieve the individual map tiles.
-    typealias MapLoadedHandler = ((NSImage, Double, Date) -> ())?
+    /// used to retrieve the individual map tiles. The fourth parameter indicates whether the process was
+    /// able to be completed or not. If false, there was some reason (most likely the environment value was
+    /// not set to "yes") for not downloading the map.
+    typealias MapLoadedHandler = ((NSImage, Double, Date, Bool) -> ())?
     
+    /// Start downloading image tiles for the passed map type and date.
+    /// - Note: If `.EnableNASATiles` is false, control is immedately returned and the last value of the
+    ///         completion handler is set to `false`.
+    /// - Parameter Map: The satellite map type to download.
+    /// - Parameter For: The date of the satellite map to download. If too early, all data may not be
+    ///                  available.
+    /// - Parameter Completed: Called when the process is completed.
     func LoadMap(_ Map: SatelliteMap, For ImageDate: Date, Completed: MapLoadedHandler = nil)
     {
+        if !Settings.GetBool(.EnableNASATiles)
+        {
+            Completed?(NSImage(), 0.0, ImageDate, false)
+            return
+        }
         let StartTime = CACurrentMediaTime()
         MainDelegate?.SetIndicatorVisibility(true)
         MainDelegate?.SetIndicatorPercent(0.0)
@@ -55,9 +69,9 @@ class EarthData
                         //Called when all tiles are downloaded - time to start assembling them.
                         self.CreateMapFromTiles(TilesX: TilesX, TilesY: TilesY, When: ImageDate)
                         {
-                            Image, Duration, When in
+                            Image, Duration, When, Done in
                             let TotalDuration = Duration + CACurrentMediaTime() - StartTime
-                            Completed?(Image, TotalDuration, When)
+                            Completed?(Image, TotalDuration, When, Done)
                         }
                     }
                 }
@@ -127,7 +141,7 @@ class EarthData
             //Background = self.ResizeImage(Image: Background, Longest: 3600.0)
             //print("CreateMapFromTiles: Resized{2} Background.size=\(Background.size)")
             let Duration = CACurrentMediaTime() - Start
-            Completion?(Background, Duration, When)
+            Completion?(Background, Duration, When, true)
         }
     }
     
