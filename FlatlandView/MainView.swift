@@ -16,6 +16,18 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        //https://medium.com/flawless-app-stories/environment-variables-in-xcode-a78e07d223ed
+        if let EnableNASATiles = ProcessInfo.processInfo.environment[EnvironmentVars.SatelliteMaps.rawValue]
+        {
+            let DoEnable = EnableNASATiles.lowercased() == "yes" ? true : false
+            Settings.SetBool(.EnableNASATiles, DoEnable)
+        }
+        else
+        {
+            Settings.SetBool(.EnableNASATiles, true)
+        }
+        
         StartupTask.insert(.Initialize)
         StartupTask.insert(.UIInitialize)
         StartupTask.insert(.LoadNASATiles)
@@ -24,7 +36,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         Settings.AddSubscriber(self)
         
         SetIndicatorText("")
-        if Settings.GetBool(.PreloadNASATiles)
+        if Settings.GetBool(.PreloadNASATiles) && Settings.GetBool(.EnableNASATiles)
         {
             let Earlier = Date().HoursAgo(36)
             let Maps = EarthData.MakeSatelliteMapDefinitions()
@@ -104,8 +116,17 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     /// - Parameter Duration: The number of seconds from when images started to be received to the
     ///                       completion of the map.
     /// - Parameter ImageDate: The date of the map.
-    func EarthMapReceived(Image: NSImage, Duration: Double, ImageDate: Date)
+    /// - Parameter Successful: If true, the map was downloaded successfully. If false, the map was not
+    ///                         downloaded successfully and all other parameters are undefined.
+    func EarthMapReceived(Image: NSImage, Duration: Double, ImageDate: Date, Successful: Bool)
     {
+        if !Successful
+        {
+            #if DEBUG
+            Utility.Print("Unable to download earth map from NASA.")
+            #endif
+            return
+        }
         Utility.Print("Received earth map from NASA")
         SetIndicatorText("")
         SetIndicatorVisibility(false)
@@ -378,7 +399,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         {
             if let Category = MapManager.CategoryFor(Map: MapValue)
             {
-                if Category == .Satellite
+                if Category == .Satellite && Settings.GetBool(.EnableNASATiles)
                 {
                     //Start loading the map here.
                     let Earlier = Date().HoursAgo(36)
@@ -565,6 +586,17 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             }
         }
         return nil
+    }
+    
+    @IBAction func ShowTodaysTimes(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Today", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "TodayWindow") as? TodayWindow
+        {
+            let Window = WindowController.window
+            let ViewController = Window?.contentViewController as? TodayCode
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+        }
     }
     
     @IBAction func ShowEarthquakeList(_ sender: Any)
