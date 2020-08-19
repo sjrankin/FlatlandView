@@ -9,7 +9,8 @@
 import Foundation
 import AppKit
 
-class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource
+class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
+                 WindowManagement
 {
     override func viewDidLoad()
     {
@@ -109,7 +110,8 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         let Index = IndexOfElapsedSeconds()
         if Index > -1
         {
-            TimeTable[Index] = ("Seconds Elapsed", "\(CurrentSeconds)")
+            let Percent = Double(CurrentSeconds) / (24.0 * 60 * 60) * 100.0
+            TimeTable[Index] = ("Seconds Elapsed", "\(CurrentSeconds), \(Percent.RoundedTo(2))%")
         }
         TodayTable.reloadData()
     }
@@ -133,10 +135,16 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         return TimeTable.count
     }
     
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat
+    {
+        return 26.0
+    }
+    
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         var CellContents = ""
         var CellIdentifier = ""
+        var IsValue = false
         
         if tableColumn == tableView.tableColumns[0]
         {
@@ -148,18 +156,30 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         {
             CellIdentifier = "WhenColumn"
             CellContents = TimeTable[row].Value
+            IsValue = true
         }
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
+        if IsValue
+        {
+            Cell?.textField?.font = NSFont.boldSystemFont(ofSize: 16.0)
+        }
+        else
+        {
+            Cell?.textField?.font = NSFont.systemFont(ofSize: 16.0)
+        }
         return Cell
     }
     
     @IBAction func HandleClosePressed(_ sender: Any)
     {
-        let Window = self.view.window
-        let Parent = Window?.sheetParent
-        Parent!.endSheet(Window!, returnCode: .OK)
+        self.view.window?.close()
+    }
+    
+    func MainClosing()
+    {
+        self.view.window?.close()
     }
     
     @IBOutlet weak var TodayTable: NSTableView!
