@@ -288,6 +288,10 @@ enum SettingTypes: String, CaseIterable
     case NotifiedEarthquakes = "NotifiedEarthquakes"
     /// Where notifications appear.
     case NotifyLocation = "NotifyLocation"
+    /// Boolean: Set according to the environment variable "enable_nasa_tiles". Not user
+    ///          accessible. If "enable_nasa_tiles" is not present, true is put into this
+    ///          settings.
+    case EnableNASATiles = "EnableNASATiles"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
