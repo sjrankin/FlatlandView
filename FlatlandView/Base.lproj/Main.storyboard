@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17147" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17147"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17147"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17154"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17154"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -179,21 +179,14 @@
                                                 <action selector="ResetCurrentView:" target="Ady-hI-5gd" id="2BN-vo-Mia"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="exq-fw-xPo">
-                                            <menu key="submenu" id="nZI-Iz-oL2">
-                                                <items>
-                                                    <menuItem title="Item 1" enabled="NO" id="8fx-0S-8JC">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="Item 2" enabled="NO" id="xik-99-Kuf">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="Item 3" enabled="NO" id="abw-SX-KCX">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
+                                        <menuItem isSeparatorItem="YES" title="Hours" id="lhR-mF-tLQ"/>
+                                        <menuItem title="Today's Times" id="lFh-GE-klu">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="ShowTodaysTimes:" target="Ady-hI-5gd" id="zKk-aA-pEn"/>
+                                            </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="exq-fw-xPo"/>
                                         <menuItem title="Debug" id="Ega-Y5-VXh">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Debug" id="lya-wd-2nq">
@@ -449,6 +442,20 @@
                                             <action selector="ShowEarthquakeList:" target="Oky-zY-oP4" id="vpP-YT-9gp"/>
                                         </connections>
                                     </button>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="BA54AB3F-257D-48B4-BCCF-606886E7F4B4" label="Today" paletteLabel="Today's Times" image="TodayIcon" sizingBehavior="auto" id="eoJ-jE-ptr">
+                                    <nil key="toolTip"/>
+                                    <button key="view" id="440-DA-gms">
+                                        <rect key="frame" x="17" y="14" width="48" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="TodayIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="fWj-no-0Ee">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="ShowTodaysTimes:" target="Oky-zY-oP4" id="OBf-H3-BLH"/>
+                                    </connections>
                                 </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
@@ -898,5 +905,6 @@
         <image name="SouthCenterIcon" width="24" height="24"/>
         <image name="SunX" width="3600" height="3600"/>
         <image name="SunY" width="3600" height="3600"/>
+        <image name="TodayIcon" width="24" height="24"/>
     </resources>
 </document>
