@@ -38,10 +38,6 @@ class EarthData
             return
         }
         let StartTime = CACurrentMediaTime()
-        MainDelegate?.SetIndicatorVisibility(true)
-        MainDelegate?.SetIndicatorPercent(0.0)
-        MainDelegate?.SetIndicatorColor(NSColor.yellow)
-        MainDelegate?.SetIndicatorText("Getting tiles")
         
         Map.URLs.removeAll()
         let TilesX = Map.HorizontalTileCount
@@ -88,9 +84,6 @@ class EarthData
                             Completion: MapLoadedHandler = nil)
     {
         let Start = CACurrentMediaTime()
-        MainDelegate?.SetIndicatorPercent(0.0)
-        MainDelegate?.SetIndicatorText("Making map")
-        MainDelegate?.SetIndicatorColor(NSColor.systemBlue)
         
         for Result in Results
         {
@@ -132,10 +125,6 @@ class EarthData
                     let ReducedTile = self.ResizeImage(Image: Tile, Longest: CGFloat(TileSize))
                     Background = self.BlitImage(ReducedTile, On: Background, At: Point)!
                     Count = Count + 1
-                    OperationQueue.main.addOperation
-                    {
-                        self.MainDelegate?.SetIndicatorPercent(Double(Count) / Double(self.Results.count))
-                    }
                 }
             }
             //Background = self.ResizeImage(Image: Background, Longest: 3600.0)
@@ -177,7 +166,6 @@ class EarthData
                     self.Results.append((Row, Column, ID, Image))
                     self.TileMap[ID] = (Row, Column)
                     self.DownloadCount = self.DownloadCount + 1
-                    self.MainDelegate?.SetIndicatorPercent(Double(self.DownloadCount) / Double(ExpectedCount))
                     objc_sync_exit(self.AccessLock)
                     if self.DownloadCount == ExpectedCount
                     {
