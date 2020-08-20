@@ -37,6 +37,7 @@ class Stenciler
     ///                         is passed, city names in the global city name database are used.
     /// - Parameter GridLines: Determines if grid lines are drawn or not drawn. Defaults to `false`. If true,
     ///                        which lines are drawn depend on user settings.
+    /// - Parameter UNESCOSites: Plot UNESCO World Heritage Sites.
     /// - Parameter CalledBy: The name of the caller.
     /// - Parameter Status: Closure for handling status updates for drawing stencils. First parameter is a string
     ///                     describing the status and the second parameter is the number of seconds since the
@@ -52,6 +53,7 @@ class Stenciler
                                    ShowRegions: Bool = false,
                                    PlotCities: Bool = false,
                                    GridLines: Bool = false,
+                                   UNESCOSites: Bool = false,
                                    CalledBy: String? = nil,
                                    Status: ((String, Double) -> ())? = nil,
                                    Completed: ((NSImage, Double, String?) -> ())? = nil)
@@ -61,7 +63,7 @@ class Stenciler
         let MapRatio: Double = Double(Image.size.width) / 3600.0
         Utility.Print("Stencil on image size: \(Image.size), MapRatio=\(MapRatio)")
         let StartTime = CACurrentMediaTime()
-        if Quakes == nil && !ShowRegions && !PlotCities && !GridLines
+        if Quakes == nil && !ShowRegions && !PlotCities && !GridLines && !UNESCOSites
         {
             //Nothing to do - return the image unaltered.
             Completed?(Image, 0.0, CalledBy)
@@ -74,9 +76,10 @@ class Stenciler
         Queue.addOperation
         {
             var Working = Image
-            Status?("Creating regions", CACurrentMediaTime() - StartTime)
+            
             if ShowRegions
             {
+                Status?("Creating regions", CACurrentMediaTime() - StartTime)
                 let Regions = Settings.GetEarthquakeRegions()
                 if Regions.count > 0
                 {
@@ -85,21 +88,26 @@ class Stenciler
                                           Kernel: Blender)
                 }
             }
-            Status?("Adding grid lines", CACurrentMediaTime() - StartTime)
             if GridLines
             {
-                Working = AddGridLines2(To: Working, Ratio: MapRatio)
+                Status?("Adding grid lines", CACurrentMediaTime() - StartTime)
+                Working = AddGridLines(To: Working, Ratio: MapRatio)
             }
-
+            if UNESCOSites
+            {
+                Status?("Plotting UNESCO sites", CACurrentMediaTime() - StartTime)
+                Working = AddWorldHeritageDecals(To: Working, Ratio: MapRatio)
+            }
+            
             var Rep = GetImageRep(From: Working)
-            Status?("Plotting cities", CACurrentMediaTime() - StartTime)
             if PlotCities
             {
+                Status?("Plotting cities", CACurrentMediaTime() - StartTime)
                 Rep = AddCityNames(To: Rep, Ratio: MapRatio)
             }
-            Status?("Plotting earthquakes", CACurrentMediaTime() - StartTime)
             if let QuakeList = LocalQuakes
             {
+                Status?("Plotting earthquakes", CACurrentMediaTime() - StartTime)
                 Rep = AddMagnitudeValues(To: Rep, With: QuakeList, Ratio: MapRatio)
             }
             let Final = GetImage(From: Rep)
@@ -143,6 +151,81 @@ class Stenciler
         }
         
         Working = DrawOn(Rep: Working, Messages: PlotMe)
+        return Working
+    }
+    
+    /// Plot UNESCO World Heritage Sites as decals on the stencil.
+    /// - Parameter To: The image upon which sites are plotted.
+    /// - Parameter Ration: The ratio between the standard size map and the current image.
+    /// - Returns: Update image with World Heritage Sites plotted.
+    private static func AddWorldHeritageDecals(To Image: NSImage, Ratio: Double) -> NSImage
+    {
+        let Working = Image
+        let TypeFilter = Settings.GetEnum(ForKey: .SiteTypeFilter, EnumType: SiteTypeFilters.self, Default: .Either)
+        MainView.InitializeWorldHeritageSites()
+        let Sites = MainView.GetAllSites()
+        var FinalList = [WorldHeritageSite]()
+        for Site in Sites
+        {
+            switch TypeFilter
+            {
+                case .Either:
+                    FinalList.append(Site)
+                    
+                case .Both:
+                    if Site.Category == "Mixed"
+                    {
+                        FinalList.append(Site)
+                    }
+                    
+                case .Natural:
+                    if Site.Category == "Natural"
+                    {
+                        FinalList.append(Site)
+                    }
+                    
+                case .Cultural:
+                    if Site.Category == "Cultural"
+                    {
+                        FinalList.append(Site)
+                    }
+            }
+        }
+        Working.lockFocus()
+        for Site in FinalList
+        {
+            var NodeColor = NSColor.black
+            switch Site.Category
+            {
+                case "Mixed":
+                    NodeColor = NSColor.systemPurple
+                    
+                case "Natural":
+                    NodeColor = NSColor.systemGreen
+                    
+                case "Cultural":
+                    NodeColor = NSColor.systemRed
+                    
+                default:
+                    NodeColor = NSColor.white
+            }
+            let SitePoint = GeoPoint2(Site.Latitude, Site.Longitude)
+            let SitePointLocation = SitePoint.ToEquirectangular(Width: Int(Image.size.width),
+                                                                Height: Int(Image.size.height))
+            let SiteShape = NSBezierPath()
+            let YOffset: Double = 12
+            let LeftX: Double = -8
+            let RightX: Double = 8
+            SiteShape.move(to: NSPoint(x: SitePointLocation.X, y: SitePointLocation.Y))
+            SiteShape.line(to: NSPoint(x: Double(SitePointLocation.X) + LeftX, y: Double(SitePointLocation.Y) - YOffset))
+            SiteShape.line(to: NSPoint(x: Double(SitePointLocation.X) + RightX, y: Double(SitePointLocation.Y) - YOffset))
+            SiteShape.line(to: NSPoint(x: SitePointLocation.X, y: SitePointLocation.Y))
+            NSColor.black.setStroke()
+            NodeColor.setFill()
+            SiteShape.stroke()
+            SiteShape.fill()
+        }
+        Working.unlockFocus()
         return Working
     }
     
@@ -237,7 +320,7 @@ class Stenciler
     /// - Parameter To: The image to which to add gridlines.
     /// - Parameter Ratio: Ratio between the standard sized-map and the current map.
     /// - Return: New image with grid lines drawn.
-    private static func AddGridLines2(To Image: NSImage, Ratio: Double) -> NSImage
+    private static func AddGridLines(To Image: NSImage, Ratio: Double) -> NSImage
     {
         if Settings.GetBool(.GridLinesDrawnOnMap)
         {
