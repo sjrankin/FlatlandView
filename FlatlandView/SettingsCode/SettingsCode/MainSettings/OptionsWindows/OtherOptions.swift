@@ -21,7 +21,6 @@ class OtherOptions: NSViewController
     
     func InitializeOtherSettings()
     {
-        ShowLocalDataSwitch.state = Settings.GetBool(.ShowLocalData) ? .on : .off
         ScriptCombo.removeAllItems()
         for Script in Scripts.allCases
         {
@@ -63,14 +62,6 @@ class OtherOptions: NSViewController
         4: 15.0,
         5: 30.0
     ]
-    
-    @IBAction func HandleShowLocalDataSwitchChanged(_ sender: Any)
-    {
-        if let Button = sender as? NSSwitch
-        {
-            Settings.SetBool(.ShowLocalData, Button.state == .on ? true : false)
-        }
-    }
     
     @IBAction func HandleScriptComboChanged(_ sender: Any)
     {
@@ -140,5 +131,4 @@ class OtherOptions: NSViewController
     @IBOutlet weak var TimeLabelSegment: NSSegmentedControl!
     @IBOutlet weak var ShowSecondsSwitch: NSSwitch!
     @IBOutlet weak var ScriptCombo: NSComboBox!
-    @IBOutlet weak var ShowLocalDataSwitch: NSSwitch!
 }
