@@ -154,9 +154,11 @@ extension MainView: SettingChangedProtocol
                 World3DView.PlotPolarShape()
                 
             case .ShowWorldHeritageSites:
+                World3DView.ApplyStencils(Caller: "SettingChanged(.ShowWorldHeritageSites)")
                 World3DView.PlotWorldHeritageSites()
                 
             case .WorldHeritageSiteType:
+                World3DView.ApplyStencils(Caller: "SettingChanged(.WorldHeritageSiteType)")
                 World3DView.PlotWorldHeritageSites()
                 
             case .Show3DEquator, .Show3DTropics, .Show3DMinorGrid, .Show3DPolarCircles, .Show3DPrimeMeridians,
@@ -166,9 +168,6 @@ extension MainView: SettingChangedProtocol
                 
             case .LocalLongitude, .LocalLatitude:
                 (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
-                
-            case .ShowLocalData:
-                UpdateInfoGridVisibility(Show: Settings.GetBool(.ShowLocalData))
                 
             case .Script:
                 World3DView.PlotPolarShape()
@@ -462,33 +461,6 @@ extension MainView: SettingChangedProtocol
                 {
                     
                 }
-                
-            case .DebugTime:
-                if Settings.GetBool(.DebugTime)
-                {
-                    Settings.SetBool(.InAttractMode, false)
-                    DebugTimeValue.textColor = NSColor.white
-                    DebugTimeValue.isHidden = false
-                    DebugTimeLabel.textColor = NSColor.white
-                    DebugTimeLabel.isHidden = false
-                    DebugRotationalLabel.textColor = NSColor.white
-                    DebugRotationalLabel.isHidden = false
-                    DebugRotationalValue.textColor = NSColor.white
-                    DebugRotationalValue.isHidden = false
-                }
-                else
-                {
-                    DebugTimeValue.textColor = NSColor.white
-                    DebugTimeValue.isHidden = true
-                    DebugTimeLabel.textColor = NSColor.white
-                    DebugTimeLabel.isHidden = true
-                    DebugRotationalLabel.textColor = NSColor.white
-                    DebugRotationalLabel.isHidden = true
-                    DebugRotationalValue.textColor = NSColor.white
-                    DebugRotationalValue.isHidden = true
-                }
-                World3DView.StopClock()
-                World3DView.StartClock()
                 
             case .TestTime:
                 if Settings.GetBool(.DebugTime)
