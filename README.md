@@ -62,3 +62,10 @@ Imagery
     * Eventually Flatland will convert equirectangular images to polar-projected maps for 2D mode.
   * A day/night mask overlay was created for each day of the year for both north-centered and south-centered projections for 2D mode.
   * Most 3D imagery is generated in Flatland at run-time - specifically shapes and the like.
+  
+## Version 1 Plans
+
+In order to release version 1 in a timely fashion, some planned features will be postponed to later versions.
+  1. Asynchronous downloading of NASA tiles to form near real-time images of the Earth. There are too many subtle performance issues (as well as tricky memory issues) for this feature to be reliable at this time.
+  2. Extensive number of pre-rendered maps. Will reduce to a far smaller subset.
+  3. Ability for the user to install his own maps.
