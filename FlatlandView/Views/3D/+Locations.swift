@@ -964,6 +964,10 @@ extension GlobeView
         WHSNodeList.removeAll()
         if Settings.GetBool(.ShowWorldHeritageSites)
         {
+            if Settings.GetBool(.PlotSitesAs2D)
+            {
+                return
+            }
             let TypeFilter = Settings.GetEnum(ForKey: .SiteTypeFilter, EnumType: SiteTypeFilters.self, Default: .Either)
             MainView.InitializeWorldHeritageSites()
             let Sites = MainView.GetAllSites()
