@@ -38,6 +38,7 @@ class OtherLocationsWindow: NSViewController
                 Index = 3
         }
         HeritageSiteSegment.selectedSegment = Index
+        ShowAs2D.state = Settings.GetBool(.PlotSitesAs2D) ? .on : .off
     }
     
     @IBAction func HandleShowHeritageSiteChanged(_ sender: Any)
@@ -63,6 +64,15 @@ class OtherLocationsWindow: NSViewController
         }
     }
     
+    @IBAction func HandleShowAs2DChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.PlotSitesAs2D, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var ShowAs2D: NSSwitch!
     @IBOutlet weak var HeritageSiteSegment: NSSegmentedControl!
     @IBOutlet weak var ShowHeritageSiteSwitch: NSSwitch!
 }
