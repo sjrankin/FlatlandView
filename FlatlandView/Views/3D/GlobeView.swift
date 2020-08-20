@@ -821,6 +821,7 @@ class GlobeView: SCNView
                               ShowRegions: true,
                               PlotCities: true,
                               GridLines: true,
+                              UNESCOSites: true,
                               CalledBy: "AddEarth",
                               Completed: GotStenciledMap(_:_:_:))
         
@@ -881,11 +882,13 @@ class GlobeView: SCNView
             {
                 Quakes = EarthquakeList
             }
+            let ShowUNESCO = Settings.GetBool(.ShowWorldHeritageSites) && Settings.GetBool(.PlotSitesAs2D)
             Stenciler.AddStencils(To: Map,
                                   Quakes: Quakes,
                                   ShowRegions: Settings.GetBool(.ShowEarthquakeRegions),
                                   PlotCities: Settings.GetBool(.CityNamesDrawnOnMap),
                                   GridLines: Settings.GetBool(.GridLinesDrawnOnMap),
+                                  UNESCOSites: ShowUNESCO,
                                   CalledBy: "ApplyStencils",
                                   Completed: GotStenciledMap(_:_:_:))
         }
