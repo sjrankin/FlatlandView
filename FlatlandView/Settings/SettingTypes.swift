@@ -36,8 +36,6 @@ enum SettingTypes: String, CaseIterable
     case TimeLabelSeconds = "TimeLabelSeconds"
     /// Boolean: Show the sun in 2D mode.
     case ShowSun = "ShowSun"
-    /// Boolean: If true, show the local data grid.
-    case ShowLocalData = "ShowLocalData"
     /// Determines the script to use for certain display elements.
     case Script = "Script"
     /// The type of sun image to display.
@@ -227,6 +225,8 @@ enum SettingTypes: String, CaseIterable
     case SiteYear = "SiteYear"
     /// Inclusion year filter for sites.
     case SiteYearFilter = "SiteYearFilter"
+    /// Boolean: If true, sites are plotted on the stencil layer. If false, sites are plotted as 3D objects.
+    case PlotSitesAs2D = "PlotSitesAs2D"
     
     // MARK: - Asynchronous settings.
     //Earthquake asynchronous settings.
