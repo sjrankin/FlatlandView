@@ -35,7 +35,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         Settings.Initialize()
         Settings.AddSubscriber(self)
         
-        SetIndicatorText("")
         if Settings.GetBool(.PreloadNASATiles) && Settings.GetBool(.EnableNASATiles)
         {
             let Earlier = Date().HoursAgo(36)
@@ -91,23 +90,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             HideStatus()
         }
         
-        #if DEBUG
-        DebugGrid.wantsLayer = true
-        DebugGrid.layer?.zPosition = CGFloat(LayerZLevels.DebugLayer.rawValue)
-        DebugGrid.isHidden = false
-        #else
-        DebugGrid.removeFromSuperview()
-        #endif
-        
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
-        DebugTimeValue.textColor = NSColor.white
-        DebugTimeValue.isHidden = true
-        DebugTimeLabel.textColor = NSColor.white
-        DebugTimeLabel.isHidden = true
-        DebugRotationalLabel.textColor = NSColor.white
-        DebugRotationalLabel.isHidden = true
-        DebugRotationalValue.textColor = NSColor.white
-        DebugRotationalValue.isHidden = true
         Utility.Print("Done with viewDidLoad")
     }
     
@@ -128,8 +111,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             return
         }
         Utility.Print("Received earth map from NASA")
-        SetIndicatorText("")
-        SetIndicatorVisibility(false)
         //let Brightened = Image.SetImageBrightness(To: 0.1)
         Utility.Print("Map generation duration \(Duration), Date: \(ImageDate)")
         //        World3DView.AddEarth(WithMap: Brightened)
@@ -184,7 +165,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         {
             StartDebugCount = Date.timeIntervalSinceReferenceDate
             UptimeSeconds = UptimeSeconds + 1
-            UptimeValueLabel.stringValue = "\(UptimeSeconds)"
+            (view.window?.windowController as? MainWindow)!.UpTimeLabel.stringValue = "\(UptimeSeconds)"
         }
     }
     
@@ -268,80 +249,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
             RotateImageTo(PrettyPercent)
         }
-        
-        #if true
-        LocalInfoGrid.isHidden = true
-        #else
-        if Settings.GetBool(.ShowLocalData)
-        {
-            let Cal = Calendar.current
-            if Settings.HaveLocalLocation()
-            {
-                var RiseAndSetAvailable = true
-                var SunRiseTime = Date()
-                var SunSetTime = Date()
-                let LocalLat = Settings.GetDoubleNil(.LocalLatitude)
-                let LocalLon = Settings.GetDoubleNil(.LocalLongitude)
-                let Location = GeoPoint2(LocalLat!, LocalLon!)
-                let SunTimes = Sun()
-                if let SunriseTime = SunTimes.Sunrise(For: Date(), At: Location, TimeZoneOffset: 0)
-                {
-                    SunRiseTime = SunriseTime
-                    LocalSunrise.stringValue = SunriseTime.PrettyTime()
-                }
-                else
-                {
-                    RiseAndSetAvailable = false
-                    LocalSunrise.stringValue = "No sunrise"
-                }
-                if let SunsetTime = SunTimes.Sunset(For: Date(), At: Location, TimeZoneOffset: 0)
-                {
-                    SunSetTime = SunsetTime
-                    LocalSunset.stringValue = SunsetTime.PrettyTime()
-                }
-                else
-                {
-                    RiseAndSetAvailable = false
-                    LocalSunset.stringValue = "No sunset"
-                }
-                if RiseAndSetAvailable
-                {
-                    let RiseHour = Cal.component(.hour, from: SunRiseTime)
-                    let RiseMinute = Cal.component(.minute, from: SunRiseTime)
-                    let RiseSecond = Cal.component(.second, from: SunRiseTime)
-                    let SetHour = Cal.component(.hour, from: SunSetTime)
-                    let SetMinute = Cal.component(.minute, from: SunSetTime)
-                    let SetSecond = Cal.component(.second, from: SunSetTime)
-                    let RiseSeconds = RiseSecond + (RiseMinute * 60) + (RiseHour * 60 * 60)
-                    let SetSeconds = SetSecond + (SetMinute * 60) + (SetHour * 60 * 60)
-                    let SecondDelta = SetSeconds - RiseSeconds
-                    let NoonTime = RiseSeconds + (SecondDelta / 2)
-                    let (NoonHour, NoonMinute, NoonSecond) = Date.SecondsToTime(NoonTime)
-                    let HourS = "\(NoonHour)"
-                    let MinuteS = (NoonMinute < 10 ? "0" : "") + "\(NoonMinute)"
-                    let SecondS = (NoonSecond < 10 ? "0" : "") + "\(NoonSecond)"
-                    LocalNoon.stringValue = "\(HourS):\(MinuteS):\(SecondS)"
-                }
-                else
-                {
-                    LocalNoon.stringValue = ""
-                }
-            }
-            else
-            {
-                LocalSunset.stringValue = "N/A"
-                LocalSunrise.stringValue = "N/A"
-                LocalNoon.stringValue = "N/A"
-            }
-            let DaysDeclination = Sun.Declination(For: Date())
-            DeclinationLabel.stringValue = "\(DaysDeclination.RoundedTo(3))°"
-            let H = Cal.component(.hour, from: Date())
-            let M = Cal.component(.minute, from: Date())
-            let S = Cal.component(.second, from: Date())
-            let CurrentSeconds = S + (M * 60) + (H * 60 * 60)
-            DailySeconds.stringValue = "\(CurrentSeconds)"
-        }
-            #endif
     }
     
     var OldSeconds: Double = 0.0
@@ -426,9 +333,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         Started = true
         let IsFlat = VType == .FlatNorthCenter || VType == .FlatSouthCenter ? true : false
         SetFlatlandVisibility(FlatIsVisible: IsFlat)
-        LocalInfoGrid.wantsLayer = true
-        LocalInfoGrid.layer?.zPosition = CGFloat(LayerZLevels.LocalInfoGridLayer.rawValue)
-        LocalInfoGrid.isHidden = !Settings.GetBool(.ShowLocalData)
         StarView.wantsLayer = true
         StarView.layer?.zPosition = CGFloat(LayerZLevels.StarLayer.rawValue)
         let Speed = Settings.GetEnum(ForKey: .StarSpeeds, EnumType: StarSpeeds.self, Default: .Medium)
@@ -451,6 +355,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     /// Initialize the UI, reflecting the current user settings.
     func InitializeUI()
     {
+        (view.window?.windowController as? MainWindow)!.UpTimeLabel.stringValue = "0"
         switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self)!
         {
             case HourValueTypes.None:
@@ -500,65 +405,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     {
         MainTimeLabelTop.textColor = Color
         MainTimeLabelBottom.textColor = Color
-        UptimeValueLabel.textColor = Color
-        DailySeconds.textColor = Color
-        DeclinationLabel.textColor = Color
-        LocalSunset.textColor = Color
-        LocalSunrise.textColor = Color
-        LocalNoon.textColor = Color
-        UptimeLabel.textColor = Color
-        LocalSunriseLabel.textColor = Color
-        LocalNoonLabel.textColor = Color
-        LocalSunsetLabel.textColor = Color
-        DeclinationTextLabel.textColor = Color
-        DailySecondsLabel.textColor = Color
-        StatusLabel.textColor = Color
-        SetStatusIndicatorColor(Color)
-        SetStatusIndicatorLabel("")
-        SetStatusIndicatorVisibility(IsVisible: true)
-        SetStatusIndicatorValue(0.5)
-    }
-    
-    /// Sets the text of the indicator label.
-    /// - Note: There is not much room so keeping the text short is ideal.
-    /// - Parameter NewText: The text to display. Set to an empty string to hide the text.
-    func SetStatusIndicatorLabel(_ NewText: String)
-    {
-        OperationQueue.main.addOperation
-        {
-            self.StatusLabel.stringValue = NewText
-        }
-    }
-    
-    /// Show or hide the status indicator.
-    /// - Parameter IsVisible: Set to true to show the indicator, false to hide it.
-    func SetStatusIndicatorVisibility(IsVisible: Bool)
-    {
-        OperationQueue.main.addOperation
-        {
-            self.StatusIndicator.isHidden = !IsVisible
-        }
-    }
-    
-    /// Set the value of the indicator.
-    /// - Parameter NewValue: The value to set the indicator to. Must be in the range 0.0 to 1.0.
-    func SetStatusIndicatorValue(_ NewValue: Double)
-    {
-        OperationQueue.main.addOperation
-        {
-            self.StatusIndicator.CurrentPercent = CGFloat(NewValue)
-        }
-    }
-    
-    /// Set the color of the completed portion of the indicator.
-    /// - Note: The incomplete portion is not set here and defaults to clear.
-    /// - Parameter Color: The color of the completed part of the indicator.
-    func SetStatusIndicatorColor(_ Color: NSColor)
-    {
-        OperationQueue.main.addOperation
-        {
-            self.StatusIndicator.Color = Color
-        }
     }
     
     // MARK: - Menu/toolbar event handlers.
@@ -915,46 +761,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         }
     }
     
-    func DebugTimeChanged(_ NewTime: Date)
-    {
-        #if DEBUG
-        if Settings.GetBool(.DebugTime)
-        {
-            DebugTimeValue.textColor = NSColor.white
-            DebugTimeValue.isHidden = false
-            DebugTimeLabel.textColor = NSColor.white
-            DebugTimeLabel.isHidden = false
-            DebugTimeValue.stringValue = Utility.MakeTimeString(TheDate: NewTime)
-        }
-        #endif
-    }
-    
-    func DebugRotationChanged(_ NewRotation: Double)
-    {
-        DebugRotationalLabel.textColor = NSColor.white
-        DebugRotationalLabel.isHidden = false
-        DebugRotationalValue.textColor = NSColor.white
-        DebugRotationalValue.isHidden = false
-        DebugRotationalValue.stringValue = "\((NewRotation * 100.0).RoundedTo(2))%"
-    }
-    
-    /// Hide or show the info grid.
-    /// - Note: For fun, the grid is shown or hidden using animation.
-    /// - Parameter Show: Determines whether the info grid is hidden or shown.
-    func UpdateInfoGridVisibility(Show: Bool)
-    {
-        let AlphaStart: Float = Show ? 0.0 : 1.0
-        let AlphaEnd: Float = Show ? 1.0 : 0.0
-        let Animate = CABasicAnimation(keyPath: "opacity")
-        Animate.fromValue = AlphaStart
-        Animate.toValue = AlphaEnd
-        Animate.duration = 0.3
-        Animate.autoreverses = false
-        Animate.fillMode = .forwards
-        Animate.isRemovedOnCompletion = false
-        LocalInfoGrid.layer?.add(Animate, forKey: "fade")
-    }
-    
     /// Insert debug earthquake at the specified location.
     func InsertEarthquake(Latitude: Double, Longitude: Double, Magnitude: Double)
     {
@@ -988,34 +794,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         #if DEBUG
         Earthquakes?.InsertEarthquakeCluster(Count)
         #endif
-    }
-    
-    /// Sets the indicator value.
-    /// - Parameter Percent: New indicator percent. Must be in the range 0.0 to 1.0.
-    func SetIndicatorPercent(_ Percent: Double)
-    {
-        SetStatusIndicatorValue(Percent)
-    }
-    
-    /// Sets the indicator text. Pass an empty string to clear the text.
-    /// - Parameter NewText: The text to set the indicator label to.
-    func SetIndicatorText(_ NewText: String)
-    {
-        SetStatusIndicatorLabel(NewText)
-    }
-    
-    /// Sets the color of the completed portion of the indicator.
-    /// - Parameter NewColor: The color to set the indicator to.
-    func SetIndicatorColor(_ NewColor: NSColor)
-    {
-        SetStatusIndicatorColor(NewColor)
-    }
-    
-    /// Sets the visibility of the indicator. Only affects the pie chart, not the text.
-    /// - Parameter IsVisible: Determines the visibility.
-    func SetIndicatorVisibility(_ IsVisible: Bool)
-    {
-        SetStatusIndicatorVisibility(IsVisible: IsVisible)
     }
     
     // MARK: - Asynchronous data protocol functions.
@@ -1092,19 +870,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     // MARK: - Interface builder outlets.
     
-    @IBOutlet weak var DebugRotationalLabel: NSTextField!
-    @IBOutlet weak var DebugRotationalValue: NSTextField!
-    @IBOutlet weak var DebugTimeValue: NSTextField!
-    @IBOutlet weak var DebugTimeLabel: NSTextField!
     @IBOutlet weak var StarView: Starfield!
-    @IBOutlet weak var UptimeValueLabel: NSTextField!
-    @IBOutlet weak var DebugGrid: NSGridView!
-    @IBOutlet weak var DailySeconds: NSTextField!
-    @IBOutlet weak var DeclinationLabel: NSTextField!
-    @IBOutlet weak var LocalSunset: NSTextField!
-    @IBOutlet weak var LocalNoon: NSTextField!
-    @IBOutlet weak var LocalSunrise: NSTextField!
-    @IBOutlet weak var LocalInfoGrid: NSGridView!
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
     @IBOutlet weak var SunViewBottom: NSImageView!
@@ -1117,14 +883,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     @IBOutlet weak var BackgroundView: NSView!
     @IBOutlet weak var FlatView: NSView!
     @IBOutlet weak var World3DView: GlobeView!
-    @IBOutlet weak var UptimeLabel: NSTextField!
-    @IBOutlet weak var LocalSunriseLabel: NSTextField!
-    @IBOutlet weak var LocalNoonLabel: NSTextField!
-    @IBOutlet weak var LocalSunsetLabel: NSTextField!
-    @IBOutlet weak var DeclinationTextLabel: NSTextField!
-    @IBOutlet weak var DailySecondsLabel: NSTextField!
-    @IBOutlet weak var StatusLabel: NSTextField!
-    @IBOutlet weak var StatusIndicator: PiePercent!
     @IBOutlet weak var StatusContainer: StatusContainerController!
 }
 
