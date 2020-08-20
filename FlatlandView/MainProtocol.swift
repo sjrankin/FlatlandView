@@ -17,12 +17,6 @@ protocol MainProtocol: class
     /// Called when a window is closed.
     func DidClose(_ WhatClosed: String)
     
-    /// Debug time changed.
-    func DebugTimeChanged(_ NewTime: Date)
-    
-    /// Debug rotation changed.
-    func DebugRotationChanged(_ NewRotation: Double)
-    
     /// Insert debug earthquake at the specified location.
     func InsertEarthquake(Latitude: Double, Longitude: Double, Magnitude: Double)
     
@@ -34,16 +28,4 @@ protocol MainProtocol: class
     
     /// Fetch earthquakes out of sequence.
     func ForceFetchEarthquakes()
-    
-    /// Set the indicator percent.
-    func SetIndicatorPercent(_ Percent: Double)
-    
-    /// Set the indicator text.
-    func SetIndicatorText(_ NewText: String)
-    
-    /// Set the indicator color.
-    func SetIndicatorColor(_ NewColor: NSColor)
-    
-    /// Set the visibility of the indicator.
-    func SetIndicatorVisibility(_ IsVisible: Bool)
 }
