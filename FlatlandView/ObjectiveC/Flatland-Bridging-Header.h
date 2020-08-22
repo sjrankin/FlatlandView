@@ -11,3 +11,5 @@ CGImageRef CircularWarp(CGImageRef inImage,
                         CGFloat startAngle,
                         BOOL clockWise,
                         BOOL interpolate);
+
+
