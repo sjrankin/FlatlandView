@@ -11,20 +11,28 @@ import AppKit
 
 extension MainView
 {
+    /// Initialize the status view.
     func InitializeStatusView()
     {
+        StatusViewText.wantsLayer = true
+        StatusViewText.layer?.zPosition = 500
+        StatusViewIndicator.wantsLayer = true
+        StatusViewIndicator.layer?.zPosition = 500
         StatusContainer.wantsLayer = true
         StatusContainer.layer?.zPosition = CGFloat(LayerZLevels.StatusViewLayer.rawValue)
         StatusContainer.layer?.borderWidth = 4.0
+        #if DEBUG
+        StatusContainer.layer?.borderColor = NSColor.systemYellow.cgColor
+        #else
         StatusContainer.layer?.borderColor = NSColor.gray.cgColor
+        #endif
         StatusContainer.layer?.cornerRadius = 15.0
-        
-        let StatusUIStoryboard = NSStoryboard(name: "StatusView", bundle: nil)
-        if let StatusUI = StatusUIStoryboard.instantiateController(withIdentifier: "StatusViewUI") as? NSViewController
-        {
-            StatusDelegate = StatusUI as? StatusViewController
-            StatusContainer.addSubview(StatusUI.view)
-        }
+        SetStatusFont(NSFont.systemFont(ofSize: 14.0))
+    }
+    
+    func SetStatusFont(_ Font: NSFont)
+    {
+        StatusViewText.font = Font
     }
     
     func HideStatus()
@@ -58,7 +66,7 @@ extension MainView
                 ShowStatus()
             }
         }
-        StatusDelegate?.ShowText(Text)
+        StatusViewText.stringValue = Text
     }
     
     func DisplayStatusText(_ Text: String, Hide After: Double, ShowIfNotVisible: Bool = true,
@@ -71,7 +79,7 @@ extension MainView
                 ShowStatus()
             }
         }
-        StatusDelegate?.ShowText(Text)
+        StatusViewText.stringValue = Text
         perform(#selector(HideStatusBox), with: Completed, afterDelay: After)
     }
     
@@ -80,16 +88,5 @@ extension MainView
         HideStatus()
         Closure?()
     }
-    
-    func DisplaySubText(_ Text: String, ShowIfNotVisible: Bool = true)
-    {
-        if ShowIfNotVisible
-        {
-            if !ShowingStatus
-            {
-                ShowStatus()
-            }
-        }
-        StatusDelegate?.ShowSubText(Text)
-    }
 }
+
