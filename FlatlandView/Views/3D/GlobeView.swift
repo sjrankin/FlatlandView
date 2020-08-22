@@ -816,6 +816,7 @@ class GlobeView: SCNView
         EarthNode?.geometry?.firstMaterial?.blendMode = .alpha
         SeaNode?.geometry?.firstMaterial?.blendMode = .alpha
         
+        #if false
         Stenciler.AddStencils(To: BaseMap!,
                               Quakes: EarthquakeList,
                               ShowRegions: true,
@@ -824,6 +825,7 @@ class GlobeView: SCNView
                               UNESCOSites: true,
                               CalledBy: "AddEarth",
                               Completed: GotStenciledMap(_:_:_:))
+        #endif
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug2,
@@ -866,12 +868,13 @@ class GlobeView: SCNView
     ///    - The user can change settings such that no stenciling is applied. In that case,
     ///      the non-stenciled map will be available very quickly.
     /// - Parameter Caller: Name of the caller.
-    func ApplyStencils(Caller: String? = nil)
+    /// - Parameter Final: Called after the stencil has been applied.
+    func ApplyStencils(Caller: String? = nil, Final: (() -> ())? = nil)
     {
         #if DEBUG
         if let CallerName = Caller
         {
-            Utility.Print("ApplyStencils called by \(CallerName)")
+            Debug.Print("ApplyStencils called by \(CallerName)")
         }
         #endif
         if let Map = GlobalBaseMap
@@ -890,7 +893,8 @@ class GlobeView: SCNView
                                   GridLines: Settings.GetBool(.GridLinesDrawnOnMap),
                                   UNESCOSites: ShowUNESCO,
                                   CalledBy: "ApplyStencils",
-                                  Completed: GotStenciledMap(_:_:_:))
+                                  FinalNotify: Final,
+                                  Completed: GotStenciledMap)
         }
     }
     
@@ -900,21 +904,23 @@ class GlobeView: SCNView
     ///                    very quickly.
     /// - Parameter Duration: The duration, in seconds, of the stenciling process. If no steciling
     ///                       was applied, this value will be 0.0.
-    /// - Parameter Calledby: The name of the caller. May be nil.
-    func GotStenciledMap(_ Image: NSImage, _ Duration: Double, _ CalledBy: String?)
+    /// - Parameter CalledBy: The name of the caller. May be nil.
+    func GotStenciledMap(_ Image: NSImage, _ Duration: Double, _ CalledBy: String?,
+                         Notify: (() -> ())? = nil)
     {
         #if DEBUG
         if let Caller = CalledBy
         {
-            Utility.Print("Stencil available: called by \(Caller), duration: \(Duration)")
+            Debug.Print("Stencil available: called by \(Caller), duration: \(Duration.RoundedTo(2))")
         }
         else
         {
-            Utility.Print("Stenciling duration: \(Duration)")
+            Debug.Print("Stenciling duration: \(Duration)")
         }
         #endif
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = Image
-        Utility.Print("Applied stenciled map.")
+        Debug.Print("Applied stenciled map.")
+        Notify?()
     }
     
     /// Change the base map to the passed map.
