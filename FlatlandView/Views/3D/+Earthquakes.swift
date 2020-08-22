@@ -13,16 +13,25 @@ import SceneKit
 extension GlobeView
 {
     /// Plot earthquakes on the globe.
-    func PlotEarthquakes()
+    /// - Parameter From: Name of the caller. Defaults to nil.
+    /// - Parameter Final: Completion block called after plot functions have been called. Defaults to nil.
+    func PlotEarthquakes(_ From: String? = nil, _ Final: (() -> ())? = nil)
     {
         if let Earth = EarthNode
         {
             if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
             {
                 print("EarthquakeList.count=\(EarthquakeList.count)")
+                if let FromWhere = From
+                {
+                print("Called from \(FromWhere)")
+                }
+                let StackFrames = Debug.StackFrameContents(6)
+                Debug.Print(Debug.PrettyStackTrace(StackFrames))
                 ApplyStencils(Caller: #function)
             }
             PlotEarthquakes(EarthquakeList, On: Earth)
+            Final?()
         }
     }
     
@@ -85,7 +94,7 @@ extension GlobeView
     /// Called when a new list of earthquakes was obtained from the remote source.
     /// - Parameter NewList: New list of earthquakes. If the new list has the same contents as the
     ///                      previous list, no action is taken.
-    func NewEarthquakeList(_ NewList: [Earthquake])
+    func NewEarthquakeList(_ NewList: [Earthquake], Final: (() -> ())? = nil)
     {
         RemoveExpiredIndicators(NewList)
         let FilteredList = EarthquakeFilterer.FilterList(NewList)
@@ -106,7 +115,8 @@ extension GlobeView
         EarthquakeList.removeAll()
         EarthquakeList = FilteredList
         PlottedEarthquakes.removeAll()
-        PlotEarthquakes()
+        print("Calling PlotEarthquakes from \(#function), line \(#line)")
+        PlotEarthquakes("\(#function)", Final)
     }
     
     /// Go through all current earthquakes and remove indicators for those earthquakes that are no longer
@@ -321,7 +331,7 @@ extension GlobeView
                 let RotateForever = SCNAction.repeatForever(Rotate)
                 
                 let BounceDistance: CGFloat = 0.5
-                let BounceDuration = 1.0
+                let BounceDuration = (10.0 - Quake.Magnitude) / 5.0
                 let BounceAway = SCNAction.move(by: SCNVector3(0.0, -BounceDistance, 0.0), duration: BounceDuration)
                 BounceAway.timingMode = .easeOut
                 let BounceTo = SCNAction.move(by: SCNVector3(0.0, BounceDistance, 0.0), duration: BounceDuration)
