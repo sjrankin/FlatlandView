@@ -506,11 +506,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="900" height="900"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="hFB-sH-wQq" customClass="StatusContainerController" customModule="Flatland" customModuleProvider="target">
-                                <rect key="frame" x="225" y="20" width="450" height="100"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="hFB-sH-wQq" customClass="StatusUIView" customModule="Flatland" customModuleProvider="target">
+                                <rect key="frame" x="20" y="20" width="860" height="50"/>
+                                <subviews>
+                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="R5h-Th-66C">
+                                        <rect key="frame" x="15" y="5" width="774" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="770" id="RX6-jG-JWu"/>
+                                            <constraint firstAttribute="height" constant="40" id="s41-qn-rNu"/>
+                                        </constraints>
+                                        <textFieldCell key="cell" alignment="left" title="Multiline Label" allowsEditingTextAttributes="YES" id="Gac-5S-2aY">
+                                            <font key="font" usesAppearanceFont="YES"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="h80-xt-s6h" customClass="GeneralIndicator" customModule="Flatland" customModuleProvider="target">
+                                        <rect key="frame" x="810" y="3" width="45" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="45" id="qhk-vR-dY0"/>
+                                            <constraint firstAttribute="height" constant="45" id="wla-7Y-2kN"/>
+                                        </constraints>
+                                    </customView>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="450" id="SKK-d1-4ab"/>
-                                    <constraint firstAttribute="height" constant="100" id="aOj-hc-sDh"/>
+                                    <constraint firstItem="h80-xt-s6h" firstAttribute="leading" secondItem="R5h-Th-66C" secondAttribute="trailing" constant="23" id="1Th-2b-dCF"/>
+                                    <constraint firstItem="R5h-Th-66C" firstAttribute="centerY" secondItem="hFB-sH-wQq" secondAttribute="centerY" id="3HH-gI-l8E"/>
+                                    <constraint firstAttribute="trailing" secondItem="h80-xt-s6h" secondAttribute="trailing" constant="5" id="PSh-fJ-xuA"/>
+                                    <constraint firstAttribute="width" constant="860" id="SKK-d1-4ab"/>
+                                    <constraint firstItem="R5h-Th-66C" firstAttribute="centerY" secondItem="hFB-sH-wQq" secondAttribute="centerY" id="VoR-DN-W7F"/>
+                                    <constraint firstAttribute="height" constant="50" id="aOj-hc-sDh"/>
+                                    <constraint firstItem="h80-xt-s6h" firstAttribute="centerY" secondItem="hFB-sH-wQq" secondAttribute="centerY" id="sqN-Kr-t8c"/>
                                 </constraints>
                             </customView>
                             <textField hidden="YES" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="BFj-Wa-HNl">
@@ -651,6 +677,8 @@
                         <outlet property="NightMaskImageView" destination="8k3-gX-b5q" id="8PV-an-Q2B"/>
                         <outlet property="StarView" destination="rl2-NN-bVz" id="Hfa-nm-l5H"/>
                         <outlet property="StatusContainer" destination="hFB-sH-wQq" id="ABH-Qi-Eeh"/>
+                        <outlet property="StatusViewIndicator" destination="h80-xt-s6h" id="cYK-5h-98w"/>
+                        <outlet property="StatusViewText" destination="R5h-Th-66C" id="h09-rL-SXw"/>
                         <outlet property="SunViewBottom" destination="wns-jc-4Fq" id="Fbt-Wq-Ymj"/>
                         <outlet property="SunViewTop" destination="q1S-Rx-kJK" id="AOh-tS-JEc"/>
                         <outlet property="World3DView" destination="QaS-kA-VXe" id="8HV-v8-o9W"/>
