@@ -103,8 +103,6 @@
 		178B1B3324B5A830007ACBCA /* FontDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178B1B3224B5A830007ACBCA /* FontDataType.swift */; };
 		1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */; };
 		1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105E2495BA6900626FD9 /* SCNTriangle.swift */; };
-		1797ED3824E7A680005C74A0 /* StatusProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1797ED3724E7A680005C74A0 /* StatusProtocol.swift */; };
-		1797ED3A24E7AD2A005C74A0 /* StatusContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1797ED3924E7AD2A005C74A0 /* StatusContainerController.swift */; };
 		1797ED3D24E7B976005C74A0 /* FlatlandNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1797ED3C24E7B976005C74A0 /* FlatlandNotification.swift */; };
 		179BE7C324ED053D0025B349 /* Today.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 179BE7C224ED053D0025B349 /* Today.storyboard */; };
 		179BE7C524ED06DB0025B349 /* TodayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179BE7C424ED06DB0025B349 /* TodayWindow.swift */; };
@@ -127,9 +125,7 @@
 		17B7D7BA24CED129000C077B /* ImageMergeKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7B924CED129000C077B /* ImageMergeKernel.metal */; };
 		17B7D7BC24CED148000C077B /* ImageMergeParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7BB24CED148000C077B /* ImageMergeParameters.swift */; };
 		17B7D7BE24CED162000C077B /* ImageMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7BD24CED162000C077B /* ImageMerger.swift */; };
-		17B8158A24E6794400956471 /* StatusView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17B8158924E6794400956471 /* StatusView.storyboard */; };
 		17B8158C24E6802500956471 /* GeneralIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B8158B24E6802500956471 /* GeneralIndicator.swift */; };
-		17B8158E24E6B27000956471 /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B8158D24E6B27000956471 /* StatusViewController.swift */; };
 		17BCCC3F24D7F15600030E37 /* EarthquakeFilterer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BCCC3E24D7F15600030E37 /* EarthquakeFilterer.swift */; };
 		17BD9E8224867D400054B25E /* ConfirmDialogWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */; };
 		17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */; };
@@ -141,11 +137,14 @@
 		17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */; };
 		17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */; };
 		17D55F2F249DE4DA00A64B2B /* +2DEarthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D55F2E249DE4DA00A64B2B /* +2DEarthquakes.swift */; };
+		17DD615B24EE622B008C332A /* StatusUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD615A24EE622B008C332A /* StatusUIView.swift */; };
 		17DD791A24DA7A500046EB25 /* ResetConfirmWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD791924DA7A500046EB25 /* ResetConfirmWindow.swift */; };
 		17DD791C24DA7A8E0046EB25 /* ResetConfirmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD791B24DA7A8E0046EB25 /* ResetConfirmController.swift */; };
 		17DDA0452484E9750090E1EB /* UserLocationEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */; };
 		17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */; };
 		17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3EDC524B5B222007C1D72 /* FontHelper.swift */; };
+		17E5EF5124F0DE2C00665167 /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E5EF5024F0DBC600665167 /* libc++abi.tbd */; };
+		17E5EF5F24F1051400665167 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E5EF5E24F1051400665167 /* Debug.swift */; };
 		17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790424AEC8D100BB0473 /* K-Means.swift */; };
 		17EB790824AEEE6B00BB0473 /* EarthquakeDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790724AEEE6B00BB0473 /* EarthquakeDebugWindow.swift */; };
 		17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790924AEEE9800BB0473 /* EarthquakeDebugController.swift */; };
@@ -293,8 +292,6 @@
 		178B1B3224B5A830007ACBCA /* FontDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontDataType.swift; sourceTree = "<group>"; };
 		1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSimpleArrow.swift; sourceTree = "<group>"; };
 		1792105E2495BA6900626FD9 /* SCNTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangle.swift; sourceTree = "<group>"; };
-		1797ED3724E7A680005C74A0 /* StatusProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusProtocol.swift; sourceTree = "<group>"; };
-		1797ED3924E7AD2A005C74A0 /* StatusContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusContainerController.swift; sourceTree = "<group>"; };
 		1797ED3C24E7B976005C74A0 /* FlatlandNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlandNotification.swift; sourceTree = "<group>"; };
 		179BE7C224ED053D0025B349 /* Today.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Today.storyboard; sourceTree = "<group>"; };
 		179BE7C424ED06DB0025B349 /* TodayWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWindow.swift; sourceTree = "<group>"; };
@@ -317,9 +314,7 @@
 		17B7D7B924CED129000C077B /* ImageMergeKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageMergeKernel.metal; sourceTree = "<group>"; };
 		17B7D7BB24CED148000C077B /* ImageMergeParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMergeParameters.swift; sourceTree = "<group>"; };
 		17B7D7BD24CED162000C077B /* ImageMerger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMerger.swift; sourceTree = "<group>"; };
-		17B8158924E6794400956471 /* StatusView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = StatusView.storyboard; sourceTree = "<group>"; };
 		17B8158B24E6802500956471 /* GeneralIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralIndicator.swift; sourceTree = "<group>"; };
-		17B8158D24E6B27000956471 /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		17BCCC3E24D7F15600030E37 /* EarthquakeFilterer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeFilterer.swift; sourceTree = "<group>"; };
 		17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogWindow.swift; sourceTree = "<group>"; };
 		17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogCode.swift; sourceTree = "<group>"; };
@@ -331,11 +326,20 @@
 		17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorWindow.swift; sourceTree = "<group>"; };
 		17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsWindow.swift; sourceTree = "<group>"; };
 		17D55F2E249DE4DA00A64B2B /* +2DEarthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+2DEarthquakes.swift"; sourceTree = "<group>"; };
+		17DD615A24EE622B008C332A /* StatusUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusUIView.swift; sourceTree = "<group>"; };
 		17DD791924DA7A500046EB25 /* ResetConfirmWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetConfirmWindow.swift; sourceTree = "<group>"; };
 		17DD791B24DA7A8E0046EB25 /* ResetConfirmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetConfirmController.swift; sourceTree = "<group>"; };
 		17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorController.swift; sourceTree = "<group>"; };
 		17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditingProtocol.swift; sourceTree = "<group>"; };
 		17E3EDC524B5B222007C1D72 /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
+		17E5EF5024F0DBC600665167 /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
+		17E5EF5224F0DF1800665167 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
+		17E5EF5424F0DFB300665167 /* libsystem_info.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsystem_info.tbd; path = usr/lib/system/libsystem_info.tbd; sourceTree = SDKROOT; };
+		17E5EF5624F0DFFB00665167 /* libdyld.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libdyld.tbd; path = usr/lib/system/libdyld.tbd; sourceTree = SDKROOT; };
+		17E5EF5824F0E01D00665167 /* SystemExtensions.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemExtensions.framework; path = System/Library/Frameworks/SystemExtensions.framework; sourceTree = SDKROOT; };
+		17E5EF5A24F0E04600665167 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		17E5EF5C24F0E0F200665167 /* libdtrace.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libdtrace.tbd; path = usr/lib/libdtrace.tbd; sourceTree = SDKROOT; };
+		17E5EF5E24F1051400665167 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		17EB790424AEC8D100BB0473 /* K-Means.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "K-Means.swift"; sourceTree = "<group>"; };
 		17EB790724AEEE6B00BB0473 /* EarthquakeDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDebugWindow.swift; sourceTree = "<group>"; };
 		17EB790924AEEE9800BB0473 /* EarthquakeDebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDebugController.swift; sourceTree = "<group>"; };
@@ -387,6 +391,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17E5EF5124F0DE2C00665167 /* libc++abi.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,10 +401,7 @@
 		1710D22324E661FE009B6BB7 /* StatusView */ = {
 			isa = PBXGroup;
 			children = (
-				1797ED3724E7A680005C74A0 /* StatusProtocol.swift */,
-				1797ED3924E7AD2A005C74A0 /* StatusContainerController.swift */,
-				17B8158924E6794400956471 /* StatusView.storyboard */,
-				17B8158D24E6B27000956471 /* StatusViewController.swift */,
+				17DD615A24EE622B008C332A /* StatusUIView.swift */,
 			);
 			path = StatusView;
 			sourceTree = "<group>";
@@ -672,6 +674,7 @@
 				1767A8E124794A0100C434B5 /* Products */,
 				17523CD5247B937F005209FC /* UnescoSites.db */,
 				17ABAFFD24E9209E009DDC35 /* EarthquakeHistory.db */,
+				17E5EF4F24F0DBC500665167 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -895,6 +898,20 @@
 			path = SettingsCode;
 			sourceTree = "<group>";
 		};
+		17E5EF4F24F0DBC500665167 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				17E5EF5C24F0E0F200665167 /* libdtrace.tbd */,
+				17E5EF5A24F0E04600665167 /* libc++.tbd */,
+				17E5EF5824F0E01D00665167 /* SystemExtensions.framework */,
+				17E5EF5624F0DFFB00665167 /* libdyld.tbd */,
+				17E5EF5424F0DFB300665167 /* libsystem_info.tbd */,
+				17E5EF5224F0DF1800665167 /* Kernel.framework */,
+				17E5EF5024F0DBC600665167 /* libc++abi.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		17EB790624AEEE5100BB0473 /* EarthquakeDebug */ = {
 			isa = PBXGroup;
 			children = (
@@ -948,6 +965,7 @@
 				1727EA5B24B184110051EA3B /* DataStructures */,
 				17EF3399247A673900A5B55D /* FileIO.swift */,
 				17EF33A2247A699300A5B55D /* Utility.swift */,
+				17E5EF5E24F1051400665167 /* Debug.swift */,
 				17EF33C2247A961C00A5B55D /* SunGenerator.swift */,
 				17EF33C0247A95E300A5B55D /* ColorList.swift */,
 				17EB790424AEC8D100BB0473 /* K-Means.swift */,
@@ -1091,7 +1109,6 @@
 				1750043924B46110006528A4 /* FontPickerUI.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
 				1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */,
-				17B8158A24E6794400956471 /* StatusView.storyboard in Resources */,
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
 				17FC2213249879BE005A0929 /* LiveData.storyboard in Resources */,
 				17523CD6247B937F005209FC /* UnescoSites.db in Resources */,
@@ -1154,7 +1171,6 @@
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
 				1760023C24D2BF8000D5EA1A /* NSColor.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
-				17B8158E24E6B27000956471 /* StatusViewController.swift in Sources */,
 				17C22C2324EA1CD9006BB3AB /* NASAMapConfirmation.swift in Sources */,
 				172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */,
 				174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */,
@@ -1188,8 +1204,8 @@
 				17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */,
 				1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */,
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
+				17E5EF5F24F1051400665167 /* Debug.swift in Sources */,
 				17C22C2524EA1F94006BB3AB /* NASAMapConfirmWindow.swift in Sources */,
-				1797ED3824E7A680005C74A0 /* StatusProtocol.swift in Sources */,
 				1759AE5B249F7781003F79F5 /* MainSettingsBase.swift in Sources */,
 				17EF33A8247A936900A5B55D /* Solar.swift in Sources */,
 				17EF339A247A673900A5B55D /* FileIO.swift in Sources */,
@@ -1203,6 +1219,7 @@
 				178B1B3324B5A830007ACBCA /* FontDataType.swift in Sources */,
 				174623D624A83FF0007F5D4C /* StarField3DWindow.swift in Sources */,
 				17B7D7B724CED0F7000C077B /* ImageResizer.swift in Sources */,
+				17DD615B24EE622B008C332A /* StatusUIView.swift in Sources */,
 				17B7D7BA24CED129000C077B /* ImageMergeKernel.metal in Sources */,
 				1727EA5824B15CD10051EA3B /* +UserCamera.swift in Sources */,
 				1748913124C5747C00B5F6AF /* EarthData.swift in Sources */,
@@ -1294,7 +1311,6 @@
 				17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */,
 				17F782C1249742A1000A568E /* USGS.swift in Sources */,
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
-				1797ED3A24E7AD2A005C74A0 /* StatusContainerController.swift in Sources */,
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
 				178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */,
 				178A86972488C23C00BE8D46 /* AboutController.swift in Sources */,
@@ -1438,6 +1454,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				CODE_SIGN_ENTITLEMENTS = FlatlandView/FlatlandView.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1450,6 +1467,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Irorio.FlatlandView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1466,6 +1487,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				CODE_SIGN_ENTITLEMENTS = FlatlandView/FlatlandView.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1476,6 +1498,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Irorio.FlatlandView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
