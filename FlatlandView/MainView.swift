@@ -42,7 +42,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             let Earth = EarthData()
             Earth.MainDelegate = self
             Earth.Delegate = self
-            Utility.Print("Calling LoadMap")
+            Debug.Print("Calling LoadMap")
             Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
         }
         
@@ -50,7 +50,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         Earthquakes?.Delegate = self
         if Settings.GetBool(.EnableEarthquakes)
         {
-            Utility.Print("Calling GetEarthquakes")
+            Debug.Print("Calling GetEarthquakes")
             let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
             Earthquakes?.GetEarthquakes(Every: FetchInterval)
         }
@@ -77,13 +77,13 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         {
             var StatusMessage = "Flatland initializing - please wait."
             StatusMessage.append("\n")
-            StatusMessage.append("\(Versioning.VerySimpleVersionString()), build \(Versioning.Build)")
-            let ShowDuration = Settings.GetDouble(.SplashScreenDuration, 6.0)
+            StatusMessage.append("\(Versioning.VerySimpleVersionString()), Build \(Versioning.Build), \(Versioning.BuildDate)")
+            #if true
+            let ShowDuration = Settings.GetDouble(.SplashScreenDuration)
             DisplayStatusText(StatusMessage, Hide: ShowDuration, ShowIfNotVisible: true)
-            if Settings.GetBool(.EnableEarthquakes) || Settings.GetBool(.PreloadNASATiles)
-            {
-                DisplaySubText("Loading data from remote sources.")
-            }
+            #else
+            DisplayStatusText(StatusMessage, ShowIfNotVisible: true)
+            #endif
         }
         else
         {
@@ -91,7 +91,12 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         }
         
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
-        Utility.Print("Done with viewDidLoad")
+        Debug.Print("Done with viewDidLoad")
+    }
+    
+    func DoneWithStenciling()
+    {
+        HideStatus()
     }
     
     /// Called when a new NASA map has been received and fully assembled.
@@ -106,13 +111,13 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         if !Successful
         {
             #if DEBUG
-            Utility.Print("Unable to download earth map from NASA.")
+            Debug.Print("Unable to download earth map from NASA.")
             #endif
             return
         }
-        Utility.Print("Received earth map from NASA")
+        Debug.Print("Received earth map from NASA")
         //let Brightened = Image.SetImageBrightness(To: 0.1)
-        Utility.Print("Map generation duration \(Duration), Date: \(ImageDate)")
+        Debug.Print("Map generation duration \(Duration), Date: \(ImageDate)")
         //        World3DView.AddEarth(WithMap: Brightened)
         let Maps = EarthData.MakeSatelliteMapDefinitions()
         Maps[0].CachedMap = Image
@@ -284,8 +289,10 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     /// Some tasks need to have a fully prepared view and window. Initialize the UI from here.
     override func viewDidAppear()
     {
-        Utility.Print("At viewDidAppear")
+        Debug.Print("At viewDidAppear")
         InitializeUI()
+        Debug.Print("World3DView.PlotEarthquakes called from \(#function), \(#line)")
+        World3DView.PlotEarthquakes()
     }
     
     /// After the view is laid out, wait a certain amount of time before finalizing the UI and
@@ -318,7 +325,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
                     let Earth = EarthData()
                     Earth.MainDelegate = self
                     Earth.Delegate = self
-                    Utility.Print("Calling LoadMap")
+                    Debug.Print("Calling LoadMap")
                     Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
                     return
                 }
@@ -805,12 +812,12 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             case .Earthquakes:
                 if let NewEarthquakes = Actual as? [Earthquake]
                 {
-                    Utility.Print("Have new earthquakes")
-                    World3DView.NewEarthquakeList(NewEarthquakes)
+                    Debug.Print("Have new earthquakes")
+                    World3DView.NewEarthquakeList(NewEarthquakes, Final: DoneWithStenciling)
                     Plot2DEarthquakes(NewEarthquakes)
                     LatestEarthquakes = NewEarthquakes
                     (view.window?.windowController as? MainWindow)!.EarthquakeButton.isEnabled = true
-                    Utility.Print("Done with new earthquakes")
+                    Debug.Print("Done with new earthquakes")
                 }
                 
             default:
@@ -837,6 +844,8 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     static var UnescoHandle: OpaquePointer? = nil
     var WorldHeritageSites: [WorldHeritageSite]? = nil
     
+    var ShowingStatus = false
+    
     var PreviousSunType = SunNames.None
     
     /// Previous percent drawn. Used to prevent constant updates when an update would not result
@@ -848,10 +857,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     var CityLayer: CAShapeLayer? = nil
     var EarthquakeLayer: CAShapeLayer? = nil
     var PreviousEarthquakes = [Earthquake]()
-    
-    //Status display variables.
-    var StatusDelegate: StatusProtocol? = nil
-    var ShowingStatus: Bool = false
     
     var StartupTask = Set<StartupTasks>()
     
@@ -883,6 +888,8 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     @IBOutlet weak var BackgroundView: NSView!
     @IBOutlet weak var FlatView: NSView!
     @IBOutlet weak var World3DView: GlobeView!
-    @IBOutlet weak var StatusContainer: StatusContainerController!
+    @IBOutlet weak var StatusContainer: StatusUIView!
+    @IBOutlet weak var StatusViewText: NSTextField!
+    @IBOutlet weak var StatusViewIndicator: GeneralIndicator!
 }
 
