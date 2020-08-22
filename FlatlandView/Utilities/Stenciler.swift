@@ -42,6 +42,7 @@ class Stenciler
     /// - Parameter Status: Closure for handling status updates for drawing stencils. First parameter is a string
     ///                     describing the status and the second parameter is the number of seconds since the
     ///                     function was called.
+    /// - Parameter FinalNotify: Closure passed to the completion handler.
     /// - Parameter Completed: Closure to accept the resultant image (`NSImage`) after all stencils have been
     ///                        drawn. If no stencils have been drawn (due to the values of parameters), the
     ///                        original image, unchanged, will be passed to this closure. The second parameter
@@ -56,17 +57,18 @@ class Stenciler
                                    UNESCOSites: Bool = false,
                                    CalledBy: String? = nil,
                                    Status: ((String, Double) -> ())? = nil,
-                                   Completed: ((NSImage, Double, String?) -> ())? = nil)
+                                   FinalNotify: (() -> ())? = nil,
+                                   Completed: ((NSImage, Double, String?, (() -> ())?) -> ())? = nil)
     {
         objc_sync_enter(StencilLock)
         defer{objc_sync_exit(StencilLock)}
         let MapRatio: Double = Double(Image.size.width) / 3600.0
-        Utility.Print("Stencil on image size: \(Image.size), MapRatio=\(MapRatio)")
+        Debug.Print("Stencil on image size: \(Image.size), MapRatio=\(MapRatio)")
         let StartTime = CACurrentMediaTime()
         if Quakes == nil && !ShowRegions && !PlotCities && !GridLines && !UNESCOSites
         {
             //Nothing to do - return the image unaltered.
-            Completed?(Image, 0.0, CalledBy)
+            Completed?(Image, 0.0, CalledBy, FinalNotify)
             return
         }
         let LocalQuakes = Quakes
@@ -113,7 +115,7 @@ class Stenciler
             let Final = GetImage(From: Rep)
             let Duration = CACurrentMediaTime() - StartTime
             Status?("Finished", CACurrentMediaTime() - StartTime)
-            Completed?(Final, Duration, CalledBy)
+            Completed?(Final, Duration, CalledBy, FinalNotify)
         }
     }
     
