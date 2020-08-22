@@ -1477,11 +1477,6 @@ class Utility
         return (X, Y, Z)
     }
     
-    /// Print a message to the debug console prefixed by the time this function was called.
-    /// - Parameter Message: The message to print.
-    public static func Print(_ Message: String)
-    {
-        let Prefix = MakeTimeString(TheDate: Date())
-        print("\(Prefix): \(Message)")
-    }
+   
 }
+
