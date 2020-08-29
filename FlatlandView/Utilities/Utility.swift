@@ -1477,6 +1477,17 @@ class Utility
         return (X, Y, Z)
     }
     
-   
+    /// Returns all of the cases in the passed enum type.
+    /// - Parameter EnumType: The enum type whose cases will be returned.
+    /// - Returns: Array of case values in the passed enum type.
+    public static func EnumCases<T: RawRepresentable & CaseIterable>(EnumType: T.Type) -> [String] where T.RawValue == String
+    {
+        var CaseList = [String]()
+        for SomeCase in EnumType.allCases
+        {
+            CaseList.append("\(SomeCase)")
+        }
+        return CaseList
+    }
 }
 
