@@ -15,47 +15,12 @@ class EnumEditor: NSViewController, EditorProtocol
     var SettingKey: SettingTypes? = nil
     
     public weak var Delegate: RawSettingsProtocol? = nil
-    /*
-    {
-        didSet
-        {
-            let SettingKeyName = Delegate?.GetSettingName()
-            SettingNameLabel.stringValue = Delegate!.GetSettingName()
-            if let SettingType = SettingKeyName
-            {
-                EnumTypeName = "\(SettingType)"
-                SettingKey = SettingTypes(rawValue: SettingKeyName!)
-                Settings.GetValue(For: SettingKey!)
-                {
-                    Result in
-                    switch Result
-                    {
-                        case .failure(let ErrorType):
-                            self.OldEnumValue.stringValue = "\(ErrorType)"
-                            
-                        case .success(let (SettingValue, _)):
-                            let EnumValues = self.Delegate?.GetEnumCases()
-                            self.EnumCombo.removeAllItems()
-                            for EnumValue in EnumValues!
-                            {
-                                self.EnumCombo.addItem(withObjectValue: EnumValue)
-                            }
-                            if let OldValue = SettingValue as? String
-                            {
-                                self.EnumCombo.selectItem(withObjectValue: OldValue)
-                                self.OldEnumValue.stringValue = OldValue
-                            }
-                    }
-                }
-            }
-        }
-    }
- */
     
     func AssignDelegate(_ DelegateProtocol: RawSettingsProtocol?)
     {
         Delegate = DelegateProtocol
         SettingNameLabel.stringValue = Delegate!.GetSettingName()
+        SettingKey = SettingTypes(rawValue: Delegate!.GetSettingName())
     }
     
     func LoadValue(_ Value: Any?, _ Type: String)
