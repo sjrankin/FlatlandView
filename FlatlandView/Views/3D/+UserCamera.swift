@@ -14,24 +14,25 @@ import SceneKit
 /// camera control).
 extension GlobeView
 {
+    #if false
     /// Create the user camera.
     /// - Parameter At: The initial location of the camera. Defaults to `SCNVector3(0.0, 0.0, 16.0)`.
     func CreateUserCamera(At Position: SCNVector3 = SCNVector3(0.0, 0.0, 16.0))
     {
-        UserCamera = SCNCamera()
-        UserCamera?.wantsHDR = Settings.GetBool(.UseHDRCamera)
-        UserCamera?.fieldOfView = CGFloat(Settings.GetDouble(.FieldOfView, 90.0))
-        UserCamera?.usesOrthographicProjection = true
-        UserCamera?.orthographicScale = Settings.GetDouble(.OrthographicScale, 14.0)
-        UserCamera?.zFar = 500
-        UserCamera?.zNear = 0.1
-        UserCameraNode = SCNNode()
-        UserCameraNode?.camera = UserCamera
-        UserCameraNode?.position = Position
-        UserCameraLocation = Position
-        UserCameraNode?.name = GlobeNodeNames.UserCameraNode.rawValue
-        UserCameraNode?.look(at: SCNVector3(0.0, 0.0, 0.0))
-        self.scene?.rootNode.addChildNode(UserCameraNode!)
+        FlatlandCamera = SCNCamera()
+        FlatlandCamera?.wantsHDR = Settings.GetBool(.UseHDRCamera)
+        FlatlandCamera?.fieldOfView = CGFloat(Settings.GetDouble(.FieldOfView, 90.0))
+        FlatlandCamera?.usesOrthographicProjection = true
+        FlatlandCamera?.orthographicScale = Settings.GetDouble(.OrthographicScale, 14.0)
+        FlatlandCamera?.zFar = 500
+        FlatlandCamera?.zNear = 0.1
+        FlatlandCameraNode = SCNNode()
+        FlatlandCameraNode?.camera = FlatlandCamera
+        FlatlandCameraNode?.position = Position
+        FlatlandCameraLocation = Position
+        FlatlandCameraNode?.name = GlobeNodeNames.BuiltInCameraNode.rawValue
+        FlatlandCameraNode?.look(at: SCNVector3(0.0, 0.0, 0.0))
+        self.scene?.rootNode.addChildNode(FlatlandCameraNode!)
     }
     
     /// Update the user camera with presumably new user-changeable settings.
@@ -43,7 +44,7 @@ extension GlobeView
         }
         for Node in self.scene!.rootNode.childNodes
         {
-            if Node.name == GlobeNodeNames.UserCameraNode.rawValue
+            if Node.name == GlobeNodeNames.BuiltInCameraNode.rawValue
             {
                 Node.camera?.wantsHDR = Settings.GetBool(.UseHDRCamera)
                 Node.camera?.fieldOfView = CGFloat(Settings.GetDouble(.FieldOfView, 90.0))
@@ -61,15 +62,15 @@ extension GlobeView
         //print("New camera position: \(Position)")
         if Duration == 0.0
         {
-            UserCameraNode?.position = Position
-            UserCameraLocation = Position
+            FlatlandCameraNode?.position = Position
+            FlatlandCameraLocation = Position
         }
         else
         {
             let Move = SCNAction.move(to: Position, duration: Duration)
-            UserCameraNode?.runAction(Move)
+            FlatlandCameraNode?.runAction(Move)
             {
-                self.UserCameraLocation = Position
+                self.FlatlandCameraLocation = Position
             }
         }
     }
@@ -91,7 +92,7 @@ extension GlobeView
     override func mouseDown(with event: NSEvent)
     {
         super.mouseDown(with: event)
-        UserCameraNode?.removeAllActions()
+        FlatlandCameraNode?.removeAllActions()
         MouseLocations.Clear()
         MouseLocations.Enqueue(event)
     }
@@ -121,9 +122,10 @@ extension GlobeView
         let dz = event.deltaZ
         //print("Left mouse dragged: \(dx),\(dy),\(dz)")
         MouseLocations.Enqueue(event)
-        let NewPosition = SCNVector3(UserCameraLocation.x + dx,
-                                     UserCameraLocation.y + dy,
-                                     UserCameraLocation.z + dz)
+        let NewPosition = SCNVector3(FlatlandCameraLocation.x + dx,
+                                     FlatlandCameraLocation.y + dy,
+                                     FlatlandCameraLocation.z + dz)
         MoveCamera(To: NewPosition)
     }
+    #endif
 }
