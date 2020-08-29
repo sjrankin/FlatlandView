@@ -253,7 +253,7 @@ class CitySettingsWindow: NSViewController, FontProtocol
         if let WindowController = Storyboard.instantiateController(withIdentifier: "CustomCityWindow") as? CustomCityWindow
         {
             let Window = WindowController.window
-            let ViewController = Window?.contentViewController as? CustomCityController
+            //let ViewController = Window?.contentViewController as? CustomCityController
             self.view.window?.beginSheet(Window!, completionHandler: nil)
         }
     }
