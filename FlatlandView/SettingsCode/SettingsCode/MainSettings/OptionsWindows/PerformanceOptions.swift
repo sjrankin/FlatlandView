@@ -38,6 +38,28 @@ class PerformanceOptions: NSViewController
         }
         LiveDataChamferSwitch.state = Settings.GetBool(.UseLiveDataChamfer) ? .on : .off
         HourChamferSwitch.state = Settings.GetBool(.UseHourChamfer) ? .on : .off
+        var Index = 0
+        switch Settings.GetInt(.SphereSegmentCount, IfZero: 100)
+        {
+            case 70:
+                Index = 0
+                
+            case 85:
+                Index = 1
+                
+            case 100:
+                Index = 2
+                
+            case 120:
+                Index = 3
+                
+            case 200:
+                Index = 4
+                
+            default:
+                Index = 2
+        }
+        SphereSegmentCountSegment.selectedSegment = Index
     }
     
     @IBAction func HandleSmoothnessChanged(_ sender: Any)
@@ -64,7 +86,34 @@ class PerformanceOptions: NSViewController
             Settings.SetBool(.UseHourChamfer, Switch.state == .on ? true : false)
         }
     }
+    @IBAction func HandleSphereSegmentCountChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    Settings.SetInt(.SphereSegmentCount, 70)
+                    
+                case 1:
+                    Settings.SetInt(.SphereSegmentCount, 85)
+                    
+                case 2:
+                    Settings.SetInt(.SphereSegmentCount, 100)
+                    
+                case 3:
+                    Settings.SetInt(.SphereSegmentCount, 120)
+                    
+                case 4:
+                    Settings.SetInt(.SphereSegmentCount, 200)
+                    
+                default:
+                    return
+            }
+        }
+    }
     
+    @IBOutlet weak var SphereSegmentCountSegment: NSSegmentedControl!
     @IBOutlet weak var LiveDataChamferSwitch: NSSwitch!
     @IBOutlet weak var HourChamferSwitch: NSSwitch!
     @IBOutlet weak var SmoothSegment: NSSegmentedControl!
