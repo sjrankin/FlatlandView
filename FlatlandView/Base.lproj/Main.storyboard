@@ -415,10 +415,10 @@
                                         <action selector="DebugResetSettings:" target="Oky-zY-oP4" id="XW7-rD-sMV"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="6BE54BF9-4C85-4617-817F-EB1122C24315" label="Reset View" paletteLabel="Reset View" image="ResetViewIcon" sizingBehavior="auto" id="H0V-YW-3Jm">
+                                <toolbarItem implicitItemIdentifier="6BE54BF9-4C85-4617-817F-EB1122C24315" label="Home Position" paletteLabel="Home Position" image="ResetViewIcon" sizingBehavior="auto" id="H0V-YW-3Jm">
                                     <nil key="toolTip"/>
                                     <button key="view" id="7K7-7U-lP0">
-                                        <rect key="frame" x="9" y="14" width="48" height="48"/>
+                                        <rect key="frame" x="18" y="14" width="48" height="48"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="ResetViewIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="t8I-4t-PhV">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
