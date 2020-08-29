@@ -217,12 +217,12 @@ class GlobeView: SCNView
         Camera.fieldOfView = Settings.GetCGFloat(.FieldOfView, 10.0)
         //Camera.usesOrthographicProjection = true
         //Camera.orthographicScale = Settings.GetDouble(.OrthographicScale, 14.0)
-        Camera.zFar = Settings.GetDouble(.ZFar, 500.0)
+        Camera.zFar = Settings.GetDouble(.ZFar, 1000.0)
         Camera.zNear = Settings.GetDouble(.ZNear, 0.1)
         CameraNode = SCNNode()
         CameraNode.name = GlobeNodeNames.BuiltInCameraNode.rawValue
         CameraNode.camera = Camera
-        CameraNode.position = SCNVector3(0.0, 0.0, 170.0)
+        CameraNode.position = SCNVector3(0.0, 0.0, 175.0)
             //Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, 16.0))
         self.scene?.rootNode.addChildNode(CameraNode)
     }
