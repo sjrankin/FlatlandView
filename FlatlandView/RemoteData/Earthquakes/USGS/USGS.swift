@@ -97,7 +97,7 @@ class USGS
             #if DEBUG
             FinalList.append(contentsOf: self.DebugEarthquakes)
             #endif
-            print("Received \(FinalList.count) unique earthquakes")
+            //print("Received \(FinalList.count) unique earthquakes")
             self.Delegate?.AsynchronousDataAvailable(DataType: .Earthquakes, Actual: FinalList as Any)
         }
     }
