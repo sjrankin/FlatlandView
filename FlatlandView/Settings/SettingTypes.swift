@@ -78,8 +78,10 @@ enum SettingTypes: String, CaseIterable
     case ShowMoonLight = "ShowMoonLight"
     /// Determines the shape of the object marking the poles.
     case PolarShape = "PolarShape"
+    #if false
     /// Determines the shape of the object making locations in the user's location list.
     case UserLocationShape = "UserLocationShape"
+    #endif
     /// Boolean: Reset hour labels periodically. Performance debug option.
     case ResetHoursPeriodically = "ResetHoursPeriodically"
     /// Double: How often to reset hours. Performance debug option.
@@ -102,23 +104,47 @@ enum SettingTypes: String, CaseIterable
     case GridLineColor = "GridLineColor"
     /// NSColor: Color of minor grid lines.
     case MinorGridLineColor = "MinorGridLineColor"
-    /// Double: User camera field of view.
+    /// CGFloat: User camera field of view.
     case FieldOfView = "FieldOfView"
     /// Double: User camera orthographic scale value.
     case OrthographicScale = "OrthographicScale"
-    /// Bool: If true, grid lines are drawn on the map itself. If false, they are drawn
+    /// Double: Camera's z-far value.
+    case ZFar = "ZFar"
+    /// Double: Camera's z-near value.
+    case ZNear = "ZNear"
+    /// Integer: Number of sphere segments.
+    case SphereSegmentCount = "SphereSegmentCount"
+    /// Boolean: If true, grid lines are drawn on the map itself. If false, they are drawn
     /// semi-three dimensionally.
     case GridLinesDrawnOnMap = "GridLineDrawnOnMap"
-    /// Bool: If true, city names are drawn on the map itself. If false, they are drawn
+    /// Boolean: If true, city names are drawn on the map itself. If false, they are drawn
     /// with 3D extruded text.
     case CityNamesDrawnOnMap = "CityNamesDrawnOnMap"
-    /// Bool: If true, earthquake magnitude values are drawn on the map itself. If false,
+    /// Boolean: If true, earthquake magnitude values are drawn on the map itself. If false,
     /// they are drawn with 3D extruded text.
     case MagnitudeValuesDrawnOnMap = "MagnitudeValuesDrawnOnMap"
     /// NSColor: The color to use to draw earthquake region bords.
     case EarthquakeRegionBorderColor = "EarthquakeRegionBorderColor"
     /// Double: The width of earthquake borders.
     case EarthquakeRegionBorderWidth = "EarthquakeRegionBorderWidth"
+    // Camera settings.
+    /// SCNVector3: Initial position of the camera.
+    case InitialCameraPosition = "InitialCameraPosition"
+    /// Boolean: If true, `allowsCameraControl` is used to let the user control how the scene
+    /// looks. If false, use the camera control implemented in Flatland.
+    case UseSystemCameraControl = "UseSystemCameraControl"
+    /// Boolean: It true, the user can zoom with Flatland's camera.
+    case EnableZooming = "EnableZooming"
+    /// Boolean: If true, the user can drag/rotate the scene with Flatland's camera.
+    case EnableDragging = "EnableDragging"
+    /// Boolean: If true, the user can move/translate the scene with Flatland's camera.
+    case EnableMoving = "EnableMoving"
+    /// Flatland's camera projection.
+    case CameraProjection = "CameraProjection"
+    /// CGFloat: The field of view for Flatland's camera system.
+    case CameraFieldOfView = "CameraFieldOfView"
+    /// Double: The orthographic scale for Flatland's camera system.
+    case CameraOrthographicScale = "CameraOrthographicScale"
     #if DEBUG
     //3D debug settings.
     /// Render 3D elements as wireframes.
@@ -217,8 +243,6 @@ enum SettingTypes: String, CaseIterable
     case ShowWorldHeritageSites = "ShowWorldHeritageSites"
     /// Determines the type of site to display.
     case WorldHeritageSiteType = "WorldHeritageSiteType"
-    /// Site type filter.
-    case SiteTypeFilter = "SiteTypeFilter"
     /// County filter for World Heritage Sites.
     case SiteCountry = "SiteCountry"
     /// Inclusion year for sites.
@@ -267,8 +291,10 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeListAge = "EarthquakeListAge"
     /// Integer: Minimum magnitude earthquake to display in the earthquake list dialog.
     case EarthquakeDisplayMagnitude = "EarthquakeDisplayMagnitude"
+    #if false
     /// Maximum distance (in kilometers) that earthquakes must be to be combined.
     case CombineDistance = "CombineDistance"
+    #endif
     /// How (or if) to display earthquake magnitude values.
     case EarthquakeMagnitudeViews = "EarthquakeMagnitudeViews"
     /// NSColor: The color of the bars that indicate a combined earthquake.
