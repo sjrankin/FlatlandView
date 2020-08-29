@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class DebugSettingsCode: NSViewController
+class DebugSettingsCode: NSViewController, NSTextFieldDelegate
 {
     override func viewDidLoad()
     {
@@ -50,6 +50,25 @@ class DebugSettingsCode: NSViewController
         let TimeBreakpoint = Settings.GetDate(.StopTimeAt, Date())
         StopAtTimeSetter.dateValue = TimeBreakpoint
         EnableStopTime.state = Settings.GetBool(.EnableStopTime) ? .on : .off
+        let Ortho = Settings.GetCGFloat(.CameraOrthographicScale, 15.0).RoundedTo(2)
+        OrthographicScaleField.stringValue = "\(Ortho)"
+        let FOV = Settings.GetCGFloat(.CameraFieldOfView, 90.0)
+        let FOVS = "\(Int(FOV))"
+        FlatlandFieldOfViewCombo.selectItem(withObjectValue: FOVS)
+        SystemCameraSwitch.state = Settings.GetBool(.UseSystemCameraControl) ? .on : .off
+        EnableZoomSwitch.state = Settings.GetBool(.EnableZooming) ? .on : .off
+        EnableDragSwitch.state = Settings.GetBool(.EnableDragging) ? .on : .off
+        EnableMoveSwitch.state = Settings.GetBool(.EnableMoving) ? .on : .off
+        let Projection = Settings.GetEnum(ForKey: .CameraProjection, EnumType: CameraProjections.self,
+                                          Default: .Perspective)
+        switch Projection
+        {
+            case .Orthographic:
+                CameraProjectionSegment.selectedSegment = 1
+                
+            case .Perspective:
+                CameraProjectionSegment.selectedSegment = 0
+        }
         #endif
     }
     
@@ -132,6 +151,101 @@ class DebugSettingsCode: NSViewController
         #endif
     }
     
+    @IBAction func HandleSystemCameraSwitch(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.UseSystemCameraControl, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBAction func HandleFlatlandCameraControls(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            let SwitchEnabled = Switch.state == .on ? true: false
+            switch Switch
+            {
+                case EnableZoomSwitch:
+                    Settings.SetBool(.EnableZooming, SwitchEnabled)
+                    
+                case EnableDragSwitch:
+                    Settings.SetBool(.EnableDragging, SwitchEnabled)
+                    
+                case EnableMoveSwitch:
+                    Settings.SetBool(.EnableMoving, SwitchEnabled)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBAction func HandleFOVComboChanged(_ sender: Any)
+    {
+        if let Combo = sender as? NSComboBox
+        {
+            if let Value = Combo.objectValueOfSelectedItem as? String
+            {
+                if let DValue = Double(Value)
+                {
+                    Settings.SetCGFloat(.CameraFieldOfView, CGFloat(DValue))
+                }
+            }
+            else
+            {
+                print("Error converting FOV combo value to string")
+            }
+        }
+    }
+    
+    @IBAction func HandleCameraProjectionChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    Settings.SetEnum(.Perspective, EnumType: CameraProjections.self, ForKey: .CameraProjection)
+                    
+                case 1:
+                    Settings.SetEnum(.Orthographic, EnumType: CameraProjections.self, ForKey: .CameraProjection)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    func controlTextDidEndEditing(_ obj: Notification)
+    {
+        if let TextField = obj.object as? NSTextField
+        {
+            let RawValue = TextField.stringValue
+            if let DValue = Double(RawValue)
+            {
+                Settings.SetCGFloat(.CameraOrthographicScale, CGFloat(DValue))
+            }
+        }
+    }
+    
+    @IBAction func HandleRawSettingsButtonPressed(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "RawSettingsEditor", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "RawSettingsWindow") as? RawSettingsWindow
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!, completionHandler: nil)
+        }
+    }
+    
+    @IBOutlet weak var OrthographicScaleField: NSTextField!
+    @IBOutlet weak var CameraProjectionSegment: NSSegmentedControl!
+    @IBOutlet weak var FlatlandFieldOfViewCombo: NSComboBox!
+    @IBOutlet weak var EnableZoomSwitch: NSSwitch!
+    @IBOutlet weak var EnableDragSwitch: NSSwitch!
+    @IBOutlet weak var EnableMoveSwitch: NSSwitch!
+    @IBOutlet weak var SystemCameraSwitch: NSSwitch!
     @IBOutlet weak var EnableStopTime: NSSwitch!
     @IBOutlet weak var TimeMultiplierCombo: NSComboBox!
     @IBOutlet weak var StopAtTimeSetter: NSDatePicker!
