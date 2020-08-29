@@ -8,6 +8,7 @@
 
 import Foundation
 import AppKit
+import SceneKit
 
 /// This class encapsulates settings into a set of functions that rely on enums to select the
 /// value rather than strings. This class also allows other classes to "subscribe" to changed
@@ -117,6 +118,23 @@ class Settings
         }
     }
     
+    // MARK: - Validation functions.
+    
+    /// Determines if the passed type is valid for the passed setting type/key.
+    /// - Parameter For: The setting key show type will be tested against `Type`.
+    /// - Parameter Type: The type to test against the type in `SettingKeyTypes`.
+    /// - Returns: True if the passed type matches the type in the `SettingKeyTypes` table, false otherwise.
+    public static func TypeIsValid(_ For: SettingTypes, Type: Any) -> Bool
+    {
+        let TypeName = "\(Type)"
+        if let BaseType = SettingKeyTypes[For]
+        {
+            let BaseName = "\(BaseType)"
+            return TypeName == BaseName
+        }
+        return false
+    }
+    
     // MARK: - Boolean functions.
     
     /// Initialize a Boolean setting. Subscribers are not notified.
@@ -132,6 +150,10 @@ class Settings
     /// - Returns: Boolean value of the setting.
     public static func GetBool(_ Setting: SettingTypes) -> Bool
     {
+        if !TypeIsValid(Setting, Type: Bool.self)
+        {
+            fatalError("\(Setting) is not a boolean")
+        }
         return UserDefaults.standard.bool(forKey: Setting.rawValue)
     }
     
@@ -141,6 +163,10 @@ class Settings
     ///                         to the completion handler.
     public static func QueryBool(_ Setting: SettingTypes, Completion: (Bool) -> Void)
     {
+        if !TypeIsValid(Setting, Type: Bool.self)
+        {
+            fatalError("\(Setting) is not a boolean")
+        }
         let BoolValue = UserDefaults.standard.bool(forKey: Setting.rawValue)
         Completion(BoolValue)
     }
@@ -150,6 +176,10 @@ class Settings
     /// - Parameter Value: The new value.
     public static func SetBool(_ Setting: SettingTypes, _ Value: Bool)
     {
+        if !TypeIsValid(Setting, Type: Bool.self)
+        {
+            fatalError("\(Setting) is not a boolean")
+        }
         let OldValue = UserDefaults.standard.bool(forKey: Setting.rawValue)
         let NewValue = Value
         UserDefaults.standard.set(NewValue, forKey: Setting.rawValue)
@@ -172,6 +202,10 @@ class Settings
     /// - Returns: String found at the specified setting, or `Default` if it does not exist.
     public static func GetString(_ Setting: SettingTypes, _ Default: String) -> String
     {
+        if !TypeIsValid(Setting, Type: String.self)
+        {
+            fatalError("\(Setting) is not a string")
+        }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             return Raw
@@ -185,6 +219,19 @@ class Settings
     /// - Returns: String found at the specified setting, or nil if it does not exist.
     public static func GetString(_ Setting: SettingTypes) -> String?
     {
+        if !TypeIsValid(Setting, Type: String.self)
+        {
+            fatalError("\(Setting) is not a string")
+        }
+        return UserDefaults.standard.string(forKey: Setting.rawValue)
+    }
+    
+    /// Returns a string from the specified setting.
+    /// - Note: **Intended only for internal Settings usage.**
+    /// - Parameter Setting: The setting whose string value will be returned.
+    /// - Returns: String found at the specified setting, or nil if it does not exist.
+    private static func GetMaskedString(_ Setting: SettingTypes) -> String?
+    {
         return UserDefaults.standard.string(forKey: Setting.rawValue)
     }
     
@@ -194,6 +241,10 @@ class Settings
     ///                         to the completion handler.
     public static func QueryString(_ Setting: SettingTypes, Completion: (String?) -> Void)
     {
+        if !TypeIsValid(Setting, Type: String.self)
+        {
+            fatalError("\(Setting) is not a string")
+        }
         let StringValue = UserDefaults.standard.string(forKey: Setting.rawValue)
         Completion(StringValue)
     }
@@ -203,6 +254,10 @@ class Settings
     /// - Parameter Value: The value to save.
     public static func SetString(_ Setting: SettingTypes, _ Value: String)
     {
+        if !TypeIsValid(Setting, Type: String.self)
+        {
+            fatalError("\(Setting) is not a string")
+        }
         let OldValue = UserDefaults.standard.string(forKey: Setting.rawValue)
         let NewValue = Value
         UserDefaults.standard.set(NewValue, forKey: Setting.rawValue)
@@ -216,6 +271,10 @@ class Settings
     /// - Parameter Value: The initial value of the setting.
     public static func InitializeInt(_ Setting: SettingTypes, _ Value: Int)
     {
+        if !TypeIsValid(Setting, Type: Int.self)
+        {
+            fatalError("\(Setting) is not an Int")
+        }
         UserDefaults.standard.set(Value, forKey: Setting.rawValue)
     }
     
@@ -224,7 +283,11 @@ class Settings
     /// - Returns: Integer found at the specified setting.
     public static func GetInt(_ Setting: SettingTypes) -> Int
     {
-        UserDefaults.standard.integer(forKey: Setting.rawValue)
+        if !TypeIsValid(Setting, Type: Int.self)
+        {
+            fatalError("\(Setting) is not an Int")
+        }
+        return UserDefaults.standard.integer(forKey: Setting.rawValue)
     }
     
     /// Returns an integer from the specified setting.
@@ -235,6 +298,10 @@ class Settings
     ///            is saved in the setting then returned.
     public static func GetInt(_ Setting: SettingTypes, IfZero: Int) -> Int
     {
+        if !TypeIsValid(Setting, Type: Int.self)
+        {
+            fatalError("\(Setting) is not an Int")
+        }
         let Value = UserDefaults.standard.integer(forKey: Setting.rawValue)
         if Value == 0
         {
@@ -250,6 +317,10 @@ class Settings
     ///                         to the completion handler.
     public static func QueryInt(_ Setting: SettingTypes, Completion: (Int) -> Void)
     {
+        if !TypeIsValid(Setting, Type: Int.self)
+        {
+            fatalError("\(Setting) is not an Int")
+        }
         let IntValue = UserDefaults.standard.integer(forKey: Setting.rawValue)
         Completion(IntValue)
     }
@@ -259,6 +330,10 @@ class Settings
     /// - Parameter Value: The value to save.
     public static func SetInt(_ Setting: SettingTypes, _ Value: Int)
     {
+        if !TypeIsValid(Setting, Type: Int.self)
+        {
+            fatalError("\(Setting) is not an Int")
+        }
         let OldValue = UserDefaults.standard.integer(forKey: Setting.rawValue)
         let NewValue = Value
         UserDefaults.standard.set(NewValue, forKey: Setting.rawValue)
@@ -280,6 +355,10 @@ class Settings
     /// - Parameter Value: The initial value of the setting.
     public static func InitializeDoubleNil(_ Setting: SettingTypes, _ Value: Double? = nil)
     {
+        if !TypeIsValid(Setting, Type: Double.self)
+        {
+            fatalError("\(Setting) is not a Double")
+        }
         if let Actual = Value
         {
             UserDefaults.standard.set(Double(Actual), forKey: Setting.rawValue)
@@ -295,7 +374,11 @@ class Settings
     /// - Returns: Double found at the specified setting.
     public static func GetDouble(_ Setting: SettingTypes) -> Double
     {
-        UserDefaults.standard.double(forKey: Setting.rawValue)
+        if !TypeIsValid(Setting, Type: Double.self)
+        {
+            fatalError("\(Setting) is not a Double")
+        }
+        return UserDefaults.standard.double(forKey: Setting.rawValue)
     }
     
     /// Queries a double setting value.
@@ -304,6 +387,10 @@ class Settings
     ///                         to the completion handler.
     public static func QueryDouble(_ Setting: SettingTypes, Completion: (Double) -> Void)
     {
+        if !TypeIsValid(Setting, Type: Double.self)
+        {
+            fatalError("\(Setting) is not a Double")
+        }
         let DoubleValue = UserDefaults.standard.double(forKey: Setting.rawValue)
         Completion(DoubleValue)
     }
@@ -316,6 +403,10 @@ class Settings
     ///            value is 0.0.
     public static func GetDouble(_ Setting: SettingTypes, _ IfZero: Double = 0) -> Double
     {
+        if !TypeIsValid(Setting, Type: Double.self)
+        {
+            fatalError("\(Setting) is not a Double")
+        }
         let Value = UserDefaults.standard.double(forKey: Setting.rawValue)
         if Value == 0.0
         {
@@ -332,6 +423,10 @@ class Settings
     ///            value is nil, nil if `Default` is nil.
     public static func GetDoubleNil(_ Setting: SettingTypes, _ Default: Double? = nil) -> Double?
     {
+        if !TypeIsValid(Setting, Type: Double?.self)
+        {
+            fatalError("\(Setting) is not a Double?")
+        }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             if let Final = Double(Raw)
@@ -353,6 +448,10 @@ class Settings
     ///                         to the completion handler.
     public static func QueryDoubleNil(_ Setting: SettingTypes, Completion: (Double?) -> Void)
     {
+        if !TypeIsValid(Setting, Type: Double?.self)
+        {
+            fatalError("\(Setting) is not a Double?")
+        }
         let DoubleNil = GetDoubleNil(Setting)
         Completion(DoubleNil)
     }
@@ -362,6 +461,10 @@ class Settings
     /// - Parameter Value: The value to save.
     public static func SetDouble(_ Setting: SettingTypes, _ Value: Double)
     {
+        if !TypeIsValid(Setting, Type: Double?.self)
+        {
+            fatalError("\(Setting) is not a Double?")
+        }
         let OldValue = UserDefaults.standard.double(forKey: Setting.rawValue)
         let NewValue = Value
         UserDefaults.standard.set(NewValue, forKey: Setting.rawValue)
@@ -374,6 +477,10 @@ class Settings
     /// - Parameter Value: The double? value to save.
     public static func SetDoubleNil(_ Setting: SettingTypes, _ Value: Double? = nil)
     {
+        if !TypeIsValid(Setting, Type: Double?.self)
+        {
+            fatalError("\(Setting) is not a Double?")
+        }
         let OldValue = GetDoubleNil(Setting)
         let NewValue = Value
         UserDefaults.standard.set(Value, forKey: Setting.rawValue)
@@ -395,6 +502,10 @@ class Settings
     /// - Parameter Value: The initial value of the setting.
     public static func InitializeCGFloatNil(_ Setting: SettingTypes, _ Value: CGFloat? = nil)
     {
+        if !TypeIsValid(Setting, Type: CGFloat.self)
+        {
+            fatalError("\(Setting) is not a CGFloat")
+        }
         if let Actual = Value
         {
             UserDefaults.standard.set(Double(Actual), forKey: Setting.rawValue)
@@ -410,7 +521,11 @@ class Settings
     /// - Returns: CGFloat found at the specified setting.
     public static func GetCGFloat(_ Setting: SettingTypes) -> CGFloat
     {
-        CGFloat(UserDefaults.standard.double(forKey: Setting.rawValue))
+        if !TypeIsValid(Setting, Type: CGFloat.self)
+        {
+            fatalError("\(Setting) is not a CGFloat")
+        }
+        return CGFloat(UserDefaults.standard.double(forKey: Setting.rawValue))
     }
     
     /// Queries a CGFloat setting value.
@@ -419,6 +534,10 @@ class Settings
     ///                         to the completion handler.
     public static func QueryCGFloat(_ Setting: SettingTypes, Completion: (CGFloat) -> Void)
     {
+        if !TypeIsValid(Setting, Type: CGFloat.self)
+        {
+            fatalError("\(Setting) is not a CGFloat")
+        }
         let CGFloatValue = CGFloat(UserDefaults.standard.double(forKey: Setting.rawValue))
         Completion(CGFloatValue)
     }
@@ -431,6 +550,10 @@ class Settings
     ///            value is 0.0.
     public static func GetCGFloat(_ Setting: SettingTypes, _ IfZero: CGFloat = 0) -> CGFloat
     {
+        if !TypeIsValid(Setting, Type: CGFloat.self)
+        {
+            fatalError("\(Setting) is not a CGFloat")
+        }
         let Value = UserDefaults.standard.double(forKey: Setting.rawValue)
         if Value == 0.0
         {
@@ -447,6 +570,10 @@ class Settings
     ///            value is nil, nil if `Default` is nil.
     public static func GetCGFloatNil(_ Setting: SettingTypes, _ Default: CGFloat? = nil) -> CGFloat?
     {
+        if !TypeIsValid(Setting, Type: CGFloat.self)
+        {
+            fatalError("\(Setting) is not a CGFloat")
+        }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             if let Final = Double(Raw)
@@ -468,6 +595,10 @@ class Settings
     ///                         to the completion handler.
     public static func QueryCGFloatNil(_ Setting: SettingTypes, Completion: (CGFloat?) -> Void)
     {
+        if !TypeIsValid(Setting, Type: CGFloat.self)
+        {
+            fatalError("\(Setting) is not a CGFloat")
+        }
         let CGFloatNil = GetCGFloatNil(Setting)
         Completion(CGFloatNil)
     }
@@ -477,6 +608,10 @@ class Settings
     /// - Parameter Value: The value to save.
     public static func SetCGFloat(_ Setting: SettingTypes, _ Value: CGFloat)
     {
+        if !TypeIsValid(Setting, Type: CGFloat.self)
+        {
+            fatalError("\(Setting) is not a CGFloat")
+        }
         let OldValue = CGFloat(UserDefaults.standard.double(forKey: Setting.rawValue))
         let NewValue = Value
         UserDefaults.standard.set(Double(NewValue), forKey: Setting.rawValue)
@@ -489,6 +624,10 @@ class Settings
     /// - Parameter Value: The CGFloat? value to save.
     public static func SetCGFloatNil(_ Setting: SettingTypes, _ Value: CGFloat? = nil)
     {
+        if !TypeIsValid(Setting, Type: CGFloat.self)
+        {
+            fatalError("\(Setting) is not a CGFloat")
+        }
         let OldValue = GetCGFloatNil(Setting)
         let NewValue = Value
         UserDefaults.standard.set(Value, forKey: Setting.rawValue)
@@ -541,6 +680,10 @@ class Settings
     /// - Parameter Value: The value to store.
     public static func SetRect(_ Setting: SettingTypes, _ Value: NSRect)
     {
+        if !TypeIsValid(Setting, Type: NSRect.self)
+        {
+            fatalError("\(Setting) is not a NSRect")
+        }
         let OldValue = GetRect(Setting)
         let Encoded = EncodeRect(Value)
         UserDefaults.standard.set(Encoded, forKey: Setting.rawValue)
@@ -552,6 +695,10 @@ class Settings
     /// - Returns: Populated `NSRect` on success, nil on error.
     public static func GetRect(_ Setting: SettingTypes) -> NSRect?
     {
+        if !TypeIsValid(Setting, Type: NSRect.self)
+        {
+            fatalError("\(Setting) is not a NSRect")
+        }
         if let Value = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             return DecodeRect(Value)
@@ -573,6 +720,10 @@ class Settings
     ///            `Setting` is empty, `NSRect.zero` if `Default` is nil.
     public static func GetRect(_ Setting: SettingTypes, Default: NSRect? = nil) -> NSRect
     {
+        if !TypeIsValid(Setting, Type: NSRect.self)
+        {
+            fatalError("\(Setting) is not a NSRect")
+        }
         if let Value = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             if let Actual = DecodeRect(Value)
@@ -605,6 +756,10 @@ class Settings
     /// - Returns: The color stored at the specified setting, nil if not found.
     public static func GetColor(_ Setting: SettingTypes) -> NSColor?
     {
+        if !TypeIsValid(Setting, Type: NSColor.self)
+        {
+            fatalError("\(Setting) is not an NSColor")
+        }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             if let Final = NSColor(HexString: Raw)
@@ -621,6 +776,10 @@ class Settings
     ///                         to the completion handler.
     public static func QueryColor(_ Setting: SettingTypes, Completion: (NSColor?) -> Void)
     {
+        if !TypeIsValid(Setting, Type: NSColor.self)
+        {
+            fatalError("\(Setting) is not an NSColor")
+        }
         let ColorValue = GetColor(Setting)
         Completion(ColorValue)
     }
@@ -632,6 +791,10 @@ class Settings
     ///            color found.
     public static func GetColor(_ Setting: SettingTypes, _ Default: NSColor) -> NSColor
     {
+        if !TypeIsValid(Setting, Type: NSColor.self)
+        {
+            fatalError("\(Setting) is not an NSColor")
+        }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             if let Final = NSColor(HexString: Raw)
@@ -650,6 +813,10 @@ class Settings
     ///            color found. Value returned as a `CGColor`.
     public static func GetCGColor(_ Setting: SettingTypes, _ Default: NSColor) -> CGColor
     {
+        if !TypeIsValid(Setting, Type: NSColor.self)
+        {
+            fatalError("\(Setting) is not an NSColor")
+        }
         return GetColor(Setting, Default).cgColor
     }
     
@@ -658,6 +825,10 @@ class Settings
     /// - Parameter Value: The color to save.
     public static func SetColor(_ Setting: SettingTypes, _ Value: NSColor)
     {
+        if !TypeIsValid(Setting, Type: NSColor.self)
+        {
+            fatalError("\(Setting) is not an NSColor")
+        }
         let OldValue = GetColor(Setting)
         UserDefaults.standard.set(Value.Hex, forKey: Setting.rawValue)
         NotifySubscribers(Setting: Setting, OldValue: OldValue, NewValue: Value)
@@ -681,6 +852,10 @@ class Settings
     ///            previously set.
     public static func GetDate(_ Setting: SettingTypes) -> Date
     {
+        if !TypeIsValid(Setting, Type: Date.self)
+        {
+            fatalError("\(Setting) is not a Date")
+        }
         let Raw = UserDefaults.standard.double(forKey: Setting.rawValue)
         return Date(timeIntervalSince1970: Raw)
     }
@@ -694,6 +869,10 @@ class Settings
     ///            date was stored.
     public static func GetDate(_ Setting: SettingTypes, _ IfZero: Date) -> Date
     {
+        if !TypeIsValid(Setting, Type: Date.self)
+        {
+            fatalError("\(Setting) is not a Date")
+        }
         let Raw = UserDefaults.standard.double(forKey: Setting.rawValue)
         if Raw == 0.0
         {
@@ -708,6 +887,10 @@ class Settings
     /// - Parameter Value: The value to save.
     public static func SetDate(_ Setting: SettingTypes, _ Value: Date)
     {
+        if !TypeIsValid(Setting, Type: Date.self)
+        {
+            fatalError("\(Setting) is not a Date")
+        }
         let OldValue = GetDate(Setting)
         UserDefaults.standard.set(Value.timeIntervalSince1970, forKey: Setting.rawValue)
         NotifySubscribers(Setting: Setting, OldValue: OldValue, NewValue: Value)
@@ -737,7 +920,11 @@ class Settings
     /// - Returns: Enum value (of type `EnumType`) for the specified setting key.
     public static func GetEnum<T: RawRepresentable>(ForKey: SettingTypes, EnumType: T.Type, Default: T) -> T where T.RawValue == String
     {
-        if let Raw = GetString(ForKey)
+        if !TypeIsValid(ForKey, Type: EnumType.self)
+        {
+            fatalError("\(ForKey) is not \(EnumType.self)")
+        }
+        if let Raw = GetMaskedString(ForKey)
         {
             guard let Value = EnumType.init(rawValue: Raw) else
             {
@@ -756,7 +943,11 @@ class Settings
     /// - Returns: Enum value (of type `EnumType`) for the specified setting key. Nil returned if the setting was not found.
     public static func GetEnum<T: RawRepresentable>(ForKey: SettingTypes, EnumType: T.Type) -> T? where T.RawValue == String
     {
-        if let Raw = GetString(ForKey)
+        if !TypeIsValid(ForKey, Type: EnumType.self)
+        {
+            fatalError("\(ForKey) is not \(EnumType.self)")
+        }
+        if let Raw = GetMaskedString(ForKey)
         {
             guard let Value = EnumType.init(rawValue: Raw) else
             {
@@ -773,6 +964,10 @@ class Settings
     ///                         to the completion handler.
     public static func QueryEnum<T: RawRepresentable>(_ Setting: SettingTypes, EnumType: T.Type, Completion: (T?) -> Void) where T.RawValue == String
     {
+        if !TypeIsValid(Setting, Type: EnumType.self)
+        {
+            fatalError("\(Setting) is not \(EnumType.self)")
+        }
         let EnumValue = GetEnum(ForKey: Setting, EnumType: EnumType)
         Completion(EnumValue)
     }
@@ -790,6 +985,10 @@ class Settings
     public static func SetEnum<T: RawRepresentable>(_ NewValue: T, EnumType: T.Type, ForKey: SettingTypes,
                                                     Completed: ((SettingTypes) -> Void)) where T.RawValue == String
     {
+        if !TypeIsValid(ForKey, Type: EnumType.self)
+        {
+            fatalError("\(ForKey) is not \(EnumType.self)")
+        }
         let OldValue = GetEnum(ForKey: ForKey, EnumType: EnumType.self)
         guard let _ = EnumType.init(rawValue: NewValue.rawValue) else
         {
@@ -811,6 +1010,10 @@ class Settings
     /// - Parameter ForKey: The settings key to use to indicate where to save the value.
     public static func SetEnum<T: RawRepresentable>(_ NewValue: T, EnumType: T.Type, ForKey: SettingTypes) where T.RawValue == String
     {
+        if !TypeIsValid(ForKey, Type: EnumType.self)
+        {
+            fatalError("\(ForKey) is not \(EnumType.self)")
+        }
         let OldValue = GetEnum(ForKey: ForKey, EnumType: EnumType.self)
         guard let _ = EnumType.init(rawValue: NewValue.rawValue) else
         {
@@ -894,6 +1097,40 @@ class Settings
             return CGFloat(DFontSize)
         }
         return nil
+    }
+    
+    // MARK: - SCNVector3 settings.
+    
+    /// Get a stored `SCNVector3` value from settings.
+    /// - Note: If the specified setting does not exist or returns an error when it is parsed, the default
+    ///         value will be stored in its place and returned.
+    /// - Parameter Setting: The setting key where the vector lives in the setting.
+    /// - Parameter Default: The default value returned if there is no valid value currently stored in
+    ///                      the settings. Standard default value is (0.0, 0.0, 0.0).
+    /// - Returns: Populated `SCNVector3` value from user settings. If not available, the value of `Default`
+    ///            is returned.
+    public static func GetVector(_ Setting: SettingTypes, _ Default: SCNVector3 = SCNVector3(0.0, 0.0, 0.0)) -> SCNVector3
+    {
+        if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
+        {
+            if let StoredVector = SCNVector3.Deserialize(Raw)
+            {
+                return StoredVector
+            }
+        }
+        let Serialized = SCNVector3.Serialize(Default)
+        UserDefaults.standard.setValue(Serialized, forKey: Setting.rawValue)
+        return Default
+    }
+    
+    /// Saves the passed `SCNVector3` value in user settings.
+    /// - Parameter Setting: The setting key where to store the value.
+    /// - Parameter NewValue: The value to store.
+    public static func SetVector(_ Setting: SettingTypes, _ NewValue: SCNVector3)
+    {
+        let Serialized = SCNVector3.Serialize(NewValue)
+        UserDefaults.standard.setValue(Serialized, forKey: Setting.rawValue)
+        NotifySubscribers(Setting: Setting, OldValue: nil, NewValue: NewValue as Any)
     }
     
     // MARK: - Special settings.
@@ -1277,4 +1514,225 @@ class Settings
         }
         UserDefaults.standard.set(Final, forKey: SettingTypes.NotifiedEarthquakes.rawValue)
     }
+    
+    // MARK: - Generic setting handling.
+    
+    /// Set a value to the settings.
+    /// - Note: This function does not support enum-based settings.
+    /// - Parameter For: The setting key where to store the value.
+    /// - Parameter Value: The value to store as to `Any?`.
+    /// - Parameter CompletionHandler: Called after the operation has completed. Will have errors if any
+    ///                                occurred.
+    public static func SetValue(For Key: SettingTypes, _ Value: Any?,
+                                CompletionHandler: ((Result<Any, SettingErrors>) -> ())? = nil)
+    {
+        if let KeyType = SettingKeyTypes[Key]
+        {
+            let KeyTypeName = "\(KeyType.self)"
+            switch KeyTypeName
+            {
+                case "Int":
+                    if let FinalInt = Value as? Int
+                    {
+                        SetInt(Key, FinalInt)
+                        CompletionHandler?(.success(KeyType.self))
+                    }
+                    else
+                    {
+                        CompletionHandler?(.failure(.ConversionError))
+                    }
+                    return
+                    
+                case "Double":
+                    if let FinalDouble = Value as? Double
+                    {
+                        SetDouble(Key, FinalDouble)
+                        CompletionHandler?(.success(KeyType.self))
+                    }
+                    else
+                    {
+                        CompletionHandler?(.failure(.ConversionError))
+                    }
+                    return
+                    
+                case "Double?":
+                    if let FinalDoubleNil = Value as? Double?
+                    {
+                        SetDoubleNil(Key, FinalDoubleNil)
+                        CompletionHandler?(.success(KeyType.self))
+                    }
+                    else
+                    {
+                        CompletionHandler?(.failure(.ConversionError))
+                    }
+                    return
+                    
+                case "CGFloat":
+                    if let FinalCGFloat = Value as? CGFloat
+                    {
+                        SetCGFloat(Key, FinalCGFloat)
+                        CompletionHandler?(.success(KeyType.self))
+                    }
+                    else
+                    {
+                        CompletionHandler?(.failure(.ConversionError))
+                    }
+                    return
+                    
+                case "CGFloat?":
+                    if let FinalCGFloatNil = Value as? CGFloat?
+                    {
+                        SetCGFloatNil(Key, FinalCGFloatNil)
+                        CompletionHandler?(.success(KeyType.self))
+                    }
+                    else
+                    {
+                        CompletionHandler?(.failure(.ConversionError))
+                    }
+                    return
+                    
+                case "String":
+                    if let FinalString = Value as? String
+                    {
+                        SetString(Key, FinalString)
+                        CompletionHandler?(.success(KeyType.self))
+                    }
+                    else
+                    {
+                        CompletionHandler?(.failure(.ConversionError))
+                    }
+                    return
+                    
+                case "SCNVector3":
+                    if let FinalVector = Value as? SCNVector3
+                    {
+                        SetVector(Key, FinalVector)
+                        CompletionHandler?(.success(KeyType.self))
+                    }
+                    else
+                    {
+                        CompletionHandler?(.failure(.ConversionError))
+                    }
+                    return
+                    
+                case "Date":
+                    if let FinalDate = Value as? Date
+                    {
+                        SetDate(Key, FinalDate)
+                        CompletionHandler?(.success(KeyType.self))
+                    }
+                    else
+                    {
+                        CompletionHandler?(.failure(.ConversionError))
+                    }
+                    return
+                    
+                case "NSColor":
+                    if let FinalColor = Value as? NSColor
+                    {
+                        SetColor(Key, FinalColor)
+                        CompletionHandler?(.success(KeyType.self))
+                    }
+                    else
+                    {
+                        CompletionHandler?(.failure(.ConversionError))
+                    }
+                    return
+                    
+                case "NSRect":
+                    if let FinalRect = Value as? NSRect
+                    {
+                        SetRect(Key, FinalRect)
+                        CompletionHandler?(.success(KeyType.self))
+                    }
+                    else
+                    {
+                        CompletionHandler?(.failure(.ConversionError))
+                    }
+                    return
+                    
+                case "Bool":
+                    if let FinalBool = Value as? Bool
+                    {
+                        SetBool(Key, FinalBool)
+                        CompletionHandler?(.success(KeyType.self))
+                    }
+                    else
+                    {
+                        CompletionHandler?(.failure(.ConversionError))
+                    }
+                    return
+                    
+                default:
+                    CompletionHandler?(.failure(.BadType))
+            }
+        }
+        CompletionHandler?(.failure(.NoType))
+    }
+    
+    /// Attempts to return the value (cast to `Any?`) of the passed setting key. The value is returned to the
+    /// completion handler.
+    /// - Note: Enum types are not supported here.
+    /// - Parameter For: The setting key whose value will be returned.
+    /// - Parameter CompletionHandler: The closure to which the result is returned.
+    public static func GetValue(For Key: SettingTypes,
+                                CompletionHandler: @escaping (Result<(Any?, Any), SettingErrors>) -> ())
+    {
+        if let KeyType = SettingKeyTypes[Key]
+        {
+            let KeyTypeName = "\(KeyType.self)"
+            switch KeyTypeName
+            {
+                case "Int":
+                    CompletionHandler(.success((GetInt(Key) as Any?, KeyType)))
+                    
+                case "Double":
+                    CompletionHandler(.success((GetDouble(Key) as Any?, KeyType)))
+                    
+                case "Double?":
+                    CompletionHandler(.success((GetDoubleNil(Key) as Any?, KeyType)))
+                    
+                case "CGFloat":
+                    CompletionHandler(.success((GetCGFloat(Key) as Any?, KeyType)))
+                    
+                case "CGFloat?":
+                    CompletionHandler(.success((GetCGFloatNil(Key) as Any?, KeyType)))
+                    
+                case "String":
+                    CompletionHandler(.success((GetString(Key) as Any?, KeyType)))
+                    
+                case "SCNVector3":
+                    CompletionHandler(.success((GetVector(Key) as Any?, KeyType)))
+                    
+                case "Date":
+                    CompletionHandler(.success((GetDate(Key) as Any?, KeyType)))
+                    
+                case "NSColor":
+                    CompletionHandler(.success((GetColor(Key) as Any?, KeyType)))
+                    
+                case "NSRect":
+                    CompletionHandler(.success((GetRect(Key) as Any?, KeyType)))
+                    
+                case "Bool":
+                    CompletionHandler(.success((GetBool(Key) as Any?, KeyType)))
+                    
+                default:
+                    CompletionHandler(.failure(.BadType))
+            }
+        }
+        CompletionHandler(.failure(.NoType))
+    }
+}
+
+/// Setting errors that may occur.
+enum SettingErrors: String, CaseIterable, Error
+{
+    /// No error - operation was a success.
+    case Success = "Success"
+    /// Bad type specified.
+    case BadType = "BadType"
+    /// No type found for setting key.
+    case NoType = "NoType"
+    /// Error converting from one type to another.
+    case ConversionError = "ConversionError"
 }
