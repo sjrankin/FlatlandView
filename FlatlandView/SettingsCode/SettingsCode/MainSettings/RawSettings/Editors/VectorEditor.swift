@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SceneKit
 
-class VectorEditor: NSViewController, EditorProtocol
+class VectorEditor: NSViewController, NSTextFieldDelegate, EditorProtocol
 {
     public weak var Delegate: RawSettingsProtocol? = nil
     
@@ -18,6 +18,7 @@ class VectorEditor: NSViewController, EditorProtocol
     {
         Delegate = DelegateProtocol
         SettingNameLabel.stringValue = Delegate!.GetSettingName()
+        SettingKey = SettingTypes(rawValue: Delegate!.GetSettingName())
     }
     
     func LoadValue(_ Value: Any?, _ Type: String)
