@@ -185,28 +185,13 @@ class GlobeView: SCNView
         self.showsStatistics = false
         #endif
         
-        Camera = SCNCamera()
-        Camera.wantsHDR = Settings.GetBool(.UseHDRCamera)
-        Camera.fieldOfView = 90.0
-        Camera.usesOrthographicProjection = true
-        Camera.orthographicScale = 14
-        Camera.zFar = 500
-        Camera.zNear = 0.1
-        CameraNode = SCNNode()
-        CameraNode.camera = Camera
-        CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
-        
-        #if true
-        SetupLights()
+        #if false
+        InitializeSceneCamera(Settings.GetBool(.UseSystemCameraControl))
         #else
-        SetGridLight()
-        SetMetalLights()
-        SetSunlight()
-        SetMoonlight(Show: Settings.GetBool(.ShowMoonLight))
+        CreateCamera()
         #endif
-        
-        self.scene?.rootNode.addChildNode(CameraNode)
-        
+        SetupLights()
+
         AddEarth()
         if Settings.GetBool(.InAttractMode)
         {
@@ -221,7 +206,177 @@ class GlobeView: SCNView
         SetHourResetTimer()
     }
     
+    // MARK: - Camera-related functions.
+    
+    /// Create the default camera. This is the camera that `allowsCameraControl` manipulates.
+    func CreateCamera()
+    {
+        RemoveNodeWithName(GlobeNodeNames.FlatlandCameraNode.rawValue)
+        Camera = SCNCamera()
+        Camera.wantsHDR = Settings.GetBool(.UseHDRCamera)
+        Camera.fieldOfView = Settings.GetCGFloat(.FieldOfView, 10.0)
+        //Camera.usesOrthographicProjection = true
+        //Camera.orthographicScale = Settings.GetDouble(.OrthographicScale, 14.0)
+        Camera.zFar = Settings.GetDouble(.ZFar, 500.0)
+        Camera.zNear = Settings.GetDouble(.ZNear, 0.1)
+        CameraNode = SCNNode()
+        CameraNode.name = GlobeNodeNames.BuiltInCameraNode.rawValue
+        CameraNode.camera = Camera
+        CameraNode.position = SCNVector3(0.0, 0.0, 170.0)
+            //Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, 16.0))
+        self.scene?.rootNode.addChildNode(CameraNode)
+    }
+    
     var Camera: SCNCamera = SCNCamera()
+    
+    /// Remove all nodes with the specified name from the scene's root node.
+    /// - Parameter Name: The name of the node to remove. *Must match exactly.*
+    func RemoveNodeWithName(_ Name: String)
+    {
+        if let Nodes = self.scene?.rootNode.childNodes
+        {
+            for Node in Nodes
+            {
+                if Node.name == Name
+                {
+                    Node.removeAllActions()
+                    Node.removeAllAnimations()
+                    Node.removeFromParentNode()
+                    print("Node: \(Name) removed from parent.")
+                }
+            }
+        }
+    }
+    
+    func InitializeSceneCamera(_ UseFlatland: Bool)
+    {
+        #if false
+        print("UseFlatlandCamera(\(UseFlatland))")
+        if UseFlatland
+        {
+            self.allowsCameraControl = false
+            RemoveNodeWithName(GlobeNodeNames.BuiltInCameraNode.rawValue)
+            FlatlandCamera = SCNCamera()
+            FlatlandCamera?.fieldOfView = Settings.GetCGFloat(.CameraFieldOfView, 90.0)
+            FlatlandCamera?.zFar = Settings.GetDouble(.ZFar, 1000.0)
+            FlatlandCamera?.zNear = Settings.GetDouble(.ZNear, 0.1)
+            FlatlandCameraNode = SCNNode()
+            FlatlandCameraNode?.camera = FlatlandCamera
+            FlatlandCameraNode?.position = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, 16.0))
+            self.scene?.rootNode.addChildNode(FlatlandCameraNode!)
+        }
+        else
+        {
+            CreateCamera()
+            self.allowsCameraControl = true
+        }
+        #endif
+    }
+    
+    func UpdateFlatlandCamera()
+    {
+        #if false
+        if Settings.GetBool(.UseSystemCameraControl)
+        {
+            return
+        }
+        if FlatlandCamera == nil
+        {
+            print("FlatlandCamera is nil")
+        }
+        let NewFOV = Settings.GetCGFloat(.CameraFieldOfView)
+        let NewOrthoScale = Settings.GetDouble(.CameraOrthographicScale)
+        let NewProjection = Settings.GetEnum(ForKey: .CameraProjection, EnumType: CameraProjections.self, Default: .Perspective)
+        if NewProjection == .Orthographic
+        {
+            FlatlandCamera?.usesOrthographicProjection = true
+            FlatlandCamera?.orthographicScale = NewOrthoScale
+            FlatlandCamera?.fieldOfView = NewFOV
+        }
+        else
+        {
+            FlatlandCamera?.usesOrthographicProjection = false
+            FlatlandCamera?.fieldOfView = NewFOV
+        }
+        #endif
+    }
+    
+    func ResetFlatlandCamera(_ Completed: ((Bool) -> ())? = nil)
+    {
+        #if false
+        if Settings.GetBool(.UseSystemCameraControl)
+        {
+            Completed?(false)
+            return
+        }
+        let ResetAngles = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0,
+                                             duration: 1.5, usesShortestUnitArc: true)
+        let ResetPosition = SCNAction.move(to: SCNVector3(0.0, 0.0, 15.0),
+                                           duration: 1.5)
+        SystemNode?.runAction(ResetAngles)
+        FlatlandCameraNode?.runAction(ResetPosition)
+        {
+            Completed?(true)
+        }
+        #endif
+    }
+    
+    // MARK: - User camera variables.
+
+    var FlatlandCamera: SCNCamera? = nil
+    var FlatlandCameraNode: SCNNode? = nil
+    var FlatlandCameraLocation = SCNVector3(0.0, 0.0, 16.0)
+    var MouseLocations = Queue<NSEvent>(WithCapacity: 5)
+    
+    func HandleMouseScrollWheelChanged(DeltaX: Int, DeltaY: Int, Option: Bool)
+    {
+        #if false
+        let CameraX = FlatlandCameraNode?.position.x
+        let CameraY = FlatlandCameraNode?.position.y
+        let CameraZ = FlatlandCameraNode?.position.z
+        if Option
+        {
+            if Settings.GetBool(.EnableZooming)
+            {
+                let NewZ = CameraZ! + CGFloat(DeltaY)
+                FlatlandCameraNode?.position = SCNVector3(CameraX!, CameraY!, NewZ)
+            }
+        }
+        else
+        {
+            if Settings.GetBool(.EnableMoving)
+            {
+                FlatlandCameraNode?.position = SCNVector3(CameraX! + CGFloat(-DeltaX),
+                                                      CameraY! + CGFloat(DeltaY),
+                                                      CameraZ!)
+            }
+        }
+        #endif
+    }
+    
+    func HandleMouseDragged(DeltaX: Int, DeltaY: Int)
+    {
+        #if false
+        if Settings.GetBool(.EnableDragging)
+        {
+            if let Euler = SystemNode?.eulerAngles
+            {
+                if DeltaX != 0
+                {
+                    let Yaw = Euler.y + (CGFloat(DeltaX) * CGFloat.pi / 180.0)
+                    SystemNode?.eulerAngles = SCNVector3(Euler.x, Yaw, Euler.z)
+                }
+                if DeltaY != 0
+                {
+                    let Pitch = Euler.x + (CGFloat(DeltaY) * CGFloat.pi / 180.0)
+                    SystemNode?.eulerAngles = SCNVector3(Pitch, Euler.y, Euler.z)
+                }
+            }
+        }
+        #endif
+    }
+    
+    // MARK: - Light-related functions
     
     /// Setup lights to use to view the 3D scene.
     func SetupLights()
@@ -277,12 +432,21 @@ class GlobeView: SCNView
     /// Resets the default camera to its original location.
     func ResetCamera()
     {
-        let PositionAction = SCNAction.move(to: SCNVector3(0.0, 0.0, 16.0), duration: 1.0)
+        #if false
+        CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
+//        let Node = SCNNode()
+//        Node.position = SCNVector3(0.0, 0.0, 16.0)
+//        self.pointOfView = Node
+//        CreateCamera()
+        #else
+//        let PositionAction = SCNAction.move(to: SCNVector3(0.0, 0.0, 16.0), duration: 1.0)
+        let PositionAction = SCNAction.move(to: SCNVector3(0.0, 0.0, 170.0), duration: 1.0)
         PositionAction.timingMode = .easeOut
         self.pointOfView?.runAction(PositionAction)
         let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 1.0)
         RotationAction.timingMode = .easeOut
         self.pointOfView?.runAction(RotationAction)
+        #endif
     }
     
     /// Sets the HDR flag of the camera depending on user settings.
@@ -661,9 +825,9 @@ class GlobeView: SCNView
         SystemNode = SCNNode()
         
         let EarthSphere = SCNSphere(radius: GlobeRadius.Primary.rawValue)
-        EarthSphere.segmentCount = 100
+        EarthSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: 100)
         let SeaSphere = SCNSphere(radius: GlobeRadius.SeaSphere.rawValue)
-        SeaSphere.segmentCount = 100
+        SeaSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: 100)
         
         let MapType = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
         var BaseMap: NSImage? = nil
@@ -892,7 +1056,7 @@ class GlobeView: SCNView
                                   PlotCities: Settings.GetBool(.CityNamesDrawnOnMap),
                                   GridLines: Settings.GetBool(.GridLinesDrawnOnMap),
                                   UNESCOSites: ShowUNESCO,
-                                  CalledBy: "ApplyStencils",
+                                  CalledBy: Caller,//"ApplyStencils",
                                   FinalNotify: Final,
                                   Completed: GotStenciledMap)
         }
@@ -909,6 +1073,8 @@ class GlobeView: SCNView
                          Notify: (() -> ())? = nil)
     {
         #if DEBUG
+        let StackFrames = Debug.StackFrameContents(10)
+        Debug.Print(Debug.PrettyStackTrace(StackFrames))
         if let Caller = CalledBy
         {
             Debug.Print("Stencil available: called by \(Caller), duration: \(Duration.RoundedTo(2))")
@@ -954,7 +1120,7 @@ class GlobeView: SCNView
         if Settings.GetBool(.Show3DGridLines)
         {
             let LineSphere = SCNSphere(radius: Radius)
-            LineSphere.segmentCount = 100
+            LineSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: 100)
             LineNode = SCNNode(geometry: LineSphere)
             LineNode?.categoryBitMask = LightMasks.Grid.rawValue
             LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -987,8 +1153,10 @@ class GlobeView: SCNView
     
     func PlotSatellite(Satellite: Satellites, At: GeoPoint2)
     {
+        #if false
         let SatelliteAltitude = 10.5 * (At.Altitude / 6378.1)
         let (X, Y, Z) = ToECEF(At.Latitude, At.Longitude, Radius: SatelliteAltitude)
+        #endif
     }
 
     // MARK: - Variables for extensions.
@@ -1034,11 +1202,6 @@ class GlobeView: SCNView
     
     var IndicatorAgeMap = [String: SCNNode]()
     
-    // MARK: - User camera variables.
-    
-    var UserCamera: SCNCamera? = nil
-    var UserCameraNode: SCNNode? = nil
-    var UserCameraLocation = SCNVector3(0.0, 0.0, 16.0)
-    var MouseLocations = Queue<NSEvent>(WithCapacity: 5)
+
 }
 
