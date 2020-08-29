@@ -163,7 +163,8 @@ class Stenciler
     private static func AddWorldHeritageDecals(To Image: NSImage, Ratio: Double) -> NSImage
     {
         let Working = Image
-        let TypeFilter = Settings.GetEnum(ForKey: .SiteTypeFilter, EnumType: SiteTypeFilters.self, Default: .Either)
+        let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
+        print("\(#function): TypeFilter=\(TypeFilter)")
         MainView.InitializeWorldHeritageSites()
         let Sites = MainView.GetAllSites()
         var FinalList = [WorldHeritageSite]()
