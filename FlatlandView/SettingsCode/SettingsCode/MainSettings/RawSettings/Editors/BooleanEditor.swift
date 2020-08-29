@@ -17,6 +17,7 @@ class BooleanEditor: NSViewController, EditorProtocol
     {
         Delegate = DelegateProtocol
         SettingNameLabel.stringValue = Delegate!.GetSettingName()
+        SettingKey = SettingTypes(rawValue: Delegate!.GetSettingName())
     }
     
     func LoadValue(_ Value: Any?, _ Type: String)
