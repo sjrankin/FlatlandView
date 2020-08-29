@@ -139,7 +139,7 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         SystemNode = nil
         
         let Surface = SCNSphere(radius: 10.0)
-        Surface.segmentCount = 100
+        Surface.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: 100)
         let BaseMap = NSImage(named: "AboutMap")
         if BaseMap == nil
         {
