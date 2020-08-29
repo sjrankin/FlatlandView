@@ -178,9 +178,6 @@ class LiveDataViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                             $0.Time > $1.Time
                     }
             }
-            
-            default:
-                return
         }
     }
     
