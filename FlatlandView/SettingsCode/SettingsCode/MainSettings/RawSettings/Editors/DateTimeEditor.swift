@@ -12,38 +12,12 @@ import AppKit
 class DateTimeEditor: NSViewController, EditorProtocol
 {
     public weak var Delegate: RawSettingsProtocol? = nil
-    /*
-    {
-        didSet
-        {
-            let SettingKeyName = Delegate?.GetSettingName()
-            SettingKey = SettingTypes(rawValue: SettingKeyName!)
-            SettingNameLabel.stringValue = Delegate!.GetSettingName()
-            Settings.GetValue(For: SettingKey!)
-            {
-                Result in
-                switch Result
-                {
-                    case .failure(let ErrorType):
-                        self.OldDateTimeValue.isHidden = true
-                        
-                    case .success(let (SettingValue, _)):
-                        if let FinalDate = SettingValue as? Date
-                        {
-                            self.OldDateTimeValue.stringValue = "\(FinalDate)"
-                            self.NewDate.dateValue = FinalDate
-                            self.NewTime.dateValue = FinalDate
-                        }
-                }
-            }
-        }
-    }
- */
     
     func AssignDelegate(_ DelegateProtocol: RawSettingsProtocol?)
     {
         Delegate = DelegateProtocol
         SettingNameLabel.stringValue = Delegate!.GetSettingName()
+        SettingKey = SettingTypes(rawValue: Delegate!.GetSettingName())
     }
     
     func LoadValue(_ Value: Any?, _ Type: String)
