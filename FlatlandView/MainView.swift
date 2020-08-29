@@ -12,12 +12,12 @@ import SceneKit
 
 class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
 {
-    // Start initialization of the UI.
+    /// Start initialization of the UI.
+    /// - Note: See [Environment Variables in Xcode](https://medium.com/flawless-app-stories/environment-variables-in-xcode-a78e07d223ed)
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        //https://medium.com/flawless-app-stories/environment-variables-in-xcode-a78e07d223ed
+
         if let EnableNASATiles = ProcessInfo.processInfo.environment[EnvironmentVars.SatelliteMaps.rawValue]
         {
             let DoEnable = EnableNASATiles.lowercased() == "yes" ? true : false
@@ -79,7 +79,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             StatusMessage.append("\n")
             StatusMessage.append("\(Versioning.VerySimpleVersionString()), Build \(Versioning.Build), \(Versioning.BuildDate)")
             #if true
-            let ShowDuration = Settings.GetDouble(.SplashScreenDuration)
+            let ShowDuration = Settings.GetDouble(.SplashScreenDuration, 5.0)
             DisplayStatusText(StatusMessage, Hide: ShowDuration, ShowIfNotVisible: true)
             #else
             DisplayStatusText(StatusMessage, ShowIfNotVisible: true)
@@ -91,6 +91,12 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         }
         
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        
+        let DoubleClickRecognizer = NSClickGestureRecognizer(target: self,
+                                                             action: #selector(HandleDoubleClick))
+        DoubleClickRecognizer.numberOfClicksRequired = 2
+        self.view.addGestureRecognizer(DoubleClickRecognizer)
+        
         Debug.Print("Done with viewDidLoad")
     }
     
@@ -289,10 +295,8 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     /// Some tasks need to have a fully prepared view and window. Initialize the UI from here.
     override func viewDidAppear()
     {
-        Debug.Print("At viewDidAppear")
+        //Debug.Print("At viewDidAppear")
         InitializeUI()
-        Debug.Print("World3DView.PlotEarthquakes called from \(#function), \(#line)")
-        World3DView.PlotEarthquakes()
     }
     
     /// After the view is laid out, wait a certain amount of time before finalizing the UI and
@@ -423,6 +427,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         return CGWindowID(view.window!.windowNumber)
     }
     
+    #if false
     /// Returns the coordinates of the main window.
     /// - Parameter WindowID: The ID of the main window.
     /// - Returns: The coordinates of the main window.
@@ -444,6 +449,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         }
         return nil
     }
+    #endif
     
     @IBAction func ShowTodaysTimes(_ sender: Any)
     {
@@ -812,12 +818,12 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             case .Earthquakes:
                 if let NewEarthquakes = Actual as? [Earthquake]
                 {
-                    Debug.Print("Have new earthquakes")
+                    //Debug.Print("Have new earthquakes")
                     World3DView.NewEarthquakeList(NewEarthquakes, Final: DoneWithStenciling)
                     Plot2DEarthquakes(NewEarthquakes)
                     LatestEarthquakes = NewEarthquakes
                     (view.window?.windowController as? MainWindow)!.EarthquakeButton.isEnabled = true
-                    Debug.Print("Done with new earthquakes")
+                    //Debug.Print("Done with new earthquakes")
                 }
                 
             default:
@@ -826,6 +832,59 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     }
     
     var LatestEarthquakes = [Earthquake]()
+    
+    // MARK: - Code to intercept certain mouse actions to provide for our own camera control.
+    
+    override var acceptsFirstResponder: Bool
+    {
+        return true
+    }
+    
+    override func scrollWheel(with event: NSEvent)
+    {
+        #if false
+        if Settings.GetBool(.UseSystemCameraControl)
+        {
+            return
+        }
+        let WithOption = event.modifierFlags.contains(.option)
+        let DeltaX = Int(event.deltaX)
+        let DeltaY = Int(event.deltaY)
+        if DeltaX == 0 && DeltaY == 0
+        {
+            return
+        }
+        World3DView.HandleMouseScrollWheelChanged(DeltaX: DeltaX, DeltaY: DeltaY, Option: WithOption)
+        #endif
+    }
+    
+    override func mouseDragged(with event: NSEvent)
+    {
+        #if false
+        if Settings.GetBool(.UseSystemCameraControl)
+        {
+            return
+        }
+        let DeltaX = Int(event.deltaX)
+        let DeltaY = Int(event.deltaY)
+        if DeltaX == 0 && DeltaY == 0
+        {
+            return
+        }
+        World3DView.HandleMouseDragged(DeltaX: DeltaX, DeltaY: DeltaY)
+        #endif
+    }
+    
+    @objc func HandleDoubleClick()
+    {
+        #if false
+        if Settings.GetBool(.UseSystemCameraControl)
+        {
+            return
+        }
+        World3DView.ResetFlatlandCamera()
+        #endif
+    }
     
     // MARK: - City variables.
     
