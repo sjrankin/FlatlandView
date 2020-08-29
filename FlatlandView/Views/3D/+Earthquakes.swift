@@ -21,7 +21,7 @@ extension GlobeView
         {
             if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
             {
-                print("EarthquakeList.count=\(EarthquakeList.count)")
+                //print("EarthquakeList.count=\(EarthquakeList.count)")
                 if let FromWhere = From
                 {
                 print("Called from \(FromWhere)")
@@ -72,7 +72,6 @@ extension GlobeView
         if DeltaSet.count > 0
         {
             print("DeltaSet.count=\(DeltaSet.count)")
-            
         }
         
         let SList1 = List1.sorted(by: {$0.Code < $1.Code})
@@ -100,14 +99,14 @@ extension GlobeView
         let FilteredList = EarthquakeFilterer.FilterList(NewList)
         if FilteredList.count == 0
         {
-            print("No earthquakes found.")
+            //print("No earthquakes found.")
             return
         }
-        print("Have \(FilteredList.count) earthquakes")
+        //print("Have \(FilteredList.count) earthquakes")
         if SameEarthquakes(FilteredList, EarthquakeList)
         {
             #if DEBUG
-            print("No new earthquakes")
+            //print("No new earthquakes")
             #endif
             return
         }
@@ -115,7 +114,7 @@ extension GlobeView
         EarthquakeList.removeAll()
         EarthquakeList = FilteredList
         PlottedEarthquakes.removeAll()
-        print("Calling PlotEarthquakes from \(#function), line \(#line)")
+        //print("Calling PlotEarthquakes from \(#function), line \(#line)")
         PlotEarthquakes("\(#function)", Final)
     }
     
@@ -763,6 +762,7 @@ extension GlobeView
                 Final.position = SCNVector3(X, Y, Z)
                 Final.addChildNode(TRing)
                 
+                #if false
                 let Rotate = SCNAction.rotateBy(x: CGFloat(0.0.Radians),
                                                 y: CGFloat(0.0.Radians),
                                                 z: CGFloat(360.0.Radians),
@@ -775,6 +775,7 @@ extension GlobeView
                 //let YPivot: CGFloat = 0.5//1.0 / (TB.max.y - TB.min.y) * 0.5
                 //TRing.pivot = SCNMatrix4MakeTranslation(XPivot, YPivot, 0.0)
                 //TRing.runAction(Forever)
+                #endif
                 
                 Final.name = GlobeNodeNames.EarthquakeNodes.rawValue
                 
