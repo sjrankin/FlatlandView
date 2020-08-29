@@ -53,7 +53,7 @@ class OtherLocationsWindow: NSViewController
     {
         if let Segment = sender as? NSSegmentedControl
         {
-            var Index = Segment.indexOfSelectedItem
+            var Index = Segment.selectedSegment
             if Index > 3
             {
                 Index = 0
