@@ -379,7 +379,7 @@ extension GlobeView
         SunLight.intensity = 800
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(10 - (CitySize / 2)))
         CityNode.position = SCNVector3(X, Y, Z)
-        CityNode.name = "CityNode"
+        CityNode.name = GlobeNodeNames.CityNode.rawValue
         ToSurface.addChildNode(CityNode)
         PlottedCities.append(CityNode)
     }
@@ -462,7 +462,7 @@ extension GlobeView
         CityNode.geometry?.firstMaterial?.metalness.contents = NSNumber(value: 1.0)
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
         CityNode.position = SCNVector3(X, Y, Z)
-        CityNode.name = "CityNode"
+        CityNode.name = GlobeNodeNames.CityNode.rawValue
         let YRotation = Latitude + 270.0
         let XRotation = Longitude + 180.0
         CityNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
@@ -566,7 +566,7 @@ extension GlobeView
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        FinalNode.name = "CityNode"
+        FinalNode.name = GlobeNodeNames.CityNode.rawValue
         
         ToSurface.addChildNode(FinalNode)
         PlottedCities.append(FinalNode)
@@ -634,7 +634,7 @@ extension GlobeView
         CityNode.geometry?.firstMaterial?.metalness.contents = NSNumber(value: 1.0)
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + Double(CitySize / 2.0))
         CityNode.position = SCNVector3(X, Y, Z)
-        CityNode.name = "CityNode"
+        CityNode.name = GlobeNodeNames.CityNode.rawValue
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
         CityNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
@@ -968,7 +968,8 @@ extension GlobeView
             {
                 return
             }
-            let TypeFilter = Settings.GetEnum(ForKey: .SiteTypeFilter, EnumType: SiteTypeFilters.self, Default: .Either)
+            let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
+            print("UNESCO TypeFilter\(TypeFilter)")
             MainView.InitializeWorldHeritageSites()
             let Sites = MainView.GetAllSites()
             var FinalList = [WorldHeritageSite]()
