@@ -49,12 +49,25 @@ extension MainView
     
     func AnimateStatusAlpha(To: CGFloat, Duration: Double)
     {
-        let Animator = StatusContainer.animator()
-        NSAnimationContext.beginGrouping()
-        NSAnimationContext.current.allowsImplicitAnimation = true
-        NSAnimationContext.current.duration = Duration
-        Animator.alphaValue = To
-        NSAnimationContext.endGrouping()
+        NSAnimationContext.runAnimationGroup
+        {
+            Context in
+            Context.duration = Duration
+            Context.allowsImplicitAnimation = true
+            self.StatusContainer.animator().alphaValue = To
+        } completionHandler:
+        {
+            if To == 0.0
+            {
+                self.StatusContainer.isHidden = true
+                self.StatusContainer.alphaValue = 0.0
+            }
+            else
+            {
+                self.StatusContainer.isHidden = false
+                self.StatusContainer.alphaValue = 1.0
+            }
+        }
     }
     
     func DisplayStatusText(_ Text: String, ShowIfNotVisible: Bool = true)
