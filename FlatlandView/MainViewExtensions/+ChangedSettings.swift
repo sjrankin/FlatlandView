@@ -391,6 +391,12 @@ extension MainView: SettingChangedProtocol
                     World3DView.ApplyStencils(Caller: "SettingChanged(.{Multiple})")
                 }
                 
+            case .UseSystemCameraControl:
+                World3DView.InitializeSceneCamera(!Settings.GetBool(.UseSystemCameraControl))
+                
+            case .CameraProjection, .CameraOrthographicScale, .CameraFieldOfView:
+                World3DView.UpdateFlatlandCamera() 
+                
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints, .ShowStatistics:
