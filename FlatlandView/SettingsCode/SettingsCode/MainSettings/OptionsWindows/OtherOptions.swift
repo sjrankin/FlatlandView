@@ -113,6 +113,7 @@ class OtherOptions: NSViewController
         {
             let Index = Segment.selectedSegment
             let SplashDuration = SplashMap[Index]!
+            print("\(#function): SplashDuration=\(SplashDuration)")
             Settings.SetDouble(.SplashScreenDuration, SplashDuration)
         }
     }
