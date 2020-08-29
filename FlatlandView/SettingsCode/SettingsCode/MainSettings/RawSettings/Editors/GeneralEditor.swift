@@ -19,6 +19,7 @@ class GeneralEditor: NSViewController, NSTextFieldDelegate, EditorProtocol
         SettingNameLabel.stringValue = Delegate!.GetSettingName()
         TypeNameLabel.stringValue = Delegate!.GetSettingType()
         FieldType = Delegate!.GetSettingType()
+        SettingKey = SettingTypes(rawValue: Delegate!.GetSettingName())
     }
     
     var FieldType: String = ""
