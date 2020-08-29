@@ -28,13 +28,13 @@ class RawSettingsController: NSViewController, NSTableViewDelegate, NSTableViewD
                 if let EditorID = TypeEditorMap["\(SettingType)"]
                 {
                     let Editor = CreateEditorDialog(EditorID)
-                    SettingsData.append(("\(Setting)", "\(SettingType)", Editor))
+                    SettingsData.append(("\(Setting)", "\(SettingType)", false, Editor))
                 }
             }
         }
     }
     
-    var SettingsData = [(Name: String, Type: String, Editor: NSViewController?)]()
+    var SettingsData = [(Name: String, Type: String, IsDirty: Bool, Editor: NSViewController?)]()
     
     func numberOfRows(in tableView: NSTableView) -> Int
     {
@@ -59,6 +59,14 @@ class RawSettingsController: NSViewController, NSTableViewDelegate, NSTableViewD
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
+        if SettingsData[row].IsDirty
+        {
+            Cell?.textField?.textColor = NSColor.systemRed
+        }
+        else
+        {
+            Cell?.textField?.textColor = NSColor.black
+        }
         return Cell
     }
     
@@ -78,7 +86,7 @@ class RawSettingsController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
     
-    func DisplayEditorFor(_ SettingData: (Name: String, Type: String, Editor: NSViewController?))
+    func DisplayEditorFor(_ SettingData: (Name: String, Type: String, IsDirty: Bool, Editor: NSViewController?))
     {
         for SomeView in EditorSink.subviews
         {
@@ -164,12 +172,14 @@ class RawSettingsController: NSViewController, NSTableViewDelegate, NSTableViewD
     
     func GetSettingValue() -> (Any?, String)?
     {
+        let Frames = Debug.StackFrameContents(10)
+        print(Debug.PrettyStackTrace(Frames))
         let Row = SettingsTable.selectedRow
         let SettingType = "\(SettingsData[Row].Type)"
         let SettingKey = SettingTypes(rawValue: SettingsData[Row].Name)
-        if EnumFields.contains(SettingType)//SettingsData[Row].Name)
+        if EnumFields.contains(SettingType)
         {
-            if let EVal = GetEnumValue(SettingType) 
+            if let EVal = GetEnumValue(SettingType)
             {
                 return (EVal, SettingType)
             }
@@ -184,8 +194,8 @@ class RawSettingsController: NSViewController, NSTableViewDelegate, NSTableViewD
             Result in
             switch Result
             {
-                case .failure(let _):
-                    print("Error getting value for \(SettingKey!)")
+                case .failure(let Error):
+                    print("\(#function): Error getting value for \(SettingKey!): \(Error)")
                     
                 case .success(let (SettingValue, _)):
                     Final = (SettingValue, SettingType)
@@ -196,13 +206,48 @@ class RawSettingsController: NSViewController, NSTableViewDelegate, NSTableViewD
     
     func SetDirty(_ Key: SettingTypes)
     {
+        var Found = false
+        var Index = 0
+        for (Name, _, _, _) in SettingsData
+        {
+            if Name == "\(Key)"
+            {
+                Found = true
+                break
+            }
+            Index = Index + 1
+        }
+        if Found
+        {
+            let (Name, Type, _, Editor) = SettingsData[Index]
+            let New: (Name: String, Type: String, IsDirty: Bool, Editor: NSViewController?) = (Name, Type, true, Editor)
+            SettingsData[Index] = New
+            SettingsTable.reloadData()
+        }
     }
     
     func ClearDirty(_ Key: SettingTypes)
     {
+        var Found = false
+        var Index = 0
+        for (Name, _, _, _) in SettingsData
+        {
+            if Name == "\(Key)"
+            {
+                Found = true
+                break
+            }
+            Index = Index + 1
+        }
+        if Found
+        {
+            let (Name, Type, _, Editor) = SettingsData[Index]
+            let New: (Name: String, Type: String, IsDirty: Bool, Editor: NSViewController?) = (Name, Type, false, Editor)
+            SettingsData[Index] = New
+            SettingsTable.reloadData()
+        }
     }
     
-   
     @IBOutlet weak var SettingsTable: NSTableView!
     @IBOutlet weak var EditorSink: ContainerController!
     
