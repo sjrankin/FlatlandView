@@ -279,7 +279,7 @@ extension MainView
     public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite]) -> [WorldHeritageSite]
     {
         #if true
-        let SiteType = Settings.GetEnum(ForKey: .SiteTypeFilter, EnumType: SiteTypeFilters.self, Default: .Either)
+        let SiteType = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
         let SiteCountry = Settings.GetString(.SiteCountry, "")
         let SiteYear = Settings.GetInt(.SiteYear)
         let SiteYearFilter = Settings.GetEnum(ForKey: .SiteYearFilter, EnumType: YearFilters.self, Default: .All)
