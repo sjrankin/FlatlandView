@@ -737,6 +737,15 @@ enum LayerNames: String
     case CityLayer = "City Layer"
 }
 
+/// Projection modes for Flatland's camera system.
+enum CameraProjections: String, CaseIterable
+{
+    /// Perspective projection.
+    case Perspective = "Perspective"
+    /// Orthographic projection.
+    case Orthographic = "Orthographic"
+}
+
 /// 3D view node names.
 enum GlobeNodeNames: String
 {
@@ -752,8 +761,11 @@ enum GlobeNodeNames: String
     /// Node used to indicate recent earthquakes.
     case IndicatorNode = "IndicatorNode"
     
-    /// User camera node.
-    case UserCameraNode = "UserCameraNode"
+    /// Built-in camera node.
+    case BuiltInCameraNode = "BuiltInCameraNode"
+    
+    /// Flatland camera node.
+    case FlatlandCameraNode = "FlatlandCameraNode"
     
     /// City nodes.
     case CityNode = "CityNode"
