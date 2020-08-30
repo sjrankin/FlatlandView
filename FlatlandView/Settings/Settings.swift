@@ -381,6 +381,27 @@ class Settings
         return UserDefaults.standard.double(forKey: Setting.rawValue)
     }
     
+    /// Returns a double value from the specified setting.
+    /// - Note: If the value in the settings is `0.0`, the value in `IfZero` is written then returned.
+    /// - Parameter Setting: The setting whose double value will be returned.
+    /// - Parameter IfZero: Default value to return if the original value is `0.0`.
+    /// - Returns: The value at the specified settings. If that value is `0.0`, the value in `IfZero` is
+    ///            returned.
+    public static func GetDouble(_ Setting: SettingTypes, _ IfZero: Defaults) -> Double
+    {
+        if !TypeIsValid(Setting, Type: Double.self)
+        {
+            fatalError("\(Setting) is not a Double")
+        }
+        let DoubleValue = UserDefaults.standard.double(forKey: Setting.rawValue)
+        if DoubleValue == 0.0
+        {
+            UserDefaults.standard.set(IfZero.rawValue, forKey: Setting.rawValue)
+            return IfZero.rawValue
+        }
+        return DoubleValue
+    }
+    
     /// Queries a double setting value.
     /// - Parameter Setting: The setting whose double value will be passed to the completion handler.
     /// - Parameter Completion: Code to execute after the value is retrieved. The value is passed
@@ -558,6 +579,27 @@ class Settings
         if Value == 0.0
         {
             return IfZero
+        }
+        return CGFloat(Value)
+    }
+    
+    /// Returns a CGFloat value from the specified setting.
+    /// - Note: If the value in the settings is `0.0`, the value in `IfZero` is written then returned.
+    /// - Parameter Setting: The setting whose CGFloat value will be returned.
+    /// - Parameter IfZero: Default value to return if the original value is `0.0`.
+    /// - Returns: The value at the specified settings. If that value is `0.0`, the value in `IfZero` is
+    ///            returned.
+    public static func GetCGFloat(_ Setting: SettingTypes, _ IfZero: Defaults) -> CGFloat
+    {
+        if !TypeIsValid(Setting, Type: Double.self)
+        {
+            fatalError("\(Setting) is not a Double")
+        }
+        let Value = UserDefaults.standard.double(forKey: Setting.rawValue)
+        if Value == 0.0
+        {
+            UserDefaults.standard.set(IfZero.rawValue, forKey: Setting.rawValue)
+            return CGFloat(IfZero.rawValue)
         }
         return CGFloat(Value)
     }
