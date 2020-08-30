@@ -153,9 +153,9 @@ class GlobeView: SCNView
         #endif
         self.allowsCameraControl = true
         
-        #if false
-        //Enable for debugging and getting initial location of the automatical camera. Otherwise,
-        //not needed at run-time. Do not delete this code even for release versions.
+        //If the user-camera control is enabled, this prevents the user from zooming in too close to the
+        //view by checking the run-time Z value and resetting the current point of view to the minimum
+        //value found in the user settings (but which is not user-accessible).
         if self.allowsCameraControl
         {
             //https://stackoverflow.com/questions/24768031/can-i-get-the-scnview-camera-position-when-using-allowscameracontrol
@@ -164,13 +164,20 @@ class GlobeView: SCNView
                 (Node, Change) in
                 OperationQueue.current?.addOperation
                 {
+
+                    let Closest = Settings.GetCGFloat(.ClosestZ, 60.0)
+                    if Node.pointOfView!.position.z < Closest
+                    {
+                        Node.pointOfView!.position.z = Closest
+                    }
+                    #if false
                     print("\(Node.pointOfView!.position)")
                     //print("\(Node.pointOfView!.orientation)")
                     //print("\(Node.pointOfView!.rotation)")
+                    #endif
                 }
             }
         }
-        #endif
         
         self.autoenablesDefaultLighting = false
         self.scene = SCNScene()
@@ -217,13 +224,15 @@ class GlobeView: SCNView
         Camera.fieldOfView = Settings.GetCGFloat(.FieldOfView, 10.0)
         //Camera.usesOrthographicProjection = true
         //Camera.orthographicScale = Settings.GetDouble(.OrthographicScale, 14.0)
-        Camera.zFar = Settings.GetDouble(.ZFar, 1000.0)
-        Camera.zNear = Settings.GetDouble(.ZNear, 0.1)
+        let ZFar = Settings.GetDouble(.ZFar, 1000.0)
+        let ZNear = Settings.GetDouble(.ZNear, 0.1)
+        print("ZFar=\(ZFar), ZNear=\(ZNear)")
+        Camera.zFar = ZFar
+        Camera.zNear = ZNear
         CameraNode = SCNNode()
         CameraNode.name = GlobeNodeNames.BuiltInCameraNode.rawValue
         CameraNode.camera = Camera
-        CameraNode.position = SCNVector3(0.0, 0.0, 175.0)
-            //Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, 16.0))
+        CameraNode.position = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, 175.0))
         self.scene?.rootNode.addChildNode(CameraNode)
     }
     
@@ -262,7 +271,7 @@ class GlobeView: SCNView
             FlatlandCamera?.zNear = Settings.GetDouble(.ZNear, 0.1)
             FlatlandCameraNode = SCNNode()
             FlatlandCameraNode?.camera = FlatlandCamera
-            FlatlandCameraNode?.position = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, 16.0))
+            FlatlandCameraNode?.position = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, 175.0))
             self.scene?.rootNode.addChildNode(FlatlandCameraNode!)
         }
         else
@@ -432,21 +441,13 @@ class GlobeView: SCNView
     /// Resets the default camera to its original location.
     func ResetCamera()
     {
-        #if false
-        CameraNode.position = SCNVector3(0.0, 0.0, 16.0)
-//        let Node = SCNNode()
-//        Node.position = SCNVector3(0.0, 0.0, 16.0)
-//        self.pointOfView = Node
-//        CreateCamera()
-        #else
-//        let PositionAction = SCNAction.move(to: SCNVector3(0.0, 0.0, 16.0), duration: 1.0)
-        let PositionAction = SCNAction.move(to: SCNVector3(0.0, 0.0, 170.0), duration: 1.0)
+        let InitialPosition = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, 175.0))
+        let PositionAction = SCNAction.move(to: InitialPosition, duration: 1.0)
         PositionAction.timingMode = .easeOut
         self.pointOfView?.runAction(PositionAction)
         let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 1.0)
         RotationAction.timingMode = .easeOut
         self.pointOfView?.runAction(RotationAction)
-        #endif
     }
     
     /// Sets the HDR flag of the camera depending on user settings.
