@@ -112,6 +112,8 @@ enum SettingTypes: String, CaseIterable
     case ZFar = "ZFar"
     /// Double: Camera's z-near value.
     case ZNear = "ZNear"
+    /// CGFloat: Closest the user is allowed to zoom in.
+    case ClosestZ = "ClosestZ"
     /// Integer: Number of sphere segments.
     case SphereSegmentCount = "SphereSegmentCount"
     /// Boolean: If true, grid lines are drawn on the map itself. If false, they are drawn
