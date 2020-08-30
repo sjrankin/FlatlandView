@@ -890,3 +890,71 @@ enum EnvironmentVars: String, CaseIterable
     /// Value that determines whether to enable or disable downloading images from NASA.
     case SatelliteMaps = "enable_nasa_tiles"
 }
+
+/// Default Double and CGFloat values (CGFloat values must be cast) for various
+/// settings. These are used instead of hard-coded numbers embedded in the code.
+enum Defaults: Double
+{
+    /// How often the Earth clock is called.
+    case EarthClockTick = 1.0
+    /// Tolerance for the Earth clock.
+    case EarthClockTickTolerance = 0.1
+    /// Number of seconds for the rotation of the Earth to the proper orientation.
+    case EarthRotationDuration = 0.95
+    /// Sphere segment count.
+    case SphereSegmentCount = 100.00000005
+    /// Number of seconds to rotate the Earth in attract mode.
+    case AttractRotationDuration = 30.0
+    /// Closest z value allowed.
+    case ClosestZ = 60.0
+    /// Camera z far value.
+    case ZFar = 1000.0
+    /// Camera z near value.
+    case ZNear = 0.100001
+    ///Initial z position for the camera.
+    case InitialZ = 175.0
+    /// Default view of view.
+    case FieldOfView = 10.0
+    /// Duration in seconds for resetting the camera.
+    case ResetCameraAnimationDuration = 1.001
+    /// Ambient light intensity.
+    case AmbientLightIntensity = 800.0
+    /// Shadow color alpha level.
+    case ShadowAlpha = 0.8
+    /// Shadow radius.
+    case ShadowRadius = 2.0001
+    /// Ambient light Z location.
+    case AmbientLightZ = 80.0002
+    /// Sun light Z location.
+    case SunLightZ = 80.005
+    /// Sun light intensity.
+    case SunLightIntensity = 801.0
+    /// Metal sun light intensity.
+    case MetalSunLightIntensity = 1200.03
+    /// Moon light Z location.
+    case MoonLightZ = -100.3
+    /// Moon light intensity.
+    case MoonLightIntensity = 300.024
+    /// Metal moon light intensity
+    case MetalMoonLightIntensity = 800.0008
+    /// Moon light shadow radius.
+    case MoonLightShadowRadius = 4.0
+    /// Grid light 1 Z position.
+    case Grid1Z = -80.05
+    /// Grid light 2 Z position.
+    case Grid2Z = 80.05
+    /// Opacity of the earthquake map.
+    case EarthquakeMapOpacity = 0.751
+    /// Opacity level of earthquake maps.
+    case EarthquakeMapColorAlpha = 0.4006
+    /// Fast globe animation duration.
+    case FastAnimationDuration = 30.0002
+    /// Standard map image width.
+    case StandardMapWidth = 3600.0
+    /// Standard map image height.
+    case StandardMapHeight = 1800.0
+    /// Minor grid gap for minor grid lines.
+    case MinorGridGap = 15.0
+    /// Line width for grid lines.
+    case GridLineWidth = 4.00001
+}
