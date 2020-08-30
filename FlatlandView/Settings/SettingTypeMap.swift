@@ -59,6 +59,7 @@ extension Settings
             .OrthographicScale: Double.self,
             .ZFar: Double.self,
             .ZNear: Double.self,
+            .ClosestZ: CGFloat.self,
             .SphereSegmentCount: Int.self,
             .GridLinesDrawnOnMap: Bool.self,
             .CityNamesDrawnOnMap: Bool.self,
