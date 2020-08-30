@@ -45,8 +45,8 @@ class GeneralEditor: NSViewController, NSTextFieldDelegate, EditorProtocol
             case "Double?":
                 if let DNVal = Value as? Double?
                 {
-                    OldValueField.stringValue = "\(DNVal)"
-                    NewValueField.stringValue = "\(DNVal)"
+                    OldValueField.stringValue = "\(DNVal!)"
+                    NewValueField.stringValue = "\(DNVal!)"
                 }
                 else
                 {
@@ -64,8 +64,8 @@ class GeneralEditor: NSViewController, NSTextFieldDelegate, EditorProtocol
             case "CGFloat?":
                 if let DNVal = Value as? CGFloat?
                 {
-                    OldValueField.stringValue = "\(DNVal)"
-                    NewValueField.stringValue = "\(DNVal)"
+                    OldValueField.stringValue = "\(DNVal!)"
+                    NewValueField.stringValue = "\(DNVal!)"
                 }
                 else
                 {
