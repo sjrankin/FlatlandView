@@ -56,7 +56,8 @@ class GlobeView: SCNView
     /// Display the globe in attract mode.
     func AttractEarth()
     {
-        let Rotate = SCNAction.rotateBy(x: 0.0, y: CGFloat(360.0.Radians), z: 0.0, duration: 30.0)
+        let Rotate = SCNAction.rotateBy(x: 0.0, y: CGFloat(360.0.Radians), z: 0.0,
+                                        duration: Defaults.AttractRotationDuration.rawValue)
         let RotateForever = SCNAction.repeatForever(Rotate)
         EarthNode?.runAction(RotateForever)
         SeaNode?.runAction(RotateForever)
@@ -165,7 +166,7 @@ class GlobeView: SCNView
                 OperationQueue.current?.addOperation
                 {
 
-                    let Closest = Settings.GetCGFloat(.ClosestZ, 60.0)
+                    let Closest = Settings.GetCGFloat(.ClosestZ, Defaults.ClosestZ)
                     if Node.pointOfView!.position.z < Closest
                     {
                         Node.pointOfView!.position.z = Closest
@@ -221,18 +222,17 @@ class GlobeView: SCNView
         RemoveNodeWithName(GlobeNodeNames.FlatlandCameraNode.rawValue)
         Camera = SCNCamera()
         Camera.wantsHDR = Settings.GetBool(.UseHDRCamera)
-        Camera.fieldOfView = Settings.GetCGFloat(.FieldOfView, 10.0)
+        Camera.fieldOfView = Settings.GetCGFloat(.FieldOfView, Defaults.FieldOfView)
         //Camera.usesOrthographicProjection = true
         //Camera.orthographicScale = Settings.GetDouble(.OrthographicScale, 14.0)
-        let ZFar = Settings.GetDouble(.ZFar, 1000.0)
-        let ZNear = Settings.GetDouble(.ZNear, 0.1)
-        print("ZFar=\(ZFar), ZNear=\(ZNear)")
+        let ZFar = Settings.GetDouble(.ZFar, Defaults.ZFar)
+        let ZNear = Settings.GetDouble(.ZNear, Defaults.ZNear)
         Camera.zFar = ZFar
         Camera.zNear = ZNear
         CameraNode = SCNNode()
         CameraNode.name = GlobeNodeNames.BuiltInCameraNode.rawValue
         CameraNode.camera = Camera
-        CameraNode.position = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, 175.0))
+        CameraNode.position = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue))
         self.scene?.rootNode.addChildNode(CameraNode)
     }
     
@@ -334,7 +334,7 @@ class GlobeView: SCNView
 
     var FlatlandCamera: SCNCamera? = nil
     var FlatlandCameraNode: SCNNode? = nil
-    var FlatlandCameraLocation = SCNVector3(0.0, 0.0, 16.0)
+    var FlatlandCameraLocation = SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue)
     var MouseLocations = Queue<NSEvent>(WithCapacity: 5)
     
     func HandleMouseScrollWheelChanged(DeltaX: Int, DeltaY: Int, Option: Bool)
@@ -441,11 +441,11 @@ class GlobeView: SCNView
     /// Resets the default camera to its original location.
     func ResetCamera()
     {
-        let InitialPosition = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, 175.0))
-        let PositionAction = SCNAction.move(to: InitialPosition, duration: 1.0)
+        let InitialPosition = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue))
+        let PositionAction = SCNAction.move(to: InitialPosition, duration: Defaults.ResetCameraAnimationDuration.rawValue)
         PositionAction.timingMode = .easeOut
         self.pointOfView?.runAction(PositionAction)
-        let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 1.0)
+        let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: Defaults.ResetCameraAnimationDuration.rawValue)
         RotationAction.timingMode = .easeOut
         self.pointOfView?.runAction(RotationAction)
     }
@@ -489,15 +489,15 @@ class GlobeView: SCNView
         let Ambient = SCNLight()
         Ambient.categoryBitMask = LightMasks.Sun.rawValue
         Ambient.type = .ambient
-        Ambient.intensity = 800
+        Ambient.intensity = CGFloat(Defaults.AmbientLightIntensity.rawValue)
         Ambient.castsShadow = true
-        Ambient.shadowColor = NSColor.black.withAlphaComponent(0.80)
+        Ambient.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
         Ambient.shadowMode = .forward
-        Ambient.shadowRadius = 2.0
+        Ambient.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
         Ambient.color = NSColor.white
         AmbientLightNode = SCNNode()
         AmbientLightNode?.light = Ambient
-        AmbientLightNode?.position = SCNVector3(0.0, 0.0, 80.0)
+        AmbientLightNode?.position = SCNVector3(0.0, 0.0, Defaults.AmbientLightZ.rawValue)
         self.scene?.rootNode.addChildNode(AmbientLightNode!)
     }
     
@@ -517,15 +517,15 @@ class GlobeView: SCNView
         SunLight = SCNLight()
         SunLight.categoryBitMask = LightMasks.Sun.rawValue
         SunLight.type = .directional
-        SunLight.intensity = 800
+        SunLight.intensity = CGFloat(Defaults.SunLightIntensity.rawValue)
         SunLight.castsShadow = true
-        SunLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
+        SunLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
         SunLight.shadowMode = .forward
-        SunLight.shadowRadius = 2.0
+        SunLight.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
         SunLight.color = NSColor.white
         LightNode = SCNNode()
         LightNode.light = SunLight
-        LightNode.position = SCNVector3(0.0, 0.0, 80.0)
+        LightNode.position = SCNVector3(0.0, 0.0, Defaults.SunLightZ.rawValue)
         self.scene?.rootNode.addChildNode(LightNode)
     }
     
@@ -538,30 +538,30 @@ class GlobeView: SCNView
             let MoonLight = SCNLight()
             MoonLight.categoryBitMask = LightMasks.Moon.rawValue
             MoonLight.type = .directional
-            MoonLight.intensity = 300
+            MoonLight.intensity = CGFloat(Defaults.MoonLightIntensity.rawValue)
             MoonLight.castsShadow = true
-            MoonLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
+            MoonLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
             MoonLight.shadowMode = .forward
-            MoonLight.shadowRadius = 4.0
+            MoonLight.shadowRadius = CGFloat(Defaults.MoonLightShadowRadius.rawValue)
             MoonLight.color = NSColor.cyan
             MoonNode = SCNNode()
             MoonNode?.light = MoonLight
-            MoonNode?.position = SCNVector3(0.0, 0.0, -100.0)
+            MoonNode?.position = SCNVector3(0.0, 0.0, Defaults.MoonLightZ.rawValue)
             MoonNode?.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
             self.scene?.rootNode.addChildNode(MoonNode!)
             
             MetalMoonLight = SCNLight()
             MetalMoonLight.categoryBitMask = LightMasks.MetalMoon.rawValue
             MetalMoonLight.type = .directional
-            MetalMoonLight.intensity = 800
+            MetalMoonLight.intensity = CGFloat(Defaults.MetalMoonLightIntensity.rawValue)
             MetalMoonLight.castsShadow = true
-            MetalMoonLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
+            MetalMoonLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
             MetalMoonLight.shadowMode = .forward
-            MetalMoonLight.shadowRadius = 4.0
+            MetalMoonLight.shadowRadius = CGFloat(Defaults.MoonLightShadowRadius.rawValue)
             MetalMoonLight.color = NSColor.cyan
             MetalMoonNode = SCNNode()
             MetalMoonNode.light = MetalMoonLight
-            MetalMoonNode.position = SCNVector3(0.0, 0.0, -100.0)
+            MetalMoonNode.position = SCNVector3(0.0, 0.0, Defaults.MoonLightZ.rawValue)
             MetalMoonNode.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
             self.scene?.rootNode.addChildNode(MetalMoonNode)
         }
@@ -581,29 +581,29 @@ class GlobeView: SCNView
         MetalSunLight = SCNLight()
         MetalSunLight.categoryBitMask = LightMasks.MetalSun.rawValue
         MetalSunLight.type = .directional
-        MetalSunLight.intensity = 1200
+        MetalSunLight.intensity = CGFloat(Defaults.MetalSunLightIntensity.rawValue)
         MetalSunLight.castsShadow = true
-        MetalSunLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
+        MetalSunLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
         MetalSunLight.shadowMode = .forward
-        MetalSunLight.shadowRadius = 2.0
+        MetalSunLight.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
         MetalSunLight.color = NSColor.white
         MetalSunNode = SCNNode()
         MetalSunNode.light = MetalSunLight
-        MetalSunNode.position = SCNVector3(0.0, 0.0, 80.0)
+        MetalSunNode.position = SCNVector3(0.0, 0.0, Defaults.SunLightZ.rawValue)
         self.scene?.rootNode.addChildNode(MetalSunNode)
         
         MetalMoonLight = SCNLight()
         MetalMoonLight.categoryBitMask = LightMasks.MetalMoon.rawValue
         MetalMoonLight.type = .directional
-        MetalMoonLight.intensity = 800
+        MetalMoonLight.intensity = CGFloat(Defaults.MetalMoonLightIntensity.rawValue)
         MetalMoonLight.castsShadow = true
-        MetalMoonLight.shadowColor = NSColor.black.withAlphaComponent(0.80)
+        MetalMoonLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
         MetalMoonLight.shadowMode = .forward
-        MetalMoonLight.shadowRadius = 4.0
+        MetalMoonLight.shadowRadius = CGFloat(Defaults.MoonLightShadowRadius.rawValue)
         MetalMoonLight.color = NSColor.cyan
         MetalMoonNode = SCNNode()
         MetalMoonNode.light = MetalMoonLight
-        MetalMoonNode.position = SCNVector3(0.0, 0.0, -100.0)
+        MetalMoonNode.position = SCNVector3(0.0, 0.0, Defaults.MoonLightZ.rawValue)
         MetalMoonNode.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
         self.scene?.rootNode.addChildNode(MetalMoonNode)
     }
@@ -618,7 +618,7 @@ class GlobeView: SCNView
         GridLight1.categoryBitMask = LightMasks.Grid.rawValue
         GridLightNode1 = SCNNode()
         GridLightNode1.light = GridLight1
-        GridLightNode1.position = SCNVector3(0.0, 0.0, -80.0)
+        GridLightNode1.position = SCNVector3(0.0, 0.0, Defaults.Grid1Z.rawValue)
         self.scene?.rootNode.addChildNode(GridLightNode1)
         GridLight2 = SCNLight()
         GridLight2.type = .omni
@@ -626,7 +626,7 @@ class GlobeView: SCNView
         GridLight2.categoryBitMask = LightMasks.Grid.rawValue
         GridLightNode2 = SCNNode()
         GridLightNode2.light = GridLight2
-        GridLightNode2.position = SCNVector3(0.0, 0.0, 80.0)
+        GridLightNode2.position = SCNVector3(0.0, 0.0, Defaults.Grid2Z.rawValue)
         self.scene?.rootNode.addChildNode(GridLightNode2)
     }
     
@@ -658,9 +658,10 @@ class GlobeView: SCNView
     /// Start the rotational clock.
     func StartClock()
     {
-        EarthClock = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateEarthView),
+        EarthClock = Timer.scheduledTimer(timeInterval: Defaults.EarthClockTick.rawValue,
+                                          target: self, selector: #selector(UpdateEarthView),
                                           userInfo: nil, repeats: true)
-        EarthClock?.tolerance = 0.1
+        EarthClock?.tolerance = Defaults.EarthClockTickTolerance.rawValue
         RunLoop.current.add(EarthClock!, forMode: .common)
     }
     
@@ -733,7 +734,11 @@ class GlobeView: SCNView
     {
         let Degrees = 180.0 - (360.0) * Percent
         let Radians = Degrees.Radians
-        let Rotate = SCNAction.rotateTo(x: 0.0, y: CGFloat(-Radians), z: 0.0, duration: 1.0, usesShortestUnitArc: true)
+        let Rotate = SCNAction.rotateTo(x: 0.0,
+                                        y: CGFloat(-Radians),
+                                        z: 0.0,
+                                        duration: Defaults.EarthRotationDuration.rawValue,
+                                        usesShortestUnitArc: true)
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
         LineNode?.runAction(Rotate)
@@ -826,9 +831,9 @@ class GlobeView: SCNView
         SystemNode = SCNNode()
         
         let EarthSphere = SCNSphere(radius: GlobeRadius.Primary.rawValue)
-        EarthSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: 100)
+        EarthSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: Int(Defaults.SphereSegmentCount.rawValue))
         let SeaSphere = SCNSphere(radius: GlobeRadius.SeaSphere.rawValue)
-        SeaSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: 100)
+        SeaSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: Int(Defaults.SphereSegmentCount.rawValue))
         
         let MapType = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
         var BaseMap: NSImage? = nil
@@ -878,8 +883,8 @@ class GlobeView: SCNView
                 SeaNode = SCNNode(geometry: SeaSphere)
                 SeaNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
-                SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal.withAlphaComponent(0.4)
-                EarthNode?.opacity = 0.75
+                SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal.withAlphaComponent(CGFloat(Defaults.EarthquakeMapOpacity.rawValue))
+                EarthNode?.opacity = CGFloat(Defaults.EarthquakeMapOpacity.rawValue)
                 
             case .StylizedSea1:
                 SeaNode = SCNNode(geometry: SeaSphere)
@@ -1020,7 +1025,8 @@ class GlobeView: SCNView
         
         if FastAnimate
         {
-            let EarthRotate = SCNAction.rotateBy(x: 0.0, y: 360.0 * CGFloat.pi / 180.0, z: 0.0, duration: 30.0)
+            let EarthRotate = SCNAction.rotateBy(x: 0.0, y: 360.0 * CGFloat.pi / 180.0, z: 0.0,
+                                                 duration: Defaults.FastAnimationDuration.rawValue)
             let RotateForever = SCNAction.repeatForever(EarthRotate)
             SystemNode?.runAction(RotateForever)
         }
@@ -1057,7 +1063,7 @@ class GlobeView: SCNView
                                   PlotCities: Settings.GetBool(.CityNamesDrawnOnMap),
                                   GridLines: Settings.GetBool(.GridLinesDrawnOnMap),
                                   UNESCOSites: ShowUNESCO,
-                                  CalledBy: Caller,//"ApplyStencils",
+                                  CalledBy: Caller,
                                   FinalNotify: Final,
                                   Completed: GotStenciledMap)
         }
@@ -1121,11 +1127,12 @@ class GlobeView: SCNView
         if Settings.GetBool(.Show3DGridLines)
         {
             let LineSphere = SCNSphere(radius: Radius)
-            LineSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: 100)
+            LineSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: Int(Defaults.SphereSegmentCount.rawValue))
             LineNode = SCNNode(geometry: LineSphere)
             LineNode?.categoryBitMask = LightMasks.Grid.rawValue
             LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
-            let GridLineImage = MakeGridLines(Width: 3600, Height: 1800)
+            let GridLineImage = MakeGridLines(Width: CGFloat(Defaults.StandardMapWidth.rawValue),
+                                              Height: CGFloat(Defaults.StandardMapHeight.rawValue))
             LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLineImage
             LineNode?.castsShadow = false
             SystemNode?.addChildNode(self.LineNode!)
