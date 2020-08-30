@@ -461,7 +461,7 @@ class Settings
     /// - Parameter Value: The value to save.
     public static func SetDouble(_ Setting: SettingTypes, _ Value: Double)
     {
-        if !TypeIsValid(Setting, Type: Double?.self)
+        if !TypeIsValid(Setting, Type: Double.self)
         {
             fatalError("\(Setting) is not a Double?")
         }
@@ -570,7 +570,7 @@ class Settings
     ///            value is nil, nil if `Default` is nil.
     public static func GetCGFloatNil(_ Setting: SettingTypes, _ Default: CGFloat? = nil) -> CGFloat?
     {
-        if !TypeIsValid(Setting, Type: CGFloat.self)
+        if !TypeIsValid(Setting, Type: CGFloat?.self)
         {
             fatalError("\(Setting) is not a CGFloat")
         }
@@ -595,7 +595,7 @@ class Settings
     ///                         to the completion handler.
     public static func QueryCGFloatNil(_ Setting: SettingTypes, Completion: (CGFloat?) -> Void)
     {
-        if !TypeIsValid(Setting, Type: CGFloat.self)
+        if !TypeIsValid(Setting, Type: CGFloat?.self)
         {
             fatalError("\(Setting) is not a CGFloat")
         }
@@ -624,7 +624,7 @@ class Settings
     /// - Parameter Value: The CGFloat? value to save.
     public static func SetCGFloatNil(_ Setting: SettingTypes, _ Value: CGFloat? = nil)
     {
-        if !TypeIsValid(Setting, Type: CGFloat.self)
+        if !TypeIsValid(Setting, Type: CGFloat?.self)
         {
             fatalError("\(Setting) is not a CGFloat")
         }
@@ -1685,36 +1685,47 @@ class Settings
             {
                 case "Int":
                     CompletionHandler(.success((GetInt(Key) as Any?, KeyType)))
+                    return
                     
                 case "Double":
                     CompletionHandler(.success((GetDouble(Key) as Any?, KeyType)))
+                    return
                     
                 case "Double?":
                     CompletionHandler(.success((GetDoubleNil(Key) as Any?, KeyType)))
+                    return
                     
                 case "CGFloat":
                     CompletionHandler(.success((GetCGFloat(Key) as Any?, KeyType)))
+                    return
                     
                 case "CGFloat?":
                     CompletionHandler(.success((GetCGFloatNil(Key) as Any?, KeyType)))
+                    return
                     
                 case "String":
                     CompletionHandler(.success((GetString(Key) as Any?, KeyType)))
+                    return
                     
                 case "SCNVector3":
                     CompletionHandler(.success((GetVector(Key) as Any?, KeyType)))
+                    return
                     
                 case "Date":
                     CompletionHandler(.success((GetDate(Key) as Any?, KeyType)))
+                    return
                     
                 case "NSColor":
                     CompletionHandler(.success((GetColor(Key) as Any?, KeyType)))
+                    return
                     
                 case "NSRect":
                     CompletionHandler(.success((GetRect(Key) as Any?, KeyType)))
+                    return
                     
                 case "Bool":
                     CompletionHandler(.success((GetBool(Key) as Any?, KeyType)))
+                    return
                     
                 default:
                     CompletionHandler(.failure(.BadType))
