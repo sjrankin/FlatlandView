@@ -33,7 +33,7 @@ extension GlobeView
         if Settings.GetBool(.Show3DMinorGrid)
         {
             Base.lockFocus()
-            let Gap = Settings.GetDouble(.MinorGrid3DGap, 15.0)
+            let Gap = Settings.GetDouble(.MinorGrid3DGap, Defaults.MinorGridGap)
             for Longitude in stride(from: 0.0, to : 360.0, by: Gap)
             {
                 let X = Width * CGFloat(Longitude / 360.0)
@@ -46,7 +46,7 @@ extension GlobeView
                 Line.move(to: NSPoint(x: 0.0, y: Y))
                 Line.line(to: NSPoint(x: Width, y: Y))
             }
-            Line.lineWidth = 4.0
+            Line.lineWidth = CGFloat(Defaults.GridLineWidth.rawValue)
             MinorLineColor.withAlphaComponent(1.0).setStroke()
             Line.stroke()
             Base.unlockFocus()
@@ -94,7 +94,7 @@ extension GlobeView
             }
         }
         
-        Line.lineWidth = 3.0
+        Line.lineWidth = CGFloat(Defaults.GridLineWidth.rawValue)
         LineColor.withAlphaComponent(1.0).setStroke()
         Line.stroke()
         
