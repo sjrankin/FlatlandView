@@ -883,6 +883,8 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
             return
         }
         World3DView.ResetFlatlandCamera()
+        #else
+        World3DView.ResetCamera()
         #endif
     }
     
