@@ -692,7 +692,7 @@ extension GlobeView
         PlottedCities.removeAll()
         
         let CityList = Cities()
-        CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        CitiesToPlot = CityList.FilteredCities()
         
         if Settings.GetBool(.ShowUserLocations)
         {
@@ -729,7 +729,15 @@ extension GlobeView
                 {
                     RelativeSize = Double(Min) / Double(Max)
                 }
-                let CityColor = Cities.ColorForCity(City)
+                var CityColor = Cities.ColorForCity(City)
+                if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
+                {
+                    CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
+                }
+                if Settings.GetBool(.ShowCitiesByPopulation)
+                {
+                    CityColor = Settings.GetColor(.PopulationColor, NSColor.Sunglow)
+                }
                 switch Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .UniformEmbedded)
                 {
                     case .UniformEmbedded:
