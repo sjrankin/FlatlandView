@@ -321,6 +321,15 @@ enum NightDarknesses: String, CaseIterable
     case VeryDark = "VeryDark"
 }
 
+/// How to filter cities by populations.
+enum PopulationFilterTypes: String, CaseIterable
+{
+    /// By rank of city population.
+    case ByRank = "ByRank"
+    /// By comparison of population to user-defined constant.
+    case ByPopulation = "ByPopulation"
+}
+
 /// Determines the size of plotted 2D locations.
 /// - Note: Used in 2D mode only.
 enum LocationShapes2D: String, CaseIterable
