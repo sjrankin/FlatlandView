@@ -522,21 +522,18 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         
         let BGColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
         let BGImage = NSImage(size: NewSize)
+
+        let SelfRect = NSRect(origin: CGPoint.zero, size: Screen!.size)
+        let Resized3D = Utility.ResizeImage(Image: Snapshot3D, Longest: max(NewSize.width, NewSize.height))
         BGImage.lockFocus()
         BGColor.drawSwatch(in: NSRect(origin: .zero, size: NewSize))
         BGImage.unlockFocus()
-        
         BGImage.lockFocus()
-        let SelfRect = NSRect(origin: CGPoint.zero, size: Screen!.size)
+        Resized3D.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
+        BGImage.unlockFocus()
+        BGImage.lockFocus()
         Screen!.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
         BGImage.unlockFocus()
-        
-        let Final3D = Utility.ResizeImage(Image: Snapshot3D, Longest: max(NewSize.width, NewSize.height))
-        
-        BGImage.lockFocus()
-        Final3D.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
-        BGImage.unlockFocus()
-        
         SaveImage(BGImage)
     }
     
