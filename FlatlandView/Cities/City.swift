@@ -11,8 +11,18 @@ import AppKit
 import SQLite3
 
 /// Encapsulates one city.
-class City
+class City: Hashable
 {
+    static func == (lhs: City, rhs: City) -> Bool
+    {
+        return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
+    }
+    
+    func hash(into hasher: inout Hasher)
+    {
+        hasher.combine(ObjectIdentifier(self))
+    }
+    
     /// Initializer.
     /// - Parameters:
     ///   - Continent: Name of the continent of the city.
@@ -116,6 +126,9 @@ class City
     
     /// User city flag.
     public var IsUserCity: Bool = false
+    
+    /// World city flag.
+    public var IsWorldCity: Bool = false
     
     /// City ID.
     public var CityID: UUID = UUID()
