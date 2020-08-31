@@ -153,7 +153,7 @@ class GlobeView: SCNView
         SetDebugOption(DebugTypes)
         #endif
         self.allowsCameraControl = true
-        
+        #if false
         //If the user-camera control is enabled, this prevents the user from zooming in too close to the
         //view by checking the run-time Z value and resetting the current point of view to the minimum
         //value found in the user settings (but which is not user-accessible).
@@ -165,20 +165,27 @@ class GlobeView: SCNView
                 (Node, Change) in
                 OperationQueue.current?.addOperation
                 {
-
-                    let Closest = Settings.GetCGFloat(.ClosestZ, Defaults.ClosestZ)
-                    if Node.pointOfView!.position.z < Closest
+                    if self.OldPointOfView == nil
                     {
-                        Node.pointOfView!.position.z = Closest
+                        self.OldPointOfView = Node.pointOfView!.position
+                        return
                     }
-                    #if false
-                    print("\(Node.pointOfView!.position)")
-                    //print("\(Node.pointOfView!.orientation)")
-                    //print("\(Node.pointOfView!.rotation)")
-                    #endif
+                    let Distance = sqrt(Node.pointOfView!.position.x + Node.pointOfView!.position.y +
+                                            Node.pointOfView!.position.z)
+                    let Closest = Settings.GetCGFloat(.ClosestZ, Defaults.ClosestZ)
+                    if Distance < Closest
+                    {
+                        print("\(Distance)<\(Closest)")
+                        Node.pointOfView!.position = self.OldPointOfView!
+                    }
+                    else
+                    {
+                        self.OldPointOfView = Node.pointOfView!.position
+                    }
                 }
             }
         }
+        #endif
         
         self.autoenablesDefaultLighting = false
         self.scene = SCNScene()
@@ -213,6 +220,8 @@ class GlobeView: SCNView
         UpdateEarthView()
         SetHourResetTimer()
     }
+    
+    var OldPointOfView: SCNVector3? = nil
     
     // MARK: - Camera-related functions.
     
@@ -445,6 +454,7 @@ class GlobeView: SCNView
         let PositionAction = SCNAction.move(to: InitialPosition, duration: Defaults.ResetCameraAnimationDuration.rawValue)
         PositionAction.timingMode = .easeOut
         self.pointOfView?.runAction(PositionAction)
+        
         let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: Defaults.ResetCameraAnimationDuration.rawValue)
         RotationAction.timingMode = .easeOut
         self.pointOfView?.runAction(RotationAction)
