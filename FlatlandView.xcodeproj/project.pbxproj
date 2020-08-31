@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1701BF7A24FCE0D700686C3A /* CityPopulationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */; };
+		1701BF7C24FCE0FD00686C3A /* CityPopulationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */; };
 		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
 		1707A7AF249CACAB00A90FCA /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1707A7AE249CACAB00A90FCA /* Earthquake.swift */; };
 		1710D22224E661D5009B6BB7 /* +StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710D22124E661D5009B6BB7 /* +StatusView.swift */; };
@@ -206,6 +208,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationWindow.swift; sourceTree = "<group>"; };
+		1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationController.swift; sourceTree = "<group>"; };
 		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
 		1707A7AE249CACAB00A90FCA /* Earthquake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
 		1710D22124E661D5009B6BB7 /* +StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+StatusView.swift"; sourceTree = "<group>"; };
@@ -426,6 +430,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1701BF7824FCE0C500686C3A /* CityPopulations */ = {
+			isa = PBXGroup;
+			children = (
+				1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */,
+				1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */,
+			);
+			path = CityPopulations;
+			sourceTree = "<group>";
+		};
 		1710D22324E661FE009B6BB7 /* StatusView */ = {
 			isa = PBXGroup;
 			children = (
@@ -551,6 +564,7 @@
 		174F010D248CD0F700F610DD /* MainSettings */ = {
 			isa = PBXGroup;
 			children = (
+				1701BF7824FCE0C500686C3A /* CityPopulations */,
 				1733C80824F79BF30025D555 /* RawSettings */,
 				1716DB1424E4FCB300C4F8BD /* CustomCities */,
 				176EE0A724D58C7500131944 /* EarthquakeRegion */,
@@ -1230,6 +1244,7 @@
 				17F17A4D24DE7B1B00568A4E /* LinesDraw.swift in Sources */,
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
 				1760023C24D2BF8000D5EA1A /* NSColor.swift in Sources */,
+				1701BF7C24FCE0FD00686C3A /* CityPopulationController.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
 				17C22C2324EA1CD9006BB3AB /* NASAMapConfirmation.swift in Sources */,
 				172F4A2524FA0F650014A65E /* DateTimeEditor.swift in Sources */,
@@ -1256,6 +1271,7 @@
 				17EF3397247A670B00A5B55D /* MapItem.swift in Sources */,
 				17B8158C24E6802500956471 /* GeneralIndicator.swift in Sources */,
 				17EF33B7247A94BA00A5B55D /* City.swift in Sources */,
+				1701BF7A24FCE0D700686C3A /* CityPopulationWindow.swift in Sources */,
 				17F17A4924DE793800568A4E /* LinesDrawKernel.metal in Sources */,
 				172F4A2124FA0F0D0014A65E /* BooleanEditor.swift in Sources */,
 				17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */,
