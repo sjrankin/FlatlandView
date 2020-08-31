@@ -239,6 +239,20 @@ enum SettingTypes: String, CaseIterable
     case CustomCityList = "CustomCityList"
     /// Boolean: City nodes glow if applicable.
     case CityNodesGlow = "CityNodesGlow"
+    /// Boolean: Cities by population rank.
+    case ShowCitiesByPopulation = "ShowCitiesByPopulation"
+    /// Integer: Population rank count.
+    case PopulationRank = "PopulationRank"
+    /// Boolean: Use metropolitan population for ranking cities.
+    case PopulationRankIsMetro = "PopulationRankIsMetro"
+    /// Int: Population value to compare against the city list.
+    case PopulationFilterValue = "PopulationFilterValue"
+    /// Boolean: Determines how `PopulationFilterValue` is used.
+    case PopulationFilterGreater = "PopulationFilterGreater"
+    /// NSColor: The color for population-filtered cities.
+    case PopulationColor = "PopulationColor"
+    /// How to filter by city population.
+    case PopulationFilterType = "PopulationFilterType"
     
     // MARK: - World Heritage Site settings
     /// Boolean: Determines whether World Heritage Sites are shown.
