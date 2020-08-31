@@ -315,7 +315,7 @@ class CitiesData
             City("Montevideo","Uruguay",true,1369797,nil,-34.9011,-56.1645,"South America",ID: UUID(uuidString: "355539A3-A374-46C2-B7B0-F0ED9193CF8A")!),
             City("Tashkent","Uzbekistan",true,2207850,nil,41.2995,69.2401,"Asia",ID: UUID(uuidString: "7D4454C8-9006-44C9-A7E5-5A98D1099F72")!),
             City("Port Vila","Vanautu",true,38000,nil,-17.7333,168.3273,"Asia",ID: UUID(uuidString: "1502C95A-2EE7-42D0-88ED-3062B663D226")!),
-            City("Vatican City","Vatican",true,826,nil,41.9029,104534,"Europe",ID: UUID(uuidString: "7B67FD8B-E794-430C-A246-BB84B043A734")!),
+            City("Vatican City","Vatican",true,826,nil,41.9029,12.4534,"Europe",ID: UUID(uuidString: "7B67FD8B-E794-430C-A246-BB84B043A734")!),
             City("Caracas","Venezuela",true,1838939,2916183,10.4806,-66.9036,"South America",ID: UUID(uuidString: "01CD1EF9-6102-4608-8289-100809B24179")!),
             City("Hanoi","Vietnam",true,3398889,3629493,21.0278,105.8342,"Asia",ID: UUID(uuidString: "0FE329CE-37EB-4F17-BD2B-F5FAFA4541FA")!),
             City("Ho Chi Minh City","Vietnam",false,nil,7297780,10.8231,106.6297,"Asia",ID: UUID(uuidString: "4107B485-C676-4448-AC4E-A6715EDC9BF1")!),
