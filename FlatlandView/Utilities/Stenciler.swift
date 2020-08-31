@@ -128,7 +128,8 @@ class Stenciler
         let ScaleFactor = NSScreen.main!.backingScaleFactor
         var Working = Image
         let CityList = Cities()
-        let CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        //let CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        let CitiesToPlot = CityList.FilteredCities()
         var PlotMe = [TextRecord]()
         let CityFontRecord = Settings.GetString(.CityFontName, "Avenir")
         let CityFontName = Settings.ExtractFontName(From: CityFontRecord)!
