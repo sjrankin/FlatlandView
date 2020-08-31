@@ -433,7 +433,207 @@ class Cities
             Sorted = CitiesWithPopulation(In: SourceList).sorted(by: {$0.Population! > $1.Population!})
         }
         let FinalCount = Sorted.count - N
+        if FinalCount < 1
+        {
+            return Sorted
+        }
+        if FinalCount > Sorted.count - 1
+        {
+            return Sorted
+        }
         return Sorted.dropLast(FinalCount)
+    }
+    
+    /// Return an array of cities based on teh user-settings filter.
+    /// - Returns: Array of cities based on the user settings.
+    public func FilteredCities() -> [City]
+    {
+        return FilteredCities(In: _AllCities)
+    }
+    
+    /// Return an array of cities based on the user-settings filter.
+    /// - Parameter In: The source of the cities to filter.
+    /// - Returns: Array of cities based on the user settings.
+    public func FilteredCities(In SourceList: [City]) -> [City]
+    {
+        if Settings.GetBool(.ShowCitiesByPopulation)
+        {
+            switch Settings.GetEnum(ForKey: .PopulationFilterType, EnumType: PopulationFilterTypes.self,
+                                    Default: .ByRank)
+            {
+                case .ByRank:
+                    let Rank = Settings.GetInt(.PopulationRank)
+                    let IsMetro = Settings.GetBool(.PopulationRankIsMetro)
+                    print("CitiesByRank Rank=\(Rank)")
+                    let TopCities = TopNCities(In: _AllCities, N: Rank, UseMetroPopulation: IsMetro)
+                    print("TopCities.count=\(TopCities.count)")
+                    return TopCities
+                    
+                case .ByPopulation:
+                    let GreaterThan = Settings.GetBool(.PopulationFilterGreater)
+                    let ComparedTo = Settings.GetInt(.PopulationFilterValue, IfZero: 1000000)
+                    let UseMetro = Settings.GetBool(.PopulationRankIsMetro)
+                    print("CitiesByPopulation: \(ComparedTo), use metro=\(UseMetro)")
+                    var TopCities = [City]()
+                    for SomeCity in _AllCities
+                    {
+                        if GreaterThan
+                        {
+                            if UseMetro
+                            {
+                                if SomeCity.GetPopulation(true) > ComparedTo
+                                {
+                                    TopCities.append(SomeCity)
+                                }
+                            }
+                            else
+                            {
+                                if SomeCity.GetPopulation(false) > ComparedTo
+                                {
+                                    TopCities.append(SomeCity)
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if UseMetro
+                            {
+                                if SomeCity.GetPopulation(true) < ComparedTo
+                                {
+                                    TopCities.append(SomeCity)
+                                }
+                            }
+                            else
+                            {
+                                if SomeCity.GetPopulation(false) < ComparedTo
+                                {
+                                    TopCities.append(SomeCity)
+                                }
+                            }
+                        }
+                    }
+                    print("Found \(TopCities.count) cities")
+                    return TopCities
+            }
+        }
+        var Filters = [CityTypes]()
+        if Settings.GetBool(.ShowWorldCities)
+        {
+            Filters.append(.World)
+        }
+        if Settings.GetBool(.ShowCapitalCities)
+        {
+            Filters.append(.Capital)
+        }
+        if Settings.GetBool(.ShowCustomCities)
+        {
+            Filters.append(.User)
+        }
+        if Settings.GetBool(.ShowAfricanCities)
+        {
+            Filters.append(.African)
+        }
+        if Settings.GetBool(.ShowAsianCities)
+        {
+            Filters.append(.Asian)
+        }
+        if Settings.GetBool(.ShowEuropeanCities)
+        {
+            Filters.append(.European)
+        }
+        if Settings.GetBool(.ShowNorthAmericanCities)
+        {
+            Filters.append(.NorthAmerican)
+        }
+        if Settings.GetBool(.ShowSouthAmericanCities)
+        {
+            Filters.append(.SouthAmerican)
+        }
+        
+        let CitySet = GetCities(In: _AllCities, FilteredBy: Filters)
+        return Array(CitySet)
+    }
+    
+    /// Returns a set of cities from the passed array based on `FilteredBy`.
+    /// - Parameter In: The set of cities to search.
+    /// - Parameter FilteredBy: Array of filters. A city will be returned if any one of the filters
+    ///                         is a match.
+    /// - Returns: Set of cities, each of which matches at least one of the criteria in `FilteredBy`.
+    public func GetCities(In SourceList: [City], FilteredBy: [CityTypes]) -> Set<City>
+    {
+        var Filtered = Set<City>()
+        for SomeCity in SourceList
+        {
+            if FilteredBy.contains(.African)
+            {
+                if SomeCity.Continent == .Africa
+                {
+                    Filtered.insert(SomeCity)
+                }
+            }
+            if FilteredBy.contains(.Asian)
+            {
+                if SomeCity.Continent == .Asia
+                {
+                    Filtered.insert(SomeCity)
+                }
+            }
+            if FilteredBy.contains(.European)
+            {
+                if SomeCity.Continent == .Europe
+                {
+                    Filtered.insert(SomeCity)
+                }
+            }
+            if FilteredBy.contains(.NorthAmerican)
+            {
+                if SomeCity.Continent == .NorthAmerica
+                {
+                    Filtered.insert(SomeCity)
+                }
+            }
+            if FilteredBy.contains(.SouthAmerican)
+            {
+                if SomeCity.Continent == .SouthAmerica
+                {
+                    Filtered.insert(SomeCity)
+                }
+            }
+            if FilteredBy.contains(.Capital)
+            {
+                if SomeCity.IsCapital
+                {
+                    Filtered.insert(SomeCity)
+                }
+            }
+            if FilteredBy.contains(.User)
+            {
+                if SomeCity.IsUserCity
+                {
+                    Filtered.insert(SomeCity)
+                }
+            }
+            if FilteredBy.contains(.World)
+            {
+                if SomeCity.IsWorldCity
+                {
+                    Filtered.insert(SomeCity)
+                }
+            }
+        }
+        return Filtered
+    }
+    
+    enum CityTypes
+    {
+        case African
+        case Asian
+        case European
+        case NorthAmerican
+        case SouthAmerican
+        case Capital
+        case User
+        case World
     }
     
     /// Returns a list of all cities read from the database.
@@ -503,26 +703,26 @@ class Cities
                 {
                     case .Africa:
                         return Settings.GetColor(.AfricanCityColor, NSColor.blue)
-                    
+                        
                     case .Asia:
                         return Settings.GetColor(.AsianCityColor, NSColor.brown)
-                    
+                        
                     case .Europe:
                         return Settings.GetColor(.EuropeanCityColor, NSColor.magenta)
-                    
+                        
                     case .NorthAmerica:
                         return Settings.GetColor(.NorthAmericanCityColor, NSColor.green)
-                    
+                        
                     case .SouthAmerica:
                         return Settings.GetColor(.SouthAmericanCityColor, NSColor.orange)
-                    
+                        
                     case .NoName:
                         return NSColor.white
-            }
-            
+                }
+                
             case .CapitalCities:
                 return Settings.GetColor(.CapitalCityColor, NSColor.cyan)
-            
+                
             case .WorldCities:
                 return Settings.GetColor(.WorldCityColor, NSColor.yellow)
         }
