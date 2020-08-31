@@ -30,6 +30,8 @@ class CitySettingsWindow: NSViewController, FontProtocol
         ShowNorthAmericanCitiesSwitch.state = Settings.GetBool(.ShowNorthAmericanCities) ? .on : .off
         ShowSouthAmericanCitiesSwitch.state = Settings.GetBool(.ShowSouthAmericanCities) ? .on : .off
         ShowCustomCitiesSwitch.state = Settings.GetBool(.ShowCustomCities) ? .on : .off
+        PopulationRankSwitch.state = Settings.GetBool(.ShowCitiesByPopulation) ? .on : .off
+        //On and off are reversed for this setting.
         FloatingCityNameSwitch.state = Settings.GetBool(.CityNamesDrawnOnMap) ? .off : .on
         
         CityShapeCombo.removeAllItems()
@@ -137,6 +139,9 @@ class CitySettingsWindow: NSViewController, FontProtocol
                     
                 case ShowCustomCitiesSwitch:
                     Settings.SetBool(.ShowCustomCities, IsChecked)
+                    
+                case PopulationRankSwitch:
+                    Settings.SetBool(.ShowCitiesByPopulation, IsChecked)
                 
                 default:
                     return
@@ -266,6 +271,20 @@ class CitySettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandleSetPopulationFilterButtonPressed(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "CityPopulationWindow") as? CityPopulationWindow
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!)
+            {
+                _ in
+            }
+        }
+    }
+    
+    @IBOutlet weak var PopulationRankSwitch: NSSwitch!
     @IBOutlet weak var CityNodesGlowSwitch: NSSwitch!
     @IBOutlet weak var ShowCustomCitiesSwitch: NSSwitch!
     @IBOutlet weak var CustomCityListColorWell: NSColorWell!
