@@ -365,18 +365,23 @@ extension MainView: SettingChangedProtocol
                 
             case .WorldCityColor, .AfricanCityColor, .AsianCityColor, .EuropeanCityColor,
                  .NorthAmericanCityColor, .SouthAmericanCityColor, .CapitalCityColor,
-                 .CustomCityListColor, .CityNodesGlow:
+                 .CustomCityListColor, .CityNodesGlow, .PopulationColor:
                 World3DView.PlotCities()
+                World3DView.ApplyStencils()
                 
             case .ShowCustomCities, .ShowAfricanCities, .ShowAsianCities,
                  .ShowEuropeanCities, .ShowNorthAmericanCities, .ShowSouthAmericanCities,
-                 .ShowCapitalCities, .ShowWorldCities:
+                 .ShowCapitalCities, .ShowWorldCities, .ShowCitiesByPopulation,
+                 .PopulationRank, .PopulationRankIsMetro, .PopulationFilterValue,
+                 .PopulationFilterGreater, .PopulationFilterType:
                 World3DView.PlotCities()
+                World3DView.ApplyStencils()
                 
             case .CustomCityList:
                 if Settings.GetBool(.ShowCustomCities)
                 {
                 World3DView.PlotCities()
+                    World3DView.ApplyStencils()
                 }
                 
             case .HourFontName:
