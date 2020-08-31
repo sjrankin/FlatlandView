@@ -591,9 +591,9 @@ class Settings
     ///            returned.
     public static func GetCGFloat(_ Setting: SettingTypes, _ IfZero: Defaults) -> CGFloat
     {
-        if !TypeIsValid(Setting, Type: Double.self)
+        if !TypeIsValid(Setting, Type: CGFloat.self)
         {
-            fatalError("\(Setting) is not a Double")
+            fatalError("\(Setting) is not a CGFloat")
         }
         let Value = UserDefaults.standard.double(forKey: Setting.rawValue)
         if Value == 0.0
