@@ -8,6 +8,7 @@
 
 import Foundation
 import AppKit
+import CoreGraphics
 
 // MARK: - NSColor extensions.
 
@@ -28,6 +29,16 @@ extension NSColor
         else
         {
             return nil
+        }
+    }
+    
+    /// Returns the color as a color guaranteed to be in RGB colorspace.
+    var InRGB: NSColor
+    {
+        get
+        {
+            let CColor = CIColor(color: self)!
+            return NSColor(calibratedRed: CColor.red, green: CColor.green, blue: CColor.blue, alpha: CColor.alpha)
         }
     }
     
