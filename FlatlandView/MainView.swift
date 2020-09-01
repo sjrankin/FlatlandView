@@ -6,9 +6,11 @@
 //  Copyright © 2020 Stuart Rankin. All rights reserved.
 //
 
-import Cocoa
+import AppKit
 import Foundation
 import SceneKit
+import CoreGraphics
+import CoreImage
 
 class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
 {
@@ -427,7 +429,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         return CGWindowID(view.window!.windowNumber)
     }
     
-    #if false
+    #if true
     /// Returns the coordinates of the main window.
     /// - Parameter WindowID: The ID of the main window.
     /// - Returns: The coordinates of the main window.
@@ -480,61 +482,43 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     /// Handle the snapshot command.
     @IBAction func FileSnapshot(_ sender: Any)
     {
-        let CurrentView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
-        switch CurrentView
-        {
-            case .CubicWorld, .Globe3D:
-                perform(#selector(FinalSnapshot), with: nil, afterDelay: 0.1)
-                
-            case .FlatNorthCenter, .FlatSouthCenter:
-                let Screen = NSImage(data: self.view.dataWithPDF(inside: self.view.bounds))
-                let NewSize = Screen!.size
-                
-                let BlackImage = NSImage(size: NewSize)
-                BlackImage.lockFocus()
-                NSColor.black.drawSwatch(in: NSRect(origin: .zero, size: NewSize))
-                BlackImage.unlockFocus()
-                
-                BlackImage.lockFocus()
-                let SelfRect = NSRect(origin: CGPoint.zero, size: Screen!.size)
-                Screen!.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
-                BlackImage.unlockFocus()
-                SaveImage(BlackImage)
-        }
+        CreateClientSnapshot()
     }
     
-    /// The snapshot functionality (at least for 3D views) starts in `FileSnapshot` and finishes here.
-    /// In order to work correctly, the background of the 3D view needs to be set to the background color,
-    /// but that takes a little time. This function is called after a small delay to ensure the background
-    /// has been updated correctly. Immediately upon being called, this function will get a snapshot (using
-    /// built-in functionality) of the 3D view then reset the background color. Then, `SaveImage` will
-    /// be called to finish things.
-    /// - Note: In order to include the ancillary elements (eg, time, local data grid), a screen shot
-    ///         is taken in 2D mode as well and composited with the 3D snapshot.
-    @objc func FinalSnapshot()
+    /// Get a snapshot of the client window and save it.
+    /// - Notes:
+    ///   - The method used to create the snapshot initially saves the entire window, non-client as well
+    ///     as the client area. This function crops the non-client area from the initial image.
+    ///   - This function uses the scaling factor of the screen to determine the final resolution of the
+    ///     snapshot image.
+    ///      - This function works at the resolution of the user's montior. If there are multiple monitors
+    ///        with different pixel densities, it is possible the saved image will be low resolution.
+    ///   - This function will work equally on 3D content and 2D content.
+    func CreateClientSnapshot()
     {
-        SunViewTop.isHidden = true
-        SunViewBottom.isHidden = true
-        let Snapshot3D = World3DView.snapshot()
-        
-        let Screen = NSImage(data: self.view.dataWithPDF(inside: self.view.bounds))
-        let NewSize = Screen!.size
-        
-        let BGColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
-        let BGImage = NSImage(size: NewSize)
-
-        let SelfRect = NSRect(origin: CGPoint.zero, size: Screen!.size)
-        let Resized3D = Utility.ResizeImage(Image: Snapshot3D, Longest: max(NewSize.width, NewSize.height))
-        BGImage.lockFocus()
-        BGColor.drawSwatch(in: NSRect(origin: .zero, size: NewSize))
-        BGImage.unlockFocus()
-        BGImage.lockFocus()
-        Resized3D.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
-        BGImage.unlockFocus()
-        BGImage.lockFocus()
-        Screen!.draw(at: NSPoint.zero, from: SelfRect, operation: .sourceAtop, fraction: 1.0)
-        BGImage.unlockFocus()
-        SaveImage(BGImage)
+        let Multiplier = NSScreen.main!.backingScaleFactor
+        var ImageOptions = CGWindowImageOption()
+        if Multiplier == 2.0
+        {
+            ImageOptions = [CGWindowImageOption.boundsIgnoreFraming, CGWindowImageOption.bestResolution]
+        }
+        else
+        {
+            ImageOptions = [CGWindowImageOption.boundsIgnoreFraming, CGWindowImageOption.nominalResolution]
+        }
+        if let Ref = CGWindowListCreateImage(CGRect.zero, CGWindowListOption.optionIncludingWindow, WindowID(),
+                                             ImageOptions)
+        {
+            let ViewHeight = PrimaryView.bounds.height
+            let WindowFrame = view.window?.frame
+            let Delta = abs(ViewHeight - WindowFrame!.height) * Multiplier
+            let PrimarySize = NSSize(width: PrimaryView.bounds.size.width * Multiplier,
+                                     height: PrimaryView.bounds.size.height * Multiplier)
+            let ClientRect = NSRect(origin: NSPoint(x: 0, y: Delta), size: PrimarySize)
+            let ClientAreaImage = Ref.cropping(to: ClientRect)
+            let ScreenImage = NSImage(cgImage: ClientAreaImage!, size: PrimarySize)
+            SaveImage(ScreenImage)
+        }
     }
     
     /// Save the specified image to a file.
@@ -933,6 +917,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     // MARK: - Interface builder outlets.
     
+    @IBOutlet var PrimaryView: NSView!
     @IBOutlet weak var StarView: Starfield!
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
