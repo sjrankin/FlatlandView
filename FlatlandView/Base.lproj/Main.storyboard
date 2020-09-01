@@ -489,6 +489,7 @@
                     <connections>
                         <outlet property="EarthquakeButton" destination="3yq-kA-feU" id="Daa-kW-3V3"/>
                         <outlet property="HourSegment" destination="LKb-xg-m5I" id="2aL-ui-Wrc"/>
+                        <outlet property="MainToolBar" destination="QLt-wb-rzO" id="iA0-KN-y90"/>
                         <outlet property="UpTimeLabel" destination="dbg-sI-c7F" id="p0Z-uy-YVD"/>
                         <outlet property="ViewSegment" destination="OO8-3g-cKV" id="qi9-LG-aEu"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -675,6 +676,7 @@
                         <outlet property="MainTimeLabelBottom" destination="BFj-Wa-HNl" id="1Bq-gf-KE9"/>
                         <outlet property="MainTimeLabelTop" destination="tNb-wZ-7xd" id="8mc-dy-k0k"/>
                         <outlet property="NightMaskImageView" destination="8k3-gX-b5q" id="8PV-an-Q2B"/>
+                        <outlet property="PrimaryView" destination="m2S-Jp-Qdl" id="sSn-3m-OQw"/>
                         <outlet property="StarView" destination="rl2-NN-bVz" id="Hfa-nm-l5H"/>
                         <outlet property="StatusContainer" destination="hFB-sH-wQq" id="ABH-Qi-Eeh"/>
                         <outlet property="StatusViewIndicator" destination="h80-xt-s6h" id="cYK-5h-98w"/>
