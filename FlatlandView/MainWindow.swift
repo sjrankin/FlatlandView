@@ -34,6 +34,7 @@ class MainWindow: NSWindowController, NSWindowDelegate
         VC?.WillClose()
     }
     
+    @IBOutlet weak var MainToolBar: NSToolbar!
     @IBOutlet weak var UpTimeLabel: NSTextField!
     @IBOutlet weak var EarthquakeButton: NSButton!
     @IBOutlet weak var HourSegment: NSSegmentedControl!
