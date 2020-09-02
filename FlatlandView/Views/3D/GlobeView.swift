@@ -448,8 +448,18 @@ class GlobeView: SCNView
     #endif
     
     /// Resets the default camera to its original location.
+    /// - Note: In order to prevent the Earth from flying around wildly during the reset transition, a
+    ///         look-at constraint is added for the duration of the transition, and removed once the rotation
+    ///         transition is completed.
     func ResetCamera()
     {
+        let Constraint = SCNLookAtConstraint(target: SystemNode)
+        Constraint.isGimbalLockEnabled = false
+        SCNTransaction.begin()
+        SCNTransaction.animationDuration = Defaults.ResetCameraAnimationDuration.rawValue
+        self.pointOfView?.constraints = [Constraint]
+        SCNTransaction.commit()
+        
         let InitialPosition = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue))
         let PositionAction = SCNAction.move(to: InitialPosition, duration: Defaults.ResetCameraAnimationDuration.rawValue)
         PositionAction.timingMode = .easeOut
@@ -458,6 +468,9 @@ class GlobeView: SCNView
         let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: Defaults.ResetCameraAnimationDuration.rawValue)
         RotationAction.timingMode = .easeOut
         self.pointOfView?.runAction(RotationAction)
+        {
+            self.pointOfView?.constraints = []
+        }
     }
     
     /// Sets the HDR flag of the camera depending on user settings.
