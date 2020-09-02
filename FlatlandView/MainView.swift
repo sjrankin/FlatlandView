@@ -459,7 +459,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
                 let FinalWID = WID as! Int32
                 if FinalWID == WindowID
                 {
-                    let WindowName = Window[kCGWindowName as String] as? String ?? ""
+                    let _ = Window[kCGWindowName as String] as? String ?? ""
                     let Bounds = CGRect(dictionaryRepresentation: Window[kCGWindowBounds as String] as! CFDictionary)!
                     return Bounds
                 }
