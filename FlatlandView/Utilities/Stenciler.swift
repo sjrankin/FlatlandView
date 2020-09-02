@@ -63,7 +63,7 @@ class Stenciler
         objc_sync_enter(StencilLock)
         defer{objc_sync_exit(StencilLock)}
         let MapRatio: Double = Double(Image.size.width) / 3600.0
-        Debug.Print("Stencil on image size: \(Image.size), MapRatio=\(MapRatio)")
+        //Debug.Print("Stencil on image size: \(Image.size), MapRatio=\(MapRatio)")
         let StartTime = CACurrentMediaTime()
         if Quakes == nil && !ShowRegions && !PlotCities && !GridLines && !UNESCOSites
         {
@@ -128,7 +128,6 @@ class Stenciler
         let ScaleFactor = NSScreen.main!.backingScaleFactor
         var Working = Image
         let CityList = Cities()
-        //let CitiesToPlot = CityList.TopNCities(N: 50, UseMetroPopulation: true)
         let CitiesToPlot = CityList.FilteredCities()
         var PlotMe = [TextRecord]()
         let CityFontRecord = Settings.GetString(.CityFontName, "Avenir")
@@ -140,14 +139,17 @@ class Stenciler
             FontMultiplier = 2.0
         }
         let FontSize = BaseFontSize * ScaleFactor * CGFloat(Ratio) * FontMultiplier
-        let CityFont = NSFont(name: CityFontName, size: FontSize)!
         for City in CitiesToPlot
         {
             let CityPoint = GeoPoint2(City.Latitude, City.Longitude)
             let CityPointLocation = CityPoint.ToEquirectangular(Width: Int(Image.size.width),
                                                                 Height: Int(Image.size.height))
-            let Location = NSPoint(x: CityPointLocation.X + 15, y: CityPointLocation.Y)
+            let Location = NSPoint(x: CityPointLocation.X + Int(Constants.StencilCityTextOffset.rawValue),
+                                   y: CityPointLocation.Y)
             let CityColor = Cities.ColorForCity(City)
+            var LatitudeFontOffset = CGFloat(abs(City.Latitude) / 90.0)
+            LatitudeFontOffset = CGFloat(Constants.StencilCitySize.rawValue) * LatitudeFontOffset
+            let CityFont = NSFont(name: CityFontName, size: FontSize + LatitudeFontOffset)!
             let Record = TextRecord(Text: City.Name, Location: Location, Font: CityFont, Color: CityColor,
                                     OutlineColor: NSColor.black)
             PlotMe.append(Record)
@@ -165,7 +167,6 @@ class Stenciler
     {
         let Working = Image
         let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
-        print("\(#function): TypeFilter=\(TypeFilter)")
         MainView.InitializeWorldHeritageSites()
         let Sites = MainView.GetAllSites()
         var FinalList = [WorldHeritageSite]()
@@ -217,9 +218,9 @@ class Stenciler
             let SitePointLocation = SitePoint.ToEquirectangular(Width: Int(Image.size.width),
                                                                 Height: Int(Image.size.height))
             let SiteShape = NSBezierPath()
-            let YOffset: Double = 12
-            let LeftX: Double = -8
-            let RightX: Double = 8
+            let YOffset: Double = Constants.WHSYOffset.rawValue
+            let LeftX: Double = Constants.WHSLeftX.rawValue
+            let RightX: Double = Constants.WHSRightX.rawValue
             SiteShape.move(to: NSPoint(x: SitePointLocation.X, y: SitePointLocation.Y))
             SiteShape.line(to: NSPoint(x: Double(SitePointLocation.X) + LeftX, y: Double(SitePointLocation.Y) - YOffset))
             SiteShape.line(to: NSPoint(x: Double(SitePointLocation.X) + RightX, y: Double(SitePointLocation.Y) - YOffset))
@@ -262,9 +263,12 @@ class Stenciler
         {
             let Location = Quake.LocationAsGeoPoint2().ToEquirectangular(Width: Int(Image.size.width),
                                                                          Height: Int(Image.size.height))
-            let LocationPoint = NSPoint(x: Location.X, y: Location.Y)
+            var LocationPoint = NSPoint(x: Location.X, y: Location.Y)
             let EqText = "\(Quake.Magnitude.RoundedTo(3))"
-            let QuakeFont = NSFont(name: QuakeFontName, size: FontSize + CGFloat(Quake.Magnitude))!
+            var LatitudeFontOffset = abs(Quake.Latitude) / 90.0
+            LatitudeFontOffset = Constants.StencilFontSize.rawValue * LatitudeFontOffset
+            let FinalFontSize = FontSize + CGFloat(Quake.Magnitude) + CGFloat(LatitudeFontOffset)
+            let QuakeFont = NSFont(name: QuakeFontName, size: FinalFontSize)!
             let MagRange = Utility.GetMagnitudeRange(For: Quake.Magnitude)
             var BaseColor = NSColor.systemYellow
             let Colors = Settings.GetMagnitudeColors()
@@ -274,6 +278,14 @@ class Stenciler
                 {
                     BaseColor = Color
                 }
+            }
+            //Take care of text that is very close to the International Date Line/edge of
+            //the image.
+            let Length = Utility.StringWidth(TheString: EqText, TheFont: QuakeFont)
+            if LocationPoint.x + Length > Image.size.width
+            {
+                LocationPoint = NSPoint(x: Image.size.width - Length,
+                                        y: LocationPoint.y)
             }
             let Record = TextRecord(Text: EqText, Location: LocationPoint,
                                     Font: QuakeFont, Color: BaseColor, OutlineColor: NSColor.black)
@@ -307,7 +319,7 @@ class Stenciler
                 if let Outline = Message.OutlineColor
                 {
                     Attrs[NSAttributedString.Key.strokeColor] = Outline as Any
-                    Attrs[NSAttributedString.Key.strokeWidth] = -2.0 as Any
+                    Attrs[NSAttributedString.Key.strokeWidth] = Constants.StencilTextStrokeWidth.rawValue as Any
                 }
                 let AttrString = NSAttributedString(string: Message.Text, attributes: Attrs)
                 let FinalLocation = NSPoint(x: Message.Location.x, y: Message.Location.y - (AttrString.size().height / 2.0))
@@ -336,7 +348,7 @@ class Stenciler
             
             if Settings.GetBool(.Show3DMinorGrid)
             {
-                let Gap = Settings.GetDouble(.MinorGrid3DGap, 15.0)
+                let Gap = Settings.GetDouble(.MinorGrid3DGap, .MinorGridGap)
                 for Longitude in stride(from: 0.0, to: 180.0, by: Gap)
                 {
                     var Y = Int(Double(ImageHeight) * (Longitude / 180.0))
