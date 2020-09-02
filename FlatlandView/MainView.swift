@@ -99,6 +99,14 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         DoubleClickRecognizer.numberOfClicksRequired = 2
         self.view.addGestureRecognizer(DoubleClickRecognizer)
         
+        #if DEBUG
+        VersionValue.stringValue = Versioning.VerySimpleVersionString()
+        BuildValue.stringValue = "\(Versioning.Build)"
+        BuildDateValue.stringValue = Versioning.BuildDate
+        #else
+        DebugTextGrid.removeFromSuperview()
+        #endif
+        
         Debug.Print("Done with viewDidLoad")
     }
     
@@ -412,12 +420,20 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(HaveLocalLocation, forSegment: 3)
     }
     
-    /// Update the text on the 3D screen with the passed color.
+    /// Update the text on the screen with the passed color.
     /// - Parameter With: The color to use to update the text.
     func UpdateScreenText(With Color: NSColor)
     {
         MainTimeLabelTop.textColor = Color
         MainTimeLabelBottom.textColor = Color
+        #if DEBUG
+        VersionLabel.textColor = Color
+        VersionValue.textColor = Color
+        BuildLabel.textColor = Color
+        BuildValue.textColor = Color
+        BuildDateValue.textColor = Color
+        BuildDateLabel.textColor = Color
+        #endif
     }
     
     // MARK: - Menu/toolbar event handlers.
@@ -934,5 +950,13 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     @IBOutlet weak var StatusContainer: StatusUIView!
     @IBOutlet weak var StatusViewText: NSTextField!
     @IBOutlet weak var StatusViewIndicator: GeneralIndicator!
+    //Debug elements
+    @IBOutlet weak var VersionLabel: NSTextField!
+    @IBOutlet weak var VersionValue: NSTextField!
+    @IBOutlet weak var BuildLabel: NSTextField!
+    @IBOutlet weak var BuildValue: NSTextField!
+    @IBOutlet weak var BuildDateLabel: NSTextField!
+    @IBOutlet weak var BuildDateValue: NSTextField!
+    @IBOutlet weak var DebugTextGrid: NSGridView!
 }
 
