@@ -464,16 +464,13 @@ class Cities
                 case .ByRank:
                     let Rank = Settings.GetInt(.PopulationRank)
                     let IsMetro = Settings.GetBool(.PopulationRankIsMetro)
-                    print("CitiesByRank Rank=\(Rank)")
                     let TopCities = TopNCities(In: _AllCities, N: Rank, UseMetroPopulation: IsMetro)
-                    print("TopCities.count=\(TopCities.count)")
                     return TopCities
                     
                 case .ByPopulation:
                     let GreaterThan = Settings.GetBool(.PopulationFilterGreater)
                     let ComparedTo = Settings.GetInt(.PopulationFilterValue, IfZero: 1000000)
                     let UseMetro = Settings.GetBool(.PopulationRankIsMetro)
-                    print("CitiesByPopulation: \(ComparedTo), use metro=\(UseMetro)")
                     var TopCities = [City]()
                     for SomeCity in _AllCities
                     {
