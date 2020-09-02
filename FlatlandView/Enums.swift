@@ -967,3 +967,22 @@ enum Defaults: Double
     /// Line width for grid lines.
     case GridLineWidth = 4.00001
 }
+
+/// Values intended to be constants for one reason or another.
+enum Constants: Double, CaseIterable
+{
+    /// Font size offset value for earthquake magnitude values in higher latitudes.
+    case StencilFontSize = 70.0
+    /// Font size offset value for city names in higher latitudes.
+    case StencilCitySize = 35.0
+    /// Horizontal text offset for city names the names are far enough away from any 3D shapes.
+    case StencilCityTextOffset = 15.0
+    /// World Heritage Site shape Y offset.
+    case WHSYOffset = 12.0
+    /// World Heritage Site shape left X.
+    case WHSLeftX = -8.0
+    /// World Heritage Site shape right X.
+    case WHSRightX = 8.0
+    /// Stroke width for stenciled text.
+    case StencilTextStrokeWidth = -2.0
+}
