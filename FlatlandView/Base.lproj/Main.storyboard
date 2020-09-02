@@ -638,6 +638,86 @@
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="f0s-yU-n89">
                                 <rect key="frame" x="0.0" y="0.0" width="900" height="900"/>
+                                <subviews>
+                                    <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Ert-lZ-sPa">
+                                        <rect key="frame" x="10" y="35" width="115" height="60"/>
+                                        <rows>
+                                            <gridRow id="XMk-mx-b29"/>
+                                            <gridRow id="AYd-dt-dLG"/>
+                                            <gridRow id="P2T-Ep-2Ne"/>
+                                        </rows>
+                                        <columns>
+                                            <gridColumn id="rTq-BX-OJf"/>
+                                            <gridColumn leadingPadding="15" id="W3u-3r-Z47"/>
+                                        </columns>
+                                        <gridCells>
+                                            <gridCell row="XMk-mx-b29" column="rTq-BX-OJf" id="d1h-dv-gkb">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="C9y-75-enW">
+                                                    <rect key="frame" x="-2" y="44" width="50" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Version" id="PQp-jB-IB3">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                            <gridCell row="XMk-mx-b29" column="W3u-3r-Z47" id="8Bc-69-kUf">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="J5Y-cC-SnN">
+                                                    <rect key="frame" x="80" y="44" width="37" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="m2t-fu-Ft5">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                            <gridCell row="AYd-dt-dLG" column="rTq-BX-OJf" id="hXz-C3-9Lk">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZbN-oN-YIz">
+                                                    <rect key="frame" x="-2" y="22" width="35" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Build" id="NXa-KI-1m4">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                            <gridCell row="AYd-dt-dLG" column="W3u-3r-Z47" id="5yJ-FY-Bgy">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y76-xP-APp">
+                                                    <rect key="frame" x="80" y="22" width="37" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="l6F-7x-14u">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                            <gridCell row="P2T-Ep-2Ne" column="rTq-BX-OJf" id="cVL-Mg-c5D">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="e2H-6U-Biz">
+                                                    <rect key="frame" x="-2" y="0.0" width="65" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Build date" id="la9-iA-EXi">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                            <gridCell row="P2T-Ep-2Ne" column="W3u-3r-Z47" id="jBa-XI-6kD">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y8b-0R-io8">
+                                                    <rect key="frame" x="80" y="0.0" width="37" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="GY7-o7-RWf">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                        </gridCells>
+                                    </gridView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Ert-lZ-sPa" firstAttribute="leading" secondItem="f0s-yU-n89" secondAttribute="leading" constant="10" id="i1S-Kp-ycG"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ert-lZ-sPa" secondAttribute="bottom" constant="35" id="xsb-BV-6qv"/>
+                                </constraints>
                             </customView>
                         </subviews>
                         <constraints>
@@ -668,7 +748,12 @@
                     </view>
                     <connections>
                         <outlet property="BackgroundView" destination="f0s-yU-n89" id="T9k-tX-van"/>
+                        <outlet property="BuildDateLabel" destination="e2H-6U-Biz" id="Ix9-kL-EeI"/>
+                        <outlet property="BuildDateValue" destination="y8b-0R-io8" id="U3X-n6-40u"/>
+                        <outlet property="BuildLabel" destination="ZbN-oN-YIz" id="cdP-M9-0c1"/>
+                        <outlet property="BuildValue" destination="y76-xP-APp" id="lWF-ZG-13d"/>
                         <outlet property="CityView2D" destination="2Al-xH-sRq" id="1dW-An-mVc"/>
+                        <outlet property="DebugTextGrid" destination="Ert-lZ-sPa" id="nOJ-mz-Ui5"/>
                         <outlet property="FlatView" destination="jzK-yC-9yN" id="Rqo-BK-KcW"/>
                         <outlet property="FlatViewMainImage" destination="VJd-ng-L0g" id="Ihn-cx-X5w"/>
                         <outlet property="GridOverlay" destination="6Gz-l1-6AA" id="asu-JT-c7N"/>
@@ -683,6 +768,8 @@
                         <outlet property="StatusViewText" destination="R5h-Th-66C" id="h09-rL-SXw"/>
                         <outlet property="SunViewBottom" destination="wns-jc-4Fq" id="Fbt-Wq-Ymj"/>
                         <outlet property="SunViewTop" destination="q1S-Rx-kJK" id="AOh-tS-JEc"/>
+                        <outlet property="VersionLabel" destination="C9y-75-enW" id="LyM-tJ-rZ4"/>
+                        <outlet property="VersionValue" destination="J5Y-cC-SnN" id="9uO-CZ-pqD"/>
                         <outlet property="World3DView" destination="QaS-kA-VXe" id="8HV-v8-o9W"/>
                     </connections>
                 </viewController>
