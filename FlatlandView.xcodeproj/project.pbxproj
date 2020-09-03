@@ -67,6 +67,7 @@
 		17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CD3247B8E62005209FC /* WorldHeritageSite.swift */; };
 		17523CD6247B937F005209FC /* UnescoSites.db in Resources */ = {isa = PBXBuildFile; fileRef = 17523CD5247B937F005209FC /* UnescoSites.db */; };
 		17523CDB247B973E005209FC /* +FlatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17523CDA247B973E005209FC /* +FlatView.swift */; };
+		175623A92500C1D6006C0A60 /* AsynchronousData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175623A82500C1D6006C0A60 /* AsynchronousData.swift */; };
 		1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1757CACC24949C3F00ECA8C1 /* 3DDebugWindow.swift */; };
 		1757CACF24949C6300ECA8C1 /* 3DDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1757CACE24949C6300ECA8C1 /* 3DDebugController.swift */; };
 		1759AE59249F7715003F79F5 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759AE58249F7715003F79F5 /* ContainerController.swift */; };
@@ -270,6 +271,7 @@
 		17523CD3247B8E62005209FC /* WorldHeritageSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSite.swift; sourceTree = "<group>"; };
 		17523CD5247B937F005209FC /* UnescoSites.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnescoSites.db; sourceTree = "<group>"; };
 		17523CDA247B973E005209FC /* +FlatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatView.swift"; sourceTree = "<group>"; };
+		175623A82500C1D6006C0A60 /* AsynchronousData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousData.swift; sourceTree = "<group>"; };
 		1757CACC24949C3F00ECA8C1 /* 3DDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DDebugWindow.swift; sourceTree = "<group>"; };
 		1757CACE24949C6300ECA8C1 /* 3DDebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DDebugController.swift; sourceTree = "<group>"; };
 		1759AE58249F7715003F79F5 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
@@ -829,6 +831,7 @@
 				1748912E24C5746300B5F6AF /* EarthData */,
 				1713766824960E1400EF715E /* Earthquakes */,
 				17F782C224974442000A568E /* AsynchronousDataProtocol.swift */,
+				175623A82500C1D6006C0A60 /* AsynchronousData.swift */,
 			);
 			path = RemoteData;
 			sourceTree = "<group>";
@@ -1275,6 +1278,7 @@
 				17B8158C24E6802500956471 /* GeneralIndicator.swift in Sources */,
 				17EF33B7247A94BA00A5B55D /* City.swift in Sources */,
 				1701BF7A24FCE0D700686C3A /* CityPopulationWindow.swift in Sources */,
+				175623A92500C1D6006C0A60 /* AsynchronousData.swift in Sources */,
 				17F17A4924DE793800568A4E /* LinesDrawKernel.metal in Sources */,
 				172F4A2124FA0F0D0014A65E /* BooleanEditor.swift in Sources */,
 				17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */,
