@@ -24,7 +24,7 @@ class LiveDataViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         TableTitle.stringValue = "Earthquake Live Data"
     }
     
-    func LoadData(DataType: AsynchronousDataTypes, Raw: Any)
+    func LoadData(DataType: AsynchronousDataCategories, Raw: Any)
     {
         switch DataType
         {
