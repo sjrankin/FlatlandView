@@ -163,6 +163,7 @@ extension Settings
             .TestTime: Date.self,
             .StopTimeAt: Date.self,
             .TimeMultiplier: Double.self,
-            .EnableStopTime: Bool.self
+            .EnableStopTime: Bool.self,
+            .EarthquakeViewWindowFrame: NSRect.self,
         ]
 }
