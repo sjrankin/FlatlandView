@@ -185,7 +185,7 @@ class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDa
         }
     }
     
-    func LoadData(DataType: AsynchronousDataTypes, Raw: Any)
+    func LoadData(DataType: AsynchronousDataCategories, Raw: Any)
     {
         switch DataType
         {
@@ -204,11 +204,11 @@ class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDa
     
     var SourceData = [Earthquake]()
     
-    func AsynchronousDataAvailable(DataType: AsynchronousDataTypes, Actual: Any?)
+    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?)
     {
         if Actual != nil
         {
-            LoadData(DataType: DataType, Raw: Actual!)
+            LoadData(DataType: CategoryType, Raw: Actual!)
         }
     }
     
