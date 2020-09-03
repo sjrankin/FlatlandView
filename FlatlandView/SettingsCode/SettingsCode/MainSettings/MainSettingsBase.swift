@@ -163,7 +163,7 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         self.view.window?.close()
     }
     
-    func LoadData(DataType: AsynchronousDataTypes, Raw: Any?)
+    func LoadData(DataType: AsynchronousDataCategories, Raw: Any?)
     {
         switch DataType
         {
