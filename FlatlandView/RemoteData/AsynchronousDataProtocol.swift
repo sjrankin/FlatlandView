@@ -12,8 +12,8 @@ import Foundation
 protocol AsynchronousDataProtocol: class
 {
     /// Called when remote/asynchronous data is available.
-    /// - Parameter DataType: The type of available data.
+    /// - Parameter CategoryType: The type of available data.
     /// - Parameter Actual: The data that was received. May be nil.
-    func AsynchronousDataAvailable(DataType: AsynchronousDataTypes, Actual: Any?)
+    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?)
 }
 
