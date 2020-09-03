@@ -1077,7 +1077,10 @@ class GlobeView: SCNView
             var Quakes: [Earthquake]? = nil
             if ShowEarthquakes
             {
-                Quakes = EarthquakeList
+                if Settings.GetEnum(ForKey: .EarthquakeMagnitudeViews, EnumType: EarthquakeMagnitudeViews.self, Default: .No) == .Stenciled
+                {
+                    Quakes = EarthquakeList
+                }
             }
             let ShowUNESCO = Settings.GetBool(.ShowWorldHeritageSites) && Settings.GetBool(.PlotSitesAs2D)
             Stenciler.AddStencils(To: Map,
