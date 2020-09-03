@@ -396,7 +396,7 @@ public enum TimeUnits
 }
 
 /// Defines the types of asynchronous data that may be received.
-enum AsynchronousDataTypes: String, CaseIterable
+enum AsynchronousDataCategories: String, CaseIterable
 {
     /// USGS earthquakes.
     case Earthquakes = "Earthquakes"
