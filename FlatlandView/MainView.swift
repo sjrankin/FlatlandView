@@ -112,6 +112,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     func DoneWithStenciling()
     {
+        print("Stenciling completed")
         HideStatus()
     }
     
@@ -808,9 +809,9 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     // MARK: - Asynchronous data protocol functions.
     
-    func AsynchronousDataAvailable(DataType: AsynchronousDataTypes, Actual: Any?)
+    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?)
     {
-        switch DataType
+        switch CategoryType
         {
             case .Earthquakes:
                 if let NewEarthquakes = Actual as? [Earthquake]
