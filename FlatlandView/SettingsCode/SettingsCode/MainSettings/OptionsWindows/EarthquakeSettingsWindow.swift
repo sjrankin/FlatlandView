@@ -193,7 +193,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         }
     }
     
-    func LoadData(DataType: AsynchronousDataTypes, Raw: Any)
+    func LoadData(DataType: AsynchronousDataCategories, Raw: Any)
     {
         switch DataType
         {
