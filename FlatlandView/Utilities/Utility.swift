@@ -40,7 +40,7 @@ class Utility
     /// - Parameter Point1: First point.
     /// - Parameter Point2: Second point.
     /// - Returns: Distance between the two points, in meters.
-    public static func HaversineDistance(Point1: GeoPoint2, Point2: GeoPoint2) -> Double
+    public static func HaversineDistance(Point1: GeoPoint, Point2: GeoPoint) -> Double
     {
         let Haversine =
             {
@@ -68,8 +68,8 @@ class Utility
     /// - Returns: Distance between the two earthquakes, in meters.
     public static func HaversineDistance(Quake1: Earthquake, Quake2: Earthquake) -> Double
     {
-        return HaversineDistance(Point1: GeoPoint2(Quake1.Latitude, Quake1.Longitude),
-                                 Point2: GeoPoint2(Quake2.Latitude, Quake2.Longitude))
+        return HaversineDistance(Point1: GeoPoint(Quake1.Latitude, Quake1.Longitude),
+                                 Point2: GeoPoint(Quake2.Latitude, Quake2.Longitude))
     }
     
     /// Calculates the distance between the two coordinates.
@@ -81,8 +81,8 @@ class Utility
     public static func HaversineDistance(Latitude1: Double, Longitude1: Double,
                                          Latitude2: Double, Longitude2: Double) -> Double
     {
-        return HaversineDistance(Point1: GeoPoint2(Latitude1, Longitude1),
-                                 Point2: GeoPoint2(Latitude2, Longitude2))
+        return HaversineDistance(Point1: GeoPoint(Latitude1, Longitude1),
+                                 Point2: GeoPoint(Latitude2, Longitude2))
     }
     
     /// Return the width of the string.
