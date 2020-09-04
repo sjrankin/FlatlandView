@@ -1,5 +1,5 @@
 //
-//  GeoPoint2.swift
+//  GeoPoint.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 5/24/20.
@@ -11,7 +11,7 @@ import AppKit
 import SQLite3
 
 /// Encapsulates a geographic point.
-public class GeoPoint2: CustomStringConvertible
+public class GeoPoint: CustomStringConvertible
 {
     public var description: String
     {
@@ -436,6 +436,14 @@ public class GeoPoint2: CustomStringConvertible
         return (X: FinalX, Y: FinalY)
     }
     
+    // MARK: - Distance and transformation functions.
+    
+    /// Calculates the distance from the the instance point to the passed point.
+    /// - Parameter ToOther: Tuple of a latitude and longitude indicating the location of the second point on
+    ///                      an image.
+    /// - Parameter Width: Width of the surface of the sphere when projected equirectangularly.
+    /// - Parameter Height: Height of the surface of the sphere when projected equirectangularly.
+    /// - Returns: Unitless distance from the instance point to `ToOther`.
     func Distance(ToOther: (Lat2: Double, Lon2: Double),
                   Width: Int, Height: Int) -> Double
     {
@@ -452,18 +460,42 @@ public class GeoPoint2: CustomStringConvertible
         return sqrt((DeltaX * DeltaX) + (DeltaY * DeltaY))
     }
     
+    /// Calculates the horizontal distance between the two coordinates.
+    /// - Parameter Longitude1: Point 1's longitude.
+    /// - Parameter Longigude2: Point 2's longitude.
+    /// - Parameter Latitude: Latitude to use for both longitudinal values.
+    /// - Parameter Width: Width of the surface of the sphere when projected equirectangularly.
+    /// - Parameter Height: Height of the surface of the sphere when projected equirectangularly.
+    /// - Returns: Horizontal distances between the two longitudinal locations.
     func HorizontalDistance(Longitude1: Double, Longitude2: Double, Latitude: Double,
                             Width: Int, Height: Int) -> Double
     {
         return Distance(ToOther: (Latitude, Longitude2), Width: Width, Height: Height)
     }
     
+    /// Calculates the vertical distance between the two coordinates.
+    /// - Parameter Latitude1: Point 1's latitude.
+    /// - Parameter Latitude2: Point 2's latitude.
+    /// - Parameter Longitude: Longitude to use for both latitudinal values.
+    /// - Parameter Width: Width of the surface of the sphere when projected equirectangularly.
+    /// - Parameter Height: Height of the surface of the sphere when projected equirectangularly.
+    /// - Returns: Vertical distances between the two latitudinal locations.
     func VerticalDistance(Latitude1: Double, Latitude2: Double, Longitude: Double,
                           Width: Int, Height: Int) -> Double
     {
         return Distance(ToOther: (Latitude2, Longitude), Width: Width, Height: Height)
     }
     
+    /// Transforms the passed coordinate to a location in the passed rectangle.
+    /// - Parameter Latitude: Latitude of the coordinate to transform.
+    /// - Parameter Longitude: Longitude of the coordinate to transform.
+    /// - Parameter Width: Width of the rectangle into which the passed coordinate will be transformed.
+    /// - Parameter Height: Height of the rectangle into which the passed coordinate will be transformed.
+    /// - Parameter XPercent: Will contain the horizontal percent from the left side of the rectangle for the
+    ///                       transformed horizontal rectangular coordinate.
+    /// - Parameter YPercent: Will contain the vertical percent from the top side of the rectangle for the
+    ///                       transformed vertical rectangular coordinate.
+    /// - Returns: Tuple of the point's coordinate transformed to rectangular coordinates.
     func TransformToImageCoordinates(Latitude: Double, Longitude: Double, Width: Int, Height: Int,
                                      XPercent: inout Double, YPercent: inout Double) -> (X: Int, Y: Int)
     {
@@ -478,8 +510,14 @@ public class GeoPoint2: CustomStringConvertible
         return (FinalX, FinalY)
     }
     
+    /// Returns teh distances between the two passed points.
+    /// - Parameter From: First point.
+    /// - Parameter To: Second point.
+    /// - Parameter Width: Width of the surface of the sphere when projected equirectangularly.
+    /// - Parameter Height: Height of the surface of the sphere when projected equirectangularly.
+    /// - Returns: Unitless distance between the two passed points.
     static func Distance(From: (Lat: Double, Lon: Double), To: (Lat: Double, Lon: Double),
-                  Width: Int, Height: Int) -> Double
+                         Width: Int, Height: Int) -> Double
     {
         var NotUsed1: Double = 0.0
         var NotUsed2: Double = 0.0
@@ -494,20 +532,44 @@ public class GeoPoint2: CustomStringConvertible
         return sqrt((DeltaX * DeltaX) + (DeltaY * DeltaY))
     }
     
+    /// Calculates the horizontal distance between the two coordinates.
+    /// - Parameter Longitude1: Point 1's longitude.
+    /// - Parameter Longigude2: Point 2's longitude.
+    /// - Parameter Latitude: Latitude to use for both longitudinal values.
+    /// - Parameter Width: Width of the surface of the sphere when projected equirectangularly.
+    /// - Parameter Height: Height of the surface of the sphere when projected equirectangularly.
+    /// - Returns: Horizontal distances between the two longitudinal locations.
     static func HorizontalDistance(Longitude1: Double, Longitude2: Double, Latitude: Double,
-                            Width: Int, Height: Int) -> Double
+                                   Width: Int, Height: Int) -> Double
     {
         return Distance(From: (Latitude, Longitude1), To: (Latitude, Longitude2), Width: Width, Height: Height)
     }
     
+    /// Calculates the vertical distance between the two coordinates.
+    /// - Parameter Latitude1: Point 1's latitude.
+    /// - Parameter Latitude2: Point 2's latitude.
+    /// - Parameter Longitude: Longitude to use for both latitudinal values.
+    /// - Parameter Width: Width of the surface of the sphere when projected equirectangularly.
+    /// - Parameter Height: Height of the surface of the sphere when projected equirectangularly.
+    /// - Returns: Vertical distances between the two latitudinal locations.
     static func VerticalDistance(Latitude1: Double, Latitude2: Double, Longitude: Double,
-                          Width: Int, Height: Int) -> Double
+                                 Width: Int, Height: Int) -> Double
     {
         return Distance(From: (Latitude1, Longitude), To: (Latitude2, Longitude), Width: Width, Height: Height)
     }
     
+    /// Transforms the passed coordinate to a location in the passed rectangle.
+    /// - Parameter Latitude: Latitude of the coordinate to transform.
+    /// - Parameter Longitude: Longitude of the coordinate to transform.
+    /// - Parameter Width: Width of the rectangle into which the passed coordinate will be transformed.
+    /// - Parameter Height: Height of the rectangle into which the passed coordinate will be transformed.
+    /// - Parameter XPercent: Will contain the horizontal percent from the left side of the rectangle for the
+    ///                       transformed horizontal rectangular coordinate.
+    /// - Parameter YPercent: Will contain the vertical percent from the top side of the rectangle for the
+    ///                       transformed vertical rectangular coordinate.
+    /// - Returns: Tuple of the point's coordinate transformed to rectangular coordinates.
     static func TransformToImageCoordinates(Latitude: Double, Longitude: Double, Width: Int, Height: Int,
-                                     XPercent: inout Double, YPercent: inout Double) -> (X: Int, Y: Int)
+                                            XPercent: inout Double, YPercent: inout Double) -> (X: Int, Y: Int)
     {
         let AdjustedLon = Longitude + 180.0
         let AdjustedLat = abs(Latitude - 90.0)
@@ -520,6 +582,14 @@ public class GeoPoint2: CustomStringConvertible
         return (FinalX, FinalY)
     }
     
+    /// Transforms the instance coordinate to a location in the passed rectangle.
+    /// - Parameter Width: Width of the rectangle into which the passed coordinate will be transformed.
+    /// - Parameter Height: Height of the rectangle into which the passed coordinate will be transformed.
+    /// - Parameter XPercent: Will contain the horizontal percent from the left side of the rectangle for the
+    ///                       transformed horizontal rectangular coordinate.
+    /// - Parameter YPercent: Will contain the vertical percent from the top side of the rectangle for the
+    ///                       transformed vertical rectangular coordinate.
+    /// - Returns: Tuple of the point's coordinate transformed to rectangular coordinates.
     func TransformToImageCoordinates(Width: Int, Height: Int,
                                      XPercent: inout Double,
                                      YPercent: inout Double) -> (X: Int, Y: Int)
@@ -824,7 +894,7 @@ public class GeoPoint2: CustomStringConvertible
     ///
     /// - Parameter OtherPoint: The other point used to calculate distance.
     /// - Returns: Distance between OtherPoint and this point, in kilometers.
-    public func DistanceFrom(OtherPoint: GeoPoint2) -> Double
+    public func DistanceFrom(OtherPoint: GeoPoint) -> Double
     {
         return Geometry.Haversine(Point1: self, Point2: OtherPoint)
     }
@@ -834,7 +904,7 @@ public class GeoPoint2: CustomStringConvertible
     /// - Returns: Kilometers from the current location to the prime meridian at the same latitude.
     public func PrimeMeridianDistance() -> Double
     {
-        let PrimeMeridian = GeoPoint2(self.Latitude, 0.0)
+        let PrimeMeridian = GeoPoint(self.Latitude, 0.0)
         return Geometry.Haversine(Point1: self, Point2: PrimeMeridian)
     }
     
@@ -842,7 +912,7 @@ public class GeoPoint2: CustomStringConvertible
     ///
     /// - Parameter OtherPoint: The target point from which the bearing will be calculated.
     /// - Returns: Initial bearing from this point to the passed point.
-    public func BearingTo(OtherPoint: GeoPoint2) -> Double
+    public func BearingTo(OtherPoint: GeoPoint) -> Double
     {
         return Geometry.Bearing(Start: self, End: OtherPoint)
     }
@@ -851,7 +921,7 @@ public class GeoPoint2: CustomStringConvertible
     ///
     /// - Parameter OtherPoint: The target point from which the bearing will be calculated.
     /// - Returns: Initial bearing from this point to the passed point.
-    public func Bearing(OtherPoint: GeoPoint2) -> Int
+    public func Bearing(OtherPoint: GeoPoint) -> Int
     {
         let Angle = Geometry.Bearing2I(Start: self, End: OtherPoint)
         return Angle
