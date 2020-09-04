@@ -113,6 +113,7 @@ extension GlobeView
         ClearEarthquakes()
         EarthquakeList.removeAll()
         EarthquakeList = FilteredList
+        print("EarthquakeList=\(EarthquakeList)")
         PlottedEarthquakes.removeAll()
         //print("Calling PlotEarthquakes from \(#function), line \(#line)")
         PlotEarthquakes("\(#function)", Final)
