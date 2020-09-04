@@ -171,7 +171,7 @@ class Geometry
     /// - Parameter Point2: Second point.
     /// - Returns: Unitless distance between the two points. The caller must multiply the
     ///            value by whatever units are appropriate to get the final distance.
-    public static func LawOfCosines(Point1: GeoPoint2, Point2: GeoPoint2) -> Double
+    public static func LawOfCosines(Point1: GeoPoint, Point2: GeoPoint) -> Double
     {
         //Convert to radians.
         let P1Lat = Point1.Latitude * Double.pi / 180.0
@@ -192,7 +192,7 @@ class Geometry
     /// - Parameter Radius: The radius of the sphere upon which the two points reside, in the
     ///                     units appropriate to the application.
     /// - Returns: Distance between the two points.
-    public static func LawOfCosines(Point1: GeoPoint2, Point2: GeoPoint2, Radius: Double) -> Double
+    public static func LawOfCosines(Point1: GeoPoint, Point2: GeoPoint, Radius: Double) -> Double
     {
         let Distance = LawOfCosines(Point1: Point1, Point2: Point2)
         return Distance * Radius
@@ -208,8 +208,8 @@ class Geometry
     /// - Returns: Distance between the two points.
     public static func LawOfCosines(Point1: CGPoint, Point2: CGPoint, Radius: Double) -> Double
     {
-        let P1 = GeoPoint2(Double(Point1.x), Double(Point1.y))
-        let P2 = GeoPoint2(Double(Point2.x), Double(Point2.y))
+        let P1 = GeoPoint(Double(Point1.x), Double(Point1.y))
+        let P2 = GeoPoint(Double(Point2.x), Double(Point2.y))
         let Distance = LawOfCosines(Point1: P1, Point2: P2, Radius: Radius)
         return Distance
     }
@@ -221,7 +221,7 @@ class Geometry
     ///   - Point1: First point on surface of sphere.
     ///   - Point2: Second point on surface of sphere.
     /// - Returns: Distance (in km) between Point1 and Point2. If both points have the same location, 0.0 is returned.
-    public static func Haversine(Point1: GeoPoint2, Point2: GeoPoint2) -> Double
+    public static func Haversine(Point1: GeoPoint, Point2: GeoPoint) -> Double
     {
         let EquitorialRadius: Double = 6378.137     //WGS84
         
@@ -247,7 +247,7 @@ class Geometry
     ///   - Start: Start point.
     ///   - End: End point.
     /// - Returns: Initial bearing from the start point to the end point.
-    public static func Bearing(Start: GeoPoint2, End: GeoPoint2) -> Double
+    public static func Bearing(Start: GeoPoint, End: GeoPoint) -> Double
     {
         if Start.Latitude == End.Latitude && Start.Longitude == End.Longitude
         {
@@ -271,7 +271,7 @@ class Geometry
     ///   - Start: Starting point.
     ///   - End: Destination point.
     /// - Returns: Bearing from the Start point to the End point. (Bearing will change over the arc.)
-    public static func Bearing2I(Start: GeoPoint2, End: GeoPoint2) -> Int
+    public static func Bearing2I(Start: GeoPoint, End: GeoPoint) -> Int
     {
         let StartLat = ToRadians(Start.Latitude)
         let StartLon = ToRadians(Start.Longitude)
@@ -303,7 +303,7 @@ class Geometry
     ///   - Start: Starting point.
     ///   - End: Destination point.
     /// - Returns: Bearing from the Start point to the End point. (Bearing will change over the arc.)
-    public static func Bearing2(Start: GeoPoint2, End: GeoPoint2) -> Double
+    public static func Bearing2(Start: GeoPoint, End: GeoPoint) -> Double
     {
         let StartLat = ToRadians(Start.Latitude)
         let StartLon = ToRadians(Start.Longitude)
@@ -336,7 +336,7 @@ class Geometry
     ///   - Start: Start point.
     ///   - End: End point.
     /// - Returns: Bearing to the end point using flat map calculations. (Bearing will not change.)
-    public static func Bearing3(Start: GeoPoint2, End: GeoPoint2) -> Int
+    public static func Bearing3(Start: GeoPoint, End: GeoPoint) -> Int
     {
         if Start.Latitude == End.Latitude && Start.Longitude == End.Longitude
         {
@@ -360,7 +360,7 @@ class Geometry
     ///   - End: The ending point.
     ///   - UseGreatCircle: If true, the forward azimuth (eg, Great Circle) algorithm will be used. Otherwise, flat map bearings will be calculated.
     /// - Returns: Bearing from Start to End. If UseGreatCircle is true, the bearing will vary over the course of the arc.
-    public static func Bearing(Start: GeoPoint2, End: GeoPoint2, UseGreatCircle: Bool = true) -> Int
+    public static func Bearing(Start: GeoPoint, End: GeoPoint, UseGreatCircle: Bool = true) -> Int
     {
         if UseGreatCircle
         {
