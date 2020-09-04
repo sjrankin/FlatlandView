@@ -122,10 +122,10 @@ extension MainView
         {
             LongitudeAdjustment = 1.0
         }
-        var Distance = DistanceFromContextPole(To: GeoPoint2(Quake.Latitude, Quake.Longitude))
+        var Distance = DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
         Distance = Distance * Ratio
         let PointModifier = Double(CGFloat(Half) - CGFloat(BaseSize / 2.0))
-        var LocationBearing = Bearing(Start: GeoPoint2(90.0, 0.0), End: GeoPoint2(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
+        var LocationBearing = Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
         LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
         let PointX = Distance * cos(LocationBearing) + PointModifier
         let PointY = Distance * sin(LocationBearing) + PointModifier
