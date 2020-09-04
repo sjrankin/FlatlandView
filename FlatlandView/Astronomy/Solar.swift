@@ -15,7 +15,7 @@ public class Solar
     /// Determines if the location in the passed point is in day or night time.
     /// - Parameter Where: Contains the location of the point.
     /// - Returns: True if the point is in the day, false if in the night.
-    public static func CalculateSunVisibility(Where: GeoPoint2) -> Bool
+    public static func CalculateSunVisibility(Where: GeoPoint) -> Bool
     {
         let OverHorizon = SunAboveHorizon(ForWhen: Where.CurrentTime, Latitude: Where.Latitude, Longitude: Where.Longitude, TimeZoneSeconds: Where.TimeZoneSeconds)
         if OverHorizon == nil
