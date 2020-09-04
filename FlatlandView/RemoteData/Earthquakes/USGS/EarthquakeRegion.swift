@@ -30,8 +30,8 @@ class EarthquakeRegion: CustomStringConvertible
         AlwaysInvisible = true
         MinimumMagnitude = 5.0
         MaximumMagnitude = 10.0
-        UpperLeft = GeoPoint2(90.0, -180.0)
-        LowerRight = GeoPoint2(-90.0, 180.0)
+        UpperLeft = GeoPoint(90.0, -180.0)
+        LowerRight = GeoPoint(-90.0, 180.0)
         RegionName = "World Fallback"
         RegionColor = NSColor.clear
         BorderWidth = 0.0
@@ -87,9 +87,9 @@ class EarthquakeRegion: CustomStringConvertible
     /// The maximum magnitude to display.
     var MaximumMagnitude: Double = 10.0
     /// Upper-left corner of the region.
-    var UpperLeft: GeoPoint2 = GeoPoint2(45.0, 120.0)
+    var UpperLeft: GeoPoint = GeoPoint(45.0, 120.0)
     /// Lower-right corner of the region.
-    var LowerRight: GeoPoint2 = GeoPoint2(40.0, 125.0)
+    var LowerRight: GeoPoint = GeoPoint(40.0, 125.0)
     /// The name of the region.
     var RegionName: String = ""
     /// The color of the border of the region.
@@ -131,7 +131,7 @@ class EarthquakeRegion: CustomStringConvertible
                     Region.BorderWidth = Double(Part)!
                     
                 case 3:
-                    if let UL = GeoPoint2(Raw: Part)
+                    if let UL = GeoPoint(Raw: Part)
                     {
                         Region.UpperLeft = UL
                     }
@@ -141,7 +141,7 @@ class EarthquakeRegion: CustomStringConvertible
                     }
                     
                 case 4:
-                    if let LR = GeoPoint2(Raw: Part)
+                    if let LR = GeoPoint(Raw: Part)
                     {
                         Region.LowerRight = LR
                     }
