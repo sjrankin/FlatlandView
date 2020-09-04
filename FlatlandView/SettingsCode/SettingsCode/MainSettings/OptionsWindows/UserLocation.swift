@@ -20,7 +20,7 @@ class UserLocationWindow: NSViewController, NSTableViewDataSource, NSTableViewDe
         self.view.layer?.backgroundColor = NSColor.clear.cgColor
     }
     
-    var UserLocations = [(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: NSColor)]()
+    var UserLocations = [(ID: UUID, Coordinates: GeoPoint, Name: String, Color: NSColor)]()
     var AddNewUserLocation = false
     var CurrentUserLocationIndex = -1
     var ConfirmMessage = ""
@@ -364,7 +364,7 @@ class UserLocationWindow: NSViewController, NSTableViewDataSource, NSTableViewDe
         {
             if AddNewUserLocation
             {
-                UserLocations.append((UUID(), GeoPoint2(Latitude, Longitude), Name, Color))
+                UserLocations.append((UUID(), GeoPoint(Latitude, Longitude), Name, Color))
             }
             else
             {
