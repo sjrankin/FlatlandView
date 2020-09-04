@@ -112,7 +112,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     func DoneWithStenciling()
     {
-        print("Stenciling completed")
+        Debug.Print("Stenciling completed")
         HideStatus()
     }
     
