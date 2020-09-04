@@ -1185,7 +1185,7 @@ class GlobeView: SCNView
     
     // MARK: - GlobeProtocol functions
     
-    func PlotSatellite(Satellite: Satellites, At: GeoPoint2)
+    func PlotSatellite(Satellite: Satellites, At: GeoPoint)
     {
         #if false
         let SatelliteAltitude = 10.5 * (At.Altitude / 6378.1)
