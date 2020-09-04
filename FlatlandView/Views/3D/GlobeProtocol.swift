@@ -11,5 +11,5 @@ import AppKit
 
 protocol GlobeProtocol: class
 {
-    func PlotSatellite(Satellite: Satellites, At: GeoPoint2)
+    func PlotSatellite(Satellite: Satellites, At: GeoPoint)
 }
