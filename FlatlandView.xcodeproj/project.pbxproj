@@ -182,7 +182,7 @@
 		17EF33A6247A934A00A5B55D /* Julian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33A5247A934A00A5B55D /* Julian.swift */; };
 		17EF33A8247A936900A5B55D /* Solar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33A7247A936900A5B55D /* Solar.swift */; };
 		17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33A9247A938D00A5B55D /* Geometry.swift */; };
-		17EF33AC247A93A300A5B55D /* GeoPoint2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33AB247A93A300A5B55D /* GeoPoint2.swift */; };
+		17EF33AC247A93A300A5B55D /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33AB247A93A300A5B55D /* GeoPoint.swift */; };
 		17EF33AE247A93C400A5B55D /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33AD247A93C400A5B55D /* TimeHelper.swift */; };
 		17EF33B0247A93DC00A5B55D /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33AF247A93DC00A5B55D /* Miscellaneous.swift */; };
 		17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33B1247A93ED00A5B55D /* Sun.swift */; };
@@ -395,7 +395,7 @@
 		17EF33A5247A934A00A5B55D /* Julian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Julian.swift; sourceTree = "<group>"; };
 		17EF33A7247A936900A5B55D /* Solar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solar.swift; sourceTree = "<group>"; };
 		17EF33A9247A938D00A5B55D /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
-		17EF33AB247A93A300A5B55D /* GeoPoint2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint2.swift; sourceTree = "<group>"; };
+		17EF33AB247A93A300A5B55D /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
 		17EF33AD247A93C400A5B55D /* TimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
 		17EF33AF247A93DC00A5B55D /* Miscellaneous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Miscellaneous.swift; sourceTree = "<group>"; };
 		17EF33B1247A93ED00A5B55D /* Sun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sun.swift; sourceTree = "<group>"; };
@@ -1079,7 +1079,7 @@
 				17EF33AF247A93DC00A5B55D /* Miscellaneous.swift */,
 				17EF33B1247A93ED00A5B55D /* Sun.swift */,
 				17EF33B3247A940800A5B55D /* OrbitalElements.swift */,
-				17EF33AB247A93A300A5B55D /* GeoPoint2.swift */,
+				17EF33AB247A93A300A5B55D /* GeoPoint.swift */,
 			);
 			path = Astronomy;
 			sourceTree = "<group>";
@@ -1366,7 +1366,7 @@
 				178A869E2489101E00BE8D46 /* StarField.swift in Sources */,
 				1760024024D2BFDC00D5EA1A /* String.swift in Sources */,
 				175F661424DE7416007B3A60 /* LineDrawParameters.swift in Sources */,
-				17EF33AC247A93A300A5B55D /* GeoPoint2.swift in Sources */,
+				17EF33AC247A93A300A5B55D /* GeoPoint.swift in Sources */,
 				1759AE64249F81D3003F79F5 /* View2DSettingsWindow.swift in Sources */,
 				1750961C2482531100A3757C /* MainWindow.swift in Sources */,
 				17F440D7247CD72E00FD440E /* +DrawGrid.swift in Sources */,
