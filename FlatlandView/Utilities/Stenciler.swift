@@ -88,6 +88,7 @@ class Stenciler
                     let Blender = ImageBlender()
                     Working = DrawRegions(Image: Working, Regions: Regions, Ratio: MapRatio,
                                           Kernel: Blender)
+                    let test = ApplyRectangles(Regions: Regions)
                 }
             }
             if GridLines
@@ -141,7 +142,7 @@ class Stenciler
         let FontSize = BaseFontSize * ScaleFactor * CGFloat(Ratio) * FontMultiplier
         for City in CitiesToPlot
         {
-            let CityPoint = GeoPoint2(City.Latitude, City.Longitude)
+            let CityPoint = GeoPoint(City.Latitude, City.Longitude)
             let CityPointLocation = CityPoint.ToEquirectangular(Width: Int(Image.size.width),
                                                                 Height: Int(Image.size.height))
             let Location = NSPoint(x: CityPointLocation.X + Int(Constants.StencilCityTextOffset.rawValue),
@@ -214,7 +215,7 @@ class Stenciler
                 default:
                     NodeColor = NSColor.white
             }
-            let SitePoint = GeoPoint2(Site.Latitude, Site.Longitude)
+            let SitePoint = GeoPoint(Site.Latitude, Site.Longitude)
             let SitePointLocation = SitePoint.ToEquirectangular(Width: Int(Image.size.width),
                                                                 Height: Int(Image.size.height))
             let SiteShape = NSBezierPath()
@@ -264,12 +265,12 @@ class Stenciler
             let Location = Quake.LocationAsGeoPoint2().ToEquirectangular(Width: Int(Image.size.width),
                                                                          Height: Int(Image.size.height))
             var LocationPoint = NSPoint(x: Location.X, y: Location.Y)
-            let EqText = "\(Quake.Magnitude.RoundedTo(3))"
+            let EqText = "\(Quake.GreatestMagnitude.RoundedTo(3))"
             var LatitudeFontOffset = abs(Quake.Latitude) / 90.0
             LatitudeFontOffset = Constants.StencilFontSize.rawValue * LatitudeFontOffset
             let FinalFontSize = FontSize + CGFloat(Quake.Magnitude) + CGFloat(LatitudeFontOffset)
             let QuakeFont = NSFont(name: QuakeFontName, size: FinalFontSize)!
-            let MagRange = Utility.GetMagnitudeRange(For: Quake.Magnitude)
+            let MagRange = Utility.GetMagnitudeRange(For: Quake.GreatestMagnitude)
             var BaseColor = NSColor.systemYellow
             let Colors = Settings.GetMagnitudeColors()
             for (Magnitude, Color) in Colors
@@ -487,19 +488,19 @@ class Stenciler
             }
             let ImageWidth = Int(Image.size.width)
             let ImageHeight = Int(Image.size.height)
-            var RegionWidth = GeoPoint2.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
+            var RegionWidth = GeoPoint.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
                                                            Longitude2: Region.LowerRight.Longitude,
                                                            Latitude: Region.UpperLeft.Latitude,
                                                            Width: ImageWidth, Height: ImageHeight)
             RegionWidth = RegionWidth * Ratio
-            var RegionHeight = GeoPoint2.VerticalDistance(Latitude1: Region.UpperLeft.Latitude,
+            var RegionHeight = GeoPoint.VerticalDistance(Latitude1: Region.UpperLeft.Latitude,
                                                           Latitude2: Region.LowerRight.Latitude,
                                                           Longitude: Region.UpperLeft.Longitude,
                                                           Width: ImageWidth, Height: ImageHeight)
             RegionHeight = RegionHeight * Ratio
             var XPercent: Double = 0.0
             var YPercent: Double = 0.0
-            var (FinalX, FinalY) = GeoPoint2.TransformToImageCoordinates(Latitude: Region.UpperLeft.Latitude,
+            var (FinalX, FinalY) = GeoPoint.TransformToImageCoordinates(Latitude: Region.UpperLeft.Latitude,
                                                                          Longitude: Region.UpperLeft.Longitude,
                                                                          Width: ImageWidth,
                                                                          Height: ImageHeight,
@@ -551,6 +552,108 @@ class Stenciler
         Final.addRepresentation(From)
         return Final
     }
+    
+    static var DecalLock = NSObject()
+    
+    public static func ApplyDecal(Size: NSSize = NSSize(width: 3600, height: 1800),
+                                  Decals: [TextRecord]) -> NSImage
+    {
+        return NSImage()
+    }
+    
+    public static func ApplyLines(Size: NSSize = NSSize(width: 3600, height: 1800),
+                                  Lines: [LineRecord]) -> NSImage
+    {
+        return NSImage()
+    }
+    
+    /// Apply rectangular decals for earthquake regions onto a transparent image.
+    /// - Parameter Size: The size of the image. Defaults to 3600x1800. The size should always have the ratio
+    ///                   2:1 for width to hight.
+    /// - Parameter Regions: List of earthquake regions to plot.
+    /// - Returns: Image of the earthquake regions.
+    public static func ApplyRectangles(Size: NSSize = NSSize(width: 3600, height: 1800),
+                                       Regions: [EarthquakeRegion]) -> NSImage
+    {
+        objc_sync_enter(DecalLock)
+        defer{objc_sync_exit(DecalLock)}
+        let Blender = ImageBlender()
+        let MapRatio: Double = Double(Size.width) / 3600.0
+        var Surface = MakeNewImage(Size: Size)
+        
+        for Region in Regions
+        {
+            if Region.IsFallback
+            {
+                continue
+            }
+            var RegionWidth = GeoPoint.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
+                                                           Longitude2: Region.LowerRight.Longitude,
+                                                           Latitude: Region.UpperLeft.Latitude,
+                                                           Width: Int(Size.width), Height: Int(Size.height))
+            RegionWidth = RegionWidth * MapRatio
+            var RegionHeight = GeoPoint.VerticalDistance(Latitude1: Region.UpperLeft.Latitude,
+                                                          Latitude2: Region.LowerRight.Latitude,
+                                                          Longitude: Region.UpperLeft.Longitude,
+                                                          Width: Int(Size.width), Height: Int(Size.height))
+            RegionHeight = RegionHeight * MapRatio
+            var XPercent: Double = 0.0
+            var YPercent: Double = 0.0
+            var (FinalX, FinalY) = GeoPoint.TransformToImageCoordinates(Latitude: Region.UpperLeft.Latitude,
+                                                                         Longitude: Region.UpperLeft.Longitude,
+                                                                         Width: Int(Size.width),
+                                                                         Height: Int(Size.height),
+                                                                         XPercent: &XPercent,
+                                                                         YPercent: &YPercent)
+            FinalX = Int(Double(FinalX) * MapRatio)
+            FinalY = Int(Double(FinalY) * MapRatio)
+            Surface = Blender.MergeImages(Background: Surface, Sprite: Region.RegionColor.withAlphaComponent(0.5),
+                                       SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
+                                       SpriteX: FinalX, SpriteY: FinalY)
+        }
+        
+        return Surface
+    }
+    
+    /// Creates and returns a transparent image of the given size.
+    /// - Parameter Size: The size of the image to return.
+    /// - Returns: Transparent image of the given size.
+    private static func MakeNewImage(Size: NSSize) -> NSImage
+    {
+        let SolidColor = SolidColorImage()
+        let Transparent = SolidColor.Fill(Width: Int(Size.width), Height: Int(Size.height), With: NSColor.clear)!
+        return Transparent
+    }
+}
+
+/// Defines a rectangle to draw.
+struct RectangleRecord
+{
+    /// Upper left point of the rectangle.
+    let UpperLeft: NSPoint
+    /// Lower right point of the rectangle.
+    let LowerRight: NSPoint
+    /// Fill color of the rectangle.
+    let FillColor: NSColor
+    /// If present, the border color of the rectangle. If not present, no border is drawn.
+    let BorderColor: NSColor?
+    /// If present, the border width of the rectangle. If not present, no border is drawn.
+    let BorderWidth: CGFloat?
+}
+
+/// Used to define a line to draw.
+struct LineRecord
+{
+    /// Starting point.
+    let Start: NSPoint
+    /// Ending point.
+    let End: NSPoint
+    /// Width of the line.
+    let Width: CGFloat
+    /// Color of the line.
+    let Color: NSColor
+    /// If present, the outline color of the line. If not present, no outline drawn.
+    let OutlineColor: NSColor?
 }
 
 /// Used to send information to the text plotter for drawing text on images.
