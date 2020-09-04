@@ -11,7 +11,7 @@ import AppKit
 
 /// Encapsulates one or more earthquakes. Encapsulated earthquakes are those that are in a small
 /// geographic region.
-class Earthquake: KMDataPoint, Hashable
+class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
 {
     /// Number of dimensions.
     static var NumDimensions: UInt = 2
@@ -187,9 +187,9 @@ class Earthquake: KMDataPoint, Hashable
     
     /// Return the location of the earthquake as a `GeoPoint2` class.
     /// - Returns: A `GeoPoint2` instance initialized with the location of the earthquake.
-    func LocationAsGeoPoint2() -> GeoPoint2
+    func LocationAsGeoPoint2() -> GeoPoint
     {
-        return GeoPoint2(Latitude, Longitude)
+        return GeoPoint(Latitude, Longitude)
     }
     
     /// Depth of the earthquake in kilometers.
@@ -385,7 +385,14 @@ class Earthquake: KMDataPoint, Hashable
     
     var description: String
     {
-        return "\(Latitude),\(Longitude)"
+        if let Related = Related
+        {
+        return "\(Magnitude.RoundedTo(3))@(\(Latitude),\(Longitude))#=\(Related.count)"
+        }
+        else
+        {
+            return "\(Magnitude.RoundedTo(3))@(\(Latitude),\(Longitude))#=0"
+        }
     }
     
     // MARK: - Hashable functions.
