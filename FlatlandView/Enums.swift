@@ -972,9 +972,9 @@ enum Defaults: Double
 enum Constants: Double, CaseIterable
 {
     /// Font size offset value for earthquake magnitude values in higher latitudes.
-    case StencilFontSize = 70.0
+    case StencilFontSize = 60.0
     /// Font size offset value for city names in higher latitudes.
-    case StencilCitySize = 35.0
+    case StencilCitySize = 25.0
     /// Horizontal text offset for city names the names are far enough away from any 3D shapes.
     case StencilCityTextOffset = 15.0
     /// World Heritage Site shape Y offset.
