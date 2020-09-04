@@ -1317,7 +1317,7 @@ class Settings
     /// Save a list of user locations.
     /// - Note: User locations are saved at `SettingTypes.UserLocations`.
     /// - Parameter List: List of location information to save.
-    public static func SetLocations(_ List: [(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: NSColor)])
+    public static func SetLocations(_ List: [(ID: UUID, Coordinates: GeoPoint, Name: String, Color: NSColor)])
     {
         if List.count == 0
         {
@@ -1341,9 +1341,9 @@ class Settings
     /// Get the list of user locations.
     /// - Note: User locations are saved at `SettingTypes.UserLocations`.
     /// - Returns: List of user location information.
-    public static func GetLocations() -> [(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: NSColor)]
+    public static func GetLocations() -> [(ID: UUID, Coordinates: GeoPoint, Name: String, Color: NSColor)]
     {
-        var Results = [(ID: UUID, Coordinates: GeoPoint2, Name: String, Color: NSColor)]()
+        var Results = [(ID: UUID, Coordinates: GeoPoint, Name: String, Color: NSColor)]()
         if let Raw = UserDefaults.standard.string(forKey: "UserLocations")
         {
             let Locations = Raw.split(separator: ";", omittingEmptySubsequences: true)
@@ -1390,7 +1390,7 @@ class Settings
                         }
                     }
                 }
-                Results.append((ID: ID, GeoPoint2(Lat, Lon), Name: Name, Color: Color))
+                Results.append((ID: ID, GeoPoint(Lat, Lon), Name: Name, Color: Color))
             }
         }
         else
