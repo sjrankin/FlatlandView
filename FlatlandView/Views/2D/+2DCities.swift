@@ -43,7 +43,7 @@ extension MainView
         }
         for SomeCity in InCityList
         {
-            let Where = GeoPoint2(SomeCity.Latitude, SomeCity.Longitude)
+            let Where = GeoPoint(SomeCity.Latitude, SomeCity.Longitude)
             let CityColor = Cities.ColorForCity(SomeCity)
             let OutlineColor = CityColor.InvertedHue
             let OneCityLayer = PlotLocation(Where, SomeCity.Name, CityColor, OutlineColor,
@@ -73,7 +73,7 @@ extension MainView
             }
             if Settings.HaveLocalLocation()
             {
-                let Location = GeoPoint2(Settings.GetDoubleNil(.LocalLatitude)!,
+                let Location = GeoPoint(Settings.GetDoubleNil(.LocalLatitude)!,
                                          Settings.GetDoubleNil(.LocalLongitude)!)
                 let UserLocationLayer = PlotLocation(Location, "Current",
                                                      NSColor(HexString: "#ffd700")!, NSColor.black,
@@ -94,7 +94,7 @@ extension MainView
     /// - Parameter Diameter: The diameter of the 2D map.
     /// - Parameter Shape: The shape of the plotted location.
     /// - Returns: A `CAShapeLayer` with the location plotted.
-    func PlotLocation(_ Location: GeoPoint2, _ Name: String, _ Color: NSColor, _ OutlineColor: NSColor,
+    func PlotLocation(_ Location: GeoPoint, _ Name: String, _ Color: NSColor, _ OutlineColor: NSColor,
                       _ Diameter: CGFloat, _ Shape: LocationShapes2D) -> CAShapeLayer
     {
         let Latitude = Location.Latitude
@@ -110,9 +110,9 @@ extension MainView
         {
             LongitudeAdjustment = 1.0
         }
-        var Distance = DistanceFromContextPole(To: GeoPoint2(Latitude, Longitude))
+        var Distance = DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
         Distance = Distance * Ratio
-        var LocationBearing = Bearing(Start: GeoPoint2(90.0, 0.0), End: GeoPoint2(Latitude, Longitude * LongitudeAdjustment))
+        var LocationBearing = Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
         LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
         let PointX = Distance * cos(LocationBearing) + PointModifier
         let PointY = Distance * sin(LocationBearing) + PointModifier
@@ -154,7 +154,7 @@ extension MainView
     ///   - Start: Starting point.
     ///   - End: Destination point.
     /// - Returns: Bearing from the Start point to the End point. (Bearing will change over the arc.)
-    public func Bearing(Start: GeoPoint2, End: GeoPoint2) -> Double
+    public func Bearing(Start: GeoPoint, End: GeoPoint) -> Double
     {
         let StartLat = Start.Latitude.ToRadians()
         let StartLon = Start.Longitude.ToRadians()
@@ -186,7 +186,7 @@ extension MainView
     /// - Parameter Point1: First location.
     /// - Parameter Point2: Second location.
     /// - Returns: Distance from `Point1` to `Point2` in kilometers.
-    func LawOfCosines(Point1: GeoPoint2, Point2: GeoPoint2) -> Double
+    func LawOfCosines(Point1: GeoPoint, Point2: GeoPoint) -> Double
     {
         let Term1 = sin(Point1.Latitude.ToRadians()) * sin(Point2.Latitude.ToRadians())
         let Term2 = cos(Point1.Latitude.ToRadians()) * cos(Point2.Latitude.ToRadians())
@@ -198,22 +198,22 @@ extension MainView
     
     /// Returns the distance from the passed location to the North Pole.
     /// - Returns: Distance (in kilometers) from `To` to the North Pole.
-    func DistanceFromNorthPole(To: GeoPoint2) -> Double
+    func DistanceFromNorthPole(To: GeoPoint) -> Double
     {
-        return LawOfCosines(Point1: GeoPoint2(90.0, 0.0), Point2: To)
+        return LawOfCosines(Point1: GeoPoint(90.0, 0.0), Point2: To)
     }
     
     /// Returns the distance from the passed location to the South Pole.
     /// - Returns: Distance (in kilometers) from `To` to the South Pole.
-    func DistanceFromSouthPole(To: GeoPoint2) -> Double
+    func DistanceFromSouthPole(To: GeoPoint) -> Double
     {
-        return LawOfCosines(Point1: GeoPoint2(-90.0, 0.0), Point2: To)
+        return LawOfCosines(Point1: GeoPoint(-90.0, 0.0), Point2: To)
     }
     
     /// Returns the distance from the passed location to the pole that is at the center of the image.
     /// - Parameter To: The point whose distance to the pole at the center of the image is returned.
     /// - Returns: The distance (in kilometers) from `To` to the pole at the center of the image.
-    func DistanceFromContextPole(To: GeoPoint2) -> Double
+    func DistanceFromContextPole(To: GeoPoint) -> Double
     {
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
         {
