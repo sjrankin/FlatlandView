@@ -50,7 +50,7 @@ class EarthquakeFilterer
     /// - Parameter Quake: The earthquake to determine whether it can be shown or not.
     /// - Parameter Filters: List of filters against which the quake is compared.
     /// - Returns: True if the earthquake can be displayed (meets the filter criteria), false if not.
-    private static func IsValid(_ Quake: Earthquake, _ Filters: [EarthquakeRegion]) -> Bool
+    private static func ApplyEarthquakeFilters(_ Quake: Earthquake, _ Filters: [EarthquakeRegion]) -> Bool
     {
         for Filter in Filters
         {
@@ -123,11 +123,12 @@ class EarthquakeFilterer
         let Filters = GetCurrentFilters()
         for Quake in Quakes
         {
-            if IsValid(Quake, Filters)
+            if ApplyEarthquakeFilters(Quake, Filters)
             {
                 NewList.append(Quake)
             }
         }
+        NewList = USGS.CombineEarthquakes(NewList)
         return NewList
     }
     
