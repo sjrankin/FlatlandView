@@ -164,7 +164,7 @@ class Sun
     ///             for the western hemisphere.
     /// - Returns: The time (only the time components are valid) for sunrise given the passed
     ///            parameters. If nil is returned, there was no sunrise at that location and date.
-    func Sunrise(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Date?
+    func Sunrise(For TargetDate: Date, At Location: GeoPoint, TimeZoneOffset: Int) -> Date?
     {
         let (SunriseFor, _) = SunriseSunset(TargetDate,
                                             Latitude: Location.Latitude,
@@ -174,7 +174,7 @@ class Sun
         return SunriseFor
     }
     
-    func SunriseAsSeconds(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Int?
+    func SunriseAsSeconds(For TargetDate: Date, At Location: GeoPoint, TimeZoneOffset: Int) -> Int?
     {
         let (s, _) = SunriseSunset(TargetDate,
                                    Latitude: Location.Latitude,
@@ -205,7 +205,7 @@ class Sun
     ///             for the western hemisphere.
     /// - Returns: The time (only the time components are valid) for sunset given the passed
     ///            parameters. If nil is returned, there was no sunset at that location and date.
-    func Sunset(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Date?
+    func Sunset(For TargetDate: Date, At Location: GeoPoint, TimeZoneOffset: Int) -> Date?
     {
         let (SunsetFor, _) = SunriseSunset(TargetDate,
                                            Latitude: Location.Latitude,
@@ -215,7 +215,7 @@ class Sun
         return SunsetFor
     }
     
-    func SunsetAsSeconds(For TargetDate: Date, At Location: GeoPoint2, TimeZoneOffset: Int) -> Int?
+    func SunsetAsSeconds(For TargetDate: Date, At Location: GeoPoint, TimeZoneOffset: Int) -> Int?
     {
         let (s, _) = SunriseSunset(TargetDate,
                                    Latitude: Location.Latitude,
