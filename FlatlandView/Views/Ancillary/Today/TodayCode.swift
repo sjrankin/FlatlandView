@@ -33,7 +33,7 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
             var SunSetTime = Date()
             let LocalLat = Settings.GetDoubleNil(.LocalLatitude)
             let LocalLon = Settings.GetDoubleNil(.LocalLongitude)
-            let Location = GeoPoint2(LocalLat!, LocalLon!)
+            let Location = GeoPoint(LocalLat!, LocalLon!)
             if let SunriseTime = SunTimes.Sunrise(For: Date(), At: Location, TimeZoneOffset: 0)
             {
                 SunRiseTime = SunriseTime
