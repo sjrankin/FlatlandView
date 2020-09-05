@@ -104,6 +104,7 @@
 		177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */; };
 		17829D4824B31D0200118DB1 /* EarthquakeDetailWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17829D4724B31D0200118DB1 /* EarthquakeDetailWindow.swift */; };
 		17829D4A24B31D2300118DB1 /* EarthquakeDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17829D4924B31D2300118DB1 /* EarthquakeDetailController.swift */; };
+		17854C672503649800D099A7 /* +Layers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17854C662503649800D099A7 /* +Layers.swift */; };
 		178A86932488C0E000BE8D46 /* AboutWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86922488C0E000BE8D46 /* AboutWindow.swift */; };
 		178A86952488C0F800BE8D46 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 178A86942488C0F800BE8D46 /* About.storyboard */; };
 		178A86972488C23C00BE8D46 /* AboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86962488C23C00BE8D46 /* AboutController.swift */; };
@@ -311,6 +312,7 @@
 		177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapGroup.swift; sourceTree = "<group>"; };
 		17829D4724B31D0200118DB1 /* EarthquakeDetailWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDetailWindow.swift; sourceTree = "<group>"; };
 		17829D4924B31D2300118DB1 /* EarthquakeDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDetailController.swift; sourceTree = "<group>"; };
+		17854C662503649800D099A7 /* +Layers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Layers.swift"; sourceTree = "<group>"; };
 		178A86922488C0E000BE8D46 /* AboutWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutWindow.swift; sourceTree = "<group>"; };
 		178A86942488C0F800BE8D46 /* About.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
 		178A86962488C23C00BE8D46 /* AboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutController.swift; sourceTree = "<group>"; };
@@ -641,6 +643,7 @@
 			isa = PBXGroup;
 			children = (
 				178A86AA2489135C00BE8D46 /* GlobeView.swift */,
+				17854C662503649800D099A7 /* +Layers.swift */,
 				178A86A82489134300BE8D46 /* +GridLines.swift */,
 				178A86A3248912FA00BE8D46 /* +Locations.swift */,
 				178A86A12489127C00BE8D46 /* +Hours.swift */,
@@ -1256,6 +1259,7 @@
 				172F4A2524FA0F650014A65E /* DateTimeEditor.swift in Sources */,
 				172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */,
 				174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */,
+				17854C672503649800D099A7 /* +Layers.swift in Sources */,
 				174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */,
 				1718812924B85B9D00EE1E71 /* PerformanceOptions.swift in Sources */,
 				1750043F24B46271006528A4 /* FontPickerController.swift in Sources */,
