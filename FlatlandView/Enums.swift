@@ -591,6 +591,16 @@ enum GlobeRadius: CGFloat, CaseIterable
     case HourSphere = 11.5
     /// Location of city names (if used).
     case CityNames = 10.5
+    /// Grid line layer.
+    case GridLayer = 10.0105
+    /// City name layer.
+    case CityNameLayer = 10.012
+    /// Earthquake magnitude layer.
+        case MagnitudeLayer = 10.013
+    /// World Heritage Site layer.
+    case UnescoLayer = 10.011
+    /// General purpose line layer.
+    case LineLayer = 10.015
 }
 
 /// Styles of listing earthquakes.
@@ -900,6 +910,17 @@ enum EnvironmentVars: String, CaseIterable
     case SatelliteMaps = "enable_nasa_tiles"
 }
 
+/// Small set of relative sizes.
+enum RelativeSizes: String, CaseIterable
+{
+    /// Something is small.
+    case Small = "Small"
+    /// Something is medium.
+    case Medium = "Medium"
+    /// Something is large.
+    case Large = "Large"
+}
+
 /// Default Double and CGFloat values (CGFloat values must be cast) for various
 /// settings. These are used instead of hard-coded numbers embedded in the code.
 enum Defaults: Double
@@ -985,4 +1006,19 @@ enum Constants: Double, CaseIterable
     case WHSRightX = 8.0
     /// Stroke width for stenciled text.
     case StencilTextStrokeWidth = -2.0
+}
+
+/// Layers for the globe view.
+enum GlobeLayers: String, CaseIterable
+{
+    /// Grid lines.
+    case GridLines = "GridLines"
+    /// City names.
+    case CityNames = "CityNames"
+    /// Earthquake magnitudes.
+    case Magnitudes = "Magnitudes"
+    /// World heritage sites.
+    case WorldHeritageSites = "WorldHeritageSites"
+    /// General purpose lines.
+    case Lines = "Lines"
 }
