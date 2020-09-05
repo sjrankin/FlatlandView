@@ -165,5 +165,7 @@ extension Settings
             .TimeMultiplier: Double.self,
             .EnableStopTime: Bool.self,
             .EarthquakeViewWindowFrame: NSRect.self,
+            .CityFontRelativeSize: RelativeSizes.self,
+            .MagnitudeRelativeFontSize: RelativeSizes.self,
         ]
 }
