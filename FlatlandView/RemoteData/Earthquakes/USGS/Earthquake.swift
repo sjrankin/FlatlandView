@@ -185,9 +185,9 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         self.Longitude = Longitude
     }
     
-    /// Return the location of the earthquake as a `GeoPoint2` class.
-    /// - Returns: A `GeoPoint2` instance initialized with the location of the earthquake.
-    func LocationAsGeoPoint2() -> GeoPoint
+    /// Return the location of the earthquake as a `GeoPoint` class.
+    /// - Returns: A `GeoPoint` instance initialized with the location of the earthquake.
+    func LocationAsGeoPoint() -> GeoPoint
     {
         return GeoPoint(Latitude, Longitude)
     }
