@@ -311,6 +311,28 @@ class Settings
         return Value
     }
     
+    /// Returns an integer from the specified setting.
+    /// - Parameter Setting: The setting whose integer value will be returned.
+    /// - Parameter IfZero: The value to return if the value in the setting is zero. If the value in the
+    ///                     setting is zero, the value of `IfZero` is saved there. The value of this
+    ///                     parameter is typecast to `Int`.
+    /// - Returns: Integer found at the specified setting. If that value is `0`, the value passed in `IfZero`
+    ///            is saved in the setting then returned.
+    public static func GetInt(_ Setting: SettingTypes, IfZero: Defaults) -> Int
+    {
+        if !TypeIsValid(Setting, Type: Int.self)
+        {
+            fatalError("\(Setting) is not an Int")
+        }
+        let Value = UserDefaults.standard.integer(forKey: Setting.rawValue)
+        if Value == 0
+        {
+            UserDefaults.standard.setValue(Int(IfZero.rawValue), forKey: Setting.rawValue)
+            return Int(IfZero.rawValue)
+        }
+        return Value
+    }
+    
     /// Queries an integer setting value.
     /// - Parameter Setting: The setting whose integer value will be passed to the completion handler.
     /// - Parameter Completion: Code to execute after the value is retrieved. The value is passed
