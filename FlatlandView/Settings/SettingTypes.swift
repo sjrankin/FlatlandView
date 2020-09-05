@@ -129,6 +129,10 @@ enum SettingTypes: String, CaseIterable
     case EarthquakeRegionBorderColor = "EarthquakeRegionBorderColor"
     /// Double: The width of earthquake borders.
     case EarthquakeRegionBorderWidth = "EarthquakeRegionBorderWidth"
+    /// Relative size of the font used to stencil city names.
+    case CityFontRelativeSize = "CityFontRelativeSize"
+    /// Relative size of the font used to stencil magnitude values.
+    case MagnitudeRelativeFontSize = "MagnitudeRelativeFontSize"
     // Camera settings.
     /// SCNVector3: Initial position of the camera.
     case InitialCameraPosition = "InitialCameraPosition"
