@@ -95,6 +95,7 @@ class Stenciler
             {
                 Status?("Adding grid lines", CACurrentMediaTime() - StartTime)
                 Working = AddGridLines(To: Working, Ratio: MapRatio)
+                let test = ApplyGridLines()
             }
             if UNESCOSites
             {
@@ -112,12 +113,19 @@ class Stenciler
             {
                 Status?("Plotting earthquakes", CACurrentMediaTime() - StartTime)
                 Rep = AddMagnitudeValues(To: Rep, With: QuakeList, Ratio: MapRatio)
+                let test = ApplyMagnitudes(Earthquakes: QuakeList)
             }
             let Final = GetImage(From: Rep)
             let Duration = CACurrentMediaTime() - StartTime
             Status?("Finished", CACurrentMediaTime() - StartTime)
             Completed?(Final, Duration, CalledBy, FinalNotify)
         }
+    }
+    
+    public static func AddStencils2(_ Layer: GlobeLayers,
+                                    Completion: ((NSImage, GlobeLayers) -> ())? = nil)
+    {
+        
     }
     
     /// Add city names to the passed image representation.
@@ -262,7 +270,7 @@ class Stenciler
         let FontSize = BaseFontSize * CGFloat(Ratio) * ScaleFactor * FontMultiplier
         for Quake in Earthquakes
         {
-            let Location = Quake.LocationAsGeoPoint2().ToEquirectangular(Width: Int(Image.size.width),
+            let Location = Quake.LocationAsGeoPoint().ToEquirectangular(Width: Int(Image.size.width),
                                                                          Height: Int(Image.size.height))
             var LocationPoint = NSPoint(x: Location.X, y: Location.Y)
             let EqText = "\(Quake.GreatestMagnitude.RoundedTo(3))"
@@ -329,6 +337,16 @@ class Stenciler
         }
         NSGraphicsContext.restoreGraphicsState()
         return Rep
+    }
+    
+    private static func DrawText(Messages: [TextRecord],
+                                 ImageSize: NSSize = NSSize(width: 3600, height: 1800)) -> NSImage
+    {
+        let Surface = MakeNewImage(Size: ImageSize)
+        let SurfaceRep = GetImageRep(From: Surface)
+        let NewRep = DrawOn(Rep: SurfaceRep, Messages: Messages)
+        let Final = GetImage(From: NewRep)
+        return Final
     }
     
     typealias LineDefinition = (IsHorizontal: Bool, At: Int, Thickness: Int, Color: NSColor)
@@ -553,18 +571,184 @@ class Stenciler
         return Final
     }
     
-    static var DecalLock = NSObject()
+    static var DrawRectangleLock = NSObject()
+    static var DrawLinesLock = NSObject()
+    static var DrawTextLock = NSObject()
     
     public static func ApplyDecal(Size: NSSize = NSSize(width: 3600, height: 1800),
-                                  Decals: [TextRecord]) -> NSImage
+                                  Decals: [TextRecord]) -> NSImage?
     {
-        return NSImage()
+        objc_sync_enter(DrawTextLock)
+        defer{objc_sync_exit(DrawTextLock)}
+        if Decals.count < 1
+        {
+            return nil
+        }
+        
+        return DrawText(Messages: Decals, ImageSize: Size)
     }
     
-    public static func ApplyLines(Size: NSSize = NSSize(width: 3600, height: 1800),
-                                  Lines: [LineRecord]) -> NSImage
+    public static func ApplyMagnitudes(Earthquakes: [Earthquake],
+                                       Size: NSSize = NSSize(width: 3600, height: 1800)) -> NSImage?
     {
-        return NSImage()
+        if Earthquakes.count < 1
+        {
+            return nil
+        }
+        let Ratio = Size.width / 3600.0
+        let ScaleFactor = NSScreen.main!.backingScaleFactor
+        var PlotMe = [TextRecord]()
+        let QuakeFontRecord = Settings.GetString(.EarthquakeFontName, "Avenir")
+        let QuakeFontName = Settings.ExtractFontName(From: QuakeFontRecord)!
+        let BaseFontSize = Settings.ExtractFontSize(From: QuakeFontRecord)!
+        var FontMultiplier: CGFloat = 1.0
+        if Size.width / 2.0 < 3600.0
+        {
+            FontMultiplier = 2.0
+        }
+        FontMultiplier = 1.0
+        let FontSize = BaseFontSize * CGFloat(Ratio) * ScaleFactor * FontMultiplier
+        for Quake in Earthquakes
+        {
+            let Location = Quake.LocationAsGeoPoint().ToEquirectangular(Width: Int(Size.width),
+                                                                        Height: Int(Size.height))
+            var LocationPoint = NSPoint(x: Location.X, y: Location.Y)
+            let EqText = "\(Quake.GreatestMagnitude.RoundedTo(3))"
+            var LatitudeFontOffset = abs(Quake.Latitude) / 90.0
+            LatitudeFontOffset = Constants.StencilFontSize.rawValue * LatitudeFontOffset
+            let FinalFontSize = FontSize + CGFloat(Quake.Magnitude) + CGFloat(LatitudeFontOffset)
+            let QuakeFont = NSFont(name: QuakeFontName, size: FinalFontSize)!
+            let MagRange = Utility.GetMagnitudeRange(For: Quake.GreatestMagnitude)
+            var BaseColor = NSColor.systemYellow
+            let Colors = Settings.GetMagnitudeColors()
+            for (Magnitude, Color) in Colors
+            {
+                if Magnitude == MagRange
+                {
+                    BaseColor = Color
+                }
+            }
+            //Take care of text that is very close to the International Date Line/edge of
+            //the image.
+            let Length = Utility.StringWidth(TheString: EqText, TheFont: QuakeFont)
+            if LocationPoint.x + Length > Size.width
+            {
+                LocationPoint = NSPoint(x: Size.width - Length,
+                                        y: LocationPoint.y)
+            }
+            let Record = TextRecord(Text: EqText, Location: LocationPoint,
+                                    Font: QuakeFont, Color: BaseColor, OutlineColor: NSColor.black)
+            PlotMe.append(Record)
+        }
+        let Final = DrawText(Messages: PlotMe, ImageSize: Size)
+        return Final
+    }
+    
+    public static func ApplyGridLines(Size: NSSize = NSSize(width: 3600, height: 1800)) -> NSImage
+    {
+            objc_sync_enter(DrawLinesLock)
+            defer{objc_sync_exit(DrawLinesLock)}
+            let Image = MakeNewImage(Size: Size)
+            let ImageWidth = Int(Image.size.width)
+            let ImageHeight = Int(Image.size.height)
+            var LineList = [LineDefinition]()
+            let LineColor = Settings.GetColor(.GridLineColor, NSColor.red)
+            let MinorLineColor = Settings.GetColor(.MinorGridLineColor, NSColor.yellow)
+            
+            if Settings.GetBool(.Show3DMinorGrid)
+            {
+                let Gap = Settings.GetDouble(.MinorGrid3DGap, .MinorGridGap)
+                for Longitude in stride(from: 0.0, to: 180.0, by: Gap)
+                {
+                    var Y = Int(Double(ImageHeight) * (Longitude / 180.0))
+                    if Y + 4 > ImageHeight
+                    {
+                        Y = Y - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: true,
+                                                At: Y,
+                                                Thickness: 4,
+                                                Color: MinorLineColor)
+                    LineList.append(Line)
+                }
+                for Latitude in stride(from: 0.0, to: 360.0, by: Gap)
+                {
+                    var X = Int(Double(ImageWidth) * (Latitude / 360.0))
+                    if X + 4 > ImageWidth
+                    {
+                        X = X - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: false,
+                                                At: X,
+                                                Thickness: 4,
+                                                Color: MinorLineColor)
+                    LineList.append(Line)
+                }
+            }
+            
+            for Longitude in Longitudes.allCases
+            {
+                if Settings.DrawLongitudeLine(Longitude)
+                {
+                    var Y = Int(Double(ImageHeight) * Longitude.rawValue)
+                    if Y + 4 > ImageHeight
+                    {
+                        Y = Y - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: true,
+                                                At: Y,
+                                                Thickness: 4,
+                                                Color: LineColor)
+                    LineList.append(Line)
+                }
+            }
+            for Latitude in Latitudes.allCases
+            {
+                if Settings.DrawLatitudeLine(Latitude)
+                {
+                    var X = Int(Double(ImageWidth) * Latitude.rawValue)
+                    if X + 4 > ImageWidth
+                    {
+                        X = X - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: false,
+                                                At: X,
+                                                Thickness: 4,
+                                                Color: LineColor)
+                    LineList.append(Line)
+                }
+            }
+            
+            let Final = Image
+            Final.lockFocus()
+            for Line in LineList
+            {
+                var X = 0
+                var Y = 0
+                var LineWidth = 0
+                var LineHeight = 0
+                if Line.IsHorizontal
+                {
+                    Y = Line.At
+                    X = -Line.Thickness
+                    LineWidth = Int(Image.size.width)
+                    LineHeight = Line.Thickness
+                }
+                else
+                {
+                    X = Line.At
+                    LineWidth = Line.Thickness
+                    LineHeight = Int(Image.size.height)
+                }
+                let LineRect = NSRect(origin: CGPoint(x: X, y: Y), size: NSSize(width: LineWidth, height: LineHeight))
+                let Path = NSBezierPath(rect: LineRect)
+                Line.Color.setFill()
+                Line.Color.setStroke()
+                Path.stroke()
+                Path.fill()
+            }
+            Final.unlockFocus()
+            return Final
     }
     
     /// Apply rectangular decals for earthquake regions onto a transparent image.
@@ -575,8 +759,8 @@ class Stenciler
     public static func ApplyRectangles(Size: NSSize = NSSize(width: 3600, height: 1800),
                                        Regions: [EarthquakeRegion]) -> NSImage
     {
-        objc_sync_enter(DecalLock)
-        defer{objc_sync_exit(DecalLock)}
+        objc_sync_enter(DrawRectangleLock)
+        defer{objc_sync_exit(DrawRectangleLock)}
         let Blender = ImageBlender()
         let MapRatio: Double = Double(Size.width) / 3600.0
         var Surface = MakeNewImage(Size: Size)
