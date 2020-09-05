@@ -1236,6 +1236,6 @@ class GlobeView: SCNView
     
     var IndicatorAgeMap = [String: SCNNode]()
     
-
+    var StencilLayers = [GlobeLayers: SCNNode]()
+    var MakeLayerLock = NSObject()
 }
-
