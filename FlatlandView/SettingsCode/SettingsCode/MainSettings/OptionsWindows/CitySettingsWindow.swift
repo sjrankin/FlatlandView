@@ -68,7 +68,23 @@ class CitySettingsWindow: NSViewController, FontProtocol
         CapitalCityColorWell.color = Settings.GetColor(.CapitalCityColor, NSColor.yellow)
         CustomCityListColorWell.color = Settings.GetColor(.CustomCityListColor, NSColor.gray)
         CityNodesGlowSwitch.state = Settings.GetBool(.CityNodesGlow) ? .on : .off
+        let RelativeFontSize = Settings.GetEnum(ForKey: .CityFontRelativeSize, EnumType: RelativeSizes.self, Default: .Small)
+        if let Index = FontSizeMap[RelativeFontSize]
+        {
+            CityFontSizeSegment.selectedSegment = Index
+        }
+        else
+        {
+            CityFontSizeSegment.selectedSegment = 0
+        }
     }
+    
+    let FontSizeMap =
+        [
+            RelativeSizes.Small: 0,
+            RelativeSizes.Medium: 1,
+            RelativeSizes.Large: 2
+        ]
     
     @IBAction func ShowCitiesChanged(_ sender: Any)
     {
@@ -118,22 +134,22 @@ class CitySettingsWindow: NSViewController, FontProtocol
             {
                 case ShowCapitalCitiesSwitch:
                     Settings.SetBool(.ShowCapitalCities, IsChecked)
-                
+                    
                 case ShowSouthAmericanCitiesSwitch:
                     Settings.SetBool(.ShowSouthAmericanCities, IsChecked)
-                
+                    
                 case ShowNorthAmericanCitiesSwitch:
                     Settings.SetBool(.ShowNorthAmericanCities, IsChecked)
-                
+                    
                 case ShowEuropeanCitiesSwitch:
                     Settings.SetBool(.ShowEuropeanCities, IsChecked)
-                
+                    
                 case ShowAsianCitiesSwitch:
                     Settings.SetBool(.ShowAsianCities, IsChecked)
-                
+                    
                 case ShowAfricanCitiesSwitch:
                     Settings.SetBool(.ShowAfricanCities, IsChecked)
-                
+                    
                 case ShowWorldCitiesSwitch:
                     Settings.SetBool(.ShowWorldCities, IsChecked)
                     
@@ -142,7 +158,7 @@ class CitySettingsWindow: NSViewController, FontProtocol
                     
                 case PopulationRankSwitch:
                     Settings.SetBool(.ShowCitiesByPopulation, IsChecked)
-                
+                    
                 default:
                     return
             }
@@ -245,7 +261,7 @@ class CitySettingsWindow: NSViewController, FontProtocol
                     
                 case CustomCityListColorWell:
                     Settings.SetColor(.CustomCityListColor, ColorWell.color)
-                
+                    
                 default:
                     return
             }
@@ -284,6 +300,28 @@ class CitySettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandleCityFontSizeChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    Settings.SetEnum(.Small, EnumType: RelativeSizes.self, ForKey: .CityFontRelativeSize)
+                    
+                case 1:
+                    Settings.SetEnum(.Medium, EnumType: RelativeSizes.self, ForKey: .CityFontRelativeSize)
+                    
+                case 2:
+                    Settings.SetEnum(.Large, EnumType: RelativeSizes.self, ForKey: .CityFontRelativeSize)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBOutlet weak var CityFontSizeSegment: NSSegmentedControl!
     @IBOutlet weak var PopulationRankSwitch: NSSwitch!
     @IBOutlet weak var CityNodesGlowSwitch: NSSwitch!
     @IBOutlet weak var ShowCustomCitiesSwitch: NSSwitch!
