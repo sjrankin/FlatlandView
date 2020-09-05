@@ -61,7 +61,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
             default:
                 FrequencyCombo.selectItem(at: 1)
         }
-
+        
         let ColDet = Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
         ColorDetCombo.removeAllItems()
         for Method in EarthquakeColorMethods.allCases
@@ -110,7 +110,23 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
                 MagnitudeViewSegment.selectedSegment = 3
         }
         CombinedColorWell.color = Settings.GetColor(.CombinedEarthquakeColor, NSColor.orange)
+        let RelativeSize = Settings.GetEnum(ForKey: .MagnitudeRelativeFontSize, EnumType: RelativeSizes.self, Default: .Small)
+        if let Index = SizeMap[RelativeSize]
+        {
+            RelativeFontSize.selectedSegment = Index
+        }
+        else
+        {
+            RelativeFontSize.selectedSegment = 0
+        }
     }
+    
+    let SizeMap =
+        [
+            RelativeSizes.Small: 0,
+            RelativeSizes.Medium: 1,
+            RelativeSizes.Large: 2
+        ]
     
     @IBAction func HandleFetchFrequencyChanged(_ sender: Any)
     {
@@ -375,16 +391,16 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         {
             if let NewFont = SelectedFont
             {
-            Settings.SetFont(.EarthquakeFontName, NewFont)
-            let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
-            if let FontName = FontHelper.PrettyFontName(From: EqFont.PostscriptName)
-            {
-                EarthquakeFontButton.title = FontName
-            }
-            else
-            {
-                EarthquakeFontButton.title = "Huh?"
-            }
+                Settings.SetFont(.EarthquakeFontName, NewFont)
+                let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+                if let FontName = FontHelper.PrettyFontName(From: EqFont.PostscriptName)
+                {
+                    EarthquakeFontButton.title = FontName
+                }
+                else
+                {
+                    EarthquakeFontButton.title = "Huh?"
+                }
             }
         }
     }
@@ -403,7 +419,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
                     
                 case 2:
                     Settings.SetEnum(EarthquakeMagnitudeViews.Vertical, EnumType: EarthquakeMagnitudeViews.self, ForKey: .EarthquakeMagnitudeViews)
-            
+                    
                 case 3:
                     Settings.SetEnum(EarthquakeMagnitudeViews.Stenciled, EnumType: EarthquakeMagnitudeViews.self, ForKey: .EarthquakeMagnitudeViews)
                     
@@ -421,6 +437,28 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandleRelativeFontSizeChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    Settings.SetEnum(.Small, EnumType: RelativeSizes.self, ForKey: .MagnitudeRelativeFontSize)
+                    
+                case 1:
+                    Settings.SetEnum(.Medium, EnumType: RelativeSizes.self, ForKey: .MagnitudeRelativeFontSize)
+                    
+                case 2:
+                    Settings.SetEnum(.Large, EnumType: RelativeSizes.self, ForKey: .MagnitudeRelativeFontSize)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBOutlet weak var RelativeFontSize: NSSegmentedControl!
     @IBOutlet weak var CombinedColorWell: NSColorWell!
     @IBOutlet weak var MagnitudeViewSegment: NSSegmentedControl!
     @IBOutlet weak var EarthquakeFontButton: NSButton!
