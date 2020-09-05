@@ -359,9 +359,9 @@ extension MainView: SettingChangedProtocol
                     Plot2DEarthquakes(LatestEarthquakes, Replot: true)
                 }
                 
-            case .CityFontName:
+            case .CityFontName, .CityFontRelativeSize, .MagnitudeRelativeFontSize:
                 World3DView.PlotCities()
-                World3DView.ApplyStencils(Caller: ".CityFontName")
+                World3DView.ApplyStencils(Caller: "{.Multiple}")
                 
             case .WorldCityColor, .AfricanCityColor, .AsianCityColor, .EuropeanCityColor,
                  .NorthAmericanCityColor, .SouthAmericanCityColor, .CapitalCityColor,
