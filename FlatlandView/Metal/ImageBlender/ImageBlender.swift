@@ -61,10 +61,12 @@ class ImageBlender
     ///                         the image, a fatal error will be generated.
     /// - Parameter SpriteX: The horiztonal coordinate of the upper-left corner of the sprite.
     /// - Parameter SpriteY: The vertical coordinate of the upper-left corner of the sprite.
+    /// - Parameter Wrap: If true, sprites are wrapped around the image. If false, the parts that fall outside
+    ///                   the bounds of the target image are truncated.
     /// - Returns: The `Background` image with the color rectangle sprite merged onto it, blended as per
     ///            alpha level rules.
     func MergeImages(Background: NSImage, Sprite Color: NSColor, SpriteSize: NSSize,
-                     SpriteX: Int, SpriteY: Int) -> NSImage
+                     SpriteX: Int, SpriteY: Int, Wrap: Bool = false) -> NSImage
     {
         objc_sync_enter(AccessLock)
         defer{objc_sync_exit(AccessLock)}
@@ -87,7 +89,7 @@ class ImageBlender
         let SpriteImage = SolidColor.Fill(Width: Int(SpriteSize.width), Height: Int(SpriteSize.height), With: Color)
         #endif
         var Merged = DoMergeImages(Background: Background, Sprite: SpriteImage!,
-                                   SpriteX: SpriteX, SpriteY: SpriteY)
+                                   SpriteX: SpriteX, SpriteY: SpriteY, HorizontalWrap: Wrap)
         let Flipper = ImageFlipper()
         Merged = Flipper.FlipVertically(Source: Merged)!
         return Merged
@@ -113,9 +115,11 @@ class ImageBlender
     ///                     of the sprite with the background depends on the alpha level of the sprite pixel.
     /// - Parameter SpriteX: The horiztonal coordinate of the upper-left corner of the sprite.
     /// - Parameter SpriteY: The vertical coordinate of the upper-left corner of the sprite.
+    /// - Parameter Wrap: If true, sprites are wrapped around the image. If false, the parts that fall outside
+    ///                   the bounds of the target image are truncated.
     /// - Returns: The `Background` image with the sprite image merged onto it, blended as per
     ///            alpha level rules.
-    func MergeImages(Background: NSImage, Sprite: NSImage, SpriteX: Int, SpriteY: Int) -> NSImage
+    func MergeImages(Background: NSImage, Sprite: NSImage, SpriteX: Int, SpriteY: Int, Wrap: Bool = false) -> NSImage
     {
         objc_sync_enter(AccessLock)
         defer{objc_sync_exit(AccessLock)}
@@ -127,7 +131,8 @@ class ImageBlender
         {
             fatalError("Sprite will extend past the vertical bounds of the background image.")
         }
-        var Merged = DoMergeImages(Background: Background, Sprite: Sprite, SpriteX: SpriteX, SpriteY: SpriteY)
+        var Merged = DoMergeImages(Background: Background, Sprite: Sprite, SpriteX: SpriteX, SpriteY: SpriteY,
+                                   HorizontalWrap: Wrap)
         let Flipper = ImageFlipper()
         Merged = Flipper.FlipVertically(Source: Merged)!
         return Merged
@@ -140,9 +145,12 @@ class ImageBlender
     /// - Parameter SpriteX: The horizontal coordinate of the upper-left corner of `Sprite`.
     /// - Parameter SpriteY: The vertical coordinate of the upper-left corner of `Sprite`.
     /// - Parameter ForceAlphaTo1: If true, the final alpha value of blended pixels is forced to 1.0.
+    /// - Parameter HorizontalWrap: If true, sprites are wrapped horizontally. If false, they are cut off if they are out of
+    ///                         bounds.
     /// - Returns: New image with `Sprite` merged with `Background`.
     private func DoMergeImages(Background: NSImage, Sprite: NSImage, SpriteX: Int, SpriteY: Int,
-                               ForceAlphaTo1: Bool = true) -> NSImage
+                               ForceAlphaTo1: Bool = true, HorizontalWrap: Bool = true,
+                               VerticalWrap: Bool = false) -> NSImage
     {
         var AdjustedBG: CGImage? = nil
         let BGTexture = MetalLibrary.MakeTexture(From: Background, ForWriting: true,
@@ -152,7 +160,9 @@ class ImageBlender
                                                  ImageDevice: ImageDevice!, AsCG: &SpriteBG)
         let Parameter = ImageBlendParameters(XOffset: simd_uint1(SpriteX),
                                               YOffset: simd_uint1(SpriteY),
-                                              FinalAlphaPixelIs1: simd_bool(ForceAlphaTo1))
+                                              FinalAlphaPixelIs1: simd_bool(ForceAlphaTo1),
+                                              HorizontalWrap: simd_bool(HorizontalWrap),
+                                              VerticalWrap: simd_bool(VerticalWrap))
         let Parameters = [Parameter]
         let ParameterBuffer = ImageDevice!.makeBuffer(length: MemoryLayout<ImageBlendParameters>.stride, options: [])
         memcpy(ParameterBuffer!.contents(), Parameters, MemoryLayout<ImageBlendParameters>.stride)
