@@ -151,7 +151,6 @@ enum SettingTypes: String, CaseIterable
     case CameraFieldOfView = "CameraFieldOfView"
     /// Double: The orthographic scale for Flatland's camera system.
     case CameraOrthographicScale = "CameraOrthographicScale"
-    #if DEBUG
     //3D debug settings.
     /// Render 3D elements as wireframes.
     case ShowWireframes = "ShowWireframes"
@@ -167,7 +166,6 @@ enum SettingTypes: String, CaseIterable
     case ShowLightExtents = "ShowLightExtents"
     /// Show rendering statistics.
     case ShowStatistics = "ShowStatistics"
-    #endif
     
     // MARK: - Performance and optimization settings.
     /// Boolean: If true, hours have a chamfer value set.
@@ -347,7 +345,6 @@ enum SettingTypes: String, CaseIterable
     /// Double: Amount of time the splash screen is shown, in seconds.
     case SplashScreenDuration = "SplashScreenDuration"
     
-    #if DEBUG
     // MARK: - Time debug settings.
     /// Boolean: Enables debugging of time.
     case DebugTime = "DebugTime"
@@ -361,7 +358,6 @@ enum SettingTypes: String, CaseIterable
     case TimeMultiplier = "TimeMultiplier"
     /// Boolean: Enables or disables the stop time.
     case EnableStopTime = "EnableStopTime"
-    #endif
     
     // MARK: - Settings used in areas outside of the Settings system.
     /// Live data viewer.
