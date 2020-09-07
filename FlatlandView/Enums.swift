@@ -596,11 +596,17 @@ enum GlobeRadius: CGFloat, CaseIterable
     /// City name layer.
     case CityNameLayer = 10.012
     /// Earthquake magnitude layer.
-        case MagnitudeLayer = 10.013
+    case MagnitudeLayer = 10.013
     /// World Heritage Site layer.
     case UnescoLayer = 10.011
+    /// Rectangular region layer.
+    case RegionLayer = 10.014
     /// General purpose line layer.
     case LineLayer = 10.015
+    #if true
+    /// Test layer.
+    case TestLayer = 10.01999
+    #endif
 }
 
 /// Styles of listing earthquakes.
@@ -670,14 +676,12 @@ enum TextSmoothnesses: CGFloat, CaseIterable
     case Roughest = 0.5
 }
 
-#if DEBUG
 /// Time states for debugging
 enum TimeControls: String, CaseIterable
 {
     case Run = "Run"
     case Pause = "Pause"
 }
-#endif
 
 /// Scales for 3D nodes.
 enum NodeScales: CGFloat
@@ -1021,4 +1025,10 @@ enum GlobeLayers: String, CaseIterable
     case WorldHeritageSites = "WorldHeritageSites"
     /// General purpose lines.
     case Lines = "Lines"
+    /// Rectangular regions.
+    case Regions = "Regions"
+    #if true
+    /// Test layer.
+    case Test = "Test"
+    #endif
 }
