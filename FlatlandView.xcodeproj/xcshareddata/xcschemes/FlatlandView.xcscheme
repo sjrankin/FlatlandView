@@ -34,7 +34,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      enableAddressSanitizer = "YES"
+      enableThreadSanitizer = "YES"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -55,6 +55,11 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "MALLOC_PERMIT_INSANE_REQUESTS"
+            value = "YES"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "CGBITMAP_CONTEXT_LOG_ERRORS"
             value = "YES"
             isEnabled = "YES">
          </EnvironmentVariable>
