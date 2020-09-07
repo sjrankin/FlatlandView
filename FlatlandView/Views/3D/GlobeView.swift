@@ -40,6 +40,10 @@ class GlobeView: SCNView
             SeaNode?.removeAllActions()
             LineNode?.removeAllActions()
             HourNode?.removeAllActions()
+            for (_, Layer) in StencilLayers
+            {
+                Layer.removeAllActions()
+            }
             StopClock()
             AttractEarth()
         }
@@ -49,6 +53,10 @@ class GlobeView: SCNView
             SeaNode?.removeAllActions()
             LineNode?.removeAllActions()
             HourNode?.removeAllActions()
+            for (_, Layer) in StencilLayers
+            {
+                Layer.removeAllActions()
+            }
             StartClock()
         }
     }
@@ -62,18 +70,15 @@ class GlobeView: SCNView
         EarthNode?.runAction(RotateForever)
         SeaNode?.runAction(RotateForever)
         LineNode?.runAction(RotateForever)
+        for (_, Layer) in StencilLayers
+        {
+            Layer.runAction(RotateForever)
+        }
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
             HourNode?.runAction(RotateForever)
         }
-        #if false
-        let RotateCamera = SCNAction.rotateBy(x: CGFloat(0.0.Radians), y: CGFloat(0.0.Radians), z: CGFloat(90.0.Radians),
-                                              duration: 5.0)
-        let CameraMove = SCNAction.move(to: SCNVector3(12.0, 0.0, 0.0), duration: 5.0)
-        let RotateSequence = SCNAction.group([CameraMove, RotateCamera])
-        CameraNode.runAction(RotateSequence)
-        #endif
-        }
+    }
     
     /// Hide the globe view.
     public func Hide()
@@ -765,6 +770,10 @@ class GlobeView: SCNView
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
         LineNode?.runAction(Rotate)
+        for (_, Layer) in StencilLayers
+        {
+            Layer.runAction(Rotate)
+        }
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
             HourNode?.runAction(Rotate)
