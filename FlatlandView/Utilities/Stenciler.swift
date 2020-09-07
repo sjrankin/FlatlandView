@@ -122,10 +122,74 @@ class Stenciler
         }
     }
     
+    /// Create a stencil layer.
+    /// - Parameter Layer: Determines the contents of the image of the stencil layer.
+    /// - Parameter LayerData: Data a given layer may need.
+    /// - Parameter Completion: Closure that takes the final image and layer type.
     public static func AddStencils2(_ Layer: GlobeLayers,
-                                    Completion: ((NSImage, GlobeLayers) -> ())? = nil)
+                                    _ LayerData: Any? = nil,
+                                    Completion: ((NSImage?, GlobeLayers) -> ())? = nil)
     {
-        
+        let Queue = OperationQueue()
+        Queue.qualityOfService = .background
+        Queue.name = "Thread for \(Layer.rawValue)"
+        Queue.addOperation
+        {
+            var LayerImage: NSImage? = nil
+            switch Layer
+            {
+                case .CityNames:
+                    break
+                    
+                case .GridLines:
+                    LayerImage = ApplyGridLines()
+                    
+                case .Lines:
+                    break
+                    
+                case .Magnitudes:
+                    if let Quakes = LayerData as? [Earthquake]
+                    {
+                        LayerImage = ApplyMagnitudes(Earthquakes: Quakes)
+                    }
+                    
+                case .Regions:
+                    let Regions = Settings.GetEarthquakeRegions()
+                    LayerImage = ApplyRectangles(Regions: Regions)
+                    
+                case .WorldHeritageSites:
+                    break
+                    
+                #if true
+                case .Test:
+                    let RandomCircles = MakeRandomCircles()
+                    LayerImage = ApplyCircles(Circles: RandomCircles)
+                #endif
+            }
+            Completion?(LayerImage, Layer)
+        }
+    }
+    
+    private static func MakeRandomCircles() -> [CircleRecord]
+    {
+        var CircleList = [CircleRecord]()
+        let Count = Int.random(in: 10 ... 20)
+        for _ in 0 ..< Count
+        {
+            let RandomX = Int.random(in: 0 ... 3600)
+            let RandomY = Int.random(in: 0 ... 1800)
+            let Where = NSPoint(x: RandomX, y: RandomY)
+            let RandomRadius = CGFloat.random(in: 50 ... 200)
+            let RandomBorderWidth = CGFloat.random(in: 5 ... 15)
+            let RandomColor = Utility.RandomColor()
+            let RandomBorder = Utility.RandomColor()
+            let SomeCircle = CircleRecord(Location: Where, Radius: RandomRadius,
+                                          Color: RandomColor,
+                                          OutlineColor: RandomBorder,
+                                          OutlineWidth: RandomBorderWidth)
+            CircleList.append(SomeCircle)
+        }
+        return CircleList
     }
     
     /// Add city names to the passed image representation.
@@ -271,7 +335,7 @@ class Stenciler
         for Quake in Earthquakes
         {
             let Location = Quake.LocationAsGeoPoint().ToEquirectangular(Width: Int(Image.size.width),
-                                                                         Height: Int(Image.size.height))
+                                                                        Height: Int(Image.size.height))
             var LocationPoint = NSPoint(x: Location.X, y: Location.Y)
             let EqText = "\(Quake.GreatestMagnitude.RoundedTo(3))"
             var LatitudeFontOffset = abs(Quake.Latitude) / 90.0
@@ -428,7 +492,7 @@ class Stenciler
                     LineList.append(Line)
                 }
             }
-
+            
             let Final = Image
             Final.lockFocus()
             for Line in LineList
@@ -507,28 +571,28 @@ class Stenciler
             let ImageWidth = Int(Image.size.width)
             let ImageHeight = Int(Image.size.height)
             var RegionWidth = GeoPoint.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
-                                                           Longitude2: Region.LowerRight.Longitude,
-                                                           Latitude: Region.UpperLeft.Latitude,
-                                                           Width: ImageWidth, Height: ImageHeight)
+                                                          Longitude2: Region.LowerRight.Longitude,
+                                                          Latitude: Region.UpperLeft.Latitude,
+                                                          Width: ImageWidth, Height: ImageHeight)
             RegionWidth = RegionWidth * Ratio
             var RegionHeight = GeoPoint.VerticalDistance(Latitude1: Region.UpperLeft.Latitude,
-                                                          Latitude2: Region.LowerRight.Latitude,
-                                                          Longitude: Region.UpperLeft.Longitude,
-                                                          Width: ImageWidth, Height: ImageHeight)
+                                                         Latitude2: Region.LowerRight.Latitude,
+                                                         Longitude: Region.UpperLeft.Longitude,
+                                                         Width: ImageWidth, Height: ImageHeight)
             RegionHeight = RegionHeight * Ratio
             var XPercent: Double = 0.0
             var YPercent: Double = 0.0
             var (FinalX, FinalY) = GeoPoint.TransformToImageCoordinates(Latitude: Region.UpperLeft.Latitude,
-                                                                         Longitude: Region.UpperLeft.Longitude,
-                                                                         Width: ImageWidth,
-                                                                         Height: ImageHeight,
-                                                                         XPercent: &XPercent,
-                                                                         YPercent: &YPercent)
+                                                                        Longitude: Region.UpperLeft.Longitude,
+                                                                        Width: ImageWidth,
+                                                                        Height: ImageHeight,
+                                                                        XPercent: &XPercent,
+                                                                        YPercent: &YPercent)
             FinalX = Int(Double(FinalX) * Ratio)
             FinalY = Int(Double(FinalY) * Ratio)
             Final = Kernel.MergeImages(Background: Final, Sprite: Region.RegionColor.withAlphaComponent(0.5),
                                        SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
-                                       SpriteX: FinalX, SpriteY: FinalY)
+                                       SpriteX: FinalX, SpriteY: FinalY)  
         }
         return Final
     }
@@ -553,10 +617,10 @@ class Stenciler
         let ScaleFactor = NSScreen.main!.backingScaleFactor
         if ScaleFactor == 2.0
         {
-        let Scaling = CIFilter.bicubicScaleTransform()
-        Scaling.inputImage = CImg
-        Scaling.scale = Float(0.5)
-        CImg = Scaling.outputImage
+            let Scaling = CIFilter.bicubicScaleTransform()
+            Scaling.inputImage = CImg
+            Scaling.scale = Float(0.5)
+            CImg = Scaling.outputImage
         }
         #endif
         return NSBitmapImageRep(ciImage: CImg!)
@@ -572,6 +636,7 @@ class Stenciler
     }
     
     static var DrawRectangleLock = NSObject()
+    static var DrawCircularLock = NSObject()
     static var DrawLinesLock = NSObject()
     static var DrawTextLock = NSObject()
     
@@ -646,109 +711,167 @@ class Stenciler
     
     public static func ApplyGridLines(Size: NSSize = NSSize(width: 3600, height: 1800)) -> NSImage
     {
-            objc_sync_enter(DrawLinesLock)
-            defer{objc_sync_exit(DrawLinesLock)}
-            let Image = MakeNewImage(Size: Size)
-            let ImageWidth = Int(Image.size.width)
-            let ImageHeight = Int(Image.size.height)
-            var LineList = [LineDefinition]()
-            let LineColor = Settings.GetColor(.GridLineColor, NSColor.red)
-            let MinorLineColor = Settings.GetColor(.MinorGridLineColor, NSColor.yellow)
-            
-            if Settings.GetBool(.Show3DMinorGrid)
+        objc_sync_enter(DrawLinesLock)
+        defer{objc_sync_exit(DrawLinesLock)}
+        let Image = MakeNewImage(Size: Size)
+        let ImageWidth = Int(Image.size.width)
+        let ImageHeight = Int(Image.size.height)
+        var LineList = [LineDefinition]()
+        let LineColor = Settings.GetColor(.GridLineColor, NSColor.red)
+        let MinorLineColor = Settings.GetColor(.MinorGridLineColor, NSColor.yellow)
+        
+        if Settings.GetBool(.Show3DMinorGrid)
+        {
+            let Gap = Settings.GetDouble(.MinorGrid3DGap, .MinorGridGap)
+            for Longitude in stride(from: 0.0, to: 180.0, by: Gap)
             {
-                let Gap = Settings.GetDouble(.MinorGrid3DGap, .MinorGridGap)
-                for Longitude in stride(from: 0.0, to: 180.0, by: Gap)
+                var Y = Int(Double(ImageHeight) * (Longitude / 180.0))
+                if Y + 4 > ImageHeight
                 {
-                    var Y = Int(Double(ImageHeight) * (Longitude / 180.0))
-                    if Y + 4 > ImageHeight
-                    {
-                        Y = Y - 4
-                    }
-                    let Line: LineDefinition = (IsHorizontal: true,
-                                                At: Y,
-                                                Thickness: 4,
-                                                Color: MinorLineColor)
-                    LineList.append(Line)
+                    Y = Y - 4
                 }
-                for Latitude in stride(from: 0.0, to: 360.0, by: Gap)
-                {
-                    var X = Int(Double(ImageWidth) * (Latitude / 360.0))
-                    if X + 4 > ImageWidth
-                    {
-                        X = X - 4
-                    }
-                    let Line: LineDefinition = (IsHorizontal: false,
-                                                At: X,
-                                                Thickness: 4,
-                                                Color: MinorLineColor)
-                    LineList.append(Line)
-                }
+                let Line: LineDefinition = (IsHorizontal: true,
+                                            At: Y,
+                                            Thickness: 4,
+                                            Color: MinorLineColor)
+                LineList.append(Line)
             }
-            
-            for Longitude in Longitudes.allCases
+            for Latitude in stride(from: 0.0, to: 360.0, by: Gap)
             {
-                if Settings.DrawLongitudeLine(Longitude)
+                var X = Int(Double(ImageWidth) * (Latitude / 360.0))
+                if X + 4 > ImageWidth
                 {
-                    var Y = Int(Double(ImageHeight) * Longitude.rawValue)
-                    if Y + 4 > ImageHeight
-                    {
-                        Y = Y - 4
-                    }
-                    let Line: LineDefinition = (IsHorizontal: true,
-                                                At: Y,
-                                                Thickness: 4,
-                                                Color: LineColor)
-                    LineList.append(Line)
+                    X = X - 4
                 }
+                let Line: LineDefinition = (IsHorizontal: false,
+                                            At: X,
+                                            Thickness: 4,
+                                            Color: MinorLineColor)
+                LineList.append(Line)
             }
-            for Latitude in Latitudes.allCases
+        }
+        
+        for Longitude in Longitudes.allCases
+        {
+            if Settings.DrawLongitudeLine(Longitude)
             {
-                if Settings.DrawLatitudeLine(Latitude)
+                var Y = Int(Double(ImageHeight) * Longitude.rawValue)
+                if Y + 4 > ImageHeight
                 {
-                    var X = Int(Double(ImageWidth) * Latitude.rawValue)
-                    if X + 4 > ImageWidth
-                    {
-                        X = X - 4
-                    }
-                    let Line: LineDefinition = (IsHorizontal: false,
-                                                At: X,
-                                                Thickness: 4,
-                                                Color: LineColor)
-                    LineList.append(Line)
+                    Y = Y - 4
                 }
+                let Line: LineDefinition = (IsHorizontal: true,
+                                            At: Y,
+                                            Thickness: 4,
+                                            Color: LineColor)
+                LineList.append(Line)
             }
-            
-            let Final = Image
-            Final.lockFocus()
-            for Line in LineList
+        }
+        for Latitude in Latitudes.allCases
+        {
+            if Settings.DrawLatitudeLine(Latitude)
             {
-                var X = 0
-                var Y = 0
-                var LineWidth = 0
-                var LineHeight = 0
-                if Line.IsHorizontal
+                var X = Int(Double(ImageWidth) * Latitude.rawValue)
+                if X + 4 > ImageWidth
                 {
-                    Y = Line.At
-                    X = -Line.Thickness
-                    LineWidth = Int(Image.size.width)
-                    LineHeight = Line.Thickness
+                    X = X - 4
                 }
-                else
-                {
-                    X = Line.At
-                    LineWidth = Line.Thickness
-                    LineHeight = Int(Image.size.height)
-                }
-                let LineRect = NSRect(origin: CGPoint(x: X, y: Y), size: NSSize(width: LineWidth, height: LineHeight))
-                let Path = NSBezierPath(rect: LineRect)
-                Line.Color.setFill()
-                Line.Color.setStroke()
-                Path.stroke()
-                Path.fill()
+                let Line: LineDefinition = (IsHorizontal: false,
+                                            At: X,
+                                            Thickness: 4,
+                                            Color: LineColor)
+                LineList.append(Line)
             }
-            Final.unlockFocus()
-            return Final
+        }
+        
+        let Final = Image
+        Final.lockFocus()
+        for Line in LineList
+        {
+            var X = 0
+            var Y = 0
+            var LineWidth = 0
+            var LineHeight = 0
+            if Line.IsHorizontal
+            {
+                Y = Line.At
+                X = -Line.Thickness
+                LineWidth = Int(Image.size.width)
+                LineHeight = Line.Thickness
+            }
+            else
+            {
+                X = Line.At
+                LineWidth = Line.Thickness
+                LineHeight = Int(Image.size.height)
+            }
+            let LineRect = NSRect(origin: CGPoint(x: X, y: Y), size: NSSize(width: LineWidth, height: LineHeight))
+            let Path = NSBezierPath(rect: LineRect)
+            Line.Color.setFill()
+            Line.Color.setStroke()
+            Path.stroke()
+            Path.fill()
+        }
+        Final.unlockFocus()
+        return Final
+    }
+    
+    public static func ApplyCircles(Size: NSSize = NSSize(width: 3600, height: 1800),
+                                    Circles: [CircleRecord]) -> NSImage
+    {
+        objc_sync_enter(DrawCircularLock)
+        defer{objc_sync_exit(DrawCircularLock)}
+        let MShape = Metal2DShapeGenerator()
+        let CircleTest = MShape.DrawCircle(BaseSize: NSSize(width: 300, height: 300),
+                                           Radius: 135,
+                                           Interior: NSColor.systemYellow,
+                                           Background: NSColor.clear,
+                                           BorderColor: NSColor.systemTeal,
+                                           BorderWidth: 10)
+        #if true
+        print("Making transparent image: \(Size)")
+        var Image = MakeNewImage(Size: Size)
+        #else
+        var Image = NSImage(named: "TransparentBase")!
+        #endif
+        #if true
+        let CircleImage = MakeNewImage(Size: NSSize(width: 20.0, height: 20.0))
+        //let CircleImage = NSImage(size: NSSize(width: 20.0, height: 20.0))
+        CircleImage.lockFocus()
+        let CR = NSRect(origin: CGPoint(x: 1, y: 1),
+                        size: CGSize(width: 18.0, height: 18.0))
+        let TheCircle = NSBezierPath(ovalIn: CR)
+        NSColor.yellow.setFill()
+        TheCircle.lineWidth = 1.0
+        NSColor.black.setStroke()
+        TheCircle.fill()
+        TheCircle.stroke()
+        CircleImage.unlockFocus()
+        let B = ImageBlender()
+        Image = B.MergeImages(Background: Image, Sprite: CircleImage, SpriteX: 10, SpriteY: 10)
+        #else
+        Image.lockFocus()
+        for Circle in Circles
+        {
+            let CircleRect = NSRect(x: Circle.Location.x - Circle.Radius,
+                                    y: Circle.Location.y - Circle.Radius,
+                                    width: Circle.Radius * 2.0,
+                                    height: Circle.Radius * 2.0)
+            let SomeCircle = NSBezierPath(ovalIn: CircleRect)
+            Circle.Color.setFill()
+            SomeCircle.fill()
+            if Circle.OutlineColor != nil && Circle.OutlineWidth != nil
+            {
+                SomeCircle.lineWidth = Circle.OutlineWidth!
+                Circle.OutlineColor!.setStroke()
+                SomeCircle.stroke()
+            }
+        }
+        Image.unlockFocus()
+        let Adjustment = AdjustTransparency()
+        Image = Adjustment.Adjust(Source: Image)!
+        #endif
+        return Image
     }
     
     /// Apply rectangular decals for earthquake regions onto a transparent image.
@@ -772,28 +895,28 @@ class Stenciler
                 continue
             }
             var RegionWidth = GeoPoint.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
-                                                           Longitude2: Region.LowerRight.Longitude,
-                                                           Latitude: Region.UpperLeft.Latitude,
-                                                           Width: Int(Size.width), Height: Int(Size.height))
+                                                          Longitude2: Region.LowerRight.Longitude,
+                                                          Latitude: Region.UpperLeft.Latitude,
+                                                          Width: Int(Size.width), Height: Int(Size.height))
             RegionWidth = RegionWidth * MapRatio
             var RegionHeight = GeoPoint.VerticalDistance(Latitude1: Region.UpperLeft.Latitude,
-                                                          Latitude2: Region.LowerRight.Latitude,
-                                                          Longitude: Region.UpperLeft.Longitude,
-                                                          Width: Int(Size.width), Height: Int(Size.height))
+                                                         Latitude2: Region.LowerRight.Latitude,
+                                                         Longitude: Region.UpperLeft.Longitude,
+                                                         Width: Int(Size.width), Height: Int(Size.height))
             RegionHeight = RegionHeight * MapRatio
             var XPercent: Double = 0.0
             var YPercent: Double = 0.0
             var (FinalX, FinalY) = GeoPoint.TransformToImageCoordinates(Latitude: Region.UpperLeft.Latitude,
-                                                                         Longitude: Region.UpperLeft.Longitude,
-                                                                         Width: Int(Size.width),
-                                                                         Height: Int(Size.height),
-                                                                         XPercent: &XPercent,
-                                                                         YPercent: &YPercent)
+                                                                        Longitude: Region.UpperLeft.Longitude,
+                                                                        Width: Int(Size.width),
+                                                                        Height: Int(Size.height),
+                                                                        XPercent: &XPercent,
+                                                                        YPercent: &YPercent)
             FinalX = Int(Double(FinalX) * MapRatio)
             FinalY = Int(Double(FinalY) * MapRatio)
             Surface = Blender.MergeImages(Background: Surface, Sprite: Region.RegionColor.withAlphaComponent(0.5),
-                                       SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
-                                       SpriteX: FinalX, SpriteY: FinalY)
+                                          SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
+                                          SpriteX: FinalX, SpriteY: FinalY)
         }
         
         return Surface
@@ -853,4 +976,14 @@ struct TextRecord
     let Color: NSColor
     /// If present, the outline color of the text. If not present, no outline is drawn.
     let OutlineColor: NSColor?
+}
+
+
+struct CircleRecord
+{
+    let Location: NSPoint
+    let Radius: CGFloat
+    let Color: NSColor
+    let OutlineColor: NSColor?
+    let OutlineWidth: CGFloat?
 }
