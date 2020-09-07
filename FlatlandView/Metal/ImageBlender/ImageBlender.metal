@@ -19,7 +19,8 @@ struct ImageBlendParameters
     bool VerticalWrap;
 };
 
-kernel void ImageBlender(texture2d<float, access::read_write> Sprite [[texture(0)]],
+//kernel void ImageBlender(texture2d<float, access::read_write> Sprite [[texture(0)]],
+kernel void ImageBlender(texture2d<float, access::read> Sprite [[texture(0)]],
                          texture2d<float, access::read_write> Background [[texture(1)]],
                          constant ImageBlendParameters &Parameters [[buffer(0)]],
                          uint2 gid [[thread_position_in_grid]])
