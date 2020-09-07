@@ -170,5 +170,79 @@ extension NSImage
             return self
         }
     }
+    
+    /// Crop the instance image to the passed rectangle.
+    /// - Parameter To: The rectangle in the image to return.
+    /// - Returns: Cropped image from the instance image. Nil on error.
+    public func Crop(To: CGRect) -> NSImage?
+    {
+        let SourceData = self.tiffRepresentation!
+        let Source = CIImage(data: SourceData)
+        if let Cropped = Source?.cropped(to: To)
+        {
+            let Rep = NSCIImageRep(ciImage: Cropped)
+            let Final = NSImage(size: Rep.size)
+            Final.addRepresentation(Rep)
+            return Final
+        }
+        else
+        {
+            return nil
+        }
+    }
+    
+    /// Split the instance image into two horizontal pieces.
+    /// - Parameter At: The X coordinate where the split will take place. If this value
+    ///                 is invalid, nil will be returned.
+    /// - Returns: Tuple of the left image and the right image. Nil on error.
+    public func SplitHorizontally(At: Int) -> (Left: NSImage, Right: NSImage)?
+    {
+        if At < 0
+        {
+            return nil
+        }
+        if At > Int(self.size.width - 1)
+        {
+            return nil
+        }
+        let LeftWidth = CGFloat(At - 1)
+        let RightWidth = self.size.width - LeftWidth
+        let LeftRect = CGRect(x: 0, y: 0,
+                              width: LeftWidth,
+                              height: self.size.height)
+        let RightRect = CGRect(x: CGFloat(At), y: 0,
+                               width: RightWidth,
+                               height: self.size.height)
+        let LeftImage = self.Crop(To: LeftRect)!
+        let RightImage = self.Crop(To: RightRect)!
+        return (LeftImage, RightImage)
+    }
+    
+    /// Split the instance image into two vertical pieces.
+    /// - Parameter At: The Y coordinate where the split will take place. If this value
+    ///                 is invalid, nil will be returned.
+    /// - Returns: Tuple of the top image and the bottom image. Nil on error.
+    public func SplitVertically(At: Int) -> (Top: NSImage, Bottom: NSImage)?
+    {
+        if At < 0
+        {
+            return nil
+        }
+        if At > Int(self.size.height - 1)
+        {
+            return nil
+        }
+        let TopHeight = CGFloat(At - 1)
+        let BottomHeight = self.size.height - TopHeight
+        let TopRect = CGRect(x: 0, y: 0,
+                             width: self.size.width,
+                             height: TopHeight)
+        let BottomRect = CGRect(x: 0, y: CGFloat(At),
+                                width: self.size.width,
+                                height: BottomHeight)
+        let TopImage = self.Crop(To: TopRect)!
+        let BottomImage = self.Crop(To: BottomRect)!
+        return (TopImage, BottomImage)
+    }
 }
 
