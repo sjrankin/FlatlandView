@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		170181C12504A467000F91B6 /* TransparencyParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170181C02504A467000F91B6 /* TransparencyParameters.swift */; };
 		1701BF7A24FCE0D700686C3A /* CityPopulationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */; };
 		1701BF7C24FCE0FD00686C3A /* CityPopulationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */; };
 		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
@@ -43,6 +44,7 @@
 		1733C81024F8D71A0025D555 /* RawSettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1733C80F24F8D71A0025D555 /* RawSettingsWindow.swift */; };
 		1733C81224F8D74A0025D555 /* RawSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1733C81124F8D74A0025D555 /* RawSettingsController.swift */; };
 		1737101024E2BB7300BC6CF8 /* Stenciler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1737100F24E2BB7300BC6CF8 /* Stenciler.swift */; };
+		173AC19E2506109900C929BB /* Metal2DBorderedCircle.metal in Sources */ = {isa = PBXBuildFile; fileRef = 173AC19D2506109900C929BB /* Metal2DBorderedCircle.metal */; };
 		173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173EB18A2490D1B7006CDB86 /* +Orbits.swift */; };
 		173F3D3E24EB6C4F008B9870 /* CircularWarp.m in Sources */ = {isa = PBXBuildFile; fileRef = 173F3D3D24EB6C4F008B9870 /* CircularWarp.m */; };
 		1740F49B2493173A00F6FAAE /* Hours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740F49A2493173A00F6FAAE /* Hours.swift */; };
@@ -124,6 +126,9 @@
 		179BE7C324ED053D0025B349 /* Today.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 179BE7C224ED053D0025B349 /* Today.storyboard */; };
 		179BE7C524ED06DB0025B349 /* TodayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179BE7C424ED06DB0025B349 /* TodayWindow.swift */; };
 		179BE7C724ED07020025B349 /* TodayCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179BE7C624ED07020025B349 /* TodayCode.swift */; };
+		17A25CC42505D43600214C45 /* Metal2DShapeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A25CC32505D43600214C45 /* Metal2DShapeGenerator.swift */; };
+		17A25CC62505D44D00214C45 /* Metal2DShapeParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A25CC52505D44D00214C45 /* Metal2DShapeParameters.swift */; };
+		17A25CC82505D4B000214C45 /* Metal2DCircle.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17A25CC72505D4B000214C45 /* Metal2DCircle.metal */; };
 		17A3788024DC24D300EE2B45 /* ImageBlender.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17A3787F24DC24D300EE2B45 /* ImageBlender.metal */; };
 		17A3788224DC250200EE2B45 /* ImageBlendParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788124DC250200EE2B45 /* ImageBlendParameters.swift */; };
 		17A3788424DC25F300EE2B45 /* ImageBlender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788324DC25F300EE2B45 /* ImageBlender.swift */; };
@@ -139,10 +144,12 @@
 		17B7D7B224CED0A3000C077B /* SolidColorParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7B124CED0A3000C077B /* SolidColorParameters.swift */; };
 		17B7D7B424CED0C4000C077B /* SolidColorImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7B324CED0C4000C077B /* SolidColorImage.swift */; };
 		17B7D7B724CED0F7000C077B /* ImageResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7B624CED0F7000C077B /* ImageResizer.swift */; };
-		17B7D7BA24CED129000C077B /* ImageMergeKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7B924CED129000C077B /* ImageMergeKernel.metal */; };
-		17B7D7BC24CED148000C077B /* ImageMergeParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7BB24CED148000C077B /* ImageMergeParameters.swift */; };
-		17B7D7BE24CED162000C077B /* ImageMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7BD24CED162000C077B /* ImageMerger.swift */; };
 		17B8158C24E6802500956471 /* GeneralIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B8158B24E6802500956471 /* GeneralIndicator.swift */; };
+		17B8F51E25037D8B00D71931 /* AdjustTransparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B8F51D25037D8B00D71931 /* AdjustTransparency.swift */; };
+		17B8F52025037DB800D71931 /* AdjustTransparency.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B8F51F25037DB800D71931 /* AdjustTransparency.metal */; };
+		17B8F523250388D800D71931 /* Splitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B8F522250388D800D71931 /* Splitter.swift */; };
+		17B8F5252503892800D71931 /* SplitterParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B8F5242503892800D71931 /* SplitterParameters.swift */; };
+		17B8F5272503897100D71931 /* Splitter.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B8F5262503897100D71931 /* Splitter.metal */; };
 		17BCCC3F24D7F15600030E37 /* EarthquakeFilterer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BCCC3E24D7F15600030E37 /* EarthquakeFilterer.swift */; };
 		17BD9E8224867D400054B25E /* ConfirmDialogWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */; };
 		17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */; };
@@ -211,6 +218,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		170181C02504A467000F91B6 /* TransparencyParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparencyParameters.swift; sourceTree = "<group>"; };
 		1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationWindow.swift; sourceTree = "<group>"; };
 		1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationController.swift; sourceTree = "<group>"; };
 		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
@@ -247,6 +255,7 @@
 		1733C80F24F8D71A0025D555 /* RawSettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawSettingsWindow.swift; sourceTree = "<group>"; };
 		1733C81124F8D74A0025D555 /* RawSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawSettingsController.swift; sourceTree = "<group>"; };
 		1737100F24E2BB7300BC6CF8 /* Stenciler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stenciler.swift; sourceTree = "<group>"; };
+		173AC19D2506109900C929BB /* Metal2DBorderedCircle.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Metal2DBorderedCircle.metal; sourceTree = "<group>"; };
 		173EB18A2490D1B7006CDB86 /* +Orbits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Orbits.swift"; sourceTree = "<group>"; };
 		173F3D3C24EB6C4F008B9870 /* Flatland-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Flatland-Bridging-Header.h"; sourceTree = "<group>"; };
 		173F3D3D24EB6C4F008B9870 /* CircularWarp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularWarp.m; sourceTree = "<group>"; };
@@ -332,6 +341,9 @@
 		179BE7C224ED053D0025B349 /* Today.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Today.storyboard; sourceTree = "<group>"; };
 		179BE7C424ED06DB0025B349 /* TodayWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWindow.swift; sourceTree = "<group>"; };
 		179BE7C624ED07020025B349 /* TodayCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayCode.swift; sourceTree = "<group>"; };
+		17A25CC32505D43600214C45 /* Metal2DShapeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metal2DShapeGenerator.swift; sourceTree = "<group>"; };
+		17A25CC52505D44D00214C45 /* Metal2DShapeParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metal2DShapeParameters.swift; sourceTree = "<group>"; };
+		17A25CC72505D4B000214C45 /* Metal2DCircle.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Metal2DCircle.metal; sourceTree = "<group>"; };
 		17A3787F24DC24D300EE2B45 /* ImageBlender.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageBlender.metal; sourceTree = "<group>"; };
 		17A3788124DC250200EE2B45 /* ImageBlendParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBlendParameters.swift; sourceTree = "<group>"; };
 		17A3788324DC25F300EE2B45 /* ImageBlender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBlender.swift; sourceTree = "<group>"; };
@@ -347,10 +359,12 @@
 		17B7D7B124CED0A3000C077B /* SolidColorParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolidColorParameters.swift; sourceTree = "<group>"; };
 		17B7D7B324CED0C4000C077B /* SolidColorImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolidColorImage.swift; sourceTree = "<group>"; };
 		17B7D7B624CED0F7000C077B /* ImageResizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResizer.swift; sourceTree = "<group>"; };
-		17B7D7B924CED129000C077B /* ImageMergeKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageMergeKernel.metal; sourceTree = "<group>"; };
-		17B7D7BB24CED148000C077B /* ImageMergeParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMergeParameters.swift; sourceTree = "<group>"; };
-		17B7D7BD24CED162000C077B /* ImageMerger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMerger.swift; sourceTree = "<group>"; };
 		17B8158B24E6802500956471 /* GeneralIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralIndicator.swift; sourceTree = "<group>"; };
+		17B8F51D25037D8B00D71931 /* AdjustTransparency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustTransparency.swift; sourceTree = "<group>"; };
+		17B8F51F25037DB800D71931 /* AdjustTransparency.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = AdjustTransparency.metal; sourceTree = "<group>"; };
+		17B8F522250388D800D71931 /* Splitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Splitter.swift; sourceTree = "<group>"; };
+		17B8F5242503892800D71931 /* SplitterParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitterParameters.swift; sourceTree = "<group>"; };
+		17B8F5262503897100D71931 /* Splitter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Splitter.metal; sourceTree = "<group>"; };
 		17BCCC3E24D7F15600030E37 /* EarthquakeFilterer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeFilterer.swift; sourceTree = "<group>"; };
 		17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogWindow.swift; sourceTree = "<group>"; };
 		17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogCode.swift; sourceTree = "<group>"; };
@@ -857,6 +871,17 @@
 			path = Today;
 			sourceTree = "<group>";
 		};
+		17A25CC22505D41500214C45 /* MetalShapes */ = {
+			isa = PBXGroup;
+			children = (
+				17A25CC32505D43600214C45 /* Metal2DShapeGenerator.swift */,
+				17A25CC52505D44D00214C45 /* Metal2DShapeParameters.swift */,
+				17A25CC72505D4B000214C45 /* Metal2DCircle.metal */,
+				173AC19D2506109900C929BB /* Metal2DBorderedCircle.metal */,
+			);
+			path = MetalShapes;
+			sourceTree = "<group>";
+		};
 		17A3787E24DC249E00EE2B45 /* ImageBlender */ = {
 			isa = PBXGroup;
 			children = (
@@ -889,9 +914,11 @@
 			isa = PBXGroup;
 			children = (
 				17B7D7A624CECFC8000C077B /* Common */,
+				17A25CC22505D41500214C45 /* MetalShapes */,
+				17B8F521250388C000D71931 /* Splitter */,
+				17B8F51C25037D5F00D71931 /* AdjustTransparency */,
 				175F661224DE7401007B3A60 /* LineDraw */,
 				17A3787E24DC249E00EE2B45 /* ImageBlender */,
-				17B7D7B824CED10A000C077B /* ImageMerge */,
 				17B7D7AE24CED06B000C077B /* SolidColor */,
 				17B7D7A924CED00B000C077B /* ImageFlip */,
 				17B7D7B524CED0DD000C077B /* Resize */,
@@ -934,14 +961,24 @@
 			path = Resize;
 			sourceTree = "<group>";
 		};
-		17B7D7B824CED10A000C077B /* ImageMerge */ = {
+		17B8F51C25037D5F00D71931 /* AdjustTransparency */ = {
 			isa = PBXGroup;
 			children = (
-				17B7D7B924CED129000C077B /* ImageMergeKernel.metal */,
-				17B7D7BB24CED148000C077B /* ImageMergeParameters.swift */,
-				17B7D7BD24CED162000C077B /* ImageMerger.swift */,
+				17B8F51D25037D8B00D71931 /* AdjustTransparency.swift */,
+				17B8F51F25037DB800D71931 /* AdjustTransparency.metal */,
+				170181C02504A467000F91B6 /* TransparencyParameters.swift */,
 			);
-			path = ImageMerge;
+			path = AdjustTransparency;
+			sourceTree = "<group>";
+		};
+		17B8F521250388C000D71931 /* Splitter */ = {
+			isa = PBXGroup;
+			children = (
+				17B8F522250388D800D71931 /* Splitter.swift */,
+				17B8F5242503892800D71931 /* SplitterParameters.swift */,
+				17B8F5262503897100D71931 /* Splitter.metal */,
+			);
+			path = Splitter;
 			sourceTree = "<group>";
 		};
 		17BD9E8024867D290054B25E /* Confirmation */ = {
@@ -1228,6 +1265,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17B8F5252503892800D71931 /* SplitterParameters.swift in Sources */,
 				178A869A2488C3B600BE8D46 /* AboutDetailsController.swift in Sources */,
 				17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */,
 				17D570A324F8FDFD00EB5C08 /* GeneralEditor.swift in Sources */,
@@ -1249,6 +1287,7 @@
 				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
 				1760023A24D2BF6100D5EA1A /* NSImage.swift in Sources */,
 				17829D4824B31D0200118DB1 /* EarthquakeDetailWindow.swift in Sources */,
+				17A25CC42505D43600214C45 /* Metal2DShapeGenerator.swift in Sources */,
 				17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */,
 				17F17A4D24DE7B1B00568A4E /* LinesDraw.swift in Sources */,
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
@@ -1262,8 +1301,11 @@
 				17854C672503649800D099A7 /* +Layers.swift in Sources */,
 				174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */,
 				1718812924B85B9D00EE1E71 /* PerformanceOptions.swift in Sources */,
+				17B8F523250388D800D71931 /* Splitter.swift in Sources */,
+				17A25CC62505D44D00214C45 /* Metal2DShapeParameters.swift in Sources */,
 				1750043F24B46271006528A4 /* FontPickerController.swift in Sources */,
 				174623D824A8400E007F5D4C /* StarField3DCode.swift in Sources */,
+				17B8F5272503897100D71931 /* Splitter.metal in Sources */,
 				17829D4A24B31D2300118DB1 /* EarthquakeDetailController.swift in Sources */,
 				17EF33B4247A940900A5B55D /* OrbitalElements.swift in Sources */,
 				1720B383248B522C001202E5 /* GetLocationWindow.swift in Sources */,
@@ -1285,6 +1327,7 @@
 				175623A92500C1D6006C0A60 /* AsynchronousData.swift in Sources */,
 				17F17A4924DE793800568A4E /* LinesDrawKernel.metal in Sources */,
 				172F4A2124FA0F0D0014A65E /* BooleanEditor.swift in Sources */,
+				17B8F52025037DB800D71931 /* AdjustTransparency.metal in Sources */,
 				17A978A224A720A2004EECAC /* WindowManagement.swift in Sources */,
 				17ABAFFC24E8FB02009DDC35 /* Dictionary.swift in Sources */,
 				17303AFE24F379FB00948127 /* SCNVector3.swift in Sources */,
@@ -1294,6 +1337,7 @@
 				1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */,
 				17523CD4247B8E62005209FC /* WorldHeritageSite.swift in Sources */,
 				1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */,
+				170181C12504A467000F91B6 /* TransparencyParameters.swift in Sources */,
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
 				172F4A2724FA1A900014A65E /* EditorProtocol.swift in Sources */,
 				17E5EF5F24F1051400665167 /* Debug.swift in Sources */,
@@ -1314,7 +1358,6 @@
 				17B7D7B724CED0F7000C077B /* ImageResizer.swift in Sources */,
 				172F4A1F24F9F3850014A65E /* EnumEditor.swift in Sources */,
 				17DD615B24EE622B008C332A /* StatusUIView.swift in Sources */,
-				17B7D7BA24CED129000C077B /* ImageMergeKernel.metal in Sources */,
 				1727EA5824B15CD10051EA3B /* +UserCamera.swift in Sources */,
 				1748913124C5747C00B5F6AF /* EarthData.swift in Sources */,
 				1759AE6A249F823A003F79F5 /* EarthquakeSettingsWindow.swift in Sources */,
@@ -1339,15 +1382,16 @@
 				17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */,
 				179BE7C524ED06DB0025B349 /* TodayWindow.swift in Sources */,
 				1710D22224E661D5009B6BB7 /* +StatusView.swift in Sources */,
+				17A25CC82505D4B000214C45 /* Metal2DCircle.metal in Sources */,
 				174623D324A83026007F5D4C /* +ChangedSettings.swift in Sources */,
 				1759AE66249F81F6003F79F5 /* View3DSettingsWindow.swift in Sources */,
-				17B7D7BC24CED148000C077B /* ImageMergeParameters.swift in Sources */,
 				17FCCCD724A31EF500393F36 /* EarthquakeWindow.swift in Sources */,
 				1727EA5A24B170730051EA3B /* Queue.swift in Sources */,
 				17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
 				172F4A2924FA4B300014A65E /* +EnumHandling.swift in Sources */,
 				17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */,
+				17B8F51E25037D8B00D71931 /* AdjustTransparency.swift in Sources */,
 				1716DB1824E5013900C4F8BD /* CustomCityController.swift in Sources */,
 				1759FC6924A615BD001B1D4B /* RecentEarthquakeController.swift in Sources */,
 				17FCCCD924A31F1A00393F36 /* EarthquakeController.swift in Sources */,
@@ -1373,6 +1417,7 @@
 				17EF33AC247A93A300A5B55D /* GeoPoint.swift in Sources */,
 				1759AE64249F81D3003F79F5 /* View2DSettingsWindow.swift in Sources */,
 				1750961C2482531100A3757C /* MainWindow.swift in Sources */,
+				173AC19E2506109900C929BB /* Metal2DBorderedCircle.metal in Sources */,
 				17F440D7247CD72E00FD440E /* +DrawGrid.swift in Sources */,
 				17B7D7B024CED088000C077B /* SolidColorKernel.metal in Sources */,
 				1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */,
@@ -1402,7 +1447,6 @@
 				172F4A2324FA0F420014A65E /* VectorEditor.swift in Sources */,
 				1750044724B46E92006528A4 /* FontNameView.swift in Sources */,
 				1759AE6C249F8264003F79F5 /* CitySettingsWindow.swift in Sources */,
-				17B7D7BE24CED162000C077B /* ImageMerger.swift in Sources */,
 				17EF33A3247A699300A5B55D /* Utility.swift in Sources */,
 				17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */,
 				17B7D7AB24CED02B000C077B /* ImageFlipper.metal in Sources */,
