@@ -91,8 +91,12 @@ class MetalLibrary
             let ImageHeight: Int = Adjusted.height
             var RawData = [UInt8](repeating: 0, count: Int(ImageWidth * ImageHeight * 4))
             let RGBColorSpace = CGColorSpaceCreateDeviceRGB()
+            #if false
             let BitmapInfo = CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue)
-            let BitsPerComponent = 8
+            #else
+            let BitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+            #endif
+            let BitsPerComponent = Adjusted.bitsPerComponent// 8
             let BytesPerRow = Adjusted.bytesPerRow
             let Context = CGContext(data: &RawData,
                                     width: ImageWidth,
@@ -101,6 +105,10 @@ class MetalLibrary
                                     bytesPerRow: BytesPerRow,
                                     space: RGBColorSpace,
                                     bitmapInfo: BitmapInfo.rawValue)
+            if Context == nil
+            {
+                fatalError("Error creating CGContext in \(#function)")
+            }
             Context!.draw(Adjusted, in: CGRect(x: 0, y: 0, width: ImageWidth, height: ImageHeight))
             let TextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba8Unorm,
                                                                              width: Int(ImageWidth),
@@ -118,7 +126,7 @@ class MetalLibrary
             let Region = MTLRegionMake2D(0, 0, Int(ImageWidth), Int(ImageHeight))
             TileTexture.replace(region: Region, mipmapLevel: 0, withBytes: &RawData,
                                 bytesPerRow: BytesPerRow)
-            RawData.removeAll()
+//            RawData.removeAll()
             return TileTexture
             }
         return nil
