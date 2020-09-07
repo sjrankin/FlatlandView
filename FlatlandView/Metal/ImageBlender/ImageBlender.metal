@@ -15,6 +15,8 @@ struct ImageBlendParameters
     uint XOffset;
     uint YOffset;
     bool FinalAlphaPixelIs1;
+    bool HorizontalWrap;
+    bool VerticalWrap;
 };
 
 kernel void ImageBlender(texture2d<float, access::read_write> Sprite [[texture(0)]],
