@@ -821,6 +821,42 @@ class Stenciler
     {
         objc_sync_enter(DrawCircularLock)
         defer{objc_sync_exit(DrawCircularLock)}
+        var Image = MakeNewImage(Size: Size)
+        let MetalShape = Metal2DShapeGenerator()
+        var DrawnCircles = [(CircleRecord, NSImage)]()
+        for Circle in Circles
+        {
+            autoreleasepool
+            {
+            let CircleSize = NSSize(width: Circle.Radius * 2, height: Circle.Radius * 2)
+            var BorderWidth = 0
+            if let Border = Circle.OutlineWidth
+            {
+                BorderWidth = Int(Border)
+            }
+            let CircleImage = MetalShape.DrawCircle(BaseSize: CircleSize,
+                                                    Radius: Int(Circle.Radius) - BorderWidth - 1,
+                                                    Interior: Circle.Color,
+                                                    Background: NSColor.clear,
+                                                    BorderColor: NSColor.black,
+                                                    BorderWidth: BorderWidth)
+            DrawnCircles.append((Circle, CircleImage!))
+            }
+        }
+        let B = ImageBlender()
+        Image = B.MergeImages(Background: Image, Sprite: DrawnCircles[0].1, SpriteX: Int(DrawnCircles[0].0.Location.x),
+                              SpriteY: Int(DrawnCircles[0].0.Location.y))!
+        /*
+        for (Record, CircleImage) in DrawnCircles
+        {
+            autoreleasepool
+            {
+            Image = B.MergeImages(Background: Image, Sprite: CircleImage, SpriteX: Int(Record.Location.x),
+                                  SpriteY: Int(Record.Location.y))!
+            }
+        }
+ */
+        /*
         let MShape = Metal2DShapeGenerator()
         let CircleTest = MShape.DrawCircle(BaseSize: NSSize(width: 300, height: 300),
                                            Radius: 135,
@@ -871,6 +907,7 @@ class Stenciler
         let Adjustment = AdjustTransparency()
         Image = Adjustment.Adjust(Source: Image)!
         #endif
+ */
         return Image
     }
     
