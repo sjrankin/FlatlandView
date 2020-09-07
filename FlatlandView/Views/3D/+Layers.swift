@@ -48,6 +48,7 @@ extension GlobeView
                 Success in
                 if Success
                 {
+                    Node.name = Layer.rawValue
                     self.StencilLayers[Layer] = Node
                     self.SystemNode?.addChildNode(Node)
                 }
@@ -77,8 +78,16 @@ extension GlobeView
             case .Magnitudes:
                 Radius = GlobeRadius.MagnitudeLayer.rawValue
                 
+            case .Regions:
+                Radius = GlobeRadius.RegionLayer.rawValue
+                
             case .WorldHeritageSites:
                 Radius = GlobeRadius.UnescoLayer.rawValue
+                
+                #if true
+            case .Test:
+                Radius = GlobeRadius.TestLayer.rawValue
+                #endif
         }
         let LayerSphere = SCNSphere(radius: Radius)
         LayerSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: .SphereSegmentCount)
@@ -90,7 +99,8 @@ extension GlobeView
         AddLayer(Layer, Node: LayerNode)
     }
     
-    /// Make the layers for the globe view.
+    /// Make the layers for the globe view. This function is intended for use for setting up the intial
+    /// view with all required layers.
     /// - Note: This function will create the specified set of layers in a background thread and the layers
     ///         will appear to the user asynchronously depending on how fast they are created.
     /// - Parameter Layers: The list of layers to create. If this array is empty, all layers will be removed.
@@ -103,15 +113,12 @@ extension GlobeView
         }
         for Layer in Layers
         {
-            Stenciler.AddStencils2(Layer)
-            {
-                Image, LayerType in
-                self.MakeLayer(LayerType, Image: Image)
-            }
+            UpdateLayer(Layer)
         }
     }
     
-    /// Update the specified layer.
+    /// Update the specified layer. This function is intended for use when a single layer changes for
+    /// whatever reason.
     /// - Note: This function will create the specified layer in a background thread and the layer
     ///         will appear to the user asynchronously depending on how fast it is created.
     /// - Parameter Layer: The layer to create.
@@ -120,7 +127,10 @@ extension GlobeView
         Stenciler.AddStencils2(Layer)
         {
             Image, LayerType in
-            self.MakeLayer(LayerType, Image: Image)
+            if let FinalImage = Image
+            {
+                self.MakeLayer(LayerType, Image: FinalImage)
+            }
         }
     }
 }
