@@ -94,7 +94,8 @@ class MetalLibrary
             #if false
             let BitmapInfo = CGBitmapInfo(rawValue: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue)
             #else
-            let BitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+            //let BitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+            let BitmapInfo = Adjusted.bitmapInfo
             #endif
             let BitsPerComponent = Adjusted.bitsPerComponent// 8
             let BytesPerRow = Adjusted.bytesPerRow
