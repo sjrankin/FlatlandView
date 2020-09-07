@@ -822,7 +822,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
                     LatestEarthquakes = NewEarthquakes
                     (view.window?.windowController as? MainWindow)!.EarthquakeButton.isEnabled = true
                     //Debug.Print("Done with new earthquakes")
-                    #if true
+                    #if false
                     World3DView.UpdateLayer(.Test)
                     #endif
                 }
