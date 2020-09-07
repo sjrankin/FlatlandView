@@ -119,17 +119,19 @@ class ImageBlender
     ///                   the bounds of the target image are truncated.
     /// - Returns: The `Background` image with the sprite image merged onto it, blended as per
     ///            alpha level rules.
-    func MergeImages(Background: NSImage, Sprite: NSImage, SpriteX: Int, SpriteY: Int, Wrap: Bool = false) -> NSImage
+    func MergeImages(Background: NSImage, Sprite: NSImage, SpriteX: Int, SpriteY: Int, Wrap: Bool = false) -> NSImage?
     {
         objc_sync_enter(AccessLock)
         defer{objc_sync_exit(AccessLock)}
         if SpriteX + Int(Sprite.size.width) > Int(Background.size.width)
         {
-            fatalError("Sprite will extend past the horizontal bounds of the background image.")
+            return Background
+//            fatalError("Sprite will extend past the horizontal bounds of the background image.")
         }
         if SpriteY + Int(Sprite.size.height) > Int(Background.size.height)
         {
-            fatalError("Sprite will extend past the vertical bounds of the background image.")
+            return Background
+//            fatalError("Sprite will extend past the vertical bounds of the background image.")
         }
         var Merged = DoMergeImages(Background: Background, Sprite: Sprite, SpriteX: SpriteX, SpriteY: SpriteY,
                                    HorizontalWrap: Wrap)
@@ -156,7 +158,7 @@ class ImageBlender
         let BGTexture = MetalLibrary.MakeTexture(From: Background, ForWriting: true,
                                                  ImageDevice: ImageDevice!, AsCG: &AdjustedBG)
         var SpriteBG: CGImage? = nil
-        let SPTexture = MetalLibrary.MakeTexture(From: Sprite, ForWriting: true,
+        let SPTexture = MetalLibrary.MakeTexture(From: Sprite, ForWriting: false,
                                                  ImageDevice: ImageDevice!, AsCG: &SpriteBG)
         let Parameter = ImageBlendParameters(XOffset: simd_uint1(SpriteX),
                                               YOffset: simd_uint1(SpriteY),
