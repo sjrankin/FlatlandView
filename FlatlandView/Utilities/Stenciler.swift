@@ -88,14 +88,14 @@ class Stenciler
                     let Blender = ImageBlender()
                     Working = DrawRegions(Image: Working, Regions: Regions, Ratio: MapRatio,
                                           Kernel: Blender)
-                    let test = ApplyRectangles(Regions: Regions)
+                    //let test = ApplyRectangles(Regions: Regions)
                 }
             }
             if GridLines
             {
                 Status?("Adding grid lines", CACurrentMediaTime() - StartTime)
                 Working = AddGridLines(To: Working, Ratio: MapRatio)
-                let test = ApplyGridLines()
+                //let test = ApplyGridLines()
             }
             if UNESCOSites
             {
@@ -113,7 +113,7 @@ class Stenciler
             {
                 Status?("Plotting earthquakes", CACurrentMediaTime() - StartTime)
                 Rep = AddMagnitudeValues(To: Rep, With: QuakeList, Ratio: MapRatio)
-                let test = ApplyMagnitudes(Earthquakes: QuakeList)
+                //let test = ApplyMagnitudes(Earthquakes: QuakeList)
             }
             let Final = GetImage(From: Rep)
             let Duration = CACurrentMediaTime() - StartTime
@@ -337,12 +337,18 @@ class Stenciler
             let Location = Quake.LocationAsGeoPoint().ToEquirectangular(Width: Int(Image.size.width),
                                                                         Height: Int(Image.size.height))
             var LocationPoint = NSPoint(x: Location.X, y: Location.Y)
-            let EqText = "\(Quake.GreatestMagnitude.RoundedTo(3))"
+            #if false
+            let Greatest = Quake.GreatestMagnitudeValue
+            let EqText = "\(Greatest.RoundedTo(3))"
+            #else
+            let Greatest = Quake.GreatestMagnitude
+            let EqText = "\(Greatest.RoundedTo(3))"
+            #endif
             var LatitudeFontOffset = abs(Quake.Latitude) / 90.0
             LatitudeFontOffset = Constants.StencilFontSize.rawValue * LatitudeFontOffset
             let FinalFontSize = FontSize + CGFloat(Quake.Magnitude) + CGFloat(LatitudeFontOffset)
             let QuakeFont = NSFont(name: QuakeFontName, size: FinalFontSize)!
-            let MagRange = Utility.GetMagnitudeRange(For: Quake.GreatestMagnitude)
+            let MagRange = Utility.GetMagnitudeRange(For: Greatest)//Quake.GreatestMagnitude)
             var BaseColor = NSColor.systemYellow
             let Colors = Settings.GetMagnitudeColors()
             for (Magnitude, Color) in Colors
@@ -492,6 +498,36 @@ class Stenciler
                     LineList.append(Line)
                 }
             }
+            
+            #if false
+            let Now = Date()
+            let TZ = TimeZone(abbreviation: "UTC")
+            var Cal = Calendar(identifier: .gregorian)
+            Cal.timeZone = TZ!
+            let Hour = Cal.component(.hour, from: Now)
+            let Minute = Cal.component(.minute, from: Now)
+            let Second = Cal.component(.second, from: Now)
+            let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+            let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
+            let NoonPercent = 0.5 - Percent
+            print("UTC percent: \(Percent), Noon percent: \(NoonPercent)")
+            let XVal = Int(Double(ImageWidth / 2) + (NoonPercent * Double(ImageWidth)))
+            let NoonLine: LineDefinition = (IsHorizontal: false,
+                                            At: XVal,
+                                            Thickness: 8,
+                                            Color: NSColor.systemYellow)
+            LineList.append(NoonLine)
+            
+            let HomeLat = Settings.GetDoubleNil(.LocalLatitude, 0.0)
+            let HomeLon = Settings.GetDoubleNil(.LocalLongitude, 0.0)
+            let GP = GeoPoint(HomeLat!, HomeLon!)
+            let (HX, _) = GP.ToEquirectangular(Width: ImageWidth, Height: ImageHeight)
+            let HomeLine: LineDefinition = (IsHorizontal: false,
+                                            At: HX,
+                                            Thickness: 8,
+                                            Color: NSColor.systemGreen)
+            LineList.append(HomeLine)
+            #endif
             
             let Final = Image
             Final.lockFocus()
@@ -678,12 +714,18 @@ class Stenciler
             let Location = Quake.LocationAsGeoPoint().ToEquirectangular(Width: Int(Size.width),
                                                                         Height: Int(Size.height))
             var LocationPoint = NSPoint(x: Location.X, y: Location.Y)
-            let EqText = "\(Quake.GreatestMagnitude.RoundedTo(3))"
+            #if false
+            let Greatest = Quake.GreatestMagnitudeValue
+            let EqText = "\(Greatest.RoundedTo(3))"
+            #else
+            let Greatest = Quake.GreatestMagnitude
+            let EqText = "\(Greatest.RoundedTo(3))"
+            #endif
             var LatitudeFontOffset = abs(Quake.Latitude) / 90.0
             LatitudeFontOffset = Constants.StencilFontSize.rawValue * LatitudeFontOffset
             let FinalFontSize = FontSize + CGFloat(Quake.Magnitude) + CGFloat(LatitudeFontOffset)
             let QuakeFont = NSFont(name: QuakeFontName, size: FinalFontSize)!
-            let MagRange = Utility.GetMagnitudeRange(For: Quake.GreatestMagnitude)
+            let MagRange = Utility.GetMagnitudeRange(For: Greatest)// Quake.GreatestMagnitude)
             var BaseColor = NSColor.systemYellow
             let Colors = Settings.GetMagnitudeColors()
             for (Magnitude, Color) in Colors
