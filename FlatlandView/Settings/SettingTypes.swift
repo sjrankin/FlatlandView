@@ -68,7 +68,7 @@ enum SettingTypes: String, CaseIterable
     case Show3DPrimeMeridians = "Show3DPrimeMeridians"
     /// Boolean: Display minor grid lines in 3D mode.
     case Show3DMinorGrid = "Show3DMinorGrid"
-    /// Integer: Grid gap for minor grid lines in 3D mode.
+    /// Double: Grid gap for minor grid lines in 3D mode.
     case MinorGrid3DGap = "MinorGrid3DGap"
     /// Double: Alpha level for the 3D globe.
     case GlobeTransparencyLevel = "GlobeTransparencyLevel"
