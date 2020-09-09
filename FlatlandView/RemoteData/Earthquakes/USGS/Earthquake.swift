@@ -22,6 +22,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     /// Initializer.
     required init(Values: [Double])
     {
+        GreatestMagnitudeValue = 0.0
         Marked = false
         Latitude = Values[0]
         Longitude = Values[1]
@@ -33,6 +34,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     init(Sequence: Int)
     {
         self.Sequence = Sequence
+        GreatestMagnitudeValue = 0.0
         Marked = false
         Dimensions = [Double]()
     }
@@ -43,6 +45,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     ///                             instance.
     init(_ Other: Earthquake, IncludeRelated: Bool = false)
     {
+        GreatestMagnitudeValue = 0.0
         Sequence = Other.Sequence
         Code = Other.Code
         Place = Other.Place
@@ -99,6 +102,8 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     {
         get
         {
+            objc_sync_enter(EarthquakeLock)
+            defer{objc_sync_exit(EarthquakeLock)}
             if let Quake = GreatestMagnitudeEarthquake
             {
                 return Quake.Magnitude
@@ -107,12 +112,16 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         }
     }
     
+    var GreatestMagnitudeValue: Double = 0.0
+    
     /// Returns the earthquake with the greatest magnitude. If there are no related earthquakes,
     /// `self` is returned.
     var GreatestMagnitudeEarthquake: Earthquake?
     {
         get
         {
+            objc_sync_enter(EarthquakeLock)
+            defer{objc_sync_exit(EarthquakeLock)}
             if let Group = Related
             {
                 if !Group.isEmpty
@@ -245,6 +254,8 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     /// - Returns: True if `Other` was added to this earthquake, false if not.
     @discardableResult func AddIfRelated(_ Other: Earthquake) -> Bool
     {
+        objc_sync_enter(EarthquakeLock)
+        defer{objc_sync_exit(EarthquakeLock)}
         if IsRelated(Other)
         {
             if Related == nil
@@ -260,6 +271,10 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
                 }
             }
             Related?.append(Other)
+            if Other.Magnitude > GreatestMagnitudeValue
+            {
+                GreatestMagnitudeValue = Other.Magnitude
+            }
             return true
         }
         return false
@@ -267,11 +282,17 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     
     func AddToRelated(_ Other: Earthquake)
     {
+        objc_sync_enter(EarthquakeLock)
+        defer{objc_sync_exit(EarthquakeLock)}
         if Related == nil
         {
             Related = [Earthquake]()
         }
         Related?.append(Other)
+        if Other.Magnitude > GreatestMagnitudeValue
+        {
+            GreatestMagnitudeValue = Other.Magnitude
+        }
     }
     
     static let DefaultTimeDelta = 5.0 * 24.0 * 60.0 * 50.0
@@ -372,13 +393,27 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         Current.append(Quake)
     }
     
+    private var EarthquakeLock = NSObject()
+    
+    /// Add an earthquake related to this earthquake as a sub-earthquake. "Related" only means the passed
+    /// earthquake happened within a certain distance and time of this earthquake, not that they are necessarily
+    /// due to the same cause.
+    /// - Note: Only one thread at a time is allowed to access this function and it is synchronized to
+    ///         enforce that.
+    /// - Parameter Quake: The quake to add to this quake's related earthquakes.
     public func AddRelated(_ Quake: Earthquake)
     {
+        objc_sync_enter(EarthquakeLock)
+        defer{objc_sync_exit(EarthquakeLock)}
         if Related == nil
         {
             Related = [Earthquake]()
         }
         Related?.append(Quake)
+        if Quake.Magnitude > GreatestMagnitudeValue
+        {
+            GreatestMagnitudeValue = Quake.Magnitude
+        }
     }
     
     public var Marked: Bool = false
