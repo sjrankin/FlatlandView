@@ -69,10 +69,12 @@ extension GlobeView
         let Set1 = Set<String>(List1.map{$0.Code})
         let Set2 = Set<String>(List2.map{$0.Code})
         let DeltaSet = Set1.subtracting(Set2)
+        #if false
         if DeltaSet.count > 0
         {
             print("DeltaSet.count=\(DeltaSet.count)")
         }
+        #endif
         
         let SList1 = List1.sorted(by: {$0.Code < $1.Code})
         let SList2 = List2.sorted(by: {$0.Code < $1.Code})
@@ -80,10 +82,12 @@ extension GlobeView
         {
             if SList1[Index].Code != SList2[Index].Code
             {
+                #if false
                 for Idx in 0 ..< SList1.count
                 {
                     print("SList1[\(Idx)]=\(SList1[Idx].Code), SList2[\(Idx)]=\(SList2[Idx].Code)")
                 }
+                #endif
                 return false
             }
         }
