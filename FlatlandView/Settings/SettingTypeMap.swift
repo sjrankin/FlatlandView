@@ -40,7 +40,7 @@ extension Settings
             .Show3DTropics: Bool.self,
             .Show3DPrimeMeridians: Bool.self,
             .Show3DMinorGrid: Bool.self,
-            .MinorGrid3DGap: Int.self,
+            .MinorGrid3DGap: Double.self,
             .GlobeTransparencyLevel: Double.self,
             .StarSpeeds: StarSpeeds.self,
             .ShowMoonLight: Bool.self,
