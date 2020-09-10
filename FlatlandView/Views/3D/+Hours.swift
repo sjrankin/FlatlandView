@@ -120,7 +120,8 @@ extension GlobeView
             HourLabelList.append((DisplayString, DisplayHour))
         }
         let Color = Settings.GetColor(.HourColor, NSColor.systemOrange)
-        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, RadialOffset: 3.0)
+        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, RadialOffset: 3.0,
+                              StartAngle: 360.0 / 24.0)
     }
     
     /// Make the hour node such that each label shows number of hours away from noon.
@@ -154,7 +155,7 @@ extension GlobeView
             HourLabelList.append(("\(Prefix)\(DisplayString)", DisplayHour))
         }
         let Color = Settings.GetColor(.HourColor, NSColor.systemOrange)
-        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, RadialOffset: 6.0)
+        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, RadialOffset: 3.0, StartAngle: 0.0)
     }
     
     /// Make the hour node such that `0` is always under the user's location (if set) with offsets
@@ -193,7 +194,7 @@ extension GlobeView
             HourLabelList.append(("\(Prefix)\(DisplayString)", DisplayHour))
         }
         let Color = Settings.GetColor(.HourColor, NSColor.systemOrange)
-        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color)
+        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, StartAngle: 0.0)
     }
     
     /// Given an array of words, place a set of words in the hour ring over the Earth.
@@ -205,9 +206,10 @@ extension GlobeView
     ///                    corresponding actual value.
     /// - Parameter LetterColor: The color to use for the diffuse surface.
     /// - Parameter RadialOffset: Offset value for adjusting the final location of the letter in orbit.
+    /// - Parameter StartAngle: The angle at which to start plotting hours.
     /// - Returns: Node for words in the hour ring.
     func PlotHourLabels(Radius: Double, Labels: [(String, Int)], LetterColor: NSColor = NSColor.systemYellow,
-                        RadialOffset: CGFloat = 0.0) -> SCNNode
+                        RadialOffset: CGFloat = 0.0, StartAngle: Double) -> SCNNode
     {
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
         let Node = SCNNode(geometry: NodeShape)
@@ -218,7 +220,6 @@ extension GlobeView
 
         let VisualScript = Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English)
         
-        let StartAngle = 360.0 / 24.0//0
         var Angle = StartAngle
         for Label in Labels
         {
