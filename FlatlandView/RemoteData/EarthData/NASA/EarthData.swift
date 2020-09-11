@@ -136,7 +136,23 @@ class EarthData
     
     var TileMap = [UUID: (Int, Int)]()
     var Results = [(Row: Int, Column: Int, ID: UUID, Image: NSImage)]()
-    var DownloadCount = 0
+    var CountLock = NSObject()
+    var _DownloadCount = 0
+    var DownloadCount: Int
+    {
+        get
+        {
+            objc_sync_enter(CountLock)
+            defer{objc_sync_exit(CountLock)}
+            return _DownloadCount
+        }
+        set
+        {
+            objc_sync_enter(CountLock)
+            defer{objc_sync_exit(CountLock)}
+            _DownloadCount = newValue
+        }
+    }
     
     /// Call a NASA server to get an image tile.
     /// - Parameter From: The URL of the image tile to return.
