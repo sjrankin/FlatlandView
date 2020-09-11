@@ -316,11 +316,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     ///         commented out for now and will be removed later if nothing untoward pops up.
     override func viewDidLayout()
     {
-        #if true
         LateStart()
-        #else
-        perform(#selector(LateStart), with: nil, afterDelay: 0.25)
-        #endif
     }
     
     /// Initialize maps and other items after a delay.
@@ -340,16 +336,30 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
                     let Earth = EarthData()
                     Earth.MainDelegate = self
                     Earth.Delegate = self
-                    Debug.Print("Calling LoadMap")
+                    Debug.Print("Calling LoadMap in \(#function)")
                     Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
                     return
                 }
             }
         }
-
+        
         if VType != .CubicWorld
         {
-            FlatViewMainImage.image = FinalizeImage(MapManager.ImageFor(MapType: MapValue, ViewType: VType)!)
+            if let InitialImage = MapManager.ImageFor(MapType: MapValue, ViewType: VType)
+            {
+                FlatViewMainImage.image = FinalizeImage(InitialImage)
+            }
+            else
+            {
+                //Hopefully we will never get here, but in case we do, default to a known good map. If we do
+                //get here, set the known map user settings and use it instead of the unknown map we seem to
+                //have run into.
+                if let StandardMap = MapManager.ImageFor(MapType: .Standard, ViewType: VType)
+                {
+                    FlatViewMainImage.image = FinalizeImage(StandardMap)
+                    Settings.SetEnum(.Standard, EnumType: MapTypes.self, ForKey: .MapType)
+                }
+            }
         }
         InitializeUpdateTimer()
         Started = true
