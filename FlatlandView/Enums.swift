@@ -1010,6 +1010,8 @@ enum Constants: Double, CaseIterable
     case WHSRightX = 8.0
     /// Stroke width for stenciled text.
     case StencilTextStrokeWidth = -2.0
+    /// Number of seconds between up-timer notifications.
+    case UpTimerDuration = 600.0
 }
 
 /// Layers for the globe view.
