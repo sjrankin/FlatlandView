@@ -497,6 +497,8 @@ class USGS
         To.append(Quake)
     }
     
+    private static var USGSLock = NSObject()
+    
     /// Return an `Earthquake2` class with the greatest magnitude of `Quake` and its child earthquakes. If
     /// `Quake` does not have any related earthquakes, it is returned as is.
     /// - Parameter From: The earthquake whose child earthquakes are used to determine the greatest earthquake.
@@ -504,6 +506,8 @@ class USGS
     ///            earthquake has a greater magnitude than `Quake`, `Quake` is converted to a child earthquake.
     private static func GetGreatestMagnitude(From Quake: Earthquake) -> Earthquake
     {
+        objc_sync_enter(USGSLock)
+        defer{objc_sync_exit(USGSLock)}
         let ParentMagnitude = Quake.Magnitude
         var MaxChild: Earthquake? = nil
         MaxChild = Quake.Related!.max(by: {(E1, E2) -> Bool in E1.Magnitude > E2.Magnitude})
