@@ -761,6 +761,17 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         Show2DHours()
     }
     
+    @IBAction func HandleViewTestWindow(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "2Din3D", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "TwoDinThreeDTest") as? TwoDinThreeDWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? TwoDin3DController
+            WindowController.showWindow(nil)
+        }
+    }
+    
     // MARK: - MainProtocol required functions.
     
     /// Refresh called from someone who changed something. Provides alternative method for setting
