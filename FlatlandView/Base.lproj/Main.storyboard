@@ -209,6 +209,12 @@
                                                 <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="K4C-eM-3Gg"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="2D in 3D Test" id="dmo-RN-6jJ">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="HandleViewTestWindow:" target="Ady-hI-5gd" id="N3o-GT-GRc"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aQd-U3-Mbv">
                                             <menu key="submenu" id="DkZ-lv-3re">
                                                 <items>
