@@ -30,10 +30,6 @@ class Main2Controller: NSViewController
         DebugTextGrid.removeFromSuperview()
         #endif
         
-        let ATran = AdjustTransparency()
-        let TestImage = GetNightMask(ForDate: Date())
-        let Fixed = ATran.Adjust(Source: TestImage!, Threshold: 0.5)
-        
         /*
         let GMake = MetalGradient()
         let Color1 = NSColor(calibratedRed: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
