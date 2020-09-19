@@ -774,24 +774,27 @@ enum GlobeNodeNames: String
 {
     /// Nodes related to earthquakes.
     case EarthquakeNodes = "EarthquakeNodes"
-    
     /// Node that marks the home location.
     case HomeNode = "HomeNode"
-    
     /// Node used to draw an hour.
     case HourNode = "HourNode"
-    
     /// Node used to indicate recent earthquakes.
     case IndicatorNode = "IndicatorNode"
-    
     /// Built-in camera node.
     case BuiltInCameraNode = "BuiltInCameraNode"
-    
     /// Flatland camera node.
     case FlatlandCameraNode = "FlatlandCameraNode"
-    
     /// City nodes.
     case CityNode = "CityNode"
+}
+
+/// 2D view node names.
+enum NodeNames2D: String
+{
+    /// Hour text nodes.
+    case HourNodes = "HourNode"
+    /// Nodes in the grid.
+    case GridNodes = "GridNode"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
@@ -800,41 +803,29 @@ enum LayerZLevels: Int
 {
     /// Time lables.
     case TimeLabels = 100000
-    
     /// 2D city layer.
     case CityLayer = 8000
-    
     /// 2D earthquake layer.
     case EarthquakeLayer = 8079
-    
     /// Current layer (eg, depending on user settings, this is either the 2D or
     /// 3D view).
     case CurrentLayer = 5000
-    
     /// Inactive layer. The view that is not active.
     case InactiveLayer = 0
-    
     /// 2D hour label layer.
     case HourLayer = 60000
-    
     /// 2D hour text.
     case HourTextLayer = 60050
-    
     /// 2D grid layer.
     case GridLayer = 10000
-    
     /// 2D night mask layer.
     case NightMaskLayer = 20000
-    
     /// Info grid layer.
     case LocalInfoGridLayer = 19001
-    
     /// Star view layer.
     case StarLayer = 4000
-    
     /// 3D status view layer.
     case StatusViewLayer = 20001
-    
     #if DEBUG
     /// Debug layer.
     case DebugLayer = 19000
@@ -991,6 +982,35 @@ enum Defaults: Double
     case MinorGridGap = 15.0
     /// Line width for grid lines.
     case GridLineWidth = 4.00001
+}
+
+/// Values used by the flat view.
+enum FlatConstants: Double, CaseIterable
+{
+    /// The radius of the flat map.
+    case FlatRadius = 11.0
+    /// The thickness of the flat map.
+    case FlatThickness = 0.099
+    /// The thickness of the mask layer.
+    case NightMaskThickness = 0.15
+    /// The thickness of the grid layer.
+    case GridLayerThickness = 0.101
+    /// The radius of the invisible ring holding hours.
+    case HourRadius = 11.5
+    /// The flatness of hour text in 2D mode.
+    case HourFlatness = 0.1
+    /// Extrusion of hour text in 2D mode.
+    case HourExtrusion = 1.0
+    /// Chamfer value for hour text in 2D mode.
+    case HourChamfer = 0.2
+    /// Number of segments for the cylinder shape for the view.
+    case FlatSegments = 100.0
+    /// Scale value for the hour text.
+    case HourScale = 0.05
+    /// Initial rotation duration.
+    case InitialRotation = 0.112
+    /// Normal rotation duration.
+    case NormalRotation = 1.0001
 }
 
 /// Values intended to be constants for one reason or another.
