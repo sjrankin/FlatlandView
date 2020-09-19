@@ -20,6 +20,9 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     {
         super.viewDidLoad()
 
+        Settings.Initialize()
+        Settings.AddSubscriber(self)
+        
         if let EnableNASATiles = ProcessInfo.processInfo.environment[EnvironmentVars.SatelliteMaps.rawValue]
         {
             let DoEnable = EnableNASATiles.lowercased() == "yes" ? true : false
@@ -34,8 +37,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         StartupTask.insert(.UIInitialize)
         StartupTask.insert(.LoadNASATiles)
         StartupTask.insert(.LoadUSGSQuakes)
-        Settings.Initialize()
-        Settings.AddSubscriber(self)
         
         if Settings.GetBool(.PreloadNASATiles) && Settings.GetBool(.EnableNASATiles)
         {
@@ -766,8 +767,15 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         let Storyboard = NSStoryboard(name: "2Din3D", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "TwoDinThreeDTest") as? TwoDinThreeDWindow
         {
-            let Window = WindowController.window
-            let Controller = Window?.contentViewController as? TwoDin3DController
+            WindowController.showWindow(nil)
+        }
+    }
+    
+    @IBAction func HandleMain2Test(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Main2", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "Main2") as? Main2Window 
+        {
             WindowController.showWindow(nil)
         }
     }
