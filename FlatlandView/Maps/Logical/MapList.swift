@@ -113,6 +113,8 @@ class MapList
             MapItem(.Debug3, false, "HarlequinMap", "BlackWhiteHarlequinNorth", "BlackWhiteHarlequinSouth"),
             MapItem(.Debug4, false, "BWCheckerboard", "BWCheckerboardRound", "BWCheckerboardRound"),
             MapItem(.Debug5, false, "BlackClearCheckerboard", "BWCheckerboardRound", "BWCheckerboardRound"),
+            MapItem(.Debug6, false, "SmallGridMap", "SmallGridMapRound", "SmallGridMapRound"),
+            MapItem(.Debug7, false, "BigGridMap", "BigGridMapRound", "BigGridMapRound"),
             MapItem(.USGS, false, "USGSWorld", "USGSWorldNorthCenter", "USGSWorldSouthCenter"),
             MapItem(.StylizedSea1, false, "LandMask2", "WorldNorth", "WorldSouth"),
             MapItem(.EarthquakeMap, false, "EarthquakeLandMap", "EarthquakeLandMapNorthCenter", "EarthquakeLandMapSouthCenter"),
@@ -206,6 +208,8 @@ enum MapTypes: String, CaseIterable
     case Debug3 = "Harlequin Black with Color"
     case Debug4 = "Black White Checkerboard"
     case Debug5 = "Black Color Checkerboard"
+    case Debug6 = "Small Grid"
+    case Debug7 = "Big Grid"
     case USGS = "USGS"
     case StylizedSea1 = "Stylized Sea 1"
     case EarthquakeMap = "Earthquake Map"
