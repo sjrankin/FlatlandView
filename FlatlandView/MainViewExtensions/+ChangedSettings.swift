@@ -109,6 +109,7 @@ extension MainView: SettingChangedProtocol
                     SetFlatlandVisibility(FlatIsVisible: IsFlat)
                 }
                 
+                /*
             case .ShowNight:
                 SetNightMask()
                 
@@ -124,10 +125,10 @@ extension MainView: SettingChangedProtocol
                 
             case .UseHDRCamera:
                 World3DView.SetHDR()
-                
+                */
             case .SunType:
                 UpdateSunLocations()
-                
+                /*
             case .CityShapes:
                 World3DView.PlotCities()
                 World3DView.ApplyStencils(Caller: "SettingChanged(.CityShapes)")
@@ -146,7 +147,8 @@ extension MainView: SettingChangedProtocol
                 
             case .ShowUserLocations:
                 World3DView.PlotCities()
-                
+                */
+            /*
             case .HomeShape:
                 World3DView.PlotHomeLocation()
                 
@@ -165,10 +167,10 @@ extension MainView: SettingChangedProtocol
                  .MinorGrid3DGap, .Show3DGridLines, .GridLineColor, .MinorGridLineColor:
                 World3DView.SetLineLayer()
                 World3DView.ApplyStencils(Caller: "SettingChanged(.{Multiple})")
-                
+                */
             case .LocalLongitude, .LocalLatitude:
                 (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
-                
+                /*
             case .Script:
                 World3DView.PlotPolarShape()
                 World3DView.UpdateHours()
@@ -204,7 +206,8 @@ extension MainView: SettingChangedProtocol
                         StarView.Show(SpeedMultiplier: SpeedValue)
                     }
                 }
-                
+                */
+            /*
             case .ShowPOIEmission:
                 if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
                 {
@@ -214,7 +217,7 @@ extension MainView: SettingChangedProtocol
             case .EarthquakeStyles:
                 World3DView.ClearEarthquakes()
                 World3DView.PlotEarthquakes()
-                
+                */
             case .EnableEarthquakes:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
@@ -233,7 +236,7 @@ extension MainView: SettingChangedProtocol
                     World3DView.ClearEarthquakes()
                     World3DView.ApplyStencils(Caller: "SettingChanged(.EnableEarthquakes)")
                 }
-                
+                /*
             case .RecentEarthquakeDefinition:
                 World3DView.ClearEarthquakes()
                 World3DView.PlotEarthquakes()
@@ -245,12 +248,12 @@ extension MainView: SettingChangedProtocol
             case .EarthquakeColor:
                 World3DView.ClearEarthquakes()
                 World3DView.PlotEarthquakes()
-                
+                */
             case .EarthquakeFetchInterval:
                 let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
                 Earthquakes?.StopReceivingEarthquakes()
                 Earthquakes?.GetEarthquakes(Every: FetchInterval)
-                
+                /*
             case .BaseEarthquakeColor:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
@@ -270,7 +273,7 @@ extension MainView: SettingChangedProtocol
                         World3DView.PlotEarthquakes()
                     }
                 }
-                
+                */
                 #if false
             case .EarthquakeRegions:
                 if Settings.GetBool(.EnableEarthquakes)
@@ -280,7 +283,7 @@ extension MainView: SettingChangedProtocol
                     //Need to call Plot2DEarthquakes here?
                 }
                 #endif
-                
+                /*
             case .ColorDetermination:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
@@ -312,13 +315,13 @@ extension MainView: SettingChangedProtocol
                         World3DView.ApplyStencils(Caller: "SettingChanged(.EarthquakeMagnitudeColors)")
                     }
                 }
-                
+                */
             case .BackgroundColor3D:
                 let NewBackgroundColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
                 BackgroundView.layer?.backgroundColor = NewBackgroundColor.cgColor
                 let Opposite = Utility.OppositeColor(From: NewBackgroundColor)
                 UpdateScreenText(With: Opposite)
-                
+                /*
             case .UseAmbientLight:
                 World3DView.SetupLights()
                 
@@ -352,13 +355,15 @@ extension MainView: SettingChangedProtocol
                         World3DView.PlotEarthquakes()
                     }
                 }
-                
+                */
+            /*
             case .Earthquake2DStyles:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
                     Plot2DEarthquakes(LatestEarthquakes, Replot: true)
                 }
-                
+                */
+            /*
             case .CityFontName, .CityFontRelativeSize, .MagnitudeRelativeFontSize:
                 World3DView.PlotCities()
                 World3DView.ApplyStencils(Caller: "{.Multiple}")
@@ -383,7 +388,8 @@ extension MainView: SettingChangedProtocol
                 World3DView.PlotCities()
                     World3DView.ApplyStencils()
                 }
-                
+                */
+            /*
             case .HourFontName:
                 World3DView.UpdateHours()
                 
@@ -400,8 +406,9 @@ extension MainView: SettingChangedProtocol
                 World3DView.InitializeSceneCamera(!Settings.GetBool(.UseSystemCameraControl))
                 
             case .CameraProjection, .CameraOrthographicScale, .CameraFieldOfView:
-                World3DView.UpdateFlatlandCamera() 
-                
+                World3DView.UpdateFlatlandCamera()
+ */
+                /*
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints, .ShowStatistics:
@@ -465,7 +472,7 @@ extension MainView: SettingChangedProtocol
                     World3DView.SetDebugOption(DebugTypes)
                 }
             #endif
-            
+            */
             #if DEBUG
             case .TimeControl:
                 if Settings.GetBool(.DebugTime)
