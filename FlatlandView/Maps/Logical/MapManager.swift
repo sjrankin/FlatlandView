@@ -169,7 +169,7 @@ class MapManager
             
                 #if DEBUG
             case .Debug:
-                return [.Debug1, .Debug3, .Debug2, .Debug4, .Debug5]
+                return [.Debug1, .Debug3, .Debug2, .Debug4, .Debug5, .Debug6, .Debug7]
                 #endif
         }
     }
