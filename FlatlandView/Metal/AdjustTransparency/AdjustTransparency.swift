@@ -26,7 +26,7 @@ class AdjustTransparency
     func Adjust(Source: NSImage, Threshold: Double = 0.5) -> NSImage?
     {
         let DefaultLibrary = ImageDevice?.makeDefaultLibrary()
-        let KernelFunction = DefaultLibrary?.makeFunction(name: "AdjustTransparency")
+        let KernelFunction = DefaultLibrary?.makeFunction(name: "AdjustTransparency0")
         do
         {
             ImageComputePipelineState = try ImageDevice?.makeComputePipelineState(function: KernelFunction!)
