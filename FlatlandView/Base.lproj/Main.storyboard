@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17154"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -209,6 +209,12 @@
                                                 <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="K4C-eM-3Gg"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Main2 Test" id="uHp-3X-IbW">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="HandleMain2Test:" target="Ady-hI-5gd" id="gTE-jx-WIM"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="2D in 3D Test" id="dmo-RN-6jJ">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -282,9 +288,9 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Flatland" customModuleProvider="target"/>
-                <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Flatland" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="139" y="-120"/>
         </scene>
@@ -318,7 +324,7 @@
                                 <toolbarItem implicitItemIdentifier="32F72FCC-3054-4C67-8F03-55A4A879E685" label="Hours" paletteLabel="Hours" sizingBehavior="auto" id="Fko-gz-lnO">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="LKb-xg-m5I">
-                                        <rect key="frame" x="0.0" y="14" width="180" height="23"/>
+                                        <rect key="frame" x="0.0" y="14" width="181" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="ZXQ-Aw-xrj">
                                             <font key="font" metaFont="system"/>
@@ -341,7 +347,7 @@
                                 <toolbarItem implicitItemIdentifier="035E267A-B129-4277-8A38-B30992B1707A" label="View Type" paletteLabel="View Type" sizingBehavior="auto" id="6UT-qH-5yc">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="OO8-3g-cKV">
-                                        <rect key="frame" x="0.0" y="14" width="180" height="24"/>
+                                        <rect key="frame" x="0.0" y="14" width="181" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedRounded" trackingMode="selectOne" id="JIr-3h-Z9n">
                                             <font key="font" metaFont="system"/>
@@ -503,7 +509,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="149.5" y="250"/>
+            <point key="canvasLocation" x="126" y="356"/>
         </scene>
         <!--Main View-->
         <scene sceneID="hIz-AP-VOD">
