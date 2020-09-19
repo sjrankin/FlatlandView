@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17503.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17154"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17503.1"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17503.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -3429,7 +3429,7 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="800" height="420"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <box title="3D Grid Lines" translatesAutoresizingMaskIntoConstraints="NO" id="ZWd-w1-yhq">
+                            <box title="Grid Lines" translatesAutoresizingMaskIntoConstraints="NO" id="ZWd-w1-yhq">
                                 <rect key="frame" x="434" y="72" width="355" height="340"/>
                                 <view key="contentView" id="deb-uW-J2f">
                                     <rect key="frame" x="3" y="3" width="349" height="322"/>
@@ -4745,7 +4745,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="qcY-TD-JNO" column="nSO-dn-FGw" id="acg-VR-n6a">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ef-Usi">
-                                                        <rect key="frame" x="0.0" y="107" width="167" height="19"/>
+                                                        <rect key="frame" x="0.0" y="107" width="361" height="19"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="sVk-73-Bgl" secondAttribute="trailing" id="O4K-h6-qme"/>
                                                             <constraint firstItem="sVk-73-Bgl" firstAttribute="leading" secondItem="enU-rc-XSn" secondAttribute="trailing" constant="6" id="Ttw-N2-c9M"/>
@@ -4796,7 +4796,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="6wR-X2-Nd8" column="nSO-dn-FGw" id="kuD-Yb-Cfp">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TCU-og-MA0">
-                                                        <rect key="frame" x="0.0" y="67" width="172" height="30"/>
+                                                        <rect key="frame" x="0.0" y="67" width="361" height="30"/>
                                                         <rows>
                                                             <gridRow id="YaN-Rc-9oV"/>
                                                         </rows>
@@ -4833,7 +4833,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="upJ-oP-Sw8" column="nSO-dn-FGw" id="LmV-ql-ybi">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Zb3-vz-kQo">
-                                                        <rect key="frame" x="0.0" y="36" width="361" height="21"/>
+                                                        <rect key="frame" x="0.0" y="36" width="163" height="21"/>
                                                         <rows>
                                                             <gridRow id="Eob-XV-bhE"/>
                                                         </rows>
@@ -4865,7 +4865,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="D0y-rl-W9y" column="nSO-dn-FGw" id="hmD-MS-yDG">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="oEQ-ZB-Udj">
-                                                        <rect key="frame" x="0.0" y="0.0" width="127" height="21"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="361" height="21"/>
                                                         <rows>
                                                             <gridRow id="Bo3-uX-TML"/>
                                                         </rows>
@@ -5079,7 +5079,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="UgZ-w5-wxa" column="Qdo-3i-Rde" id="ggL-5Z-t0L">
                                         <gridView key="contentView" horizontalCompressionResistancePriority="753" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
-                                            <rect key="frame" x="0.0" y="0.0" width="196" height="21"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="21"/>
                                             <rows>
                                                 <gridRow id="MvR-7n-9cc"/>
                                             </rows>
