@@ -704,5 +704,145 @@ extension NSColor
             return NSColor(HexString: "#ff2400")!
         }
     }
+    
+    // MARK: - Color shifting
+    
+    /// Returns the number of seconds in a given time period.
+    /// - Parameter Period: Length of a period whose number of seconds is returned.
+    /// - Parameter In: The date used to determine the month to return the number of seconds.
+    /// - Returns: Number of seconds in the specified time period.
+    func SecondsIn(Period: ColorTimePeriods, In: Date) -> Int
+    {
+        switch Period
+        {
+            case .Minutes:
+                return 60
+                
+            case .Hours:
+                return 60 * 60
+                
+            case .Days:
+                return 60 * 60 * 24
+                
+            case .Months:
+                let Cal = Calendar.current
+                let Interval = Cal.dateInterval(of: .month, for: In)
+                let Days = Cal.dateComponents([.day], from: Interval!.start, to: Interval!.end).day!
+                return Days * 60 * 60 * 24
+        }
+    }
+    
+    /// Given the current time, return the number of seconds in a given period of time that have elapsed.
+    /// - Parameter OfPeriod: The color cycle period length.
+    /// - From: The current time used to determine how many seconds have elapsed.
+    /// - Returns: Number of seconds away from the integral start of the specified period of time.
+    func SecondsFromStart(OfPeriod: ColorTimePeriods, From: Date) -> Int
+    {
+        let Cal = Calendar.current
+        switch OfPeriod
+        {
+            case .Minutes:
+                let Seconds = Cal.component(.second, from: From)
+                return Seconds
+                
+            case .Hours:
+                let Seconds = Cal.component(.second, from: From)
+                let Minutes = Cal.component(.minute, from: From)
+                return (Minutes * 60) + Seconds
+                
+            case .Days:
+                let Seconds = Cal.component(.second, from: From)
+                let Minutes = Cal.component(.minute, from: From)
+                let Hours = Cal.component(.hour, from: From)
+                return (Hours * 60 * 60) + (Minutes * 60) + Seconds
+                
+            case .Months:
+                let Seconds = Cal.component(.second, from: From)
+                let Minutes = Cal.component(.minute, from: From)
+                let Hours = Cal.component(.hour, from: From)
+                let Days = Cal.component(.day, from: From)
+                return ((Days - 1) * 24 * 60 * 60) + (Hours * 60 * 60) + (Minutes * 60) + Seconds
+        }
+    }
+    
+    /// Returns the current percent of the way through the specified time period.
+    ///
+    /// - Parameters:
+    ///   - Period: Determines the period.
+    ///   - Now: Current time the percent is desired for.
+    /// - Returns: Percent of the way through the period.
+    func Percent(Period: ColorTimePeriods, Now: Date) -> Double
+    {
+        let TotalTime = SecondsIn(Period: Period, In: Now)
+        let FromStart = SecondsFromStart(OfPeriod: Period, From: Now)
+        let TimePercent = Double(FromStart) / Double(TotalTime)
+        return TimePercent
+    }
+    
+    /// Move the instance color to a new color.
+    /// - Warning: This function will crash on grayscale colors. The caller should call `InRGB` before calling
+    ///         this function.
+    /// - Parameter To: The current time over the reference length of time - determines the new color.
+    /// - Parameter Period: The length of the color cycle period.
+    /// - Parameter Forward: Determines the direction of the motion of the color.
+    /// - Returns: Updated color.
+    func Move(To: Date, Period: ColorTimePeriods, Forward: Bool, FinalHue: inout CGFloat) -> NSColor
+    {
+        let (Hue, Sat, Bri) = HSB
+        let PeriodPercent = Percent(Period: Period, Now: To)
+        var WorkingHue = (Hue * 360.0) + CGFloat(PeriodPercent * 360.0)
+        WorkingHue = fmod(WorkingHue, 360.0)
+        WorkingHue = WorkingHue / 360.0
+        if !Forward
+        {
+            WorkingHue = 1.0 - WorkingHue
+        }
+        FinalHue = WorkingHue
+        let Final = NSColor(calibratedHue: WorkingHue, saturation: Sat, brightness: Bri, alpha: 1.0)
+        return Final
+    }
+    
+    /// Blend two colors together.
+    /// - Parameter Color1: First color.
+    /// - Parameter Color2: Second color.
+    /// - Parameter IncludeAlpha: If true, alpha is blended as well. If false, `1.0` is used for alpha.
+    /// - Parameter Percent: Spatial distance expressed as a normal for how far apart the point is between
+    ///                      the two colors.
+    /// - Returns: Blended color.
+    public static func BlendColors(Color1: NSColor, Color2: NSColor, IncludeAlpha: Bool = false,
+                                   Percent: CGFloat) -> NSColor
+    {
+        let R1 = Color1.r
+        let R2 = Color2.r
+        let G1 = Color1.g
+        let G2 = Color2.g
+        let B1 = Color1.b
+        let B2 = Color2.b
+        let A1 = Color1.a
+        let A2 = Color2.a
+        
+        let RSum = (R1 * (1.0 - Percent)) + (R2 * Percent)
+        let GSum = (G1 * (1.0 - Percent)) + (G2 * Percent)
+        let BSum = (B1 * (1.0 - Percent)) + (B2 * Percent)
+        var ASum: CGFloat = 0.0
+        if IncludeAlpha
+        {
+            ASum = (A1 * (1.0 - Percent)) + (A2 * Percent)
+        }
+        else
+        {
+            ASum = 1.09
+        }
+        
+        return NSColor(calibratedRed: RSum, green: GSum, blue: BSum, alpha: ASum)
+    }
+}
+
+enum ColorTimePeriods
+{
+    case Minutes
+    case Hours
+    case Days
+    case Months
 }
 
