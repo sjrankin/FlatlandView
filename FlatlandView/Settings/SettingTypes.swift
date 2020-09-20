@@ -133,6 +133,9 @@ enum SettingTypes: String, CaseIterable
     case CityFontRelativeSize = "CityFontRelativeSize"
     /// Relative size of the font used to stencil magnitude values.
     case MagnitudeRelativeFontSize = "MagnitudeRelativeFontSize"
+    /// Boolean: If true, standard NSStrings are used to draw stenciled text. If false,
+    ///          NSAttributedStrings are used. NSStrings are faster...
+    case StencilPlainText = "StencilPlainText"
     // Camera settings.
     /// SCNVector3: Initial position of the camera.
     case InitialCameraPosition = "InitialCameraPosition"
