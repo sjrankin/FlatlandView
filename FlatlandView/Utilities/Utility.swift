@@ -1529,5 +1529,95 @@ class Utility
         let Final = MaskImage.Alpha(CGFloat(MaskAlpha))
         return Final
     }
+    
+    /// Calculate the bearing between two geographic points on the Earth using the forward azimuth formula (great circle).
+    /// - Parameters:
+    ///   - Start: Starting point.
+    ///   - End: Destination point.
+    /// - Returns: Bearing from the Start point to the End point. (Bearing will change over the arc.)
+    public static func Bearing(Start: GeoPoint, End: GeoPoint) -> Double
+    {
+        let StartLat = Start.Latitude.ToRadians()
+        let StartLon = Start.Longitude.ToRadians()
+        let EndLat = End.Latitude.ToRadians()
+        let EndLon = End.Longitude.ToRadians()
+        
+        if cos(EndLat) * sin(EndLon - StartLon) == 0
+        {
+            if EndLat > StartLat
+            {
+                return 0
+            }
+            else
+            {
+                return 180
+            }
+        }
+        var Angle = atan2(cos(EndLat) * sin(EndLon - StartLon),
+                          sin(EndLat) * cos(StartLat) - sin(StartLat) * cos(EndLat) * cos(EndLon - StartLon))
+        Angle = Angle.ToDegrees()
+        Angle = Angle * 1000.0
+        let IAngle = Int(Angle)
+        Angle = Double(IAngle) / 1000.0
+        return Angle
+    }
+    
+    /// Implementation of the Spherical Law of Cosines. Used to calculate a distance between two
+    /// points on a sphere, in our case, the surface of the Earth.
+    /// - Parameter Point1: First location.
+    /// - Parameter Point2: Second location.
+    /// - Returns: Distance from `Point1` to `Point2` in kilometers.
+    public static func LawOfCosines(Point1: GeoPoint, Point2: GeoPoint) -> Double
+    {
+        let Term1 = sin(Point1.Latitude.ToRadians()) * sin(Point2.Latitude.ToRadians())
+        let Term2 = cos(Point1.Latitude.ToRadians()) * cos(Point2.Latitude.ToRadians())
+        let Term3 = cos(Point2.Longitude.ToRadians() - Point1.Longitude.ToRadians())
+        var V = acos(Term1 + (Term2 * Term3))
+        V = V * 6367.4447
+        return V
+    }
+    
+    /// Returns the distance from the passed location to the North Pole.
+    /// - Returns: Distance (in kilometers) from `To` to the North Pole.
+    public static func DistanceFromNorthPole(To: GeoPoint) -> Double
+    {
+        return LawOfCosines(Point1: GeoPoint(90.0, 0.0), Point2: To)
+    }
+    
+    /// Returns the distance from the passed location to the South Pole.
+    /// - Returns: Distance (in kilometers) from `To` to the South Pole.
+    public static func DistanceFromSouthPole(To: GeoPoint) -> Double
+    {
+        return LawOfCosines(Point1: GeoPoint(-90.0, 0.0), Point2: To)
+    }
+    
+    /// Returns the distance from the passed location to the pole that is at the center of the image.
+    /// - Parameter To: The point whose distance to the pole at the center of the image is returned.
+    /// - Returns: The distance (in kilometers) from `To` to the pole at the center of the image.
+    public static func DistanceFromContextPole(To: GeoPoint) -> Double
+    {
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
+        {
+            return DistanceFromNorthPole(To: To)
+        }
+        else
+        {
+            return DistanceFromSouthPole(To: To)
+        }
+    }
+    
+    /// Converts polar coordintes into Cartesian coordinates, optionally adding an offset value.
+    /// - Parameter Theta: The angle of the polar coordinate.
+    /// - Parameter Radius: The radial value of the polar coordinate.
+    /// - Parameter HOffset: Value added to the returned `x` value. Defaults to 0.0.
+    /// - Parameter VOffset: Value added to the returned `y` value. Defaults to 0.0.
+    /// - Returns: `CGPoint` with the converted polar coorindate.
+    public static func PolarToCartesian(Theta: Double, Radius: Double, HOffset: Double = 0.0, VOffset: Double = 0.0) -> CGPoint
+    {
+        let Radial = Theta * Double.pi / 180.0
+        let X = Radius * cos(Radial) + HOffset
+        let Y = Radius * sin(Radial) + VOffset
+        return CGPoint(x: X, y: Y)
+    }
 }
 
