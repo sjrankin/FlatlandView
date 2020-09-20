@@ -797,6 +797,14 @@ enum NodeNames2D: String
     case GridNodes = "GridNode"
     /// The hour plane.
     case HourPlane = "HourPlane"
+    /// Location (cities, etc) plane.
+    case LocationPlane = "LocationPlane"
+    /// A city or other POI on the location plane.
+    case LocationNode = "LocationNode"
+    /// Earthquake plane.
+    case EarthquakePlane = "EarthquakePlane"
+    /// World heritage site plane.
+    case UnescoPlane = "UnescoPlane"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
@@ -996,7 +1004,7 @@ enum FlatConstants: Double, CaseIterable
     /// The thickness of the mask layer.
     case NightMaskThickness = 0.15
     /// The thickness of the grid layer.
-    case GridLayerThickness = 0.101
+    case GridLayerThickness = 0.104
     /// The radius of the invisible ring holding hours.
     case HourRadius = 11.5
     /// The flatness of hour text in 2D mode.
