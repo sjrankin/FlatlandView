@@ -88,7 +88,7 @@ class FlatView: SCNView, SettingChangedProtocol
         SetDebugOption(DebugTypes)
         #endif
         
-        self.allowsCameraControl = true//false
+        self.allowsCameraControl = true
         self.autoenablesDefaultLighting = false
         self.scene = SCNScene()
         self.backgroundColor = NSColor.clear
@@ -100,6 +100,7 @@ class FlatView: SCNView, SettingChangedProtocol
         AddEarth()
         StartClock()
         UpdateEarthView()
+        AddHourLayer()
         AddHours(HourRadius: FlatConstants.HourRadius.rawValue)
         AddNightMaskLayer()
         AddGridLayer()
@@ -148,8 +149,23 @@ class FlatView: SCNView, SettingChangedProtocol
     
     /// Remove all nodes with the specified name from the scene's root node.
     /// - Parameter Name: The name of the node to remove. *Must match exactly.*
-    func RemoveNodeWithName(_ Name: String)
+    /// - Parameter FromParent: If not nil, the parent node from which nodes are removed. If nil,
+    ///                         nodes are removed from the scene's root node.
+    func RemoveNodeWithName(_ Name: String, FromParent: SCNNode? = nil)
     {
+        if let Parent = FromParent
+        {
+            for Node in Parent.childNodes
+            {
+                if Node.name == Name
+                {
+                    Node.removeAllActions()
+                    Node.removeAllAnimations()
+                    Node.removeFromParentNode()
+                }
+            }
+            return
+        }
         if let Nodes = self.scene?.rootNode.childNodes
         {
             for Node in Nodes
@@ -209,6 +225,11 @@ class FlatView: SCNView, SettingChangedProtocol
         AmbientLightNode?.light = Ambient
         AmbientLightNode?.position = SCNVector3(0.0, 0.0, Defaults.AmbientLightZ.rawValue)
         self.scene?.rootNode.addChildNode(AmbientLightNode!)
+        
+        let BackNode = SCNNode()
+        BackNode.light = Ambient
+        BackNode.position = SCNVector3(0.0, 0.0, -Defaults.AmbientLightZ.rawValue)
+        self.scene?.rootNode.addChildNode(BackNode)
     }
     
     /// Remove the ambient light from the scene.
@@ -394,7 +415,24 @@ class FlatView: SCNView, SettingChangedProtocol
     
     var GridNode = SCNNode()
     var NighMaskNode = SCNNode()
-
+    
+    func AddHourLayer()
+    {
+        let Flat = SCNPlane(width: CGFloat(FlatConstants.HourRadius.rawValue * 2.0),
+                            height: CGFloat(FlatConstants.HourRadius.rawValue * 2.0))
+        HourPlane = SCNNode(geometry: Flat)
+        HourPlane.categoryBitMask = LightMasks.Sun.rawValue
+        HourPlane.name = NodeNames2D.HourPlane.rawValue
+        HourPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        HourPlane.geometry?.firstMaterial?.isDoubleSided = true
+        HourPlane.scale = SCNVector3(1.0, 1.0, 1.0)
+        HourPlane.eulerAngles = SCNVector3(180.0.Radians, 180.0.Radians, 180.0.Radians)
+        HourPlane.position = SCNVector3(0.0, 0.0, 0.0)
+        self.scene?.rootNode.addChildNode(HourPlane)
+    }
+    
+    var HourPlane = SCNNode()
+    
     func PopulateGrid()
     {
         for Node in GridNode.childNodes
@@ -453,6 +491,14 @@ class FlatView: SCNView, SettingChangedProtocol
         RingNode.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.GridLineColor, NSColor.black)
         RingNode.position = SCNVector3(0.0, 0.0, 0.0)
         return RingNode
+    }
+    
+    func AddNightMask()
+    {
+        if let Mask = Utility.GetNightMask(ForDate: Date())
+        {
+            AddNightMask(Mask)
+        }
     }
     
     /// Add the night mask image to the night mask node.
@@ -551,28 +597,47 @@ class FlatView: SCNView, SettingChangedProtocol
     
     func UpdateEarth(With Percent: Double)
     {
+        let FlatViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         PreviousPercent = Percent
-        var FinalOffset = 90.0
+        var FinalOffset = 180.0
         var Multiplier = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        if FlatViewType == .FlatSouthCenter
         {
             FinalOffset = 90.0
             Multiplier = -1.0
         }
         //Be sure to rotate the proper direction based on the map.
-        let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
+        let MapRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
         let Duration = UseInitialRotation ? FlatConstants.InitialRotation.rawValue : FlatConstants.NormalRotation.rawValue
         UseInitialRotation = false
         let RotateAction = SCNAction.rotateTo(x: CGFloat(90.0.Radians),
                                               y: CGFloat(180.0.Radians),
-                                              z: CGFloat(Radians),
+                                              z: CGFloat(MapRadians),
                                               duration: Duration,
                                               usesShortestUnitArc: true)
         FlatEarthNode.runAction(RotateAction)
+        GridNode.runAction(RotateAction)
+        if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
+        {
+            FinalOffset = 90.0 + 15.0 * 3
+            let HourRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
+            let HourRotateAction = SCNAction.rotateTo(x: 0.0,
+                                                      y: 0.0,
+                                                      z: CGFloat(HourRadians),
+                                                      duration: Duration,
+                                                      usesShortestUnitArc: true)
+            HourPlane.runAction(HourRotateAction)
+        }
+        else
+        {
+            HourPlane.eulerAngles = SCNVector3(CGFloat(0.0.Radians),
+                                               CGFloat(0.0.Radians),
+                                               CGFloat(0.0.Radians))
+        }
     }
     
     private var UseInitialRotation = true
-
+    
     
     private var ClassID = UUID()
     func SubscriberID() -> UUID
@@ -582,6 +647,26 @@ class FlatView: SCNView, SettingChangedProtocol
     
     func AddHours(HourRadius: Double)
     {
+        RemoveNodeWithName(NodeNames2D.HourNodes.rawValue, FromParent: HourPlane)
+        switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
+        {
+            case .None:
+                //Nothing to do here since all hours have already been removed.
+                break
+                
+            case .Solar:
+                MakeSolarHours(HourRadius: HourRadius)
+                
+            case .RelativeToNoon:
+                MakeNoonRelativeHours(HourRadius: HourRadius)
+                
+            case .RelativeToLocation:
+                MakeRelativetoLocationHours(HourRadius: HourRadius)
+        }
+    }
+    
+    func MakeSolarHours(HourRadius: Double)
+    {
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if MapCenter == .FlatNorthCenter
         {
@@ -589,14 +674,47 @@ class FlatView: SCNView, SettingChangedProtocol
             //strange reason) so we have to set the terminal value to -1 to get the 0.
             for Hour in stride(from: 23, to: -1, by: -1)
             {
-                self.scene?.rootNode.addChildNode(MakeHour(Hour, Radius: HourRadius))
+                let Angle = abs(Double(Hour - 23 - 1))
+                Debug.Print("Hour \(Hour) has angle \(Angle * 15.0)")
+                HourPlane.addChildNode(MakeHour(Hour, AtAngle: Angle, Radius: HourRadius))
             }
         }
         else
         {
             for Hour in 0 ... 23
             {
-                self.scene?.rootNode.addChildNode(MakeHour(Hour, Radius: HourRadius))
+                HourPlane.addChildNode(MakeHour(Hour, AtAngle: Double(Hour), Radius: HourRadius))
+            }
+        }
+    }
+    
+    /// Draws hours relative to noon.
+    func MakeNoonRelativeHours(HourRadius: Double)
+    {
+
+        for Hour in 0 ... 23
+        {
+            var DisplayHour = 24 - (Hour + 5) % 24 - 1
+            DisplayHour = DisplayHour - 12
+            HourPlane.addChildNode(MakeHour(DisplayHour, AtAngle: Double(DisplayHour + 12), Radius: HourRadius,
+                                            AddPrefix: true))
+        }
+    }
+    
+    func MakeRelativetoLocationHours(HourRadius: Double)
+    {
+        var HourList = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+        HourList = HourList.Shift(By: -12)
+        if let LocalLongitude = Settings.GetDoubleNil(.LocalLongitude)
+        {
+            let Long = Int(LocalLongitude / 15.0)
+            HourList = HourList.Shift(By: Long)
+            for Hour in 0 ... 23
+            {
+                let DisplayHour = Hour % 24
+                let FinalHour = HourList[DisplayHour]
+                HourPlane.addChildNode(MakeHour(FinalHour, AtAngle: Double(FinalHour), Radius: HourRadius,
+                                                AddPrefix: true))
             }
         }
     }
@@ -607,7 +725,8 @@ class FlatView: SCNView, SettingChangedProtocol
         AddHours(HourRadius: FlatConstants.HourRadius.rawValue)
     }
     
-    func MakeHour(_ Hour: Int, Radius: Double, Scale: Double = FlatConstants.HourScale.rawValue) -> SCNNode
+    func MakeHour(_ Hour: Int, AtAngle: Double, Radius: Double, Scale: Double = FlatConstants.HourScale.rawValue,
+                  AddPrefix: Bool = false) -> SCNNode
     {
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         var Offset = 0.0
@@ -615,9 +734,17 @@ class FlatView: SCNView, SettingChangedProtocol
         {
             Offset = 180.0
         }
-        var Angle = (Double(Hour) * 15.0) + Offset
+        var Angle = (AtAngle * 15.0) + Offset
         Angle = fmod(Angle, 360.0)
-        let HourText = "\(Hour)"
+        var Prefix = ""
+        if AddPrefix
+        {
+            if Hour > 0
+            {
+                Prefix = "+"
+            }
+        }
+        let HourText = "\(Prefix)\(Hour)"
         let HourShape = SCNText(string: HourText, extrusionDepth: CGFloat(FlatConstants.HourExtrusion.rawValue))
         let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium", 20.0, NSColor.yellow))
         HourShape.font = NSFont(name: FontData.PostscriptName, size: 25.0)
@@ -665,17 +792,38 @@ class FlatView: SCNView, SettingChangedProtocol
     {
         switch Setting
         {
+            case .MapType:
+                let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+                let CurrentView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
+                if [.FlatNorthCenter, .FlatSouthCenter].contains(CurrentView)
+                {
+                    if let MapImage = MapManager.ImageFor(MapType: MapValue, ViewType: CurrentView)
+                    {
+                        SetEarthMap(MapImage)
+                    }
+                }
+                
             case .ShowNight:
-                break
+                if Settings.GetBool(.ShowNight)
+                {
+                    AddNightMask()
+                }
+                else
+                {
+                    HideNightMask()
+                }
                 
             case .NightDarkness:
-                break
+                if Settings.GetBool(.ShowNight)
+                {
+                    AddNightMask()
+                }
                 
             case .HourType:
-                break
+                AddHours(HourRadius: FlatConstants.HourRadius.rawValue)
                 
             case .UseHDRCamera:
-                break
+                CameraNode.camera?.wantsHDR = Settings.GetBool(.UseHDRCamera)
                 
             case .Earthquake2DStyles:
                 break
