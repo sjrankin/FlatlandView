@@ -388,10 +388,22 @@ class Stenciler
         }
         NSGraphicsContext.saveGraphicsState()
         NSGraphicsContext.current = Context
+        let UsePlainText = Settings.GetBool(.StencilPlainText)
         for Message in Messages
         {
             autoreleasepool
             {
+                if UsePlainText
+                {
+                    let WorkingText: NSString = NSString(string: Message.Text)
+                    var Attrs = [NSAttributedString.Key: Any]()
+                    Attrs[NSAttributedString.Key.font] = Message.Font as Any
+                    Attrs[NSAttributedString.Key.foregroundColor] = Message.Color as Any
+                    WorkingText.draw(at: NSPoint(x: Message.Location.x, y: Message.Location.y),
+                                     withAttributes: Attrs)
+                }
+                else
+                {
                 var Attrs = [NSAttributedString.Key: Any]()
                 Attrs[NSAttributedString.Key.font] = Message.Font as Any
                 Attrs[NSAttributedString.Key.foregroundColor] = Message.Color as Any
@@ -403,6 +415,7 @@ class Stenciler
                 let AttrString = NSAttributedString(string: Message.Text, attributes: Attrs)
                 let FinalLocation = NSPoint(x: Message.Location.x, y: Message.Location.y - (AttrString.size().height / 2.0))
                 AttrString.draw(at: FinalLocation)
+                }
             }
         }
         NSGraphicsContext.restoreGraphicsState()
