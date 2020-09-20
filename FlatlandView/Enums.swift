@@ -1064,3 +1064,16 @@ enum GlobeLayers: String, CaseIterable
     case Test = "Test"
     #endif
 }
+
+/// Physical constants.
+enum PhysicalConstants: Double, CaseIterable
+{
+    /// Circumference of the Earth in kilometers.
+    case EarthCircumference = 40075.0
+    /// Half of the circumference of the Earth in kilometers.
+    case HalfEarthCircumference = 20037.5
+    /// Radius of the Earth in kilometers.
+    case EarthRadius = 6371.0
+    /// Diameter of the Earth in kilometers.
+    case EarthDiameter = 12742.0
+}
