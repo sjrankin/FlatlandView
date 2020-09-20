@@ -167,5 +167,6 @@ extension Settings
             .EarthquakeViewWindowFrame: NSRect.self,
             .CityFontRelativeSize: RelativeSizes.self,
             .MagnitudeRelativeFontSize: RelativeSizes.self,
+            .StencilPlainText: Bool.self,
         ]
 }
