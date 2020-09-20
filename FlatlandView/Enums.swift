@@ -795,6 +795,8 @@ enum NodeNames2D: String
     case HourNodes = "HourNode"
     /// Nodes in the grid.
     case GridNodes = "GridNode"
+    /// The hour plane.
+    case HourPlane = "HourPlane"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
