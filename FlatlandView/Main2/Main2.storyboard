@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17503.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17503.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -139,24 +139,42 @@
                                     <items>
                                         <menuItem title="About Flatland" id="ZNk-cz-sew" userLabel="About Flatland">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="orderFrontStandardAboutPanel:" target="vAH-R8-aOX" id="xgK-eA-ZE0"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="LhZ-a9-yhF"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="DvA-AQ-a2d"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="DvA-AQ-a2d">
+                                            <connections>
+                                                <action selector="ShowMainSettings:" target="vAH-R8-aOX" id="z6N-0g-jpy"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="cHZ-Ov-OvP"/>
                                         <menuItem title="Services" id="rki-BE-Nu4">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Services" systemMenu="services" id="6TJ-pB-Fbo"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="I0I-rE-6qP"/>
-                                        <menuItem title="Hide FlatlandView" keyEquivalent="h" id="isu-CN-vBI"/>
+                                        <menuItem title="Hide FlatlandView" keyEquivalent="h" id="isu-CN-vBI">
+                                            <connections>
+                                                <action selector="hide:" target="vAH-R8-aOX" id="klO-e0-pZ2"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Hide Others" keyEquivalent="h" id="Jub-66-SIX">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                         </menuItem>
                                         <menuItem title="Show All" id="OP5-WH-sP5">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="hideOtherApplications:" target="vAH-R8-aOX" id="xXa-Yj-dST"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="5o7-6q-xgt"/>
-                                        <menuItem title="Quit Flatland" keyEquivalent="q" id="sU6-nt-3UC" userLabel="Quit Flatland"/>
+                                        <menuItem title="Quit Flatland" keyEquivalent="q" id="sU6-nt-3UC" userLabel="Quit Flatland">
+                                            <connections>
+                                                <action selector="terminate:" target="vAH-R8-aOX" id="NMd-YL-brN"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -351,7 +369,7 @@
                                     <items>
                                         <menuItem title="About Flatland" keyEquivalent="?" id="4g6-Rs-E7v">
                                             <connections>
-                                                <action selector="HelpAbout:" target="vAH-R8-aOX" id="gnm-gp-nTe"/>
+                                                <action selector="ShowAbout:" target="vAH-R8-aOX" id="5Wu-cA-EEF"/>
                                             </connections>
                                         </menuItem>
                                     </items>
