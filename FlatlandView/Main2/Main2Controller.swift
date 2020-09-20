@@ -145,6 +145,7 @@ class Main2Controller: NSViewController
     @IBAction func Reset3DView(_ sender: Any)
     {
         Main3DView.ResetCamera()
+        Main2DView.ResetCamera()
     }
     
     func SetNightMask()
