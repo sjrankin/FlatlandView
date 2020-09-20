@@ -60,6 +60,7 @@ class PerformanceOptions: NSViewController
                 Index = 2
         }
         SphereSegmentCountSegment.selectedSegment = Index
+        PlainTextSwitch.state = Settings.GetBool(.StencilPlainText) ? .on : .off
     }
     
     @IBAction func HandleSmoothnessChanged(_ sender: Any)
@@ -86,6 +87,15 @@ class PerformanceOptions: NSViewController
             Settings.SetBool(.UseHourChamfer, Switch.state == .on ? true : false)
         }
     }
+    
+    @IBAction func HandlePlainTextStencilChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.StencilPlainText, Switch.state == .on ? true : false)
+        }
+    }
+    
     @IBAction func HandleSphereSegmentCountChanged(_ sender: Any)
     {
         if let Segment = sender as? NSSegmentedControl
@@ -113,6 +123,7 @@ class PerformanceOptions: NSViewController
         }
     }
     
+    @IBOutlet weak var PlainTextSwitch: NSSwitch!
     @IBOutlet weak var SphereSegmentCountSegment: NSSegmentedControl!
     @IBOutlet weak var LiveDataChamferSwitch: NSSwitch!
     @IBOutlet weak var HourChamferSwitch: NSSwitch!
