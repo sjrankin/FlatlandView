@@ -372,8 +372,8 @@ extension GlobeView
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         if Settings.GetBool(.CityNodesGlow)
         {
-        CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
-        //        CityNode.geometry?.firstMaterial?.emission.contents = NSImage(named: "CitySphereTexture")
+            CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+            //        CityNode.geometry?.firstMaterial?.emission.contents = NSImage(named: "CitySphereTexture")
         }
         CityNode.castsShadow = true
         SunLight.intensity = 800
