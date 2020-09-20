@@ -104,6 +104,18 @@ class FlatView: SCNView, SettingChangedProtocol
         AddHours(HourRadius: FlatConstants.HourRadius.rawValue)
         AddNightMaskLayer()
         AddGridLayer()
+        AddCityLayer()
+        AddHeritageLayer()
+        AddEarthquakeLayer()
+        
+        if Settings.GetBool(.ShowCities)
+        {
+            PlotCities()
+        }
+        else
+        {
+            HideCities()
+        }
     }
     
     #if DEBUG
@@ -400,6 +412,8 @@ class FlatView: SCNView, SettingChangedProtocol
         self.scene?.rootNode.addChildNode(NighMaskNode)
     }
     
+    var NighMaskNode = SCNNode()
+    
     func AddGridLayer()
     {
         let Flat = SCNCylinder(radius: CGFloat(FlatConstants.FlatRadius.rawValue),
@@ -414,24 +428,6 @@ class FlatView: SCNView, SettingChangedProtocol
     }
     
     var GridNode = SCNNode()
-    var NighMaskNode = SCNNode()
-    
-    func AddHourLayer()
-    {
-        let Flat = SCNPlane(width: CGFloat(FlatConstants.HourRadius.rawValue * 2.0),
-                            height: CGFloat(FlatConstants.HourRadius.rawValue * 2.0))
-        HourPlane = SCNNode(geometry: Flat)
-        HourPlane.categoryBitMask = LightMasks.Sun.rawValue
-        HourPlane.name = NodeNames2D.HourPlane.rawValue
-        HourPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
-        HourPlane.geometry?.firstMaterial?.isDoubleSided = true
-        HourPlane.scale = SCNVector3(1.0, 1.0, 1.0)
-        HourPlane.eulerAngles = SCNVector3(180.0.Radians, 180.0.Radians, 180.0.Radians)
-        HourPlane.position = SCNVector3(0.0, 0.0, 0.0)
-        self.scene?.rootNode.addChildNode(HourPlane)
-    }
-    
-    var HourPlane = SCNNode()
     
     func PopulateGrid()
     {
@@ -499,6 +495,48 @@ class FlatView: SCNView, SettingChangedProtocol
         {
             AddNightMask(Mask)
         }
+    }
+    
+    func AddHourLayer()
+    {
+        let Flat = SCNPlane(width: CGFloat(FlatConstants.HourRadius.rawValue * 2.0),
+                            height: CGFloat(FlatConstants.HourRadius.rawValue * 2.0))
+        HourPlane = SCNNode(geometry: Flat)
+        HourPlane.categoryBitMask = LightMasks.Sun.rawValue
+        HourPlane.name = NodeNames2D.HourPlane.rawValue
+        HourPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        HourPlane.geometry?.firstMaterial?.isDoubleSided = true
+        HourPlane.scale = SCNVector3(1.0, 1.0, 1.0)
+        HourPlane.eulerAngles = SCNVector3(180.0.Radians, 180.0.Radians, 180.0.Radians)
+        HourPlane.position = SCNVector3(0.0, 0.0, 0.0)
+        self.scene?.rootNode.addChildNode(HourPlane)
+    }
+    
+    var HourPlane = SCNNode()
+    
+    func AddCityLayer()
+    {
+        let Flat = SCNPlane(width: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0),
+                            height: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0))
+        CityPlane = SCNNode(geometry: Flat)
+        CityPlane.categoryBitMask = LightMasks.Sun.rawValue
+        CityPlane.name = NodeNames2D.LocationPlane.rawValue
+        CityPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        CityPlane.geometry?.firstMaterial?.isDoubleSided = true
+        CityPlane.scale = SCNVector3(1.0, 1.0, 1.0)
+        CityPlane.eulerAngles = SCNVector3(180.0.Radians, 180.0.Radians, 180.0.Radians)
+        CityPlane.position = SCNVector3(0.0, 0.0, 0.0)
+        self.scene?.rootNode.addChildNode(CityPlane)
+    }
+    
+    var CityPlane = SCNNode()
+    
+    func AddHeritageLayer()
+    {
+    }
+    
+    func AddEarthquakeLayer()
+    {
     }
     
     /// Add the night mask image to the night mask node.
@@ -617,10 +655,34 @@ class FlatView: SCNView, SettingChangedProtocol
                                               usesShortestUnitArc: true)
         FlatEarthNode.runAction(RotateAction)
         GridNode.runAction(RotateAction)
+        CityPlane.runAction(RotateAction)
+        if Settings.GetBool(.ShowCities)
+        {
+            if FlatViewType == .FlatNorthCenter
+            {
+                FinalOffset = 270.0
+            }
+            else
+            {
+            FinalOffset = 180.0
+            }
+            let CityRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
+            let CityRotateAction = SCNAction.rotateTo(x: 0.0,
+                                                      y: 0.0,
+                                                      z: CGFloat(CityRadians),
+                                                      duration: Duration,
+                                                      usesShortestUnitArc: true)
+            CityPlane.runAction(CityRotateAction)
+        }
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
             FinalOffset = 90.0 + 15.0 * 3
             let HourRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
+            LastRelativeTimeRadial = HourRadians
+            print("Last relative time radial = \((LastRelativeTimeRadial * 180.0 / Double.pi).RoundedTo(3))°")
+            let LastAngle = LastRelativeTimeRadial * 180.0 / Double.pi
+            let Delta = fmod(180.0 - LastAngle, 360.0)
+            print("  Delta with 180° = \(Delta.RoundedTo(3))°")
             let HourRotateAction = SCNAction.rotateTo(x: 0.0,
                                                       y: 0.0,
                                                       z: CGFloat(HourRadians),
@@ -636,6 +698,7 @@ class FlatView: SCNView, SettingChangedProtocol
         }
     }
     
+    private var LastRelativeTimeRadial: Double = -1
     private var UseInitialRotation = true
     
     
@@ -675,7 +738,6 @@ class FlatView: SCNView, SettingChangedProtocol
             for Hour in stride(from: 23, to: -1, by: -1)
             {
                 let Angle = abs(Double(Hour - 23 - 1))
-                Debug.Print("Hour \(Hour) has angle \(Angle * 15.0)")
                 HourPlane.addChildNode(MakeHour(Hour, AtAngle: Angle, Radius: HourRadius))
             }
         }
@@ -803,6 +865,16 @@ class FlatView: SCNView, SettingChangedProtocol
                     }
                 }
                 
+            case .ViewType:
+                if Settings.GetBool(.ShowCities)
+                {
+                    PlotCities()
+                }
+                else
+                {
+                    HideCities()
+                }
+                
             case .ShowNight:
                 if Settings.GetBool(.ShowNight)
                 {
@@ -827,6 +899,19 @@ class FlatView: SCNView, SettingChangedProtocol
                 
             case .Earthquake2DStyles:
                 break
+                
+            case .EnableEarthquakes:
+            break
+                
+            case .ShowCities:
+                if Settings.GetBool(.ShowCities)
+                {
+                    PlotCities()
+                }
+                else
+                {
+                    HideCities()
+                }
                 
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
@@ -902,5 +987,132 @@ class FlatView: SCNView, SettingChangedProtocol
     func RotateImageTo(_ Percent: Double)
     {
         
+    }
+    
+    func PlotCities()
+    {
+        PlotCities(FlatConstants.FlatRadius.rawValue)
+    }
+    
+    var CitiesToPlot = [City]()
+    
+    func HideCities()
+    {
+        RemoveNodeWithName(NodeNames2D.LocationNode.rawValue, FromParent: CityPlane)
+    }
+    
+    func PlotCities(_ Radius: Double)
+    {
+        RemoveNodeWithName(NodeNames2D.LocationNode.rawValue, FromParent: CityPlane)
+        let CityList = Cities()
+        CitiesToPlot = CityList.FilteredCities()
+        
+        if Settings.GetBool(.ShowUserLocations)
+        {
+            let UserLocations = Settings.GetLocations()
+            for (_, Location, Name, Color) in UserLocations
+            {
+                let UserCity = City(Continent: "NoName", Country: "No Name", Name: Name, Population: nil,
+                                    MetroPopulation: nil, Latitude: Location.Latitude, Longitude: Location.Longitude)
+                UserCity.CityColor = Color
+                UserCity.IsUserCity = true
+                CitiesToPlot.append(UserCity)
+            }
+        }
+        
+        let UseMetro = Settings.GetEnum(ForKey: .PopulationType, EnumType: PopulationTypes.self, Default: .Metropolitan) == .Metropolitan
+        let (Max, Min) = Cities.GetPopulationsIn(CityList: CitiesToPlot,
+                                                 UseMetroPopulation: UseMetro)
+        
+        for City in CitiesToPlot
+        {
+            if City.IsUserCity
+            {
+                let ShowEmission = Settings.GetBool(.ShowPOIEmission)
+                PlotLocationAsCone(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                   WithColor: City.CityColor, EnableEmission: ShowEmission)
+            }
+            else
+            {
+                var CityColor = Cities.ColorForCity(City)
+                if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
+                {
+                    CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
+                }
+                if Settings.GetBool(.ShowCitiesByPopulation)
+                {
+                    CityColor = Settings.GetColor(.PopulationColor, NSColor.Sunglow)
+                }
+                PlotLocationAsSphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                     WithColor: CityColor, EnableEmission: false)
+            }
+        }
+    }
+    
+    func PlotLocationAsCone(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor,
+                            EnableEmission: Bool)
+    {
+        
+    }
+    
+    func PlotLocationAsSphere(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor,
+                              EnableEmission: Bool)
+    {
+        var CitySize: CGFloat = 0.15
+        let CityShape = SCNSphere(radius: CitySize)
+        let CityNode = SCNNode(geometry: CityShape)
+        CityNode.name = NodeNames2D.LocationNode.rawValue
+        CityNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        if Settings.GetBool(.CityNodesGlow)
+        {
+            CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+        }
+        CityNode.castsShadow = true
+
+        let BearingOffset = 180.0
+        var LongitudeAdjustment = -1.0
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        {
+            LongitudeAdjustment = 1.0
+        }
+        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
+        let Ratio = Radius / HalfCircumference
+        Distance = Distance * Ratio
+        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
+        LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
+        let PointX = Distance * cos(LocationBearing)
+        let PointY = Distance * sin(LocationBearing)
+        CityNode.position = SCNVector3(PointX, PointY, 0.0)
+        
+        CityPlane.addChildNode(CityNode)
+    }
+    
+    let HalfCircumference: Double = 40075.0 / 2.0
+    
+    /// Resets the default camera to its original location.
+    /// - Note: In order to prevent the Earth from flying around wildly during the reset transition, a
+    ///         look-at constraint is added for the duration of the transition, and removed once the rotation
+    ///         transition is completed.
+    func ResetCamera()
+    {
+        let Constraint = SCNLookAtConstraint(target: FlatEarthNode)
+        Constraint.isGimbalLockEnabled = false
+        SCNTransaction.begin()
+        SCNTransaction.animationDuration = Defaults.ResetCameraAnimationDuration.rawValue
+        self.pointOfView?.constraints = [Constraint]
+        SCNTransaction.commit()
+        
+        let InitialPosition = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue))
+        let PositionAction = SCNAction.move(to: InitialPosition, duration: Defaults.ResetCameraAnimationDuration.rawValue)
+        PositionAction.timingMode = .easeOut
+        self.pointOfView?.runAction(PositionAction)
+        
+        let RotationAction = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: Defaults.ResetCameraAnimationDuration.rawValue)
+        RotationAction.timingMode = .easeOut
+        self.pointOfView?.runAction(RotationAction)
+        {
+            self.pointOfView?.constraints = []
+        }
     }
 }
