@@ -48,7 +48,7 @@ extension GlobeView
         ConeNode.scale = SCNVector3(NodeScales.HomeArrowScale.rawValue,
                                     NodeScales.HomeArrowScale.rawValue,
                                     NodeScales.HomeArrowScale.rawValue)
-        ConeNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        ConeNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         if !IsCurrentLocation
@@ -100,7 +100,7 @@ extension GlobeView
             CylinderNode.scale = SCNVector3(NodeScales.HomeArrowScale.rawValue,
                                             NodeScales.HomeArrowScale.rawValue,
                                             NodeScales.HomeArrowScale.rawValue)
-            CylinderNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+            CylinderNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
             CylinderNode.geometry?.firstMaterial?.diffuse.contents = NSColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
             CylinderNode.geometry?.firstMaterial?.specular.contents = NSColor.white
             CylinderNode.castsShadow = true
@@ -132,7 +132,7 @@ extension GlobeView
         let Sphere = SCNSphere(radius: 0.4)
         
         HomeNode = SCNNode(geometry: Sphere)
-        HomeNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        HomeNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         HomeNode?.geometry?.firstMaterial?.diffuse.contents = WithColor
         HomeNode?.geometry?.firstMaterial?.selfIllumination.contents = WithColor
         HomeNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -149,7 +149,7 @@ extension GlobeView
         
         let SphereHalo = SCNSphere(radius: 0.40)
         HomeNodeHalo = SCNNode(geometry: SphereHalo)
-        HomeNodeHalo?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        HomeNodeHalo?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         HomeNodeHalo?.geometry?.firstMaterial?.diffuse.contents = NSColor.white.withAlphaComponent(0.2)
         #if true
         HomeNodeHalo?.geometry?.firstMaterial?.selfIllumination.contents = NSColor.yellow.withAlphaComponent(0.2)
@@ -177,7 +177,7 @@ extension GlobeView
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
         let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
         let ConeNode = SCNNode(geometry: Cone)
-        ConeNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        ConeNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         if EnableEmission
@@ -204,13 +204,13 @@ extension GlobeView
         
         let Sphere = SCNSphere(radius: 0.2)
         let SphereNode = SCNNode(geometry: Sphere)
-        SphereNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        SphereNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         SphereNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         SphereNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         
         let Cone = SCNCone(topRadius: 0.0, bottomRadius: 0.2, height: 0.5)
         let ConeNode = SCNNode(geometry: Cone)
-        ConeNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        ConeNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         
@@ -236,7 +236,7 @@ extension GlobeView
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.3)
         let Arrow = SCN3DArrow(Length: 2.0, Width: 0.85, Color: NSColor.systemTeal,
                                StemColor: NSColor.systemBlue)
-        Arrow.LightMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        Arrow.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         Arrow.scale = SCNVector3(NodeScales.BouncingArrowScale.rawValue,
                                  NodeScales.BouncingArrowScale.rawValue,
                                  NodeScales.BouncingArrowScale.rawValue)
@@ -255,7 +255,7 @@ extension GlobeView
         HomeNode?.castsShadow = true
         HomeNode?.addChildNode(Arrow)
         HomeNode?.position = SCNVector3(X, Y, Z)
-        HomeNode?.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        HomeNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
@@ -277,7 +277,7 @@ extension GlobeView
         Pin.scale = SCNVector3(NodeScales.PinScale.rawValue,
                                NodeScales.PinScale.rawValue,
                                NodeScales.PinScale.rawValue)
-        Pin.LightMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        Pin.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         
         HomeNode = SCNNode()
         HomeNode?.castsShadow = true
@@ -305,7 +305,7 @@ extension GlobeView
     {
         let Pole = SCNCylinder(radius: 0.04, height: 4.5)
         let PoleNode = SCNNode(geometry: Pole)
-        PoleNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        PoleNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         PoleNode.geometry?.firstMaterial?.diffuse.contents = NSColor.brown
         
         let FlagX = 0.6
@@ -313,7 +313,7 @@ extension GlobeView
         
         let FlagInterior = SCNBox(width: 0.038, height: 0.58, length: 1.18, chamferRadius: 0.0)
         let FlagInteriorNode = SCNNode(geometry: FlagInterior)
-        FlagInteriorNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        FlagInteriorNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FlagInteriorNode.geometry?.firstMaterial?.diffuse.contents = EmissiveColor
         FlagInteriorNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         #if true
@@ -326,7 +326,7 @@ extension GlobeView
         
         let FlagFace = SCNBox(width: 0.04, height: 0.6, length: 1.2, chamferRadius: 0.0)
         let FlagFaceNode = SCNNode(geometry: FlagFace)
-        FlagFaceNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        FlagFaceNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FlagFaceNode.position = SCNVector3(FlagX, FlagY, 0.0)
         let FlagName = "GreenHomeFlag"
         let FlagImage = NSImage(named: FlagName)
@@ -368,7 +368,7 @@ extension GlobeView
         }
         let CityShape = SCNSphere(radius: CitySize)
         let CityNode = SCNNode(geometry: CityShape)
-        CityNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        CityNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         if Settings.GetBool(.CityNodesGlow)
         {
@@ -440,7 +440,7 @@ extension GlobeView
         var CityNode = SCNNode()
         let CityShape = SCNPyramid(width: HDim, height: CitySize, length: HDim)
             CityNode = SCNNode(geometry: CityShape)
-        CityNode.categoryBitMask = LightMasks.MetalSun.rawValue | LightMasks.MetalMoon.rawValue
+        CityNode.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
         let SideImage = MakeOutlineCubeTexture(With: WithColor)
         CityNode.geometry?.materials.removeAll()
         CityNode.geometry?.materials.append(SideImage)
@@ -533,7 +533,7 @@ extension GlobeView
                 }
             }
         }
-        CityNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        CityNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         
         var CylinderLength = CGFloat(LongestStem * RelativeHeight)
         if CylinderLength < 0.1
@@ -542,7 +542,7 @@ extension GlobeView
         }
         let Cylinder = SCNCylinder(radius: 0.04, height: CGFloat(LongestStem * RelativeHeight))
         let CylinderNode = SCNNode(geometry: Cylinder)
-        CylinderNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        CylinderNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         let (H, S, B) = WithColor.HSB
         var NewH = H + 0.5
         if NewH > 1.0
@@ -626,7 +626,7 @@ extension GlobeView
                 CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
             }
         }
-        CityNode.categoryBitMask = LightMasks.MetalSun.rawValue | LightMasks.MetalMoon.rawValue
+        CityNode.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
         CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         CityNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
         CityNode.castsShadow = true
@@ -654,7 +654,7 @@ extension GlobeView
         let Letters = Utility.MakeFloatingWord(Radius: Radius, Word: "• " + SomeCity.Name,
                                                Scale: NodeScales.CityNameScale.rawValue,
                                                Latitude: SomeCity.Latitude, Longitude: SomeCity.Longitude,
-                                               Extrusion: 1.0, Mask: LightMasks.Sun.rawValue | LightMasks.Moon.rawValue,
+                                               Extrusion: 1.0, Mask: LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue,
                                                TextFont: TheFont, TextColor: WithColor, OnSurface: EarthNode!,
                                                WithTag: GlobeNodeNames.CityNode.rawValue)
         for Letter in Letters
@@ -897,14 +897,14 @@ extension GlobeView
     {
         let Pole = SCNCylinder(radius: 0.25, height: 2.5)
         let PoleNode = SCNNode(geometry: Pole)
-        PoleNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        PoleNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         PoleNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "PolarTexture")
         let PoleYOffset = NorthPole ? 0.5 : -0.5
         PoleNode.position = SCNVector3(0.0, PoleYOffset, 0.0)
         
         let Sphere = SCNSphere(radius: 0.5)
         let SphereNode = SCNNode(geometry: Sphere)
-        SphereNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        SphereNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         let YOffset = NorthPole ? 2.1 : -2.1
         SphereNode.position = SCNVector3(0.0, YOffset, 0.0)
         SphereNode.geometry?.firstMaterial?.diffuse.contents = NSColor(HexString: "#ffd700")
@@ -927,12 +927,12 @@ extension GlobeView
     {
         let Pole = SCNCylinder(radius: 0.04, height: 2.5)
         let PoleNode = SCNNode(geometry: Pole)
-        PoleNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        PoleNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         PoleNode.geometry?.firstMaterial?.diffuse.contents = NSColor.brown
         
         let FlagFace = SCNBox(width: 0.04, height: 0.6, length: 1.2, chamferRadius: 0.0)
         let FlagFaceNode = SCNNode(geometry: FlagFace)
-        FlagFaceNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        FlagFaceNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         let XOffset = NorthPole ? 0.6 : -0.6
         let YOffset = NorthPole ? 1.0 : -1.0
         FlagFaceNode.position = SCNVector3(XOffset, YOffset, 0.0)
@@ -1028,7 +1028,7 @@ extension GlobeView
                 }
                 let SiteShape = SCNRegular.Geometry(VertexCount: 3, Radius: 0.2, Depth: 0.1 + DepthOffset)
                 let SiteNode = SCNNode(geometry: SiteShape)
-                SiteNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+                SiteNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SiteNode.scale = SCNVector3(NodeScales.UnescoScale.rawValue,
                                             NodeScales.UnescoScale.rawValue,
                                             NodeScales.UnescoScale.rawValue)
