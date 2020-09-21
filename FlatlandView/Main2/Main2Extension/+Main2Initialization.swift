@@ -28,6 +28,20 @@ extension Main2Controller
     /// Initialize program data.
     func ProgramInitialization()
     {
+        #if false
+        Stenciler.NotificationSubscriber(ID: UUID())
+        {
+            Stenciled in
+            if let ReturnedStenciledImage = Stenciled
+            {
+                self.StenciledImage = ReturnedStenciledImage
+                if let AboutCtl = self.AControl
+                {
+                    AboutCtl.ForceMap(self.StenciledImage!)
+                }
+            }
+        }
+        #endif
         FileIO.Initialize()
         PrimaryMapList = ActualMapIO.LoadMapList()
         FontHelper.Initialize()
