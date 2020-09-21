@@ -27,7 +27,7 @@ extension FlatView
         let Flat = SCNPlane(width: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0),
                             height: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0))
         CityPlane = SCNNode(geometry: Flat)
-        CityPlane.categoryBitMask = LightMasks.Sun.rawValue
+        CityPlane.categoryBitMask = LightMasks3D.Sun.rawValue
         CityPlane.name = NodeNames2D.LocationPlane.rawValue
         CityPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         CityPlane.geometry?.firstMaterial?.isDoubleSided = true
@@ -98,12 +98,14 @@ extension FlatView
         let CityShape = SCNSphere(radius: CitySize)
         let CityNode = SCNNode(geometry: CityShape)
         CityNode.name = NodeNames2D.LocationNode.rawValue
-        CityNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+        CityNode.categoryBitMask = Int(LightMasks2D.South.rawValue | LightMasks2D.Sun.rawValue)
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        /*
         if Settings.GetBool(.CityNodesGlow)
         {
             CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
         }
+ */
         CityNode.castsShadow = true
         
         let BearingOffset = 180.0

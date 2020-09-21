@@ -17,7 +17,7 @@ extension FlatView
         let Flat = SCNPlane(width: CGFloat(FlatConstants.HourRadius.rawValue * 2.0),
                             height: CGFloat(FlatConstants.HourRadius.rawValue * 2.0))
         HourPlane = SCNNode(geometry: Flat)
-        HourPlane.categoryBitMask = LightMasks.Sun.rawValue
+        HourPlane.categoryBitMask = LightMasks3D.Sun.rawValue
         HourPlane.name = NodeNames2D.HourPlane.rawValue
         HourPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         HourPlane.geometry?.firstMaterial?.isDoubleSided = true
@@ -136,6 +136,7 @@ extension FlatView
         }
         let Node = SCNNode(geometry: HourShape)
         Node.name = NodeNames2D.HourNodes.rawValue
+        Node.categoryBitMask = LightMasks2D.Sun.rawValue
         Node.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.HourColor, NSColor.systemOrange)
         Node.geometry?.firstMaterial?.specular.contents = NSColor.white
         let FinalAngle = (Angle - 90.0) * -1

@@ -88,7 +88,7 @@ extension FlatView
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints, .ShowStatistics:
                 let ViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld)
-                if ViewType == .Globe3D || ViewType == .CubicWorld
+                if ViewType == .FlatNorthCenter || ViewType == .FlatSouthCenter
                 {
                     Settings.QueryBool(.ShowStatistics)
                     {

@@ -22,6 +22,7 @@ extension FlatView
                                height: CGFloat(FlatConstants.FlatThickness.rawValue))
         Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
         FlatEarthNode = SCNNode(geometry: Flat)
+        FlatEarthNode.categoryBitMask = LightMasks2D.North.rawValue
         let Image = NSImage(named: "SimplePoliticalWorldMapSouthCenter")
         SetEarthMap(Image!)
         FlatEarthNode.geometry?.firstMaterial?.lightingModel = .lambert
@@ -81,6 +82,7 @@ extension FlatView
     {
         let LineShape = SCNBox(width: Height, height: 0.1, length: 0.1, chamferRadius: 0.0)
         let LineNode = SCNNode(geometry: LineShape)
+        LineNode.categoryBitMask = LightMasks2D.Grid.rawValue
         LineNode.name = NodeNames2D.GridNodes.rawValue
         LineNode.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.GridLineColor, NSColor.black)
         LineNode.position = SCNVector3(0.0, 0.0, 0.0)
@@ -95,6 +97,7 @@ extension FlatView
     {
         let LineShape = SCNBox(width: 0.1, height: 0.1, length: Width, chamferRadius: 0.0)
         let LineNode = SCNNode(geometry: LineShape)
+        LineNode.categoryBitMask = LightMasks2D.Grid.rawValue
         LineNode.name = NodeNames2D.GridNodes.rawValue
         LineNode.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.GridLineColor, NSColor.black)
         LineNode.position = SCNVector3(0.0, 0.0, 0.0)
@@ -108,6 +111,7 @@ extension FlatView
     {
         let RingShape = SCNTorus(ringRadius: Radius, pipeRadius: 0.06)
         let RingNode = SCNNode(geometry: RingShape)
+        RingNode.categoryBitMask = LightMasks2D.Grid.rawValue
         RingShape.ringSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
         RingShape.pipeSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
         RingNode.name = NodeNames2D.GridNodes.rawValue

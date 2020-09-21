@@ -123,27 +123,23 @@ extension FlatView
         if Settings.GetBool(.UseAmbientLight)
         {
             CreateAmbientLight()
-            MoonNode?.removeAllActions()
-            MoonNode?.removeFromParentNode()
-            MoonNode = nil
             LightNode.removeAllActions()
             LightNode.removeFromParentNode()
-            MetalSunNode.removeAllActions()
-            MetalSunNode.removeFromParentNode()
-            MetalMoonNode.removeAllActions()
-            MetalMoonNode.removeFromParentNode()
             GridLightNode1.removeAllActions()
             GridLightNode1.removeFromParentNode()
             GridLightNode2.removeAllActions()
             GridLightNode2.removeFromParentNode()
+            NorthNode.removeAllActions()
+            NorthNode.removeFromParentNode()
+            SouthNode.removeAllActions()
+            SouthNode.removeFromParentNode()
         }
         else
         {
             RemoveAmbientLight()
             SetGridLight()
-            SetMetalLights()
             SetSunlight()
-            SetMoonlight(Show: Settings.GetBool(.ShowMoonLight))
+            SetPolarLights()
         }
     }
     
@@ -151,7 +147,7 @@ extension FlatView
     func CreateAmbientLight()
     {
         let Ambient = SCNLight()
-        Ambient.categoryBitMask = LightMasks.Sun.rawValue
+        Ambient.categoryBitMask = LightMasks3D.Sun.rawValue
         Ambient.type = .ambient
         Ambient.intensity = CGFloat(Defaults.AmbientLightIntensity.rawValue)
         Ambient.castsShadow = true
@@ -163,24 +159,23 @@ extension FlatView
         AmbientLightNode?.light = Ambient
         AmbientLightNode?.position = SCNVector3(0.0, 0.0, Defaults.AmbientLightZ.rawValue)
         self.scene?.rootNode.addChildNode(AmbientLightNode!)
-        
-        let BackNode = SCNNode()
-        BackNode.light = Ambient
-        BackNode.position = SCNVector3(0.0, 0.0, -Defaults.AmbientLightZ.rawValue)
-        self.scene?.rootNode.addChildNode(BackNode)
     }
     
     /// Set up "sun light" for the scene.
     func SetSunlight()
     {
         SunLight = SCNLight()
-        SunLight.categoryBitMask = LightMasks.Sun.rawValue
-        SunLight.type = .directional
-        SunLight.intensity = CGFloat(Defaults.SunLightIntensity.rawValue)
+        SunLight.categoryBitMask = LightMasks2D.Sun.rawValue
+        SunLight.type = .omni//.directional
+        //SunLight.intensity = CGFloat(Defaults.SunLightIntensity.rawValue)
+        SunLight.intensity = 400.0
+        
+        /*
         SunLight.castsShadow = true
         SunLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
         SunLight.shadowMode = .forward
         SunLight.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
+ */
         SunLight.color = NSColor.white
         LightNode = SCNNode()
         LightNode.light = SunLight
@@ -188,83 +183,45 @@ extension FlatView
         self.scene?.rootNode.addChildNode(LightNode)
     }
     
-    /// Show or hide the moonlight node.
-    /// - Parameter Show: Determines if moonlight is shown or removed.
-    func SetMoonlight(Show: Bool)
+    func SetPolarLights()
     {
-        if Show
-        {
-            let MoonLight = SCNLight()
-            MoonLight.categoryBitMask = LightMasks.Moon.rawValue
-            MoonLight.type = .directional
-            MoonLight.intensity = CGFloat(Defaults.MoonLightIntensity.rawValue)
-            MoonLight.castsShadow = true
-            MoonLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
-            MoonLight.shadowMode = .forward
-            MoonLight.shadowRadius = CGFloat(Defaults.MoonLightShadowRadius.rawValue)
-            MoonLight.color = NSColor.cyan
-            MoonNode = SCNNode()
-            MoonNode?.light = MoonLight
-            MoonNode?.position = SCNVector3(0.0, 0.0, Defaults.MoonLightZ.rawValue)
-            MoonNode?.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
-            self.scene?.rootNode.addChildNode(MoonNode!)
-            
-            MetalMoonLight = SCNLight()
-            MetalMoonLight.categoryBitMask = LightMasks.MetalMoon.rawValue
-            MetalMoonLight.type = .directional
-            MetalMoonLight.intensity = CGFloat(Defaults.MetalMoonLightIntensity.rawValue)
-            MetalMoonLight.castsShadow = true
-            MetalMoonLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
-            MetalMoonLight.shadowMode = .forward
-            MetalMoonLight.shadowRadius = CGFloat(Defaults.MoonLightShadowRadius.rawValue)
-            MetalMoonLight.color = NSColor.cyan
-            MetalMoonNode = SCNNode()
-            MetalMoonNode.light = MetalMoonLight
-            MetalMoonNode.position = SCNVector3(0.0, 0.0, Defaults.MoonLightZ.rawValue)
-            MetalMoonNode.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
-            self.scene?.rootNode.addChildNode(MetalMoonNode)
-        }
-        else
-        {
-            MetalMoonNode.removeAllActions()
-            MetalMoonNode.removeFromParentNode()
-            MoonNode?.removeAllActions()
-            MoonNode?.removeFromParentNode()
-            MoonNode = nil
-        }
-    }
-    
-    /// Set the lights used for metallic components.
-    func SetMetalLights()
-    {
-        MetalSunLight = SCNLight()
-        MetalSunLight.categoryBitMask = LightMasks.MetalSun.rawValue
-        MetalSunLight.type = .directional
-        MetalSunLight.intensity = CGFloat(Defaults.MetalSunLightIntensity.rawValue)
-        MetalSunLight.castsShadow = true
-        MetalSunLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
-        MetalSunLight.shadowMode = .forward
-        MetalSunLight.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
-        MetalSunLight.color = NSColor.white
-        MetalSunNode = SCNNode()
-        MetalSunNode.light = MetalSunLight
-        MetalSunNode.position = SCNVector3(0.0, 0.0, Defaults.SunLightZ.rawValue)
-        self.scene?.rootNode.addChildNode(MetalSunNode)
-        
-        MetalMoonLight = SCNLight()
-        MetalMoonLight.categoryBitMask = LightMasks.MetalMoon.rawValue
-        MetalMoonLight.type = .directional
-        MetalMoonLight.intensity = CGFloat(Defaults.MetalMoonLightIntensity.rawValue)
-        MetalMoonLight.castsShadow = true
-        MetalMoonLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
-        MetalMoonLight.shadowMode = .forward
-        MetalMoonLight.shadowRadius = CGFloat(Defaults.MoonLightShadowRadius.rawValue)
-        MetalMoonLight.color = NSColor.cyan
-        MetalMoonNode = SCNNode()
-        MetalMoonNode.light = MetalMoonLight
-        MetalMoonNode.position = SCNVector3(0.0, 0.0, Defaults.MoonLightZ.rawValue)
-        MetalMoonNode.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
-        self.scene?.rootNode.addChildNode(MetalMoonNode)
+        NorthLight = SCNLight()
+        NorthLight.categoryBitMask = LightMasks2D.North.rawValue
+        NorthLight.type = .spot
+        NorthLight.intensity = 3000
+        NorthLight.castsShadow = true
+        NorthLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
+        NorthLight.shadowMode = .forward
+        NorthLight.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
+        NorthLight.shadowSampleCount = 1
+        NorthLight.shadowMapSize = CGSize(width: 2048, height: 2048)
+        NorthLight.automaticallyAdjustsShadowProjection = true
+        NorthLight.shadowCascadeCount = 3
+        NorthLight.shadowCascadeSplittingFactor = 0.09
+        NorthLight.color = NSColor.white
+        NorthLight.zFar = 100
+        NorthLight.spotOuterAngle = 80.0
+        NorthNode = SCNNode()
+        NorthNode.light = NorthLight
+        NorthNode.position = SCNVector3(0.0, CGFloat(FlatConstants.FlatRadius.rawValue) + 6, 2.5)
+        NorthNode.eulerAngles = SCNVector3(-85.0.Radians, 0.0, 0.0)
+        self.scene?.rootNode.addChildNode(NorthNode)
+        #if false
+        SouthLight = SCNLight()
+        SouthLight.categoryBitMask = LightMasks2D.South.rawValue
+        SouthLight.type = .spot
+        SouthLight.intensity = 1000
+        SouthLight.castsShadow = true
+        SouthLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
+        SouthLight.shadowMode = .forward
+        SouthLight.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
+        SouthLight.color = NSColor.yellow
+        SouthNode = SCNNode()
+        SouthNode.light = SouthLight
+        SouthNode.position = SCNVector3(0.0, -CGFloat(FlatConstants.FlatRadius.rawValue), 0.1)
+        SouthNode.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
+        self.scene?.rootNode.addChildNode(SouthNode)
+        #endif
     }
     
     /// Set the lights for the grid. The grid needs a separate light because when it's over the night
@@ -274,7 +231,7 @@ extension FlatView
         GridLight1 = SCNLight()
         GridLight1.type = .omni
         GridLight1.color = NSColor.white
-        GridLight1.categoryBitMask = LightMasks.Grid.rawValue
+        GridLight1.categoryBitMask = LightMasks2D.Grid.rawValue
         GridLightNode1 = SCNNode()
         GridLightNode1.light = GridLight1
         GridLightNode1.position = SCNVector3(0.0, 0.0, Defaults.Grid1Z.rawValue)
@@ -282,7 +239,7 @@ extension FlatView
         GridLight2 = SCNLight()
         GridLight2.type = .omni
         GridLight2.color = NSColor.white
-        GridLight2.categoryBitMask = LightMasks.Grid.rawValue
+        GridLight2.categoryBitMask = LightMasks2D.Grid.rawValue
         GridLightNode2 = SCNNode()
         GridLightNode2.light = GridLight2
         GridLightNode2.position = SCNVector3(0.0, 0.0, Defaults.Grid2Z.rawValue)
