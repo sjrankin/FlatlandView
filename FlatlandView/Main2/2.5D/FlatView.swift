@@ -54,22 +54,21 @@ class FlatView: SCNView, SettingChangedProtocol
     
     var Camera: SCNCamera = SCNCamera()
     var CameraNode: SCNNode = SCNNode()
-    var MetalSunLight = SCNLight()
-    var MetalMoonLight = SCNLight()
-    var MetalSunNode = SCNNode()
-    var MetalMoonNode = SCNNode()
     var SunLight = SCNLight()
     var LightNode = SCNNode()
     var GridLight1 = SCNLight()
     var GridLightNode1 = SCNNode()
     var GridLight2 = SCNLight()
     var GridLightNode2 = SCNNode()
-    var MoonNode: SCNNode? = nil
     var AmbientLightNode: SCNNode? = nil
     var NighMaskNode = SCNNode()
     var GridNode = SCNNode()
     var HourPlane = SCNNode()
     var CityPlane = SCNNode()
+    var NorthLight = SCNLight()
+    var SouthLight = SCNLight()
+    var NorthNode = SCNNode()
+    var SouthNode = SCNNode()
     
     /// Set the 2D earth map.
     /// - Parameter NewImage: The image to use for the view.
