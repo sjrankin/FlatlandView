@@ -53,6 +53,8 @@ class Main2Controller: NSViewController
  */
     }
     
+    var StenciledImage: NSImage? = nil
+    
     /// Initialize things that require a fully set-up window.
     override func viewDidLayout()
     {
@@ -106,13 +108,24 @@ class Main2Controller: NSViewController
         {
             let Window = WindowController.window
             AboutDelegate = Window?.contentView as? WindowManagement
+            if let SomeController = Window?.contentViewController as? AboutController
+            {
+                AControl = SomeController
+            }
+            if let AlreadyStenciled = StenciledImage
+            {
+                AControl?.ForceMap(AlreadyStenciled)
+            }
             self.view.window?.beginSheet(Window!)
             {
                 _ in
                 self.AboutDelegate = nil
+                self.AControl = nil
             }
         }
     }
+    
+    var AControl: AboutController? = nil
     
     @IBAction func ShowTodaysTimes(_ sender: Any)
     {
