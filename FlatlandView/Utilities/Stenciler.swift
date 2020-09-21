@@ -15,6 +15,22 @@ import CoreImage.CIFilterBuiltins
 /// Class that stencils text and shapes onto images.
 class Stenciler
 {
+    /// Notification closure definition.
+    typealias NotificationClosure = ((NSImage?) -> ())?
+    
+    /// Callers should add an ID and notification here to be notified when `AddStencils` has a completed
+    /// image ready.
+    /// - Note: Intended for debug use but can be used for other features as well.
+    /// - Parameter ID: ID of the caller.
+    /// - Parameter Function: Closure to call when a stenciled image has been completed.
+    public static func NotificationSubscriber(ID: UUID, Function: NotificationClosure)
+    {
+        Subscribers[ID] = Function
+    }
+    
+    /// Holds the list of all subscribers.
+    private static var Subscribers = [UUID: NotificationClosure]()
+    
     /// Provides a lock from too many callers at once.
     private static let StencilLock = NSObject()
     
@@ -63,7 +79,6 @@ class Stenciler
         objc_sync_enter(StencilLock)
         defer{objc_sync_exit(StencilLock)}
         let MapRatio: Double = Double(Image.size.width) / 3600.0
-        //Debug.Print("Stencil on image size: \(Image.size), MapRatio=\(MapRatio)")
         let StartTime = CACurrentMediaTime()
         if Quakes == nil && !ShowRegions && !PlotCities && !GridLines && !UNESCOSites
         {
@@ -118,6 +133,10 @@ class Stenciler
             let Final = GetImage(From: Rep)
             let Duration = CACurrentMediaTime() - StartTime
             Status?("Finished", CACurrentMediaTime() - StartTime)
+            for (_, Function) in Subscribers
+            {
+                Function?(Final)
+            }
             Completed?(Final, Duration, CalledBy, FinalNotify)
         }
     }
