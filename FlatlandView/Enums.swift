@@ -366,18 +366,26 @@ enum GravitationParameters: Double, CaseIterable
 }
 
 #if DEBUG
-/// Options for debugging 3D views.
+/// Options for debugging 3D views. Also used for 2D views rendered in a 3D scene.
 /// - Note: Values obtains from [SCNDebugOptions](https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12)
 /// - Note: Values are bit masks and should not be changed.
 enum DebugOptions3D: UInt, CaseIterable
 {
+    /// All debug options are disabled.
     case AllOff = 0
+    /// Show the wire frame.
     case WireFrame = 64
+    /// Show bounding boxes.
     case BoundingBoxes = 2
+    /// Show the skeleton.
     case Skeleton = 128
+    /// Show light influences.
     case LightInfluences = 4
+    /// Show light extents.
     case LightExtents = 8
+    /// Show constraints.
     case Constraints = 512
+    /// Show cameras.
     case Cameras = 1024
 }
 #endif
@@ -844,7 +852,7 @@ enum LayerZLevels: Int
 
 /// Light masks for 3D scenes. The value of each case if the mask value for a given
 /// light and as such, each value must be unique (which is enforced by Swift).
-enum LightMasks: Int, CaseIterable
+enum LightMasks3D: Int, CaseIterable
 {
     /// Mask for the sun light.
     case Sun = 0b00001
@@ -856,6 +864,20 @@ enum LightMasks: Int, CaseIterable
     case MetalMoon = 0b01000
     /// Mask for the grid light.
     case Grid = 0b10000
+}
+
+/// Light masks for 2D scenes. The value of each case if the mask value for a given
+/// light and as such, each value must be unique (which is enforced by Swift).
+enum LightMasks2D: Int, CaseIterable
+{
+    /// The sun light mask.
+    case Sun = 0b00001
+    /// The grid light mask.
+    case Grid = 0b00010
+    /// The north polar light mask.
+    case North = 0b00100
+    /// The south polar light mask.
+    case South = 0b01000
 }
 
 /// **Standard longitudes**. The raw value of each case is the percent away from the South Pole in
