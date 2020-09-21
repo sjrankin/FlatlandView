@@ -212,11 +212,13 @@ extension GlobeView
                         RadialOffset: CGFloat = 0.0, StartAngle: Double) -> SCNNode
     {
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
-        let Node = SCNNode(geometry: NodeShape)
-        Node.position = SCNVector3(0.0, 0.0, 0.0)
-        Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
-        Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
-        Node.name = GlobeNodeNames.HourNode.rawValue
+        let PhraseNode = SCNNode(geometry: NodeShape)
+        PhraseNode.castsShadow = true
+        PhraseNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        PhraseNode.position = SCNVector3(0.0, 0.0, 0.0)
+        PhraseNode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        PhraseNode.geometry?.firstMaterial?.specular.contents = NSColor.clear
+        PhraseNode.name = GlobeNodeNames.HourNode.rawValue
 
         let VisualScript = Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English)
         
@@ -288,13 +290,14 @@ extension GlobeView
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
                 let HourTextNode = SCNNode(geometry: HourText)
-                HourTextNode.categoryBitMask = LightMasks.Sun.rawValue | LightMasks.Moon.rawValue
+                HourTextNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 HourTextNode.scale = SCNVector3(NodeScales.HourText.rawValue,
                                                 NodeScales.HourText.rawValue,
                                                 NodeScales.HourText.rawValue)
                 HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
                 let HourRotation = (90.0 - Double(WorkingAngle)).Radians
                 HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
+                HourTextNode.castsShadow = true
                 LabelNode.addChildNode(HourTextNode)
                 TotalLabelWidth = TotalLabelWidth + (CGFloat(CharWidth) + PreviousEnding)
             }
@@ -303,12 +306,12 @@ extension GlobeView
             let FinalZ = CGFloat(0) * sin(LastAngle)
             let YOffset = -(LabelHeight * 0.07) / 8.0
             LabelNode.position = SCNVector3(FinalX, YOffset, FinalZ)
-            Node.addChildNode(LabelNode)
+            PhraseNode.addChildNode(LabelNode)
             
             //Adjust the angle by one hour.
             Angle = Angle + 15
         }
         
-        return Node
+        return PhraseNode
     }
 }
