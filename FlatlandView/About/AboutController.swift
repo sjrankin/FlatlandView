@@ -21,13 +21,10 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         InitializeAboutView()
     }
     
+    /// Initialize the view.
     func InitializeAboutView()
     {
-        #if DEBUG
-        AboutWorld.allowsCameraControl = true
-        #else
         AboutWorld.allowsCameraControl = false
-        #endif
         AboutWorld.autoenablesDefaultLighting = false
         AboutWorld.scene = SCNScene()
         AboutWorld.backgroundColor = NSColor.black
@@ -128,6 +125,14 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         }
     }
     
+    /// Force a map onto the about globe. This is intended mainly for debug but can be used for other purposes
+    /// if needed.
+    /// - Parameter Image: The image to draw on the about globe.
+    func ForceMap(_ Image: NSImage)
+    {
+        EarthNode?.geometry?.firstMaterial?.diffuse.contents = Image
+    }
+    
     /// Draw a spherical world.
     func DrawGlobeWorld()
     {
@@ -148,16 +153,17 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         EarthNode = SCNNode(geometry: Surface)
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
+        EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
         SystemNode = SCNNode()
         AboutWorld.prepare([EarthNode!], completionHandler:
-            {
-                success in
-                if success
-                {
-                    self.SystemNode!.addChildNode(self.EarthNode!)
-                    self.AboutWorld.scene?.rootNode.addChildNode(self.SystemNode!)
-                }
-        })
+                            {
+                                success in
+                                if success
+                                {
+                                    self.SystemNode!.addChildNode(self.EarthNode!)
+                                    self.AboutWorld.scene?.rootNode.addChildNode(self.SystemNode!)
+                                }
+                            })
         
         let Declination = Sun.Declination(For: Date())
         SystemNode!.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
@@ -191,14 +197,14 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
         
         AboutWorld.prepare([EarthNode!], completionHandler:
-            {
-                success in
-                if success
-                {
-                    self.SystemNode?.addChildNode(self.EarthNode!)
-                    self.AboutWorld.scene?.rootNode.addChildNode(self.SystemNode!)
-                }
-        }
+                            {
+                                success in
+                                if success
+                                {
+                                    self.SystemNode?.addChildNode(self.EarthNode!)
+                                    self.AboutWorld.scene?.rootNode.addChildNode(self.SystemNode!)
+                                }
+                            }
         )
     }
     
@@ -211,10 +217,10 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         }
         TextAdded = true
         let NameNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: "Flatland", SpacingConstant: 25.0,
-                                                 Latitude: 10.0, Longitude: 0.0, Extrusion: 5.0,
-                                                 TextFont: NSFont(name: "Copperplate", size: 32),
-                                                 TextColor: NSColor.systemRed,
-                                                 TextSpecular: NSColor.systemOrange)
+                                                  Latitude: 10.0, Longitude: 0.0, Extrusion: 5.0,
+                                                  TextFont: NSFont(name: "Copperplate", size: 32),
+                                                  TextColor: NSColor.systemRed,
+                                                  TextSpecular: NSColor.systemOrange)
         let VersionData = Versioning.MakeVersionString() + ", Build \(Versioning.Build) (\(Versioning.BuildDate))"
         let VersionNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: VersionData,
                                                      SpacingConstant: 25.0,
@@ -222,14 +228,14 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
                                                      TextFont: NSFont(name: "Avenir-Heavy", size: 24),
                                                      TextColor: NSColor.systemYellow,
                                                      TextSpecular: NSColor.white)
-        let CopyNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: Versioning.CopyrightText(), Latitude: -10.0, Longitude: 0.0,
-                                                  Extrusion: 3.0, TextFont: NSFont(name: "Avenir-Heavy", size: 24),
-                                                  TextColor: NSColor.systemTeal,
-                                                  TextSpecular: NSColor.white)
+        let CopyrightNodes = Utility.MakeFloatingWord2(Radius: 12.0, Word: Versioning.CopyrightText(), Latitude: -10.0, Longitude: 0.0,
+                                                       Extrusion: 3.0, TextFont: NSFont(name: "Avenir-Heavy", size: 24),
+                                                       TextColor: NSColor.systemTeal,
+                                                       TextSpecular: NSColor.white)
         let TextNode = SCNNode()
         NameNodes.forEach({TextNode.addChildNode($0)})
         VersionNodes.forEach({TextNode.addChildNode($0)})
-        CopyNodes.forEach({TextNode.addChildNode($0)})
+        CopyrightNodes.forEach({TextNode.addChildNode($0)})
         TextNode.position = SCNVector3(0.0, 0.0, 0.0)
         AboutWorld.scene?.rootNode.addChildNode(TextNode)
         let Rotation = SCNAction.rotateBy(x: 0.0, y: -CGFloat.pi / 180.0, z: 0.0, duration: 0.05)
