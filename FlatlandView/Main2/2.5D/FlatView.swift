@@ -29,8 +29,6 @@ class FlatView: SCNView, SettingChangedProtocol
         InitializeView()
     }
     
-    
-    
     #if DEBUG
     /// Set debug options for the visual debugging of the 3D globe.
     /// - Note: See [SCNDebugOptions](https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12)
@@ -65,6 +63,7 @@ class FlatView: SCNView, SettingChangedProtocol
     var CityPlane = SCNNode()
     var PolarLight = SCNLight()
     var PolarNode = SCNNode()
+    var QuakePlane = SCNNode()
     
     /// Set the 2D earth map.
     /// - Parameter NewImage: The image to use for the view.
