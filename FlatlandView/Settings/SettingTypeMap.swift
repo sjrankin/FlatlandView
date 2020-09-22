@@ -168,5 +168,6 @@ extension Settings
             .CityFontRelativeSize: RelativeSizes.self,
             .MagnitudeRelativeFontSize: RelativeSizes.self,
             .StencilPlainText: Bool.self,
+            .Show2DShadows: Bool.self,
         ]
 }
