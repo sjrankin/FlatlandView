@@ -874,10 +874,8 @@ enum LightMasks2D: Int, CaseIterable
     case Sun = 0b00001
     /// The grid light mask.
     case Grid = 0b00010
-    /// The north polar light mask.
-    case North = 0b00100
-    /// The south polar light mask.
-    case South = 0b01000
+    /// The polar light mask.
+    case Polar = 0b00100
 }
 
 /// **Standard longitudes**. The raw value of each case is the percent away from the South Pole in
@@ -1020,7 +1018,7 @@ enum Defaults: Double
 enum FlatConstants: Double, CaseIterable
 {
     /// The radius of the flat map.
-    case FlatRadius = 11.0
+    case FlatRadius = 11.00001
     /// The thickness of the flat map.
     case FlatThickness = 0.099
     /// The thickness of the mask layer.
@@ -1043,6 +1041,36 @@ enum FlatConstants: Double, CaseIterable
     case InitialRotation = 0.112
     /// Normal rotation duration.
     case NormalRotation = 1.0001
+    /// Maximum arc height of the polar sun when animated from one pole to the other.
+    case MaxArcHeight = 5.0
+    /// Number of steps when animating the polar sun across the Earth.
+    case ArcStepCount = 11.0
+    /// Distance from the edge of the disc of the Earth in flat mode for the polar sun.
+    case PolarSunRimOffset = 5.01
+    /// Duration (in seconds) of the animation of the polar sun when movine from pole to pole.
+    case PolarAnimationDuration = 1.4
+    /// Z coordinate of the grid light.
+    case GridLightZ = 80.0
+    /// Standard polar light intensity.
+    case PolarLightIntensity = 3600.0
+    /// Standard sun light intensity.
+    case SunLightIntensity = 1000.01
+    /// Z coordinate of the sun light.
+    case SunLightZ = 80.0005
+    /// Polar light zFar value.
+    case PolarZFar = 1000.0
+    /// Polar light zNear value.
+    case PolarZNear = 0.100101
+    /// Polar light spot outer angle.
+    case PolarLightOuterAngle = 90.001
+    /// Shadow cascade splitter factor for the polar light shadow rendering.
+    case ShadowSplitting = 0.09
+    /// Side length of the shadow map for polor light shadow rendering.
+    case ShadowMapSide = 2048.0
+    /// Orientation angle for the X-axis rotation of the polar light.
+    case PolarLightXOrientation = 85.0
+    /// Z value of the polar light at either pole.
+    case PolarLightZTerminal = 3.0
 }
 
 /// Values intended to be constants for one reason or another.
