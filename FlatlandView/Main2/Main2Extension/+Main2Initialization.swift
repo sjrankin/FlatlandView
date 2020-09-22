@@ -43,6 +43,7 @@ extension Main2Controller
         }
         #endif
         FileIO.Initialize()
+        Main2Controller.InitializeWorldHeritageSites()
         PrimaryMapList = ActualMapIO.LoadMapList()
         FontHelper.Initialize()
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
