@@ -35,6 +35,7 @@ class View2DSettingsWindow: NSViewController, NSTableViewDelegate, NSTableViewDa
     
     func Initialize2DMap()
     {
+        ShowShadowsSwitch.state = Settings.GetBool(.Show2DShadows) ? .on : .off
         Show2DNight.state = Settings.GetBool(.ShowNight) ? .on : .off
         Show2DPolarCircles.state = Settings.GetBool(.Show2DPolarCircles) ? .on : .off
         Show2DPrimeMeridians.state = Settings.GetBool(.Show2DPrimeMeridians) ? .on : .off
@@ -119,6 +120,14 @@ class View2DSettingsWindow: NSViewController, NSTableViewDelegate, NSTableViewDa
         }
     }
     
+    @IBAction func HandleShadowsChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.Show2DShadows, Switch.state == .on ? true : false)
+        }
+    }
+    
     @IBAction func HandleNightDarknessChanged(_ sender: Any)
     {
         if let Segment = sender as? NSSegmentedControl
@@ -172,6 +181,7 @@ class View2DSettingsWindow: NSViewController, NSTableViewDelegate, NSTableViewDa
         }
     }
     
+    @IBOutlet weak var ShowShadowsSwitch: NSSwitch!
     @IBOutlet weak var Show2DNoonMeridians: NSSwitch!
     @IBOutlet weak var Show2DPolarCircles: NSSwitch!
     @IBOutlet weak var Show2DPrimeMeridians: NSSwitch!
