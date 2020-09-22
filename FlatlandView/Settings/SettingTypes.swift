@@ -54,6 +54,8 @@ enum SettingTypes: String, CaseIterable
     case Show2DPrimeMeridians = "Show2DPrimeMeridians"
     /// Boolean: Display noon meridians in 2D mode.
     case Show2DNoonMeridians = "Show2DNoonMeridians"
+    /// Boolean: Display shadows for protruding objects.
+    case Show2DShadows = "Show2DShadows"
     
     // MARK: - 3D view settings.
     /// Boolean: Display grid lines in 3D mode.
