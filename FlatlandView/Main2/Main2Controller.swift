@@ -345,6 +345,10 @@ class Main2Controller: NSViewController
     var LatestEarthquakes = [Earthquake]()
     var CityTestList = [City]()
     let CityList = Cities()
+    var UnescoURL: URL? = nil
+    static var UnescoInitialized = false
+    static var UnescoHandle: OpaquePointer? = nil
+    var WorldHeritageSites: [WorldHeritageSite]? = nil
     
     // MARK: - Storyboard outlets
     
