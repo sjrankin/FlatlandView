@@ -56,19 +56,15 @@ class FlatView: SCNView, SettingChangedProtocol
     var CameraNode: SCNNode = SCNNode()
     var SunLight = SCNLight()
     var LightNode = SCNNode()
-    var GridLight1 = SCNLight()
-    var GridLightNode1 = SCNNode()
-    var GridLight2 = SCNLight()
-    var GridLightNode2 = SCNNode()
+    var GridLight = SCNLight()
+    var GridLightNode = SCNNode()
     var AmbientLightNode: SCNNode? = nil
-    var NighMaskNode = SCNNode()
+    var NightMaskNode = SCNNode()
     var GridNode = SCNNode()
     var HourPlane = SCNNode()
     var CityPlane = SCNNode()
-    var NorthLight = SCNLight()
-    var SouthLight = SCNLight()
-    var NorthNode = SCNNode()
-    var SouthNode = SCNNode()
+    var PolarLight = SCNLight()
+    var PolarNode = SCNNode()
     
     /// Set the 2D earth map.
     /// - Parameter NewImage: The image to use for the view.
@@ -257,4 +253,35 @@ class FlatView: SCNView, SettingChangedProtocol
             self.pointOfView?.constraints = []
         }
     }
+    
+    func UpdateLightsForShadows(ShowShadows: Bool)
+    {
+        if ShowShadows
+        {
+            //SunLight.intensity = 0.0
+            FlatEarthNode.categoryBitMask = LightMasks2D.Polar.rawValue
+            let Center = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+            switch Center
+            {
+                case .FlatSouthCenter:
+                    PolarLight.intensity = 3600
+                    MovePolarLight(ToNorth: true)
+                    
+                case .FlatNorthCenter:
+                    PolarLight.intensity = 3600
+                    MovePolarLight(ToNorth: false)
+                    
+                default:
+                    return
+            }
+        }
+        else
+        {
+            SunLight.intensity = 1000.0
+            PolarLight.intensity = 0
+            FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue
+        }
+    }
+    
+    var NodesWithShadows = [SCNNode]()
 }
