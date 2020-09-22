@@ -18,10 +18,27 @@ extension FlatView
         PlotCities(FlatConstants.FlatRadius.rawValue)
     }
     
+    func PlotWorldHeritageSites()
+    {
+        
+    }
+    
     /// Remove cities and user-cities.
     func HideCities()
     {
-        RemoveNodeWithName(NodeNames2D.LocationNode.rawValue, FromParent: CityPlane)
+        RemoveNodeWithName(NodeNames2D.CityNode.rawValue, FromParent: CityPlane)
+    }
+    
+    /// Remove the home node.
+    func HideHomeNode()
+    {
+        RemoveNodeWithName(NodeNames2D.HomeNode.rawValue, FromParent: CityPlane)
+    }
+    
+    /// Remove user POIs.
+    func HideUserPOIs()
+    {
+        RemoveNodeWithName(NodeNames2D.UserPOI.rawValue, FromParent: CityPlane)
     }
     
     /// Add the city layer. This layer is where all city-related objects are placed.
@@ -45,7 +62,7 @@ extension FlatView
     func PlotCities(_ Radius: Double)
     {
         NodesWithShadows.removeAll()
-        RemoveNodeWithName(NodeNames2D.LocationNode.rawValue, FromParent: CityPlane)
+        RemoveNodeWithName(NodeNames2D.CityNode.rawValue, FromParent: CityPlane)
         let CityList = Cities()
         CitiesToPlot = CityList.FilteredCities()
         
@@ -71,28 +88,32 @@ extension FlatView
             if City.IsUserCity
             {
                 let UserCity = PlotLocationAsCone(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                   WithColor: City.CityColor)
+                                                  WithColor: City.CityColor)
+                UserCity.name = NodeNames2D.UserPOI.rawValue
                 CityPlane.addChildNode(UserCity)
                 NodesWithShadows.append(UserCity)
             }
             else
             {
-                var CityColor = Cities.ColorForCity(City)
-                if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
+                if Settings.GetBool(.ShowCities)
                 {
-                    CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
+                    var CityColor = Cities.ColorForCity(City)
+                    if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
+                    {
+                        CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
+                    }
+                    if Settings.GetBool(.ShowCitiesByPopulation)
+                    {
+                        CityColor = Settings.GetColor(.PopulationColor, NSColor.Sunglow)
+                    }
+                    var MinSize = FlatConstants.CitySphereRadius.rawValue
+                    let Percent = Double(City.GetPopulation()) / Double(Max)
+                    MinSize = MinSize + ((MinSize  * FlatConstants.RelativeCitySizeAdjustment.rawValue) * Percent)
+                    let CityNode = PlotLocationAsSphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                                        WithColor: CityColor, RelativeSize: CGFloat(MinSize))
+                    CityPlane.addChildNode(CityNode)
+                    NodesWithShadows.append(CityNode)
                 }
-                if Settings.GetBool(.ShowCitiesByPopulation)
-                {
-                    CityColor = Settings.GetColor(.PopulationColor, NSColor.Sunglow)
-                }
-                var MinSize = FlatConstants.CitySphereRadius.rawValue
-                let Percent = Double(City.GetPopulation()) / Double(Max)
-                MinSize = MinSize + ((MinSize  * FlatConstants.RelativeCitySizeAdjustment.rawValue) * Percent)
-                let CityNode = PlotLocationAsSphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                     WithColor: CityColor, RelativeSize: CGFloat(MinSize))
-                CityPlane.addChildNode(CityNode)
-                NodesWithShadows.append(CityNode)
             }
         }
         
@@ -103,9 +124,9 @@ extension FlatView
                 if let HomeLongitude = Settings.GetDoubleNil(.LocalLongitude)
                 {
                     let HomeNode = PlotLocationAsExtrusion(Latitude: HomeLatitude, Longitude: HomeLongitude,
-                                                       Radius: Radius,
-                                                       Scale: FlatConstants.HomeSizeScale.rawValue,
-                                                       WithColor: Settings.GetColor(.HomeColor, NSColor.green))
+                                                           Radius: Radius,
+                                                           Scale: FlatConstants.HomeSizeScale.rawValue,
+                                                           WithColor: Settings.GetColor(.HomeColor, NSColor.green))
                     CityPlane.addChildNode(HomeNode)
                     NodesWithShadows.append(HomeNode)
                 }
@@ -125,7 +146,7 @@ extension FlatView
                                 bottomRadius: CGFloat(FlatConstants.UserCityBaseSize.rawValue),
                                 height: CGFloat(FlatConstants.UserCityHeight.rawValue))
         let CityNode = SCNNode(geometry: CityShape)
-        CityNode.name = NodeNames2D.LocationNode.rawValue
+        CityNode.name = NodeNames2D.CityNode.rawValue
         CityNode.categoryBitMask = LightMasks2D.Polar.rawValue
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         if Settings.GetBool(.CityNodesGlow)
@@ -164,7 +185,7 @@ extension FlatView
         let CitySize = CGFloat(FlatConstants.CitySphereRadius.rawValue)
         let CityShape = SCNSphere(radius: CitySize)
         let CityNode = SCNNode(geometry: CityShape)
-        CityNode.name = NodeNames2D.LocationNode.rawValue
+        CityNode.name = NodeNames2D.CityNode.rawValue
         CityNode.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         if Settings.GetBool(.CityNodesGlow)
@@ -204,7 +225,7 @@ extension FlatView
         let CitySize = RelativeSize
         let CityShape = SCNSphere(radius: CitySize)
         let CityNode = SCNNode(geometry: CityShape)
-        CityNode.name = NodeNames2D.LocationNode.rawValue
+        CityNode.name = NodeNames2D.CityNode.rawValue
         CityNode.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         if Settings.GetBool(.CityNodesGlow)
@@ -231,13 +252,20 @@ extension FlatView
         return CityNode
     }
     
+    /// Plot a location as an extruded star.
+    /// - Note: The size of the star is determined by the values in `FlatConstants`.
+    /// - Parameter Latitude: The latitude of the location.
+    /// - Parameter Longitude: The longitude of the location.
+    /// - Parameter Radius: The radius of the flat Earth.
+    /// - Parameter Scale: The scale of the shape.
+    /// - Parameter WithColor: The color to use as the texture for the star.
     func PlotLocationAsExtrusion(Latitude: Double, Longitude: Double, Radius: Double, Scale: Double,
                                  WithColor: NSColor) -> SCNNode
     {
         let Star = SCNNode(geometry: SCNStar.Geometry(VertexCount: 5, Height: 7.0, Base: 3.5, ZHeight: 4.0))
         Star.scale = SCNVector3(Scale, Scale, Scale)
         Star.castsShadow = true
-        Star.name = NodeNames2D.LocationNode.rawValue
+        Star.name = NodeNames2D.HomeNode.rawValue
         Star.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
         Star.geometry?.firstMaterial?.diffuse.contents = WithColor
         if Settings.GetBool(.CityNodesGlow)
