@@ -143,6 +143,7 @@
 		178E1CAC25186EB000FDC75B /* +ChangedSettingsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178E1CAB25186EB000FDC75B /* +ChangedSettingsHandler.swift */; };
 		1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */; };
 		1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105E2495BA6900626FD9 /* SCNTriangle.swift */; };
+		1792486825198A7F00AF4D4B /* +FlatViewLights.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792486725198A7F00AF4D4B /* +FlatViewLights.swift */; };
 		1797ED3D24E7B976005C74A0 /* FlatlandNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1797ED3C24E7B976005C74A0 /* FlatlandNotification.swift */; };
 		179BE7C324ED053D0025B349 /* Today.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 179BE7C224ED053D0025B349 /* Today.storyboard */; };
 		179BE7C524ED06DB0025B349 /* TodayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179BE7C424ED06DB0025B349 /* TodayWindow.swift */; };
@@ -389,6 +390,7 @@
 		178E1CAB25186EB000FDC75B /* +ChangedSettingsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ChangedSettingsHandler.swift"; sourceTree = "<group>"; };
 		1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSimpleArrow.swift; sourceTree = "<group>"; };
 		1792105E2495BA6900626FD9 /* SCNTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangle.swift; sourceTree = "<group>"; };
+		1792486725198A7F00AF4D4B /* +FlatViewLights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewLights.swift"; sourceTree = "<group>"; };
 		1797ED3C24E7B976005C74A0 /* FlatlandNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlandNotification.swift; sourceTree = "<group>"; };
 		179BE7C224ED053D0025B349 /* Today.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Today.storyboard; sourceTree = "<group>"; };
 		179BE7C424ED06DB0025B349 /* TodayWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWindow.swift; sourceTree = "<group>"; };
@@ -952,6 +954,7 @@
 				17C87B7425177E360065BE6D /* +FlatViewInitialization.swift */,
 				17C87B7A25177F650065BE6D /* +FlatViewHours.swift */,
 				17C87B7D25177FBF0065BE6D /* +FlatViewSettingsHandler.swift */,
+				1792486725198A7F00AF4D4B /* +FlatViewLights.swift */,
 			);
 			path = 2DExtensions;
 			sourceTree = "<group>";
@@ -1616,6 +1619,7 @@
 				17897C8A2514AA6C00544DE1 /* +Main2Windowing.swift in Sources */,
 				1759AE5E249F811E003F79F5 /* OtherOptions.swift in Sources */,
 				178909C6250E0CE80092E3A4 /* Main2Controller.swift in Sources */,
+				1792486825198A7F00AF4D4B /* +FlatViewLights.swift in Sources */,
 				176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */,
 				178909C5250E0CE40092E3A4 /* Main2Window.swift in Sources */,
 				172F4A2324FA0F420014A65E /* VectorEditor.swift in Sources */,
