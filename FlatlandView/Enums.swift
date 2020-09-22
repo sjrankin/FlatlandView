@@ -1017,6 +1017,8 @@ enum Defaults: Double
 /// Values used by the flat view.
 enum FlatConstants: Double, CaseIterable
 {
+    /// Used as part of the conversion process to conver latitude, longitude pairs into polar coordinates.
+    case InitialBearingOffset = 180.0
     /// The radius of the flat map.
     case FlatRadius = 11.00001
     /// The thickness of the flat map.
@@ -1071,6 +1073,16 @@ enum FlatConstants: Double, CaseIterable
     case PolarLightXOrientation = 85.0
     /// Z value of the polar light at either pole.
     case PolarLightZTerminal = 3.0
+    /// Base size for cones used to plot user-cities.
+    case UserCityBaseSize = 0.1500001
+    /// Height of cones used to plot user-cities.
+    case UserCityHeight = 0.45
+    /// Radius of spheres for uniform cities.
+    case CitySphereRadius = 0.150002
+    /// How to adjust the relative city size offset.
+    case RelativeCitySizeAdjustment = 1.005
+    /// Scale to use for the home shape.
+    case HomeSizeScale = 0.035
 }
 
 /// Values intended to be constants for one reason or another.
