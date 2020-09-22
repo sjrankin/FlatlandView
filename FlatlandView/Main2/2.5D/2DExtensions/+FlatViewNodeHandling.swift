@@ -213,8 +213,4 @@ extension FlatView
     func AddHeritageLayer()
     {
     }
-    
-    func AddEarthquakeLayer()
-    {
-    }
 }
