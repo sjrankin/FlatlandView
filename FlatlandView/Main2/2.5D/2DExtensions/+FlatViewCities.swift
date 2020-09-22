@@ -12,16 +12,19 @@ import SceneKit
 
 extension FlatView
 {
+    /// Plot cities and user-cities.
     func PlotCities()
     {
         PlotCities(FlatConstants.FlatRadius.rawValue)
     }
     
+    /// Remove cities and user-cities.
     func HideCities()
     {
         RemoveNodeWithName(NodeNames2D.LocationNode.rawValue, FromParent: CityPlane)
     }
     
+    /// Add the city layer. This layer is where all city-related objects are placed.
     func AddCityLayer()
     {
         let Flat = SCNPlane(width: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0),
@@ -37,6 +40,8 @@ extension FlatView
         self.scene?.rootNode.addChildNode(CityPlane)
     }
     
+    /// Plot cities and user cities.
+    /// - Parameter Radius: The radius of the flat view Earth.
     func PlotCities(_ Radius: Double)
     {
         NodesWithShadows.removeAll()
@@ -65,9 +70,8 @@ extension FlatView
         {
             if City.IsUserCity
             {
-                let ShowEmission = Settings.GetBool(.ShowPOIEmission)
                 let UserCity = PlotLocationAsCone(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                   WithColor: City.CityColor, EnableEmission: ShowEmission)
+                                   WithColor: City.CityColor)
                 CityPlane.addChildNode(UserCity)
                 NodesWithShadows.append(UserCity)
             }
@@ -82,24 +86,82 @@ extension FlatView
                 {
                     CityColor = Settings.GetColor(.PopulationColor, NSColor.Sunglow)
                 }
+                var MinSize = FlatConstants.CitySphereRadius.rawValue
+                let Percent = Double(City.GetPopulation()) / Double(Max)
+                MinSize = MinSize + ((MinSize  * FlatConstants.RelativeCitySizeAdjustment.rawValue) * Percent)
                 let CityNode = PlotLocationAsSphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                     WithColor: CityColor, EnableEmission: false)
+                                     WithColor: CityColor, RelativeSize: CGFloat(MinSize))
                 CityPlane.addChildNode(CityNode)
                 NodesWithShadows.append(CityNode)
             }
         }
+        
+        if Settings.GetBool(.ShowHomeLocation)
+        {
+            if let HomeLatitude = Settings.GetDoubleNil(.LocalLatitude)
+            {
+                if let HomeLongitude = Settings.GetDoubleNil(.LocalLongitude)
+                {
+                    let HomeNode = PlotLocationAsExtrusion(Latitude: HomeLatitude, Longitude: HomeLongitude,
+                                                       Radius: Radius,
+                                                       Scale: FlatConstants.HomeSizeScale.rawValue,
+                                                       WithColor: Settings.GetColor(.HomeColor, NSColor.green))
+                    CityPlane.addChildNode(HomeNode)
+                    NodesWithShadows.append(HomeNode)
+                }
+            }
+        }
     }
     
-    func PlotLocationAsCone(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor,
-                            EnableEmission: Bool) -> SCNNode
+    /// Plot a location on the flat Earth as a cone.
+    /// - Note: The size of the cone is determined by the values in `FlatConstants`.
+    /// - Parameter Latitude: The latitude of the location.
+    /// - Parameter Longitude: The longitude of the location.
+    /// - Parameter Radius: The radius of the flat Earth.
+    /// - Parameter WithColor: The color to use as the texture for the cone.
+    func PlotLocationAsCone(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor) -> SCNNode
     {
-        return SCNNode()
+        let CityShape = SCNCone(topRadius: 0.0,
+                                bottomRadius: CGFloat(FlatConstants.UserCityBaseSize.rawValue),
+                                height: CGFloat(FlatConstants.UserCityHeight.rawValue))
+        let CityNode = SCNNode(geometry: CityShape)
+        CityNode.name = NodeNames2D.LocationNode.rawValue
+        CityNode.categoryBitMask = LightMasks2D.Polar.rawValue
+        CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        if Settings.GetBool(.CityNodesGlow)
+        {
+            CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+        }
+        CityNode.castsShadow = true
+        
+        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
+        var LongitudeAdjustment = -1.0
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        {
+            LongitudeAdjustment = 1.0
+        }
+        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
+        let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
+        Distance = Distance * Ratio
+        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
+        LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
+        let PointX = Distance * cos(LocationBearing)
+        let PointY = Distance * sin(LocationBearing)
+        CityNode.position = SCNVector3(PointX, PointY, FlatConstants.UserCityHeight.rawValue * 0.5)
+        CityNode.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
+        
+        return CityNode
     }
     
-    func PlotLocationAsSphere(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor,
-                              EnableEmission: Bool) -> SCNNode
+    /// Plot a location on the flat Earth as a sphere half embedded in the surface of the Earth.
+    /// - Note: The size of the sphere is determined by the values in `FlatConstants`.
+    /// - Parameter Latitude: The latitude of the location.
+    /// - Parameter Longitude: The longitude of the location.
+    /// - Parameter Radius: The radius of the flat Earth.
+    /// - Parameter WithColor: The color to use as the texture for the sphere.
+    func PlotLocationAsSphere(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor) -> SCNNode
     {
-        var CitySize: CGFloat = 0.15
+        let CitySize = CGFloat(FlatConstants.CitySphereRadius.rawValue)
         let CityShape = SCNSphere(radius: CitySize)
         let CityNode = SCNNode(geometry: CityShape)
         CityNode.name = NodeNames2D.LocationNode.rawValue
@@ -111,7 +173,7 @@ extension FlatView
         }
         CityNode.castsShadow = true
         
-        let BearingOffset = 180.0
+        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
         var LongitudeAdjustment = -1.0
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
         {
@@ -127,5 +189,77 @@ extension FlatView
         CityNode.position = SCNVector3(PointX, PointY, 0.0)
         
         return CityNode
+    }
+    
+    /// Plot a location on the flat Earth as a sphere half embedded in the surface of the Earth.
+    /// - Note: The size of the sphere is determined by the values in `FlatConstants`.
+    /// - Parameter Latitude: The latitude of the location.
+    /// - Parameter Longitude: The longitude of the location.
+    /// - Parameter Radius: The radius of the flat Earth.
+    /// - Parameter WithColor: The color to use as the texture for the sphere.
+    /// - Parameter RelativeSize: The relative size of the city's sphere.
+    func PlotLocationAsSphere(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor,
+                              RelativeSize: CGFloat) -> SCNNode
+    {
+        let CitySize = RelativeSize
+        let CityShape = SCNSphere(radius: CitySize)
+        let CityNode = SCNNode(geometry: CityShape)
+        CityNode.name = NodeNames2D.LocationNode.rawValue
+        CityNode.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
+        CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        if Settings.GetBool(.CityNodesGlow)
+        {
+            CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+        }
+        CityNode.castsShadow = true
+        
+        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
+        var LongitudeAdjustment = -1.0
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        {
+            LongitudeAdjustment = 1.0
+        }
+        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
+        let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
+        Distance = Distance * Ratio
+        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
+        LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
+        let PointX = Distance * cos(LocationBearing)
+        let PointY = Distance * sin(LocationBearing)
+        CityNode.position = SCNVector3(PointX, PointY, 0.0)
+        
+        return CityNode
+    }
+    
+    func PlotLocationAsExtrusion(Latitude: Double, Longitude: Double, Radius: Double, Scale: Double,
+                                 WithColor: NSColor) -> SCNNode
+    {
+        let Star = SCNNode(geometry: SCNStar.Geometry(VertexCount: 5, Height: 7.0, Base: 3.5, ZHeight: 4.0))
+        Star.scale = SCNVector3(Scale, Scale, Scale)
+        Star.castsShadow = true
+        Star.name = NodeNames2D.LocationNode.rawValue
+        Star.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
+        Star.geometry?.firstMaterial?.diffuse.contents = WithColor
+        if Settings.GetBool(.CityNodesGlow)
+        {
+            Star.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+        }
+        
+        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
+        var LongitudeAdjustment = -1.0
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        {
+            LongitudeAdjustment = 1.0
+        }
+        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
+        let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
+        Distance = Distance * Ratio
+        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
+        LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
+        let PointX = Distance * cos(LocationBearing)
+        let PointY = Distance * sin(LocationBearing)
+        Star.position = SCNVector3(PointX, PointY, 4.0 * Scale * 0.5)
+        
+        return Star
     }
 }
