@@ -807,12 +807,20 @@ enum NodeNames2D: String
     case HourPlane = "HourPlane"
     /// Location (cities, etc) plane.
     case LocationPlane = "LocationPlane"
-    /// A city or other POI on the location plane.
-    case LocationNode = "LocationNode"
+    /// A city on the location plane.
+    case CityNode = "CityNode"
     /// Earthquake plane.
     case EarthquakePlane = "EarthquakePlane"
     /// World heritage site plane.
     case UnescoPlane = "UnescoPlane"
+    /// World heritage site node.
+    case WorldHeritageSite = "WorldHeritageSite"
+    /// Home location node.
+    case HomeNode = "HomeNode"
+    /// User points of interest locations.
+    case UserPOI = "UserPOI"
+    /// Earthquake nodes.
+    case Earthquake = "Earthquake"
 }
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
