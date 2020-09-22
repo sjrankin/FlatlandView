@@ -22,7 +22,7 @@ extension FlatView
                                height: CGFloat(FlatConstants.FlatThickness.rawValue))
         Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
         FlatEarthNode = SCNNode(geometry: Flat)
-        FlatEarthNode.categoryBitMask = LightMasks2D.North.rawValue
+        FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue
         let Image = NSImage(named: "SimplePoliticalWorldMapSouthCenter")
         SetEarthMap(Image!)
         FlatEarthNode.geometry?.firstMaterial?.lightingModel = .lambert
@@ -38,6 +38,8 @@ extension FlatView
                                height: CGFloat(FlatConstants.GridLayerThickness.rawValue))
         Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
         GridNode = SCNNode(geometry: Flat)
+        GridNode.castsShadow = false
+        GridNode.categoryBitMask = LightMasks2D.Grid.rawValue
         GridNode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         GridNode.position = SCNVector3(0.0, 0.0, 0.0)
         GridNode.eulerAngles = SCNVector3(90.0.Radians, 180.0.Radians, 90.0.Radians)
@@ -83,6 +85,7 @@ extension FlatView
         let LineShape = SCNBox(width: Height, height: 0.1, length: 0.1, chamferRadius: 0.0)
         let LineNode = SCNNode(geometry: LineShape)
         LineNode.categoryBitMask = LightMasks2D.Grid.rawValue
+        LineNode.castsShadow = false
         LineNode.name = NodeNames2D.GridNodes.rawValue
         LineNode.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.GridLineColor, NSColor.black)
         LineNode.position = SCNVector3(0.0, 0.0, 0.0)
@@ -99,6 +102,7 @@ extension FlatView
         let LineNode = SCNNode(geometry: LineShape)
         LineNode.categoryBitMask = LightMasks2D.Grid.rawValue
         LineNode.name = NodeNames2D.GridNodes.rawValue
+        LineNode.castsShadow = false
         LineNode.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.GridLineColor, NSColor.black)
         LineNode.position = SCNVector3(0.0, 0.0, 0.0)
         return LineNode
@@ -115,6 +119,7 @@ extension FlatView
         RingShape.ringSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
         RingShape.pipeSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
         RingNode.name = NodeNames2D.GridNodes.rawValue
+        RingNode.castsShadow = false
         RingNode.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.GridLineColor, NSColor.black)
         RingNode.position = SCNVector3(0.0, 0.0, 0.0)
         return RingNode
@@ -126,11 +131,13 @@ extension FlatView
         let Flat = SCNCylinder(radius: CGFloat(FlatConstants.FlatRadius.rawValue),
                                height: CGFloat(FlatConstants.NightMaskThickness.rawValue))
         Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
-        NighMaskNode = SCNNode(geometry: Flat)
-        NighMaskNode.geometry?.firstMaterial?.diffuse.contents = nil
-        NighMaskNode.position = SCNVector3(0.0, 0.0, 0.0)
-        NighMaskNode.eulerAngles = SCNVector3(90.0.Radians, 180.0.Radians, 90.0.Radians)
-        self.scene?.rootNode.addChildNode(NighMaskNode)
+        NightMaskNode = SCNNode(geometry: Flat)
+        NightMaskNode.categoryBitMask = LightMasks2D.Sun.rawValue
+        NightMaskNode.castsShadow = false
+        NightMaskNode.geometry?.firstMaterial?.diffuse.contents = nil
+        NightMaskNode.position = SCNVector3(0.0, 0.0, 0.0)
+        NightMaskNode.eulerAngles = SCNVector3(90.0.Radians, 180.0.Radians, 90.0.Radians)
+        self.scene?.rootNode.addChildNode(NightMaskNode)
     }
     
     /// Remove all nodes with the specified name from the scene's root node.
@@ -194,13 +201,13 @@ extension FlatView
         let CImageRep = NSCIImageRep(ciImage: CImage!)
         let Final = NSImage(size: CImageRep.size)
         Final.addRepresentation(CImageRep)
-        NighMaskNode.geometry?.firstMaterial?.diffuse.contents = Final
+        NightMaskNode.geometry?.firstMaterial?.diffuse.contents = Final
     }
     
     /// Hide the night mask.
     func HideNightMask()
     {
-        NighMaskNode.geometry?.firstMaterial?.diffuse.contents = nil
+        NightMaskNode.geometry?.firstMaterial?.diffuse.contents = nil
     }
     
     func AddHeritageLayer()
