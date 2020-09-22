@@ -45,6 +45,7 @@ extension FlatView
                 {
                     HideCities()
                 }
+                UpdateLightsForShadows(ShowShadows: Settings.GetBool(.Show2DShadows))
                 
             case .ShowNight:
                 if Settings.GetBool(.ShowNight)
@@ -83,6 +84,9 @@ extension FlatView
                 {
                     HideCities()
                 }
+                
+            case .Show2DShadows:
+                UpdateLightsForShadows(ShowShadows: Settings.GetBool(.Show2DShadows))
                 
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
