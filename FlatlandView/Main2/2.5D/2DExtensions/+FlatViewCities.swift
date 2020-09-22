@@ -39,6 +39,7 @@ extension FlatView
     
     func PlotCities(_ Radius: Double)
     {
+        NodesWithShadows.removeAll()
         RemoveNodeWithName(NodeNames2D.LocationNode.rawValue, FromParent: CityPlane)
         let CityList = Cities()
         CitiesToPlot = CityList.FilteredCities()
@@ -59,14 +60,16 @@ extension FlatView
         let UseMetro = Settings.GetEnum(ForKey: .PopulationType, EnumType: PopulationTypes.self, Default: .Metropolitan) == .Metropolitan
         let (Max, Min) = Cities.GetPopulationsIn(CityList: CitiesToPlot,
                                                  UseMetroPopulation: UseMetro)
-        
+        let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         for City in CitiesToPlot
         {
             if City.IsUserCity
             {
                 let ShowEmission = Settings.GetBool(.ShowPOIEmission)
-                PlotLocationAsCone(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                let UserCity = PlotLocationAsCone(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                    WithColor: City.CityColor, EnableEmission: ShowEmission)
+                CityPlane.addChildNode(UserCity)
+                NodesWithShadows.append(UserCity)
             }
             else
             {
@@ -79,33 +82,33 @@ extension FlatView
                 {
                     CityColor = Settings.GetColor(.PopulationColor, NSColor.Sunglow)
                 }
-                PlotLocationAsSphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                let CityNode = PlotLocationAsSphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                      WithColor: CityColor, EnableEmission: false)
+                CityPlane.addChildNode(CityNode)
+                NodesWithShadows.append(CityNode)
             }
         }
     }
     
     func PlotLocationAsCone(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor,
-                            EnableEmission: Bool)
+                            EnableEmission: Bool) -> SCNNode
     {
-        
+        return SCNNode()
     }
     
     func PlotLocationAsSphere(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor,
-                              EnableEmission: Bool)
+                              EnableEmission: Bool) -> SCNNode
     {
         var CitySize: CGFloat = 0.15
         let CityShape = SCNSphere(radius: CitySize)
         let CityNode = SCNNode(geometry: CityShape)
         CityNode.name = NodeNames2D.LocationNode.rawValue
-        CityNode.categoryBitMask = Int(LightMasks2D.South.rawValue | LightMasks2D.Sun.rawValue)
+        CityNode.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
-        /*
         if Settings.GetBool(.CityNodesGlow)
         {
             CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
         }
- */
         CityNode.castsShadow = true
         
         let BearingOffset = 180.0
@@ -123,6 +126,6 @@ extension FlatView
         let PointY = Distance * sin(LocationBearing)
         CityNode.position = SCNVector3(PointX, PointY, 0.0)
         
-        CityPlane.addChildNode(CityNode)
+        return CityNode
     }
 }
