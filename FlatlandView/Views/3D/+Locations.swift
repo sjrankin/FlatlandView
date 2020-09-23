@@ -45,9 +45,9 @@ extension GlobeView
         }
         let Cone = SCNCone(topRadius: ConeTop, bottomRadius: ConeBottom, height: 0.3)
         let ConeNode = SCNNode(geometry: Cone)
-        ConeNode.scale = SCNVector3(NodeScales.HomeArrowScale.rawValue,
-                                    NodeScales.HomeArrowScale.rawValue,
-                                    NodeScales.HomeArrowScale.rawValue)
+        ConeNode.scale = SCNVector3(NodeScales3D.HomeArrowScale.rawValue,
+                                    NodeScales3D.HomeArrowScale.rawValue,
+                                    NodeScales3D.HomeArrowScale.rawValue)
         ConeNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -97,9 +97,9 @@ extension GlobeView
         {
             let Cylinder = SCNCylinder(radius: 0.04, height: 0.5)
             let CylinderNode = SCNNode(geometry: Cylinder)
-            CylinderNode.scale = SCNVector3(NodeScales.HomeArrowScale.rawValue,
-                                            NodeScales.HomeArrowScale.rawValue,
-                                            NodeScales.HomeArrowScale.rawValue)
+            CylinderNode.scale = SCNVector3(NodeScales3D.HomeArrowScale.rawValue,
+                                            NodeScales3D.HomeArrowScale.rawValue,
+                                            NodeScales3D.HomeArrowScale.rawValue)
             CylinderNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
             CylinderNode.geometry?.firstMaterial?.diffuse.contents = NSColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
             CylinderNode.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -139,8 +139,8 @@ extension GlobeView
         HomeNode?.castsShadow = true
         HomeNode?.position = SCNVector3(X, Y, Z)
         
-        let PulseOut = SCNAction.scale(to: NodeScales.PulsatingHomeMaxScale.rawValue, duration: 1.0)
-        let PulseIn = SCNAction.scale(to: NodeScales.PulsatingHomeMinScale.rawValue, duration: 1.0)
+        let PulseOut = SCNAction.scale(to: NodeScales3D.PulsatingHomeMaxScale.rawValue, duration: 1.0)
+        let PulseIn = SCNAction.scale(to: NodeScales3D.PulsatingHomeMinScale.rawValue, duration: 1.0)
         let PulseSequence = SCNAction.sequence([PulseOut, PulseIn])
         let Forever = SCNAction.repeatForever(PulseSequence)
         HomeNode?.runAction(Forever)
@@ -237,9 +237,9 @@ extension GlobeView
         let Arrow = SCN3DArrow(Length: 2.0, Width: 0.85, Color: NSColor.systemTeal,
                                StemColor: NSColor.systemBlue)
         Arrow.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        Arrow.scale = SCNVector3(NodeScales.BouncingArrowScale.rawValue,
-                                 NodeScales.BouncingArrowScale.rawValue,
-                                 NodeScales.BouncingArrowScale.rawValue)
+        Arrow.scale = SCNVector3(NodeScales3D.BouncingArrowScale.rawValue,
+                                 NodeScales3D.BouncingArrowScale.rawValue,
+                                 NodeScales3D.BouncingArrowScale.rawValue)
         
         let BounceDistance: CGFloat = 0.5
         let BounceDuration = 1.0
@@ -274,9 +274,9 @@ extension GlobeView
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.9)
         let Pin = SCNPin(KnobHeight: 2.0, KnobRadius: 1.0, PinHeight: 1.4, PinRadius: 0.15,
                          KnobColor: NSColor.Gold, PinColor: NSColor.gray) 
-        Pin.scale = SCNVector3(NodeScales.PinScale.rawValue,
-                               NodeScales.PinScale.rawValue,
-                               NodeScales.PinScale.rawValue)
+        Pin.scale = SCNVector3(NodeScales3D.PinScale.rawValue,
+                               NodeScales3D.PinScale.rawValue,
+                               NodeScales3D.PinScale.rawValue)
         Pin.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         
         HomeNode = SCNNode()
@@ -652,7 +652,7 @@ extension GlobeView
         let Font = Settings.GetFont(.CityFontName, StoredFont("Arial", 24.0, NSColor.black))
         let TheFont = NSFont(name: Font.PostscriptName, size: 24.0)
         let Letters = Utility.MakeFloatingWord(Radius: Radius, Word: "• " + SomeCity.Name,
-                                               Scale: NodeScales.CityNameScale.rawValue,
+                                               Scale: NodeScales3D.CityNameScale.rawValue,
                                                Latitude: SomeCity.Latitude, Longitude: SomeCity.Longitude,
                                                Extrusion: 1.0, Mask: LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue,
                                                TextFont: TheFont, TextColor: WithColor, OnSurface: EarthNode!,
@@ -1029,9 +1029,9 @@ extension GlobeView
                 let SiteShape = SCNRegular.Geometry(VertexCount: 3, Radius: 0.2, Depth: 0.1 + DepthOffset)
                 let SiteNode = SCNNode(geometry: SiteShape)
                 SiteNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-                SiteNode.scale = SCNVector3(NodeScales.UnescoScale.rawValue,
-                                            NodeScales.UnescoScale.rawValue,
-                                            NodeScales.UnescoScale.rawValue)
+                SiteNode.scale = SCNVector3(NodeScales3D.UnescoScale.rawValue,
+                                            NodeScales3D.UnescoScale.rawValue,
+                                            NodeScales3D.UnescoScale.rawValue)
                 WHSNodeList.append(SiteNode)
                 var NodeColor = NSColor.black
                 switch Site.Category
