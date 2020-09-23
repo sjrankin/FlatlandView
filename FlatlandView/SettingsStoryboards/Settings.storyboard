@@ -4765,7 +4765,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="qcY-TD-JNO" column="nSO-dn-FGw" id="acg-VR-n6a">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ef-Usi">
-                                                        <rect key="frame" x="0.0" y="107" width="167" height="19"/>
+                                                        <rect key="frame" x="0.0" y="107" width="361" height="19"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="sVk-73-Bgl" secondAttribute="trailing" id="O4K-h6-qme"/>
                                                             <constraint firstItem="sVk-73-Bgl" firstAttribute="leading" secondItem="enU-rc-XSn" secondAttribute="trailing" constant="6" id="Ttw-N2-c9M"/>
@@ -4853,7 +4853,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="upJ-oP-Sw8" column="nSO-dn-FGw" id="LmV-ql-ybi">
                                                     <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Zb3-vz-kQo">
-                                                        <rect key="frame" x="0.0" y="36" width="163" height="21"/>
+                                                        <rect key="frame" x="0.0" y="36" width="361" height="21"/>
                                                         <rows>
                                                             <gridRow id="Eob-XV-bhE"/>
                                                         </rows>
