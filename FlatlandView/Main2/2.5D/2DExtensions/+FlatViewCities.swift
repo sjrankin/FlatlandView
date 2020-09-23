@@ -58,11 +58,14 @@ extension FlatView
     }
     
     /// Plot cities and user cities.
+    /// - Note: All existing nodes are removed prior to plotting new ones.
     /// - Parameter Radius: The radius of the flat view Earth.
     func PlotCities(_ Radius: Double)
     {
         NodesWithShadows.removeAll()
         RemoveNodeWithName(NodeNames2D.CityNode.rawValue, FromParent: CityPlane)
+        RemoveNodeWithName(NodeNames2D.HomeNode.rawValue, FromParent: CityPlane)
+        RemoveNodeWithName(NodeNames2D.UserPOI.rawValue, FromParent: CityPlane)
         let CityList = Cities()
         CitiesToPlot = CityList.FilteredCities()
         
