@@ -181,14 +181,13 @@ extension Main2Controller
             switch Value
             {
                 case .Globe3D, .CubicWorld:
-                    SunViewBottom.isHidden = true
-                    SunViewTop.isHidden = true
+                    Main2DView.SunVisibility(IsShowing: false)
                     MainTimeLabelTop.isHidden = false
                     MainTimeLabelBottom.isHidden = true
                     
                 case .FlatNorthCenter:
-                    SunViewBottom.isHidden = false
-                    SunViewTop.isHidden = true
+                    Main2DView.SunVisibility(IsShowing: true)
+                    Main2DView.MoveSun(ToNorth: false)
                     MainTimeLabelTop.isHidden = false
                     MainTimeLabelBottom.isHidden = true
                     let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
@@ -198,8 +197,8 @@ extension Main2Controller
                     }
                     
                 case .FlatSouthCenter:
-                    SunViewBottom.isHidden = true
-                    SunViewTop.isHidden = false
+                    Main2DView.SunVisibility(IsShowing: true)
+                    Main2DView.MoveSun(ToNorth: true)
                     MainTimeLabelTop.isHidden = true
                     MainTimeLabelBottom.isHidden = false
                     let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
