@@ -12,6 +12,26 @@ import SceneKit
 
 extension SCNVector3
 {
+    init(_ Value: Double)
+    {
+        self = SCNVector3(Value, Value, Value)
+    }
+    
+    init(_ Value: CGFloat)
+    {
+        self = SCNVector3(Value, Value, Value)
+    }
+    
+    init(_ Value: Float)
+    {
+        self = SCNVector3(Value, Value, Value)
+    }
+    
+    init(_ Value: Int)
+    {
+        self = SCNVector3(Value, Value, Value)
+    }
+    
     /// Serialize an `SCNVector3` structure into a string.
     /// - Parameter Vector: The SCNVector3 value to serialize.
     /// - Returns: Serialized version of the passed `SCNVector3` value.
@@ -64,5 +84,13 @@ extension SCNVector3
             return nil
         }
         return SCNVector3(X, Y, Z)
+    }
+    
+    public static func Degrees(_ X: Double, _ Y: Double, _ Z: Double) -> SCNVector3
+    {
+        let XRadians = X.Radians
+        let YRadians = Y.Radians
+        let ZRadians = Z.Radians
+        return SCNVector3(XRadians, YRadians, ZRadians)
     }
 }
