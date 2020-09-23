@@ -20,12 +20,9 @@ extension Main2Controller: AsynchronousDataProtocol
             case .Earthquakes:
                 if let NewEarthquakes = Actual as? [Earthquake]
                 {
-                    //Debug.Print("Have new earthquakes")
                     Main3DView.NewEarthquakeList(NewEarthquakes, Final: DoneWithStenciling)
-                    //                    Plot2DEarthquakes(NewEarthquakes)
+                    Main2DView.PlotEarthquakes(NewEarthquakes, Replot: true)
                     LatestEarthquakes = NewEarthquakes
-                    //(view.window?.windowController as? MainWindow)!.EarthquakeButton.isEnabled = true
-                    //Debug.Print("Done with new earthquakes")
                     #if false
                     Main3DView.UpdateLayer(.Test)
                     #endif
