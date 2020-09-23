@@ -36,6 +36,16 @@ extension FlatView
                     }
                 }
                 
+            case .EnableEarthquakes:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    PlotEarthquakes(PreviousEarthquakes, Replot: true)
+                }
+                else
+                {
+                    Remove2DEarthquakes()
+                }
+                
             case .ViewType:
                 if Settings.GetBool(.ShowCities)
                 {
@@ -45,6 +55,7 @@ extension FlatView
                 {
                     HideCities()
                 }
+
                 UpdateLightsForShadows(ShowShadows: Settings.GetBool(.Show2DShadows))
                 
             case .ShowNight:
