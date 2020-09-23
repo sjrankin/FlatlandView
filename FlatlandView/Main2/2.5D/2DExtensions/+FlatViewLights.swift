@@ -12,11 +12,11 @@ import SceneKit
 
 extension FlatView
 {
-    /// Create an ambient light for the scene.
+    /// Create an ambient light for the scene. Create a secondary ambient light for the sun nodes.
     func CreateAmbientLight()
     {
         let Ambient = SCNLight()
-        Ambient.categoryBitMask = LightMasks3D.Sun.rawValue
+        Ambient.categoryBitMask = LightMasks2D.Ambient.rawValue
         Ambient.type = .ambient
         Ambient.intensity = CGFloat(Defaults.AmbientLightIntensity.rawValue)
         Ambient.castsShadow = true
@@ -28,6 +28,14 @@ extension FlatView
         AmbientLightNode?.light = Ambient
         AmbientLightNode?.position = SCNVector3(0.0, 0.0, Defaults.AmbientLightZ.rawValue)
         self.scene?.rootNode.addChildNode(AmbientLightNode!)
+        
+        let AmbientSun = SCNLight()
+        AmbientSun.categoryBitMask = LightMasks2D.AmbientSun.rawValue
+        AmbientSun.intensity = CGFloat(Defaults.AmbientLightIntensity.rawValue)
+        AmbientSun.castsShadow = false
+        AmbientSunLightNode = SCNNode()
+        AmbientSunLightNode.light = AmbientSun
+        self.scene?.rootNode.addChildNode(AmbientSunLightNode)
     }
     
     /// Set up "sun light" for the scene.
@@ -147,6 +155,7 @@ extension FlatView
     }
     
     /// Move the polar light to the appropriate pole to cast shadows.
+    /// - Note: The 2D sun node is also moved along with the light.
     /// - Parameter ToNorth: Determines if the polar light is moved to the north or south pole.
     func MovePolarLight(ToNorth: Bool)
     {
@@ -201,6 +210,7 @@ extension FlatView
         let Pitch = SCNAction.rotateTo(x: NewPitch, y: 0.0, z: 0.0, duration: OverallDuration)
         let Batch = SCNAction.group([MotionSequence, Pitch, IntensityAnimation])
         PolarNode.runAction(Batch)
+        SunNode.runAction(MotionSequence)
     }
     
     /// Set the light for the grid.
