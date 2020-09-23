@@ -326,9 +326,9 @@ extension GlobeView
                 let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
                                            Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
                 Arrow.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-                Arrow.scale = SCNVector3(NodeScales.ArrowScale.rawValue,
-                                         NodeScales.ArrowScale.rawValue,
-                                         NodeScales.ArrowScale.rawValue)
+                Arrow.scale = SCNVector3(NodeScales3D.ArrowScale.rawValue,
+                                         NodeScales3D.ArrowScale.rawValue,
+                                         NodeScales3D.ArrowScale.rawValue)
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
                 let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: 1.0)
@@ -359,9 +359,9 @@ extension GlobeView
                 let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
                                            Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
                 Arrow.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-                Arrow.scale = SCNVector3(NodeScales.StaticArrow.rawValue,
-                                         NodeScales.StaticArrow.rawValue,
-                                         NodeScales.StaticArrow.rawValue)
+                Arrow.scale = SCNVector3(NodeScales3D.StaticArrow.rawValue,
+                                         NodeScales3D.StaticArrow.rawValue,
+                                         NodeScales3D.StaticArrow.rawValue)
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
                 let Encapsulate = SCNNode()
@@ -527,7 +527,7 @@ extension GlobeView
         let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
         let FontSize = CGFloat(15.0 + Quake.Magnitude)
         let MagFont = NSFont(name: EqFont.PostscriptName, size: FontSize)
-        let MagNodes = Utility.MakeFloatingWord2(Radius: Radius, Word: Magnitude, Scale: NodeScales.EarthquakeText.rawValue,
+        let MagNodes = Utility.MakeFloatingWord2(Radius: Radius, Word: Magnitude, Scale: NodeScales3D.EarthquakeText.rawValue,
                                                  Latitude: Quake.Latitude, Longitude: Quake.Longitude, //LatitudeOffset: -YOffset,
                                                  /*LongitudeOffset: XOffset,*/ Extrusion: CGFloat(Quake.Magnitude),
                                                  Mask: MetalSunMask | MetalMoonMask, TextFont: MagFont, TextColor: NSColor.black,
@@ -547,14 +547,14 @@ extension GlobeView
         MagText.firstMaterial?.lightingModel = .physicallyBased
         let MagNode = SCNNode(geometry: MagText)
         MagNode.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
-        MagNode.scale = SCNVector3(NodeScales.EarthquakeText.rawValue,
-                                   NodeScales.EarthquakeText.rawValue,
-                                   NodeScales.EarthquakeText.rawValue)
+        MagNode.scale = SCNVector3(NodeScales3D.EarthquakeText.rawValue,
+                                   NodeScales3D.EarthquakeText.rawValue,
+                                   NodeScales3D.EarthquakeText.rawValue)
         MagNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
-        var YOffset = (MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) * NodeScales.EarthquakeText.rawValue
-        YOffset = MagNode.boundingBox.max.y * NodeScales.EarthquakeText.rawValue * 3.5
-        let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * NodeScales.EarthquakeText.rawValue -
-            (MagNode.boundingBox.min.y * NodeScales.EarthquakeText.rawValue)
+        var YOffset = (MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) * NodeScales3D.EarthquakeText.rawValue
+        YOffset = MagNode.boundingBox.max.y * NodeScales3D.EarthquakeText.rawValue * 3.5
+        let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * NodeScales3D.EarthquakeText.rawValue -
+            (MagNode.boundingBox.min.y * NodeScales3D.EarthquakeText.rawValue)
         let (X, Y, Z) = Utility.ToECEF(Quake.Latitude, Quake.Longitude,
                                        LatitudeOffset: Double(-YOffset), LongitudeOffset: Double(XOffset),
                                        Radius: Radius)
@@ -641,7 +641,7 @@ extension GlobeView
                                                 duration: 1.0)
                 let ScaleDuration = 1.0 - (Quake.Magnitude / 10.0)
                 var ToScale = (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
-                ToScale = ToScale + Double(NodeScales.AnimatedRingBase.rawValue)
+                ToScale = ToScale + Double(NodeScales3D.AnimatedRingBase.rawValue)
                 let ScaleUp = SCNAction.scale(to: CGFloat(ToScale), duration: 1.0 + ScaleDuration)
                 let ScaleDown = SCNAction.scale(to: 1.0, duration: 1.0 + ScaleDuration)
                 let ScaleGroup = SCNAction.sequence([ScaleUp, ScaleDown])
@@ -714,12 +714,12 @@ extension GlobeView
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
                 Indicator.geometry?.firstMaterial?.lightingModel = .physicallyBased
                 Indicator.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
-                Indicator.scale = SCNVector3(NodeScales.RadiatingRings.rawValue,
-                                             NodeScales.RadiatingRings.rawValue,
-                                             NodeScales.RadiatingRings.rawValue)
+                Indicator.scale = SCNVector3(NodeScales3D.RadiatingRings.rawValue,
+                                             NodeScales3D.RadiatingRings.rawValue,
+                                             NodeScales3D.RadiatingRings.rawValue)
                 
                 let ScaleDuration = 1.0 + (1.0 - (Quake.Magnitude / 10.0))
-                let ToScale = Double(NodeScales.RadiatingRingBase.rawValue) + (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
+                let ToScale = Double(NodeScales3D.RadiatingRingBase.rawValue) + (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
                 let ScaleUp = SCNAction.scale(to: CGFloat(ToScale), duration: ScaleDuration)
                 let FinalFade = SCNAction.fadeOut(duration: 0.1)
                 let Wait2 = SCNAction.wait(duration: ScaleDuration - 0.1)
@@ -728,9 +728,9 @@ extension GlobeView
                 let ResetAction = SCNAction.run
                 {
                     Node in
-                    Node.scale = SCNVector3(NodeScales.RadiatingRings.rawValue,
-                                            NodeScales.RadiatingRings.rawValue,
-                                            NodeScales.RadiatingRings.rawValue)
+                    Node.scale = SCNVector3(NodeScales3D.RadiatingRings.rawValue,
+                                            NodeScales3D.RadiatingRings.rawValue,
+                                            NodeScales3D.RadiatingRings.rawValue)
                     Node.opacity = InitialAlpha
                 }
                 let Sequence = SCNAction.sequence([Group, ResetAction])
@@ -756,9 +756,9 @@ extension GlobeView
                 TRing.Color = Settings.GetColor(.EarthquakeColor, NSColor.red)
                 TRing.TriangleRotationDuration = 10.0 - Quake.Magnitude + 2.0
                 TRing.position = SCNVector3(0.0, -OuterRadius / 4.0, 0.0)
-                TRing.scale = SCNVector3(NodeScales.TriangleRing.rawValue,
-                                         NodeScales.TriangleRing.rawValue,
-                                         NodeScales.TriangleRing.rawValue)
+                TRing.scale = SCNVector3(NodeScales3D.TriangleRing.rawValue,
+                                         NodeScales3D.TriangleRing.rawValue,
+                                         NodeScales3D.TriangleRing.rawValue)
 
                 let YRotation = Quake.Latitude
                 let XRotation = Quake.Longitude - 180.0
