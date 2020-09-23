@@ -90,6 +90,7 @@ extension FlatView
         AddCityLayer()
         AddHeritageLayer()
         AddEarthquakeLayer()
+        AddSun()
         
         if Settings.GetBool(.ShowCities)
         {
