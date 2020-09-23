@@ -103,6 +103,8 @@
 		1767A8E624794A0100C434B5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E524794A0100C434B5 /* MainView.swift */; };
 		1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E724794A0300C434B5 /* Assets.xcassets */; };
 		1767A8EB24794A0300C434B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E924794A0300C434B5 /* Main.storyboard */; };
+		176CBB76251B08E800D6C0AD /* EnumConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17000B4B251ADF22009CF3B7 /* EnumConstants.swift */; };
+		176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */; };
 		176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */; };
 		176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */; };
 		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
@@ -252,6 +254,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		17000B4B251ADF22009CF3B7 /* EnumConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumConstants.swift; sourceTree = "<group>"; };
 		170181C02504A467000F91B6 /* TransparencyParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparencyParameters.swift; sourceTree = "<group>"; };
 		1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationWindow.swift; sourceTree = "<group>"; };
 		1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationController.swift; sourceTree = "<group>"; };
@@ -352,6 +355,7 @@
 		1767A8EA24794A0300C434B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1767A8EC24794A0300C434B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandView.entitlements; sourceTree = "<group>"; };
+		176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewSuns.swift"; sourceTree = "<group>"; };
 		176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow.swift; sourceTree = "<group>"; };
 		176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController.swift; sourceTree = "<group>"; };
 		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
@@ -886,6 +890,7 @@
 				178909C8250E0F360092E3A4 /* Main2 */,
 				17EF33BE247A958B00A5B55D /* Versioning.swift */,
 				17EF339B247A68C600A5B55D /* Enums.swift */,
+				17000B4B251ADF22009CF3B7 /* EnumConstants.swift */,
 				1767A8E724794A0300C434B5 /* Assets.xcassets */,
 				1767A8EC24794A0300C434B5 /* Info.plist */,
 				1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */,
@@ -960,6 +965,7 @@
 				17C87B7A25177F650065BE6D /* +FlatViewHours.swift */,
 				17C87B7D25177FBF0065BE6D /* +FlatViewSettingsHandler.swift */,
 				1792486725198A7F00AF4D4B /* +FlatViewLights.swift */,
+				176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */,
 			);
 			path = 2DExtensions;
 			sourceTree = "<group>";
@@ -1436,6 +1442,7 @@
 				1750044324B4640B006528A4 /* FontProtocol.swift in Sources */,
 				17EF33B9247A94DB00A5B55D /* Cities.swift in Sources */,
 				1760024224D2BFFE00D5EA1A /* Array.swift in Sources */,
+				176CBB76251B08E800D6C0AD /* EnumConstants.swift in Sources */,
 				17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */,
 				17ABB00024E922A2009DDC35 /* +EarthquakeHistory.swift in Sources */,
 				177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */,
@@ -1648,6 +1655,7 @@
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
 				17DF115E2512F3B400F04EAF /* AnimatedGradientLayer.swift in Sources */,
 				178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */,
+				176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */,
 				178A86972488C23C00BE8D46 /* AboutController.swift in Sources */,
 				17C87B7825177EB00065BE6D /* +FlatViewNodeHandling.swift in Sources */,
 				17BCCC3F24D7F15600030E37 /* EarthquakeFilterer.swift in Sources */,
