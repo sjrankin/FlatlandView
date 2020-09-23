@@ -57,6 +57,7 @@ class FlatView: SCNView, SettingChangedProtocol
     var GridLight = SCNLight()
     var GridLightNode = SCNNode()
     var AmbientLightNode: SCNNode? = nil
+    var AmbientSunLightNode = SCNNode()
     var NightMaskNode = SCNNode()
     var GridNode = SCNNode()
     var HourPlane = SCNNode()
@@ -162,7 +163,7 @@ class FlatView: SCNView, SettingChangedProtocol
         FlatEarthNode.runAction(RotateAction)
         GridNode.runAction(RotateAction)
         CityPlane.runAction(RotateAction)
-        if Settings.GetBool(.ShowCities)
+        if Settings.GetBool(.ShowCities) || Settings.GetBool(.EnableEarthquakes)
         {
             if FlatViewType == .FlatNorthCenter
             {
@@ -179,6 +180,7 @@ class FlatView: SCNView, SettingChangedProtocol
                                                       duration: Duration,
                                                       usesShortestUnitArc: true)
             CityPlane.runAction(CityRotateAction)
+            QuakePlane.runAction(CityRotateAction)
         }
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
@@ -217,7 +219,7 @@ class FlatView: SCNView, SettingChangedProtocol
     
     func PlotEarthquakes(_ Quakes: [Earthquake], Replot: Bool)
     {
-        
+        Plot2DEarthquakes(Quakes, Replot: Replot)
     }
     
     func RotateImageTo(_ Percent: Double)
@@ -283,4 +285,8 @@ class FlatView: SCNView, SettingChangedProtocol
     }
     
     var NodesWithShadows = [SCNNode]()
+    var Quakes2D = [Earthquake]()
+    var PreviousEarthquakes = [Earthquake]()
+
+    var SunNode = SCNNode()
 }
