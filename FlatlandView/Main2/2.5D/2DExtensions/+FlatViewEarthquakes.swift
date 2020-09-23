@@ -62,12 +62,111 @@ extension FlatView
     
     func PlotEarthquakes(_ RawQuakes: [Earthquake], RadialTime: Double, Replot: Bool = false)
     {
+        let Quakes = EarthquakeFilterer.FilterList(RawQuakes)
+        if Quakes.isEmpty
+        {
+            return
+        }
+        if !Replot
+        {
+            if SameEarthquakes(Quakes, PreviousEarthquakes)
+            {
+                return
+            }
+        }
+        Quakes2D = Quakes
+        PreviousEarthquakes = Quakes
+        RemoveNodeWithName(NodeNames2D.Earthquake.rawValue, FromParent: QuakePlane)
         
+        for Quake in Quakes2D
+        {
+            let PlottedQuake = PlotEarthquake(Quake: Quake, Radius: FlatConstants.FlatRadius.rawValue)
+            QuakePlane.addChildNode(PlottedQuake)
+        }
     }
     
-    func PlotEarthquake(Quake: Earthquake, MapDiameter: CGFloat) -> SCNNode
+    func PlotEarthquake(Quake: Earthquake, Radius: Double) -> SCNNode
     {
-        return SCNNode()
+        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
+        var LongitudeAdjustment = -1.0
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        {
+            LongitudeAdjustment = 1.0
+        }
+        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
+        let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
+        Distance = Distance * Ratio
+        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
+        LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
+        let PointX = Distance * cos(LocationBearing)// + PointModifier
+        let PointY = Distance * sin(LocationBearing)// + PointModifier
+        
+        var BaseColor = NSColor.red
+        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+        let Colors = Settings.GetMagnitudeColors()
+        for (Magnitude, Color) in Colors
+        {
+            if Magnitude == MagRange
+            {
+                BaseColor = Color
+            }
+        }
+        
+        let CenterCone = SCNCone(topRadius: 0.0,
+                                 bottomRadius: CGFloat(FlatConstants.MainEarthquakeNodeBase.rawValue),
+                                 height: CGFloat(FlatConstants.MainEarthquakeNodeHeight.rawValue))
+        CenterCone.firstMaterial?.diffuse.contents = BaseColor
+        let Cone1 = SCNCone(topRadius: 0.0,
+                            bottomRadius: 0.1,
+                            height: 0.5)
+        Cone1.firstMaterial?.diffuse.contents = BaseColor
+        let Cone2 = SCNCone(topRadius: 0.0,
+                            bottomRadius: CGFloat(FlatConstants.SubEarthquakeNodeBase.rawValue),
+                            height: CGFloat(FlatConstants.SubEarthquakeNodeHeight.rawValue))
+        Cone2.firstMaterial?.diffuse.contents = BaseColor
+        let Cone3 = SCNCone(topRadius: 0.0,
+                            bottomRadius: CGFloat(FlatConstants.SubEarthquakeNodeBase.rawValue),
+                            height: CGFloat(FlatConstants.SubEarthquakeNodeHeight.rawValue))
+        Cone3.firstMaterial?.diffuse.contents = BaseColor
+        let Cone4 = SCNCone(topRadius: 0.0,
+                            bottomRadius: CGFloat(FlatConstants.SubEarthquakeNodeBase.rawValue),
+                            height: CGFloat(FlatConstants.SubEarthquakeNodeHeight.rawValue))
+        Cone4.firstMaterial?.diffuse.contents = BaseColor
+        
+        let ENode = SCNNode()
+        ENode.categoryBitMask = LightMasks2D.Polar.rawValue
+        let CenterNode = SCNNode(geometry: CenterCone)
+        CenterNode.categoryBitMask = LightMasks2D.Polar.rawValue
+        CenterNode.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
+        ENode.addChildNode(CenterNode)
+        let Node1 = SCNNode(geometry: Cone1)
+        Node1.categoryBitMask = LightMasks2D.Polar.rawValue
+        Node1.position = SCNVector3(0.0, FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0)
+        Node1.eulerAngles = SCNVector3(45.0.Radians, 0.0, 0.0)
+        ENode.addChildNode(Node1)
+        let Node2 = SCNNode(geometry: Cone2)
+        Node2.categoryBitMask = LightMasks2D.Polar.rawValue
+        Node2.position = SCNVector3(0.0, -FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0)
+        Node2.eulerAngles = SCNVector3(135.0.Radians, 0.0, 0.0)
+        ENode.addChildNode(Node2)
+        let Node3 = SCNNode(geometry: Cone3)
+        Node3.categoryBitMask = LightMasks2D.Polar.rawValue
+        Node3.position = SCNVector3(-FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0, 0.0)
+        Node3.eulerAngles = SCNVector3(45.0.Radians, 0.0, 90.0.Radians)
+        ENode.addChildNode(Node3)
+        let Node4 = SCNNode(geometry: Cone4)
+        Node4.categoryBitMask = LightMasks2D.Polar.rawValue
+        Node4.position = SCNVector3(FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0, 0.0)
+        Node4.eulerAngles = SCNVector3(135.0.Radians, 0.0, 90.0.Radians)
+        ENode.addChildNode(Node4)
+        
+        ENode.scale = SCNVector3(NodeScales2D.EarthquakeScale.rawValue)
+        ENode.position = SCNVector3(PointX,
+                                    PointY,
+                                    Double(FlatConstants.MainEarthquakeNodeHeight.rawValue) * 0.5 *
+                                        Double(NodeScales2D.EarthquakeScale.rawValue))
+        
+        return ENode
     }
     
     func InAgeRange(_ Quake: Earthquake, InRange: EarthquakeAges) -> Bool
