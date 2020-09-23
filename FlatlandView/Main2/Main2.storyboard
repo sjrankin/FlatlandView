@@ -520,32 +520,6 @@
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="svV-Ad-1ju" customClass="FlatView" customModule="Flatland" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                                <subviews>
-                                    <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DHO-NL-Mac">
-                                        <rect key="frame" x="470" y="10" width="60" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="2hF-tw-HJJ"/>
-                                            <constraint firstAttribute="height" constant="60" id="3Tq-Qc-6LF"/>
-                                            <constraint firstAttribute="width" constant="60" id="8oE-M8-l2X"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="GP7-xf-ww6"/>
-                                        </constraints>
-                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="SunY" id="K3Z-SC-lxZ"/>
-                                    </imageView>
-                                    <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ypJ-1z-rNp">
-                                        <rect key="frame" x="470" y="930" width="60" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="Nta-gG-d4b"/>
-                                            <constraint firstAttribute="width" constant="60" id="P6e-KN-8Ek"/>
-                                        </constraints>
-                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="SunX" id="Vv8-Nu-mxK"/>
-                                    </imageView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="ypJ-1z-rNp" firstAttribute="centerX" secondItem="svV-Ad-1ju" secondAttribute="centerX" id="9Jd-cZ-A7I"/>
-                                    <constraint firstItem="ypJ-1z-rNp" firstAttribute="top" secondItem="svV-Ad-1ju" secondAttribute="top" constant="10" id="Hw4-A5-0LL"/>
-                                    <constraint firstItem="DHO-NL-Mac" firstAttribute="centerX" secondItem="svV-Ad-1ju" secondAttribute="centerX" id="b1C-lK-KJs"/>
-                                    <constraint firstAttribute="bottom" secondItem="DHO-NL-Mac" secondAttribute="bottom" constant="10" id="sah-ba-0hf"/>
-                                </constraints>
                             </customView>
                         </subviews>
                         <constraints>
@@ -579,8 +553,6 @@
                         <outlet property="MainTimeLabelBottom" destination="UlV-IY-Q92" id="u2r-4Z-uTJ"/>
                         <outlet property="MainTimeLabelTop" destination="Iq2-x8-FBV" id="1pC-lg-ZK9"/>
                         <outlet property="PrimaryView" destination="6id-Tb-uKs" id="SgK-oT-a85"/>
-                        <outlet property="SunViewBottom" destination="DHO-NL-Mac" id="rDD-4n-rXo"/>
-                        <outlet property="SunViewTop" destination="ypJ-1z-rNp" id="2sE-5P-iEl"/>
                         <outlet property="UptimeLabel" destination="hB7-Jd-LMG" id="egy-bi-1kP"/>
                         <outlet property="UptimeValue" destination="nJR-aJ-l3k" id="bxn-h0-y3z"/>
                         <outlet property="VersionLabel" destination="QkX-vn-KDb" id="7Jt-Th-gp2"/>
@@ -605,7 +577,5 @@
         <image name="PinIcon" width="24" height="24"/>
         <image name="ResetViewIcon" width="24" height="24"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
-        <image name="SunX" width="3600" height="3600"/>
-        <image name="SunY" width="3600" height="3600"/>
     </resources>
 </document>
