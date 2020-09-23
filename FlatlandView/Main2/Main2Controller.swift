@@ -313,16 +313,14 @@ class Main2Controller: NSViewController
             switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
             {
                 case .FlatSouthCenter:
-                    SunViewTop.isHidden = false
-                    SunViewBottom.isHidden = true
                     MainTimeLabelTop.isHidden = true
                     MainTimeLabelBottom.isHidden = false
+                    Main2DView.MoveSun(ToNorth: true)
                     
                 case .FlatNorthCenter:
-                    SunViewTop.isHidden = true
-                    SunViewBottom.isHidden = false
                     MainTimeLabelTop.isHidden = false
                     MainTimeLabelBottom.isHidden = true
+                    Main2DView.MoveSun(ToNorth: false)
                     
                 default:
                     break
@@ -357,8 +355,6 @@ class Main2Controller: NSViewController
     @IBOutlet var Main3DView: GlobeView!
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
-    @IBOutlet weak var SunViewTop: NSImageView!
-    @IBOutlet weak var SunViewBottom: NSImageView!
     @IBOutlet weak var BackgroundView: NSView!
     //Debug elements
     @IBOutlet weak var VersionLabel: NSTextField!
