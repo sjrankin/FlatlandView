@@ -16,6 +16,7 @@ extension FlatView
     /// as a code simplification technique to not have to worry about light changes.
     func AddSun()
     {
+        Debug.Print("At AddSun: \(Debug.PrettyStackTrace(Debug.StackFrameContents(5)))")
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         let SunLocationY = MapCenter == .FlatSouthCenter ? FlatConstants.NorthSunLocationY.rawValue : FlatConstants.SouthSunLocationY.rawValue
         let SunShape = SCNSphere(radius: CGFloat(FlatConstants.SunRadius.rawValue))
@@ -28,6 +29,10 @@ extension FlatView
         SunNode.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
         SunNode.position = SCNVector3(0.0, SunLocationY, FlatConstants.PolarLightZTerminal.rawValue)
         self.scene?.rootNode.addChildNode(SunNode)
+        
+        let SunRotation = SCNAction.rotateBy(x: 0.0, y: 0.0, z: CGFloat(360.0.Radians), duration: 20.0)
+        let RotateForever = SCNAction.repeatForever(SunRotation)
+        SunNode.runAction(RotateForever)
     }
     
     /// Move the sun.
