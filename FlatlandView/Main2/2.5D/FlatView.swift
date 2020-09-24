@@ -87,8 +87,8 @@ class FlatView: SCNView, SettingChangedProtocol
         EarthClock = Timer.scheduledTimer(timeInterval: Defaults.EarthClockTick.rawValue,
                                           target: self, selector: #selector(UpdateEarthView),
                                           userInfo: nil, repeats: true)
-        EarthClock?.tolerance = Defaults.EarthClockTickTolerance.rawValue
-        RunLoop.current.add(EarthClock!, forMode: .common)
+        //EarthClock?.tolerance = Defaults.EarthClockTickTolerance.rawValue
+        //RunLoop.current.add(EarthClock!, forMode: .common)
     }
     
     var EarthClock: Timer? = nil
@@ -187,10 +187,8 @@ class FlatView: SCNView, SettingChangedProtocol
             FinalOffset = 90.0 + 15.0 * 3
             let HourRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
             LastRelativeTimeRadial = HourRadians
-            print("Last relative time radial = \((LastRelativeTimeRadial * 180.0 / Double.pi).RoundedTo(3))°")
             let LastAngle = LastRelativeTimeRadial * 180.0 / Double.pi
             let Delta = fmod(180.0 - LastAngle, 360.0)
-            print("  Delta with 180° = \(Delta.RoundedTo(3))°")
             let HourRotateAction = SCNAction.rotateTo(x: 0.0,
                                                       y: 0.0,
                                                       z: CGFloat(HourRadians),
