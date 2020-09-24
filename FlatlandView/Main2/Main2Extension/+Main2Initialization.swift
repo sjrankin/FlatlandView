@@ -184,6 +184,8 @@ extension Main2Controller
                     Main2DView.SunVisibility(IsShowing: false)
                     MainTimeLabelTop.isHidden = false
                     MainTimeLabelBottom.isHidden = true
+                    Main3DView.play(self)
+                    Main2DView.pause(self)
                     
                 case .FlatNorthCenter:
                     Main2DView.SunVisibility(IsShowing: true)
@@ -195,6 +197,8 @@ extension Main2Controller
                     {
                         Main2DView.SetEarthMap(MapImage)
                     }
+                    Main3DView.pause(self)
+                    Main2DView.play(self)
                     
                 case .FlatSouthCenter:
                     Main2DView.SunVisibility(IsShowing: true)
@@ -206,6 +210,8 @@ extension Main2Controller
                     {
                         Main2DView.SetEarthMap(MapImage)
                     }
+                    Main3DView.pause(self)
+                    Main2DView.play(self)
                     
                 default:
                     break
