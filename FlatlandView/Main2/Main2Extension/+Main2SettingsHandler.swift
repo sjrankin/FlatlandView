@@ -32,6 +32,8 @@ extension Main2Controller: SettingChangedProtocol
                 let MapViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
                 if MapViewType == .Globe3D
                 {
+                    Main3DView.play(self)
+                    Main2DView.pause(self)
                     let (Earth, Sea) = Main3DView.MakeMaps(NewMap)
                     if Sea != nil
                     {
@@ -48,6 +50,8 @@ extension Main2Controller: SettingChangedProtocol
                 }
                 else
                 {
+                    Main3DView.pause(self)
+                    Main2DView.play(self)
                     if let FlatImage = MapManager.ImageFor(MapType: NewMap, ViewType: MapViewType)
                     {
                         Main2DView.ApplyNewMap(FlatImage)
@@ -99,14 +103,20 @@ extension Main2Controller: SettingChangedProtocol
                     {
                         Main3DView.ClearEarthquakes()
                         Main3DView.PlotEarthquakes()
-                        Main3DView.ApplyStencils(Caller: "SettingChanged(.EnableEarthquakes)")
+                        Main3DView.ApplyStencils()
+                    }
+                    else
+                    {
+                        Main2DView.Remove2DEarthquakes()
+                        Main2DView.Plot2DEarthquakes(PreviousEarthquakes)
                     }
                 }
                 else
                 {
                     Earthquakes?.StopReceivingEarthquakes()
                     Main3DView.ClearEarthquakes()
-                    Main3DView.ApplyStencils(Caller: "SettingChanged(.EnableEarthquakes)")
+                    Main3DView.ApplyStencils()
+                    Main2DView.Remove2DEarthquakes()
                 }
                 
             case .EarthquakeFetchInterval:
