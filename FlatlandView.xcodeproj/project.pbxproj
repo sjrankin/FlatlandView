@@ -201,6 +201,7 @@
 		17DD791C24DA7A8E0046EB25 /* ResetConfirmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD791B24DA7A8E0046EB25 /* ResetConfirmController.swift */; };
 		17DDA0452484E9750090E1EB /* UserLocationEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */; };
 		17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */; };
+		17DDEAD3251C3A8500B0ADE7 /* MainRunProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDEAD2251C3A8500B0ADE7 /* MainRunProtocol.swift */; };
 		17DF115E2512F3B400F04EAF /* AnimatedGradientLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */; };
 		17E3D4F124FE2091004712BB /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3D4F024FE2091004712BB /* NSWindow.swift */; };
 		17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3EDC524B5B222007C1D72 /* FontHelper.swift */; };
@@ -452,6 +453,7 @@
 		17DD791B24DA7A8E0046EB25 /* ResetConfirmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetConfirmController.swift; sourceTree = "<group>"; };
 		17DDA0442484E9750090E1EB /* UserLocationEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorController.swift; sourceTree = "<group>"; };
 		17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditingProtocol.swift; sourceTree = "<group>"; };
+		17DDEAD2251C3A8500B0ADE7 /* MainRunProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRunProtocol.swift; sourceTree = "<group>"; };
 		17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedGradientLayer.swift; sourceTree = "<group>"; };
 		17E3D4F024FE2091004712BB /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
 		17E3EDC524B5B222007C1D72 /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
@@ -939,6 +941,7 @@
 				178909C3250E0BD20092E3A4 /* Main2Window.swift */,
 				178909C2250E09ED0092E3A4 /* Main2.storyboard */,
 				17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */,
+				17DDEAD2251C3A8500B0ADE7 /* MainRunProtocol.swift */,
 			);
 			path = Main2;
 			sourceTree = "<group>";
@@ -1487,6 +1490,7 @@
 				1723C80324D54C4C00C41EEE /* EarthquakeRegion.swift in Sources */,
 				17B7D7AD24CED053000C077B /* ImageFlipper.swift in Sources */,
 				1748913324C6A53D00B5F6AF /* Imaging.swift in Sources */,
+				17DDEAD3251C3A8500B0ADE7 /* MainRunProtocol.swift in Sources */,
 				17EF338C247A4EBB00A5B55D /* Settings.swift in Sources */,
 				17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */,
 				178A869C2488C3D100BE8D46 /* AboutDetailsWindow.swift in Sources */,
