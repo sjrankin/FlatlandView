@@ -28,16 +28,23 @@ extension FlatView
         self.scene?.rootNode.addChildNode(QuakePlane)
     }
     
+    /// Remove earthquake nodes from the "2D" view.
     func Remove2DEarthquakes()
     {
         RemoveNodeWithName(NodeNames2D.Earthquake.rawValue, FromParent: QuakePlane)
     }
     
+    /// Returns the UTC date (which is just a normal `Date`).
     func GetUTC() -> Date
     {
         return Date()
     }
     
+    /// Plot earthquakes on the "2D" view.
+    /// - Parameter Quakes: Set of unfiltered quakes from the USGS. 
+    /// - Parameter Replot: If false, all existing earthquakes are removed. If true, existing earthquakes are
+    ///                     left in place as long as the set of filtered passed earthquakes is the same as
+    ///                     the previous set.
     func Plot2DEarthquakes(_ Quakes: [Earthquake], Replot: Bool = false)
     {
         let Now = GetUTC()
@@ -60,6 +67,13 @@ extension FlatView
         PlotEarthquakes(Quakes, RadialTime: Radians, Replot: Replot)
     }
     
+    /// Plot earthquakes on the "2D" view.
+    /// - Parameter RawQuakes: Set of unfiltered quakes from the USGS. This function will use user settings to
+    ///                        filter the quakes before displaying them.
+    /// - Parameter RadialTime: The current time as radians.
+    /// - Parameter Replot: If false, all existing earthquakes are removed. If true, existing earthquakes are
+    ///                     left in place as long as the set of filtered passed earthquakes is the same as
+    ///                     the previous set.
     func PlotEarthquakes(_ RawQuakes: [Earthquake], RadialTime: Double, Replot: Bool = false)
     {
         let Quakes = EarthquakeFilterer.FilterList(RawQuakes)
@@ -85,7 +99,57 @@ extension FlatView
         }
     }
     
+    /// Plot one earthquake.
+    /// - Parameter Quake: The earthquake to plot.
+    /// - Parameter Radius: The radius of the flat Earth where the earthquake will be displayed.
+    /// - Returns: The earthquake node in the proper orientation and position.
     func PlotEarthquake(Quake: Earthquake, Radius: Double) -> SCNNode
+    {
+        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
+        var LongitudeAdjustment = -1.0
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        {
+            LongitudeAdjustment = 1.0
+        }
+        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
+        let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
+        Distance = Distance * Ratio
+        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
+        LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
+        let PointX = Distance * cos(LocationBearing)
+        let PointY = Distance * sin(LocationBearing)
+        
+        var BaseColor = NSColor.red
+        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+        let Colors = Settings.GetMagnitudeColors()
+        for (Magnitude, Color) in Colors
+        {
+            if Magnitude == MagRange
+            {
+                BaseColor = Color
+            }
+        }
+        
+        let CenterCone = SCNCone(topRadius: CGFloat(FlatConstants.MainEarthquakeNodeBase.rawValue),
+                                 bottomRadius: 0.0,
+                                 height: CGFloat(FlatConstants.MainEarthquakeNodeHeight.rawValue))
+        CenterCone.firstMaterial?.diffuse.contents = BaseColor
+        let ENode = SCNNode(geometry: CenterCone)
+        ENode.name = NodeNames2D.Earthquake.rawValue
+        ENode.categoryBitMask = LightMasks2D.Polar.rawValue
+        ENode.eulerAngles = SCNVector3(-90.0.Radians, 180.0.Radians, 0.0)
+        ENode.position = SCNVector3(PointX,
+                                    PointY,
+                                    Double(FlatConstants.MainEarthquakeNodeHeight.rawValue) * 0.5 *
+                                        Double(NodeScales2D.EarthquakeScale.rawValue))
+        return ENode
+    }
+    
+    /// Plot one earthquake.
+    /// - Parameter Quake: The earthquake to plot.
+    /// - Parameter Radius: The radius of the flat Earth where the earthquake will be displayed.
+    /// - Returns: The earthquake node in the proper orientation and position.
+    func PlotEarthquake2(Quake: Earthquake, Radius: Double) -> SCNNode
     {
         let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
         var LongitudeAdjustment = -1.0
@@ -134,6 +198,7 @@ extension FlatView
         Cone4.firstMaterial?.diffuse.contents = BaseColor
         
         let ENode = SCNNode()
+        ENode.name = NodeNames2D.Earthquake.rawValue
         ENode.categoryBitMask = LightMasks2D.Polar.rawValue
         let CenterNode = SCNNode(geometry: CenterCone)
         CenterNode.categoryBitMask = LightMasks2D.Polar.rawValue
@@ -169,6 +234,10 @@ extension FlatView
         return ENode
     }
     
+    /// Determines if the passed earthquake is within the passed range of earthquake ages.
+    /// - Parameter Quake: The earthquake to test against the passed age range.
+    /// - Parameter InRange: The age range tested against `Quake`.
+    /// - Returns: True if `Quake` is within the range of `InRange`, false if not.
     func InAgeRange(_ Quake: Earthquake, InRange: EarthquakeAges) -> Bool
     {
         let Index = EarthquakeAges.allCases.firstIndex(of: InRange)! + 1
