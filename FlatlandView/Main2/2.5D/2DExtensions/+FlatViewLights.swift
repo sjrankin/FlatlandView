@@ -54,6 +54,7 @@ extension FlatView
     
     func SetPolarLight()
     {
+        Debug.Print("At SetPolarLight: \(Debug.PrettyStackTrace(Debug.StackFrameContents(5)))")
         PolarLight = SCNLight()
         PolarLight.categoryBitMask = LightMasks2D.Polar.rawValue
         PolarLight.type = .spot
@@ -210,7 +211,13 @@ extension FlatView
         let Pitch = SCNAction.rotateTo(x: NewPitch, y: 0.0, z: 0.0, duration: OverallDuration)
         let Batch = SCNAction.group([MotionSequence, Pitch, IntensityAnimation])
         PolarNode.runAction(Batch)
+        {
+            self.PolarNode.removeAllAnimations()
+        }
         SunNode.runAction(MotionSequence)
+        {
+            self.SunNode.removeAllAnimations()
+        }
     }
     
     /// Set the light for the grid.
