@@ -76,7 +76,7 @@ extension FlatView
         self.scene = SCNScene()
         self.backgroundColor = NSColor.clear
         self.antialiasingMode = .multisampling2X
-        self.isJitteringEnabled = true
+        //self.isJitteringEnabled = true
         
         CreateCamera()
         CreateLights()
