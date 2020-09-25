@@ -67,6 +67,38 @@ extension FlatView
         PlotEarthquakes(Quakes, RadialTime: Radians, Replot: Replot)
     }
     
+    func PlotPrevious2DEarthquakes()
+    {
+        let Now = GetUTC()
+        var Cal = Calendar(identifier: .gregorian)
+        Cal.timeZone = TimeZone(abbreviation: "UTC")!
+        let Hour = Cal.component(.hour, from: Now)
+        let Minute = Cal.component(.minute, from: Now)
+        let Second = Cal.component(.second, from: Now)
+        let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+        let Percent = Double(ElapsedSeconds) / Double(24 * 60 * 60)
+        
+        var FinalOffset = 0.0
+        var Multiplier = -1.0
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        {
+            FinalOffset = 180.0
+            Multiplier = 1.0
+        }
+        let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
+        PlotPreviousEarthquakes(RadialTime: Radians)
+    }
+    
+    func PlotPreviousEarthquakes(RadialTime: Double)
+    {
+        RemoveNodeWithName(NodeNames2D.Earthquake.rawValue, FromParent: QuakePlane)
+        for Quake in PreviousEarthquakes
+        {
+            let PlottedQuake = PlotEarthquake(Quake: Quake, Radius: FlatConstants.FlatRadius.rawValue)
+            QuakePlane.addChildNode(PlottedQuake)
+        }
+    }
+    
     /// Plot earthquakes on the "2D" view.
     /// - Parameter RawQuakes: Set of unfiltered quakes from the USGS. This function will use user settings to
     ///                        filter the quakes before displaying them.
@@ -103,7 +135,7 @@ extension FlatView
     /// - Parameter Quake: The earthquake to plot.
     /// - Parameter Radius: The radius of the flat Earth where the earthquake will be displayed.
     /// - Returns: The earthquake node in the proper orientation and position.
-    func PlotEarthquake(Quake: Earthquake, Radius: Double) -> SCNNode
+    func PlotEarthquake2(Quake: Earthquake, Radius: Double) -> SCNNode
     {
         let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
         var LongitudeAdjustment = -1.0
@@ -149,7 +181,7 @@ extension FlatView
     /// - Parameter Quake: The earthquake to plot.
     /// - Parameter Radius: The radius of the flat Earth where the earthquake will be displayed.
     /// - Returns: The earthquake node in the proper orientation and position.
-    func PlotEarthquake2(Quake: Earthquake, Radius: Double) -> SCNNode
+    func PlotEarthquake(Quake: Earthquake, Radius: Double) -> SCNNode
     {
         let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
         var LongitudeAdjustment = -1.0
