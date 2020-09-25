@@ -155,6 +155,25 @@ extension FlatView
         return Points
     }
     
+    func MakeSemiCirclePoints(Radius: Double, Steps: Int, ZBase: Double) -> [SCNVector3]
+    {
+        var Results = [SCNVector3]()
+        
+        for Step in 1 ... Steps
+        {
+            let Angle = Double(Step) / 180.0
+            let Radians = Angle.Radians
+            let X = Radius * cos(Radians)
+            let Y = Radius * sin(Radians)
+            //Since the result will be used for elevation, we "reassign" coordinates - X becomes Y and Y becomes Z.
+            //X is assumed to be zero.
+            let Point = SCNVector3(0.0, X, Y + ZBase)
+            Results.append(Point)
+        }
+        
+        return Results
+    }
+    
     /// Move the polar light to the appropriate pole to cast shadows.
     /// - Note: The 2D sun node is also moved along with the light.
     /// - Parameter ToNorth: Determines if the polar light is moved to the north or south pole.
@@ -164,18 +183,29 @@ extension FlatView
         if ToNorth
         {
             let EndingY = CGFloat(FlatConstants.FlatRadius.rawValue) + CGFloat(FlatConstants.PolarSunRimOffset.rawValue)
+            #if false
+            let PathRadius = FlatConstants.FlatRadius.rawValue + FlatConstants.PolarSunRimOffset.rawValue
+            LightPath = MakeSemiCirclePoints(Radius: PathRadius, Steps: 10, ZBase: Double(PolarNode.position.z))
+            #else
             LightPath = MakeArcPoints(Start: PolarNode.position,
                                       MaxHeight: CGFloat(FlatConstants.MaxArcHeight.rawValue),
                                       Steps: Int(FlatConstants.ArcStepCount.rawValue),
                                       End: SCNVector3(0.0, EndingY, PolarNode.position.z))
+            #endif
         }
         else
         {
             let EndingY = -(CGFloat(FlatConstants.FlatRadius.rawValue) + CGFloat(FlatConstants.PolarSunRimOffset.rawValue))
+            #if false
+            let PathRadius = FlatConstants.FlatRadius.rawValue + FlatConstants.PolarSunRimOffset.rawValue
+            LightPath = MakeSemiCirclePoints(Radius: PathRadius, Steps: 10, ZBase: Double(PolarNode.position.z))
+            LightPath.reverse()
+            #else
             LightPath = MakeArcPoints(Start: PolarNode.position,
                                       MaxHeight: CGFloat(FlatConstants.MaxArcHeight.rawValue),
                                       Steps: Int(FlatConstants.ArcStepCount.rawValue),
                                       End: SCNVector3(0.0, EndingY, PolarNode.position.z))
+            #endif
         }
         
         let OverallDuration = FlatConstants.PolarAnimationDuration.rawValue
