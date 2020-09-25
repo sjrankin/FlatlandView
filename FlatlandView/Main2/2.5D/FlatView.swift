@@ -87,8 +87,8 @@ class FlatView: SCNView, SettingChangedProtocol
         EarthClock = Timer.scheduledTimer(timeInterval: Defaults.EarthClockTick.rawValue,
                                           target: self, selector: #selector(UpdateEarthView),
                                           userInfo: nil, repeats: true)
-        //EarthClock?.tolerance = Defaults.EarthClockTickTolerance.rawValue
-        //RunLoop.current.add(EarthClock!, forMode: .common)
+        EarthClock?.tolerance = Defaults.EarthClockTickTolerance.rawValue
+        RunLoop.current.add(EarthClock!, forMode: .common)
     }
     
     var EarthClock: Timer? = nil
@@ -144,8 +144,8 @@ class FlatView: SCNView, SettingChangedProtocol
     {
         let FlatViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         PreviousPercent = Percent
-        var FinalOffset = 180.0
-        var Multiplier = -1.0
+        var FinalOffset = 90.0
+        var Multiplier = 1.0
         if FlatViewType == .FlatSouthCenter
         {
             FinalOffset = 90.0
@@ -167,11 +167,11 @@ class FlatView: SCNView, SettingChangedProtocol
         {
             if FlatViewType == .FlatNorthCenter
             {
-                FinalOffset = 270.0
+                FinalOffset = 0.0
             }
             else
             {
-            FinalOffset = 180.0
+                FinalOffset = 180.0
             }
             let CityRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
             let CityRotateAction = SCNAction.rotateTo(x: 0.0,
@@ -208,23 +208,37 @@ class FlatView: SCNView, SettingChangedProtocol
     private var UseInitialRotation = true
     
     var ClassID = UUID()
-
+    
     
     func ApplyNewMap(_ NewMapImage: NSImage)
     {
         
     }
     
+    /// Plot the passed set of earthquakes.
+    /// - Parameter Quakes: The set of earthquakes to plot. Earthquakes will be filtered elsewhere.
+    /// - Parameter Replot: If true, earthquakes will be cleared before being plotted.
     func PlotEarthquakes(_ Quakes: [Earthquake], Replot: Bool)
     {
         Plot2DEarthquakes(Quakes, Replot: Replot)
+    }
+    
+    /// Plot the saved set of earthquakes.
+    func PlotSameEarthquakes()
+    {
+        if PreviousEarthquakes.count < 1
+        {
+            Remove2DEarthquakes()
+            return
+        }
+        PlotPrevious2DEarthquakes()
     }
     
     func RotateImageTo(_ Percent: Double)
     {
         
     }
-
+    
     var CitiesToPlot = [City]()
     
     /// Resets the default camera to its original location.
@@ -285,6 +299,6 @@ class FlatView: SCNView, SettingChangedProtocol
     var NodesWithShadows = [SCNNode]()
     var Quakes2D = [Earthquake]()
     var PreviousEarthquakes = [Earthquake]()
-
+    
     var SunNode = SCNNode()
 }
