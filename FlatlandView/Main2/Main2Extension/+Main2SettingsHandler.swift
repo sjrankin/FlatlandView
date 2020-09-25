@@ -71,10 +71,13 @@ extension Main2Controller: SettingChangedProtocol
                     {
                         case .FlatNorthCenter, .FlatSouthCenter:
                             IsFlat = true
+                            /*
                             if Settings.GetBool(.EnableEarthquakes)
                             {
-                                Main2DView.PlotEarthquakes(LatestEarthquakes, Replot: true)
+                                Main2DView.PlotSameEarthquakes()
+                                //Main2DView.PlotEarthquakes(LatestEarthquakes, Replot: false)
                             }
+ */
                             
                         case .CubicWorld:
                             Main3DView.AddEarth()
