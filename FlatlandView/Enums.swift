@@ -628,6 +628,8 @@ enum NodeNames2D: String
     case UserPOI = "UserPOI"
     /// Earthquake nodes.
     case Earthquake = "Earthquake"
+    /// The sun node.
+    case Sun = "Sun"
 }
 
 /// Where notifications appear.
