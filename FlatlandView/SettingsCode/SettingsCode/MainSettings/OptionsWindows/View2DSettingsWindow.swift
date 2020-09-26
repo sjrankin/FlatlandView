@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class View2DSettingsWindow: NSViewController, NSTableViewDelegate, NSTableViewDataSource
+class View2DSettingsWindow: NSViewController
 {
     override func viewDidLoad()
     {
@@ -18,20 +18,6 @@ class View2DSettingsWindow: NSViewController, NSTableViewDelegate, NSTableViewDa
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.clear.cgColor
     }
-    
-    var SunImageList = [(SunNames, NSImage)]()
-    let SunMap: [SunNames: String] =
-        [
-            .None: "NoSun",
-            .Simple: "SimpleSun",
-            .Generic: "GenericSun",
-            .Shining: "StarShine",
-            .NaomisSun: "NaomiSun1Up",
-            .Durer: "DurerSunUp",
-            .Classic1: "SunX",
-            .Classic2: "Sun2Up",
-            .PlaceHolder: "SunPlaceHolder"
-        ]
     
     func Initialize2DMap()
     {
@@ -42,29 +28,6 @@ class View2DSettingsWindow: NSViewController, NSTableViewDelegate, NSTableViewDa
         Show2DNoonMeridians.state = Settings.GetBool(.Show2DNoonMeridians) ? .on : .off
         Show2DEquator.state = Settings.GetBool(.Show2DEquator) ? .on : .off
         Show2DTropics.state = Settings.GetBool(.Show2DTropics) ? .on : .off
-        let CurrentSun = Settings.GetEnum(ForKey: .SunType, EnumType: SunNames.self, Default: .Classic1)
-        var Index = 0
-        var SunIndex = -1
-        for SomeSun in SunNames.allCases
-        {
-            if let ImageName = SunMap[SomeSun]
-            {
-                if SomeSun == CurrentSun
-                {
-                    SunIndex = Index
-                }
-                var SunImage = NSImage(named: ImageName)
-                SunImage = Utility.ResizeImage(Image: SunImage!, Longest: 50.0)
-                SunImageList.append((SomeSun, SunImage!))
-            }
-            Index = Index + 1
-        }
-        if SunIndex > -1
-        {
-            let ISet = IndexSet(integer: SunIndex)
-            SunSelector.selectRowIndexes(ISet, byExtendingSelection: false)
-            SunSelector.scrollRowToVisible(SunIndex)
-        }
         let DarkType = Settings.GetEnum(ForKey: .NightDarkness, EnumType: NightDarknesses.self, Default: .Light)
         var DarkIndex = 0
         switch DarkType
@@ -82,6 +45,13 @@ class View2DSettingsWindow: NSViewController, NSTableViewDelegate, NSTableViewDa
                 DarkIndex = 3
         }
         NightDarknessSegment.selectedSegment = DarkIndex
+        QuakeShape.removeAllItems()
+        for QuakeShapeName in QuakeShapes2D.allCases
+        {
+            QuakeShape.addItem(withObjectValue: QuakeShapeName.rawValue)
+        }
+        let QShape = Settings.GetEnum(ForKey: .EarthquakeShape2D, EnumType: QuakeShapes2D.self, Default: .Circle)
+        QuakeShape.selectItem(withObjectValue: QShape.rawValue)
     }
     
     @IBAction func HandleShow2DNightChanged(_ sender: Any)
@@ -142,52 +112,29 @@ class View2DSettingsWindow: NSViewController, NSTableViewDelegate, NSTableViewDa
         }
     }
     
-    func numberOfRows(in tableView: NSTableView) -> Int
+    @IBAction func HandleQuakeShapeChanged(_ sender: Any)
     {
-        return SunImageList.count
-    }
-    
-    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat
-    {
-        return 65.0
-    }
-    
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
-    {
-        var CellContents = ""
-        var CellIdentifier = ""
-        if tableColumn == tableView.tableColumns[0]
+        if let Combo = sender as? NSComboBox
         {
-            CellIdentifier = "SunNameColumn"
-            CellContents = SunImageList[row].0.rawValue
-        }
-        if tableColumn == tableView.tableColumns[1]
-        {
-            let SunView = NSImageView(image: SunImageList[row].1)
-            return SunView
-        }
-        
-        let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
-        Cell?.textField?.stringValue = CellContents
-        return Cell
-    }
-    
-    @IBAction func HandleTableClicked(_ sender: Any)
-    {
-        if let Table = sender as? NSTableView
-        {
-            let SelectedSun = SunImageList[Table.selectedRow].0
-            Settings.SetEnum(SelectedSun, EnumType: SunNames.self, ForKey: .SunType)
+            if let Contents = Combo.objectValueOfSelectedItem as? String
+            {
+                if let NewShape = QuakeShapes2D(rawValue: Contents)
+                {
+                    Settings.SetEnum(NewShape, EnumType: QuakeShapes2D.self, ForKey: .EarthquakeShape2D)
+                }
+            }
         }
     }
     
+    @IBOutlet weak var QuakeShape: NSComboBox!
     @IBOutlet weak var ShowShadowsSwitch: NSSwitch!
     @IBOutlet weak var Show2DNoonMeridians: NSSwitch!
     @IBOutlet weak var Show2DPolarCircles: NSSwitch!
     @IBOutlet weak var Show2DPrimeMeridians: NSSwitch!
     @IBOutlet weak var Show2DTropics: NSSwitch!
     @IBOutlet weak var Show2DEquator: NSSwitch!
-    @IBOutlet weak var SunSelector: NSTableView!
     @IBOutlet weak var Show2DNight: NSSwitch!
     @IBOutlet weak var NightDarknessSegment: NSSegmentedControl!
 }
+
+
