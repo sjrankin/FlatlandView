@@ -16,12 +16,12 @@ extension FlatView
     /// as a code simplification technique to not have to worry about light changes.
     func AddSun()
     {
-        Debug.Print("At AddSun: \(Debug.PrettyStackTrace(Debug.StackFrameContents(5)))")
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         let SunLocationY = MapCenter == .FlatSouthCenter ? FlatConstants.NorthSunLocationY.rawValue : FlatConstants.SouthSunLocationY.rawValue
         let SunShape = SCNSphere(radius: CGFloat(FlatConstants.SunRadius.rawValue))
         SunShape.segmentCount = Int(FlatConstants.SunSegmentCount.rawValue)
         SunNode = SCNNode(geometry: SunShape)
+        SunNode.name = NodeNames2D.Sun.rawValue
         SunNode.castsShadow = false
         SunNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "NASASolarSurface1")
         SunNode.geometry?.firstMaterial?.selfIllumination.contents = NSColor.yellow
