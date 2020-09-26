@@ -76,7 +76,7 @@ extension FlatView
         self.scene = SCNScene()
         self.backgroundColor = NSColor.clear
         self.antialiasingMode = .multisampling2X
-        //self.isJitteringEnabled = true
+        self.isJitteringEnabled = true
         
         CreateCamera()
         CreateLights()
@@ -102,8 +102,53 @@ extension FlatView
         }
         
         UpdateLightsForShadows(ShowShadows: Settings.GetBool(.Show2DShadows))
+        SetupMouseHandling()
     }
     
+    /// Initialize handling the mouse in 2D mode for certain tasks.
+    func SetupMouseHandling()
+    {
+        let ClickRecognizer = NSClickGestureRecognizer(target: self, action: #selector(HandleMouseClick(Recognizer:)))
+        self.addGestureRecognizer(ClickRecognizer)
+    }
+    
+    /// If the user clicks on the sun, change the view (from north-centered to south-centered and back).
+    @objc func HandleMouseClick(Recognizer: NSGestureRecognizer)
+    {
+        if Recognizer.state == .ended
+        {
+            let Where = Recognizer.location(in: self)
+            let Results = self.hitTest(Where, options: [.boundingBoxOnly: true])
+            if Results.count > 0
+            {
+                let Node = Results[0].node
+                if let NodeName = Node.name
+                {
+                    if NodeName == NodeNames2D.Sun.rawValue
+                    {
+                        let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+                        switch MapCenter
+                        {
+                            case .CubicWorld:
+                                return
+                                
+                            case .Globe3D:
+                                return
+                                
+                            case .FlatNorthCenter:
+                                Settings.SetEnum(.FlatSouthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
+                                
+                            case .FlatSouthCenter:
+                                Settings.SetEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
+                        }
+                        MainDelegate?.UpdateViewType()
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Create the camera. Remove any previously created cameras.
     func CreateCamera()
     {
         RemoveNodeWithName(GlobeNodeNames.FlatlandCameraNode.rawValue)
@@ -121,6 +166,7 @@ extension FlatView
         self.scene?.rootNode.addChildNode(CameraNode)
     }
     
+    /// Create the lights.
     func CreateLights()
     {
         if Settings.GetBool(.UseAmbientLight)
