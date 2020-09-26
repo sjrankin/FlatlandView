@@ -28,4 +28,7 @@ protocol MainProtocol: class
     
     /// Fetch earthquakes out of sequence.
     func ForceFetchEarthquakes()
+    
+    /// Update the view type in the controls.
+    func UpdateViewType()
 }
