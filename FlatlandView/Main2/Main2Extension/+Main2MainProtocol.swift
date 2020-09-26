@@ -66,4 +66,32 @@ extension Main2Controller: MainProtocol
         Earthquakes?.InsertEarthquakeCluster(Count)
         #endif
     }
+    
+    
+    /// Update the view type in the controls.
+    func UpdateViewType()
+    {
+        if let Window = self.view.window
+        {
+            if let MainWindow = Window.windowController as? Main2Window
+            {
+                var Index = 0
+                switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+                {
+                    case .CubicWorld:
+                        Index = 3
+                        
+                    case .FlatNorthCenter:
+                        Index = 0
+                        
+                    case .FlatSouthCenter:
+                        Index = 1
+                        
+                    case .Globe3D:
+                        Index = 2
+                }
+                MainWindow.ViewSegment.selectedSegment = Index
+            }
+        }
+    }
 }
