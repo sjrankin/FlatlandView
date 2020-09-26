@@ -632,6 +632,23 @@ enum NodeNames2D: String
     case Sun = "Sun"
 }
 
+/// Shapes for earthquakes in 2D mode.
+enum QuakeShapes2D: String, CaseIterable
+{
+    /// Non-inverted cone
+    case Cone = "Cone"
+    /// Inverted cone.
+    case InvertedCone = "Inverted Cone"
+    /// Spiky cone.
+    case SpikyCone = "Spiky Cone"
+    /// Flat circle.
+    case Circle = "Circle"
+    /// Flat star.
+    case Star = "Star"
+    /// Pyramid.
+    case Pyramid = "Pyramid"
+}
+
 /// Where notifications appear.
 enum NotificationLocations: String, CaseIterable
 {
