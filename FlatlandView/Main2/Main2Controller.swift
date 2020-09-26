@@ -203,7 +203,7 @@ class Main2Controller: NSViewController
         let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
         if let MapImage = MapManager.ImageFor(MapType: MapValue, ViewType: .FlatSouthCenter)
         {
-        Main2DView.SetEarthMap(MapImage)
+            Main2DView.SetEarthMap(MapImage)
         }
         else
         {
