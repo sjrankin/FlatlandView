@@ -58,6 +58,8 @@ class FlatView: SCNView, SettingChangedProtocol
     var GridLightNode = SCNNode()
     var AmbientLightNode: SCNNode? = nil
     var AmbientSunLightNode = SCNNode()
+    var HourLight = SCNLight()
+    var HourLightNode = SCNNode()
     var NightMaskNode = SCNNode()
     var GridNode = SCNNode()
     var HourPlane = SCNNode()
@@ -267,21 +269,23 @@ class FlatView: SCNView, SettingChangedProtocol
         }
     }
     
+    /// Update the lights to show or hide shadows in 2D mode.
+    /// - Parameter ShowShadows: Value that determines whether shadows are shown or not.
     func UpdateLightsForShadows(ShowShadows: Bool)
     {
         if ShowShadows
         {
-            //SunLight.intensity = 0.0
-            FlatEarthNode.categoryBitMask = LightMasks2D.Polar.rawValue
+            SunLight.intensity = 0.0
+            //FlatEarthNode.categoryBitMask = LightMasks2D.Polar.rawValue
             let Center = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
             switch Center
             {
                 case .FlatSouthCenter:
-                    PolarLight.intensity = 3600
+                    PolarLight.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
                     MovePolarLight(ToNorth: true)
                     
                 case .FlatNorthCenter:
-                    PolarLight.intensity = 3600
+                    PolarLight.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
                     MovePolarLight(ToNorth: false)
                     
                 default:
@@ -290,9 +294,10 @@ class FlatView: SCNView, SettingChangedProtocol
         }
         else
         {
-            SunLight.intensity = 1000.0
+            //FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue
+            print("FlatEarthNode.categoryBitMask=\(FlatEarthNode.categoryBitMask)")
+            SunLight.intensity = CGFloat(FlatConstants.SunLightIntensity.rawValue)
             PolarLight.intensity = 0
-            FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue
         }
     }
     
