@@ -169,5 +169,6 @@ extension Settings
             .MagnitudeRelativeFontSize: RelativeSizes.self,
             .StencilPlainText: Bool.self,
             .Show2DShadows: Bool.self,
+            .EarthquakeShape2D: QuakeShapes2D.self,
         ]
 }
