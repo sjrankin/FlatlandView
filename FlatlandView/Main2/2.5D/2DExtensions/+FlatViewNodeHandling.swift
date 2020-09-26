@@ -22,7 +22,7 @@ extension FlatView
                                height: CGFloat(FlatConstants.FlatThickness.rawValue))
         Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
         FlatEarthNode = SCNNode(geometry: Flat)
-        FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue
+        FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue | LightMasks2D.Polar.rawValue
         let Image = NSImage(named: "SimplePoliticalWorldMapSouthCenter")
         SetEarthMap(Image!)
         FlatEarthNode.geometry?.firstMaterial?.lightingModel = .lambert
