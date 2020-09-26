@@ -836,6 +836,16 @@ extension NSColor
         
         return NSColor(calibratedRed: RSum, green: GSum, blue: BSum, alpha: ASum)
     }
+    
+    /// Returns the opposite color of the instance color, where "opposite" is defined in terms of hue (technically,
+    /// "opposite" means 180° away form the original color.
+    /// - Returns: High-constrast color based on the instance color.
+    public func OppositeColor() -> NSColor
+    {
+        let (H, S, B) = self.HSB
+        let Final = NSColor(calibratedHue: 1.0 - H, saturation: S, brightness: B, alpha: 1.0)
+        return Final
+    }
 }
 
 enum ColorTimePeriods
