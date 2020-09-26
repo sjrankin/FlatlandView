@@ -782,6 +782,10 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     
     // MARK: - MainProtocol required functions.
     
+    func UpdateViewType()
+    {
+    }
+    
     /// Refresh called from someone who changed something. Provides alternative method for setting
     /// changes.
     /// - Parameter From: The caller's label.
