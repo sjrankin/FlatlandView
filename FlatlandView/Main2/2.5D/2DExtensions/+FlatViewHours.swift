@@ -136,9 +136,10 @@ extension FlatView
         }
         let Node = SCNNode(geometry: HourShape)
         Node.name = NodeNames2D.HourNodes.rawValue
-        Node.categoryBitMask = LightMasks2D.Sun.rawValue
+        Node.categoryBitMask = LightMasks2D.Hours.rawValue//LightMasks2D.Sun.rawValue
         Node.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.HourColor, NSColor.systemOrange)
         Node.geometry?.firstMaterial?.specular.contents = NSColor.white
+        Node.geometry?.firstMaterial?.lightingModel = .lambert
         let FinalAngle = (Angle - 90.0) * -1
         let Radians = FinalAngle.Radians
         let X = Radius * cos(Radians)
