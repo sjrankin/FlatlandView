@@ -61,6 +61,12 @@ extension FlatView
                 }
                 UpdateLightsForShadows(ShowShadows: Settings.GetBool(.Show2DShadows))
                 
+            case .EarthquakeShape2D:
+                if Settings.GetBool(.EnableEarthquakes)
+                {
+                    PlotSameEarthquakes()
+                }
+                
             case .ShowNight:
                 if Settings.GetBool(.ShowNight)
                 {
@@ -84,9 +90,6 @@ extension FlatView
                 CameraNode.camera?.wantsHDR = Settings.GetBool(.UseHDRCamera)
                 
             case .Earthquake2DStyles:
-                break
-                
-            case .EnableEarthquakes:
                 break
                 
             case .ShowCities:
