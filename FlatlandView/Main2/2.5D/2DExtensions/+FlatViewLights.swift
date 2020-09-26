@@ -43,18 +43,30 @@ extension FlatView
     {
         SunLight = SCNLight()
         SunLight.categoryBitMask = LightMasks2D.Sun.rawValue
-        SunLight.type = .directional
+        SunLight.type = .omni
         SunLight.intensity = CGFloat(FlatConstants.SunLightIntensity.rawValue)
         SunLight.color = NSColor.white
         LightNode = SCNNode()
         LightNode.light = SunLight
-        LightNode.position = SCNVector3(0.0, 0.0, FlatConstants.SunLightZ.rawValue)
+        LightNode.position = SCNVector3(0.0, 0.0, 20.0)//FlatConstants.SunLightZ.rawValue)
         self.scene?.rootNode.addChildNode(LightNode)
     }
     
+    func SetHourLight()
+    {
+        HourLight = SCNLight()
+        HourLight.categoryBitMask = LightMasks2D.Hours.rawValue
+        HourLight.type = .directional
+        HourLight.color = NSColor.white
+        HourLightNode = SCNNode()
+        HourLightNode.light = HourLight
+        HourLightNode.position = SCNVector3(0.0, 0.0, 20.0)
+        self.scene?.rootNode.addChildNode(HourLightNode)
+    }
+    
+    /// Create the polar light.
     func SetPolarLight()
     {
-        Debug.Print("At SetPolarLight: \(Debug.PrettyStackTrace(Debug.StackFrameContents(5)))")
         PolarLight = SCNLight()
         PolarLight.categoryBitMask = LightMasks2D.Polar.rawValue
         PolarLight.type = .spot
@@ -244,7 +256,10 @@ extension FlatView
         {
             self.PolarNode.removeAllAnimations()
         }
-        SunNode.runAction(MotionSequence)
+        let SunPoleOrientation = SCNAction.rotateTo(x: CGFloat(180.0.Radians), y: 0.0, z: 0.0,
+                                                    duration: OverallDuration)
+        let SunBatch = SCNAction.group([MotionSequence, SunPoleOrientation])
+        SunNode.runAction(SunBatch)
         {
             self.SunNode.removeAllAnimations()
         }
