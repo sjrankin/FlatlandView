@@ -275,6 +275,18 @@ extension FlatView
         {
             Star.geometry?.firstMaterial?.selfIllumination.contents = WithColor
         }
+        let SmallStar = SCNNode(geometry: SCNStar.Geometry(VertexCount: 5, Height: 5.0, Base: 2.5, ZHeight: 5.5))
+        SmallStar.castsShadow = true
+        SmallStar.name = NodeNames2D.HomeNode.rawValue
+        SmallStar.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
+        let Opposite = WithColor.OppositeColor()
+        SmallStar.geometry?.firstMaterial?.diffuse.contents = Opposite
+        if Settings.GetBool(.CityNodesGlow)
+        {
+            SmallStar.geometry?.firstMaterial?.selfIllumination.contents = Opposite
+        }
+        Star.addChildNode(SmallStar)
+        SmallStar.position = SCNVector3(0.0, 0.0, 0.0)
         
         let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
         var LongitudeAdjustment = -1.0
