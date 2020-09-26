@@ -115,9 +115,9 @@ extension FlatView
     /// If the user clicks on the sun, change the view (from north-centered to south-centered and back).
     @objc func HandleMouseClick(Recognizer: NSGestureRecognizer)
     {
+        let Where = Recognizer.location(in: self)
         if Recognizer.state == .ended
         {
-            let Where = Recognizer.location(in: self)
             let Results = self.hitTest(Where, options: [.boundingBoxOnly: true])
             if Results.count > 0
             {
@@ -142,10 +142,13 @@ extension FlatView
                                 Settings.SetEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
                         }
                         MainDelegate?.UpdateViewType()
+                        return
                     }
                 }
             }
         }
+        print("Passing hit to super")
+        super.hitTest(Where, options: nil)
     }
     
     /// Create the camera. Remove any previously created cameras.
@@ -185,6 +188,7 @@ extension FlatView
             SetGridLight()
             SetSunlight()
             SetPolarLight()
+            SetHourLight()
         }
     }
 }
