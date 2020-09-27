@@ -10,7 +10,7 @@ import Foundation
 
 /// Settings. Each case refers to a single setting and is used
 /// by the settings class to access the setting.
-enum SettingTypes: String, CaseIterable
+enum SettingKeys: String, CaseIterable
 {
     // MARK: - Infrastructure/initialization-related settings.
     case InitializationFlag = "InitializationFlag"
@@ -42,6 +42,12 @@ enum SettingTypes: String, CaseIterable
     case SunType = "SunType"
     /// The type of view to show in the sample map image display.
     case SampleViewType = "SampleViewType"
+    /// NSSize: The size of the window.
+    case WindowSize = "WindowSize"
+    /// CGPoint: The origin of the window.
+    case WindowOrigin = "WindowOrigin"
+    /// NSSize: The size of the primary contents view.
+    case PrimaryViewSize = "PrimaryViewSize"
     
     // MARK: - 2D view settings.
     /// Boolean: Display the equator in 2D mode.
