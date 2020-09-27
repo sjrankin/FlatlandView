@@ -19,7 +19,7 @@ class GeneralEditor: NSViewController, NSTextFieldDelegate, EditorProtocol
         SettingNameLabel.stringValue = Delegate!.GetSettingName()
         TypeNameLabel.stringValue = Delegate!.GetSettingType()
         FieldType = Delegate!.GetSettingType()
-        SettingKey = SettingTypes(rawValue: Delegate!.GetSettingName())
+        SettingKey = SettingKeys(rawValue: Delegate!.GetSettingName())
     }
     
     var FieldType: String = ""
@@ -85,7 +85,7 @@ class GeneralEditor: NSViewController, NSTextFieldDelegate, EditorProtocol
         }
     }
     
-    var SettingKey: SettingTypes? = nil
+    var SettingKey: SettingKeys? = nil
     
     override func viewDidLoad()
     {
