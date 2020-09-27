@@ -18,7 +18,7 @@ class VectorEditor: NSViewController, NSTextFieldDelegate, EditorProtocol
     {
         Delegate = DelegateProtocol
         SettingNameLabel.stringValue = Delegate!.GetSettingName()
-        SettingKey = SettingTypes(rawValue: Delegate!.GetSettingName())
+        SettingKey = SettingKeys(rawValue: Delegate!.GetSettingName())
     }
     
     func LoadValue(_ Value: Any?, _ Type: String)
@@ -38,7 +38,7 @@ class VectorEditor: NSViewController, NSTextFieldDelegate, EditorProtocol
         }
     }
     
-    var SettingKey: SettingTypes? = nil
+    var SettingKey: SettingKeys? = nil
     
     override func viewDidLoad()
     {
