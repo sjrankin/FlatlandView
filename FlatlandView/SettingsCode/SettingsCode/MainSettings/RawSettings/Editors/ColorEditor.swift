@@ -17,7 +17,7 @@ class ColorEditor: NSViewController, EditorProtocol
     {
         Delegate = DelegateProtocol
         SettingNameLabel.stringValue = Delegate!.GetSettingName()
-        SettingKey = SettingTypes(rawValue: Delegate!.GetSettingName())
+        SettingKey = SettingKeys(rawValue: Delegate!.GetSettingName())
     }
     
     func LoadValue(_ Value: Any?, _ Type: String)
@@ -29,7 +29,7 @@ class ColorEditor: NSViewController, EditorProtocol
         }
     }
     
-    var SettingKey: SettingTypes? = nil
+    var SettingKey: SettingKeys? = nil
     
     override func viewDidLoad()
     {
