@@ -21,7 +21,7 @@ extension FlatView
     /// - Parameter Setting: The setting that changed.
     /// - Parameter OldValue: The setting value before the change. May be nil.
     /// - Parameter NewValue: The setting value after the change. May be nil.
-    func SettingChanged(Setting: SettingTypes, OldValue: Any?, NewValue: Any?)
+    func SettingChanged(Setting: SettingKeys, OldValue: Any?, NewValue: Any?)
     {
         switch Setting
         {
