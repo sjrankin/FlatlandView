@@ -17,7 +17,7 @@ extension GlobeView: SettingChangedProtocol
         return ClassID
     }
     
-    func SettingChanged(Setting: SettingTypes, OldValue: Any?, NewValue: Any?)
+    func SettingChanged(Setting: SettingKeys, OldValue: Any?, NewValue: Any?)
     {
         switch Setting
         {
