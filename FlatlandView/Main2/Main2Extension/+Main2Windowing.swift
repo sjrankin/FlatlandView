@@ -23,12 +23,24 @@ extension Main2Controller
         print("Flatland closing.")
     }
     
+    /// Handle new window size.
     func WindowResized(To: NSSize)
     {
         if !Started
         {
             return
         }
+        Settings.SetNSSize(.WindowSize, To)
+    }
+    
+    func WindowMovedTo(_ Origin: CGPoint)
+    {
+        if !Started
+        {
+            return
+        }
+        Settings.SetCGPoint(.WindowOrigin, Origin)
+        print("Window moved to \(Origin)")
     }
     
     /// Returns the ID of the window.
