@@ -21,7 +21,7 @@ class RawSettingsController: NSViewController, NSTableViewDelegate, NSTableViewD
     
     func LoadSettingsData()
     {
-        for Setting in SettingTypes.allCases
+        for Setting in SettingKeys.allCases
         {
             if let SettingType = Settings.SettingKeyTypes[Setting]
             {
@@ -176,7 +176,7 @@ class RawSettingsController: NSViewController, NSTableViewDelegate, NSTableViewD
         print(Debug.PrettyStackTrace(Frames))
         let Row = SettingsTable.selectedRow
         let SettingType = "\(SettingsData[Row].Type)"
-        let SettingKey = SettingTypes(rawValue: SettingsData[Row].Name)
+        let SettingKey = SettingKeys(rawValue: SettingsData[Row].Name)
         if EnumFields.contains(SettingType)
         {
             if let EVal = GetEnumValue(SettingType)
@@ -204,7 +204,7 @@ class RawSettingsController: NSViewController, NSTableViewDelegate, NSTableViewD
         return Final
     }
     
-    func SetDirty(_ Key: SettingTypes)
+    func SetDirty(_ Key: SettingKeys)
     {
         var Found = false
         var Index = 0
@@ -226,7 +226,7 @@ class RawSettingsController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
     }
     
-    func ClearDirty(_ Key: SettingTypes)
+    func ClearDirty(_ Key: SettingKeys)
     {
         var Found = false
         var Index = 0
