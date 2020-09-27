@@ -14,8 +14,8 @@ protocol RawSettingsProtocol: class
     func GetSettingName() -> String
     func GetSettingType() -> String
     func GetEnumCases() -> [String]
-    func SetEnumValue(_ SettingKey: SettingTypes, _ AsString: String)
+    func SetEnumValue(_ SettingKey: SettingKeys, _ AsString: String)
     func GetSettingValue() -> (Any?, String)?
-    func SetDirty(_ Key: SettingTypes)
-    func ClearDirty(_ Key: SettingTypes)
+    func SetDirty(_ Key: SettingKeys)
+    func ClearDirty(_ Key: SettingKeys)
 }
