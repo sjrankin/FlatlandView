@@ -391,7 +391,7 @@
         <scene sceneID="8wk-6q-T9c">
             <objects>
                 <viewController id="BrD-hm-rhT" customClass="Main2Controller" customModule="Flatland" sceneMemberID="viewController">
-                    <view key="view" id="6id-Tb-uKs">
+                    <view key="view" id="6id-Tb-uKs" customClass="ParentView" customModule="Flatland" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
