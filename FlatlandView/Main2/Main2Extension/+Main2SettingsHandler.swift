@@ -23,7 +23,7 @@ extension Main2Controller: SettingChangedProtocol
     /// - Parameter Setting: The setting that changed.
     /// - Parameter OldValue: The value of the setting before it was changed. May be nil.
     /// - Parameter NewValue: The new value of the setting. May be nil.
-    func SettingChanged(Setting: SettingTypes, OldValue: Any?, NewValue: Any?)
+    func SettingChanged(Setting: SettingKeys, OldValue: Any?, NewValue: Any?)
     {
         switch Setting
         {
