@@ -208,8 +208,7 @@ extension FlatView
         }
         ENode.position = SCNVector3(PointX,
                                     PointY,
-                                    Double(FlatConstants.MainEarthquakeNodeHeight.rawValue) * 0.5 *
-                                        Double(NodeScales2D.EarthquakeScale.rawValue))
+                                    0.0)
         return ENode
     }
     
