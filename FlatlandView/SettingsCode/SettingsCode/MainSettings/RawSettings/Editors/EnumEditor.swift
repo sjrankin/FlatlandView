@@ -12,7 +12,7 @@ import AppKit
 class EnumEditor: NSViewController, EditorProtocol
 {
     var EnumTypeName: String = ""
-    var SettingKey: SettingTypes? = nil
+    var SettingKey: SettingKeys? = nil
     
     public weak var Delegate: RawSettingsProtocol? = nil
     
@@ -20,7 +20,7 @@ class EnumEditor: NSViewController, EditorProtocol
     {
         Delegate = DelegateProtocol
         SettingNameLabel.stringValue = Delegate!.GetSettingName()
-        SettingKey = SettingTypes(rawValue: Delegate!.GetSettingName())
+        SettingKey = SettingKeys(rawValue: Delegate!.GetSettingName())
     }
     
     func LoadValue(_ Value: Any?, _ Type: String)
