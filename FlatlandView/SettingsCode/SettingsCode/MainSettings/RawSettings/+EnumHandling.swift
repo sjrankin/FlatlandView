@@ -214,7 +214,7 @@ extension RawSettingsController
         }
     }
     
-    func SetEnumValue(_ SettingKey: SettingTypes, _ AsString: String)
+    func SetEnumValue(_ SettingKey: SettingKeys, _ AsString: String)
     {
         switch SettingKey
         {
