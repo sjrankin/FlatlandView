@@ -20,5 +20,5 @@ protocol SettingChangedProtocol: class
     /// - Parameter Setting: The setting that changed.
     /// - Parameter OldValue: The value of the setting before the change.
     /// - Parameter NewValue: The new value of the setting.
-    func SettingChanged(Setting: SettingTypes, OldValue: Any?, NewValue: Any?)
+    func SettingChanged(Setting: SettingKeys, OldValue: Any?, NewValue: Any?)
 }
