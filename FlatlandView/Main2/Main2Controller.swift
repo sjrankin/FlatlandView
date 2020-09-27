@@ -60,7 +60,36 @@ class Main2Controller: NSViewController
     {
         InterfaceInitialization()
         InitializeFlatland()
+        NotificationCenter.default.addObserver(self, selector: #selector(HandlePrimaryViewContentsSizeChange),
+                                               name: NSView.frameDidChangeNotification, object: PrimaryView)
+        if !InitialWindowPositionSet
+        {
+            InitialWindowPositionSet = true
+            let MainWindow = self.view.window
+            if let UpperLeft = Settings.GetCGPoint(.WindowOrigin)
+            {
+                MainWindow?.setFrameTopLeftPoint(UpperLeft)
+                print("Starting window point: \(UpperLeft)")
+            }
+            if let ContentsSize = Settings.GetNSSize(.PrimaryViewSize)
+            {
+                print("ContentsSize=\(ContentsSize)")
+                MainWindow?.setContentSize(ContentsSize)
+            }
+        }
     }
+    
+    @objc func HandlePrimaryViewContentsSizeChange(_ notification: Notification)
+    {
+        if let ChangedView = notification.object as? ParentView
+        {
+            print("Parent content view frame: \(ChangedView.frame)")
+            Settings.SetNSSize(.PrimaryViewSize, NSSize(width: ChangedView.frame.size.width,
+                                                        height: ChangedView.frame.size.height))
+        }
+    }
+    
+    var InitialWindowPositionSet = false
     
     func DoneWithStenciling()
     {
@@ -350,7 +379,7 @@ class Main2Controller: NSViewController
     
     // MARK: - Storyboard outlets
     
-    @IBOutlet var PrimaryView: NSView!
+    @IBOutlet var PrimaryView: ParentView!
     @IBOutlet weak var Main2DView: FlatView!
     @IBOutlet var Main3DView: GlobeView!
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
