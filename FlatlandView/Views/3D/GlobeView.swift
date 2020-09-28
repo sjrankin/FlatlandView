@@ -11,7 +11,7 @@ import AppKit
 import SceneKit
 
 /// Provide the main 3D view for Flatland.
-class GlobeView: SCNView
+class GlobeView: SCNView, FlatlandEventProtocol
 {
     public weak var MainDelegate: MainProtocol? = nil
     
@@ -581,6 +581,46 @@ class GlobeView: SCNView
     var SeaNode: SCNNode? = nil
     var HourNode: SCNNode? = nil
     var PlottedEarthquakes = Set<String>()
+    
+    /// Handle mouse motion reported by the main view controller.
+    /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
+    ///         the node under the mouse is queried and its associated data may be displayed.
+    /// - Parameter Point: The point in the view reported by the main controller.
+    func MouseAt(Point: CGPoint)
+    {
+        let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+        if MapCenter == .Globe3D
+        {
+            let HitObject = self.hitTest(Point, options: [.boundingBoxOnly: true])
+            if HitObject.count > 0
+            {
+                if let Node = HitObject[0].node as? SCNNode2
+                {
+                    if let NodeID = Node.NodeID
+                    {
+                        if PreviousNodeID != nil
+                        {
+                            if PreviousNodeID! == NodeID
+                            {
+                                return
+                            }
+                        }
+                        PreviousNodeID = NodeID
+                        if let NodeData = NodeTables.GetItemData(For: NodeID)
+                        {
+                            Debug.Print("Mouse over \(NodeData.Name)")
+                        }
+                        else
+                        {
+                            Debug.Print("Did not find node data for \(NodeID)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    var PreviousNodeID: UUID? = nil
     
     // MARK: - GlobeProtocol functions
     
