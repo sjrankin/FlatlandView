@@ -18,11 +18,6 @@ extension FlatView
         PlotCities(FlatConstants.FlatRadius.rawValue)
     }
     
-    func PlotWorldHeritageSites()
-    {
-        
-    }
-    
     /// Remove cities and user-cities.
     func HideCities()
     {
@@ -77,6 +72,7 @@ extension FlatView
                 NodeTables.AddUserPOI(ID: UserPOIID, Name: Name, Location: Location)
                 let UserCity = City(Continent: "NoName", Country: "No Name", Name: Name, Population: nil,
                                     MetroPopulation: nil, Latitude: Location.Latitude, Longitude: Location.Longitude)
+                UserCity.CityID = UserPOIID
                 UserCity.CityColor = Color
                 UserCity.IsUserCity = true
                 CitiesToPlot.append(UserCity)
@@ -94,6 +90,8 @@ extension FlatView
                 let UserCity = PlotLocationAsCone(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                                   WithColor: City.CityColor)
                 UserCity.name = NodeNames2D.UserPOI.rawValue
+                UserCity.NodeID = City.CityID
+                UserCity.NodeClass = UUID(uuidString: NodeClasses.UserPOI.rawValue)!
                 CityPlane.addChildNode(UserCity)
                 NodesWithShadows.append(UserCity)
             }
@@ -137,6 +135,8 @@ extension FlatView
                                                            Radius: Radius,
                                                            Scale: FlatConstants.HomeSizeScale.rawValue,
                                                            WithColor: Settings.GetColor(.HomeColor, NSColor.green))
+                    HomeNode.NodeID = NodeTables.HomeID
+                    HomeNode.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
                     CityPlane.addChildNode(HomeNode)
                     NodesWithShadows.append(HomeNode)
                 }
