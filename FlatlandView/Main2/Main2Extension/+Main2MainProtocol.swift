@@ -99,4 +99,9 @@ extension Main2Controller: MainProtocol
     {
         ItemViewerDelegate = nil
     }
+    
+    func DisplayNodeInformation(ItemData: DisplayItem)
+    {
+        ItemViewerDelegate?.DisplayItem(ItemToDisplay: ItemData)
+    }
 }
