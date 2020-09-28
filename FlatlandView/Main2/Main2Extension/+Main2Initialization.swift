@@ -44,9 +44,11 @@ extension Main2Controller
         #endif
         FileIO.Initialize()
         Main2Controller.InitializeWorldHeritageSites()
+        WorldHeritageSites = Main2Controller.GetAllSites()
         PrimaryMapList = ActualMapIO.LoadMapList()
         FontHelper.Initialize()
         CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        NodeTables.Initialize(Unesco: WorldHeritageSites!)
     }
     
     func LoadInitialMaps()
