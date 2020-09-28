@@ -31,4 +31,7 @@ protocol MainProtocol: class
     
     /// Update the view type in the controls.
     func UpdateViewType()
+    
+    /// Called when the item viewer closes.
+    func ItemViewerClosed()
 }
