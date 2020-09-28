@@ -120,6 +120,13 @@ extension FlatView
                 return
             }
         }
+        
+        NodeTables.RemoveEarthquakes()
+        for Quake in Quakes
+        {
+            NodeTables.AddEarthquake(Quake)
+        }
+        
         Quakes2D = Quakes
         PreviousEarthquakes = Quakes
         RemoveNodeWithName(NodeNames2D.Earthquake.rawValue, FromParent: QuakePlane)
@@ -157,6 +164,9 @@ extension FlatView
             case .Star:
                 PlottedQuake = PlotEarthquakeStar(Quake: Quake, Radius: Radius)
         }
+        PlottedQuake.NodeID = Quake.ID
+        PlottedQuake.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
+        PlottedQuake.PropagateIDs()
         QuakePlane.addChildNode(PlottedQuake)
     }
     
