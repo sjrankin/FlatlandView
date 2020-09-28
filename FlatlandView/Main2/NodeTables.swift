@@ -21,7 +21,6 @@ class NodeTables
     /// - Parameter Unesco: Array of World Heritage Sites.
     public static func Initialize(Unesco: [WorldHeritageSite])
     {
-        var CityTable = [UUID: DisplayItem]()
         for SomeCity in CitiesData.RawCityList
         {
             CityTable[SomeCity.CityID] = DisplayItem(ID: SomeCity.CityID, ItemType: .City, Name: SomeCity.Name,
@@ -29,17 +28,14 @@ class NodeTables
                                                      Location: GeoPoint(SomeCity.Latitude, SomeCity.Longitude),
                                                      Description: "")
         }
-        Tables[UUID(uuidString: NodeClasses.City.rawValue)!] = CityTable
         
-        var UnescoTable = [UUID: DisplayItem]()
         for Site in Unesco
         {
-            UnescoTable[Site.InternalID] = DisplayItem(ID: Site.InternalID, ItemType: .WorldHeritageSite,
+            UNESCOTable[Site.InternalID] = DisplayItem(ID: Site.InternalID, ItemType: .WorldHeritageSite,
                                                        Name: Site.Name, Numeric: Double(Site.DateInscribed),
                                                        Location: GeoPoint(Site.Latitude, Site.Longitude),
                                                        Description: Site.Category)
         }
-        Tables[UUID(uuidString: NodeClasses.WorldHeritageSite.rawValue)!] = UnescoTable
     }
     
     /// Add an earthquake to the earthquake item table.
@@ -47,25 +43,16 @@ class NodeTables
     ///                    earthquakes.
     public static func AddEarthquake(_ Quake: Earthquake)
     {
-        let QItem = DisplayItem(ID: Quake.ID, ItemType: .Earthquake, Name: "",
+        let QItem = DisplayItem(ID: Quake.ID, ItemType: .Earthquake, Name: "\(Quake.Time)",
                                 Numeric: Quake.Magnitude, Location: Quake.LocationAsGeoPoint(),
                                 Description: Quake.Place)
-        if var QuakeTable = Tables[UUID(uuidString: NodeClasses.Earthquake.rawValue)!]
-        {
-            QuakeTable[QItem.ID] = QItem
-        }
-        else
-        {
-            var QTable = [UUID: DisplayItem]()
-            QTable[QItem.ID] = QItem
-            Tables[UUID(uuidString: NodeClasses.Earthquake.rawValue)!] = QTable
-        }
+        QuakeTable[QItem.ID] = QItem
     }
     
     /// Deletes all earthquakes.
-    public static func ClearEarthquakes()
+    public static func RemoveEarthquakes()
     {
-        Tables.removeValue(forKey: UUID(uuidString: NodeClasses.Earthquake.rawValue)!)
+        QuakeTable.removeAll()
     }
     
     /// Add user points of interesting.
@@ -76,65 +63,56 @@ class NodeTables
     {
         let UserPOI = DisplayItem(ID: ID, ItemType: .UserPOI, Name: Name,
                                   Numeric: 0.0, Location: Location)
-        if var POITable = Tables[UUID(uuidString: NodeClasses.UserPOI.rawValue)!]
-        {
-            POITable[UserPOI.ID] = UserPOI
-        }
-        else
-        {
-            var PTable = [UUID: DisplayItem]()
-            PTable[UserPOI.ID] = UserPOI
-            Tables[UUID(uuidString: NodeClasses.UserPOI.rawValue)!] = PTable
-        }
+        POITable[UserPOI.ID] = UserPOI
     }
     
     /// Deletes all user POIs.
     public static func RemoveUserPOI()
     {
-        Tables.removeValue(forKey: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
+        POITable.removeAll()
     }
     
+    /// Add the user's home location.
+    /// - Parameter ID: ID of the home location.
+    /// - Parameter Name: Name of the home location.
+    /// - Parameter Location" Location of the home location.
     public static func AddHome(ID: UUID, Name: String, Location: GeoPoint)
     {
         let UserHome = DisplayItem(ID: ID, ItemType: .Home, Name: Name,
                                   Numeric: 0.0, Location: Location)
-        if var HomeTable = Tables[UUID(uuidString: NodeClasses.HomeLocation.rawValue)!]
-        {
-            HomeTable[UserHome.ID] = UserHome
-        }
-        else
-        {
-            var HTable = [UUID: DisplayItem]()
-            HTable[UserHome.ID] = UserHome
-            Tables[UUID(uuidString: NodeClasses.HomeLocation.rawValue)!] = HTable
-        }
+        HomeTable[UserHome.ID] = UserHome
     }
     
     /// Deletes all home data.
     public static func RemoveUserHome()
     {
-        Tables.removeValue(forKey: UUID(uuidString: NodeClasses.HomeLocation.rawValue)!)
+        HomeTable.removeAll()
     }
-    
     
     /// Determines the class type of the pass item ID.
     /// - Parameter Item: The item ID whose class type is returned.
     /// - Returns: The item type of the passed ID.
     public static func LocationClass(Item ID: UUID) -> ItemTypes
     {
-        for (TypeClass, ItemsInClass) in Tables
+        if QuakeTable[ID] != nil
         {
-            if ItemsInClass.keys.contains(ID)
-            {
-                if let ItemIsOfType = ClassToItemType[TypeClass]
-                {
-                    return ItemIsOfType
-                }
-                else
-                {
-                    return .Unknown
-                }
-            }
+            return .Earthquake
+        }
+        if CityTable[ID] != nil
+        {
+            return .City
+        }
+        if HomeTable[ID] != nil
+        {
+            return .Home
+        }
+        if POITable[ID] != nil
+        {
+            return .UserPOI
+        }
+        if UNESCOTable[ID] != nil
+        {
+            return .WorldHeritageSite
         }
         return .Unknown
     }
@@ -144,18 +122,62 @@ class NodeTables
     /// - Returns: The associated data on success, nil if not found.
     public static func GetItemData(For ID: UUID) -> DisplayItem?
     {
-        for (_, ItemsInClass) in Tables
+        let TableType = LocationClass(Item: ID)
+        switch TableType
         {
-            if ItemsInClass.keys.contains(ID)
-            {
-                return ItemsInClass[ID]
-            }
+            case .City:
+                return CityTable[ID]
+                
+            case .Earthquake:
+                return QuakeTable[ID]
+                
+            case .Home:
+                return HomeTable[ID]
+                
+            case .UserPOI:
+                return POITable[ID]
+                
+            case .WorldHeritageSite:
+                return UNESCOTable[ID]
+                
+            default:
+                return nil
         }
         return nil
     }
     
-    /// Holds IDs and associated data in a dictionary of class IDs.
-    private static var Tables = [UUID: [UUID: DisplayItem]]()
+    /// Get the number of entries in a class table.
+    /// - Parameter For: Identifies the class whose entry count is returned.
+    /// - Returns: Number of entries for the specified class. Nil if the class is not defined.
+    public static func TableCount(For: NodeClasses) -> Int?
+    {
+        switch For
+        {
+            case .City:
+                return CityTable.count
+                
+            case .Earthquake:
+                return QuakeTable.count
+                
+            case .HomeLocation:
+                return HomeTable.count
+                
+            case .UserPOI:
+                return POITable.count
+                
+            case .WorldHeritageSite:
+                return UNESCOTable.count
+                
+            default:
+                return nil
+        }
+    }
+    
+    private static var QuakeTable = [UUID: DisplayItem]()
+    private static var CityTable = [UUID: DisplayItem]()
+    private static var POITable = [UUID: DisplayItem]()
+    private static var HomeTable = [UUID: DisplayItem]()
+    private static var UNESCOTable = [UUID: DisplayItem]()
     
     /// Mapping from class ID to ItemType.
     private static let ClassToItemType =
