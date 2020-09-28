@@ -13,6 +13,16 @@ import AppKit
 class WorldHeritageSite
 {
     /// Initializer.
+    /// - Parameter UID: UID value.
+    /// - Parameter ID: ID value.
+    /// - Parameter Name: The name of the site.
+    /// - Parameter Year: The year the site was inscribed.
+    /// - Parameter Latitude: The latitude of the site.
+    /// - Parameter Longitude: The longitude of the site.
+    /// - Parameter Hectares: The size of the site.
+    /// - Parameter Category: The site category.
+    /// - Parameter ShortCategory: The shorter site category name.
+    /// - Parameter Countries: The counties of the site.
     init(_ UID: Int, _ ID: Int, _ Name: String, _ Year: Int, _ Latitude: Double,
          _ Longitude: Double, _ Hectares: Double, _ Category: String,
          _ ShortCategory: String, _ Countries: String)
