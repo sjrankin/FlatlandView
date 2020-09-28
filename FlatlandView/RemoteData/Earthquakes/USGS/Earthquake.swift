@@ -219,6 +219,9 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     /// Subjective significance value. Greater values indicate greater significance.
     var Significance: Int = 0
  
+    /// Unique (per instance) ID of the earthquake.
+    var ID: UUID = UUID()
+    
     /// Determines if this earthquake (or any clustered/related earthquakes) have the specified
     /// Code value.
     /// - Parameter Code: The value to look for.
