@@ -30,6 +30,7 @@
 		1727EA5D24B184230051EA3B /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5C24B184230051EA3B /* Tree.swift */; };
 		1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */; };
 		172C315C2510AED100B7CCFC /* FlatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C315B2510AED100B7CCFC /* FlatView.swift */; };
+		172D2060252183C500FA8687 /* NodeTables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172D205F252183C500FA8687 /* NodeTables.swift */; };
 		172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F35AC24CFFBBA00C8FDDC /* PiePercent.swift */; };
 		172F4A1D24F9F2530014A65E /* ColorEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F4A1C24F9F2530014A65E /* ColorEditor.swift */; };
 		172F4A1F24F9F3850014A65E /* EnumEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F4A1E24F9F3850014A65E /* EnumEditor.swift */; };
@@ -268,6 +269,12 @@
 		17F9B007252036F900DE0219 /* +EarthquakeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B006252036F900DE0219 /* +EarthquakeSettings.swift */; };
 		17F9B00A2520373A00DE0219 /* +LocationsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B0092520373A00DE0219 /* +LocationsSettings.swift */; };
 		17F9B00D2520377F00DE0219 /* +LocationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B00C2520377F00DE0219 /* +LocationAttributes.swift */; };
+		17F9B0142520451000DE0219 /* ItemViewer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17F9B0132520451000DE0219 /* ItemViewer.storyboard */; };
+		17F9B0172520454D00DE0219 /* ItemViewerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B0162520454D00DE0219 /* ItemViewerWindow.swift */; };
+		17F9B01A252045AF00DE0219 /* ItemViewerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B019252045AF00DE0219 /* ItemViewerProtocol.swift */; };
+		17F9B01D25204FC100DE0219 /* ItemViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B01C25204FC100DE0219 /* ItemViewerController.swift */; };
+		17F9B025252069DE00DE0219 /* SCNNode2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B024252069DE00DE0219 /* SCNNode2.swift */; };
+		17F9B0292520ABD900DE0219 /* FlatlandEventProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */; };
 		17FC2213249879BE005A0929 /* LiveData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17FC2212249879BE005A0929 /* LiveData.storyboard */; };
 		17FC221524987B1A005A0929 /* LiveDataViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FC221424987B1A005A0929 /* LiveDataViewWindow.swift */; };
 		17FCCCD724A31EF500393F36 /* EarthquakeWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCCCD624A31EF500393F36 /* EarthquakeWindow.swift */; };
@@ -299,6 +306,7 @@
 		1727EA5C24B184230051EA3B /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMDataPoint.swift; sourceTree = "<group>"; };
 		172C315B2510AED100B7CCFC /* FlatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatView.swift; sourceTree = "<group>"; };
+		172D205F252183C500FA8687 /* NodeTables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTables.swift; sourceTree = "<group>"; };
 		172F35AC24CFFBBA00C8FDDC /* PiePercent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiePercent.swift; sourceTree = "<group>"; };
 		172F4A1C24F9F2530014A65E /* ColorEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorEditor.swift; sourceTree = "<group>"; };
 		172F4A1E24F9F3850014A65E /* EnumEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumEditor.swift; sourceTree = "<group>"; };
@@ -546,6 +554,12 @@
 		17F9B006252036F900DE0219 /* +EarthquakeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+EarthquakeSettings.swift"; sourceTree = "<group>"; };
 		17F9B0092520373A00DE0219 /* +LocationsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+LocationsSettings.swift"; sourceTree = "<group>"; };
 		17F9B00C2520377F00DE0219 /* +LocationAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+LocationAttributes.swift"; sourceTree = "<group>"; };
+		17F9B0132520451000DE0219 /* ItemViewer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ItemViewer.storyboard; sourceTree = "<group>"; };
+		17F9B0162520454D00DE0219 /* ItemViewerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewerWindow.swift; sourceTree = "<group>"; };
+		17F9B019252045AF00DE0219 /* ItemViewerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewerProtocol.swift; sourceTree = "<group>"; };
+		17F9B01C25204FC100DE0219 /* ItemViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewerController.swift; sourceTree = "<group>"; };
+		17F9B024252069DE00DE0219 /* SCNNode2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNNode2.swift; sourceTree = "<group>"; };
+		17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlandEventProtocol.swift; sourceTree = "<group>"; };
 		17FC2212249879BE005A0929 /* LiveData.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LiveData.storyboard; sourceTree = "<group>"; };
 		17FC221424987B1A005A0929 /* LiveDataViewWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataViewWindow.swift; sourceTree = "<group>"; };
 		17FCCCD624A31EF500393F36 /* EarthquakeWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeWindow.swift; sourceTree = "<group>"; };
@@ -978,7 +992,10 @@
 				172C315A2510AE9500B7CCFC /* 2.5D */,
 				17F98DB4251773E9005E248D /* Main2Extension */,
 				178909C4250E0BED0092E3A4 /* Main2Controller.swift */,
+				17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */,
 				17F9AFCD25202DEE00DE0219 /* ParentView.swift */,
+				17F9B024252069DE00DE0219 /* SCNNode2.swift */,
+				172D205F252183C500FA8687 /* NodeTables.swift */,
 				178909C3250E0BD20092E3A4 /* Main2Window.swift */,
 				178909C2250E09ED0092E3A4 /* Main2.storyboard */,
 				17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */,
@@ -1370,9 +1387,21 @@
 			path = SettingTypes;
 			sourceTree = "<group>";
 		};
+		17F9B011252043D200DE0219 /* ItemViewer */ = {
+			isa = PBXGroup;
+			children = (
+				17F9B0132520451000DE0219 /* ItemViewer.storyboard */,
+				17F9B01C25204FC100DE0219 /* ItemViewerController.swift */,
+				17F9B0162520454D00DE0219 /* ItemViewerWindow.swift */,
+				17F9B019252045AF00DE0219 /* ItemViewerProtocol.swift */,
+			);
+			path = ItemViewer;
+			sourceTree = "<group>";
+		};
 		17FC2210249878F8005A0929 /* Ancillary */ = {
 			isa = PBXGroup;
 			children = (
+				17F9B011252043D200DE0219 /* ItemViewer */,
 				179BE7C124ED02E40025B349 /* Today */,
 				1710D22324E661FE009B6BB7 /* StatusView */,
 				17A3788C24DD7DEC00EE2B45 /* UIExtensions */,
@@ -1470,6 +1499,7 @@
 				1733C80A24F79C0C0025D555 /* RawSettingsEditor.storyboard in Resources */,
 				179BE7C324ED053D0025B349 /* Today.storyboard in Resources */,
 				1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */,
+				17F9B0142520451000DE0219 /* ItemViewer.storyboard in Resources */,
 				178909C7250E0DCB0092E3A4 /* Main2.storyboard in Resources */,
 				1767A8EB24794A0300C434B5 /* Main.storyboard in Resources */,
 			);
@@ -1507,6 +1537,7 @@
 				17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */,
 				17D570A324F8FDFD00EB5C08 /* GeneralEditor.swift in Sources */,
 				176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */,
+				17F9B025252069DE00DE0219 /* SCNNode2.swift in Sources */,
 				1716DB1A24E5575B00C4F8BD /* ClockIndicator.swift in Sources */,
 				1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */,
 				1740F49B2493173A00F6FAAE /* Hours.swift in Sources */,
@@ -1576,6 +1607,7 @@
 				17F9AFF82520352500DE0219 /* +StoredFont.swift in Sources */,
 				17ABAFFC24E8FB02009DDC35 /* Dictionary.swift in Sources */,
 				17303AFE24F379FB00948127 /* SCNVector3.swift in Sources */,
+				17F9B0172520454D00DE0219 /* ItemViewerWindow.swift in Sources */,
 				17897C7E2514A72100544DE1 /* +Main2SettingsHandler.swift in Sources */,
 				17B7D7A824CECFDE000C077B /* MetalLibrary.swift in Sources */,
 				17F9AFE52520342D00DE0219 /* +NSSize.swift in Sources */,
@@ -1627,6 +1659,7 @@
 				178E1CAC25186EB000FDC75B /* +ChangedSettingsHandler.swift in Sources */,
 				17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */,
 				1767A8E624794A0100C434B5 /* MainView.swift in Sources */,
+				17F9B01A252045AF00DE0219 /* ItemViewerProtocol.swift in Sources */,
 				17D55F2F249DE4DA00A64B2B /* +2DEarthquakes.swift in Sources */,
 				17EB790824AEEE6B00BB0473 /* EarthquakeDebugWindow.swift in Sources */,
 				17897C932514AB6E00544DE1 /* +Main2TimeAndSun.swift in Sources */,
@@ -1664,6 +1697,7 @@
 				175F18EC2499E4C30052F653 /* LiveDataViewer.swift in Sources */,
 				172F4A1D24F9F2530014A65E /* ColorEditor.swift in Sources */,
 				1759FC6724A615A2001B1D4B /* RecentEarthquakeWindow.swift in Sources */,
+				17F9B0292520ABD900DE0219 /* FlatlandEventProtocol.swift in Sources */,
 				173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */,
 				1720B38C248B81B3001202E5 /* +2DHours.swift in Sources */,
 				17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */,
@@ -1686,6 +1720,7 @@
 				178A869E2489101E00BE8D46 /* StarField.swift in Sources */,
 				1760024024D2BFDC00D5EA1A /* String.swift in Sources */,
 				17F9AFD92520338500DE0219 /* +String.swift in Sources */,
+				17F9B01D25204FC100DE0219 /* ItemViewerController.swift in Sources */,
 				175F661424DE7416007B3A60 /* LineDrawParameters.swift in Sources */,
 				17EF33AC247A93A300A5B55D /* GeoPoint.swift in Sources */,
 				1759AE64249F81D3003F79F5 /* View2DSettingsWindow.swift in Sources */,
@@ -1742,6 +1777,7 @@
 				17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */,
 				1733C81224F8D74A0025D555 /* RawSettingsController.swift in Sources */,
 				17D26F50250CA3400001137B /* 2Din3DController.swift in Sources */,
+				172D2060252183C500FA8687 /* NodeTables.swift in Sources */,
 				17F782C1249742A1000A568E /* USGS.swift in Sources */,
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
