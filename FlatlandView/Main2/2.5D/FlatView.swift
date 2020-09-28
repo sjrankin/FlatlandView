@@ -13,7 +13,7 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 
 /// Implement's Flatland's flat mode in a 3D scene.
-class FlatView: SCNView, SettingChangedProtocol
+class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
 {
     public weak var MainDelegate: MainProtocol? = nil
     
@@ -142,6 +142,8 @@ class FlatView: SCNView, SettingChangedProtocol
         return Degrees * Double.pi / 180.0
     }
     
+    /// Update the Earth's rotational value.
+    /// - With: Hour expressed in terms of percent.
     func UpdateEarth(With Percent: Double)
     {
         let FlatViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
@@ -301,6 +303,45 @@ class FlatView: SCNView, SettingChangedProtocol
         }
     }
     
+    /// Handle mouse motion reported by the main view controller.
+    /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
+    ///         the node under the mouse is queried and its associated data may be displayed.
+    /// - Parameter Point: The point in the view reported by the main controller.
+    func MouseAt(Point: CGPoint)
+    {
+        let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+        if MapCenter == .FlatSouthCenter || MapCenter == .FlatNorthCenter
+        {
+            let HitObject = self.hitTest(Point, options: [.boundingBoxOnly: true])
+            if HitObject.count > 0
+            {
+                if let Node = HitObject[0].node as? SCNNode2
+                {
+                    if let NodeID = Node.NodeID
+                    {
+                        if PreviousNodeID != nil
+                        {
+                            if PreviousNodeID! == NodeID
+                            {
+                                return
+                            }
+                        }
+                        PreviousNodeID = NodeID
+                        if let NodeData = NodeTables.GetItemData(For: NodeID)
+                        {
+                            Debug.Print("Mouse over \(NodeData.Name)")
+                        }
+                        else
+                        {
+                            Debug.Print("Did not find node data for \(NodeID)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    var PreviousNodeID: UUID? = nil
     var NodesWithShadows = [SCNNode]()
     var Quakes2D = [Earthquake]()
     var PreviousEarthquakes = [Earthquake]()
