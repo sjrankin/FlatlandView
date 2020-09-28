@@ -31,6 +31,8 @@
 		1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */; };
 		172C315C2510AED100B7CCFC /* FlatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C315B2510AED100B7CCFC /* FlatView.swift */; };
 		172D2060252183C500FA8687 /* NodeTables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172D205F252183C500FA8687 /* NodeTables.swift */; };
+		172D20632521AD1F00FA8687 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172D20622521AD1F00FA8687 /* Int.swift */; };
+		172D20662521BEC000FA8687 /* +FlatViewWorldHeritageSites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172D20652521BEC000FA8687 /* +FlatViewWorldHeritageSites.swift */; };
 		172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F35AC24CFFBBA00C8FDDC /* PiePercent.swift */; };
 		172F4A1D24F9F2530014A65E /* ColorEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F4A1C24F9F2530014A65E /* ColorEditor.swift */; };
 		172F4A1F24F9F3850014A65E /* EnumEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F4A1E24F9F3850014A65E /* EnumEditor.swift */; };
@@ -190,9 +192,6 @@
 		17C87B81251780160065BE6D /* +FlatViewCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C87B80251780160065BE6D /* +FlatViewCities.swift */; };
 		17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BB82491C8E400CACED5 /* SCNRegular.swift */; };
 		17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BBC2491EAA200CACED5 /* SCNPin.swift */; };
-		17D26F4C250CA2370001137B /* 2Din3D.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17D26F4B250CA2370001137B /* 2Din3D.storyboard */; };
-		17D26F4E250CA2F80001137B /* 2Din3DWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D26F4D250CA2F80001137B /* 2Din3DWindow.swift */; };
-		17D26F50250CA3400001137B /* 2Din3DController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D26F4F250CA3400001137B /* 2Din3DController.swift */; };
 		17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */; };
 		17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */; };
 		17D55F2F249DE4DA00A64B2B /* +2DEarthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D55F2E249DE4DA00A64B2B /* +2DEarthquakes.swift */; };
@@ -307,6 +306,8 @@
 		1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMDataPoint.swift; sourceTree = "<group>"; };
 		172C315B2510AED100B7CCFC /* FlatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatView.swift; sourceTree = "<group>"; };
 		172D205F252183C500FA8687 /* NodeTables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTables.swift; sourceTree = "<group>"; };
+		172D20622521AD1F00FA8687 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
+		172D20652521BEC000FA8687 /* +FlatViewWorldHeritageSites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewWorldHeritageSites.swift"; sourceTree = "<group>"; };
 		172F35AC24CFFBBA00C8FDDC /* PiePercent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PiePercent.swift; sourceTree = "<group>"; };
 		172F4A1C24F9F2530014A65E /* ColorEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorEditor.swift; sourceTree = "<group>"; };
 		172F4A1E24F9F3850014A65E /* EnumEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumEditor.swift; sourceTree = "<group>"; };
@@ -469,9 +470,6 @@
 		17C87B80251780160065BE6D /* +FlatViewCities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewCities.swift"; sourceTree = "<group>"; };
 		17CC8BB82491C8E400CACED5 /* SCNRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNRegular.swift; sourceTree = "<group>"; };
 		17CC8BBC2491EAA200CACED5 /* SCNPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPin.swift; sourceTree = "<group>"; };
-		17D26F4B250CA2370001137B /* 2Din3D.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = 2Din3D.storyboard; sourceTree = "<group>"; };
-		17D26F4D250CA2F80001137B /* 2Din3DWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2Din3DWindow.swift; sourceTree = "<group>"; };
-		17D26F4F250CA3400001137B /* 2Din3DController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 2Din3DController.swift; sourceTree = "<group>"; };
 		17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorWindow.swift; sourceTree = "<group>"; };
 		17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsWindow.swift; sourceTree = "<group>"; };
 		17D55F2E249DE4DA00A64B2B /* +2DEarthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+2DEarthquakes.swift"; sourceTree = "<group>"; };
@@ -783,7 +781,6 @@
 				17FC2210249878F8005A0929 /* Ancillary */,
 				17523CD8247B971F005209FC /* 2D */,
 				17523CD9247B9725005209FC /* 3D */,
-				17D26F49250CA2010001137B /* TestViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -896,6 +893,7 @@
 				17ABAFFB24E8FB02009DDC35 /* Dictionary.swift */,
 				17303AFD24F379FB00948127 /* SCNVector3.swift */,
 				17E3D4F024FE2091004712BB /* NSWindow.swift */,
+				172D20622521AD1F00FA8687 /* Int.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1027,6 +1025,7 @@
 				17C87B7D25177FBF0065BE6D /* +FlatViewSettingsHandler.swift */,
 				1792486725198A7F00AF4D4B /* +FlatViewLights.swift */,
 				176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */,
+				172D20652521BEC000FA8687 /* +FlatViewWorldHeritageSites.swift */,
 			);
 			path = 2DExtensions;
 			sourceTree = "<group>";
@@ -1181,24 +1180,6 @@
 				17C22C2424EA1F94006BB3AB /* NASAMapConfirmWindow.swift */,
 			);
 			path = Confirmation;
-			sourceTree = "<group>";
-		};
-		17D26F49250CA2010001137B /* TestViews */ = {
-			isa = PBXGroup;
-			children = (
-				17D26F4A250CA2120001137B /* 2Din3D */,
-			);
-			path = TestViews;
-			sourceTree = "<group>";
-		};
-		17D26F4A250CA2120001137B /* 2Din3D */ = {
-			isa = PBXGroup;
-			children = (
-				17D26F4B250CA2370001137B /* 2Din3D.storyboard */,
-				17D26F4D250CA2F80001137B /* 2Din3DWindow.swift */,
-				17D26F4F250CA3400001137B /* 2Din3DController.swift */,
-			);
-			path = 2Din3D;
 			sourceTree = "<group>";
 		};
 		17D570A124F8FD4000EB5C08 /* Editors */ = {
@@ -1490,7 +1471,6 @@
 				17ABAFFE24E9209E009DDC35 /* EarthquakeHistory.db in Resources */,
 				1750043924B46110006528A4 /* FontPickerUI.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
-				17D26F4C250CA2370001137B /* 2Din3D.storyboard in Resources */,
 				1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */,
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
 				17FC2213249879BE005A0929 /* LiveData.storyboard in Resources */,
@@ -1657,6 +1637,7 @@
 				1720B38A248B8181001202E5 /* +NightMask.swift in Sources */,
 				1733C81024F8D71A0025D555 /* RawSettingsWindow.swift in Sources */,
 				178E1CAC25186EB000FDC75B /* +ChangedSettingsHandler.swift in Sources */,
+				172D20662521BEC000FA8687 /* +FlatViewWorldHeritageSites.swift in Sources */,
 				17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */,
 				1767A8E624794A0100C434B5 /* MainView.swift in Sources */,
 				17F9B01A252045AF00DE0219 /* ItemViewerProtocol.swift in Sources */,
@@ -1675,6 +1656,7 @@
 				17897C812514A93200544DE1 /* +Main2Initialization.swift in Sources */,
 				17F9AFFE2520358C00DE0219 /* +CustomCityList.swift in Sources */,
 				179BE7C524ED06DB0025B349 /* TodayWindow.swift in Sources */,
+				172D20632521AD1F00FA8687 /* Int.swift in Sources */,
 				1710D22224E661D5009B6BB7 /* +StatusView.swift in Sources */,
 				17A25CC82505D4B000214C45 /* Metal2DCircle.metal in Sources */,
 				174623D324A83026007F5D4C /* +ChangedSettings.swift in Sources */,
@@ -1745,7 +1727,6 @@
 				178A86A4248912FA00BE8D46 /* +Locations.swift in Sources */,
 				17EB5C1325159AB1007A75EF /* +Main2Asynchronous.swift in Sources */,
 				17523CDB247B973E005209FC /* +FlatView.swift in Sources */,
-				17D26F4E250CA2F80001137B /* 2Din3DWindow.swift in Sources */,
 				17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */,
 				1727EA5D24B184230051EA3B /* Tree.swift in Sources */,
 				17F9AFF5252034FA00DE0219 /* +Enum.swift in Sources */,
@@ -1776,7 +1757,6 @@
 				1747BDC22513523D002B51D9 /* MetalGradient.swift in Sources */,
 				17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */,
 				1733C81224F8D74A0025D555 /* RawSettingsController.swift in Sources */,
-				17D26F50250CA3400001137B /* 2Din3DController.swift in Sources */,
 				172D2060252183C500FA8687 /* NodeTables.swift in Sources */,
 				17F782C1249742A1000A568E /* USGS.swift in Sources */,
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
