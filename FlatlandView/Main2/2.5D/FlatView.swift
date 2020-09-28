@@ -67,6 +67,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var PolarLight = SCNLight()
     var PolarNode = SCNNode()
     var QuakePlane = SCNNode()
+    var UNESCOPlane = SCNNode()
     
     /// Set the 2D earth map.
     /// - Parameter NewImage: The image to use for the view.
@@ -185,6 +186,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                                                       usesShortestUnitArc: true)
             CityPlane.runAction(CityRotateAction)
             QuakePlane.runAction(CityRotateAction)
+            UNESCOPlane.runAction(CityRotateAction)
         }
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
@@ -329,6 +331,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                         PreviousNodeID = NodeID
                         if let NodeData = NodeTables.GetItemData(For: NodeID)
                         {
+                            MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
                             Debug.Print("Mouse over \(NodeData.Name)")
                         }
                         else
@@ -345,6 +348,6 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var NodesWithShadows = [SCNNode]()
     var Quakes2D = [Earthquake]()
     var PreviousEarthquakes = [Earthquake]()
-    
+    var WHSNodeList = [SCNNode2]()
     var SunNode = SCNNode()
 }
