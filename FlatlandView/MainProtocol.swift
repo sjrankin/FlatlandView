@@ -34,4 +34,7 @@ protocol MainProtocol: class
     
     /// Called when the item viewer closes.
     func ItemViewerClosed()
+    
+    /// Called by views to request information to be displayed.
+    func DisplayNodeInformation(ItemData: DisplayItem)
 }
