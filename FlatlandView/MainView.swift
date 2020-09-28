@@ -762,24 +762,6 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         Show2DHours()
     }
     
-    @IBAction func HandleViewTestWindow(_ sender: Any)
-    {
-        let Storyboard = NSStoryboard(name: "2Din3D", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "TwoDinThreeDTest") as? TwoDinThreeDWindow
-        {
-            WindowController.showWindow(nil)
-        }
-    }
-    
-    @IBAction func HandleMain2Test(_ sender: Any)
-    {
-        let Storyboard = NSStoryboard(name: "Main2", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "Main2") as? Main2Window 
-        {
-            WindowController.showWindow(nil)
-        }
-    }
-    
     // MARK: - MainProtocol required functions.
     
     func UpdateViewType()
@@ -787,6 +769,10 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     }
     
     func ItemViewerClosed()
+    {
+    }
+    
+    func DisplayNodeInformation(ItemData: DisplayItem)
     {
     }
     
