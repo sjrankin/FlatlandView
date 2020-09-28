@@ -210,7 +210,19 @@ extension FlatView
         NightMaskNode.geometry?.firstMaterial?.diffuse.contents = nil
     }
     
+    /// Create the World Heritage Layer.
     func AddHeritageLayer()
     {
+        let Flat = SCNPlane(width: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0),
+                            height: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0))
+        UNESCOPlane = SCNNode(geometry: Flat)
+        UNESCOPlane.categoryBitMask = LightMasks3D.Sun.rawValue
+        UNESCOPlane.name = NodeNames2D.WorldHeritageSite.rawValue
+        UNESCOPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        UNESCOPlane.geometry?.firstMaterial?.isDoubleSided = true
+        UNESCOPlane.scale = SCNVector3(1.0, 1.0, 1.0)
+        UNESCOPlane.eulerAngles = SCNVector3(180.0.Radians, 180.0.Radians, 180.0.Radians)
+        UNESCOPlane.position = SCNVector3(0.0, 0.0, 0.0)
+        self.scene?.rootNode.addChildNode(UNESCOPlane)
     }
 }
