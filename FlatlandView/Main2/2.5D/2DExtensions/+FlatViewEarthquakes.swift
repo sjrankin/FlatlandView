@@ -136,7 +136,7 @@ extension FlatView
     func CommonQuakePlot(Quake: Earthquake, Radius: Double)
     {
         let QuakeShape = Settings.GetEnum(ForKey: .EarthquakeShape2D, EnumType: QuakeShapes2D.self, Default: .Circle)
-        var PlottedQuake = SCNNode()
+        var PlottedQuake = SCNNode2()
         switch QuakeShape
         {
             case .InvertedCone:
@@ -164,7 +164,7 @@ extension FlatView
     /// - Parameter Quake: The earthquake to plot.
     /// - Parameter Radius: The radius of the flat Earth where the earthquake will be displayed.
     /// - Returns: The earthquake node in the proper orientation and position.
-    func PlotPyramid(Quake: Earthquake, Radius: Double, Invert: Bool = true) -> SCNNode
+    func PlotPyramid(Quake: Earthquake, Radius: Double, Invert: Bool = true) -> SCNNode2
     {
         let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
         var LongitudeAdjustment = -1.0
@@ -195,7 +195,7 @@ extension FlatView
                                  height: CGFloat(FlatConstants.MainEarthquakeNodeHeight.rawValue),
                                  length: CGFloat(FlatConstants.MainEarthquakeNodeBase.rawValue))
         Pyramid.firstMaterial?.diffuse.contents = BaseColor
-        let ENode = SCNNode(geometry: Pyramid)
+        let ENode = SCNNode2(geometry: Pyramid)
         ENode.name = NodeNames2D.Earthquake.rawValue
         ENode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         if Invert
@@ -216,7 +216,7 @@ extension FlatView
     /// - Parameter Quake: The earthquake to plot.
     /// - Parameter Radius: The radius of the flat Earth where the earthquake will be displayed.
     /// - Returns: The earthquake node in the proper orientation and position.
-    func PlotInvertedCone(Quake: Earthquake, Radius: Double, Invert: Bool = true) -> SCNNode
+    func PlotInvertedCone(Quake: Earthquake, Radius: Double, Invert: Bool = true) -> SCNNode2
     {
         let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
         var LongitudeAdjustment = -1.0
@@ -247,7 +247,7 @@ extension FlatView
                                  bottomRadius: 0.0,
                                  height: CGFloat(FlatConstants.MainEarthquakeNodeHeight.rawValue))
         CenterCone.firstMaterial?.diffuse.contents = BaseColor
-        let ENode = SCNNode(geometry: CenterCone)
+        let ENode = SCNNode2(geometry: CenterCone)
         ENode.name = NodeNames2D.Earthquake.rawValue
         ENode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         if Invert
@@ -269,7 +269,7 @@ extension FlatView
     /// - Parameter Quake: The earthquake to plot.
     /// - Parameter Radius: The radius of the flat Earth where the earthquake will be displayed.
     /// - Returns: The earthquake node in the proper orientation and position.
-    func PlotEarthquakeCircle(Quake: Earthquake, Radius: Double) -> SCNNode
+    func PlotEarthquakeCircle(Quake: Earthquake, Radius: Double) -> SCNNode2
     {
         let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
         var LongitudeAdjustment = -1.0
@@ -298,7 +298,7 @@ extension FlatView
         
         let Circle = SCNCylinder(radius: 0.15, height: 0.1)
         Circle.firstMaterial?.diffuse.contents = BaseColor
-        let ENode = SCNNode(geometry: Circle)
+        let ENode = SCNNode2(geometry: Circle)
         ENode.name = NodeNames2D.Earthquake.rawValue
         ENode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         ENode.eulerAngles = SCNVector3(-90.0.Radians, 180.0.Radians, 0.0)
@@ -315,10 +315,10 @@ extension FlatView
     /// - Parameter Radius: The radius of the flat Earth.
     /// - Parameter Scale: The scale of the shape.
     /// - Parameter WithColor: The color to use as the texture for the star.
-    func PlotEarthquakeStar(Quake: Earthquake, Radius: Double) -> SCNNode
+    func PlotEarthquakeStar(Quake: Earthquake, Radius: Double) -> SCNNode2
     {
         let VCount = 3 + Int(Quake.Magnitude)
-        let Star = SCNNode(geometry: SCNStar.Geometry(VertexCount: VCount, Height: 7.0, Base: 3.5, ZHeight: 4.0))
+        let Star = SCNNode2(geometry: SCNStar.Geometry(VertexCount: VCount, Height: 7.0, Base: 3.5, ZHeight: 4.0))
         let Scale = 0.035
         Star.scale = SCNVector3(Scale, Scale, Scale)
         Star.castsShadow = true
@@ -337,7 +337,7 @@ extension FlatView
         }
         
         Star.geometry?.firstMaterial?.diffuse.contents = BaseColor
-        let SmallStar = SCNNode(geometry: SCNStar.Geometry(VertexCount: VCount, Height: 5.0, Base: 2.5, ZHeight: 5.5))
+        let SmallStar = SCNNode2(geometry: SCNStar.Geometry(VertexCount: VCount, Height: 5.0, Base: 2.5, ZHeight: 5.5))
         SmallStar.castsShadow = true
         SmallStar.name = NodeNames2D.Earthquake.rawValue
         SmallStar.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
@@ -368,7 +368,7 @@ extension FlatView
     /// - Parameter Quake: The earthquake to plot.
     /// - Parameter Radius: The radius of the flat Earth where the earthquake will be displayed.
     /// - Returns: The earthquake node in the proper orientation and position.
-    func PlotSpikyCone(Quake: Earthquake, Radius: Double) -> SCNNode
+    func PlotSpikyCone(Quake: Earthquake, Radius: Double) -> SCNNode2
     {
         let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
         var LongitudeAdjustment = -1.0
@@ -416,31 +416,31 @@ extension FlatView
                             height: CGFloat(FlatConstants.SubEarthquakeNodeHeight.rawValue))
         Cone4.firstMaterial?.diffuse.contents = BaseColor
         
-        let ENode = SCNNode()
+        let ENode = SCNNode2()
         ENode.name = NodeNames2D.Earthquake.rawValue
         //ENode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         
-        let CenterNode = SCNNode(geometry: CenterCone)
+        let CenterNode = SCNNode2(geometry: CenterCone)
         CenterNode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         CenterNode.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
         ENode.addChildNode(CenterNode)
 
-         let Node1 = SCNNode(geometry: Cone1)
+         let Node1 = SCNNode2(geometry: Cone1)
          Node1.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
          Node1.position = SCNVector3(0.0, FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0)
          Node1.eulerAngles = SCNVector3(45.0.Radians, 0.0, 0.0)
          ENode.addChildNode(Node1)
-         let Node2 = SCNNode(geometry: Cone2)
+         let Node2 = SCNNode2(geometry: Cone2)
          Node2.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
          Node2.position = SCNVector3(0.0, -FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0)
          Node2.eulerAngles = SCNVector3(135.0.Radians, 0.0, 0.0)
          ENode.addChildNode(Node2)
-         let Node3 = SCNNode(geometry: Cone3)
+         let Node3 = SCNNode2(geometry: Cone3)
          Node3.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
          Node3.position = SCNVector3(-FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0, 0.0)
          Node3.eulerAngles = SCNVector3(45.0.Radians, 0.0, 90.0.Radians)
          ENode.addChildNode(Node3)
-         let Node4 = SCNNode(geometry: Cone4)
+         let Node4 = SCNNode2(geometry: Cone4)
          Node4.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
          Node4.position = SCNVector3(FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0, 0.0)
          Node4.eulerAngles = SCNVector3(135.0.Radians, 0.0, 90.0.Radians)
