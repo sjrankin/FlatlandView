@@ -39,4 +39,5 @@ class WorldHeritageSite
     var Category: String = ""
     var ShortCategory: String = ""
     var Countries: String = ""
+    var InternalID: UUID = UUID()
 }
