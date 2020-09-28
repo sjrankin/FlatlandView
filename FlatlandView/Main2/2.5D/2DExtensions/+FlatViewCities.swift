@@ -72,8 +72,9 @@ extension FlatView
         if Settings.GetBool(.ShowUserLocations)
         {
             let UserLocations = Settings.GetLocations()
-            for (_, Location, Name, Color) in UserLocations
+            for (UserPOIID, Location, Name, Color) in UserLocations
             {
+                NodeTables.AddUserPOI(ID: UserPOIID, Name: Name, Location: Location)
                 let UserCity = City(Continent: "NoName", Country: "No Name", Name: Name, Population: nil,
                                     MetroPopulation: nil, Latitude: Location.Latitude, Longitude: Location.Longitude)
                 UserCity.CityColor = Color
@@ -114,6 +115,8 @@ extension FlatView
                     MinSize = MinSize + ((MinSize  * FlatConstants.RelativeCitySizeAdjustment.rawValue) * Percent)
                     let CityNode = PlotLocationAsSphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                                         WithColor: CityColor, RelativeSize: CGFloat(MinSize))
+                    CityNode.NodeID = City.CityID
+                    CityNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
                     CityPlane.addChildNode(CityNode)
                     NodesWithShadows.append(CityNode)
                 }
@@ -122,10 +125,14 @@ extension FlatView
         
         if Settings.GetBool(.ShowHomeLocation)
         {
+            NodeTables.RemoveUserHome()
             if let HomeLatitude = Settings.GetDoubleNil(.LocalLatitude)
             {
                 if let HomeLongitude = Settings.GetDoubleNil(.LocalLongitude)
                 {
+                    NodeTables.AddHome(ID: NodeTables.HomeID,
+                                       Name: "Home location",
+                                       Location: GeoPoint(HomeLatitude, HomeLongitude))
                     let HomeNode = PlotLocationAsExtrusion(Latitude: HomeLatitude, Longitude: HomeLongitude,
                                                            Radius: Radius,
                                                            Scale: FlatConstants.HomeSizeScale.rawValue,
@@ -143,12 +150,12 @@ extension FlatView
     /// - Parameter Longitude: The longitude of the location.
     /// - Parameter Radius: The radius of the flat Earth.
     /// - Parameter WithColor: The color to use as the texture for the cone.
-    func PlotLocationAsCone(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor) -> SCNNode
+    func PlotLocationAsCone(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor) -> SCNNode2
     {
         let CityShape = SCNCone(topRadius: 0.0,
                                 bottomRadius: CGFloat(FlatConstants.UserCityBaseSize.rawValue),
                                 height: CGFloat(FlatConstants.UserCityHeight.rawValue))
-        let CityNode = SCNNode(geometry: CityShape)
+        let CityNode = SCNNode2(geometry: CityShape)
         CityNode.name = NodeNames2D.CityNode.rawValue
         CityNode.categoryBitMask = LightMasks2D.Polar.rawValue
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
@@ -183,11 +190,11 @@ extension FlatView
     /// - Parameter Longitude: The longitude of the location.
     /// - Parameter Radius: The radius of the flat Earth.
     /// - Parameter WithColor: The color to use as the texture for the sphere.
-    func PlotLocationAsSphere(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor) -> SCNNode
+    func PlotLocationAsSphere(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor) -> SCNNode2
     {
         let CitySize = CGFloat(FlatConstants.CitySphereRadius.rawValue)
         let CityShape = SCNSphere(radius: CitySize)
-        let CityNode = SCNNode(geometry: CityShape)
+        let CityNode = SCNNode2(geometry: CityShape)
         CityNode.name = NodeNames2D.CityNode.rawValue
         CityNode.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
@@ -223,11 +230,11 @@ extension FlatView
     /// - Parameter WithColor: The color to use as the texture for the sphere.
     /// - Parameter RelativeSize: The relative size of the city's sphere.
     func PlotLocationAsSphere(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor,
-                              RelativeSize: CGFloat) -> SCNNode
+                              RelativeSize: CGFloat) -> SCNNode2
     {
         let CitySize = RelativeSize
         let CityShape = SCNSphere(radius: CitySize)
-        let CityNode = SCNNode(geometry: CityShape)
+        let CityNode = SCNNode2(geometry: CityShape)
         CityNode.name = NodeNames2D.CityNode.rawValue
         CityNode.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
@@ -263,19 +270,21 @@ extension FlatView
     /// - Parameter Scale: The scale of the shape.
     /// - Parameter WithColor: The color to use as the texture for the star.
     func PlotLocationAsExtrusion(Latitude: Double, Longitude: Double, Radius: Double, Scale: Double,
-                                 WithColor: NSColor) -> SCNNode
+                                 WithColor: NSColor) -> SCNNode2
     {
-        let Star = SCNNode(geometry: SCNStar.Geometry(VertexCount: 5, Height: 7.0, Base: 3.5, ZHeight: 4.0))
+        let Star = SCNNode2(geometry: SCNStar.Geometry(VertexCount: 5, Height: 7.0, Base: 3.5, ZHeight: 4.0))
         Star.scale = SCNVector3(Scale, Scale, Scale)
         Star.castsShadow = true
         Star.name = NodeNames2D.HomeNode.rawValue
         Star.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
         Star.geometry?.firstMaterial?.diffuse.contents = WithColor
+        /*
         if Settings.GetBool(.CityNodesGlow)
         {
             Star.geometry?.firstMaterial?.selfIllumination.contents = WithColor
         }
-        let SmallStar = SCNNode(geometry: SCNStar.Geometry(VertexCount: 5, Height: 5.0, Base: 2.5, ZHeight: 5.5))
+ */
+        let SmallStar = SCNNode2(geometry: SCNStar.Geometry(VertexCount: 5, Height: 5.0, Base: 2.5, ZHeight: 5.5))
         SmallStar.castsShadow = true
         SmallStar.name = NodeNames2D.HomeNode.rawValue
         SmallStar.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
