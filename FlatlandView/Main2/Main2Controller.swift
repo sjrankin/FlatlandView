@@ -30,30 +30,30 @@ class Main2Controller: NSViewController
         DebugTextGrid.removeFromSuperview()
         #endif
         
-        /*
-        let GMake = MetalGradient()
-        let Color1 = NSColor(calibratedRed: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
-        let Color2 = NSColor(calibratedRed: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)
-        let NewColor = NSColor.BlendColors(Color1: Color1, Color2: Color2, Percent: 0.25)
-        
-        let Test1 = GMake.CreateHorizontal(Size: NSSize(width: 200, height: 200), Colors: [NSColor.yellow],
-                                             Locations: [CGPoint(x: 1.0, y: 0.5)])
-        let Test1a = GMake.CreateHorizontal(Size: NSSize(width: 200, height: 200), Colors: [NSColor.yellow],
-                                           Locations: [CGPoint(x: 1.0, y: 0.25)])
-        let Test1b = GMake.CreateHorizontal(Size: NSSize(width: 400, height: 400),
-                                            Colors: [NSColor.systemGreen],
-                                            TerminalColors: [NSColor.systemTeal],
-                                            Locations: [CGPoint(x: 1.0, y: 0.33)])
-        let Test2 = GMake.CreateVertical(Size: NSSize(width: 200, height: 200), Colors: [NSColor.systemYellow],
-                                         Locations: [CGPoint(x: 0.25, y: 1.0)])
-        let Test3 = GMake.CreateRadial(Size: NSSize(width: 200, height: 200), Colors: [NSColor.white],
-                                       TerminalColors: [NSColor.red],
-                                       Locations: [CGPoint(x: 0.5, y: 0.5)])
-        print("Gradients created.")
- */
+        //https://stackoverflow.com/questions/31931403/getting-mouse-coordinates-in-swift
+        NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved])
+        {
+            if self.Location.x >= 0 && self.Location.x < self.view.window!.frame.size.width
+            {
+                if self.Location.y >= 0 && self.Location.y < self.view.window!.frame.size.height
+                {
+                    self.Main2DView.MouseAt(Point: CGPoint(x: self.Location.x, y: self.Location.y))
+                    self.Main3DView.MouseAt(Point: CGPoint(x: self.Location.x, y: self.Location.y))
+                }
+            }
+            return $0
+        }
     }
     
+    var Location: NSPoint {self.view.window!.mouseLocationOutsideOfEventStream}
+    
     var StenciledImage: NSImage? = nil
+    
+    override func viewWillAppear()
+    {
+        super.viewWillAppear()
+        self.view.window!.acceptsMouseMovedEvents = true
+    }
     
     /// Initialize things that require a fully set-up window.
     override func viewDidLayout()
@@ -74,7 +74,7 @@ class Main2Controller: NSViewController
             if let ContentsSize = Settings.GetNSSize(.PrimaryViewSize)
             {
                 print("ContentsSize=\(ContentsSize)")
-                MainWindow?.setContentSize(ContentsSize)
+                //MainWindow?.setContentSize(ContentsSize)
             }
         }
     }
@@ -124,6 +124,23 @@ class Main2Controller: NSViewController
             WindowController.showWindow(nil)
         }
     }
+    
+    @IBAction func ShowItemViewer(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "ItemViewer", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "ItemViewer") as? ItemViewerWindow
+        {
+            let ItemWindow = WindowController.window
+            let Controller = ItemWindow?.contentViewController as? ItemViewerController
+            Controller?.MainDelegate = self
+            ItemViewerDelegate = Controller
+            ItemViewerWindowDelegate = Controller
+            WindowController.showWindow(nil)
+        }
+    }
+    
+    var ItemViewerDelegate: ItemViewerProtocol? = nil
+    var ItemViewerWindowDelegate: WindowManagement? = nil
     
     @IBAction func TakeSnapShot(_ sender: Any)
     {
@@ -332,7 +349,8 @@ class Main2Controller: NSViewController
     
     var PreviousSunType = SunNames.PlaceHolder
     
-    
+    /// Set flat mode. This will switch views if necessary.
+    /// - Parameter IsFlat: If true, flat mode will be turned on. If false, 3D mode will be turned on.
     func SetFlatMode(_ IsFlat: Bool)
     {
         if IsFlat
