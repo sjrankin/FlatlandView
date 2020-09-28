@@ -99,6 +99,12 @@ extension GlobeView
     ///                      previous list, no action is taken.
     func NewEarthquakeList(_ NewList: [Earthquake], Final: (() -> ())? = nil)
     {
+        NodeTables.RemoveEarthquakes()
+        for Quake in NewList
+        {
+            NodeTables.AddEarthquake(Quake)
+        }
+        
         RemoveExpiredIndicators(NewList)
         let FilteredList = EarthquakeFilterer.FilterList(NewList)
         if FilteredList.count == 0
