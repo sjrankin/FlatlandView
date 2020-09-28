@@ -86,6 +86,19 @@ class SCNNode2: SCNNode
     
     /// Node ID. Defaults to nil.
     var NodeID: UUID? = nil
+    
+    /// Propagate the parent's IDs to its children.
+    func PropagateIDs()
+    {
+        for Child in self.childNodes
+        {
+            if let TheChild = Child as? SCNNode2
+            {
+                TheChild.NodeClass = NodeClass
+                TheChild.NodeID = NodeID
+            }
+        }
+    }
 }
 
 
