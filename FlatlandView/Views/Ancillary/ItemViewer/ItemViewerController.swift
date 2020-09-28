@@ -54,16 +54,33 @@ class ItemViewerController: NSViewController, ItemViewerProtocol, WindowManageme
         switch ItemToDisplay.ItemType
         {
             case .City:
+                ItemNameLabel.stringValue = "Name"
+                ItemName.stringValue = ItemToDisplay.Name
                 NumericLabel.stringValue = "Population"
-                NumericValue.stringValue = "\(Int(ItemToDisplay.Numeric))"
+                let FinalPop = Int(ItemToDisplay.Numeric).Delimited()
+                NumericValue.stringValue = "\(FinalPop)"
                 
             case .Earthquake:
                 NumericLabel.stringValue = "Magnitude"
-                NumericValue.stringValue = "\(Int(ItemToDisplay.Numeric))"
+                NumericValue.stringValue = "\(ItemToDisplay.Numeric.RoundedTo(2))"
+                ItemNameLabel.stringValue = "Date"
+                ItemName.stringValue = ItemToDisplay.Name
                 
             case .WorldHeritageSite:
+                NumericLabel.stringValue = "Year"
+                NumericValue.stringValue = "\(Int(ItemToDisplay.Numeric))"
+                
+            case .UserPOI:
                 NumericLabel.stringValue = ""
                 NumericValue.stringValue = ""
+                ItemNameLabel.stringValue = "Name"
+                ItemName.stringValue = ItemToDisplay.Name
+                
+            case .Home:
+                NumericLabel.stringValue = ""
+                NumericValue.stringValue = ""
+                ItemNameLabel.stringValue = "Name"
+                ItemName.stringValue = ItemToDisplay.Name
                 
             default:
                 return
