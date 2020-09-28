@@ -94,4 +94,9 @@ extension Main2Controller: MainProtocol
             }
         }
     }
+    
+    func ItemViewerClosed()
+    {
+        ItemViewerDelegate = nil
+    }
 }
