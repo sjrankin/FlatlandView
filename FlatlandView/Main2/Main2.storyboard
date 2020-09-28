@@ -97,6 +97,13 @@
                                         <action selector="HandleViewTypeChange:" target="gS1-iC-1Lf" id="uO2-5J-Abp"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="4B42A07B-DD3A-4C5D-9D77-261AFEF8C3FE" label="Item Info" paletteLabel="Item Info" tag="-1" image="Binoculars" id="NG7-vc-2Xn">
+                                    <size key="minSize" width="48" height="48"/>
+                                    <size key="maxSize" width="48" height="48"/>
+                                    <connections>
+                                        <action selector="ShowItemViewer:" target="gS1-iC-1Lf" id="6Mv-BX-CYn"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="Mks-dR-lsJ"/>
@@ -108,6 +115,7 @@
                                 <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="Y99-uv-LZz"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
+                                <toolbarItem reference="NG7-vc-2Xn"/>
                                 <toolbarItem reference="Fk7-Vk-xXx"/>
                                 <toolbarItem reference="MOf-3f-WGP"/>
                             </defaultToolbarItems>
@@ -279,6 +287,12 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="ShowEarthquakeList:" target="vAH-R8-aOX" id="5gL-5u-H6t"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Item Viewer" id="m0t-GP-bl2">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="ShowItemViewer:" target="vAH-R8-aOX" id="VGf-XO-LrW"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Reset View" id="B8o-ge-jcr">
@@ -565,6 +579,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Binoculars" width="48" height="48"/>
         <image name="CameraButtonUnpressed" width="24" height="24"/>
         <image name="CircleIcon" width="24" height="24"/>
         <image name="ClockIcon" width="24" height="24"/>
