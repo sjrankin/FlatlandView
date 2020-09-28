@@ -608,6 +608,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
                         PreviousNodeID = NodeID
                         if let NodeData = NodeTables.GetItemData(For: NodeID)
                         {
+                            MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
                             Debug.Print("Mouse over \(NodeData.Name)")
                         }
                         else
