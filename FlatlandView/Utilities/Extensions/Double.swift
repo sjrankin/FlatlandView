@@ -57,5 +57,48 @@ extension Double
             return ToDegrees()
         }
     }
+    
+    /// Returns the instance value as a delimited string.
+    /// - Parameter Delimiter: The character (or string if the caller prefers) to use to delimit thousands blocks.
+    /// - Returns: Value as a character delimited string.
+    func Delimited(Delimiter: String = ",") -> String
+    {
+        let Raw = "\(self)"
+        let RawValue = self
+        let Parts = Raw.split(separator: ".", omittingEmptySubsequences: true)
+        let Leading = String(Parts[0])
+        
+        let Remainder = RawValue.truncatingRemainder(dividingBy: 1)
+        let RS = "\(Remainder)"
+        let RParts = RS.split(separator: ".")
+        let Trailing = String(RParts[1])
+        
+        if Leading.count <= 3
+        {
+            return Raw
+        }
+        var RawArray = Array(Leading)
+        var Working = ""
+        while RawArray.count > 0
+        {
+            let Last3 = RawArray.suffix(3)
+            var Sub = ""
+            for C in Last3
+            {
+                Sub = Sub + String(C)
+            }
+            if RawArray.count >= 3
+            {
+                RawArray.removeLast(3)
+            }
+            else
+            {
+                RawArray.removeAll()
+            }
+            let Separator = RawArray.count > 0 ? Delimiter : ""
+            Working = "\(Separator)\(Sub)" + Working
+        }
+        return "\(Working).\(Trailing)"
+    }
 }
 
