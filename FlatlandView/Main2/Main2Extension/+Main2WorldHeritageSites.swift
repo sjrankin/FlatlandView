@@ -12,7 +12,9 @@ import SQLite3
 
 extension Main2Controller
 {
-    /// Initialize the world heritage site database.
+    /// Initialize the world heritage site database. This function only initializes the database
+    /// and does not load anything.
+    /// - Note: Call `GetAllSites` to load all data.
     /// - Warning: A fatal error is generated on error.
     public static func InitializeWorldHeritageSites()
     {
