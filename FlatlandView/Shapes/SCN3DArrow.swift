@@ -10,8 +10,8 @@ import Foundation
 import AppKit
 import SceneKit
 
-/// Implements/creates a 3D arrow shape in an `SCNNode`.
-class SCN3DArrow: SCNNode
+/// Implements/creates a 3D arrow shape in an `SCNNode2`.
+class SCN3DArrow: SCNNode2
 {
     /// Initializer. Creates a default shape.
     override init()
@@ -207,17 +207,17 @@ class SCN3DArrow: SCNNode
         }
         
         let Cone = SCNCone(topRadius: 0.0, bottomRadius: _Width * 0.75, height: _Length / 3.0)
-        let ConeNode = SCNNode(geometry: Cone)
+        let ConeNode = SCNNode2(geometry: Cone)
         ConeNode.geometry?.firstMaterial?.diffuse.contents = _Color
         ConeNode.geometry?.firstMaterial?.specular.contents = _Specular
         ConeNode.categoryBitMask = _LightMask
         let Stem = SCNCapsule(capRadius: _Width * 0.25, height: _Length * 0.65)
-        let StemNode = SCNNode(geometry: Stem)
+        let StemNode = SCNNode2(geometry: Stem)
         StemNode.position = SCNVector3(0.0, -0.8, 0.0)
         StemNode.geometry?.firstMaterial?.diffuse.contents = _StemColor
         StemNode.geometry?.firstMaterial?.specular.contents = _StemSpecular
         StemNode.categoryBitMask = _LightMask
-        let Arrow = SCNNode()
+        let Arrow = SCNNode2()
         Arrow.addChildNode(ConeNode)
         Arrow.addChildNode(StemNode)
         self.addChildNode(Arrow)
