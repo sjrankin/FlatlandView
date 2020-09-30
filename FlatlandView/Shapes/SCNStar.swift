@@ -12,11 +12,11 @@ import Foundation
 import AppKit
 import SceneKit
 
-/// SCNNode with a star polygon shape.
+/// SCNNode2 with a star polygon shape.
 /// - Note: Each point of the star is equal-distant from the point on either side.
 /// - Note: The star shape is created using `UIBezierPath` data.
 /// - Note: See [Star Polygon](https://en.wikipedia.org/wiki/Star_polygon)
-class SCNStar: SCNNode
+class SCNStar: SCNNode2
 {
     /// Initializer.
     override init()
