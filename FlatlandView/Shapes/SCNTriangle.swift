@@ -10,8 +10,8 @@ import Foundation
 import AppKit
 import SceneKit
 
-/// Implements a simple triangle `SCNNode`.
-class SCNTriangle: SCNNode
+/// Implements a simple triangle `SCNNode2`.
+class SCNTriangle: SCNNode2
 {
     /// Initializer. Creates a default triangle.
     override init()
@@ -190,7 +190,7 @@ class SCNTriangle: SCNNode
         Path.line(to: NSPoint(x: HCenter, y: _Height))
         Path.close()
         let Geo = SCNShape(path: Path, extrusionDepth: _Extrusion)
-        let GeoNode = SCNNode(geometry: Geo)
+        let GeoNode = SCNNode2(geometry: Geo)
         GeoNode.categoryBitMask = _LightMask
         GeoNode.geometry?.firstMaterial?.diffuse.contents = Color
         GeoNode.geometry?.firstMaterial?.specular.contents = Specular
