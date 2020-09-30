@@ -19,7 +19,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
+/*
         Settings.Initialize()
         Settings.AddSubscriber(self)
         
@@ -109,6 +109,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
         #endif
         
         Debug.Print("Done with viewDidLoad")
+ */
     }
     
     func DoneWithStenciling()
@@ -772,7 +773,7 @@ class MainView: NSViewController, MainProtocol, AsynchronousDataProtocol
     {
     }
     
-    func DisplayNodeInformation(ItemData: DisplayItem)
+    func DisplayNodeInformation(ItemData: DisplayItem?)
     {
     }
     
