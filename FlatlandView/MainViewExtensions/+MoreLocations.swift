@@ -65,6 +65,7 @@ extension MainView
     public static func GetAllSites() -> [WorldHeritageSite]
     {
         var Results = [WorldHeritageSite]()
+        #if false
         let GetQuery = "SELECT * FROM Sites"
         let QueryHandle = SetupQuery(DB: UnescoHandle, Query: GetQuery)
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
@@ -80,10 +81,12 @@ extension MainView
             let ShortCategory = String(cString: sqlite3_column_text(QueryHandle, 8))
             let Countries = String(cString: sqlite3_column_text(QueryHandle, 9))
             let Site = WorldHeritageSite(UID, ID, Name, Year, Latitude, Longitude, Hectares,
-                                         Category, ShortCategory, Countries)
+                                         Category, ShortCategory, Countries,
+                                         UUID())
             Results.append(Site)
         }
         MainView.LastReadList = Results
+        #endif
         return Results
     }
     
