@@ -354,5 +354,5 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var Quakes2D = [Earthquake]()
     var PreviousEarthquakes = [Earthquake]()
     var WHSNodeList = [SCNNode2]()
-    var SunNode = SCNNode()
+    var SunNode = SCNNode2()
 }
