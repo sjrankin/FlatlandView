@@ -91,7 +91,13 @@ extension FlatView
         AddHeritageLayer()
         AddEarthquakeLayer()
         AddSun()
-        
+        UpdateLightsForShadows(ShowShadows: Settings.GetBool(.Show2DShadows))
+        SetupMouseHandling()
+    }
+    
+    /// Initialize location objects (eg, cities and World Heritage Sites).
+    func InitializeLocations()
+    {
         if Settings.GetBool(.ShowCities)
         {
             PlotCities()
@@ -101,8 +107,14 @@ extension FlatView
             HideCities()
         }
         
-        UpdateLightsForShadows(ShowShadows: Settings.GetBool(.Show2DShadows))
-        SetupMouseHandling()
+        if Settings.GetBool(.ShowWorldHeritageSites)
+        {
+            PlotWorldHeritageSites()
+        }
+        else
+        {
+            HideWorldHeritageSites()
+        }
     }
     
     /// Initialize handling the mouse in 2D mode for certain tasks.
