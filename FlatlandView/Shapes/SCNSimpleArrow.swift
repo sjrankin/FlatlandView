@@ -10,8 +10,8 @@ import Foundation
 import AppKit
 import SceneKit
 
-/// Implements/creates a simple arrow shape in an `SCNNode`.
-class SCNSimpleArrow: SCNNode
+/// Implements/creates a simple arrow shape in an `SCNNode2`.
+class SCNSimpleArrow: SCNNode2
 {
     /// Initializer. Creates a default shape.
     override init()
