@@ -11,6 +11,9 @@ import AppKit
 
 extension Main2Controller
 {
+    // MARK: - Code to run the item viewer.
+    
+    /// Initialize the item viewer.
     func InitializeItemViewer()
     {
         POIView.wantsLayer = true
@@ -20,9 +23,31 @@ extension Main2Controller
         POIView.layer?.borderColor = NSColor.gray.withAlphaComponent(0.5).cgColor
         POIView.layer?.cornerRadius = 5.0
         ClearView()
-        POIView.isHidden = !Settings.GetBool(.ShowDetailedInformation)
+        let ShowViewer = Settings.GetBool(.ShowDetailedInformation)
+        print("ShowViewer=\(ShowViewer)")
+        POIView.isHidden = !ShowViewer
+       if ShowViewer
+        {
+            ShowEmptyView()
+        }
+        if let Window = self.view.window?.windowController as? Main2Window
+        {
+            let NewImageName = ShowViewer ? "BinocularsIconShowing" : "Binoculars"
+            print("NewImageName=\(NewImageName)")
+            Window.ChangeShowInfoImage(To: NSImage(named: NewImageName)!)
+        }
     }
     
+    /// Show an empty item view.
+    func ShowEmptyView()
+    {
+        ClearView()
+        TypeLabel.isHidden = true
+        LocationLabel.isHidden = true
+        POIView.isHidden = false
+    }
+    
+    /// Clera the item view.
     func ClearView()
     {
         DescriptionValue.stringValue = ""
@@ -55,6 +80,8 @@ extension Main2Controller
             ClearView()
             return
         }
+        TypeLabel.isHidden = false
+        LocationLabel.isHidden = false
         SetValueTextColor(To: NSColor.white)
         TypeValue.stringValue = ItemToDisplay.ItemType.rawValue
         if let Where = ItemToDisplay.Location
@@ -102,16 +129,14 @@ extension Main2Controller
                 NameLabel.stringValue = "Name"
                 NameValue.stringValue = ItemToDisplay.Name
                 
-            case .Hours:
-                #if true
-                break
-                #else
-                NumericLabel.stringValue = ""
-                NumericValue.stringValue = ""
-                NameLabel.stringValue = "Hour"
+            case .Miscellaneous:
+                NameLabel.stringValue = "Name"
                 NameValue.stringValue = ItemToDisplay.Name
-                LocationLabel.isHidden = true
-                #endif
+                if ItemToDisplay.HasNumber
+                {
+                    NumericLabel.stringValue = "Value"
+                    NumericValue.stringValue = "\(ItemToDisplay.Numeric)"
+                }
                 
             default:
                 return
