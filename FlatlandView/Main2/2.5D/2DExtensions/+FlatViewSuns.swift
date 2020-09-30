@@ -20,7 +20,7 @@ extension FlatView
         let SunLocationY = MapCenter == .FlatSouthCenter ? FlatConstants.NorthSunLocationY.rawValue : FlatConstants.SouthSunLocationY.rawValue
         let SunShape = SCNSphere(radius: CGFloat(FlatConstants.SunRadius.rawValue))
         SunShape.segmentCount = Int(FlatConstants.SunSegmentCount.rawValue)
-        SunNode = SCNNode(geometry: SunShape)
+        SunNode = SCNNode2(geometry: SunShape)
         SunNode.name = NodeNames2D.Sun.rawValue
         SunNode.castsShadow = false
         SunNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "NASASolarSurface1")
@@ -33,6 +33,7 @@ extension FlatView
         let SunRotation = SCNAction.rotateBy(x: 0.0, y: 0.0, z: CGFloat(360.0.Radians), duration: 20.0)
         let RotateForever = SCNAction.repeatForever(SunRotation)
         SunNode.runAction(RotateForever)
+        Debug.Print("2D sun added.")
     }
     
     /// Move the sun.
