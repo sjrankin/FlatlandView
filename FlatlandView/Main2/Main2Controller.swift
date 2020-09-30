@@ -66,7 +66,7 @@ class Main2Controller: NSViewController
     {
         super.viewWillAppear()
         self.view.window!.acceptsMouseMovedEvents = true
-        POIView.isHidden = true
+        //POIView.isHidden = true
     }
     
     /// Initialize things that require a fully set-up window.
@@ -150,19 +150,15 @@ class Main2Controller: NSViewController
         }
     }
     
-    /// Show item data flag.
-    var ShowItemData = false
-    
     /// Respond to the user command to show or hide item data.
     /// - Parameter sender: Not used.
     @IBAction func ShowItemViewer(_ sender: Any)
     {
-        ShowItemData = !ShowItemData
-        POIView.isHidden = !ShowItemData
-        Settings.SetBool(.ShowDetailedInformation, ShowItemData)
+        let NewShow = Settings.InvertBool(.ShowDetailedInformation, SendNotification: false)
+        POIView.isHidden = !NewShow
         if let Window = self.view.window?.windowController as? Main2Window
         {
-            let NewImageName = ShowItemData ? "BinocularsIconShowing" : "Binoculars"
+            let NewImageName = NewShow ? "BinocularsIconShowing" : "Binoculars"
             Window.ChangeShowInfoImage(To: NSImage(named: NewImageName)!)
         }
     }
@@ -434,10 +430,12 @@ class Main2Controller: NSViewController
                     break
             }
             Main2DView.UpdateHours()
+            Main2DView.SunVisibility(IsShowing: true)
             SetNightMask()
         }
         else
         {
+            Main2DView.SunVisibility(IsShowing: false)
             Main2DView.isHidden = true
             Main3DView.isHidden = false
         }
