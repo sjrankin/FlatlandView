@@ -11,7 +11,7 @@ import AppKit
 import SceneKit
 
 /// Implements a 3D pin shape.
-class SCNPin: SCNNode
+class SCNPin: SCNNode2
 {
     /// Default initializer.
     override init()
