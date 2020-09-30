@@ -9,6 +9,7 @@
 import Foundation
 import AppKit
 
+/// Controller for the view for the main window in Flatland.
 class Main2Controller: NSViewController
 {
     /// Initialize the main window and program.
@@ -30,7 +31,16 @@ class Main2Controller: NSViewController
         DebugTextGrid.removeFromSuperview()
         #endif
         
-        //https://stackoverflow.com/questions/31931403/getting-mouse-coordinates-in-swift
+       MonitorMouse()
+    }
+    
+    /// Set up event handling so we can monitor the mouse. This is used to notify the user when the mouse
+    /// is over a location that has data.
+    /// - Note: Mouse location handling is done in the 2D and 3D view controllers (see `Main2DView` and
+    ///         `Main3DView`).
+    /// - Note: See [Getting Mouse Coordinates in Swift](https://stackoverflow.com/questions/31931403/getting-mouse-coordinates-in-swift)
+    func MonitorMouse()
+    {
         NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved])
         {
             if self.Location.x >= 0 && self.Location.x < self.view.window!.frame.size.width
@@ -45,14 +55,18 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Holds the location of the mouse pointer in the window.
     var Location: NSPoint {self.view.window!.mouseLocationOutsideOfEventStream}
     
+    /// Holds the most recent stenciled image.
     var StenciledImage: NSImage? = nil
     
+    /// Handle the view will appear event.
     override func viewWillAppear()
     {
         super.viewWillAppear()
         self.view.window!.acceptsMouseMovedEvents = true
+        POIView.isHidden = true
     }
     
     /// Initialize things that require a fully set-up window.
@@ -79,6 +93,8 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Handle content view size changed events.
+    /// - Parameter notification: The event notification.
     @objc func HandlePrimaryViewContentsSizeChange(_ notification: Notification)
     {
         if let ChangedView = notification.object as? ParentView
@@ -89,28 +105,37 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Initial window position set flag.
     var InitialWindowPositionSet = false
     
+    /// Called when a stenciling operation has completed.
     func DoneWithStenciling()
     {
         Debug.Print("Stenciling completed.")
     }
     
+    /// Main settings delegate. Used for communication and closing when the main window closes.
     var MainSettingsDelegate: WindowManagement? = nil
+    /// About delegate. Used for communication and closing when the main window closes.
     var AboutDelegate: WindowManagement? = nil
-    
+    /// Update timer.
     var UpdateTimer: Timer? = nil
+    /// Program started flag.
     var Started = false
     
     #if DEBUG
+    /// Time stamp for when the program started.
     var StartDebugCount: Double = 0.0
+    /// Number of seconds running in the current instantiation.
     var UptimeSeconds: Int = 0
     #endif
-    
+    /// Previous second count.
     var OldSeconds: Double = 0.0
     
     // MARK: Menu and toolbar event handlers
     
+    /// Respond to the user command to run settings.
+    /// - Parameter sender: Not used.
     @IBAction func RunSettings(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
@@ -125,28 +150,32 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Show item data flag.
+    var ShowItemData = false
+    
+    /// Respond to the user command to show or hide item data.
+    /// - Parameter sender: Not used.
     @IBAction func ShowItemViewer(_ sender: Any)
     {
-        let Storyboard = NSStoryboard(name: "ItemViewer", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "ItemViewer") as? ItemViewerWindow
+        ShowItemData = !ShowItemData
+        POIView.isHidden = !ShowItemData
+        Settings.SetBool(.ShowDetailedInformation, ShowItemData)
+        if let Window = self.view.window?.windowController as? Main2Window
         {
-            let ItemWindow = WindowController.window
-            let Controller = ItemWindow?.contentViewController as? ItemViewerController
-            Controller?.MainDelegate = self
-            ItemViewerDelegate = Controller
-            ItemViewerWindowDelegate = Controller
-            WindowController.showWindow(nil)
+            let NewImageName = ShowItemData ? "BinocularsIconShowing" : "Binoculars"
+            Window.ChangeShowInfoImage(To: NSImage(named: NewImageName)!)
         }
     }
     
-    var ItemViewerDelegate: ItemViewerProtocol? = nil
-    var ItemViewerWindowDelegate: WindowManagement? = nil
-    
+    /// Respond to the user command to take a snapshot of the current view.
+    /// - Parameter sender: Not used.
     @IBAction func TakeSnapShot(_ sender: Any)
     {
         CreateClientSnapshot()
     }
     
+    /// Respond to the user command to show the about dialog.
+    /// - Parameter sender: Not used.
     @IBAction func ShowAbout(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "About", bundle: nil)
@@ -171,8 +200,11 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Reference to the about dialog.
     var AControl: AboutController? = nil
     
+    /// Respond to the user command to show current time events.
+    /// - Parameter sender: Not used.
     @IBAction func ShowTodaysTimes(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "Today", bundle: nil)
@@ -185,8 +217,11 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Reference to the today viewer. Used to close the viewer if the main window is closed first.
     var TodayDelegate: WindowManagement? = nil
     
+    /// Respond to the user command to show the list of earthquakes.
+    /// - Parameter sender: Not used.
     @IBAction func ShowEarthquakeList(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
@@ -199,21 +234,25 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Array of previous earthquakes (used in a cache-like fasion).
     var PreviousEarthquakes = [Earthquake]()
     
+    /// Respond to the user command to reset the view. Works with both 2D and 3D views.
+    /// - Parameter sender: Not used.
     @IBAction func Reset3DView(_ sender: Any)
     {
         Main3DView.ResetCamera()
         Main2DView.ResetCamera()
     }
     
+    /// Set the night mask for the day.
     func SetNightMask()
     {
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.FlatSouthCenter) == .Globe3D
         {
             return
         }
-
+        
         if !Settings.GetBool(.ShowNight)
         {
             Main2DView.HideNightMask()
@@ -229,6 +268,8 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Resond to the user command to show the flat map in north-centered mode.
+    /// - Parameter sender: Not used.
     @IBAction func ViewTypeNorthCentered(_ sender: Any)
     {
         Settings.SetEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
@@ -243,6 +284,8 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Resond to the user command to show the flat map in south-centered mode.
+    /// - Parameter sender: Not used.
     @IBAction func ViewTypeSouthCentered(_ sender: Any)
     {
         Settings.SetEnum(.FlatSouthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
@@ -257,31 +300,43 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Respond to the user command to show the map in 3D globe mode.
+    /// - Parameter sender: Not used.
     @IBAction func ViewTypeGlobal(_ sender: Any)
     {
         Settings.SetEnum(.Globe3D, EnumType: ViewTypes.self, ForKey: .ViewType)
     }
     
+    /// Respond to the user command to show the map in 3D cubic mode.
+    /// - Parameter sender: Not used.
     @IBAction func ViewTypeCubic(_ sender: Any)
     {
         Settings.SetEnum(.CubicWorld, EnumType: ViewTypes.self, ForKey: .ViewType)
     }
     
+    /// Respond to the user command to hide all of the hour digits.
+    /// Parameter sender: Not used.
     @IBAction func ViewHoursHideAll(_ sender: Any)
     {
         Settings.SetEnum(.None, EnumType: HourValueTypes.self, ForKey: .HourType)
     }
     
+    /// Respond to the user command to show hours as noon-centered.
+    /// Parameter sender: Not used.
     @IBAction func ViewHoursNoonCentered(_ sender: Any)
     {
         Settings.SetEnum(.Solar, EnumType: HourValueTypes.self, ForKey: .HourType)
     }
     
+    /// Respond to the user command to show hours as noon-delta.
+    /// Parameter sender: Not used.
     @IBAction func ViewHoursNoonDelta(_ sender: Any)
     {
         Settings.SetEnum(.RelativeToNoon, EnumType: HourValueTypes.self, ForKey: .HourType)
     }
     
+    /// Respond to the user command to show hours as location-delta.
+    /// Parameter sender: Not used.
     @IBAction func ViewHoursLocationRelative(_ sender: Any)
     {
         if Settings.HaveLocalLocation()
@@ -290,6 +345,8 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Respond to the user command to change how hours are displayed.
+    /// - Parameter sender: Not used.
     @IBAction func HandleHourTypeChange(_ sender: Any)
     {
         if let Segment = sender as? NSSegmentedControl
@@ -314,6 +371,8 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Respond to the user command to change the map type.
+    /// - Parameter sender: Not used.
     @IBAction func HandleViewTypeChange(_ sender: Any)
     {
         if let Segment = sender as? NSSegmentedControl
@@ -338,16 +397,18 @@ class Main2Controller: NSViewController
         }
     }
     
+    /// Not currently implemented.
     @IBAction func DebugShow(_ sender: Any)
     {
     }
     
+    /// Initialize the settings to factory values.
+    /// - Note: Intended for debug use only.
+    /// - Parameter sender: Not used.
     @IBAction func DebugResetSettings(_ sender: Any)
     {
         Settings.Initialize(true)
     }
-    
-    var PreviousSunType = SunNames.PlaceHolder
     
     /// Set flat mode. This will switch views if necessary.
     /// - Parameter IsFlat: If true, flat mode will be turned on. If false, 3D mode will be turned on.
@@ -384,16 +445,24 @@ class Main2Controller: NSViewController
     
     // MARK: - Extension variables
     
+    /// ID used for settings subscriptions.
     var ClassID = UUID()
+    /// Earthquake source (asynchronous data from the USGS).
     var Earthquakes: USGS? = nil
+    /// Primary map list.
     var PrimaryMapList: ActualMapList? = nil
+    /// The latest earthquakes from the USGS.
     var LatestEarthquakes = [Earthquake]()
-    var CityTestList = [City]()
+    /// List of cities.
     let CityList = Cities()
+    /// Location of the Unesco database.
     var UnescoURL: URL? = nil
+    /// Flag that indicates whether the Unesco database was initialized or not.
     static var UnescoInitialized = false
+    /// Handle to the Unesco database.
     static var UnescoHandle: OpaquePointer? = nil
-    var WorldHeritageSites: [WorldHeritageSite]? = nil
+    /// Array of World Heritage Sites.
+    var WorldHeritageSites: [WorldHeritageSite2]? = nil
     
     // MARK: - Storyboard outlets
     
@@ -403,6 +472,17 @@ class Main2Controller: NSViewController
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var BackgroundView: NSView!
+    // Item view elements
+    @IBOutlet weak var POIView: NSView!
+    @IBOutlet weak var DescriptionValue: NSTextField!
+    @IBOutlet weak var LocationValue: NSTextField!
+    @IBOutlet weak var LocationLabel: NSTextField!
+    @IBOutlet weak var NumericValue: NSTextField!
+    @IBOutlet weak var NumericLabel: NSTextField!
+    @IBOutlet weak var NameValue: NSTextField!
+    @IBOutlet weak var NameLabel: NSTextField!
+    @IBOutlet weak var TypeValue: NSTextField!
+    @IBOutlet weak var TypeLabel: NSTextField!
     //Debug elements
     @IBOutlet weak var VersionLabel: NSTextField!
     @IBOutlet weak var VersionValue: NSTextField!
