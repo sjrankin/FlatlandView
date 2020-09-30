@@ -331,14 +331,19 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                         PreviousNodeID = NodeID
                         if let NodeData = NodeTables.GetItemData(For: NodeID)
                         {
+                            Debug.Print("Found node data for \(NodeData.Name)")
                             MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
-                            Debug.Print("Mouse over \(NodeData.Name)")
                         }
                         else
                         {
-                            Debug.Print("Did not find node data for \(NodeID)")
+                            Debug.Print("*** Did not find node data for \(NodeID)")
+                            NodeTables.DumpTableKeys(For: .WorldHeritageSite)
                         }
                     }
+                }
+                else
+                {
+                    MainDelegate?.DisplayNodeInformation(ItemData: nil) 
                 }
             }
         }
