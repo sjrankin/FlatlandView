@@ -47,13 +47,7 @@ extension Main2Controller
         FontHelper.Initialize()
         //Initialize item data viewer.
         InitializeItemViewer()
-        let ShowItemData = Settings.GetBool(.ShowDetailedInformation)
-        POIView.isHidden = !ShowItemData
-        if let Window = self.view.window?.windowController as? Main2Window
-        {
-            let NewImageName = ShowItemData ? "BinocularsIconShowing" : "Binoculars"
-            Window.ChangeShowInfoImage(To: NSImage(named: NewImageName)!)
-        }
+
         
         Main2Controller.InitializeWorldHeritageSites()
         WorldHeritageSites = Main2Controller.GetAllSites()
