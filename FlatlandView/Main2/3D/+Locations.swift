@@ -133,7 +133,7 @@ extension GlobeView
         
         HomeNode = SCNNode2(geometry: Sphere)
         HomeNode?.NodeID = NodeTables.HomeID
-        HomeNode?.NodeClass = UUID(uuidString: NodeClasses.Hours.rawValue)!
+        HomeNode?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         HomeNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         HomeNode?.geometry?.firstMaterial?.diffuse.contents = WithColor
         HomeNode?.geometry?.firstMaterial?.selfIllumination.contents = WithColor
@@ -152,7 +152,7 @@ extension GlobeView
         let SphereHalo = SCNSphere(radius: 0.40)
         HomeNodeHalo = SCNNode2(geometry: SphereHalo)
         HomeNodeHalo?.NodeID = NodeTables.HomeID
-        HomeNodeHalo?.NodeClass = UUID(uuidString: NodeClasses.Hours.rawValue)!
+        HomeNodeHalo?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         HomeNodeHalo?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         HomeNodeHalo?.geometry?.firstMaterial?.diffuse.contents = NSColor.white.withAlphaComponent(0.2)
         #if true
@@ -886,10 +886,10 @@ extension GlobeView
         let (SouthX, SouthY, SouthZ) = ToECEF(-90.0, 0.0, Radius: Double(Radius))
         NorthPoleFlag = MakeFlag(NorthPole: true)
         NorthPoleFlag?.NodeID = NodeTables.NorthPoleID
-        NorthPoleFlag?.NodeClass = UUID(uuidString: NodeClasses.Poles.rawValue)!
+        NorthPoleFlag?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         SouthPoleFlag = MakeFlag(NorthPole: false)
         SouthPoleFlag?.NodeID = NodeTables.SouthPoleID
-        SouthPoleFlag?.NodeClass = UUID(uuidString: NodeClasses.Poles.rawValue)!
+        SouthPoleFlag?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         NorthPoleFlag?.position = SCNVector3(NorthX, NorthY, NorthZ)
         SouthPoleFlag?.position = SCNVector3(SouthX, SouthY, SouthZ)
         Surface.addChildNode(NorthPoleFlag!)
@@ -918,7 +918,7 @@ extension GlobeView
     {
         let Pole = SCNCylinder(radius: 0.25, height: 2.5)
         let PoleNode = SCNNode2(geometry: Pole)
-        PoleNode.NodeClass = UUID(uuidString: NodeClasses.Poles.rawValue)!
+        PoleNode.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         PoleNode.NodeID = NorthPole ? NodeTables.NorthPoleID : NodeTables.SouthPoleID
         PoleNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         PoleNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "PolarTexture")
