@@ -43,6 +43,9 @@ class NodeTables
         MiscTable[SouthPoleID] = DisplayItem(ID: SouthPoleID, ItemType: .Miscellaneous, Name: "South Pole",
                                               Numeric: 0.0, Location: GeoPoint(-90.0, 0.0),
                                               Description: "Earth's south pole.")
+        MiscTable[SunID] = DisplayItem(ID: SunID, ItemType: .Miscellaneous, Name: "Sun",
+                                       Numeric: 0.0, Location: nil, Description: "The sun")
+        MiscTable[SunID]?.HasNumber = false
     }
     
     /// Add an earthquake to the earthquake item table.
@@ -300,6 +303,8 @@ class NodeTables
     public static let NorthPoleID = UUID()
     /// The south pole ID.
     public static let SouthPoleID = UUID()
+    /// The sun's ID.
+    public static let SunID = UUID()
 }
 
 /// Information to display to the user.
