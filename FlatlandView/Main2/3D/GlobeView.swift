@@ -575,10 +575,15 @@ class GlobeView: SCNView, FlatlandEventProtocol
     }
     
     var RotationAccumulator: CGFloat = 0.0
+    /// Holds most nodes.
     var SystemNode: SCNNode? = nil
+    /// Holds nodes used to draw 3D lines.
     var LineNode: SCNNode? = nil
+    /// Holds the main Earth node.
     var EarthNode: SCNNode? = nil
+    /// Holds the main sea node.
     var SeaNode: SCNNode? = nil
+    /// Holds all of the hour nodes.
     var HourNode: SCNNode2? = nil
     var PlottedEarthquakes = Set<String>()
     
@@ -588,8 +593,8 @@ class GlobeView: SCNView, FlatlandEventProtocol
     /// - Parameter Point: The point in the view reported by the main controller.
     func MouseAt(Point: CGPoint)
     {
-        let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
-        if MapCenter == .Globe3D
+        let MapView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+        if MapView == .Globe3D
         {
             let HitObject = self.hitTest(Point, options: [.boundingBoxOnly: true])
             if HitObject.count > 0
