@@ -19,7 +19,6 @@ extension Main2Controller
         MainSettingsDelegate?.MainClosing()
         AboutDelegate?.MainClosing()
         TodayDelegate?.MainClosing()
-        ItemViewerWindowDelegate?.MainClosing()
         
         print("Flatland closing.")
     }
