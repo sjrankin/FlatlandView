@@ -67,6 +67,22 @@ class Main2Window: NSWindowController, NSWindowDelegate
         VC?.WillClose()
     }
     
+    /// Change the image of the passed toolbar item to the passed image.
+    /// - Parameter Item: The item to change.
+    /// - Parameter To: The new image.
+    func ChangeToolbarItemImage(Item: NSToolbarItem, To Image: NSImage)
+    {
+        Item.image = Image
+    }
+    
+    /// Change the image of the show info button.
+    /// - Parameter To: The new image.
+    func ChangeShowInfoImage(To Image: NSImage)
+    {
+        ChangeToolbarItemImage(Item: ItemInfoButton, To: Image)
+    }
+    
+    @IBOutlet weak var ItemInfoButton: NSToolbarItem!
     @IBOutlet weak var MainToolBar: NSToolbar!
     @IBOutlet weak var HourSegment: NSSegmentedControl!
     @IBOutlet weak var ViewSegment: NSSegmentedControl!
