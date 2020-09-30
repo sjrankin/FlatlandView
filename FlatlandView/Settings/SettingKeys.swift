@@ -357,6 +357,8 @@ enum SettingKeys: String, CaseIterable
     case ShowSplashScreen = "ShowSplashScreen"
     /// Double: Amount of time the splash screen is shown, in seconds.
     case SplashScreenDuration = "SplashScreenDuration"
+    /// Boolean: If true, details of geographic nodes are shown. If false, nothing is shown.
+    case ShowDetailedInformation = "ShowDetailedInformation"
     
     // MARK: - Time debug settings.
     /// Boolean: Enables debugging of time.
