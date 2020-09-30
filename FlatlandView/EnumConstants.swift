@@ -172,6 +172,10 @@ enum FlatConstants: Double, CaseIterable
     case SunRadius = 0.800034
     /// Number of segments in the sun.
     case SunSegmentCount = 50.0000001
+    /// World Heritage Site radial size.
+    case WHSRadius = 2.0004455
+    /// World Heritage Site depth.
+    case WHSDepth = 0.1000000056
 }
 
 // MARK: - Z level values for old-style 2D mode.
@@ -370,6 +374,8 @@ enum NodeScales2D: CGFloat
 {
     /// Earthquake node scale.
     case EarthquakeScale = 0.75
+    /// Scale of Unesco sites.
+    case UnescoScale = 0.08
 }
 
 // MARK: - Text smoothness values.
@@ -420,6 +426,31 @@ enum GlobeRadius: CGFloat, CaseIterable
     /// Test layer.
     case TestLayer = 10.01999
     #endif
+}
+
+// MARK: - File names and directories.
+
+/// File and directory names used in `FileIO`.
+enum FileIONames: String, CaseIterable
+{
+    /// The application directory.
+    case AppDirectory = "Flatland"
+    /// The external map directory.
+    case MapDirectory = "Flatland/Maps"
+    /// The map structure file name.
+    case MapStructure = "Maps.xml"
+    /// The database directory.
+    case DatabaseDirectory = "Flatland/Database"
+    /// The World Heritage Site database.
+    case UnescoDatabase = "UnescoSites.db"
+    /// The name of the World Heritage Site database.
+    case UnescoName = "UnescoSites"
+    /// The earthquake history database.
+    case QuakeHistoryDatabase = "EarthquakeHistory.db"
+    /// The name of the earthquake history database.
+    case QuakeName = "EarthquakeHistory"
+    /// Common database extension.
+    case DatabaseExtension = "db"
 }
 
 #if DEBUG
