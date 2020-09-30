@@ -36,5 +36,5 @@ protocol MainProtocol: class
     func ItemViewerClosed()
     
     /// Called by views to request information to be displayed.
-    func DisplayNodeInformation(ItemData: DisplayItem)
+    func DisplayNodeInformation(ItemData: DisplayItem?)
 }
