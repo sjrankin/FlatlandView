@@ -33,7 +33,6 @@ extension FlatView
         let SunRotation = SCNAction.rotateBy(x: 0.0, y: 0.0, z: CGFloat(360.0.Radians), duration: 20.0)
         let RotateForever = SCNAction.repeatForever(SunRotation)
         SunNode.runAction(RotateForever)
-        Debug.Print("2D sun added.")
     }
     
     /// Move the sun.
