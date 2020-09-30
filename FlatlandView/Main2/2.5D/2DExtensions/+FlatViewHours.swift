@@ -153,7 +153,7 @@ extension FlatView
             HourShape.chamferRadius = CGFloat(FlatConstants.HourChamfer.rawValue)
         }
         let Node = SCNNode2(geometry: HourShape)
-        Node.NodeClass = UUID(uuidString: NodeClasses.Hours.rawValue)!
+        Node.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         Node.name = NodeNames2D.HourNodes.rawValue
         Node.categoryBitMask = LightMasks2D.Hours.rawValue//LightMasks2D.Sun.rawValue
         Node.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.HourColor, NSColor.systemOrange)
