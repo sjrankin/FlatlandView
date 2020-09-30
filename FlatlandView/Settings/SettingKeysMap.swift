@@ -173,5 +173,6 @@ extension Settings
             .WindowSize: NSSize.self,
             .WindowOrigin: CGPoint.self,
             .PrimaryViewSize: NSSize.self,
+            .ShowDetailedInformation: Bool.self,
         ]
 }
