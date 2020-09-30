@@ -43,12 +43,23 @@ extension Main2Controller
         }
         #endif
         FileIO.Initialize()
-        Main2Controller.InitializeWorldHeritageSites()
-        WorldHeritageSites = Main2Controller.GetAllSites()
         PrimaryMapList = ActualMapIO.LoadMapList()
         FontHelper.Initialize()
-        CityTestList = CityList.TopNCities(N: 50, UseMetroPopulation: true)
+        //Initialize item data viewer.
+        InitializeItemViewer()
+        let ShowItemData = Settings.GetBool(.ShowDetailedInformation)
+        POIView.isHidden = !ShowItemData
+        if let Window = self.view.window?.windowController as? Main2Window
+        {
+            let NewImageName = ShowItemData ? "BinocularsIconShowing" : "Binoculars"
+            Window.ChangeShowInfoImage(To: NSImage(named: NewImageName)!)
+        }
+        
+        Main2Controller.InitializeWorldHeritageSites()
+        WorldHeritageSites = Main2Controller.GetAllSites()
         NodeTables.Initialize(Unesco: WorldHeritageSites!)
+        
+        Main2DView.InitializeLocations()
     }
     
     func LoadInitialMaps()
