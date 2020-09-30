@@ -25,7 +25,7 @@ class WorldHeritageSite
     /// - Parameter Countries: The counties of the site.
     init(_ UID: Int, _ ID: Int, _ Name: String, _ Year: Int, _ Latitude: Double,
          _ Longitude: Double, _ Hectares: Double, _ Category: String,
-         _ ShortCategory: String, _ Countries: String)
+         _ ShortCategory: String, _ Countries: String, _ InternalID: UUID)
     {
         self.UID = UID
         self.ID = ID
@@ -37,6 +37,8 @@ class WorldHeritageSite
         self.Category = Category
         self.ShortCategory = ShortCategory
         self.Countries = Countries
+        self.InternalID = InternalID
+        self.InstanceID = InternalID
     }
     
     var UID: Int = 0
@@ -49,5 +51,12 @@ class WorldHeritageSite
     var Category: String = ""
     var ShortCategory: String = ""
     var Countries: String = ""
-    var InternalID: UUID = UUID()
+    var InternalID: UUID!
+    var InstanceID: UUID?
+    {
+        didSet
+        {
+            InstanceID = oldValue ?? InstanceID
+        }
+    }
 }
