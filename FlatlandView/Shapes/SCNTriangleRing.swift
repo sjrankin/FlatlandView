@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SceneKit
 
-class SCNTriangleRing: SCNNode
+class SCNTriangleRing: SCNNode2
 {
     public static let MinimumTriangleCount: Int = 4
     public static let MaximumTriangleCount: Int = 20
@@ -227,7 +227,7 @@ class SCNTriangleRing: SCNNode
         }
     }
     
-    private func MakeTriangle(Top: NSPoint, Base1: NSPoint, Base2: NSPoint) -> SCNNode
+    private func MakeTriangle(Top: NSPoint, Base1: NSPoint, Base2: NSPoint) -> SCNNode2
     {
         let Path = NSBezierPath()
         Path.move(to: Top)
@@ -236,7 +236,7 @@ class SCNTriangleRing: SCNNode
         Path.line(to: Top)
         Path.close()
         let Geo = SCNShape(path: Path, extrusionDepth: _Extrusion)
-        let GeoNode = SCNNode(geometry: Geo)
+        let GeoNode = SCNNode2(geometry: Geo)
         GeoNode.categoryBitMask = _LightMask
         let NodeColor = _Color
         let NodeSpecular = _Specular
