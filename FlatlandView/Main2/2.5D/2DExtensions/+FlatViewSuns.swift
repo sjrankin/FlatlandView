@@ -21,6 +21,8 @@ extension FlatView
         let SunShape = SCNSphere(radius: CGFloat(FlatConstants.SunRadius.rawValue))
         SunShape.segmentCount = Int(FlatConstants.SunSegmentCount.rawValue)
         SunNode = SCNNode2(geometry: SunShape)
+        SunNode.NodeID = NodeTables.SunID
+        SunNode.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         SunNode.name = NodeNames2D.Sun.rawValue
         SunNode.castsShadow = false
         SunNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "NASASolarSurface1")
