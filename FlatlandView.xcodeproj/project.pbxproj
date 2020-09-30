@@ -779,7 +779,6 @@
 				1740F49A2493173A00F6FAAE /* Hours.swift */,
 				17FC2210249878F8005A0929 /* Ancillary */,
 				17523CD8247B971F005209FC /* 2D */,
-				17523CD9247B9725005209FC /* 3D */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -988,6 +987,7 @@
 		178909C8250E0F360092E3A4 /* Main2 */ = {
 			isa = PBXGroup;
 			children = (
+				17523CD9247B9725005209FC /* 3D */,
 				172C315A2510AE9500B7CCFC /* 2.5D */,
 				17F98DB4251773E9005E248D /* Main2Extension */,
 				178909C4250E0BED0092E3A4 /* Main2Controller.swift */,
