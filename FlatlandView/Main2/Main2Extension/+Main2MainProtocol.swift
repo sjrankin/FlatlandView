@@ -95,13 +95,26 @@ extension Main2Controller: MainProtocol
         }
     }
     
+    /// Obsolete.
     func ItemViewerClosed()
     {
-        ItemViewerDelegate = nil
     }
     
-    func DisplayNodeInformation(ItemData: DisplayItem)
+    /// Display information in the proper view with data sent to us. If the data is nil, the color is
+    /// changed to indicate stale data.
+    /// - Parameter ItemData: The data to display.
+    func DisplayNodeInformation(ItemData: DisplayItem?)
     {
-        ItemViewerDelegate?.DisplayItem(ItemToDisplay: ItemData)
+        if Settings.GetBool(.ShowDetailedInformation)
+        {
+            if let ItemToDisplay = ItemData
+            {
+                DisplayItem(ItemToDisplay: ItemToDisplay)
+            }
+            else
+            {
+                SetValueTextColor(To: NSColor.lightGray)
+            }
+        }
     }
 }
