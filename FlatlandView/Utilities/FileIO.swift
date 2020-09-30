@@ -14,6 +14,9 @@ import ImageIO
 class FileIO
 {
     /// Initialize needed file structures and databases.
+    /// - Warning: This function *must* be called prior to using external maps, the earthquake history database,
+    ///            and World Heritage Sites. If any is used prior to calling this function, Flatland will be in
+    ///            an undefined state.
     public static func Initialize()
     {
         InstallUnescoDatabase()
@@ -21,8 +24,8 @@ class FileIO
         InitializeFileStructure()
     }
     
-    public static let AppDirectory = "Flatland"
-    public static let MapDirectory = "Flatland/Maps"
+    public static let AppDirectory = FileIONames.AppDirectory.rawValue
+    public static let MapDirectory = FileIONames.MapDirectory.rawValue
     
     /// Initialize the file structure we need in the user's Documents directory.
     public static func InitializeFileStructure()
@@ -56,13 +59,14 @@ class FileIO
         }
     }
     
-    /// Read the contents of the `Maps.xml` file.
-    /// - Returns: The contents of the `Maps.xml` file. Nil on error.
+    /// Read the contents of the map structure file.
+    /// - Note: The name of the file is defined in `FileIONames.MapStructure`.
+    /// - Returns: The contents of the map structure file. Nil on error.
     public static func GetMapStructure() -> String?
     {
         let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let AppDirURL = DocDirURL.appendingPathComponent(AppDirectory)
-        let FileURL = AppDirURL.appendingPathComponent("Maps.xml")
+        let FileURL = AppDirURL.appendingPathComponent(FileIONames.MapStructure.rawValue)
         do
         {
             let Raw = try String(contentsOf: FileURL, encoding: .utf8)
@@ -75,24 +79,25 @@ class FileIO
         return nil
     }
     
-    /// Write the contents of the passed string to the `Maps.xml` file.
-    /// - Parameter SaveMe: The string to save to the file `Maps.xml`.
+    /// Write the contents of the passed string to the map structure file.
+    /// - Note: The name of the file is defined in `FileIONames.MapStructure`.
+    /// - Parameter SaveMe: The string to save to the map structure file.
     public static func SetMapStructure(_ SaveMe: String)
     {
         let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let AppDirURL = DocDirURL.appendingPathComponent(AppDirectory)
-        let FileURL = AppDirURL.appendingPathComponent("Maps.xml")
+        let FileURL = AppDirURL.appendingPathComponent(FileIONames.MapStructure.rawValue)
         do
         {
             try SaveMe.write(to: FileURL, atomically: false, encoding: .utf8)
         }
         catch
         {
-            print("Error writing to Maps.xml: \(error.localizedDescription)")
+            print("Error writing to \(FileIONames.MapStructure.rawValue): \(error.localizedDescription)")
         }
     }
     
-    public static let DatabaseDirectory = "/Database"
+    public static let DatabaseDirectory = FileIONames.DatabaseDirectory.rawValue
     
     /// Make sure the Unesco world heritage site database is installed.
     /// - Warning: Fatal errors will be generated on file errors.
@@ -106,24 +111,29 @@ class FileIO
                 DBPath = GetDocumentDirectory()?.appendingPathComponent(DatabaseDirectory)
                 try FileManager.default.createDirectory(atPath: DBPath!.path, withIntermediateDirectories: true,
                                                         attributes: nil)
+                Debug.Print("Created database directory \(DBPath!.path)")
             }
             catch
             {
                 fatalError("Error creating database directory \"\(DatabaseDirectory)\"")
             }
         }
-        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/UnescoSites.db")
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.UnescoDatabase.rawValue
+        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         if FileManager.default.fileExists(atPath: LookForExisting.path)
         {
+            Debug.Print("\"\(FileIONames.UnescoDatabase.rawValue)\" exists at \(LookForExisting.path)")
             return
         }
-        if let Source = Bundle.main.path(forResource: "UnescoSites", ofType: "db")
+        if let Source = Bundle.main.path(forResource: FileIONames.UnescoName.rawValue,
+                                         ofType: FileIONames.DatabaseExtension.rawValue)
         {
             let SourceURL = URL(fileURLWithPath: Source)
-            let DestDir = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/UnescoSites.db")
+            let DestDir = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
             do
             {
                 try FileManager.default.copyItem(at: SourceURL, to: DestDir)
+                Debug.Print("Installed Unesco database.")
             }
             catch
             {
@@ -132,7 +142,22 @@ class FileIO
         }
         else
         {
-            fatalError("Did not find UnescoSites.db in bundle.")
+            fatalError("Did not find \(FileIONames.UnescoDatabase.rawValue) in bundle.")
+        }
+    }
+    
+    /// Delete the UNESCO World Heritage Site database. Intended for use when updating the database on the fly.
+    public static func DeleteUnescoDatabase()
+    {
+        if !DirectoryExists(DatabaseDirectory)
+        {
+            //Nothing to do.
+            return
+        }
+        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/" + FileIONames.UnescoDatabase.rawValue)
+        if FileManager.default.fileExists(atPath: LookForExisting.path)
+        {
+            DeleteFile(LookForExisting)
         }
     }
     
@@ -155,15 +180,17 @@ class FileIO
                 fatalError("Error creating database directory \"\(DatabaseDirectory)\"")
             }
         }
-        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/EarthquakeHistory.db")
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.QuakeHistoryDatabase.rawValue
+        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         if FileManager.default.fileExists(atPath: LookForExisting.path)
         {
             return
         }
-        if let Source = Bundle.main.path(forResource: "EarthquakeHistory", ofType: "db")
+        if let Source = Bundle.main.path(forResource: FileIONames.QuakeName.rawValue,
+                                         ofType: FileIONames.DatabaseExtension.rawValue)
         {
             let SourceURL = URL(fileURLWithPath: Source)
-            let DestDir = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/EarthquakeHistory.db")
+            let DestDir = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
             do
             {
                 try FileManager.default.copyItem(at: SourceURL, to: DestDir)
@@ -175,7 +202,7 @@ class FileIO
         }
         else
         {
-            fatalError("Did not find EarthquakeHistory.db in bundle.")
+            fatalError("Did not find \(FileIONames.QuakeHistoryDatabase.rawValue) in bundle.")
         }
     }
     
@@ -183,7 +210,8 @@ class FileIO
     /// - Returns: URL of the Unesco database on success, nil if not found.
     public static func GetUnescoDatabaseURL() -> URL?
     {
-        let DBURL = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/UnescoSites.db")
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.UnescoDatabase.rawValue
+        let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         return DBURL
     }
     
@@ -191,8 +219,25 @@ class FileIO
     /// - Returns: URL of the earthquake history database on success, nil if not found.
     public static func GetEarthquakeHistoryDatabaseURL() -> URL?
     {
-        let DBURL = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/EarthquakeHistory.db")
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.QuakeHistoryDatabase.rawValue
+        let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         return DBURL
+    }
+    
+    /// Determines if the UNESCO database exists at its expected location.
+    /// - Returns: True if the database is where it is expected to be, false if not.
+    public static func UnescoDatabaseExists() -> Bool
+    {
+        if DirectoryExists(DatabaseDirectory)
+        {
+            let PathComponent = DatabaseDirectory + "/" + FileIONames.UnescoDatabase.rawValue
+            let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
+            if FileManager.default.fileExists(atPath: LookForExisting.path)
+            {
+                return true
+            }
+        }
+        return false
     }
     
     /// Initialize the directory structure. If the structure already exists, remove any existing files that are no longer needed.
