@@ -59,7 +59,7 @@ extension GlobeView
     /// - Parameter Radius: Radial value for where to place hour labels.
     /// - Returns: The node with the hour labels. Nil if the user does not want to display hours or if
     ///            `.RelativeToLocation` is selected but no local information is available.
-    func DrawHourLabels(Radius: Double) -> SCNNode?
+    func DrawHourLabels(Radius: Double) -> SCNNode2?
     {
         switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
         {
@@ -102,10 +102,10 @@ extension GlobeView
     /// Make the hour node such that `12` is always under the noon longitude and `0` under midnight.
     /// - Parameter Radius: The radius of the hour label.
     /// - Returns: Node with labels set up for noontime.
-    func MakeNoonHours(Radius: Double) -> SCNNode
+    func MakeNoonHours(Radius: Double) -> SCNNode2
     {
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
-        let Node = SCNNode(geometry: NodeShape)
+        let Node = SCNNode2(geometry: NodeShape)
         Node.position = SCNVector3(0.0, 0.0, 0.0)
         Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
@@ -127,10 +127,10 @@ extension GlobeView
     /// Make the hour node such that each label shows number of hours away from noon.
     /// - Parameter Radius: The radius of the hour label.
     /// - Returns: Node with labels set up for noon delta.
-    func MakeNoonDeltaHours(Radius: Double) -> SCNNode
+    func MakeNoonDeltaHours(Radius: Double) -> SCNNode2
     {
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
-        let Node = SCNNode(geometry: NodeShape)
+        let Node = SCNNode2(geometry: NodeShape)
         Node.position = SCNVector3(0.0, 0.0, 0.0)
         Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
@@ -162,10 +162,10 @@ extension GlobeView
     /// for the other hour labels.
     /// - Parameter Radius: The radius of the hour label.
     /// - Returns: Node with labels set up for current location.
-    func MakeRelativeHours(Radius: Double) -> SCNNode
+    func MakeRelativeHours(Radius: Double) -> SCNNode2
     {
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
-        let Node = SCNNode(geometry: NodeShape)
+        let Node = SCNNode2(geometry: NodeShape)
         Node.position = SCNVector3(0.0, 0.0, 0.0)
         Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
@@ -209,10 +209,10 @@ extension GlobeView
     /// - Parameter StartAngle: The angle at which to start plotting hours.
     /// - Returns: Node for words in the hour ring.
     func PlotHourLabels(Radius: Double, Labels: [(String, Int)], LetterColor: NSColor = NSColor.systemYellow,
-                        RadialOffset: CGFloat = 0.0, StartAngle: Double) -> SCNNode
+                        RadialOffset: CGFloat = 0.0, StartAngle: Double) -> SCNNode2
     {
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
-        let PhraseNode = SCNNode(geometry: NodeShape)
+        let PhraseNode = SCNNode2(geometry: NodeShape)
         PhraseNode.castsShadow = true
         PhraseNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         PhraseNode.position = SCNVector3(0.0, 0.0, 0.0)
@@ -230,7 +230,7 @@ extension GlobeView
             var PreviousEnding: CGFloat = 0.0
             var TotalLabelWidth: CGFloat = 0.0
             var LabelHeight: CGFloat = 0.0
-            let LabelNode = SCNNode()
+            let LabelNode = SCNNode2()
             let VerticalOffset: CGFloat = 0.8
             let SpecularColor = NSColor.white
             for (_, Letter) in Label.0.enumerated()

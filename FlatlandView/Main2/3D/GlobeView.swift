@@ -579,7 +579,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
     var LineNode: SCNNode? = nil
     var EarthNode: SCNNode? = nil
     var SeaNode: SCNNode? = nil
-    var HourNode: SCNNode? = nil
+    var HourNode: SCNNode2? = nil
     var PlottedEarthquakes = Set<String>()
     
     /// Handle mouse motion reported by the main view controller.
@@ -643,14 +643,14 @@ class GlobeView: SCNView, FlatlandEventProtocol
                          10: "十", 11: "十一", 12: "十二", 13: "十三", 14: "十四", 15: "十五", 16: "十六", 17: "十七",
                          18: "十八", 19: "十九", 20: "二十", 21: "二十一", 22: "二十二", 23: "二十三", 24: "二十四"]
     
-    var NorthPoleFlag: SCNNode? = nil
-    var SouthPoleFlag: SCNNode? = nil
-    var NorthPolePole: SCNNode? = nil
-    var SouthPolePole: SCNNode? = nil
-    var HomeNode: SCNNode? = nil
-    var HomeNodeHalo: SCNNode? = nil
-    var PlottedCities = [SCNNode?]()
-    var WHSNodeList = [SCNNode?]()
+    var NorthPoleFlag: SCNNode2? = nil
+    var SouthPoleFlag: SCNNode2? = nil
+    var NorthPolePole: SCNNode2? = nil
+    var SouthPolePole: SCNNode2? = nil
+    var HomeNode: SCNNode2? = nil
+    var HomeNodeHalo: SCNNode2? = nil
+    var PlottedCities = [SCNNode2?]()
+    var WHSNodeList = [SCNNode2?]()
     var GridImage: NSImage? = nil
     var EarthquakeList = [Earthquake]()
     var CitiesToPlot = [City]()
@@ -677,7 +677,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
         .Day10: 10.0 * 24.0 * 60.0 * 60.0,
     ]
     
-    var IndicatorAgeMap = [String: SCNNode]()
+    var IndicatorAgeMap = [String: SCNNode2]()
     
     var StencilLayers = [GlobeLayers: SCNNode]()
     var MakeLayerLock = NSObject()
