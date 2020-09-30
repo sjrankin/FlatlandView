@@ -49,6 +49,7 @@ extension FlatView
     
     func MakeSolarHours(HourRadius: Double)
     {
+        //        NodeTables.RemoveHours()
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if MapCenter == .FlatNorthCenter
         {
@@ -57,14 +58,22 @@ extension FlatView
             for Hour in stride(from: 23, to: -1, by: -1)
             {
                 let Angle = abs(Double(Hour - 23 - 1))
-                HourPlane.addChildNode(MakeHour(Hour, AtAngle: Angle, Radius: HourRadius))
+                let HourNode = MakeHour(Hour, AtAngle: Angle, Radius: HourRadius)
+                //let HourID = UUID()
+                //HourNode.NodeID = HourID
+                //NodeTables.AddHour(ID: HourID, Name: "\(Hour)", Description: "Solar relative hour (12 is noon)")
+                HourPlane.addChildNode(HourNode)
             }
         }
         else
         {
             for Hour in 0 ... 23
             {
-                HourPlane.addChildNode(MakeHour(Hour, AtAngle: Double(Hour), Radius: HourRadius))
+                let HourNode = MakeHour(Hour, AtAngle: Double(Hour), Radius: HourRadius)
+                //let HourID = UUID()
+                //HourNode.NodeID = HourID
+                //NodeTables.AddHour(ID: HourID, Name: "\(Hour)", Description: "Solar relative hour (12 is noon)")
+                HourPlane.addChildNode(HourNode)
             }
         }
     }
@@ -72,18 +81,23 @@ extension FlatView
     /// Draws hours relative to noon.
     func MakeNoonRelativeHours(HourRadius: Double)
     {
-        
+//        NodeTables.RemoveHours()
         for Hour in 0 ... 23
         {
             var DisplayHour = 24 - (Hour + 5) % 24 - 1
             DisplayHour = DisplayHour - 12
-            HourPlane.addChildNode(MakeHour(DisplayHour, AtAngle: Double(DisplayHour + 12), Radius: HourRadius,
-                                            AddPrefix: true))
+            let HourNode = MakeHour(DisplayHour, AtAngle: Double(DisplayHour + 12), Radius: HourRadius,
+                                    AddPrefix: true)
+            //let HourID = UUID()
+            //HourNode.NodeID = HourID
+            //NodeTables.AddHour(ID: HourID, Name: "\(Hour)", Description: "Noon relative hour (0 is noon)")
+            HourPlane.addChildNode(HourNode)
         }
     }
     
     func MakeRelativetoLocationHours(HourRadius: Double)
     {
+        //        NodeTables.RemoveHours()
         var HourList = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
         HourList = HourList.Shift(By: -12)
         if let LocalLongitude = Settings.GetDoubleNil(.LocalLongitude)
@@ -94,8 +108,12 @@ extension FlatView
             {
                 let DisplayHour = Hour % 24
                 let FinalHour = HourList[DisplayHour]
-                HourPlane.addChildNode(MakeHour(FinalHour, AtAngle: Double(FinalHour), Radius: HourRadius,
-                                                AddPrefix: true))
+                let HourNode = MakeHour(FinalHour, AtAngle: Double(FinalHour), Radius: HourRadius,
+                                        AddPrefix: true)
+                //let HourID = UUID()
+                //HourNode.NodeID = HourID
+                //NodeTables.AddHour(ID: HourID, Name: "\(FinalHour)", Description: "Location relative hour")
+                HourPlane.addChildNode(HourNode)
             }
         }
     }
@@ -107,7 +125,7 @@ extension FlatView
     }
     
     func MakeHour(_ Hour: Int, AtAngle: Double, Radius: Double, Scale: Double = FlatConstants.HourScale.rawValue,
-                  AddPrefix: Bool = false) -> SCNNode
+                  AddPrefix: Bool = false) -> SCNNode2
     {
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         var Offset = 0.0
@@ -134,7 +152,8 @@ extension FlatView
         {
             HourShape.chamferRadius = CGFloat(FlatConstants.HourChamfer.rawValue)
         }
-        let Node = SCNNode(geometry: HourShape)
+        let Node = SCNNode2(geometry: HourShape)
+        Node.NodeClass = UUID(uuidString: NodeClasses.Hours.rawValue)!
         Node.name = NodeNames2D.HourNodes.rawValue
         Node.categoryBitMask = LightMasks2D.Hours.rawValue//LightMasks2D.Sun.rawValue
         Node.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.HourColor, NSColor.systemOrange)
