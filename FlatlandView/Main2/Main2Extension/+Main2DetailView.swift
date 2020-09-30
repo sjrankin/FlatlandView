@@ -61,7 +61,14 @@ extension Main2Controller
         {
             let Lat = Where.Latitude.RoundedTo(3)
             let Lon = Where.Longitude.RoundedTo(3)
-            LocationValue.stringValue = "\(Lat), \(Lon)"
+            LocationLabel.isHidden = false
+            let LatHemi = Lat >= 0.0 ? "N" : "S"
+            let LonHemi = Lon >= 180.0 ? "W" : "E"
+            LocationValue.stringValue = "\(abs(Lat))\(LatHemi), \(abs(Lon))\(LonHemi)"
+        }
+        else
+        {
+            LocationValue.stringValue = ""
         }
         DescriptionValue.stringValue = ItemToDisplay.Description
         switch ItemToDisplay.ItemType
@@ -94,6 +101,17 @@ extension Main2Controller
                 NumericValue.stringValue = ""
                 NameLabel.stringValue = "Name"
                 NameValue.stringValue = ItemToDisplay.Name
+                
+            case .Hours:
+                #if true
+                break
+                #else
+                NumericLabel.stringValue = ""
+                NumericValue.stringValue = ""
+                NameLabel.stringValue = "Hour"
+                NameValue.stringValue = ItemToDisplay.Name
+                LocationLabel.isHidden = true
+                #endif
                 
             default:
                 return
