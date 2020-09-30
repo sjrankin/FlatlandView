@@ -28,6 +28,7 @@ extension FlatView
         FlatEarthNode.geometry?.firstMaterial?.lightingModel = .lambert
         FlatEarthNode.position = SCNVector3(0.0, 0.0, 0.0)
         FlatEarthNode.eulerAngles = SCNVector3(90.0.Radians, 180.0.Radians, 0.0)
+        FlatEarthNode.name = "Flat Earth"
         self.scene?.rootNode.addChildNode(FlatEarthNode)
     }
     
