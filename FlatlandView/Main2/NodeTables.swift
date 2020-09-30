@@ -37,10 +37,10 @@ class NodeTables
                                                        Description: Site.Category)
         }
         
-        PolesTable[NorthPoleID] = DisplayItem(ID: NorthPoleID, ItemType: .Poles, Name: "North Pole",
+        MiscTable[NorthPoleID] = DisplayItem(ID: NorthPoleID, ItemType: .Miscellaneous, Name: "North Pole",
                                               Numeric: 0.0, Location: GeoPoint(90.0, 0.0),
                                               Description: "Earth's north pole.")
-        PolesTable[SouthPoleID] = DisplayItem(ID: SouthPoleID, ItemType: .Poles, Name: "South Pole",
+        MiscTable[SouthPoleID] = DisplayItem(ID: SouthPoleID, ItemType: .Miscellaneous, Name: "South Pole",
                                               Numeric: 0.0, Location: GeoPoint(-90.0, 0.0),
                                               Description: "Earth's south pole.")
     }
@@ -96,40 +96,25 @@ class NodeTables
         HomeTable.removeAll()
     }
     
-    /// Add hour data.
-    /// - Parameter ID: ID of the hour.
-    /// - Parameter Name: Name of the hour.
-    /// - Parameter Description: Description of the hour.
-    public static func AddHour(ID: UUID, Name: String, Description: String)
+    /// Add miscellaneous data.
+    /// - Parameter ID: ID of the item.
+    /// - Parameter Name: Name of the item.
+    /// - Parameter Numeric: Value of the item.
+    /// - Parameter Location: Location of the item.
+    /// - Parameter Description: Description of the item.
+    public static func AddMiscellaneous(ID: UUID, Name: String, Numeric: Double,
+                                        Location: GeoPoint?, Description: String)
     {
-        let HourData = DisplayItem(ID: ID, ItemType: .Hours, Name: Name,
-                                   Numeric: 0.0, Location: nil,
+        let MiscData = DisplayItem(ID: ID, ItemType: .Miscellaneous, Name: Name,
+                                   Numeric: Numeric, Location: Location,
                                    Description: Description)
-        HoursTable[HourData.ID] = HourData
+        MiscTable[MiscData.ID] = MiscData
     }
     
     /// Deletes all hour data.
-    public static func RemoveHours()
+    public static func RemoveMiscellaneous()
     {
-        HoursTable.removeAll()
-    }
-    
-    /// Add polar indicator data.
-    /// - Parameter ID: ID of the pole.
-    /// - Parameter Name: Name of the pole.
-    /// - Parameter Description: Description of the pole.
-    public static func AddPole(ID: UUID, Name: String, Description: String)
-    {
-        let PolesData = DisplayItem(ID: ID, ItemType: .Hours, Name: Name,
-                                   Numeric: 0.0, Location: nil,
-                                   Description: Description)
-        PolesTable[PolesData.ID] = PolesData
-    }
-    
-    /// Deletes all polar data.
-    public static func RemovePoles()
-    {
-        PolesTable.removeAll()
+        MiscTable.removeAll()
     }
     
     /// Determines the class type of the pass item ID.
@@ -153,13 +138,9 @@ class NodeTables
         {
             return .UserPOI
         }
-        if HoursTable[ID] != nil
+        if MiscTable[ID] != nil
         {
-            return .Hours
-        }
-        if PolesTable[ID] != nil
-        {
-            return .Poles
+            return .Miscellaneous
         }
         #if true
         print("UNESCOTable.count=\(UNESCOTable.count)")
@@ -203,11 +184,8 @@ class NodeTables
             case .WorldHeritageSite:
                 return UNESCOTable[ID]
                 
-            case .Hours:
-                return HoursTable[ID]
-                
-            case .Poles:
-                return PolesTable[ID]
+            case .Miscellaneous:
+                return MiscTable[ID]
                 
             default:
                 return nil
@@ -236,11 +214,8 @@ class NodeTables
             case .WorldHeritageSite:
                 return UNESCOTable.count
                 
-            case .Hours:
-                return HoursTable.count
-                
-            case .Poles:
-                return PolesTable.count
+            case .Miscellaneous:
+                return MiscTable.count
                 
             default:
                 return nil
@@ -252,8 +227,7 @@ class NodeTables
     private static var POITable = [UUID: DisplayItem]()
     private static var HomeTable = [UUID: DisplayItem]()
     private static var UNESCOTable = [UUID: DisplayItem]()
-    private static var HoursTable = [UUID: DisplayItem]()
-    private static var PolesTable = [UUID: DisplayItem]()
+    private static var MiscTable = [UUID: DisplayItem]()
     
     #if DEBUG
     public static func DumpTableKeys(For Class: NodeClasses)
@@ -295,9 +269,9 @@ class NodeTables
                     Debug.Print("  \(Key.uuidString)")
                 }
                 
-            case .Hours:
-                Debug.Print("Hours Keys:")
-                for (Key, _) in HoursTable
+            case .Miscellaneous:
+                Debug.Print("Miscellaneous Keys:")
+                for (Key, _) in MiscTable
                 {
                     Debug.Print("  \(Key.uuidString)")
                 }
@@ -317,7 +291,7 @@ class NodeTables
         UUID(uuidString: NodeClasses.HomeLocation.rawValue)!: ItemTypes.Home,
         UUID(uuidString: NodeClasses.UserPOI.rawValue)!: ItemTypes.UserPOI,
         UUID(uuidString: NodeClasses.WorldHeritageSite.rawValue)!: ItemTypes.WorldHeritageSite,
-        UUID(uuidString: NodeClasses.Hours.rawValue)!: ItemTypes.Hours
+        UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!: ItemTypes.Miscellaneous,
     ]
     
     /// The home ID.
@@ -355,6 +329,7 @@ class DisplayItem
     var Numeric: Double = 0.0
     var Location: GeoPoint? = nil
     var Description: String = ""
+    var HasNumber: Bool = true
 }
 
 enum ItemTypes: String, CaseIterable
@@ -365,8 +340,7 @@ enum ItemTypes: String, CaseIterable
     case UserPOI = "User POI"
     case Earthquake = "Earthquake"
     case WorldHeritageSite = "World Heritage Site"
-    case Hours = "Hours"
-    case Poles = "Poles"
+    case Miscellaneous = "Miscellaneous"
 }
 
 enum NodeClasses: String, CaseIterable
@@ -377,7 +351,6 @@ enum NodeClasses: String, CaseIterable
     case HomeLocation = "21599d45-7ace-47f1-ad40-f302b019dc2c"
     case Earthquake = "fff542af-daf9-4629-8325-a26d8e54b427"
     case WorldHeritageSite = "f0b85fc5-c761-4b74-91fc-5b79b3d7d606"
-    case Hours = "5ee249ec-8368-4898-889f-31ea7c582ffc"
-    case Poles = "743c183e-a145-42eb-99d8-c9d2839b006a"
+    case Miscellaneous = "736aec23-506e-4eb5-bda6-03af23c85126"
 }
 
