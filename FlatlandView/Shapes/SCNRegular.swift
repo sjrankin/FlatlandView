@@ -10,10 +10,10 @@ import Foundation
 import AppKit
 import SceneKit
 
-/// Creates an n-gon/regular shape as the SCNNode.
+/// Creates an n-gon/regular shape as the SCNNode2.
 /// - Note: See: [Custom Geometry in SceneKit](https://medium.com/@zxlee618/custom-geometry-in-scenekit-f91464297fd1)
 /// - Note: Adapted from `BlockCam`.
-class SCNRegular: SCNNode
+class SCNRegular: SCNNode2
 {
     /// Default initializer. Sets the radius to 1.0, vertex count to 6, and depth to 0.5.
     override init()
