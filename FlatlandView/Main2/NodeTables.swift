@@ -19,7 +19,7 @@ class NodeTables
     ///            types will be missing.
     /// - Note: City data is loaded here.
     /// - Parameter Unesco: Array of World Heritage Sites.
-    public static func Initialize(Unesco: [WorldHeritageSite])
+    public static func Initialize(Unesco: [WorldHeritageSite2])
     {
         for SomeCity in CitiesData.RawCityList
         {
@@ -31,7 +31,7 @@ class NodeTables
         
         for Site in Unesco
         {
-            UNESCOTable[Site.InternalID] = DisplayItem(ID: Site.InternalID, ItemType: .WorldHeritageSite,
+            UNESCOTable[Site.RuntimeID!] = DisplayItem(ID: Site.RuntimeID!, ItemType: .WorldHeritageSite,
                                                        Name: Site.Name, Numeric: Double(Site.DateInscribed),
                                                        Location: GeoPoint(Site.Latitude, Site.Longitude),
                                                        Description: Site.Category)
@@ -110,10 +110,21 @@ class NodeTables
         {
             return .UserPOI
         }
+        #if true
+        print("UNESCOTable.count=\(UNESCOTable.count)")
+        for (Key, _) in UNESCOTable
+        {
+            if Key == ID
+            {
+                return .WorldHeritageSite
+            }
+        }
+        #else
         if UNESCOTable[ID] != nil
         {
             return .WorldHeritageSite
         }
+        #endif
         return .Unknown
     }
     
@@ -123,6 +134,7 @@ class NodeTables
     public static func GetItemData(For ID: UUID) -> DisplayItem?
     {
         let TableType = LocationClass(Item: ID)
+        print("\(ID) class is \(TableType)")
         switch TableType
         {
             case .City:
@@ -143,7 +155,6 @@ class NodeTables
             default:
                 return nil
         }
-        return nil
     }
     
     /// Get the number of entries in a class table.
@@ -178,6 +189,52 @@ class NodeTables
     private static var POITable = [UUID: DisplayItem]()
     private static var HomeTable = [UUID: DisplayItem]()
     private static var UNESCOTable = [UUID: DisplayItem]()
+    
+    #if DEBUG
+    public static func DumpTableKeys(For Class: NodeClasses)
+    {
+        switch Class
+        {
+            case .City:
+                Debug.Print("City Keys:")
+                for (Key, _) in CityTable
+                {
+                    Debug.Print("  \(Key.uuidString)")
+                }
+                
+            case .Earthquake:
+                Debug.Print("Earthquake Keys:")
+                for (Key, _) in QuakeTable
+                {
+                    Debug.Print("  \(Key.uuidString)")
+                }
+                
+            case .HomeLocation:
+                Debug.Print("Home Keys:")
+                for (Key, _) in HomeTable
+                {
+                    Debug.Print("  \(Key.uuidString)")
+                }
+                
+            case .UserPOI:
+                Debug.Print("User POI Keys:")
+                for (Key, _) in POITable
+                {
+                    Debug.Print("  \(Key.uuidString)")
+                }
+                
+            case .WorldHeritageSite:
+                Debug.Print("UNESCO Keys:")
+                for (Key, _) in UNESCOTable
+                {
+                    Debug.Print("  \(Key.uuidString)")
+                }
+                
+            default:
+                Debug.Print("Unknown class \"\(Class)\" specified")
+        }
+    }
+    #endif
     
     /// Mapping from class ID to ItemType.
     private static let ClassToItemType =
