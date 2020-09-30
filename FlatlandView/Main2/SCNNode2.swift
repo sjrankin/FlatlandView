@@ -78,6 +78,28 @@ class SCNNode2: SCNNode
         super.init(coder: coder)
     }
     
+    /// Initializer.
+    /// - Parameter From: The `SCNNode` whose data is used to initialize the `SCNNode2`
+    ///                   instance.
+    init(From: SCNNode)
+    {
+        super.init()
+        self.geometry = From.geometry
+        self.scale = From.scale
+        self.position = From.position
+        self.eulerAngles = From.eulerAngles
+        self.categoryBitMask = From.categoryBitMask
+    }
+    
+    /// Initializer.
+    /// - Parameter AsChild: `SCNNode` instance that will be added as a child to the
+    ///             `SCNNode2` instance.
+    init(AsChild: SCNNode)
+    {
+        super.init()
+        self.addChildNode(AsChild)
+    }
+    
     /// Tag value. Defaults to nil.
     var Tag: Any? = nil
     
