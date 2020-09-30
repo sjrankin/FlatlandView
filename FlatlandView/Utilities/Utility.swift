@@ -1223,7 +1223,7 @@ class Utility
         return WordNode
     }
     
-    /// Create an `SCNNode` of a word that floats over a globe.
+    /// Create an `SCNNode2` of a word that floats over a globe.
     /// - Note: Each child node has a name of `LetterNode`.
     /// - Parameter Radius: The radius of the globe.
     /// - Parameter Word: The word to draw.
@@ -1246,7 +1246,7 @@ class Utility
                                         TextFont: NSFont? = nil,
                                         TextColor: NSColor = NSColor.gray,
                                         OnSurface: SCNNode, WithTag: String? = nil,
-                                        AngleOffset: Double = 0.0) -> [SCNNode]
+                                        AngleOffset: Double = 0.0) -> [SCNNode2]
     {
         var WordFont: NSFont = NSFont()
         if let SomeFont = TextFont
@@ -1257,7 +1257,7 @@ class Utility
         {
             WordFont = NSFont.systemFont(ofSize: 24.0)
         }
-        var LetterNodes = [SCNNode]()
+        var LetterNodes = [SCNNode2]()
         let FontAttribute = [NSAttributedString.Key.font: WordFont]
         var CumulativeLetterLocation: CGFloat = CGFloat(Longitude + AngleOffset)
         let EqCircumference = 2.0 * Radius * Double.pi
@@ -1268,7 +1268,7 @@ class Utility
             LetterShape.font = WordFont
             LetterShape.firstMaterial?.diffuse.contents = TextColor
             LetterShape.firstMaterial?.specular.contents = NSColor.white
-            let LetterNode = SCNNode(geometry: LetterShape)
+            let LetterNode = SCNNode2(geometry: LetterShape)
             LetterNode.categoryBitMask = Mask
             LetterNode.scale = SCNVector3(Scale, Scale, Scale)
             if let Tag = WithTag
