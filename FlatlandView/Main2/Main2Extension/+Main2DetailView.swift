@@ -81,6 +81,8 @@ extension Main2Controller
             return
         }
         TypeLabel.isHidden = false
+        NumericValue.isHidden = false
+        NumericLabel.isHidden = false
         LocationLabel.isHidden = false
         SetValueTextColor(To: NSColor.white)
         TypeValue.stringValue = ItemToDisplay.ItemType.rawValue
@@ -95,6 +97,7 @@ extension Main2Controller
         }
         else
         {
+            LocationLabel.isHidden = true
             LocationValue.stringValue = ""
         }
         DescriptionValue.stringValue = ItemToDisplay.Description
@@ -136,6 +139,11 @@ extension Main2Controller
                 {
                     NumericLabel.stringValue = "Value"
                     NumericValue.stringValue = "\(ItemToDisplay.Numeric)"
+                }
+                else
+                {
+                    NumericValue.isHidden = true
+                    NumericLabel.isHidden = true
                 }
                 
             default:
