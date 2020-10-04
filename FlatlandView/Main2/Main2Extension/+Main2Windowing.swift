@@ -40,7 +40,7 @@ extension Main2Controller
             return
         }
         Settings.SetCGPoint(.WindowOrigin, Origin)
-        print("Window moved to \(Origin)")
+        //print("Window moved to \(Origin)")
     }
     
     /// Returns the ID of the window.
