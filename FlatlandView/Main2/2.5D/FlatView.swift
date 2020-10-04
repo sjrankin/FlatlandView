@@ -329,15 +329,29 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                             }
                         }
                         PreviousNodeID = NodeID
+                        if PreviousNode != nil
+                        {
+                            if Settings.GetBool(.HighlightNodeUnderMouse)
+                            {
+                            PreviousNode?.HideBoundingBox()
+                            }
+                        }
                         if let NodeData = NodeTables.GetItemData(For: NodeID)
                         {
                             Debug.Print("Found node data for \(NodeData.Name)")
                             MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
+                            if Settings.GetBool(.HighlightNodeUnderMouse)
+                            {
+                            Node.ShowBoundingBox()
+                            }
+                            PreviousNode = Node
                         }
                         else
                         {
                             Debug.Print("*** Did not find node data for \(NodeID)")
+                            #if DEBUG
                             NodeTables.DumpTableKeys(For: .WorldHeritageSite)
+                            #endif
                         }
                     }
                 }
@@ -349,6 +363,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         }
     }
     
+    var PreviousNode: SCNNode2? = nil
     var PreviousNodeID: UUID? = nil
     var NodesWithShadows = [SCNNode]()
     var Quakes2D = [Earthquake]()
