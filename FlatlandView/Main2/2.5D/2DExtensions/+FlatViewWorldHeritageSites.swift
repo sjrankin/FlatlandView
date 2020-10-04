@@ -24,7 +24,6 @@ extension FlatView
         {
             let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self,
                                               Default: .Either)
-            print("UNESCO TypeFilter\(TypeFilter)")
             MainView.InitializeWorldHeritageSites()
             let Sites = MainView.GetAllSites()
             var FinalList = [WorldHeritageSite]()
