@@ -46,6 +46,12 @@ class NodeTables
         MiscTable[SunID] = DisplayItem(ID: SunID, ItemType: .Miscellaneous, Name: "Sun",
                                        Numeric: 0.0, Location: nil, Description: "The sun")
         MiscTable[SunID]?.HasNumber = false
+        MiscTable[EarthGlobe] = DisplayItem(ID: EarthGlobe, ItemType: .Miscellaneous, Name: "Earth Node",
+                                            Numeric: 0.0, Location: nil, Description: "Main Earth Node")
+        MiscTable[EarthGlobe]?.HasNumber = false
+        MiscTable[SeaGlobe] = DisplayItem(ID: SeaGlobe, ItemType: .Miscellaneous, Name: "Sea Node",
+                                          Numeric: 0.0, Location: nil, Description: "Main Sea Node")
+        MiscTable[SeaGlobe]?.HasNumber = false
     }
     
     /// Add an earthquake to the earthquake item table.
@@ -305,6 +311,10 @@ class NodeTables
     public static let SouthPoleID = UUID()
     /// The sun's ID.
     public static let SunID = UUID()
+    /// The Earth globe.
+    public static let EarthGlobe = UUID()
+    /// The sea globe.
+    public static let SeaGlobe = UUID()
 }
 
 /// Information to display to the user.
