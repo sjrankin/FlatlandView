@@ -24,7 +24,6 @@ extension Main2Controller
         POIView.layer?.cornerRadius = 5.0
         ClearView()
         let ShowViewer = Settings.GetBool(.ShowDetailedInformation)
-        print("ShowViewer=\(ShowViewer)")
         POIView.isHidden = !ShowViewer
        if ShowViewer
         {
@@ -33,7 +32,6 @@ extension Main2Controller
         if let Window = self.view.window?.windowController as? Main2Window
         {
             let NewImageName = ShowViewer ? "BinocularsIconShowing" : "Binoculars"
-            print("NewImageName=\(NewImageName)")
             Window.ChangeShowInfoImage(To: NSImage(named: NewImageName)!)
         }
     }
