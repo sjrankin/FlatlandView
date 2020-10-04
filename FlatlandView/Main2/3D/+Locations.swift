@@ -26,7 +26,7 @@ extension GlobeView
     ///                                by the caller (see `WithColor').
     /// - Parameter WithColor: Ignored if `IsCurrentLocation` is true. Otherwise, this is the color of
     ///                        the arrow head shape.
-    func PlotArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+    func PlotArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                    IsCurrentLocation: Bool = false, WithColor: NSColor = NSColor.red)
     {
         let RadialOffset = IsCurrentLocation ? 0.25 : 0.1
@@ -44,7 +44,9 @@ extension GlobeView
             ConeBottom = 0.0
         }
         let Cone = SCNCone(topRadius: ConeTop, bottomRadius: ConeBottom, height: 0.3)
-        let ConeNode = SCNNode(geometry: Cone)
+        let ConeNode = SCNNode2(geometry: Cone)
+        ConeNode.NodeID = NodeTables.HomeID
+        ConeNode.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
         ConeNode.scale = SCNVector3(NodeScales3D.HomeArrowScale.rawValue,
                                     NodeScales3D.HomeArrowScale.rawValue,
                                     NodeScales3D.HomeArrowScale.rawValue)
@@ -96,7 +98,9 @@ extension GlobeView
         if IsCurrentLocation
         {
             let Cylinder = SCNCylinder(radius: 0.04, height: 0.5)
-            let CylinderNode = SCNNode(geometry: Cylinder)
+            let CylinderNode = SCNNode2(geometry: Cylinder)
+            CylinderNode.NodeID = NodeTables.HomeID
+            CylinderNode.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
             CylinderNode.scale = SCNVector3(NodeScales3D.HomeArrowScale.rawValue,
                                             NodeScales3D.HomeArrowScale.rawValue,
                                             NodeScales3D.HomeArrowScale.rawValue)
@@ -104,7 +108,7 @@ extension GlobeView
             CylinderNode.geometry?.firstMaterial?.diffuse.contents = NSColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
             CylinderNode.geometry?.firstMaterial?.specular.contents = NSColor.white
             CylinderNode.castsShadow = true
-            CylinderNode.position = SCNVector3(0.0, -0.3, 0.0)
+            CylinderNode.position = SCNVector3(0.0, -0.4, 0.0)
             HomeNode?.addChildNode(CylinderNode)
         }
         
@@ -113,6 +117,9 @@ extension GlobeView
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
         HomeNode?.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        
+        HomeNode?.NodeID = NodeTables.HomeID
+        HomeNode?.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
         
         ToSurface.addChildNode(HomeNode!)
     }
@@ -124,7 +131,7 @@ extension GlobeView
     ///                     constant to ensure the entire arrow is visible.)
     /// - Parameter ToSurface: The surface node where the arrow will be added.
     /// - Parameter WithColor: The color of the sphere.
-    func PlotPulsatingHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+    func PlotPulsatingHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                            WithColor: NSColor = NSColor.magenta)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
@@ -176,12 +183,18 @@ extension GlobeView
     /// - Parameter WithColor: Ignored if `IsCurrentLocation` is true. Otherwise, this is the color of
     ///                        the arrow head shape.
     /// - Parameter EnableEmission: Determines if emission color is enabled. Defaults to `true`.
-    func PlotLocationAsCone(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
-                            WithColor: NSColor = NSColor.magenta, EnableEmission: Bool = true)
+    /// - Parameter NodeID: ID of the node. This is the ID that is used to identify the node when the mouse moves
+    ///                     over it.
+    /// - Parameter NodeClass: The node class of the city.
+    func PlotLocationAsCone(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
+                            WithColor: NSColor = NSColor.magenta, EnableEmission: Bool = true,
+                            NodeID: UUID, NodeClass: UUID)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
         let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
         let ConeNode = SCNNode2(geometry: Cone)
+        ConeNode.NodeID = NodeID
+        ConeNode.NodeClass = NodeClass
         ConeNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -202,7 +215,7 @@ extension GlobeView
         PlottedCities.append(ConeNode)
     }
     
-    func PlotLocationAsSphere(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+    func PlotLocationAsSphere(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                               WithColor: NSColor = NSColor.magenta)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
@@ -236,7 +249,7 @@ extension GlobeView
     /// - Parameter Longitude: The longitude of the arrow.
     /// - Parameter Radius: The radius of the Earth.
     /// - Parameter ToSurface: The surface node where the arrow will be added.
-    func PlotBouncingArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode)
+    func PlotBouncingArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.3)
         let Arrow = SCN3DArrow(Length: 2.0, Width: 0.85, Color: NSColor.systemTeal,
@@ -274,7 +287,7 @@ extension GlobeView
     /// - Parameter Longitude: The longitude of the pin.
     /// - Parameter Radius: The radius of the Earth.
     /// - Parameter ToSurface: The surface node where the pin will be added.
-    func PlotPinHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode)
+    func PlotPinHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.9)
         let Pin = SCNPin(KnobHeight: 2.0, KnobRadius: 1.0, PinHeight: 1.4, PinRadius: 0.15,
@@ -307,7 +320,7 @@ extension GlobeView
     ///                     constant to ensure the entire arrow is visible.)
     /// - Parameter ToSurface: The surface node where the arrow will be added.
     /// - Parameter EmissiveColor: The color the home icon will glow.
-    func PlotHomeFlag(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+    func PlotHomeFlag(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                       EmissiveColor: NSColor = NSColor.white)
     {
         let Pole = SCNCylinder(radius: 0.04, height: 4.5)
@@ -366,7 +379,7 @@ extension GlobeView
     /// - Parameter WithColor: The color of the city shape.
     /// - Parameter RelativeSize: The relative size of the city.
     /// - Parameter LargestSize: The largest permitted.
-    func PlotEmbeddedCitySphere(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+    func PlotEmbeddedCitySphere(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                                 WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0, LargestSize: Double = 1.0)
     {
         var CitySize = CGFloat(RelativeSize * LargestSize)
@@ -433,7 +446,7 @@ extension GlobeView
     /// - Parameter LargestSize: The largest city size. This value is multiplied by `RelativeSize`
     ///                          which is assumed to be a normal value.
     func PlotPyramidCity(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double,
-                         ToSurface: SCNNode, WithColor: NSColor, RelativeSize: Double = 1.0,
+                         ToSurface: SCNNode2, WithColor: NSColor, RelativeSize: Double = 1.0,
                          LargestSize: Double = 1.0)
     {
         var CitySize = CGFloat(RelativeSize * LargestSize)
@@ -496,7 +509,7 @@ extension GlobeView
     ///                          a normal value.
     /// - Parameter IsASphere: If true, a sphere is used to represent the city. If false, a box is
     ///                        used instead.
-    func PlotFloatingCity(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+    func PlotFloatingCity(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                           WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
                           RelativeHeight: Double = 1.0, LargestSize: Double = 1.0, LongestStem: Double = 1.0,
                           IsASphere: Bool)
@@ -544,6 +557,8 @@ extension GlobeView
             }
         }
         CityNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        CityNode.NodeID = Plot.CityID
+        CityNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
         
         var CylinderLength = CGFloat(LongestStem * RelativeHeight)
         if CylinderLength < 0.1
@@ -551,7 +566,9 @@ extension GlobeView
             CylinderLength = 0.1
         }
         let Cylinder = SCNCylinder(radius: 0.04, height: CGFloat(LongestStem * RelativeHeight))
-        let CylinderNode = SCNNode(geometry: Cylinder)
+        let CylinderNode = SCNNode2(geometry: Cylinder)
+        CylinderNode.NodeID = Plot.CityID
+        CylinderNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
         CylinderNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         let (H, S, B) = WithColor.HSB
         var NewH = H + 0.5
@@ -568,6 +585,8 @@ extension GlobeView
         CityNode.position = SCNVector3(0.0, -(CylinderLength - CitySize), 0.0)
         
         let FinalNode = SCNNode2()
+        FinalNode.NodeID = Plot.CityID
+        FinalNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
         FinalNode.addChildNode(CityNode)
         FinalNode.addChildNode(CylinderNode)
         
@@ -592,7 +611,7 @@ extension GlobeView
     /// - Parameter LargestSize: The largest permitted.
     /// - Parameter IsBox: If true, the shape of the city is based on `SCNBox`. If false, the shape
     ///                    is based on `SCNCylinder`.
-    func PlotSimpleCityShape(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode,
+    func PlotSimpleCityShape(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                              WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
                              LargestSize: Double = 1.0, IsBox: Bool = true)
     {
@@ -658,7 +677,7 @@ extension GlobeView
     /// - Parameter Radius: The radius of the sphere upon which to plot the name.
     /// - Parameter ToSurface: Where to plot the city (eg, which node).
     /// - Parameter WithColor: The color to use for the diffuse surface of the text.
-    func PlotCityName(_ SomeCity: City, Radius: Double, ToSurface: SCNNode, WithColor: NSColor)
+    func PlotCityName(_ SomeCity: City, Radius: Double, ToSurface: SCNNode2, WithColor: NSColor)
     {
         let Font = Settings.GetFont(.CityFontName, StoredFont("Arial", 24.0, NSColor.black))
         let TheFont = NSFont(name: Font.PostscriptName, size: 24.0)
@@ -696,7 +715,7 @@ extension GlobeView
     /// Plot cities on the globe. User locations are also plotted here.
     /// - Parameter On: The node on which to plot cities.
     /// - Parameter Radius: The radius of the node on which to plot cities.
-    func PlotCities(On Surface: SCNNode, Radius: Double)
+    func PlotCities(On Surface: SCNNode2, Radius: Double)
     {
         for AlreadyPlotted in PlottedCities
         {
@@ -730,7 +749,8 @@ extension GlobeView
             {
                 let ShowEmission = Settings.GetBool(.ShowPOIEmission) 
                 PlotLocationAsCone(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                   ToSurface: Surface, WithColor: City.CityColor, EnableEmission: ShowEmission)
+                                   ToSurface: Surface, WithColor: City.CityColor, EnableEmission: ShowEmission,
+                                   NodeID: City.CityID, NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
             }
             else
             {
@@ -809,7 +829,7 @@ extension GlobeView
     /// style setting needs to be set to non-`.Hide`.
     /// - Parameter On: The node to which the home location will be attached.
     /// - Parameter Radius: The radius of the attachment node.
-    func PlotHomeLocation(On Surface: SCNNode, Radius: Double)
+    func PlotHomeLocation(On Surface: SCNNode2, Radius: Double)
     {
         HomeNode?.removeFromParentNode()
         HomeNode = nil
@@ -936,6 +956,8 @@ extension GlobeView
         SphereNode.geometry?.firstMaterial?.roughness.contents = 0.6
         
         let FinalNode = SCNNode2()
+        FinalNode.NodeID = NorthPole ? NodeTables.NorthPoleID : NodeTables.SouthPoleID
+        FinalNode.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         FinalNode.addChildNode(SphereNode)
         FinalNode.addChildNode(PoleNode)
         FinalNode.castsShadow = true
@@ -975,6 +997,8 @@ extension GlobeView
         FlagFaceNode.eulerAngles = SCNVector3(0.0, 90.0.Radians, 0.0)
         
         let FlagNode = SCNNode2()
+        FlagNode.NodeID = NorthPole ? NodeTables.NorthPoleID : NodeTables.SouthPoleID
+        FlagNode.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         FlagNode.castsShadow = true
         FlagNode.addChildNode(PoleNode)
         FlagNode.addChildNode(FlagFaceNode)
@@ -1000,7 +1024,6 @@ extension GlobeView
                 return
             }
             let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
-            print("UNESCO TypeFilter\(TypeFilter)")
             Main2Controller.InitializeWorldHeritageSites()
             let Sites = Main2Controller.GetAllSites()
             var FinalList = [WorldHeritageSite2]()
