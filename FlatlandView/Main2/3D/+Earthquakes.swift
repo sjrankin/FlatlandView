@@ -100,6 +100,7 @@ extension GlobeView
     func NewEarthquakeList(_ NewList: [Earthquake], Final: (() -> ())? = nil)
     {
         NodeTables.RemoveEarthquakes()
+        print("Adding earthquakes to NodeTables")
         for Quake in NewList
         {
             NodeTables.AddEarthquake(Quake)
@@ -109,10 +110,8 @@ extension GlobeView
         let FilteredList = EarthquakeFilterer.FilterList(NewList)
         if FilteredList.count == 0
         {
-            //print("No earthquakes found.")
             return
         }
-        //print("Have \(FilteredList.count) earthquakes")
         if SameEarthquakes(FilteredList, EarthquakeList)
         {
             #if DEBUG
@@ -123,9 +122,7 @@ extension GlobeView
         ClearEarthquakes()
         EarthquakeList.removeAll()
         EarthquakeList = FilteredList
-        print("EarthquakeList=\(EarthquakeList)")
         PlottedEarthquakes.removeAll()
-        //print("Calling PlotEarthquakes from \(#function), line \(#line)")
         PlotEarthquakes("\(#function)", Final)
     }
     
@@ -171,7 +168,7 @@ extension GlobeView
     /// Plot a passed list of earthquakes on the passed surface.
     /// - Parameter List: The list of earthquakes to plot.
     /// - Parameter On: The 3D surface upon which to plot the earthquakes.
-    func PlotEarthquakes(_ List: [Earthquake], On Surface: SCNNode)
+    func PlotEarthquakes(_ List: [Earthquake], On Surface: SCNNode2)
     {
         if !Settings.GetBool(.EnableEarthquakes)
         {
@@ -293,6 +290,8 @@ extension GlobeView
     }
     
     /// Create a shape for the passed earthquake. Additionally, an extruded text shape may be returned.
+    /// - Note: If extruded magnitude values are specified as the node, node shapes are not drawn - just the
+    ///         extruded number.
     /// - Parameter Quake: The earthquake whose shape will be created.
     /// - Returns: Tuple of two `SCNNode2`s. The first is a shape to be used to indicate an earthquake and the
     ///            second (which may not be present, depending on the value of `.EarthquakeMagnitudeViews`)
