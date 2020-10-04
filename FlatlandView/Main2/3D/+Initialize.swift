@@ -5,7 +5,6 @@
 //  Created by Stuart Rankin on 9/21/20.
 //  Copyright © 2020 Stuart Rankin. All rights reserved.
 //
-
 import Foundation
 import AppKit
 import SceneKit
@@ -84,6 +83,9 @@ extension GlobeView
                 (Node, Change) in
                 OperationQueue.current?.addOperation
                 {
+                    let Location = Node.pointOfView!.position
+                    Debug.Print("POV: \(Location)")
+                    /*
                     if self.OldPointOfView == nil
                     {
                         self.OldPointOfView = Node.pointOfView!.position
@@ -101,6 +103,7 @@ extension GlobeView
                     {
                         self.OldPointOfView = Node.pointOfView!.position
                     }
+ */
                 }
             }
         }
@@ -151,10 +154,8 @@ extension GlobeView
         Camera.usesOrthographicProjection = true
         Camera.orthographicScale = Settings.GetDouble(.OrthographicScale, 14.0)
         #endif
-        let ZFar = Settings.GetDouble(.ZFar, Defaults.ZFar)
-        let ZNear = Settings.GetDouble(.ZNear, Defaults.ZNear)
-        Camera.zFar = ZFar
-        Camera.zNear = ZNear
+        Camera.zFar = Settings.GetDouble(.ZFar, Defaults.ZFar)
+        Camera.zNear = Settings.GetDouble(.ZNear, Defaults.ZNear)
         CameraNode = SCNNode()
         CameraNode.name = GlobeNodeNames.BuiltInCameraNode.rawValue
         CameraNode.camera = Camera
