@@ -290,10 +290,18 @@ class USGS
             guard let HTTPResponse = Response as? HTTPURLResponse,
                   (200 ... 299).contains(HTTPResponse.statusCode) else
             {
-                let HTTPResponse = Response as! HTTPURLResponse
+                if let HTTPResponse = Response as? HTTPURLResponse
+                {
                 print("Response error: \(HTTPResponse)")
                 completion(nil)
                 return
+                }
+                else
+                {
+                    print("HTTP error but no response. Probably timed-out.")
+                    completion(nil)
+                    return
+                }
             }
             if let LocalURL = Local
             {
