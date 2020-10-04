@@ -115,6 +115,12 @@ extension FlatView
                     HideWorldHeritageSites()
                 }
                 
+            case .HighlightNodeUnderMouse:
+                if PreviousNode != nil
+                {
+                    PreviousNode?.HideBoundingBox()
+                }
+                
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints, .ShowStatistics:
