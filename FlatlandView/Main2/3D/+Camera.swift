@@ -12,6 +12,8 @@ import SceneKit
 
 extension GlobeView
 {
+    // MARK: - Code to implement camera control.
+    
     /// Update the current camera based on the contents of the user settings.
     /// - Warning: Not currently available.
     func UpdateFlatlandCamera()
