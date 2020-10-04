@@ -77,6 +77,7 @@ class View3DSettingsWindow: NSViewController, FontProtocol
             HourFontButton.title = "Huh?"
         }
         PreloadNASATilesSwitch.state = Settings.GetBool(.PreloadNASATiles) ? .on : .off
+        HighlightNodeSwitch.state = Settings.GetBool(.HighlightNodeUnderMouse) ? .on : .off
     }
     
     @IBAction func HandleGridLineSettingChanged(_ sender: Any)
@@ -310,6 +311,15 @@ class View3DSettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    @IBAction func HandleHighlightNodeChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.HighlightNodeUnderMouse, Switch.state == .on)
+        }
+    }
+    
+    @IBOutlet weak var HighlightNodeSwitch: NSSwitch!
     @IBOutlet weak var PreloadNASATilesSwitch: NSSwitch!
     @IBOutlet weak var GridLinesDrawnOnMapSwitch: NSSwitch!
     @IBOutlet weak var HourFontButton: NSButton!
