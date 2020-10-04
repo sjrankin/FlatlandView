@@ -99,13 +99,6 @@ extension GlobeView
     ///                      previous list, no action is taken.
     func NewEarthquakeList(_ NewList: [Earthquake], Final: (() -> ())? = nil)
     {
-        NodeTables.RemoveEarthquakes()
-        print("Adding earthquakes to NodeTables")
-        for Quake in NewList
-        {
-            NodeTables.AddEarthquake(Quake)
-        }
-        
         RemoveExpiredIndicators(NewList)
         let FilteredList = EarthquakeFilterer.FilterList(NewList)
         if FilteredList.count == 0
@@ -124,6 +117,12 @@ extension GlobeView
         EarthquakeList = FilteredList
         PlottedEarthquakes.removeAll()
         PlotEarthquakes("\(#function)", Final)
+        
+        NodeTables.RemoveEarthquakes()
+        for Quake in EarthquakeList
+        {
+            NodeTables.AddEarthquake(Quake)
+        }
     }
     
     /// Go through all current earthquakes and remove indicators for those earthquakes that are no longer
@@ -363,6 +362,8 @@ extension GlobeView
                 let Encapsulate = SCNNode2()
                 Encapsulate.addChildNode(Arrow)
                 FinalNode = Encapsulate
+                FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
+                FinalNode.NodeID = Quake.ID
                 #endif
                 
             case .StaticArrow:
@@ -380,6 +381,8 @@ extension GlobeView
                 let Encapsulate = SCNNode2()
                 Encapsulate.addChildNode(Arrow)
                 FinalNode = Encapsulate
+                FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
+                FinalNode.NodeID = Quake.ID
                 
             case .Pyramid:
                 FinalNode = SCNNode2(geometry: SCNPyramid(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5))
