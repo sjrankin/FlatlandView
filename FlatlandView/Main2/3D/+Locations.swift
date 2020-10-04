@@ -737,6 +737,10 @@ extension GlobeView
                 UserCity.CityColor = Color
                 UserCity.IsUserCity = true
                 CitiesToPlot.append(UserCity)
+                let ShowEmission = Settings.GetBool(.ShowPOIEmission)
+                PlotLocationAsCone(UserCity, Latitude: UserCity.Latitude, Longitude: UserCity.Longitude, Radius: Radius,
+                                   ToSurface: Surface, WithColor: UserCity.CityColor, EnableEmission: ShowEmission,
+                                   NodeID: UserPOIID, NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
             }
         }
         
@@ -747,10 +751,13 @@ extension GlobeView
         {
             if City.IsUserCity
             {
+                continue
+                /*
                 let ShowEmission = Settings.GetBool(.ShowPOIEmission) 
                 PlotLocationAsCone(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                    ToSurface: Surface, WithColor: City.CityColor, EnableEmission: ShowEmission,
                                    NodeID: City.CityID, NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
+ */
             }
             else
             {
