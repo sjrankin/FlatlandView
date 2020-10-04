@@ -289,6 +289,16 @@ extension GlobeView: SettingChangedProtocol
                             DebugTypes.append(.Constraints)
                         }
                     }
+                    /*
+                    Settings.QueryBool(.ShowCamera)
+                    {
+                        Show in
+                        if Show
+                        {
+                            DebugTypes.append(.Cameras)
+                        }
+                    }
+ */
                     SetDebugOption(DebugTypes)
                 }
             #endif
