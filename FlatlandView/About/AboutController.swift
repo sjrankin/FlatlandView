@@ -28,17 +28,26 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         AboutWorld.autoenablesDefaultLighting = false
         AboutWorld.scene = SCNScene()
         AboutWorld.backgroundColor = NSColor.black
+        #if false
+        AboutWorld.showsStatistics = true
+        #endif
         
         let Camera = SCNCamera()
-        Camera.fieldOfView = 90.0
+        #if false
+        Camera.fieldOfView = 10.0
+        Camera.usesOrthographicProjection = false
+        #else
         Camera.usesOrthographicProjection = true
-        Camera.orthographicScale = 14
-        Camera.zFar = 500
+        Camera.orthographicScale = 15
+        Camera.fieldOfView = 90
+        #endif
+        Camera.zFar = 1000
         Camera.zNear = 0.1
         CameraNode = SCNNode()
+        CameraNode.name = "Camera Node"
         CameraNode.camera = Camera
         //The camera's position is higher up in the scene to help show the shadows.
-        CameraNode.position = SCNVector3(0.0, 10.0, 18.0)
+        CameraNode.position = SCNVector3(0.0, 10.0, 100.0)//18.0)
         
         let Light = SCNLight()
         Light.type = .directional
@@ -48,7 +57,10 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         Light.shadowMode = .forward
         Light.shadowRadius = 3.0
         Light.color = NSColor.white
+        Light.zNear = 0.1
+        Light.zFar = 1000.0
         LightNode = SCNNode()
+        LightNode.name = "Sunlight"
         LightNode.light = Light
         LightNode.position = SCNVector3(0.0, 0.0, 80.0)
         
@@ -60,7 +72,10 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         MoonLight.shadowMode = .forward
         MoonLight.shadowRadius = 6.0
         MoonLight.color = NSColor.cyan
+        MoonLight.zNear = 0.1
+        MoonLight.zFar = 1000.0
         MoonNode = SCNNode()
+        MoonNode.name = "Moonlight"
         MoonNode.light = MoonLight
         MoonNode.position = SCNVector3(0.0, 0.0, -100.0)
         MoonNode.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
@@ -151,6 +166,8 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
             fatalError("Error retrieving base map in About.")
         }
         EarthNode = SCNNode(geometry: Surface)
+        EarthNode?.name = "Spherical Earth"
+        EarthNode?.castsShadow = true
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
@@ -180,6 +197,8 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         
         let EarthCube = SCNBox(width: 10.0, height: 10.0, length: 10.0, chamferRadius: 0.5)
         EarthNode = SCNNode(geometry: EarthCube)
+        EarthNode?.name = "Cubic Earth"
+        EarthNode?.castsShadow = true
         
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.materials.removeAll()
@@ -233,6 +252,7 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
                                                        TextColor: NSColor.systemTeal,
                                                        TextSpecular: NSColor.white)
         let TextNode = SCNNode()
+        TextNode.name = "About Text"
         NameNodes.forEach({TextNode.addChildNode($0)})
         VersionNodes.forEach({TextNode.addChildNode($0)})
         CopyrightNodes.forEach({TextNode.addChildNode($0)})
