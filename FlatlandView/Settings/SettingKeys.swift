@@ -144,7 +144,7 @@ enum SettingKeys: String, CaseIterable
     /// Relative size of the font used to stencil magnitude values.
     case MagnitudeRelativeFontSize = "MagnitudeRelativeFontSize"
     /// Boolean: If true, standard NSStrings are used to draw stenciled text. If false,
-    ///          NSAttributedStrings are used. NSStrings are faster...
+    /// NSAttributedStrings are used. NSStrings are faster...
     case StencilPlainText = "StencilPlainText"
     // Camera settings.
     /// SCNVector3: Initial position of the camera.
@@ -179,6 +179,10 @@ enum SettingKeys: String, CaseIterable
     case ShowLightExtents = "ShowLightExtents"
     /// Show rendering statistics.
     case ShowStatistics = "ShowStatistics"
+    /// Show the camera.
+    case ShowCamera = "ShowCamera"
+    /// Boolean: If true, the node under the mouse is highlighted.
+    case HighlightNodeUnderMouse = "HighlightNodeUnderMouse"
     
     // MARK: - Performance and optimization settings.
     /// Boolean: If true, hours have a chamfer value set.
