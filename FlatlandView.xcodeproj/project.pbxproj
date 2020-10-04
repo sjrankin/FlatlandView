@@ -800,6 +800,7 @@
 			isa = PBXGroup;
 			children = (
 				178A86AA2489135C00BE8D46 /* GlobeView.swift */,
+				178E1CA525186E1300FDC75B /* +Initialize.swift */,
 				178E1C9F251829C700FDC75B /* +Lights.swift */,
 				17854C662503649800D099A7 /* +Layers.swift */,
 				178A86A82489134300BE8D46 /* +GridLines.swift */,
@@ -811,7 +812,6 @@
 				1727EA5724B15CD10051EA3B /* +UserCamera.swift */,
 				178E1C9C2518288500FDC75B /* +Camera.swift */,
 				178E1CA225186DE900FDC75B /* +Attract.swift */,
-				178E1CA525186E1300FDC75B /* +Initialize.swift */,
 				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
 				178E1CAB25186EB000FDC75B /* +ChangedSettingsHandler.swift */,
 				178A869D2489101E00BE8D46 /* StarField.swift */,
