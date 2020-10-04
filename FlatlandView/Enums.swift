@@ -708,4 +708,33 @@ enum GlobeLayers: String, CaseIterable
     #endif
 }
 
+/// Names for lights.
+enum LightNames: String, CaseIterable
+{
+    /// Ambient light for the 3D globe scene.
+    case Ambient3D = "Ambient 3D"
+    /// Sun node for the 3D globe scene.
+    case Sun3D = "Sun 3D"
+    /// Metallic sun node for the 3D globe scene.
+    case SunMetallic3D = "Sun Metallic 3D"
+    /// Moon node for the 3D globe scene.
+    case Moon3D = "Moon 3D"
+    /// Metallic moon node for the 3D globe scene.
+    case MoonMetallic3D = "Moon Metallic 3D"
+    /// Grid 1 light for the 3D globe scene.
+    case Grid13D = "Grid 1 3D"
+    /// Grid 2 light for the 3D globe scene.
+    case Grid23D = "Grid 2 3D"
+    /// Ambient light for the 2D scene.
+    case Ambient2D = "Ambient 2D"
+    /// Ambient light for the sun in the 2D scene.
+    case AmbientSun2D = "Ambient Sun 2D"
+    /// Sun light for the 2D scene.
+    case Sun2D = "Sun 2D"
+    /// Hour light for the 2D scene.
+    case Hour2D = "Hour 2D"
+    /// Polar light for the 2D scene.
+    case Polar2D = "Polar"
+}
+
 
