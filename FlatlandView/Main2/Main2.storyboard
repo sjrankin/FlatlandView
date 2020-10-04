@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17503.1" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17503.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -658,32 +658,32 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Zfw-8N-1gC" customClass="GlobeView" customModule="Flatland" customModuleProvider="target">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="svV-Ad-1ju" customClass="FlatView" customModule="Flatland" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="svV-Ad-1ju" customClass="FlatView" customModule="Flatland" customModuleProvider="target">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Zfw-8N-1gC" customClass="GlobeView" customModule="Flatland" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="Zfw-8N-1gC" secondAttribute="bottom" id="0S9-IN-MVm"/>
                             <constraint firstItem="svV-Ad-1ju" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" id="5g2-fC-EBG"/>
                             <constraint firstItem="Y7N-Pp-SAI" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" constant="10" id="5qO-cB-19f"/>
                             <constraint firstAttribute="trailing" secondItem="Y7N-Pp-SAI" secondAttribute="trailing" constant="10" id="68Z-cB-vhy"/>
                             <constraint firstItem="UlV-IY-Q92" firstAttribute="centerX" secondItem="6id-Tb-uKs" secondAttribute="centerX" id="9GT-a7-G61"/>
-                            <constraint firstAttribute="trailing" secondItem="Zfw-8N-1gC" secondAttribute="trailing" id="BNs-Mh-OS3"/>
-                            <constraint firstItem="Zfw-8N-1gC" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" id="Dvv-Sq-Evp"/>
                             <constraint firstAttribute="bottom" secondItem="UlV-IY-Q92" secondAttribute="bottom" constant="16" id="FL3-s9-nSw"/>
                             <constraint firstAttribute="bottom" secondItem="c9p-QS-cDp" secondAttribute="bottom" id="G3H-z8-02q"/>
+                            <constraint firstItem="Zfw-8N-1gC" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" id="Jbz-vN-O5p"/>
                             <constraint firstItem="Iq2-x8-FBV" firstAttribute="centerX" secondItem="6id-Tb-uKs" secondAttribute="centerX" id="KZr-qv-J9R"/>
                             <constraint firstAttribute="trailing" secondItem="svV-Ad-1ju" secondAttribute="trailing" id="Oav-bW-Ump"/>
                             <constraint firstItem="c9p-QS-cDp" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" id="Qti-U9-QTm"/>
                             <constraint firstItem="Iq2-x8-FBV" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" constant="10" id="UCR-fg-BQR"/>
                             <constraint firstAttribute="trailing" secondItem="c9p-QS-cDp" secondAttribute="trailing" id="Wzy-3a-l4S"/>
                             <constraint firstItem="svV-Ad-1ju" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" id="Zcj-Ib-PwG"/>
-                            <constraint firstItem="Zfw-8N-1gC" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" id="axr-Ja-TYs"/>
+                            <constraint firstAttribute="bottom" secondItem="Zfw-8N-1gC" secondAttribute="bottom" id="f0X-bi-Db7"/>
+                            <constraint firstItem="Zfw-8N-1gC" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" id="lD5-i2-P5C"/>
                             <constraint firstItem="c9p-QS-cDp" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" id="ozL-1O-g6r"/>
                             <constraint firstAttribute="bottom" secondItem="svV-Ad-1ju" secondAttribute="bottom" id="w16-Ft-xYf"/>
+                            <constraint firstAttribute="trailing" secondItem="Zfw-8N-1gC" secondAttribute="trailing" id="yaK-PI-PXP"/>
                         </constraints>
                     </view>
                     <connections>
