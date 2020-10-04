@@ -27,7 +27,9 @@ extension GlobeView
         HourNode?.removeFromParentNode()
         
         let EarthCube = SCNBox(width: 10.0, height: 10.0, length: 10.0, chamferRadius: 0.5)
-        EarthNode = SCNNode(geometry: EarthCube)
+        EarthNode = SCNNode2(geometry: EarthCube)
+        EarthNode?.NodeID = NodeTables.EarthGlobe
+        EarthNode?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         EarthNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
