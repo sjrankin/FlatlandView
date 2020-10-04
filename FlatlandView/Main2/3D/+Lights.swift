@@ -5,14 +5,13 @@
 //  Created by Stuart Rankin on 9/21/20.
 //  Copyright © 2020 Stuart Rankin. All rights reserved.
 //
-
 import Foundation
 import AppKit
 import SceneKit
 
 extension GlobeView
 {
-    // MARK: - Light-related functions
+    // MARK: - 3D light-related functions
     
     /// Setup lights to use to view the 3D scene.
     func SetupLights()
@@ -47,10 +46,15 @@ extension GlobeView
     /// Create a light to use for the 3D scene.
     /// - Parameter CastsShadow: If true, the light will cast a shadow. If false, no shadow will be shown.
     /// - Parameter Mask: The category mask for the light. If not specified `0` is used.
+    /// - Parameter LightName: The name of the light, if specified. If nil, no name is assigned.
     /// - Returns: An `SCNLight` for the 3D scene.
-    func CreateDefaultLight(CastsShadow: Bool = true, Mask: Int = 0) -> SCNLight
+    func CreateDefaultLight(CastsShadow: Bool = true, Mask: Int = 0, LightName: LightNames? = nil) -> SCNLight
     {
         let Light = SCNLight()
+        if let Name = LightName
+        {
+            Light.name = Name.rawValue
+        }
         Light.categoryBitMask = Mask
         if CastsShadow
         {
@@ -58,7 +62,7 @@ extension GlobeView
             Light.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
             Light.shadowMode = .forward
             Light.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
-            Light.shadowSampleCount = 1
+            Light.shadowSampleCount = 16
             Light.shadowMapSize = CGSize(width: 2048, height: 2048)
             Light.automaticallyAdjustsShadowProjection = true
             Light.shadowCascadeCount = 3
@@ -72,11 +76,12 @@ extension GlobeView
     /// Create an ambient light for the scene.
     func CreateAmbientLight()
     {
-        let Ambient = CreateDefaultLight(Mask: LightMasks3D.Sun.rawValue)
+        let Ambient = CreateDefaultLight(Mask: LightMasks3D.Sun.rawValue, LightName: LightNames.Ambient3D)
         Ambient.type = .ambient
         Ambient.intensity = CGFloat(Defaults.AmbientLightIntensity.rawValue)
         Ambient.color = NSColor.white
         AmbientLightNode = SCNNode()
+        AmbientLightNode?.name = LightNames.Ambient3D.rawValue
         AmbientLightNode?.light = Ambient
         AmbientLightNode?.position = SCNVector3(0.0, 0.0, Defaults.AmbientLightZ.rawValue)
         self.scene?.rootNode.addChildNode(AmbientLightNode!)
@@ -93,11 +98,12 @@ extension GlobeView
     /// Set up "sun light" for the scene.
     func SetSunlight()
     {
-        SunLight = CreateDefaultLight(Mask: LightMasks3D.Sun.rawValue)
+        SunLight = CreateDefaultLight(Mask: LightMasks3D.Sun.rawValue, LightName: LightNames.Sun3D)
         SunLight.type = .directional
         SunLight.intensity = CGFloat(Defaults.SunLightIntensity.rawValue)
         SunLight.color = NSColor.white
         LightNode = SCNNode()
+        LightNode.name = LightNames.Sun3D.rawValue
         LightNode.light = SunLight
         LightNode.position = SCNVector3(0.0, 0.0, Defaults.SunLightZ.rawValue)
         self.scene?.rootNode.addChildNode(LightNode)
@@ -109,21 +115,23 @@ extension GlobeView
     {
         if Show
         {
-            let MoonLight = CreateDefaultLight(Mask: LightMasks3D.Moon.rawValue)
+            let MoonLight = CreateDefaultLight(Mask: LightMasks3D.Moon.rawValue, LightName: LightNames.Moon3D)
             MoonLight.type = .directional
             MoonLight.intensity = CGFloat(Defaults.MoonLightIntensity.rawValue)
             MoonLight.color = NSColor.cyan
             MoonNode = SCNNode()
+            MoonNode?.name = LightNames.Moon3D.rawValue
             MoonNode?.light = MoonLight
             MoonNode?.position = SCNVector3(0.0, 0.0, Defaults.MoonLightZ.rawValue)
             MoonNode?.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
             self.scene?.rootNode.addChildNode(MoonNode!)
             
-            MetalMoonLight = CreateDefaultLight(Mask: LightMasks3D.MetalMoon.rawValue)
+            MetalMoonLight = CreateDefaultLight(Mask: LightMasks3D.MetalMoon.rawValue, LightName: LightNames.MoonMetallic3D)
             MetalMoonLight.type = .directional
             MetalMoonLight.intensity = CGFloat(Defaults.MetalMoonLightIntensity.rawValue)
             MetalMoonLight.color = NSColor.cyan
             MetalMoonNode = SCNNode()
+            MetalMoonNode.name = LightNames.MoonMetallic3D.rawValue
             MetalMoonNode.light = MetalMoonLight
             MetalMoonNode.position = SCNVector3(0.0, 0.0, Defaults.MoonLightZ.rawValue)
             MetalMoonNode.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
@@ -142,20 +150,22 @@ extension GlobeView
     /// Set the lights used for metallic components.
     func SetMetalLights()
     {
-        MetalSunLight = CreateDefaultLight(Mask: LightMasks3D.MetalSun.rawValue)
+        MetalSunLight = CreateDefaultLight(Mask: LightMasks3D.MetalSun.rawValue, LightName: LightNames.SunMetallic3D)
         MetalSunLight.type = .directional
         MetalSunLight.intensity = CGFloat(Defaults.MetalSunLightIntensity.rawValue)
         MetalSunLight.color = NSColor.white
         MetalSunNode = SCNNode()
+        MetalSunNode.name = LightNames.SunMetallic3D.rawValue
         MetalSunNode.light = MetalSunLight
         MetalSunNode.position = SCNVector3(0.0, 0.0, Defaults.SunLightZ.rawValue)
         self.scene?.rootNode.addChildNode(MetalSunNode)
         
-        MetalMoonLight = CreateDefaultLight(Mask: LightMasks3D.MetalMoon.rawValue)
+        MetalMoonLight = CreateDefaultLight(Mask: LightMasks3D.MetalMoon.rawValue, LightName: LightNames.MoonMetallic3D)
         MetalMoonLight.type = .directional
         MetalMoonLight.intensity = CGFloat(Defaults.MetalMoonLightIntensity.rawValue)
         MetalMoonLight.color = NSColor.cyan
         MetalMoonNode = SCNNode()
+        MetalMoonNode.name = LightNames.MoonMetallic3D.rawValue
         MetalMoonNode.light = MetalMoonLight
         MetalMoonNode.position = SCNVector3(0.0, 0.0, Defaults.MoonLightZ.rawValue)
         MetalMoonNode.eulerAngles = SCNVector3(180.0 * CGFloat.pi / 180.0, 0.0, 0.0)
@@ -166,18 +176,20 @@ extension GlobeView
     /// side, it's not easily visible. There are two grid lights - one for day time and one for night time.
     func SetGridLight()
     {
-        GridLight1 = CreateDefaultLight(Mask: LightMasks3D.Grid.rawValue)
+        GridLight1 = CreateDefaultLight(Mask: LightMasks3D.Grid.rawValue, LightName: LightNames.Grid13D)
         GridLight1.type = .omni
         GridLight1.color = NSColor.white
         GridLightNode1 = SCNNode()
+        GridLightNode1.name = LightNames.Grid13D.rawValue
         GridLightNode1.light = GridLight1
         GridLightNode1.position = SCNVector3(0.0, 0.0, Defaults.Grid1Z.rawValue)
         self.scene?.rootNode.addChildNode(GridLightNode1)
         
-        GridLight2 = CreateDefaultLight(Mask: LightMasks3D.Grid.rawValue)
+        GridLight2 = CreateDefaultLight(Mask: LightMasks3D.Grid.rawValue, LightName: LightNames.Grid23D)
         GridLight2.type = .omni
         GridLight2.color = NSColor.white
         GridLightNode2 = SCNNode()
+        GridLightNode2.name = LightNames.Grid23D.rawValue
         GridLightNode2.light = GridLight2
         GridLightNode2.position = SCNVector3(0.0, 0.0, Defaults.Grid2Z.rawValue)
         self.scene?.rootNode.addChildNode(GridLightNode2)
