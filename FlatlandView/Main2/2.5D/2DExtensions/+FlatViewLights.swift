@@ -16,6 +16,7 @@ extension FlatView
     func CreateAmbientLight()
     {
         let Ambient = SCNLight()
+        Ambient.name = LightNames.Ambient2D.rawValue
         Ambient.categoryBitMask = LightMasks2D.Ambient.rawValue
         Ambient.type = .ambient
         Ambient.intensity = CGFloat(Defaults.AmbientLightIntensity.rawValue)
@@ -25,15 +26,18 @@ extension FlatView
         Ambient.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
         Ambient.color = NSColor.white
         AmbientLightNode = SCNNode()
+        AmbientLightNode?.name = LightNames.Ambient2D.rawValue
         AmbientLightNode?.light = Ambient
         AmbientLightNode?.position = SCNVector3(0.0, 0.0, Defaults.AmbientLightZ.rawValue)
         self.scene?.rootNode.addChildNode(AmbientLightNode!)
         
         let AmbientSun = SCNLight()
+        AmbientSun.name = LightNames.AmbientSun2D.rawValue
         AmbientSun.categoryBitMask = LightMasks2D.AmbientSun.rawValue
         AmbientSun.intensity = CGFloat(Defaults.AmbientLightIntensity.rawValue)
         AmbientSun.castsShadow = false
         AmbientSunLightNode = SCNNode()
+        AmbientSunLightNode.name = LightNames.AmbientSun2D.rawValue
         AmbientSunLightNode.light = AmbientSun
         self.scene?.rootNode.addChildNode(AmbientSunLightNode)
     }
@@ -42,11 +46,13 @@ extension FlatView
     func SetSunlight()
     {
         SunLight = SCNLight()
+        SunLight.name = LightNames.Sun2D.rawValue
         SunLight.categoryBitMask = LightMasks2D.Sun.rawValue
         SunLight.type = .omni
         SunLight.intensity = CGFloat(FlatConstants.SunLightIntensity.rawValue)
         SunLight.color = NSColor.white
         LightNode = SCNNode()
+        LightNode.name = LightNames.Sun2D.rawValue
         LightNode.light = SunLight
         LightNode.position = SCNVector3(0.0, 0.0, 20.0)//FlatConstants.SunLightZ.rawValue)
         self.scene?.rootNode.addChildNode(LightNode)
@@ -55,10 +61,12 @@ extension FlatView
     func SetHourLight()
     {
         HourLight = SCNLight()
+        HourLight.name = LightNames.Hour2D.rawValue
         HourLight.categoryBitMask = LightMasks2D.Hours.rawValue
         HourLight.type = .directional
         HourLight.color = NSColor.white
         HourLightNode = SCNNode()
+        HourLightNode.name = LightNames.Hour2D.rawValue
         HourLightNode.light = HourLight
         HourLightNode.position = SCNVector3(0.0, 0.0, 20.0)
         self.scene?.rootNode.addChildNode(HourLightNode)
@@ -68,6 +76,7 @@ extension FlatView
     func SetPolarLight()
     {
         PolarLight = SCNLight()
+        PolarLight.name = LightNames.Polar2D.rawValue
         PolarLight.categoryBitMask = LightMasks2D.Polar.rawValue
         PolarLight.type = .spot
         PolarLight.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
@@ -86,6 +95,7 @@ extension FlatView
         PolarLight.zNear = CGFloat(FlatConstants.PolarZNear.rawValue)
         PolarLight.spotOuterAngle = CGFloat(FlatConstants.PolarLightOuterAngle.rawValue)
         PolarNode = SCNNode()
+        PolarNode.name = LightNames.Polar2D.rawValue
         PolarNode.light = PolarLight
         let PolarNodeY = CGFloat(FlatConstants.FlatRadius.rawValue) + CGFloat(FlatConstants.PolarSunRimOffset.rawValue)
         PolarNode.position = SCNVector3(0.0, PolarNodeY, CGFloat(FlatConstants.PolarLightZTerminal.rawValue))
