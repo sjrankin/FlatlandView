@@ -174,5 +174,7 @@ extension Settings
             .WindowOrigin: CGPoint.self,
             .PrimaryViewSize: NSSize.self,
             .ShowDetailedInformation: Bool.self,
+            .HighlightNodeUnderMouse: Bool.self,
+            .ShowCamera: Bool.self,
         ]
 }
