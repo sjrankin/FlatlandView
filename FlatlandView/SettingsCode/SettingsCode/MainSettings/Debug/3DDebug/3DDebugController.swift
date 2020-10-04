@@ -89,6 +89,9 @@ class ThreeDDebugController: NSViewController
                     
                 case ShowStatsSwitch:
                     Settings.SetBool(.ShowStatistics, Switch.state == .on ? true : false)
+                    
+                case ShowCameraSwitch:
+                    Settings.SetBool(.ShowCamera, Switch.state == .on ? true : false)
                 
                 default:
                     return
@@ -98,6 +101,7 @@ class ThreeDDebugController: NSViewController
         #endif
     }
     
+    @IBOutlet weak var ShowCameraSwitch: NSSwitch!
     @IBOutlet weak var ShowStatsSwitch: NSSwitch!
     @IBOutlet weak var LightExtentsSwitch: NSSwitch!
     @IBOutlet weak var LightInfluenceSwitch: NSSwitch!
