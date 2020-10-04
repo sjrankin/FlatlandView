@@ -92,7 +92,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
 
     var FlatlandCamera: SCNCamera? = nil
     var FlatlandCameraNode: SCNNode? = nil
-    var FlatlandCameraLocation = SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue)
+    //var FlatlandCameraLocation = SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue)
     var MouseLocations = Queue<NSEvent>(WithCapacity: 5)
     
     #if DEBUG
@@ -367,7 +367,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
         
         GlobalBaseMap = BaseMap
         
-        EarthNode = SCNNode(geometry: EarthSphere)
+        EarthNode = SCNNode2(geometry: EarthSphere)
         EarthNode?.castsShadow = true
         EarthNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
@@ -378,20 +378,23 @@ class GlobeView: SCNView, FlatlandEventProtocol
         switch MapType
         {
             case .EarthquakeMap:
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal.withAlphaComponent(CGFloat(Defaults.EarthquakeMapOpacity.rawValue))
                 EarthNode?.opacity = CGFloat(Defaults.EarthquakeMapOpacity.rawValue)
                 
             case .StylizedSea1:
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
                 
             case .Debug2:
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal
@@ -399,7 +402,8 @@ class GlobeView: SCNView, FlatlandEventProtocol
                 EarthNode?.geometry?.firstMaterial?.specular.contents = NSColor.clear
                 
             case .Debug5:
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemYellow
@@ -407,20 +411,23 @@ class GlobeView: SCNView, FlatlandEventProtocol
                 EarthNode?.geometry?.firstMaterial?.specular.contents = NSColor.clear
                 
             case .TectonicOverlay:
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
                 
             case .ASCIIArt1:
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.white
                 SeaNode?.geometry?.firstMaterial?.specular.contents = NSColor.yellow
                 
             case .BlackWhiteShiny:
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.white
@@ -428,7 +435,8 @@ class GlobeView: SCNView, FlatlandEventProtocol
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
                 
             case .Standard:
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = SecondaryMap
@@ -436,7 +444,8 @@ class GlobeView: SCNView, FlatlandEventProtocol
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .blinn
                 
             case .SimpleBorders2:
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemBlue 
@@ -444,7 +453,8 @@ class GlobeView: SCNView, FlatlandEventProtocol
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
                 
             case .Topographical1:
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.systemBlue
@@ -452,7 +462,8 @@ class GlobeView: SCNView, FlatlandEventProtocol
                 SeaNode?.geometry?.firstMaterial?.lightingModel = .phong
                 
             case .Pink:
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor.orange
@@ -461,7 +472,8 @@ class GlobeView: SCNView, FlatlandEventProtocol
                 
             case .Bronze:
                 EarthNode?.geometry?.firstMaterial?.specular.contents = NSColor.orange
-                SeaNode = SCNNode(geometry: SeaSphere)
+                SeaNode = SCNNode2(geometry: SeaSphere)
+                SeaNode?.castsShadow = true
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.position = SCNVector3(0.0, 0.0, 0.0)
                 SeaNode?.geometry?.firstMaterial?.diffuse.contents = NSColor(red: 1.0,
@@ -473,18 +485,17 @@ class GlobeView: SCNView, FlatlandEventProtocol
                 
             default:
                 //Create an empty sea node if one is not needed.
-                SeaNode = SCNNode()
+                SeaNode = SCNNode2()
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+                SeaNode?.castsShadow = true
         }
         
+        EarthNode?.NodeID = NodeTables.EarthGlobe
+        EarthNode?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
+        SeaNode?.NodeID = NodeTables.SeaGlobe
+        SeaNode?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
+        
         PlotLocations(On: EarthNode!, WithRadius: GlobeRadius.Primary.rawValue)
-
-        #if false
-        EarthNode?.geometry?.firstMaterial?.isDoubleSided = true
-        SeaNode?.geometry?.firstMaterial?.isDoubleSided = true
-        EarthNode?.geometry?.firstMaterial?.blendMode = .alpha
-        SeaNode?.geometry?.firstMaterial?.blendMode = .alpha
-        #endif
         
         let SeaMapList: [MapTypes] = [.Standard, .Topographical1, .SimpleBorders2, .Pink, .Bronze,
                                       .TectonicOverlay, .BlackWhiteShiny, .ASCIIArt1, .Debug2,
@@ -580,9 +591,9 @@ class GlobeView: SCNView, FlatlandEventProtocol
     /// Holds nodes used to draw 3D lines.
     var LineNode: SCNNode? = nil
     /// Holds the main Earth node.
-    var EarthNode: SCNNode? = nil
+    var EarthNode: SCNNode2? = nil
     /// Holds the main sea node.
-    var SeaNode: SCNNode? = nil
+    var SeaNode: SCNNode2? = nil
     /// Holds all of the hour nodes.
     var HourNode: SCNNode2? = nil
     var PlottedEarthquakes = Set<String>()
@@ -596,7 +607,16 @@ class GlobeView: SCNView, FlatlandEventProtocol
         let MapView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if MapView == .Globe3D
         {
-            let HitObject = self.hitTest(Point, options: [.boundingBoxOnly: true])
+            //print("Mouse at \(Point.x),\(Point.y)")
+            let SearchOptions: [SCNHitTestOption: Any] =
+                [
+                    //.boundingBoxOnly: true,
+                    .searchMode: SCNHitTestSearchMode.closest.rawValue,
+                    .ignoreHiddenNodes: true,
+                    .ignoreChildNodes: false,
+                    .rootNode: self.EarthNode as Any
+                ]
+            let HitObject = self.hitTest(Point, options: SearchOptions)
             if HitObject.count > 0
             {
                 if let Node = HitObject[0].node as? SCNNode2
@@ -613,10 +633,17 @@ class GlobeView: SCNView, FlatlandEventProtocol
                         PreviousNodeID = NodeID
                         if let NodeData = NodeTables.GetItemData(For: NodeID)
                         {
+                            if Settings.GetBool(.HighlightNodeUnderMouse)
+                            {
+                                PreviousNode?.HideBoundingBox()
+                                Node.ShowBoundingBox()
+                            }
                             MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
+                            PreviousNode = Node
                         }
                         else
                         {
+                            PreviousNode?.HideBoundingBox()
                             Debug.Print("Did not find node data for \(NodeID)")
                         }
                     }
@@ -624,11 +651,13 @@ class GlobeView: SCNView, FlatlandEventProtocol
                 else
                 {
                     MainDelegate?.DisplayNodeInformation(ItemData: nil)
+                    PreviousNode?.HideBoundingBox()
                 }
             }
         }
     }
     
+    var PreviousNode: SCNNode2? = nil
     var PreviousNodeID: UUID? = nil
     
     // MARK: - GlobeProtocol functions
