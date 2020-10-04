@@ -1319,6 +1319,8 @@ class Utility
     ///                       used.
     /// - Parameter TextColor: The color of the word.
     /// - Parameter WithTag: Tag value to assign to the word. If nil, "WordLetterNode" is used.
+    /// - Parameter Flatness: The flatness value that determines the smoothness of the letters. Defaults
+    ///                       to 0.1.
     /// - Returns: `SCNNode` that contains all of the letters.
     public static func MakeFloatingWord2(Radius: Double, Word: String, Scale: CGFloat = 0.07,
                                          SpacingConstant: Double = 30.0,
@@ -1329,7 +1331,8 @@ class Utility
                                         TextColor: NSColor = NSColor.gray,
                                         TextSpecular: NSColor = NSColor.white,
                                         IsMetallic: Bool = false,
-                                         WithTag: String? = nil) -> [SCNNode]
+                                         WithTag: String? = nil,
+                                         Flatness: CGFloat = 0.1) -> [SCNNode]
     {
         var WordFont: NSFont = NSFont()
         if let SomeFont = TextFont
@@ -1348,6 +1351,7 @@ class Utility
         {
             let LetterSize = NSString(string: String(Letter)).size(withAttributes: FontAttribute)
             let LetterShape = SCNText(string: String(Letter), extrusionDepth: Extrusion)
+            LetterShape.flatness = 0.1
             LetterShape.font = WordFont
             LetterShape.firstMaterial?.diffuse.contents = TextColor
             LetterShape.firstMaterial?.specular.contents = TextSpecular
