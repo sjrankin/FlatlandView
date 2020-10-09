@@ -173,9 +173,25 @@ enum FlatConstants: Double, CaseIterable
     /// Number of segments in the sun.
     case SunSegmentCount = 50.0000001
     /// World Heritage Site radial size.
-    case WHSRadius = 2.0004455
+    case WHSRadius = 0.15000052
     /// World Heritage Site depth.
     case WHSDepth = 0.1000000056
+    /// Home star height.
+    case HomeStarHeight = 0.2200039
+    /// Home star base.
+    case HomeStarBase = 0.110000043
+    /// Home star Z value.
+    case HomeStarZ = 0.100000593
+    /// Small home star height.
+    case SmallStarHeight = 0.1500000049
+    /// Small home star base.
+    case SmallStarBase = 0.07500002958
+    /// Small home star Z value.
+    case SmallStarZ = 0.1600000059
+    /// Vertex count for the home star.
+    case HomeStarVertexCount = 5.0000000558958
+    /// Overall Z value for the home star.
+    case HomeStarOverallZ = 0.10000050069
 }
 
 // MARK: - Z level values for old-style 2D mode.
@@ -375,7 +391,7 @@ enum NodeScales2D: CGFloat
     /// Earthquake node scale.
     case EarthquakeScale = 0.75
     /// Scale of Unesco sites.
-    case UnescoScale = 0.08
+    case WorldHeritageSiteScale = 0.08
 }
 
 // MARK: - Text smoothness values.
