@@ -19,7 +19,7 @@ class FileIO
     ///            an undefined state.
     public static func Initialize()
     {
-        InstallUnescoDatabase()
+        InstallMappableDatabase()
         InstallEarthquakeHistoryDatabase()
         InitializeFileStructure()
     }
@@ -99,9 +99,9 @@ class FileIO
     
     public static let DatabaseDirectory = FileIONames.DatabaseDirectory.rawValue
     
-    /// Make sure the Unesco world heritage site database is installed.
+    /// Make sure the mappable site database is installed.
     /// - Warning: Fatal errors will be generated on file errors.
-    public static func InstallUnescoDatabase()
+    public static func InstallMappableDatabase()
     {
         var DBPath: URL!
         if !DirectoryExists(DatabaseDirectory)
@@ -118,14 +118,14 @@ class FileIO
                 fatalError("Error creating database directory \"\(DatabaseDirectory)\"")
             }
         }
-        let PathComponent = DatabaseDirectory + "/" + FileIONames.UnescoDatabase.rawValue
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.MappableDatabase.rawValue
         let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         if FileManager.default.fileExists(atPath: LookForExisting.path)
         {
-            Debug.Print("\"\(FileIONames.UnescoDatabase.rawValue)\" exists at \(LookForExisting.path)")
+            Debug.Print("\"\(FileIONames.MappableDatabase.rawValue)\" exists at \(LookForExisting.path)")
             return
         }
-        if let Source = Bundle.main.path(forResource: FileIONames.UnescoName.rawValue,
+        if let Source = Bundle.main.path(forResource: FileIONames.MappableName.rawValue,
                                          ofType: FileIONames.DatabaseExtension.rawValue)
         {
             let SourceURL = URL(fileURLWithPath: Source)
@@ -133,7 +133,7 @@ class FileIO
             do
             {
                 try FileManager.default.copyItem(at: SourceURL, to: DestDir)
-                Debug.Print("Installed Unesco database.")
+                Debug.Print("Installed \(FileIONames.MappableName) database.")
             }
             catch
             {
@@ -142,7 +142,7 @@ class FileIO
         }
         else
         {
-            fatalError("Did not find \(FileIONames.UnescoDatabase.rawValue) in bundle.")
+            fatalError("Did not find \(FileIONames.MappableDatabase.rawValue) in bundle.")
         }
     }
     
@@ -154,7 +154,7 @@ class FileIO
             //Nothing to do.
             return
         }
-        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/" + FileIONames.UnescoDatabase.rawValue)
+        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/" + FileIONames.MappableDatabase.rawValue)
         if FileManager.default.fileExists(atPath: LookForExisting.path)
         {
             DeleteFile(LookForExisting)
@@ -208,9 +208,9 @@ class FileIO
     
     /// Returns the URL for the Unesco database.
     /// - Returns: URL of the Unesco database on success, nil if not found.
-    public static func GetUnescoDatabaseURL() -> URL?
+    public static func GetMappableDatabaseURL() -> URL?
     {
-        let PathComponent = DatabaseDirectory + "/" + FileIONames.UnescoDatabase.rawValue
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.MappableDatabase.rawValue
         let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         return DBURL
     }
@@ -226,11 +226,11 @@ class FileIO
     
     /// Determines if the UNESCO database exists at its expected location.
     /// - Returns: True if the database is where it is expected to be, false if not.
-    public static func UnescoDatabaseExists() -> Bool
+    public static func MappableDatabaseExists() -> Bool
     {
         if DirectoryExists(DatabaseDirectory)
         {
-            let PathComponent = DatabaseDirectory + "/" + FileIONames.UnescoDatabase.rawValue
+            let PathComponent = DatabaseDirectory + "/" + FileIONames.MappableDatabase.rawValue
             let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
             if FileManager.default.fileExists(atPath: LookForExisting.path)
             {
