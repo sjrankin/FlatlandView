@@ -461,6 +461,13 @@ extension FlatView
                                     PointY,
                                     Double(FlatConstants.MainEarthquakeNodeHeight.rawValue) * 0.5 *
                                         Double(NodeScales2D.EarthquakeScale.rawValue))
+        ENode.RotateOnX = false
+        ENode.RotateOnY = false
+        ENode.RotateOnZ = true
+        
+        let Rotation = SCNAction.rotateBy(x: 0.0, y: 0.0, z: CGFloat(360.0.Radians), duration: 5.0)
+        let Forever = SCNAction.repeatForever(Rotation)
+        ENode.runAction(Forever)
         
         return ENode
     }
