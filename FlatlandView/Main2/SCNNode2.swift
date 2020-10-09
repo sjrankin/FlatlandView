@@ -109,6 +109,18 @@ class SCNNode2: SCNNode
     /// Node ID. Defaults to nil.
     var NodeID: UUID? = nil
     
+    override var scale: SCNVector3
+    {
+        get
+        {
+            return super.scale
+        }
+        set
+        {
+            super.scale = newValue
+        }
+    }
+    
     /// Propagate the parent's IDs to its children.
     func PropagateIDs()
     {
@@ -149,13 +161,18 @@ class SCNNode2: SCNNode
     
     /// Draw a bounding box around the node.
     /// - Note: Bounding boxes do not cast shadows.
+    /// - Note: The caller _must_ set `RotateOnX`, `RotateOnY` and/or `RotateOnZ` before calling
+    ///         this function if there are any changes to default behavior desired.
     /// - Parameter LineColor: The line color of the bounding box. Defaults to `NSColor.red`.
     /// - Parameter RotateBox: If true, the box rotates. If false, no rotation occurs. Defaults to `true`.
+    /// - Parameter RotationDuration: The time in seconds to rotate the bounding box. Ignored if `RotateBox`
+    ///                               is false.
     /// - Parameter LineThickness: The thickness of the lines making up the bounding box. Scaling the parent
     ///                            `SCNNode2` will affect the visual thickness of the bounding box lines.
     ///                            Defaults to `0.005`.
     func ShowBoundingBox(LineColor: NSColor = NSColor.red,
                          RotateBox: Bool = true,
+                         RotationDuration: Double = 3.0,
                          LineThickness: CGFloat = 0.005)
     {
         if !CanShowBoundingBox
@@ -219,12 +236,60 @@ class SCNNode2: SCNNode
         BoundingBoxLines.append(BoxNode)
         if RotateBox
         {
-            let Rotation = SCNAction.rotateBy(x: CGFloat(90.0.Radians),
-                                              y: CGFloat(90.0.Radians),
-                                              z: CGFloat(90.0.Radians),
-                                              duration: 3.0)
+            let XMultiplier = RotateOnX ? 1.0 : 0.0
+            let YMultiplier = RotateOnY ? 1.0 : 0.0
+            let ZMultiplier = RotateOnZ ? 1.0 : 0.0
+            let Rotation = SCNAction.rotateBy(x: CGFloat(90.0.Radians * XMultiplier),
+                                              y: CGFloat(90.0.Radians * YMultiplier),
+                                              z: CGFloat(90.0.Radians * ZMultiplier),
+                                              duration: RotationDuration)
             let RotateForever = SCNAction.repeatForever(Rotation)
             BoxNode.runAction(RotateForever)
+        }
+    }
+    
+    /// Holds the rotate on X axis flag.
+    private var _RotateOnX: Bool = true
+    /// Get or set the rotate bounding box on X axis flag.
+    public var RotateOnX: Bool
+    {
+        get
+        {
+            return _RotateOnX
+        }
+        set
+        {
+            _RotateOnX = newValue
+        }
+    }
+    
+    /// Holds the rotate on Y axis flag.
+    private var _RotateOnY: Bool = true
+    /// Get or set the rotate bounding box on Y axis flag.
+    public var RotateOnY: Bool
+    {
+        get
+        {
+            return _RotateOnY
+        }
+        set
+        {
+            _RotateOnY = newValue
+        }
+    }
+    
+    /// Holds the rotate on Z axis flag.
+    private var _RotateOnZ: Bool = true
+    /// Get or set the rotate bounding box on Z axis flag.
+    public var RotateOnZ: Bool
+    {
+        get
+        {
+            return _RotateOnZ
+        }
+        set
+        {
+            _RotateOnZ = newValue
         }
     }
     
