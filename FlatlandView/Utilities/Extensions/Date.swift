@@ -257,6 +257,36 @@ extension Date
         return "\(Day) \(MonthName) \(Year)"
     }
     
+    /// Converts the passed pretty date string (created with `PrettyDate`) to a Date.
+    /// - Parameter Pretty: The pretty string to convert. See `PrettyDate`.
+    /// - Returns: Date based on the contents of `Pretty`. Nil returned on error.
+    static func PrettyDateToDate(_ Pretty: String) -> Date?
+    {
+        let Parts = Pretty.split(separator: " ", omittingEmptySubsequences: true)
+        if Parts.count != 3
+        {
+            return nil
+        }
+        let MonthString = String(Parts[1])
+        if let MonthIndex = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].firstIndex(of: MonthString)
+        {
+            let DayString = String(Parts[0])
+            let Day = Int(DayString)
+            if Day == nil
+            {
+                return nil
+            }
+            let YearString = String(Parts[2])
+            let Year = Int(YearString)
+            if Year == nil
+            {
+                return nil
+            }
+            return DateFactory(Year: Year!, Month: MonthIndex + 1, Day: Day!)
+        }
+        return nil
+    }
+    
     /// Converts the passed date's date and time components into a pretty string.
     /// - Parameter From: The date whose date and time components will be used to generate a pretty string.
     /// - Returns: String value of the date and time components of `From`.
