@@ -12,45 +12,15 @@ import SQLite3
 
 extension Main2Controller
 {
-    /// Initialize the world heritage site database. This function only initializes the database
-    /// and does not load anything.
-    /// - Note: Call `GetAllSites` to load all data.
-    /// - Warning: A fatal error is generated on error.
-    public static func InitializeWorldHeritageSites()
-    {
-        if UnescoInitialized
-        {
-            return
-        }
-        UnescoInitialized = true
-        if let UnescoURL = FileIO.GetUnescoDatabaseURL()
-        {
-            if sqlite3_open_v2(UnescoURL.path, &Main2Controller.UnescoHandle,
-                               SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
-            {
-                fatalError("Error opening \(UnescoURL.path), \(String(cString: sqlite3_errmsg(Main2Controller.UnescoHandle!)))")
-            }
-        }
-        else
-        {
-            fatalError("Error getting URL for Unesco database.")
-        }
-        
-        #if false
-        /// Used to assign new IDs to World Heritage Sites. Always generates a fatal error. Not
-        /// intended for production code.
-        AssignSiteIDs()
-        print("Done")
-        #endif
-    }
+    // MARK: - World Heritage Site database-related code
     
     /// Return the number of Unesco world heritage sites in the database.
     /// - Returns: Number of world heritage sites in the database.
-    func SiteCount() -> Int
+    func WorldHeritageSiteCount() -> Int
     {
-        let GetCount = "SELECT COUNT(*) FROM Sites"
+        let GetCount = "SELECT COUNT(*) FROM \(MappableTableNames.UNESCOSites.rawValue)"
         var CountQuery: OpaquePointer? = nil
-        if sqlite3_prepare(Main2Controller.UnescoHandle, GetCount, -1, &CountQuery, nil) == SQLITE_OK
+        if sqlite3_prepare(Main2Controller.MappableHandle, GetCount, -1, &CountQuery, nil) == SQLITE_OK
         {
             while sqlite3_step(CountQuery) == SQLITE_ROW
             {
@@ -64,7 +34,7 @@ extension Main2Controller
     
     /// Return all Unesco world heritage site information.
     /// - Returns: Array of world heritage sites.
-    func GetAllSites() -> [WorldHeritageSite2]
+    func GetAllWorldHeritageSites() -> [WorldHeritageSite2]
     {
         return Main2Controller.GetAllSites()
     }
@@ -76,29 +46,33 @@ extension Main2Controller
     ///            the ID assignment.
     public static func AssignSiteIDs()
     {
-        let GetQuery = "SELECT * FROM Sites"
-        let QueryHandle = SetupQuery(DB: UnescoHandle, Query: GetQuery)
+        let GetQuery = "SELECT * FROM \(MappableTableNames.UNESCOSites.rawValue)"
+        print("GetQuery=\(GetQuery)")
+        let QueryHandle = SetupQuery(DB: MappableHandle, Query: GetQuery)
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
         {
             let UID = Int(sqlite3_column_int(QueryHandle, 0))
             let Old = String(cString: sqlite3_column_text(QueryHandle, 10))
             let NewRuntimeID = UUID()
             
-            let WriteUpdate = "UPDATE Sites SET RuntimeID = '\(NewRuntimeID.uuidString)' WHERE UID = \(UID);"
+            let WriteUpdate = "UPDATE \(MappableTableNames.UNESCOSites.rawValue) SET RuntimeID = '\(NewRuntimeID.uuidString)' WHERE UID = \(UID);"
             
             var UpdateHandle: OpaquePointer? = nil
-            if sqlite3_prepare_v2(UnescoHandle, WriteUpdate, -1, &UpdateHandle, nil) != SQLITE_OK
+            if sqlite3_prepare_v2(MappableHandle, WriteUpdate, -1, &UpdateHandle, nil) != SQLITE_OK
             {
-                fatalError("Error preparing \(WriteUpdate), \(sqlite3_errcode(UnescoHandle))")
+                let ExErrorCode = sqlite3_extended_errcode(MappableHandle)
+                let SQLErrorMessage = sqlite3_errmsg(MappableHandle)
+                let ErrorMessage = String(cString: SQLErrorMessage!)
+                fatalError("Error preparing \(WriteUpdate), \"\(ErrorMessage)\" [\(ExErrorCode)]")
             }
             if sqlite3_step(UpdateHandle) != SQLITE_DONE
             {
-                fatalError("Error updating \(WriteUpdate), \(sqlite3_errcode(UnescoHandle))")
+                fatalError("Error updating \(WriteUpdate), \(sqlite3_errcode(MappableHandle))")
             }
             print("Replaced \(Old) with \(NewRuntimeID.uuidString)")
             sqlite3_finalize(UpdateHandle)
         }
-        sqlite3_close(UnescoHandle!)
+        sqlite3_close(MappableHandle!)
         fatalError("End of AssignSiteIDs")
     }
     #endif
@@ -108,8 +82,8 @@ extension Main2Controller
     public static func GetAllSites() -> [WorldHeritageSite2]
     {
         var Results = [WorldHeritageSite2]()
-        let GetQuery = "SELECT * FROM Sites"
-        let QueryHandle = SetupQuery(DB: UnescoHandle, Query: GetQuery)
+        let GetQuery = "SELECT * FROM \(MappableTableNames.UNESCOSites.rawValue)"
+        let QueryHandle = SetupQuery(DB: MappableHandle, Query: GetQuery)
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
         {
             let UID = Int(sqlite3_column_int(QueryHandle, 0))
@@ -139,30 +113,6 @@ extension Main2Controller
         }
         Main2Controller.LastReadList = Results
         return Results
-    }
-    
-    /// Set up a query in to the database.
-    /// - Parameter DB: The handle of the database for the query.
-    /// - Parameter Query: The query string.
-    /// - Returns: Handle for the query. Valid only for the same database the query was generated for.
-    static func SetupQuery(DB: OpaquePointer?, Query: String) -> OpaquePointer?
-    {
-        if DB == nil
-        {
-            return nil
-        }
-        if Query.isEmpty
-        {
-            return nil
-        }
-        var QueryHandle: OpaquePointer? = nil
-        if sqlite3_prepare(DB, Query, -1, &QueryHandle, nil) != SQLITE_OK
-        {
-            let LastSQLErrorMessage = String(cString: sqlite3_errmsg(DB))
-            print("Error preparing query \"\(Query)\": \(LastSQLErrorMessage)")
-            return nil
-        }
-        return QueryHandle
     }
     
     private static var LastReadList = [WorldHeritageSite2]()
