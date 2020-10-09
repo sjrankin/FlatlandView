@@ -219,8 +219,9 @@ class Stenciler
     {
         let ScaleFactor = NSScreen.main!.backingScaleFactor
         var Working = Image
-        let CityList = Cities()
-        let CitiesToPlot = CityList.FilteredCities()
+//        let CityList = Cities()
+//        let CitiesToPlot = CityList.FilteredCities()
+        let CitiesToPlot = CityManager.FilteredCities()
         var PlotMe = [TextRecord]()
         let CityFontRecord = Settings.GetString(.CityFontName, "Avenir")
         let CityFontName = Settings.ExtractFontName(From: CityFontRecord)!
@@ -238,7 +239,8 @@ class Stenciler
                                                                 Height: Int(Image.size.height))
             let Location = NSPoint(x: CityPointLocation.X + Int(Constants.StencilCityTextOffset.rawValue),
                                    y: CityPointLocation.Y)
-            let CityColor = Cities.ColorForCity(City)
+            //let CityColor = Cities.ColorForCity(City)
+            let CityColor = CityManager.ColorForCity(City)
             var LatitudeFontOffset = CGFloat(abs(City.Latitude) / 90.0)
             LatitudeFontOffset = CGFloat(Constants.StencilCitySize.rawValue) * LatitudeFontOffset
             let CityFont = NSFont(name: CityFontName, size: FontSize + LatitudeFontOffset)!
@@ -259,9 +261,9 @@ class Stenciler
     {
         let Working = Image
         let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
-        MainView.InitializeWorldHeritageSites()
-        let Sites = MainView.GetAllSites()
-        var FinalList = [WorldHeritageSite]()
+        //MainView.InitializeWorldHeritageSites()
+        let Sites = Main2Controller.GetAllSites()
+        var FinalList = [WorldHeritageSite2]()
         for Site in Sites
         {
             switch TypeFilter
