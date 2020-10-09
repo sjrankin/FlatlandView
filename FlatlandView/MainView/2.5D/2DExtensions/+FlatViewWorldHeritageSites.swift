@@ -26,7 +26,7 @@ extension FlatView
                                               Default: .Either)
             //MainView.InitializeWorldHeritageSites()
             //let Sites = MainView.GetAllSites()
-            let Sites = Main2Controller.GetAllSites()
+            let Sites = MainController.GetAllSites()
             var FinalList = [WorldHeritageSite2]()
             for Site in Sites
             {

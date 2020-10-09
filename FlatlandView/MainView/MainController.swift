@@ -1,5 +1,5 @@
 //
-//  Main2Controller.swift
+//  MainController.swift
 //  FlatlandView
 //
 //  Created by Stuart Rankin on 9/13/20.
@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 /// Controller for the view for the main window in Flatland.
-class Main2Controller: NSViewController
+class MainController: NSViewController
 {
     /// Initialize the main window and program.
     override func viewDidLoad()
@@ -156,7 +156,7 @@ class Main2Controller: NSViewController
     {
         let NewShow = Settings.InvertBool(.ShowDetailedInformation, SendNotification: false)
         POIView.isHidden = !NewShow
-        if let Window = self.view.window?.windowController as? Main2Window
+        if let Window = self.view.window?.windowController as? MainWindow
         {
             let NewImageName = NewShow ? "BinocularsIconShowing" : "Binoculars"
             Window.ChangeShowInfoImage(To: NSImage(named: NewImageName)!)

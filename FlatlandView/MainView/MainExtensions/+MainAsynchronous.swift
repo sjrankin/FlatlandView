@@ -1,5 +1,5 @@
 //
-//  +Main2Asynchronous.swift
+//  +MainAsynchronous.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/19/20.
@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-extension Main2Controller: AsynchronousDataProtocol
+extension MainController: AsynchronousDataProtocol
 {
     // MARK: - Asynchronous data protocol functions
     

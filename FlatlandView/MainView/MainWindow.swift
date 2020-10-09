@@ -1,5 +1,5 @@
 //
-//  Main2Window.swift
+//  MainWindow.swift
 //  FlatlandView
 //
 //  Created by Stuart Rankin on 9/13/20.
@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import CoreGraphics
 
-class Main2Window: NSWindowController, NSWindowDelegate
+class MainWindow: NSWindowController, NSWindowDelegate
 {
     override func windowDidLoad()
     {
@@ -20,7 +20,7 @@ class Main2Window: NSWindowController, NSWindowDelegate
     /// Handle resize window events.
     func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize
     {
-        let VC = window?.contentViewController as? Main2Controller
+        let VC = window?.contentViewController as? MainController
         VC?.WindowResized(To: frameSize)
         return frameSize
     }
@@ -56,14 +56,14 @@ class Main2Window: NSWindowController, NSWindowDelegate
     func windowDidMove(_ notification: Notification)
     {
         let WindowOrigin = WindowLocation()
-        let VC = window?.contentViewController as? Main2Controller
+        let VC = window?.contentViewController as? MainController
         VC?.WindowMovedTo(WindowOrigin)
     }
     
     /// Handle closing window events.
     func windowWillClose(_ notification: Notification)
     {
-        let VC = window?.contentViewController as? Main2Controller
+        let VC = window?.contentViewController as? MainController
         VC?.WillClose()
     }
     

@@ -1037,8 +1037,8 @@ extension GlobeView
             }
             let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
 //            Main2Controller.InitializeWorldHeritageSites()
-            Main2Controller.InitializeMappableDatabase()
-            let Sites = Main2Controller.GetAllSites()
+            MainController.InitializeMappableDatabase()
+            let Sites = MainController.GetAllSites()
             var FinalList = [WorldHeritageSite2]()
             for Site in Sites
             {

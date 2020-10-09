@@ -1,5 +1,5 @@
 //
-//  +Main2Initialization.swift
+//  +MainInitialization.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/18/20.
@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-extension Main2Controller
+extension MainController
 {
     /// Get initialization data from the run-time environment.
     func InitializationFromEnvironment()
@@ -48,8 +48,8 @@ extension Main2Controller
         //Initialize item data viewer.
         InitializeItemViewer()
 
-        Main2Controller.InitializeMappableDatabase()
-        WorldHeritageSites = Main2Controller.GetAllSites()
+        MainController.InitializeMappableDatabase()
+        WorldHeritageSites = MainController.GetAllSites()
         POIManager.Initialize()
         CityManager.Initialize()
         NodeTables.Initialize(Unesco: WorldHeritageSites!)
@@ -227,41 +227,41 @@ extension Main2Controller
         }
         
         let ViewWindow = view.window?.windowController
-        if let MainController = ViewWindow as? Main2Window
+        if let MainController = ViewWindow as? MainWindow
         {
             UptimeValue.stringValue = "0"
             switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self)!
             {
                 case HourValueTypes.None:
-                    (view.window?.windowController as? Main2Window)!.HourSegment.selectedSegment = 0
+                    (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 0
                     
                 case .RelativeToLocation:
-                    (view.window?.windowController as? Main2Window)!.HourSegment.selectedSegment = 3
+                    (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 3
                     
                 case .RelativeToNoon:
-                    (view.window?.windowController as? Main2Window)!.HourSegment.selectedSegment = 2
+                    (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 2
                     
                 case .Solar:
-                    (view.window?.windowController as? Main2Window)!.HourSegment.selectedSegment = 1
+                    (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 1
             }
             
             switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self)!
             {
                 case .FlatNorthCenter:
-                    (view.window?.windowController as? Main2Window)!.ViewSegment.selectedSegment = 0
+                    (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 0
                     
                 case .FlatSouthCenter:
-                    (view.window?.windowController as? Main2Window)!.ViewSegment.selectedSegment = 1
+                    (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 1
                     
                 case .Globe3D:
-                    (view.window?.windowController as? Main2Window)!.ViewSegment.selectedSegment = 2
+                    (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 2
                     
                 case .CubicWorld:
-                    (view.window?.windowController as? Main2Window)!.ViewSegment.selectedSegment = 3
+                    (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 3
             }
             
             let HaveLocalLocation = Settings.HaveLocalLocation()
-            (view.window?.windowController as? Main2Window)!.HourSegment.setEnabled(HaveLocalLocation, forSegment: 3)
+            (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(HaveLocalLocation, forSegment: 3)
         }
         
         MainTimeLabelBottom.wantsLayer = true

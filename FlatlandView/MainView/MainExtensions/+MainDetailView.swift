@@ -1,5 +1,5 @@
 //
-//  +Main2DetailView.swift
+//  +MainDetailView.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/29/20.
@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-extension Main2Controller
+extension MainController
 {
     // MARK: - Code to run the item viewer.
     
@@ -29,7 +29,7 @@ extension Main2Controller
         {
             ShowEmptyView()
         }
-        if let Window = self.view.window?.windowController as? Main2Window
+        if let Window = self.view.window?.windowController as? MainWindow
         {
             let NewImageName = ShowViewer ? "BinocularsIconShowing" : "Binoculars"
             Window.ChangeShowInfoImage(To: NSImage(named: NewImageName)!)
@@ -117,6 +117,8 @@ extension Main2Controller
             case .WorldHeritageSite:
                 NumericLabel.stringValue = "Year"
                 NumericValue.stringValue = "\(Int(ItemToDisplay.Numeric))"
+                NameLabel.stringValue = "Site"
+                NameValue.stringValue = ItemToDisplay.Name
                 
             case .UserPOI:
                 NumericLabel.stringValue = ""

@@ -1,5 +1,5 @@
 //
-//  +Main2WorldHeritageSites.swift
+//  +MainWorldHeritageSites.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/22/20.
@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SQLite3
 
-extension Main2Controller
+extension MainController
 {
     // MARK: - World Heritage Site database-related code
     
@@ -20,7 +20,7 @@ extension Main2Controller
     {
         let GetCount = "SELECT COUNT(*) FROM \(MappableTableNames.UNESCOSites.rawValue)"
         var CountQuery: OpaquePointer? = nil
-        if sqlite3_prepare(Main2Controller.MappableHandle, GetCount, -1, &CountQuery, nil) == SQLITE_OK
+        if sqlite3_prepare(MainController.MappableHandle, GetCount, -1, &CountQuery, nil) == SQLITE_OK
         {
             while sqlite3_step(CountQuery) == SQLITE_ROW
             {
@@ -36,7 +36,7 @@ extension Main2Controller
     /// - Returns: Array of world heritage sites.
     func GetAllWorldHeritageSites() -> [WorldHeritageSite2]
     {
-        return Main2Controller.GetAllSites()
+        return MainController.GetAllSites()
     }
     
     #if false
@@ -111,7 +111,7 @@ extension Main2Controller
                                          Category, ShortCategory, Countries, RuntimeID)
             Results.append(Site)
         }
-        Main2Controller.LastReadList = Results
+        MainController.LastReadList = Results
         return Results
     }
     

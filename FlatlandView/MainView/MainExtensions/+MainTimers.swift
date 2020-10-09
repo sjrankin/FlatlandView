@@ -1,5 +1,5 @@
 //
-//  +Main2Timers.swift
+//  +MainTimers.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/18/20.
@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-extension Main2Controller
+extension MainController
 {
     // MARK: - Main Timer
     

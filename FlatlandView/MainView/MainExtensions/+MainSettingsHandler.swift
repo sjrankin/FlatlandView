@@ -1,5 +1,5 @@
 //
-//  +Main2SettingsHandler.swift
+//  +MainSettingsHandler.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/18/20.
@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-extension Main2Controller: SettingChangedProtocol
+extension MainController: SettingChangedProtocol
 {
     // MARK: - Setting changed handler
     

@@ -9,7 +9,7 @@
         <!--Window Controller-->
         <scene sceneID="Bb5-7u-kE3">
             <objects>
-                <windowController storyboardIdentifier="Main2" id="1O0-m9-x0j" customClass="Main2Window" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="Main" id="1O0-m9-x0j" customClass="MainWindow" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="FlatlandView" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="XsV-eN-iPT">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -402,10 +402,10 @@
             </objects>
             <point key="canvasLocation" x="170" y="-433"/>
         </scene>
-        <!--Main2 Controller-->
+        <!--Main Controller-->
         <scene sceneID="8wk-6q-T9c">
             <objects>
-                <viewController id="BrD-hm-rhT" customClass="Main2Controller" customModule="Flatland" sceneMemberID="viewController">
+                <viewController id="BrD-hm-rhT" customClass="MainController" customModule="Flatland" sceneMemberID="viewController">
                     <view key="view" id="6id-Tb-uKs" customClass="ParentView" customModule="Flatland" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>

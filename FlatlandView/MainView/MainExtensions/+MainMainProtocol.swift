@@ -1,5 +1,5 @@
 //
-//  +Main2MainProtocol.swift
+//  +MainMainProtocol.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/18/20.
@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-extension Main2Controller: MainProtocol
+extension MainController: MainProtocol
 {
     // MARK: - Main protocol functions
     
@@ -73,7 +73,7 @@ extension Main2Controller: MainProtocol
     {
         if let Window = self.view.window
         {
-            if let MainWindow = Window.windowController as? Main2Window
+            if let MainWindow = Window.windowController as? MainWindow
             {
                 var Index = 0
                 switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)

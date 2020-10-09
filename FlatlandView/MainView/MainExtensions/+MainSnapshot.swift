@@ -1,5 +1,5 @@
 //
-//  +Main2Snapshot.swift
+//  +MainSnapshot.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/18/20.
@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-extension Main2Controller
+extension MainController
 {
     /// Get a snapshot of the client window and save it.
     /// - Notes:

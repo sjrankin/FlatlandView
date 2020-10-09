@@ -1,5 +1,5 @@
 //
-//  +Main2TimeAndSun.swift
+//  +MainTimeAndSun.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/18/20.
@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-extension Main2Controller
+extension MainController
 {
     /// Update the location of the sun. The sun can be on top or on the bottom and swaps places
     /// with the time label.

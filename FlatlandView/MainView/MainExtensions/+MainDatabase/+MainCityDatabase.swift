@@ -1,5 +1,5 @@
 //
-//  +Main2CityDatabase.swift
+//  +MainCityDatabase.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 10/6/20.
@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SQLite3
 
-extension Main2Controller
+extension MainController
 {
     // MARK: - City database-related code.
     
@@ -37,7 +37,7 @@ extension Main2Controller
         }
         let GetCount = "SELECT COUNT(*) FROM \(TableName)"
         var CountQuery: OpaquePointer? = nil
-        if sqlite3_prepare(Main2Controller.MappableHandle, GetCount, -1, &CountQuery, nil) == SQLITE_OK
+        if sqlite3_prepare(MainController.MappableHandle, GetCount, -1, &CountQuery, nil) == SQLITE_OK
         {
             while sqlite3_step(CountQuery) == SQLITE_ROW
             {

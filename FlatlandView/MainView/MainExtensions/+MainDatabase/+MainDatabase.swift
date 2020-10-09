@@ -1,5 +1,5 @@
 //
-//  +Main2Database.swift
+//  +MainDatabase.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 10/6/20.
@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SQLite3
 
-extension Main2Controller
+extension MainController
 {
     /// Initialize the mappable item database. Mappable items are locations (or things) that can be mapped onto
     /// Flatland.
@@ -28,10 +28,10 @@ extension Main2Controller
         MappableInitialized = true
         if let MappableURL = FileIO.GetMappableDatabaseURL()
         {
-            if sqlite3_open_v2(MappableURL.path, &Main2Controller.MappableHandle,
+            if sqlite3_open_v2(MappableURL.path, &MainController.MappableHandle,
                                SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
             {
-                fatalError("Error openting \(MappableURL.path), \(String(cString: sqlite3_errmsg(Main2Controller.MappableHandle!)))")
+                fatalError("Error openting \(MappableURL.path), \(String(cString: sqlite3_errmsg(MainController.MappableHandle!)))")
             }
         }
         else
