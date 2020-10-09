@@ -61,32 +61,45 @@ extension FlatView
         RemoveNodeWithName(NodeNames2D.CityNode.rawValue, FromParent: CityPlane)
         RemoveNodeWithName(NodeNames2D.HomeNode.rawValue, FromParent: CityPlane)
         RemoveNodeWithName(NodeNames2D.UserPOI.rawValue, FromParent: CityPlane)
-        let CityList = Cities()
-        CitiesToPlot = CityList.FilteredCities()
+        CitiesToPlot = CityManager.FilteredCities()
         
         if Settings.GetBool(.ShowUserLocations)
         {
-            let UserLocations = Settings.GetLocations()
-            for (UserPOIID, Location, Name, Color) in UserLocations
+            let POIList = POIManager.GetPOIs(By: .UserPOI)
+            for SomePOI in POIList
             {
-                NodeTables.AddUserPOI(ID: UserPOIID, Name: Name, Location: Location)
-                let UserCity = City(Continent: "NoName", Country: "No Name", Name: Name, Population: nil,
-                                    MetroPopulation: nil, Latitude: Location.Latitude, Longitude: Location.Longitude)
-                UserCity.CityID = UserPOIID
-                UserCity.CityColor = Color
-                UserCity.IsUserCity = true
-                CitiesToPlot.append(UserCity)
+                if SomePOI.POIType == POITypes.UserPOI.rawValue
+                {
+                    print("Adding POI \(SomePOI.Name)")
+                    NodeTables.AddUserPOI(ID: SomePOI.POIID, Name: SomePOI.Name, Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude))
+                    let ToPlot = City2()
+                    ToPlot.Name = SomePOI.Name
+                    ToPlot.CityID = SomePOI.POIID
+                    ToPlot.Latitude = SomePOI.Latitude
+                    ToPlot.Longitude = SomePOI.Longitude
+                    ToPlot.CityColor = SomePOI.POIColor
+                    ToPlot.IsUserCity = true
+                    CitiesToPlot.append(ToPlot)
+                    let UserCity = PlotLocationAsCone(Latitude: ToPlot.Latitude, Longitude: ToPlot.Longitude, Radius: Radius,
+                                                      WithColor: ToPlot.CityColor)
+                    UserCity.name = NodeNames2D.UserPOI.rawValue
+                    UserCity.NodeID = SomePOI.POIID
+                    UserCity.NodeClass = UUID(uuidString: NodeClasses.UserPOI.rawValue)!
+                    CityPlane.addChildNode(UserCity)
+                    NodesWithShadows.append(UserCity)
+                }
             }
         }
         
         let UseMetro = Settings.GetEnum(ForKey: .PopulationType, EnumType: PopulationTypes.self, Default: .Metropolitan) == .Metropolitan
-        let (Max, Min) = Cities.GetPopulationsIn(CityList: CitiesToPlot,
-                                                 UseMetroPopulation: UseMetro)
+        let (Max, Min) = CityManager.GetPopulationsIn(CityList: CitiesToPlot, UseMetroPopulation: UseMetro)
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         for City in CitiesToPlot
         {
             if City.IsUserCity
             {
+                /*
+                print("Plotting POI \(City.Name), color=\(City.CityColor.Hex), ID=\(City.CityID.uuidString)")
                 let UserCity = PlotLocationAsCone(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                                   WithColor: City.CityColor)
                 UserCity.name = NodeNames2D.UserPOI.rawValue
@@ -94,12 +107,14 @@ extension FlatView
                 UserCity.NodeClass = UUID(uuidString: NodeClasses.UserPOI.rawValue)!
                 CityPlane.addChildNode(UserCity)
                 NodesWithShadows.append(UserCity)
+ */
             }
             else
             {
                 if Settings.GetBool(.ShowCities)
                 {
-                    var CityColor = Cities.ColorForCity(City)
+                    var CityColor = CityManager.ColorForCity(City)
+//                    var CityColor = Cities.ColorForCity(City)
                     if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
                     {
                         CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
@@ -124,22 +139,17 @@ extension FlatView
         if Settings.GetBool(.ShowHomeLocation)
         {
             NodeTables.RemoveUserHome()
-            if let HomeLatitude = Settings.GetDoubleNil(.LocalLatitude)
+            let Homes = POIManager.GetPOIs(By: .Home)
+            for Home in Homes
             {
-                if let HomeLongitude = Settings.GetDoubleNil(.LocalLongitude)
-                {
-                    NodeTables.AddHome(ID: NodeTables.HomeID,
-                                       Name: "Home location",
-                                       Location: GeoPoint(HomeLatitude, HomeLongitude))
-                    let HomeNode = PlotLocationAsExtrusion(Latitude: HomeLatitude, Longitude: HomeLongitude,
-                                                           Radius: Radius,
-                                                           Scale: FlatConstants.HomeSizeScale.rawValue,
-                                                           WithColor: Settings.GetColor(.HomeColor, NSColor.green))
-                    HomeNode.NodeID = NodeTables.HomeID
-                    HomeNode.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
-                    CityPlane.addChildNode(HomeNode)
-                    NodesWithShadows.append(HomeNode)
-                }
+                NodeTables.AddHome(ID: Home.POIID, Name: "Home location", Location: GeoPoint(Home.Latitude, Home.Longitude))
+                let HomeNode = PlotLocationAsExtrusion(Latitude: Home.Latitude, Longitude: Home.Longitude,
+                                                       Radius: Radius, Scale: FlatConstants.HomeSizeScale.rawValue,
+                                                       WithColor: Settings.GetColor(.HomeColor, NSColor.green))
+                HomeNode.NodeID = Home.POIID
+                HomeNode.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
+                CityPlane.addChildNode(HomeNode)
+                NodesWithShadows.append(HomeNode)
             }
         }
     }
