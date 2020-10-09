@@ -48,9 +48,10 @@ extension Main2Controller
         //Initialize item data viewer.
         InitializeItemViewer()
 
-        
-        Main2Controller.InitializeWorldHeritageSites()
+        Main2Controller.InitializeMappableDatabase()
         WorldHeritageSites = Main2Controller.GetAllSites()
+        POIManager.Initialize()
+        CityManager.Initialize()
         NodeTables.Initialize(Unesco: WorldHeritageSites!)
         
         Main2DView.InitializeLocations()
