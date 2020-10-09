@@ -19,13 +19,13 @@ class CustomCityController: NSViewController, NSTableViewDelegate, NSTableViewDa
         UpdateTables()
     }
     
-    var CityDictionary = [UUID: City]()
+    var CityDictionary = [UUID: City2]()
     var CustomCities = [UUID]()
     var CurrentAllCities = [UUID]()
     
     func MakeCityDictionary()
     {
-        for City in CitiesData.RawCityList
+        for City in CityManager.AllCities!
         {
             CityDictionary[City.CityID] = City
         }
@@ -103,7 +103,7 @@ class CustomCityController: NSViewController, NSTableViewDelegate, NSTableViewDa
         CustomCityTable.reloadData()
     }
     
-    var FinalAvailable = [City]()
+    var FinalAvailable = [City2]()
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
