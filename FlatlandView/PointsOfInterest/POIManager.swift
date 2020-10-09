@@ -13,7 +13,7 @@ class POIManager
 {
     public static func Initialize()
     {
-        AllPOIs = Main2Controller.GetAllPOIs()
+        AllPOIs = MainController.GetAllPOIs()
     }
     
     public static var AllPOIs: [POI]? = nil
