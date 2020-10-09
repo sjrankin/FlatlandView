@@ -262,7 +262,7 @@ class Stenciler
         let Working = Image
         let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
         //MainView.InitializeWorldHeritageSites()
-        let Sites = Main2Controller.GetAllSites()
+        let Sites = MainController.GetAllSites()
         var FinalList = [WorldHeritageSite2]()
         for Site in Sites
         {
