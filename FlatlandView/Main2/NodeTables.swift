@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SceneKit
 
-/// This class maintains a dictionary of dictionaries of `SCNNode` IDs and related data for use when the
+/// This class maintains a dictionary of dictionaries of `SCNNode2` IDs and related data for use when the
 /// user wants more information about a given visual node.
 class NodeTables
 {
@@ -21,7 +21,7 @@ class NodeTables
     /// - Parameter Unesco: Array of World Heritage Sites.
     public static func Initialize(Unesco: [WorldHeritageSite2])
     {
-        for SomeCity in CitiesData.RawCityList
+        for SomeCity in CityManager.AllCities!
         {
             CityTable[SomeCity.CityID] = DisplayItem(ID: SomeCity.CityID, ItemType: .City, Name: SomeCity.Name,
                                                      Numeric: Double(SomeCity.GetPopulation()),
@@ -126,79 +126,54 @@ class NodeTables
         MiscTable.removeAll()
     }
     
-    /// Determines the class type of the pass item ID.
-    /// - Parameter Item: The item ID whose class type is returned.
-    /// - Returns: The item type of the passed ID.
-    public static func LocationClass(Item ID: UUID) -> ItemTypes
-    {
-        if QuakeTable[ID] != nil
-        {
-            return .Earthquake
-        }
-        if CityTable[ID] != nil
-        {
-            return .City
-        }
-        if HomeTable[ID] != nil
-        {
-            return .Home
-        }
-        if POITable[ID] != nil
-        {
-            return .UserPOI
-        }
-        if MiscTable[ID] != nil
-        {
-            return .Miscellaneous
-        }
-        #if true
-        print("UNESCOTable.count=\(UNESCOTable.count)")
-        for (Key, _) in UNESCOTable
-        {
-            if Key == ID
-            {
-                return .WorldHeritageSite
-            }
-        }
-        #else
-        if UNESCOTable[ID] != nil
-        {
-            return .WorldHeritageSite
-        }
-        #endif
-        return .Unknown
-    }
-    
     /// Return the associated data for the passed ID.
     /// - Parameter For: The ID of the item whose data will be returned.
     /// - Returns: The associated data on success, nil if not found.
     public static func GetItemData(For ID: UUID) -> DisplayItem?
     {
-        let TableType = LocationClass(Item: ID)
-        print("\(ID) class is \(TableType)")
-        switch TableType
+        for (ItemID, ItemData) in QuakeTable
         {
-            case .City:
-                return CityTable[ID]
-                
-            case .Earthquake:
-                return QuakeTable[ID]
-                
-            case .Home:
-                return HomeTable[ID]
-                
-            case .UserPOI:
-                return POITable[ID]
-                
-            case .WorldHeritageSite:
-                return UNESCOTable[ID]
-                
-            case .Miscellaneous:
-                return MiscTable[ID]
-                
-            default:
-                return nil
+            if ItemID == ID
+            {
+                return ItemData
+            }
         }
+        for (ItemID, ItemData) in CityTable
+        {
+            if ItemID == ID
+            {
+                return ItemData
+            }
+        }
+        for (ItemID, ItemData) in HomeTable
+        {
+            if ItemID == ID
+            {
+                return ItemData
+            }
+        }
+        for (ItemID, ItemData) in POITable
+        {
+            if ItemID == ID
+            {
+                return ItemData
+            }
+        }
+        for (ItemID, ItemData) in MiscTable
+        {
+            if ItemID == ID
+            {
+                return ItemData
+            }
+        }
+        for (ItemID, ItemData) in UNESCOTable
+        {
+            if ItemID == ID
+            {
+                return ItemData
+            }
+        }
+        return nil
     }
     
     /// Get the number of entries in a class table.
