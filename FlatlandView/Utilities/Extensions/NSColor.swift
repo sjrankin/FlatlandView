@@ -19,16 +19,33 @@ extension NSColor
     ///         are all hexidecimal values. Badly formatted strings will result in nil
     ///         being returned.
     /// - Parameter HexString: The string to use as the source value for the color.
+    /// - Parameter RGBA: Determines the expected order of the channels. If this parameter is `true`, channels
+    ///                   are expected in RGBA order. If this parameter is false, channels are expected in
+    ///                   ARGB order.
     /// - Returns: Nil on error, UIColor on success.
-    convenience init?(HexString: String)
+    convenience init?(HexString: String, RGBA: Bool = true)
     {
-        if let (Red, Green, Blue, Alpha) = Utility.ColorChannelsFrom(HexString)
+        if RGBA
         {
-            self.init(red: Red, green: Green, blue: Blue, alpha: Alpha)
+            if let (Red, Green, Blue, Alpha) = Utility.ColorChannelsFromRGBA(HexString)
+            {
+                self.init(red: Red, green: Green, blue: Blue, alpha: Alpha)
+            }
+            else
+            {
+                return nil
+            }
         }
         else
         {
-            return nil
+            if let (Red, Green, Blue, Alpha) = Utility.ColorChannelsFromARGB(HexString)
+            {
+                self.init(red: Red, green: Green, blue: Blue, alpha: Alpha)
+            }
+            else
+            {
+                return nil
+            }
         }
     }
     
