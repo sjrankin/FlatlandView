@@ -687,7 +687,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
     var WHSNodeList = [SCNNode2?]()
     var GridImage: NSImage? = nil
     var EarthquakeList = [Earthquake]()
-    var CitiesToPlot = [City]()
+    var CitiesToPlot = [City2]()
     
     let TextureMap: [EarthquakeTextures: String] =
     [
