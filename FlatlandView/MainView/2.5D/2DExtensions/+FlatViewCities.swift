@@ -70,7 +70,6 @@ extension FlatView
             {
                 if SomePOI.POIType == POITypes.UserPOI.rawValue
                 {
-                    print("Adding POI \(SomePOI.Name)")
                     NodeTables.AddUserPOI(ID: SomePOI.POIID, Name: SomePOI.Name, Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude))
                     let ToPlot = City2()
                     ToPlot.Name = SomePOI.Name
@@ -96,43 +95,26 @@ extension FlatView
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         for City in CitiesToPlot
         {
-            if City.IsUserCity
+            if Settings.GetBool(.ShowCities)
             {
-                /*
-                print("Plotting POI \(City.Name), color=\(City.CityColor.Hex), ID=\(City.CityID.uuidString)")
-                let UserCity = PlotLocationAsCone(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                                  WithColor: City.CityColor)
-                UserCity.name = NodeNames2D.UserPOI.rawValue
-                UserCity.NodeID = City.CityID
-                UserCity.NodeClass = UUID(uuidString: NodeClasses.UserPOI.rawValue)!
-                CityPlane.addChildNode(UserCity)
-                NodesWithShadows.append(UserCity)
- */
-            }
-            else
-            {
-                if Settings.GetBool(.ShowCities)
+                var CityColor = CityManager.ColorForCity(City)
+                if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
                 {
-                    var CityColor = CityManager.ColorForCity(City)
-//                    var CityColor = Cities.ColorForCity(City)
-                    if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
-                    {
-                        CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
-                    }
-                    if Settings.GetBool(.ShowCitiesByPopulation)
-                    {
-                        CityColor = Settings.GetColor(.PopulationColor, NSColor.Sunglow)
-                    }
-                    var MinSize = FlatConstants.CitySphereRadius.rawValue
-                    let Percent = Double(City.GetPopulation()) / Double(Max)
-                    MinSize = MinSize + ((MinSize  * FlatConstants.RelativeCitySizeAdjustment.rawValue) * Percent)
-                    let CityNode = PlotLocationAsSphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                                        WithColor: CityColor, RelativeSize: CGFloat(MinSize))
-                    CityNode.NodeID = City.CityID
-                    CityNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
-                    CityPlane.addChildNode(CityNode)
-                    NodesWithShadows.append(CityNode)
+                    CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
                 }
+                if Settings.GetBool(.ShowCitiesByPopulation)
+                {
+                    CityColor = Settings.GetColor(.PopulationColor, NSColor.Sunglow)
+                }
+                var MinSize = FlatConstants.CitySphereRadius.rawValue
+                let Percent = Double(City.GetPopulation()) / Double(Max)
+                MinSize = MinSize + ((MinSize  * FlatConstants.RelativeCitySizeAdjustment.rawValue) * Percent)
+                let CityNode = PlotLocationAsSphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                                    WithColor: CityColor, RelativeSize: CGFloat(MinSize))
+                CityNode.NodeID = City.CityID
+                CityNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
+                CityPlane.addChildNode(CityNode)
+                NodesWithShadows.append(CityNode)
             }
         }
         
@@ -282,22 +264,26 @@ extension FlatView
     func PlotLocationAsExtrusion(Latitude: Double, Longitude: Double, Radius: Double, Scale: Double,
                                  WithColor: NSColor) -> SCNNode2
     {
-        let Star = SCNNode2(geometry: SCNStar.Geometry(VertexCount: 5, Height: 7.0, Base: 3.5, ZHeight: 4.0))
-        Star.scale = SCNVector3(Scale, Scale, Scale)
+        let Star = SCNNode2(geometry: SCNStar.Geometry(VertexCount: Int(FlatConstants.HomeStarVertexCount.rawValue),
+                                                       Height: FlatConstants.HomeStarHeight.rawValue,
+                                                       Base: FlatConstants.HomeStarBase.rawValue,
+                                                       ZHeight: FlatConstants.HomeStarZ.rawValue))
         Star.castsShadow = true
         Star.name = NodeNames2D.HomeNode.rawValue
-        Star.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
+        Star.categoryBitMask = LightMasks2D.Polar.rawValue
         Star.geometry?.firstMaterial?.diffuse.contents = WithColor
-        /*
         if Settings.GetBool(.CityNodesGlow)
         {
             Star.geometry?.firstMaterial?.selfIllumination.contents = WithColor
         }
- */
-        let SmallStar = SCNNode2(geometry: SCNStar.Geometry(VertexCount: 5, Height: 5.0, Base: 2.5, ZHeight: 5.5))
+        
+        let SmallStar = SCNNode2(geometry: SCNStar.Geometry(VertexCount: Int(FlatConstants.HomeStarVertexCount.rawValue),
+                                                            Height: FlatConstants.SmallStarHeight.rawValue,
+                                                            Base: FlatConstants.SmallStarBase.rawValue,
+                                                            ZHeight: FlatConstants.SmallStarZ.rawValue))
         SmallStar.castsShadow = true
         SmallStar.name = NodeNames2D.HomeNode.rawValue
-        SmallStar.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
+        SmallStar.categoryBitMask = LightMasks2D.Polar.rawValue
         let Opposite = WithColor.OppositeColor()
         SmallStar.geometry?.firstMaterial?.diffuse.contents = Opposite
         if Settings.GetBool(.CityNodesGlow)
@@ -320,7 +306,7 @@ extension FlatView
         LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
         let PointX = Distance * cos(LocationBearing)
         let PointY = Distance * sin(LocationBearing)
-        Star.position = SCNVector3(PointX, PointY, 4.0 * Scale * 0.5)
+        Star.position = SCNVector3(PointX, PointY, FlatConstants.HomeStarOverallZ.rawValue)
         
         return Star
     }
