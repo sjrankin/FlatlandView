@@ -186,7 +186,7 @@ extension GlobeView
     /// - Parameter NodeID: ID of the node. This is the ID that is used to identify the node when the mouse moves
     ///                     over it.
     /// - Parameter NodeClass: The node class of the city.
-    func PlotLocationAsCone(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
+    func PlotLocationAsCone(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                             WithColor: NSColor = NSColor.magenta, EnableEmission: Bool = true,
                             NodeID: UUID, NodeClass: UUID)
     {
@@ -215,7 +215,7 @@ extension GlobeView
         PlottedCities.append(ConeNode)
     }
     
-    func PlotLocationAsSphere(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
+    func PlotLocationAsSphere(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                               WithColor: NSColor = NSColor.magenta)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
@@ -379,7 +379,7 @@ extension GlobeView
     /// - Parameter WithColor: The color of the city shape.
     /// - Parameter RelativeSize: The relative size of the city.
     /// - Parameter LargestSize: The largest permitted.
-    func PlotEmbeddedCitySphere(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
+    func PlotEmbeddedCitySphere(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                                 WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0, LargestSize: Double = 1.0)
     {
         var CitySize = CGFloat(RelativeSize * LargestSize)
@@ -445,7 +445,7 @@ extension GlobeView
     ///                           city shape to create.
     /// - Parameter LargestSize: The largest city size. This value is multiplied by `RelativeSize`
     ///                          which is assumed to be a normal value.
-    func PlotPyramidCity(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double,
+    func PlotPyramidCity(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double,
                          ToSurface: SCNNode2, WithColor: NSColor, RelativeSize: Double = 1.0,
                          LargestSize: Double = 1.0)
     {
@@ -509,7 +509,7 @@ extension GlobeView
     ///                          a normal value.
     /// - Parameter IsASphere: If true, a sphere is used to represent the city. If false, a box is
     ///                        used instead.
-    func PlotFloatingCity(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
+    func PlotFloatingCity(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                           WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
                           RelativeHeight: Double = 1.0, LargestSize: Double = 1.0, LongestStem: Double = 1.0,
                           IsASphere: Bool)
@@ -611,7 +611,7 @@ extension GlobeView
     /// - Parameter LargestSize: The largest permitted.
     /// - Parameter IsBox: If true, the shape of the city is based on `SCNBox`. If false, the shape
     ///                    is based on `SCNCylinder`.
-    func PlotSimpleCityShape(_ Plot: City, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
+    func PlotSimpleCityShape(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                              WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
                              LargestSize: Double = 1.0, IsBox: Bool = true)
     {
@@ -677,7 +677,7 @@ extension GlobeView
     /// - Parameter Radius: The radius of the sphere upon which to plot the name.
     /// - Parameter ToSurface: Where to plot the city (eg, which node).
     /// - Parameter WithColor: The color to use for the diffuse surface of the text.
-    func PlotCityName(_ SomeCity: City, Radius: Double, ToSurface: SCNNode2, WithColor: NSColor)
+    func PlotCityName(_ SomeCity: City2, Radius: Double, ToSurface: SCNNode2, WithColor: NSColor)
     {
         let Font = Settings.GetFont(.CityFontName, StoredFont("Arial", 24.0, NSColor.black))
         let TheFont = NSFont(name: Font.PostscriptName, size: 24.0)
@@ -723,9 +723,11 @@ extension GlobeView
         }
         PlottedCities.removeAll()
         
-        let CityList = Cities()
-        CitiesToPlot = CityList.FilteredCities()
+        //let CityList = Cities()
+        //CitiesToPlot = CityList.FilteredCities()
+        CitiesToPlot = CityManager.FilteredCities()
         
+        #if false
         if Settings.GetBool(.ShowUserLocations)
         {
             let UserLocations = Settings.GetLocations()
@@ -743,10 +745,12 @@ extension GlobeView
                                    NodeID: UserPOIID, NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
             }
         }
+        #endif
         
         let UseMetro = Settings.GetEnum(ForKey: .PopulationType, EnumType: PopulationTypes.self, Default: .Metropolitan) == .Metropolitan
-        let (Max, Min) = Cities.GetPopulationsIn(CityList: CitiesToPlot,
-                                                 UseMetroPopulation: UseMetro)
+        let (Max, Min) = CityManager.GetPopulationsIn(CityList: CitiesToPlot, UseMetroPopulation: UseMetro)
+//        let (Max, Min) = Cities.GetPopulationsIn(CityList: CitiesToPlot,
+//                                                 UseMetroPopulation: UseMetro)
         for City in CitiesToPlot
         {
             if City.IsUserCity
@@ -770,7 +774,8 @@ extension GlobeView
                 {
                     RelativeSize = Double(Min) / Double(Max)
                 }
-                var CityColor = Cities.ColorForCity(City)
+                var CityColor = CityManager.ColorForCity(City)
+//                var CityColor = Cities.ColorForCity(City)
                 if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
                 {
                     CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
@@ -1031,7 +1036,8 @@ extension GlobeView
                 return
             }
             let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
-            Main2Controller.InitializeWorldHeritageSites()
+//            Main2Controller.InitializeWorldHeritageSites()
+            Main2Controller.InitializeMappableDatabase()
             let Sites = Main2Controller.GetAllSites()
             var FinalList = [WorldHeritageSite2]()
             for Site in Sites
@@ -1115,11 +1121,12 @@ extension GlobeView
         }
     }
     
+    #if false
     /// Returns the largest of the city population or the metropolitan population from the passed city.
     /// - Parameter City: The city whose population is returned.
     /// - Returns: The largest of the city or the metropolitan populations. Nil if no populations
     ///            are available.
-    func GetCityPopulation(From: City) -> Int?
+    func GetCityPopulation(From: City2) -> Int?
     {
         if let Metro = From.MetropolitanPopulation
         {
@@ -1131,8 +1138,13 @@ extension GlobeView
         }
         return nil
     }
+    #endif
     
-    func GetCityPopulation2(From: City) -> Int?
+    /// Returns the largest of the city population or the metropolitan population from the passed city.
+    /// - Parameter City: The city whose population is returned.
+    /// - Returns: The largest of the city or the metropolitan populations. Nil if no populations
+    ///            are available.
+    func GetCityPopulation2(From: City2) -> Int?
     {
         if Settings.GetEnum(ForKey: .PopulationType, EnumType: PopulationTypes.self, Default: .Metropolitan) == .Metropolitan
         {
