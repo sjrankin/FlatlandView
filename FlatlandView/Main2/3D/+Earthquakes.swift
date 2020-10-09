@@ -122,6 +122,7 @@ extension GlobeView
         for Quake in EarthquakeList
         {
             NodeTables.AddEarthquake(Quake)
+            Debug.Print("Added earthquake: \(Quake.ID.uuidString)")
         }
     }
     
@@ -174,7 +175,8 @@ extension GlobeView
             return
         }
         let Oldest = OldestEarthquakeOccurence(List)
-        let Biggest = Cities.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
+        let Biggest = CityManager.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true) 
+//        let Biggest = Cities.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
         var MaxSignificance = 0
         for Quake in List
         {
@@ -504,7 +506,7 @@ extension GlobeView
     ///            being plotted), `0` is returned.
     func PopulationOfClosestCity(To Quake: Earthquake, UseMetroPopulation: Bool = true) -> Int
     {
-        var ClosestCity: City? = nil
+        var ClosestCity: City2? = nil
         var Distance: Double = Double.greatestFiniteMagnitude
         for SomeCity in CitiesToPlot
         {
