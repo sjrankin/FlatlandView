@@ -105,7 +105,7 @@ extension FlatView
             case .Show2DShadows:
                 UpdateLightsForShadows(ShowShadows: Settings.GetBool(.Show2DShadows))
                 
-            case .ShowWorldHeritageSites:
+            case .ShowWorldHeritageSites, .WorldHeritageSiteType:
                 if Settings.GetBool(.ShowWorldHeritageSites)
                 {
                     PlotWorldHeritageSites()
