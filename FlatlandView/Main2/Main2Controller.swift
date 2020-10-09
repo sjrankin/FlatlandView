@@ -451,14 +451,12 @@ class Main2Controller: NSViewController
     var PrimaryMapList: ActualMapList? = nil
     /// The latest earthquakes from the USGS.
     var LatestEarthquakes = [Earthquake]()
-    /// List of cities.
-    let CityList = Cities()
-    /// Location of the Unesco database.
-    var UnescoURL: URL? = nil
-    /// Flag that indicates whether the Unesco database was initialized or not.
-    static var UnescoInitialized = false
-    /// Handle to the Unesco database.
-    static var UnescoHandle: OpaquePointer? = nil
+    /// Location of the mappable database.
+    var MappableURL: URL? = nil
+    /// Flag that indicates whether the mappable database was initialized or not.
+    static var MappableInitialized = false
+    /// Handle to the mappable database.
+    static var MappableHandle: OpaquePointer? = nil
     /// Array of World Heritage Sites.
     var WorldHeritageSites: [WorldHeritageSite2]? = nil
     
