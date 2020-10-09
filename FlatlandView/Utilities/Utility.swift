@@ -912,11 +912,11 @@ class Utility
         return Result
     }
     
-    /// Converts a raw hex value (prefixed by one of: "0x", "0X", or "#") into a `UIColor`. Color order is: rrggbbaa or rrggbb.
+    /// Converts a raw hex value (prefixed by one of: "0x", "0X", or "#") into a `UIColor`. **Color order is: rrggbbaa or rrggbb.**
     /// - Note: From code in Fouris.
     /// - Parameter RawString: The raw hex string to convert.
     /// - Returns: Tuple of color channel information.
-    public static func ColorChannelsFrom(_ RawString: String) -> (Red: CGFloat, Green: CGFloat, Blue: CGFloat, Alpha: CGFloat)?
+    public static func ColorChannelsFromRGBA(_ RawString: String) -> (Red: CGFloat, Green: CGFloat, Blue: CGFloat, Alpha: CGFloat)?
     {
         var Working = RawString.trimmingCharacters(in: .whitespacesAndNewlines)
         if Working.isEmpty
@@ -959,13 +959,52 @@ class Utility
         return nil
     }
     
+    /// Converts a raw hex value (prefixed by one of: "0x", "0X", or "#") into a `UIColor`. **Color order is: aarrggbb.**
+    /// - Note: From code in Fouris.
+    /// - Note: All four channels **must** be included or nil is returned.
+    /// - Parameter RawString: The raw hex string to convert.
+    /// - Returns: Tuple of color channel information. Nil returned on badly formatted colors.
+    public static func ColorChannelsFromARGB(_ RawString: String) -> (Red: CGFloat, Green: CGFloat, Blue: CGFloat, Alpha: CGFloat)?
+    {
+        var Working = RawString.trimmingCharacters(in: .whitespacesAndNewlines)
+        if Working.isEmpty
+        {
+            return nil
+        }
+        if Working.uppercased().starts(with: "0X")
+        {
+            Working = Working.replacingOccurrences(of: "0x", with: "")
+            Working = Working.replacingOccurrences(of: "0X", with: "")
+        }
+        if Working.starts(with: "#")
+        {
+            Working = Working.replacingOccurrences(of: "#", with: "")
+        }
+        switch Working.count
+        {
+            case 8:
+                if let Value = UInt(Working, radix: 16)
+                {
+                    let Alpha: CGFloat = CGFloat((Value & 0xff000000) >> 24) / 255.0
+                    let Red: CGFloat = CGFloat((Value & 0x00ff0000) >> 16) / 255.0
+                    let Green: CGFloat = CGFloat((Value & 0x0000ff00) >> 8) / 255.0
+                    let Blue: CGFloat = CGFloat((Value & 0x000000ff) >> 0) / 255.0
+                    return (Red: Red, Green: Green, Blue: Blue, Alpha: Alpha)
+                }
+                
+            default:
+                break
+        }
+        return nil
+    }
+    
     /// Converts a raw hex value (prefixed by one of: "0x", "0X", or "#") into a `UIColor`. Color order is: rrggbbaa or rrggbb.
     /// - Note: From code in Fouris.
     /// - Parameter RawString: The raw hex string to convert.
     /// - Returns: Color represented by the raw string on success, nil on parse failure.
     public static func ColorFrom(_ RawString: String) -> NSColor?
     {
-        if let (Red, Green, Blue, Alpha) = ColorChannelsFrom(RawString)
+        if let (Red, Green, Blue, Alpha) = ColorChannelsFromRGBA(RawString)
         {
             return NSColor(red: Red, green: Green, blue: Blue, alpha: Alpha)
         }
