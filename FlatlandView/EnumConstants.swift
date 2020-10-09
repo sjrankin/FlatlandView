@@ -429,6 +429,7 @@ enum GlobeRadius: CGFloat, CaseIterable
 }
 
 // MARK: - File names and directories.
+// MARK: - Database-related constants.
 
 /// File and directory names used in `FileIO`.
 enum FileIONames: String, CaseIterable
@@ -441,16 +442,40 @@ enum FileIONames: String, CaseIterable
     case MapStructure = "Maps.xml"
     /// The database directory.
     case DatabaseDirectory = "Flatland/Database"
+    #if false
     /// The World Heritage Site database.
     case UnescoDatabase = "UnescoSites.db"
     /// The name of the World Heritage Site database.
     case UnescoName = "UnescoSites"
+    #else
+    /// Database of mappable locations and objects.
+    case MappableDatabase = "Mappable.db"
+    /// Name of the database of mappable locations and objects.
+    case MappableName = "Mappable"
+    #endif
     /// The earthquake history database.
     case QuakeHistoryDatabase = "EarthquakeHistory.db"
     /// The name of the earthquake history database.
     case QuakeName = "EarthquakeHistory"
     /// Common database extension.
     case DatabaseExtension = "db"
+}
+
+/// Table names in the mappable database.
+enum MappableTableNames: String, CaseIterable
+{
+    /// UNESCO World Heritage Sites.
+    case UNESCOSites = "WorldHeritageSites"
+    /// Highly-populated cities.
+    case Cities = "Cities"
+    /// Points of interest, both standard and user-defined.
+    case PointsOfInterest = "POI"
+    /// Satellites.
+    case Satellites = "Satellites"
+    /// Additional cities usage **to be determined**.
+    case AdditionalCities = "AdditionalCities"
+    /// Version table.
+    case Version = "Version"
 }
 
 #if DEBUG
