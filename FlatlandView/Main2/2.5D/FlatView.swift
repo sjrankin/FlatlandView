@@ -245,8 +245,6 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         
     }
     
-    var CitiesToPlot = [City]()
-    
     /// Resets the default camera to its original location.
     /// - Note: In order to prevent the Earth from flying around wildly during the reset transition, a
     ///         look-at constraint is added for the duration of the transition, and removed once the rotation
@@ -370,4 +368,6 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var PreviousEarthquakes = [Earthquake]()
     var WHSNodeList = [SCNNode2]()
     var SunNode = SCNNode2()
+    var CitiesToPlot = [City2]()
+    var POIsToPlot = [POI]()
 }
