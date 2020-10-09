@@ -24,9 +24,10 @@ extension FlatView
         {
             let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self,
                                               Default: .Either)
-            MainView.InitializeWorldHeritageSites()
-            let Sites = MainView.GetAllSites()
-            var FinalList = [WorldHeritageSite]()
+            //MainView.InitializeWorldHeritageSites()
+            //let Sites = MainView.GetAllSites()
+            let Sites = Main2Controller.GetAllSites()
+            var FinalList = [WorldHeritageSite2]()
             for Site in Sites
             {
                 switch TypeFilter
@@ -90,9 +91,9 @@ extension FlatView
                                         Radius: FlatConstants.FlatRadius.rawValue,
                                         DepthOffset: DepthOffset,
                                         WithColor: NodeColor)
-                SiteNode.NodeID = Site.InternalID
+                SiteNode.NodeID = Site.RuntimeID
                 SiteNode.name = NodeNames2D.WorldHeritageSite.rawValue
-                print("Added \(Site.InternalID)")
+                print("Added \(Site.RuntimeID)")
                 SiteNode.NodeClass = UUID(uuidString: NodeClasses.WorldHeritageSite.rawValue)!
                 UNESCOPlane.addChildNode(SiteNode)
             }
