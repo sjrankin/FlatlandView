@@ -24,8 +24,6 @@ extension FlatView
         {
             let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self,
                                               Default: .Either)
-            //MainView.InitializeWorldHeritageSites()
-            //let Sites = MainView.GetAllSites()
             let Sites = MainController.GetAllSites()
             var FinalList = [WorldHeritageSite2]()
             for Site in Sites
@@ -60,16 +58,16 @@ extension FlatView
                 switch Site.Category
                 {
                     case "Mixed":
-                        DepthOffset = -0.05
+                        DepthOffset = 0.0
                         
                     case "Cultural":
-                        DepthOffset = 0.0
+                        DepthOffset = 0.025
                         
                     case "Natural":
                         DepthOffset = 0.05
                         
                     default:
-                        DepthOffset = -0.08
+                        DepthOffset = 0.0
                 }
                 var NodeColor = NSColor.black
                 switch Site.Category
@@ -93,23 +91,26 @@ extension FlatView
                                         WithColor: NodeColor)
                 SiteNode.NodeID = Site.RuntimeID
                 SiteNode.name = NodeNames2D.WorldHeritageSite.rawValue
-                print("Added \(Site.RuntimeID)")
                 SiteNode.NodeClass = UUID(uuidString: NodeClasses.WorldHeritageSite.rawValue)!
                 UNESCOPlane.addChildNode(SiteNode)
             }
         }
     }
     
+    /// Plot a World Heritage Site as a triangle.
+    /// - Parameter Latitude: Latitude of the site.
+    /// - Parameter Longitude: Longitude of the site.
+    /// - Parameter Radius: Radius of the 2D map.
+    /// - Parameter DepthOffset: Value to add to the depth.
+    /// - Parameter WithColor: The color to use as the material for the node.
+    /// - Returns: Node to use for plotting World Heritage Sites.
     func PlotSiteAsTriangle(Latitude: Double, Longitude: Double, Radius: Double, DepthOffset: CGFloat, WithColor: NSColor) -> SCNNode2
     {
         let SiteShape = SCNRegular.Geometry(VertexCount: 3,
                                             Radius: CGFloat(FlatConstants.WHSRadius.rawValue),
-                                            Depth: 1.0)//CGFloat(FlatConstants.WHSDepth.rawValue) + DepthOffset)
+                                            Depth: CGFloat(FlatConstants.WHSDepth.rawValue) + DepthOffset)
         let SiteNode = SCNNode2(geometry: SiteShape)
         SiteNode.categoryBitMask = LightMasks2D.Sun.rawValue | LightMasks2D.Polar.rawValue
-        SiteNode.scale = SCNVector3(NodeScales2D.UnescoScale.rawValue,
-                                    NodeScales2D.UnescoScale.rawValue,
-                                    NodeScales2D.UnescoScale.rawValue)
         WHSNodeList.append(SiteNode)
         SiteNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         SiteNode.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -128,7 +129,7 @@ extension FlatView
         LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
         let PointX = Distance * cos(LocationBearing)
         let PointY = Distance * sin(LocationBearing)
-        let PointZ = Double(NodeScales2D.UnescoScale.rawValue * 1.0 * 0.5)
+        let PointZ = Double(NodeScales2D.WorldHeritageSiteScale.rawValue * 1.0 * 0.5)
         SiteNode.position = SCNVector3(PointX, PointY, PointZ)//Double(DepthOffset))
         SiteNode.eulerAngles = SCNVector3(180.0.Radians, 0.0, 0.0)
         return SiteNode
