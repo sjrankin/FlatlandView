@@ -122,7 +122,6 @@ extension GlobeView
         for Quake in EarthquakeList
         {
             NodeTables.AddEarthquake(Quake)
-            Debug.Print("Added earthquake: \(Quake.ID.uuidString)")
         }
     }
     
@@ -266,6 +265,22 @@ extension GlobeView
                 }
                 
                 let Shape = Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
+                #if true
+                switch Shape
+                {
+                    case .Arrow, .StaticArrow:
+                        if let ANode = QNode.childNodes.first as? SCNSimpleArrow
+                        {
+                            ANode.Color = BaseColor
+                        }
+                        
+                    case .PulsatingSphere:
+                        QNode.geometry?.firstMaterial?.diffuse.contents = BaseColor.withAlphaComponent(0.6)
+                        
+                    default:
+                        QNode.geometry?.firstMaterial?.diffuse.contents = BaseColor
+                }
+                #else
                 if  Shape == .Arrow || Shape == .StaticArrow
                 {
                     if let ANode = QNode.childNodes.first as? SCNSimpleArrow
@@ -277,6 +292,7 @@ extension GlobeView
                 {
                     QNode.geometry?.firstMaterial?.diffuse.contents = BaseColor
                 }
+                #endif
                 
                 if MagShape != nil
                 {
@@ -299,9 +315,14 @@ extension GlobeView
     ///            is extruded text with the value of the magntiude of the earthquake.
     func MakeEarthquakeNode(_ Quake: Earthquake) -> (Shape: SCNNode2?, Magnitude: SCNNode2?)
     {
+        #if true
+        let FinalRadius = GlobeRadius.Primary.rawValue
+        let Percent = 1.0
+        #else
         let QuakeRadius = 6371.0 - Quake.Depth
         let Percent = QuakeRadius / 6371.0
         let FinalRadius = Double(GlobeRadius.Primary.rawValue) * Percent
+        #endif
         var FinalNode: SCNNode2!
         var YRotation: Double = 0.0
         var XRotation: Double = 0.0
@@ -333,7 +354,9 @@ extension GlobeView
         {
             case .Arrow:
                 RadialOffset = 0.7
-                let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
+                let Arrow = SCNSimpleArrow(Length: CGFloat(Quake3D.ArrowLength.rawValue),
+                                           Width: CGFloat(Quake3D.ArrowWidth.rawValue),
+                                           Extrusion: CGFloat(Quake3D.ArrowExtrusion.rawValue),
                                            Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
                 Arrow.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 Arrow.NodeID = Quake.ID
@@ -343,11 +366,11 @@ extension GlobeView
                                          NodeScales3D.ArrowScale.rawValue)
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
-                let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: 1.0)
+                let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: Quake3D.ArrowRotationDuration.rawValue)
                 let RotateForever = SCNAction.repeatForever(Rotate)
                 
-                let BounceDistance: CGFloat = 0.5
-                let BounceDuration = (10.0 - Quake.Magnitude) / 5.0
+                let BounceDistance: CGFloat = CGFloat(Quake3D.ArrowBounceDistance.rawValue)
+                let BounceDuration = (10.0 - Quake.Magnitude) / Quake3D.ArrowBounceDurationDivisor.rawValue
                 let BounceAway = SCNAction.move(by: SCNVector3(0.0, -BounceDistance, 0.0), duration: BounceDuration)
                 BounceAway.timingMode = .easeOut
                 let BounceTo = SCNAction.move(by: SCNVector3(0.0, BounceDistance, 0.0), duration: BounceDuration)
@@ -370,7 +393,9 @@ extension GlobeView
                 
             case .StaticArrow:
                 RadialOffset = 0.7
-                let Arrow = SCNSimpleArrow(Length: 2.0, Width: 0.85, Extrusion: 0.2,
+                let Arrow = SCNSimpleArrow(Length: CGFloat(Quake3D.StaticArrowLength.rawValue),
+                                           Width: CGFloat(Quake3D.StaticArrowWidth.rawValue),
+                                           Extrusion: CGFloat(Quake3D.StaticArrowExtrusion.rawValue),
                                            Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
                 Arrow.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 Arrow.NodeID = Quake.ID
@@ -387,53 +412,63 @@ extension GlobeView
                 FinalNode.NodeID = Quake.ID
                 
             case .Pyramid:
-                FinalNode = SCNNode2(geometry: SCNPyramid(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5))
+                FinalNode = SCNNode2(geometry: SCNPyramid(width: CGFloat(Quake3D.PyramidWidth.rawValue),
+                                                          height: CGFloat(Quake3D.PyramidHeightMultiplier.rawValue * Percent),
+                                                          length: CGFloat(Quake3D.PyramidLength.rawValue)))
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0 + 180.0
                 XRotation = Quake.Longitude + 180.0
                 
             case .Cone:
-                FinalNode = SCNNode2(geometry: SCNCone(topRadius: 0.0, bottomRadius: 0.5, height: CGFloat(3.5 * Percent)))
+                FinalNode = SCNNode2(geometry: SCNCone(topRadius: CGFloat(Quake3D.ConeTopRadius.rawValue),
+                                                       bottomRadius: CGFloat(Quake3D.ConeBottomRadius.rawValue),
+                                                       height: CGFloat(Quake3D.ConeHeightMultiplier.rawValue * Percent)))
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0 + 180.0
                 XRotation = Quake.Longitude + 180.0
                 
             case .Box:
-                FinalNode = SCNNode2(geometry: SCNBox(width: 0.5, height: CGFloat(2.5 * Percent), length: 0.5, chamferRadius: 0.1))
+                FinalNode = SCNNode2(geometry: SCNBox(width: CGFloat(Quake3D.QuakeBoxWidth.rawValue),
+                                                      height: CGFloat(Quake3D.QuakeBoxHeight.rawValue * Percent),
+                                                      length: CGFloat(Quake3D.QuakeBoxLength.rawValue),
+                                                      chamferRadius: CGFloat(Quake3D.QuakeBoxChamfer.rawValue)))
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
                 
             case .Cylinder:
-                FinalNode = SCNNode2(geometry: SCNCylinder(radius: CGFloat(Percent * 0.25), height: CGFloat(2.5 * Percent)))
+                FinalNode = SCNNode2(geometry: SCNCylinder(radius: CGFloat(Percent * Quake3D.QuakeCapsuleRadius.rawValue),
+                                                           height: CGFloat(Quake3D.QuakeCapsuleHeight.rawValue * Percent)))
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
                 
             case .Capsule:
-                FinalNode = SCNNode2(geometry: SCNCapsule(capRadius: CGFloat(Percent * 0.25), height: CGFloat(2.5 * Percent)))
+                FinalNode = SCNNode2(geometry: SCNCapsule(capRadius: CGFloat(Percent * Quake3D.QuakeCapsuleRadius.rawValue),
+                                                          height: CGFloat(Quake3D.QuakeCapsuleHeight.rawValue * Percent)))
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
                 
             case .Sphere:
-                let ERadius = Quake.Magnitude * 0.1
+                let ERadius = (Quake.Magnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.SphereConstant.rawValue
                 let QSphere = SCNSphere(radius: CGFloat(ERadius))
                 FinalNode = SCNNode2(geometry: QSphere)
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 
             case .PulsatingSphere:
-                let ERRadius = Quake.Magnitude * 0.12
-                let ScaleDuration: Double = (10 - Quake.Magnitude) * 0.1
+                let ERRadius = (Quake.Magnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.PulsatingSphereConstant.rawValue
+                let ScaleDuration: Double = Quake3D.PulsatingBase.rawValue +
+                    (10 - Quake.Magnitude) * Quake3D.MagnitudeMultiplier.rawValue
                 let QSphere = SCNSphere(radius: CGFloat(ERRadius))
-                let ScaleUp = SCNAction.scale(to: 1.5, duration: 1.0 + ScaleDuration)
-                let ScaleDown = SCNAction.scale(to: 1.0, duration: 1.0 + ScaleDuration)
+                let ScaleUp = SCNAction.scale(to: CGFloat(Quake3D.PulsatingSphereMaxScale.rawValue), duration: ScaleDuration)
+                let ScaleDown = SCNAction.scale(to: 1.0, duration: ScaleDuration)
                 let ScaleGroup = SCNAction.sequence([ScaleUp, ScaleDown])
                 let ScaleForever = SCNAction.repeatForever(ScaleGroup)
                 FinalNode = SCNNode2(geometry: QSphere)
@@ -441,8 +476,7 @@ extension GlobeView
                 FinalNode.NodeID = Quake.ID
                 FinalNode.runAction(ScaleForever)
         }
-        
-        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: FinalRadius + RadialOffset)
+        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
         FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
         FinalNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FinalNode.position = SCNVector3(X, Y, Z)
