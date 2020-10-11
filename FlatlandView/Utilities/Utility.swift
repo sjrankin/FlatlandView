@@ -1662,5 +1662,29 @@ class Utility
         let Y = Radius * sin(Radial) + VOffset
         return CGPoint(x: X, y: Y)
     }
+    
+    /// Returns a set of points along an arc, equally spaced.
+    /// - Parameter Radius: The radius of the arc.
+    /// - Parameter Count: The number of points returned.
+    /// - Parameter Center: The center of the circle.
+    /// - Parameter X: X value. Defaults to `0.0`.
+    /// - Parameter ZOffset: Offset value to add to Z.
+    /// - Returns: Array of points along the arc, equally spaced.
+    public static func PointsOnArc(Radius: Double, Count: Int, Center: CGPoint = CGPoint.zero,
+                                   X: Double = 0.0, ZOffset: Double) -> [SCNVector3]
+    {
+        var Results = [SCNVector3]()
+        let Stride = 180.0 / Double(Count)
+        for Angle in stride(from: 0.0, to: 180.01, by: Stride)
+        {
+            let Radian = Angle.Radians
+            let oX = Double(Center.y) + (Radian * cos(Angle))
+            let Y = oX
+            let Z = Double(Center.x) + (Radian * sin(Angle)) + ZOffset
+            let NewPoint = SCNVector3(X, Y, Z)
+            Results.append(NewPoint)
+        }
+        return Results
+    }
 }
 
