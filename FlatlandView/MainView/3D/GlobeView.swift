@@ -89,7 +89,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
     }
     
     // MARK: - User camera variables.
-
+    
     var FlatlandCamera: SCNCamera? = nil
     var FlatlandCameraNode: SCNNode? = nil
     //var FlatlandCameraLocation = SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue)
@@ -250,7 +250,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
     /// - Returns: Tuple with the standard Earth map and, if the map type supports it, the sea map as well.
     func MakeMaps(_ Map: MapTypes) -> (Earth: NSImage, Sea: NSImage?)
     {
-
+        
         let BaseMap = MapManager.ImageFor(MapType: Map, ViewType: .Globe3D)
         var SecondaryMap: NSImage? = nil
         switch Map
@@ -273,7 +273,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
             {
                 if let TheMap = GlobalBaseMap
                 {
-                return (Earth: TheMap, Sea: SecondaryMap)
+                    return (Earth: TheMap, Sea: SecondaryMap)
                 }
                 let LastResortMap = MapManager.ImageFor(MapType: .Standard, ViewType: .Globe3D)!
                 return (Earth: LastResortMap, Sea: nil)
@@ -335,7 +335,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
         let MapType = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
         var BaseMap: NSImage? = nil
         var SecondaryMap = NSImage()
-
+        
         if let OtherMap = WithMap
         {
             BaseMap = OtherMap
@@ -349,7 +349,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
                 SecondaryMap = SeaMap
             }
         }
-
+        
         switch MapType
         {
             case .Standard:
@@ -369,6 +369,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
         
         EarthNode = SCNNode2(geometry: EarthSphere)
         EarthNode?.castsShadow = true
+        EarthNode?.CanShowBoundingShape = false
         EarthNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
@@ -493,6 +494,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
         EarthNode?.NodeID = NodeTables.EarthGlobe
         EarthNode?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         SeaNode?.NodeID = NodeTables.SeaGlobe
+        SeaNode?.CanShowBoundingShape = false
         SeaNode?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         
         PlotLocations(On: EarthNode!, WithRadius: GlobeRadius.Primary.rawValue)
@@ -601,16 +603,15 @@ class GlobeView: SCNView, FlatlandEventProtocol
     /// Handle mouse motion reported by the main view controller.
     /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
     ///         the node under the mouse is queried and its associated data may be displayed.
+    /// - Note: The implementation for mouse over node is slightly different between the 2D and 3D displays...
     /// - Parameter Point: The point in the view reported by the main controller.
     func MouseAt(Point: CGPoint)
     {
         let MapView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if MapView == .Globe3D
         {
-            //print("Mouse at \(Point.x),\(Point.y)")
             let SearchOptions: [SCNHitTestOption: Any] =
                 [
-                    //.boundingBoxOnly: true,
                     .searchMode: SCNHitTestSearchMode.closest.rawValue,
                     .ignoreHiddenNodes: true,
                     .ignoreChildNodes: false,
@@ -630,28 +631,32 @@ class GlobeView: SCNView, FlatlandEventProtocol
                                 return
                             }
                         }
-                        PreviousNodeID = NodeID
+                        
                         if let NodeData = NodeTables.GetItemData(For: NodeID)
                         {
+                            MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
                             if Settings.GetBool(.HighlightNodeUnderMouse)
                             {
-                                PreviousNode?.HideBoundingBox()
-                                Node.ShowBoundingBox()
+                                Node.ShowBoundingShape(.Sphere,
+                                                       LineColor: NSColor.red,
+                                                       SegmentCount: 10)
+                                if let PN = PreviousNode
+                                {
+                                    PN.HideBoundingShape()
+                                }
                             }
-                            MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
+                            PreviousNodeID = NodeID
                             PreviousNode = Node
                         }
                         else
                         {
-                            PreviousNode?.HideBoundingBox()
-                            Debug.Print("Did not find node data for \(NodeID)")
+                            MainDelegate?.DisplayNodeInformation(ItemData: nil)
                         }
                     }
                 }
                 else
                 {
                     MainDelegate?.DisplayNodeInformation(ItemData: nil)
-                    PreviousNode?.HideBoundingBox()
                 }
             }
         }
@@ -669,7 +674,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
         let (X, Y, Z) = ToECEF(At.Latitude, At.Longitude, Radius: SatelliteAltitude)
         #endif
     }
-
+    
     // MARK: - Variables for extensions.
     
     /// List of hours in Japanese Kanji.
@@ -690,26 +695,26 @@ class GlobeView: SCNView, FlatlandEventProtocol
     var CitiesToPlot = [City2]()
     
     let TextureMap: [EarthquakeTextures: String] =
-    [
-        .SolidColor: "",
-        .CheckerBoardTransparent: "CheckerboardTextureTransparent",
-        .Checkerboard: "CheckerboardTexture",
-        .DiagonalLines: "DiagonalLineTexture",
-        .Gradient1: "EarthquakeHighlight",
-        .Gradient2: "EarthquakeHighlight2",
-        .RedCheckerboard: "RedCheckerboardTextureTransparent",
-        .TransparentDiagonalLines: "DiagonalLineTextureTransparent"
-    ]
+        [
+            .SolidColor: "",
+            .CheckerBoardTransparent: "CheckerboardTextureTransparent",
+            .Checkerboard: "CheckerboardTexture",
+            .DiagonalLines: "DiagonalLineTexture",
+            .Gradient1: "EarthquakeHighlight",
+            .Gradient2: "EarthquakeHighlight2",
+            .RedCheckerboard: "RedCheckerboardTextureTransparent",
+            .TransparentDiagonalLines: "DiagonalLineTextureTransparent"
+        ]
     
     let RecentMap: [EarthquakeRecents: Double] =
-    [
-        .Day05: 12.0 * 60.0 * 60.0,
-        .Day1: 24.0 * 60.0 * 60.0,
-        .Day2: 2.0 * 24.0 * 60.0 * 60.0,
-        .Day3: 3.0 * 24.0 * 60.0 * 60.0,
-        .Day7: 7.0 * 24.0 * 60.0 * 60.0,
-        .Day10: 10.0 * 24.0 * 60.0 * 60.0,
-    ]
+        [
+            .Day05: 12.0 * 60.0 * 60.0,
+            .Day1: 24.0 * 60.0 * 60.0,
+            .Day2: 2.0 * 24.0 * 60.0 * 60.0,
+            .Day3: 3.0 * 24.0 * 60.0 * 60.0,
+            .Day7: 7.0 * 24.0 * 60.0 * 60.0,
+            .Day10: 10.0 * 24.0 * 60.0 * 60.0,
+        ]
     
     var IndicatorAgeMap = [String: SCNNode2]()
     
