@@ -173,6 +173,8 @@
 		17BD9E8224867D400054B25E /* ConfirmDialogWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */; };
 		17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */; };
 		17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8524867DB60054B25E /* ConfirmProtocol.swift */; };
+		17C0FD7025316402008F3D05 /* GroundTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C0FD6F25316402008F3D05 /* GroundTrack.swift */; };
+		17C0FD732531648D008F3D05 /* TLE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C0FD722531648D008F3D05 /* TLE.swift */; };
 		17C22C2324EA1CD9006BB3AB /* NASAMapConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C22C2224EA1CD9006BB3AB /* NASAMapConfirmation.swift */; };
 		17C22C2524EA1F94006BB3AB /* NASAMapConfirmWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C22C2424EA1F94006BB3AB /* NASAMapConfirmWindow.swift */; };
 		17C34557252C977F00D01143 /* +MainCityDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C34556252C977F00D01143 /* +MainCityDatabase.swift */; };
@@ -439,6 +441,8 @@
 		17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogWindow.swift; sourceTree = "<group>"; };
 		17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogCode.swift; sourceTree = "<group>"; };
 		17BD9E8524867DB60054B25E /* ConfirmProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmProtocol.swift; sourceTree = "<group>"; };
+		17C0FD6F25316402008F3D05 /* GroundTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroundTrack.swift; sourceTree = "<group>"; };
+		17C0FD722531648D008F3D05 /* TLE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLE.swift; sourceTree = "<group>"; };
 		17C22C2224EA1CD9006BB3AB /* NASAMapConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NASAMapConfirmation.swift; sourceTree = "<group>"; };
 		17C22C2424EA1F94006BB3AB /* NASAMapConfirmWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NASAMapConfirmWindow.swift; sourceTree = "<group>"; };
 		17C34556252C977F00D01143 /* +MainCityDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainCityDatabase.swift"; sourceTree = "<group>"; };
@@ -1278,6 +1282,8 @@
 				17EF33B1247A93ED00A5B55D /* Sun.swift */,
 				17EF33B3247A940800A5B55D /* OrbitalElements.swift */,
 				17EF33AB247A93A300A5B55D /* GeoPoint.swift */,
+				17C0FD6F25316402008F3D05 /* GroundTrack.swift */,
+				17C0FD722531648D008F3D05 /* TLE.swift */,
 			);
 			path = Astronomy;
 			sourceTree = "<group>";
@@ -1627,6 +1633,7 @@
 				175F18EC2499E4C30052F653 /* LiveDataViewer.swift in Sources */,
 				172F4A1D24F9F2530014A65E /* ColorEditor.swift in Sources */,
 				1759FC6724A615A2001B1D4B /* RecentEarthquakeWindow.swift in Sources */,
+				17C0FD732531648D008F3D05 /* TLE.swift in Sources */,
 				17F9B0292520ABD900DE0219 /* FlatlandEventProtocol.swift in Sources */,
 				173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */,
 				17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */,
@@ -1670,6 +1677,7 @@
 				1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */,
 				17EF3395247A66F000A5B55D /* MapList.swift in Sources */,
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
+				17C0FD7025316402008F3D05 /* GroundTrack.swift in Sources */,
 				178A86A4248912FA00BE8D46 /* +Locations.swift in Sources */,
 				17EB5C1325159AB1007A75EF /* +MainAsynchronous.swift in Sources */,
 				17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */,
