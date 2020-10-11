@@ -20,12 +20,15 @@ extension MainController: MainProtocol
     {
     }
     
+    /// Handle auxiliary window closing events.
+    /// - Parameter WhatClosed: Indicates which window closed.
     func DidClose(_ WhatClosed: String)
     {
         switch WhatClosed
         {
             case "MainSettings":
                 MainSettingsDelegate = nil
+                SettingsWindowOpen = false
                 
             default:
                 break
