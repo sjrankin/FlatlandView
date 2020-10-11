@@ -47,6 +47,7 @@ extension GlobeView
         let ConeNode = SCNNode2(geometry: Cone)
         ConeNode.NodeID = NodeTables.HomeID
         ConeNode.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
+        ConeNode.CanShowBoundingShape = false
         ConeNode.scale = SCNVector3(NodeScales3D.HomeArrowScale.rawValue,
                                     NodeScales3D.HomeArrowScale.rawValue,
                                     NodeScales3D.HomeArrowScale.rawValue)
@@ -94,6 +95,7 @@ extension GlobeView
         HomeNode = SCNNode2()
         HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
         HomeNode?.addChildNode(ConeNode)
+        HomeNode?.CanShowBoundingShape = true
         
         if IsCurrentLocation
         {
@@ -101,6 +103,7 @@ extension GlobeView
             let CylinderNode = SCNNode2(geometry: Cylinder)
             CylinderNode.NodeID = NodeTables.HomeID
             CylinderNode.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
+            CylinderNode.CanShowBoundingShape = true
             CylinderNode.scale = SCNVector3(NodeScales3D.HomeArrowScale.rawValue,
                                             NodeScales3D.HomeArrowScale.rawValue,
                                             NodeScales3D.HomeArrowScale.rawValue)
@@ -215,6 +218,14 @@ extension GlobeView
         PlottedCities.append(ConeNode)
     }
     
+    /// Plot the location as a sphere.
+    /// - Parameters:
+    ///   - Plot: The city to plot.
+    ///   - Latitude: The latitude of the city.
+    ///   - Longitude: The longitude of the city.
+    ///   - Radius: The radius of the Earth.
+    ///   - ToSurface: The surface node of the Earth.
+    ///   - WithColor: The color of the sphere.
     func PlotLocationAsSphere(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                               WithColor: NSColor = NSColor.magenta)
     {
@@ -569,6 +580,7 @@ extension GlobeView
         let CylinderNode = SCNNode2(geometry: Cylinder)
         CylinderNode.NodeID = Plot.CityID
         CylinderNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
+        CylinderNode.CanShowBoundingShape = false
         CylinderNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         let (H, S, B) = WithColor.HSB
         var NewH = H + 0.5
@@ -710,6 +722,7 @@ extension GlobeView
     func PlotCities()
     {
         PlotCities(On: EarthNode!, Radius: Double(GlobeRadius.Primary.rawValue))
+        PlotHomeLocation()
     }
     
     /// Plot cities on the globe. User locations are also plotted here.
@@ -722,46 +735,44 @@ extension GlobeView
             AlreadyPlotted!.removeFromParentNode()
         }
         PlottedCities.removeAll()
-        
-        //let CityList = Cities()
-        //CitiesToPlot = CityList.FilteredCities()
         CitiesToPlot = CityManager.FilteredCities()
         
-        #if false
         if Settings.GetBool(.ShowUserLocations)
         {
-            let UserLocations = Settings.GetLocations()
-            for (UserPOIID, Location, Name, Color) in UserLocations
+            let POIList = POIManager.GetPOIs(By: .UserPOI)
+            for SomePOI in POIList
             {
-                NodeTables.AddUserPOI(ID: UserPOIID, Name: Name, Location: Location)
-                let UserCity = City(Continent: "NoName", Country: "No Name", Name: Name, Population: nil,
-                                    MetroPopulation: nil, Latitude: Location.Latitude, Longitude: Location.Longitude)
-                UserCity.CityColor = Color
-                UserCity.IsUserCity = true
-                CitiesToPlot.append(UserCity)
-                let ShowEmission = Settings.GetBool(.ShowPOIEmission)
-                PlotLocationAsCone(UserCity, Latitude: UserCity.Latitude, Longitude: UserCity.Longitude, Radius: Radius,
-                                   ToSurface: Surface, WithColor: UserCity.CityColor, EnableEmission: ShowEmission,
-                                   NodeID: UserPOIID, NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
+                if SomePOI.POIType == POITypes.UserPOI.rawValue
+                {
+                    NodeTables.AddUserPOI(ID: SomePOI.POIID, Name: SomePOI.Name, Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude))
+                    let ToPlot = City2()
+                    ToPlot.Name = SomePOI.Name
+                    ToPlot.CityID = SomePOI.POIID
+                    ToPlot.Latitude = SomePOI.Latitude
+                    ToPlot.Longitude = SomePOI.Longitude
+                    ToPlot.CityColor = SomePOI.POIColor
+                    ToPlot.IsUserCity = true
+                    let ShowEmission = Settings.GetBool(.ShowPOIEmission)
+                    PlotLocationAsCone(ToPlot,
+                                       Latitude: ToPlot.Latitude,
+                                       Longitude: ToPlot.Longitude,
+                                       Radius: Radius,
+                                       ToSurface: Surface,
+                                       WithColor: ToPlot.CityColor,
+                                       EnableEmission: ShowEmission,
+                                       NodeID: SomePOI.POIID,
+                                       NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
+                }
             }
         }
-        #endif
         
         let UseMetro = Settings.GetEnum(ForKey: .PopulationType, EnumType: PopulationTypes.self, Default: .Metropolitan) == .Metropolitan
         let (Max, Min) = CityManager.GetPopulationsIn(CityList: CitiesToPlot, UseMetroPopulation: UseMetro)
-//        let (Max, Min) = Cities.GetPopulationsIn(CityList: CitiesToPlot,
-//                                                 UseMetroPopulation: UseMetro)
         for City in CitiesToPlot
         {
             if City.IsUserCity
             {
                 continue
-                /*
-                let ShowEmission = Settings.GetBool(.ShowPOIEmission) 
-                PlotLocationAsCone(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                   ToSurface: Surface, WithColor: City.CityColor, EnableEmission: ShowEmission,
-                                   NodeID: City.CityID, NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
- */
             }
             else
             {
@@ -775,7 +786,6 @@ extension GlobeView
                     RelativeSize = Double(Min) / Double(Max)
                 }
                 var CityColor = CityManager.ColorForCity(City)
-//                var CityColor = Cities.ColorForCity(City)
                 if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
                 {
                     CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
