@@ -331,25 +331,19 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                         {
                             if Settings.GetBool(.HighlightNodeUnderMouse)
                             {
-                            PreviousNode?.HideBoundingBox()
+                                PreviousNode?.HideBoundingShape()
                             }
                         }
                         if let NodeData = NodeTables.GetItemData(For: NodeID)
                         {
-                            Debug.Print("Found node data for \(NodeData.Name)")
                             MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
                             if Settings.GetBool(.HighlightNodeUnderMouse)
                             {
-                            Node.ShowBoundingBox()
+                                Node.ShowBoundingShape(.Sphere,
+                                                       LineColor: NSColor.red,
+                                                       SegmentCount: 10)
                             }
                             PreviousNode = Node
-                        }
-                        else
-                        {
-                            Debug.Print("*** Did not find node data for \(NodeID)")
-                            #if DEBUG
-                            NodeTables.DumpTableKeys(For: .WorldHeritageSite)
-                            #endif
                         }
                     }
                 }
