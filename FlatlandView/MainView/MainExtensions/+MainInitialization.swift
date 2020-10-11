@@ -55,6 +55,7 @@ extension MainController
         NodeTables.Initialize(Unesco: WorldHeritageSites!)
         
         Main2DView.InitializeLocations()
+        Main3DView.PlotCities()
     }
     
     func LoadInitialMaps()
