@@ -135,9 +135,14 @@ class MainController: NSViewController
     // MARK: Menu and toolbar event handlers
     
     /// Respond to the user command to run settings.
+    /// - Note: If the settings window is already open, it will not open a second instance but return immediately.
     /// - Parameter sender: Not used.
     @IBAction func RunSettings(_ sender: Any)
     {
+        if SettingsWindowOpen
+        {
+            return
+        }
         let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "MainSettingsWindow") as? MainSettingsWindowsCode
         {
@@ -147,8 +152,12 @@ class MainController: NSViewController
             MainSettingsDelegate = Controller
             Controller?.LoadData(DataType: .Earthquakes, Raw: LatestEarthquakes as Any)
             WindowController.showWindow(nil)
+            SettingsWindowOpen = true
         }
     }
+    
+    // Flag used to determine if the settings window is open.
+    var SettingsWindowOpen = false
     
     /// Respond to the user command to show or hide item data.
     /// - Parameter sender: Not used.
