@@ -78,7 +78,6 @@ extension FlatView
                     ToPlot.Longitude = SomePOI.Longitude
                     ToPlot.CityColor = SomePOI.POIColor
                     ToPlot.IsUserCity = true
-                    CitiesToPlot.append(ToPlot)
                     let UserCity = PlotLocationAsCone(Latitude: ToPlot.Latitude, Longitude: ToPlot.Longitude, Radius: Radius,
                                                       WithColor: ToPlot.CityColor)
                     UserCity.name = NodeNames2D.UserPOI.rawValue
@@ -274,7 +273,7 @@ extension FlatView
         Star.geometry?.firstMaterial?.diffuse.contents = WithColor
         if Settings.GetBool(.CityNodesGlow)
         {
-            Star.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+            Star.geometry?.firstMaterial?.emission.contents = WithColor
         }
         
         let SmallStar = SCNNode2(geometry: SCNStar.Geometry(VertexCount: Int(FlatConstants.HomeStarVertexCount.rawValue),
@@ -288,7 +287,7 @@ extension FlatView
         SmallStar.geometry?.firstMaterial?.diffuse.contents = Opposite
         if Settings.GetBool(.CityNodesGlow)
         {
-            SmallStar.geometry?.firstMaterial?.selfIllumination.contents = Opposite
+            SmallStar.geometry?.firstMaterial?.emission.contents = Opposite
         }
         Star.addChildNode(SmallStar)
         SmallStar.position = SCNVector3(0.0, 0.0, 0.0)
