@@ -46,12 +46,14 @@ class NodeTables
         MiscTable[SunID] = DisplayItem(ID: SunID, ItemType: .Miscellaneous, Name: "Sun",
                                        Numeric: 0.0, Location: nil, Description: "The sun")
         MiscTable[SunID]?.HasNumber = false
+        #if false
         MiscTable[EarthGlobe] = DisplayItem(ID: EarthGlobe, ItemType: .Miscellaneous, Name: "Earth Node",
                                             Numeric: 0.0, Location: nil, Description: "Main Earth Node")
         MiscTable[EarthGlobe]?.HasNumber = false
         MiscTable[SeaGlobe] = DisplayItem(ID: SeaGlobe, ItemType: .Miscellaneous, Name: "Sea Node",
                                           Numeric: 0.0, Location: nil, Description: "Main Sea Node")
         MiscTable[SeaGlobe]?.HasNumber = false
+        #endif
     }
     
     /// Add an earthquake to the earthquake item table.
