@@ -855,12 +855,18 @@ extension NSColor
     }
     
     /// Returns the opposite color of the instance color, where "opposite" is defined in terms of hue (technically,
-    /// "opposite" means 180° away form the original color.
+    /// "opposite" means 180° away form the original color. Additionally, saturation is "inverted".
     /// - Returns: High-constrast color based on the instance color.
     public func OppositeColor() -> NSColor
     {
         let (H, S, B) = self.HSB
-        let Final = NSColor(calibratedHue: 1.0 - H, saturation: S, brightness: B, alpha: 1.0)
+        var NewHue = 360.0 * H
+        NewHue = NewHue + 180.0
+        NewHue = fmod(NewHue, 360.0) / 360.0
+        var NewSat = 100.0 * S
+        NewSat = NewSat + 50.0
+        NewSat = fmod(NewSat, 100.0) / 100.0
+        let Final = NSColor(calibratedHue: NewHue, saturation: NewSat, brightness: B, alpha: 1.0)
         return Final
     }
 }
