@@ -109,18 +109,6 @@ class SCNNode2: SCNNode
     /// Node ID. Defaults to nil.
     var NodeID: UUID? = nil
     
-    override var scale: SCNVector3
-    {
-        get
-        {
-            return super.scale
-        }
-        set
-        {
-            super.scale = newValue
-        }
-    }
-    
     /// Propagate the parent's IDs to its children.
     func PropagateIDs()
     {
@@ -134,28 +122,31 @@ class SCNNode2: SCNNode
         }
     }
     
-    var _CanShowBoundingBox: Bool = true
+    // MARK: - Bounding shapes.
+    
+    var _CanShowBoundingShape: Bool = true
     {
         didSet
         {
-            if !_CanShowBoundingBox
+            if !_CanShowBoundingShape
             {
+                HideBoundingSphere()
                 HideBoundingBox()
             }
         }
     }
-    /// Determines whether bounding boxes can be shown. If set to true, bounding boxes can be shown with a
-    /// call to `ShowBoundingBox`. If set to false, bounding boxes are not shown and if a bounding box is
+    /// Determines whether bounding shape can be shown. If set to true, bounding shapes can be shown with a
+    /// call to `ShowBoundingShape`. If set to false, bounding boxes are not shown and if a bounding shape is
     /// currently showing, it is hidden.
-    var CanShowBoundingBox: Bool
+    var CanShowBoundingShape: Bool
     {
         get
         {
-            return _CanShowBoundingBox
+            return _CanShowBoundingShape
         }
         set
         {
-            _CanShowBoundingBox = newValue
+            _CanShowBoundingShape = newValue
         }
     }
     
@@ -170,22 +161,43 @@ class SCNNode2: SCNNode
     /// - Parameter LineThickness: The thickness of the lines making up the bounding box. Scaling the parent
     ///                            `SCNNode2` will affect the visual thickness of the bounding box lines.
     ///                            Defaults to `0.005`.
-    func ShowBoundingBox(LineColor: NSColor = NSColor.red,
+    private func ShowBoundingBox(LineColor: NSColor = NSColor.red,
                          RotateBox: Bool = true,
                          RotationDuration: Double = 3.0,
                          LineThickness: CGFloat = 0.005)
     {
-        if !CanShowBoundingBox
+        if !CanShowBoundingShape
         {
             return
         }
-        HideBoundingBox()
-        if ShowingBoundingBox
+        #if true
+        let Radius = self.boundingSphere.radius * 1.12
+        let BoxShape = SCNBox(width: CGFloat(Radius * 2),
+                              height: CGFloat(Radius * 2),
+                              length: CGFloat(Radius * 2),
+                              chamferRadius: 0.0)
+        BoxShape.firstMaterial?.diffuse.contents = LineColor
+        BoxShape.firstMaterial?.fillMode = .lines
+        BoxShape.firstMaterial?.emission.contents = LineColor
+        BoxNode = SCNNode(geometry: BoxShape)
+        BoxNode.position = self.boundingSphere.center
+        BoxNode.castsShadow = false
+        if RotateBox
         {
-            return
+            let XMultiplier = RotateOnX ? 1.0 : 0.0
+            let YMultiplier = RotateOnY ? 1.0 : 0.0
+            let ZMultiplier = RotateOnZ ? 1.0 : 0.0
+            let Rotation = SCNAction.rotateBy(x: CGFloat(90.0.Radians * XMultiplier),
+                                              y: CGFloat(90.0.Radians * YMultiplier),
+                                              z: CGFloat(90.0.Radians * ZMultiplier),
+                                              duration: RotationDuration)
+            let RotateForever = SCNAction.repeatForever(Rotation)
+            BoxNode.runAction(RotateForever)
         }
+        self.addChildNode(BoxNode)
+        #else
         let (BoxMin, BoxMax) = self.boundingBox
-        _ShowingBoundingBox = true
+        _ShowingBoundingShape = true
         let Point1 = SCNVector3(BoxMin.x, BoxMin.y, BoxMin.z)
         let Point2 = SCNVector3(BoxMin.x, BoxMax.y, BoxMin.z)
         let Point3 = SCNVector3(BoxMax.x, BoxMax.y, BoxMin.z)
@@ -218,7 +230,7 @@ class SCNNode2: SCNNode
         BoundingBoxLines.append(Line10)
         BoundingBoxLines.append(Line11)
         BoundingBoxLines.append(Line12)
-        let BoxNode = SCNNode()
+        BoxNode = SCNNode()
         BoxNode.castsShadow = false
         BoxNode.addChildNode(Line1)
         BoxNode.addChildNode(Line2)
@@ -246,11 +258,14 @@ class SCNNode2: SCNNode
             let RotateForever = SCNAction.repeatForever(Rotation)
             BoxNode.runAction(RotateForever)
         }
+        #endif
     }
+    
+    private var BoxNode = SCNNode()
     
     /// Holds the rotate on X axis flag.
     private var _RotateOnX: Bool = true
-    /// Get or set the rotate bounding box on X axis flag.
+    /// Get or set the rotate bounding shape on X axis flag.
     public var RotateOnX: Bool
     {
         get
@@ -265,7 +280,7 @@ class SCNNode2: SCNNode
     
     /// Holds the rotate on Y axis flag.
     private var _RotateOnY: Bool = true
-    /// Get or set the rotate bounding box on Y axis flag.
+    /// Get or set the rotate bounding shape on Y axis flag.
     public var RotateOnY: Bool
     {
         get
@@ -280,7 +295,7 @@ class SCNNode2: SCNNode
     
     /// Holds the rotate on Z axis flag.
     private var _RotateOnZ: Bool = true
-    /// Get or set the rotate bounding box on Z axis flag.
+    /// Get or set the rotate bounding shape on Z axis flag.
     public var RotateOnZ: Bool
     {
         get
@@ -293,19 +308,18 @@ class SCNNode2: SCNNode
         }
     }
     
-    private var _ShowingBoundingBox: Bool = false
-    /// Gets the current state of the bounding box. The state is changed by calls to `ShowBoundingBox` and
-    /// `HideBoundingBox`.
-    public var ShowingBoundingBox: Bool
+    private var _ShowingBoundingShape: Bool = false
+    /// Gets the current state of the bounding shape.
+    public var ShowingBoundingShape: Bool
     {
         get
         {
-            return _ShowingBoundingBox
+            return _ShowingBoundingShape
         }
     }
     
     /// Hide the bounding box around the node.
-    func HideBoundingBox()
+    private func HideBoundingBox()
     {
         for Line in BoundingBoxLines
         {
@@ -314,7 +328,10 @@ class SCNNode2: SCNNode
             Line.removeFromParentNode()
         }
         BoundingBoxLines.removeAll()
-        _ShowingBoundingBox = false
+        BoxNode.removeAllActions()
+        BoxNode.removeAllAnimations()
+        BoxNode.removeFromParentNode()
+        _ShowingBoundingShape = false
     }
     
     /// Array of bounding box lines.
@@ -349,6 +366,120 @@ class SCNNode2: SCNNode
         LineNode.eulerAngles = SCNVector3(RotateX.Radians, RotateY.Radians, RotateZ.Radians)
         return LineNode
     }
+    
+    /// Create a bounding sphere shape around the parent `SCNNode2`.
+    /// - Note: Bounding spheres do not cast shadows.
+    /// - Note: The caller _must_ set `RotateOnX`, `RotateOnY` and/or `RotateOnZ` before calling
+    ///         this function if there are any changes to default behavior desired.
+    /// - Parameter LineColor: The color of the lines.
+    /// - Parameter RotateSphere: Determines if the bounding sphere rotates.
+    /// - Parameter RotationDuration: Number of seconds for the rotation animation.
+    /// - Parameter SegmentCount: Number of segments for the sphere. More segments add processing time and
+    ///             makes the parent `SCNNode2` harder to see. Defaults to 16.
+    private func ShowBoundingSphere(LineColor: NSColor = NSColor.red,
+                                    RotateSphere: Bool = true,
+                                    RotationDuration: Double = 3.0,
+                                    SegmentCount: Int = 16)
+    {
+        if !CanShowBoundingShape
+        {
+            return
+        }
+        let BoundingRadius = self.boundingSphere.radius * 1.25
+        let BoundingSphere = SCNSphere(radius: CGFloat(BoundingRadius))
+        BoundingSphere.firstMaterial?.fillMode = .lines
+        BoundingSphere.firstMaterial?.diffuse.contents = LineColor
+        BoundingSphere.firstMaterial?.emission.contents = LineColor
+        BoundingSphere.segmentCount = SegmentCount
+        BoundingSphereNode = SCNNode(geometry: BoundingSphere)
+        BoundingSphereNode?.position = self.boundingSphere.center
+        BoundingSphereNode?.castsShadow = false
+        self.addChildNode(BoundingSphereNode!)
+        
+        if RotateSphere
+        {
+            let XMultiplier = RotateOnX ? 1.0 : 0.0
+            let YMultiplier = RotateOnY ? 1.0 : 0.0
+            let ZMultiplier = RotateOnZ ? 1.0 : 0.0
+            let Rotation = SCNAction.rotateBy(x: CGFloat(90.0.Radians * XMultiplier),
+                                              y: CGFloat(90.0.Radians * YMultiplier),
+                                              z: CGFloat(90.0.Radians * ZMultiplier),
+                                              duration: RotationDuration)
+            let RotateForever = SCNAction.repeatForever(Rotation)
+            BoundingSphereNode?.runAction(RotateForever)
+        }
+    }
+    
+    /// Remove the bounding sphere.
+    private func HideBoundingSphere()
+    {
+        BoundingSphereNode?.removeAllActions()
+        BoundingSphereNode?.removeAllAnimations()
+        BoundingSphereNode?.removeFromParentNode()
+        BoundingSphereNode = nil
+    }
+    
+    /// Show a bounding shape around the node.
+    /// - Parameter Shape: The shape of the bounding indicator.
+    /// - Parameter LineColor: The color of the lines.
+    /// - Parameter RotateSphere: Determines if the bounding sphere rotates.
+    /// - Parameter RotationDuration: Number of seconds for the rotation animation.
+    /// - Parameter LineThickness: Thickness of the line. Ignored if `Shape` is .Sphere.
+    /// - Parameter SegmentCount: Number of segments for the sphere. More segments add processing time and
+    ///             makes the parent `SCNNode2` harder to see. Defaults to 16. Ignored if `Shape` is .Box.
+    public func ShowBoundingShape(_ Shape: NodeBoundingShapes,
+                                  LineColor: NSColor = NSColor.red,
+                                  RotateBox: Bool = true,
+                                  RotationDuration: Double = 3.0,
+                                  LineThickness: CGFloat = 0.005,
+                                  SegmentCount: Int = 16)
+    {
+        CurrentBoundingShape = Shape
+        HideBoundingBox()
+        HideBoundingSphere()
+        switch Shape
+        {
+            case .Box:
+                ShowBoundingBox(LineColor: LineColor,
+                                RotateBox: RotateBox,
+                                RotationDuration: RotationDuration,
+                                LineThickness: LineThickness)
+                
+            case .Sphere:
+                ShowBoundingSphere(LineColor: LineColor,
+                                   RotateSphere: RotateBox,
+                                   RotationDuration: RotationDuration,
+                                   SegmentCount: SegmentCount)
+        }
+    }
+    
+    /// The bounding sphere node.
+    var BoundingSphereNode: SCNNode? = nil
+    
+    /// The current bounding shape.
+    public var CurrentBoundingShape: NodeBoundingShapes = .Box
+    
+    /// Hide the bounding shape.
+    public func HideBoundingShape()
+    {
+        switch CurrentBoundingShape
+        {
+            case .Box:
+                HideBoundingBox()
+                
+            case .Sphere:
+                HideBoundingSphere()
+        }
+    }
+}
+
+/// Set of shapes for indicators for `SCNNode2` objects.
+enum NodeBoundingShapes: String, CaseIterable
+{
+    /// Indicator is a box.
+    case Box = "Box"
+    /// Indicator is a sphere.
+    case Sphere = "Sphere"
 }
 
 
