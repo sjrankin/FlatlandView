@@ -249,6 +249,67 @@ enum LightMasks3D: Int, CaseIterable
     case Grid = 0b10000
 }
 
+// MARK: - 3D earthquake constants.
+
+/// Constants related to 3D earthquake shapes.
+enum Quake3D: Double, CaseIterable
+{
+    /// Base time (in seconds) for the pulsating earthquake sphere.
+    case PulsatingBase = 0.7
+    /// Magnitude multiplier for pulsation time for pulsating earthquake spheres.
+    case MagnitudeMultiplier = 0.05
+    /// Sphere radius multiplier for earthquake spheres.
+    case SphereMultiplier = 0.5
+    /// Sphere radius constant for earthquake spheres.
+    case SphereConstant = 0.1
+    /// Pulsating sphere radius constant for pulsating earthquake spheres.
+    case PulsatingSphereConstant = 0.12
+    /// Maximum size for pulsating earthquake spheres.
+    case PulsatingSphereMaxScale = 1.5
+    /// Multiplier for the radial value for capsule and cylinder earthquake shapes.
+    case QuakeCapsuleRadius = 0.25
+    /// Multiplier for the height value for capsule and cylinder earthquake shapes.
+    case QuakeCapsuleHeight = 2.5
+    /// Width of a box indicating an earthquake.
+    case QuakeBoxWidth = 0.50000002
+    /// Length of a box indicating an earthquake.
+    case QuakeBoxLength = 0.5000035005
+    /// Height multiplier of a box indicating an earthquake.
+    case QuakeBoxHeight = 2.50000000002
+    /// Chamfer radius of a box indicating an earthquake.
+    case QuakeBoxChamfer = 0.1000000006
+    /// Top radius for cones indicating an earthquake.
+    case ConeTopRadius = 0.0
+    /// Bottom radius for cones indicating an earthquake.
+    case ConeBottomRadius = 0.5000305
+    /// Height multiplier for cones indicating an earthquake.
+    case ConeHeightMultiplier = 3.5
+    /// Bottom width for pyramids indicating an earthquake.
+    case PyramidWidth = 0.500000003
+    /// Bottom length for pyramids indicating an earthquake.
+    case PyramidLength = 0.500000006
+    /// Height mulitplier for pyramids indicating an earthquake.
+    case PyramidHeightMultiplier = 2.500058
+    /// Length of the static arrow for earthquakes.
+    case StaticArrowLength = 2.0
+    /// Width of static arrows for earthquakes.
+    case StaticArrowWidth = 0.85
+    /// Extrusion of static arrows for earthquakes.
+    case StaticArrowExtrusion = 0.2
+    /// Length of the bouncing arrow.
+    case ArrowLength = 2.00002
+    /// Width of the bouncing arrow.
+    case ArrowWidth = 0.850009
+    /// Extrusion of the bouncing arrow.
+    case ArrowExtrusion = 0.200006
+    /// Distance the arrow bounces.
+    case ArrowBounceDistance = 0.5000004485
+    /// Divisor for the bounce duration.
+    case ArrowBounceDurationDivisor = 5.00000543
+    /// Duration of the rotation of a bouncing earthquake indicator about the Y axis.
+    case ArrowRotationDuration = 1.0
+}
+
 // MARK: - Light mask values for 2D mode.
 
 /// Light masks for 2D scenes. The value of each case if the mask value for a given
@@ -337,6 +398,8 @@ enum PhysicalConstants: Double, CaseIterable
     case EarthRadius = 6371.0
     /// Diameter of the Earth in kilometers.
     case EarthDiameter = 12742.0
+    /// Gravitation parameter of the Earth.
+    case EarthGravitationParameter = 398600.0
 }
 
 enum GravitationParameters: Double, CaseIterable
