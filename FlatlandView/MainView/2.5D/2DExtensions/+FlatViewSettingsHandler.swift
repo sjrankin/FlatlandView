@@ -118,7 +118,7 @@ extension FlatView
             case .HighlightNodeUnderMouse:
                 if PreviousNode != nil
                 {
-                    PreviousNode?.HideBoundingBox()
+                    PreviousNode?.HideBoundingShape()
                 }
                 
             #if DEBUG
