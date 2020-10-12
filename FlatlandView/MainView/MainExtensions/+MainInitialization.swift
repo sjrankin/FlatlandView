@@ -198,7 +198,6 @@ extension MainController
                     
                 case .FlatNorthCenter:
                     Main2DView.SunVisibility(IsShowing: true)
-                    Main2DView.MoveSun(ToNorth: false)
                     MainTimeLabelTop.isHidden = false
                     MainTimeLabelBottom.isHidden = true
                     let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
@@ -211,7 +210,6 @@ extension MainController
                     
                 case .FlatSouthCenter:
                     Main2DView.SunVisibility(IsShowing: true)
-                    Main2DView.MoveSun(ToNorth: true)
                     MainTimeLabelTop.isHidden = true
                     MainTimeLabelBottom.isHidden = false
                     let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
