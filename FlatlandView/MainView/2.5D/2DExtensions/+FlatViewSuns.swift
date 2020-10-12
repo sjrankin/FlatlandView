@@ -37,15 +37,6 @@ extension FlatView
         SunNode.runAction(RotateForever)
     }
     
-    /// Move the sun.
-    /// - Parameter ToNorth: If true, the sun will be moved to the "north" (upper) part of the view. Otherwise,
-    ///                      it will be moved to the "south" (lower) part of the view.
-    func MoveSun(ToNorth: Bool)
-    {
-        let SunLocationY = ToNorth ? FlatConstants.NorthSunLocationY.rawValue : FlatConstants.SouthSunLocationY.rawValue
-        SunNode.position = SCNVector3(0.0, SunLocationY, FlatConstants.PolarLightZTerminal.rawValue)
-    }
-    
     /// Hide or show the sun node.
     func SunVisibility(IsShowing: Bool)
     {
