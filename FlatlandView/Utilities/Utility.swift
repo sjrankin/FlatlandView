@@ -1363,13 +1363,13 @@ class Utility
     /// - Returns: `SCNNode` that contains all of the letters.
     public static func MakeFloatingWord2(Radius: Double, Word: String, Scale: CGFloat = 0.07,
                                          SpacingConstant: Double = 30.0,
-                                        Latitude: Double, Longitude: Double,
-                                        LatitudeOffset: Double = -1.0, LongitudeOffset: Double = -0.5,
-                                        Extrusion: CGFloat = 1.0, Mask: Int? = nil,
-                                        TextFont: NSFont? = nil,
-                                        TextColor: NSColor = NSColor.gray,
-                                        TextSpecular: NSColor = NSColor.white,
-                                        IsMetallic: Bool = false,
+                                         Latitude: Double, Longitude: Double,
+                                         LatitudeOffset: Double = -1.0, LongitudeOffset: Double = -0.5,
+                                         Extrusion: CGFloat = 1.0, Mask: Int? = nil,
+                                         TextFont: NSFont? = nil,
+                                         TextColor: NSColor = NSColor.gray,
+                                         TextSpecular: NSColor = NSColor.white,
+                                         IsMetallic: Bool = false,
                                          WithTag: String? = nil,
                                          Flatness: CGFloat = 0.1) -> [SCNNode]
     {
@@ -1664,27 +1664,41 @@ class Utility
     }
     
     /// Returns a set of points along an arc, equally spaced.
+    /// - Note: Returned points all have a `z` value of 0.0
     /// - Parameter Radius: The radius of the arc.
     /// - Parameter Count: The number of points returned.
-    /// - Parameter Center: The center of the circle.
-    /// - Parameter X: X value. Defaults to `0.0`.
-    /// - Parameter ZOffset: Offset value to add to Z.
     /// - Returns: Array of points along the arc, equally spaced.
-    public static func PointsOnArc(Radius: Double, Count: Int, Center: CGPoint = CGPoint.zero,
-                                   X: Double = 0.0, ZOffset: Double) -> [SCNVector3]
+    public static func PointsOnArc(Radius: Double, Count: Int) -> [SCNVector3]
     {
         var Results = [SCNVector3]()
         let Stride = 180.0 / Double(Count)
         for Angle in stride(from: 0.0, to: 180.01, by: Stride)
         {
             let Radian = Angle.Radians
-            let oX = Double(Center.y) + (Radian * cos(Angle))
-            let Y = oX
-            let Z = Double(Center.x) + (Radian * sin(Angle)) + ZOffset
-            let NewPoint = SCNVector3(X, Y, Z)
+            let X = Radius * cos(Radian)
+            let Y = Radius * sin(Radian)
+            let NewPoint = SCNVector3(X, Y, 0.0)
             Results.append(NewPoint)
         }
         return Results
+    }
+    
+    /// Transform a set of 3D points to be suitable for moving lights in flat mode.
+    /// - Note: For each point in `Points`, `x` is assigned `XValue`, `y` is assigned the source point's `x`
+    ///         value, and `z` is assigned the source point's `y` value with `ZOffset` added.
+    /// - Parameter Points: The source points used to create the results.
+    /// - Parameter XValue: The value to assign to each resultant point's `x` field.
+    /// - Parameter ZOffset: The offset value to add to the resultant point's `z` field.
+    /// - Returns: Array of transformed points suitable for moving lights in flat mode.
+    public static func AdjustPointsOnArc(_ Points: [SCNVector3], XValue: Double, ZOffset: Double) -> [SCNVector3]
+    {
+        var Result = [SCNVector3]()
+        for Point in Points
+        {
+            let NewPoint = SCNVector3(CGFloat(XValue), Point.x, Point.y + CGFloat(ZOffset))
+            Result.append(NewPoint)
+        }
+        return Result
     }
 }
 
