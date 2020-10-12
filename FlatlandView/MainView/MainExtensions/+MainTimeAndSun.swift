@@ -23,7 +23,6 @@ extension MainController
         
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
         {
-            Main2DView.MoveSun(ToNorth: false)
             if Settings.GetEnum(ForKey: .TimeLabel, EnumType: TimeLabels.self, Default: .None) == .None
             {
                 MainTimeLabelTop.isHidden = true
@@ -37,7 +36,6 @@ extension MainController
         }
         else
         {
-            Main2DView.MoveSun(ToNorth: true)
             if Settings.GetEnum(ForKey: .TimeLabel, EnumType: TimeLabels.self, Default: .UTC) == .None
             {
                 MainTimeLabelTop.isHidden = true
