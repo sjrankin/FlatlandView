@@ -428,12 +428,10 @@ class MainController: NSViewController
                 case .FlatSouthCenter:
                     MainTimeLabelTop.isHidden = true
                     MainTimeLabelBottom.isHidden = false
-                    Main2DView.MoveSun(ToNorth: true)
                     
                 case .FlatNorthCenter:
                     MainTimeLabelTop.isHidden = false
                     MainTimeLabelBottom.isHidden = true
-                    Main2DView.MoveSun(ToNorth: false)
                     
                 default:
                     break
