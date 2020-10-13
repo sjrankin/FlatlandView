@@ -920,70 +920,9 @@ class Stenciler
             }
         }
         let B = ImageBlender()
-        Image = B.MergeImages(Background: Image, Sprite: DrawnCircles[0].1, SpriteX: Int(DrawnCircles[0].0.Location.x),
+        Image = B.MergeImages(Background: Image, Sprite: DrawnCircles[0].1,
+                              SpriteX: Int(DrawnCircles[0].0.Location.x),
                               SpriteY: Int(DrawnCircles[0].0.Location.y))!
-        /*
-        for (Record, CircleImage) in DrawnCircles
-        {
-            autoreleasepool
-            {
-            Image = B.MergeImages(Background: Image, Sprite: CircleImage, SpriteX: Int(Record.Location.x),
-                                  SpriteY: Int(Record.Location.y))!
-            }
-        }
- */
-        /*
-        let MShape = Metal2DShapeGenerator()
-        let CircleTest = MShape.DrawCircle(BaseSize: NSSize(width: 300, height: 300),
-                                           Radius: 135,
-                                           Interior: NSColor.systemYellow,
-                                           Background: NSColor.clear,
-                                           BorderColor: NSColor.systemTeal,
-                                           BorderWidth: 10)
-        #if true
-        print("Making transparent image: \(Size)")
-        var Image = MakeNewImage(Size: Size)
-        #else
-        var Image = NSImage(named: "TransparentBase")!
-        #endif
-        #if true
-        let CircleImage = MakeNewImage(Size: NSSize(width: 20.0, height: 20.0))
-        //let CircleImage = NSImage(size: NSSize(width: 20.0, height: 20.0))
-        CircleImage.lockFocus()
-        let CR = NSRect(origin: CGPoint(x: 1, y: 1),
-                        size: CGSize(width: 18.0, height: 18.0))
-        let TheCircle = NSBezierPath(ovalIn: CR)
-        NSColor.yellow.setFill()
-        TheCircle.lineWidth = 1.0
-        NSColor.black.setStroke()
-        TheCircle.fill()
-        TheCircle.stroke()
-        CircleImage.unlockFocus()
-        let B = ImageBlender()
-        Image = B.MergeImages(Background: Image, Sprite: CircleImage, SpriteX: 10, SpriteY: 10)
-        #else
-        Image.lockFocus()
-        for Circle in Circles
-        {
-            let CircleRect = NSRect(x: Circle.Location.x - Circle.Radius,
-                                    y: Circle.Location.y - Circle.Radius,
-                                    width: Circle.Radius * 2.0,
-                                    height: Circle.Radius * 2.0)
-            let SomeCircle = NSBezierPath(ovalIn: CircleRect)
-            Circle.Color.setFill()
-            SomeCircle.fill()
-            if Circle.OutlineColor != nil && Circle.OutlineWidth != nil
-            {
-                SomeCircle.lineWidth = Circle.OutlineWidth!
-                Circle.OutlineColor!.setStroke()
-                SomeCircle.stroke()
-            }
-        }
-        Image.unlockFocus()
-        let Adjustment = AdjustTransparency()
-        Image = Adjustment.Adjust(Source: Image)!
-        #endif
- */
         return Image
     }
     
