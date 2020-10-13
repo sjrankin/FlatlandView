@@ -90,7 +90,7 @@ extension MainController
             let Lon = Where.Longitude.RoundedTo(3)
             LocationLabel.isHidden = false
             let LatHemi = Lat >= 0.0 ? "N" : "S"
-            let LonHemi = Lon >= 180.0 ? "W" : "E"
+            let LonHemi = Lon < 0.0 ? "W" : "E"
             LocationValue.stringValue = "\(abs(Lat))\(LatHemi), \(abs(Lon))\(LonHemi)"
         }
         else
