@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17132" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17132"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17132"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17505"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -74,6 +74,19 @@
                                     <action selector="HandleViewTypePressed:" target="JmJ-32-lOJ" id="2y8-4E-aAC"/>
                                 </connections>
                             </button>
+                            <button identifier="Snapshot Button" toolTip="Take a snapshot of the current About image." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="70D-u3-FuB">
+                                <rect key="frame" x="559" y="12" width="28" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="28" id="bMa-1F-QGi"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="CameraButtonUnpressed" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Ebw-8R-Wae">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleSnapshot:" target="JmJ-32-lOJ" id="Zmm-3F-AzF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="YJt-Ry-z1i" firstAttribute="leading" secondItem="rNs-1u-AzR" secondAttribute="leading" constant="4" id="1t5-Dn-MXc"/>
@@ -82,8 +95,11 @@
                             <constraint firstItem="YJt-Ry-z1i" firstAttribute="top" secondItem="rNs-1u-AzR" secondAttribute="top" constant="4" id="EAL-XJ-49s"/>
                             <constraint firstItem="krk-cS-dZQ" firstAttribute="centerX" secondItem="rNs-1u-AzR" secondAttribute="centerX" id="GAQ-UH-hnR"/>
                             <constraint firstAttribute="bottom" secondItem="krk-cS-dZQ" secondAttribute="bottom" constant="6" id="Ijo-jX-SON"/>
+                            <constraint firstItem="70D-u3-FuB" firstAttribute="top" secondItem="Idv-Ko-g5b" secondAttribute="top" id="Jtm-Ys-0yM"/>
                             <constraint firstItem="PWh-Oh-fdJ" firstAttribute="baseline" secondItem="Idv-Ko-g5b" secondAttribute="baseline" id="NcW-zC-Qbt"/>
+                            <constraint firstItem="70D-u3-FuB" firstAttribute="centerY" secondItem="krk-cS-dZQ" secondAttribute="centerY" id="Pwu-hy-uEt"/>
                             <constraint firstItem="krk-cS-dZQ" firstAttribute="centerY" secondItem="Idv-Ko-g5b" secondAttribute="centerY" id="XWP-T3-skh"/>
+                            <constraint firstAttribute="trailing" secondItem="70D-u3-FuB" secondAttribute="trailing" constant="221" id="a24-h7-iZF"/>
                             <constraint firstItem="PWh-Oh-fdJ" firstAttribute="leading" secondItem="rNs-1u-AzR" secondAttribute="leading" constant="20" symbolic="YES" id="hbQ-FC-Lab"/>
                             <constraint firstItem="PWh-Oh-fdJ" firstAttribute="top" secondItem="YJt-Ry-z1i" secondAttribute="bottom" constant="8" id="qG7-RD-467"/>
                             <constraint firstItem="krk-cS-dZQ" firstAttribute="top" secondItem="YJt-Ry-z1i" secondAttribute="bottom" constant="2" id="qUV-Gs-edb"/>
@@ -228,6 +244,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="CameraButtonUnpressed" width="24" height="24"/>
         <image name="CubeIcon" width="24" height="24"/>
     </resources>
 </document>
