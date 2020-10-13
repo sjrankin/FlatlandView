@@ -175,7 +175,7 @@ extension GlobeView
         }
         let Oldest = OldestEarthquakeOccurence(List)
         let Biggest = CityManager.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true) 
-//        let Biggest = Cities.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
+        //        let Biggest = Cities.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
         var MaxSignificance = 0
         for Quake in List
         {
@@ -383,7 +383,11 @@ extension GlobeView
                 let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
                 Arrow.runAction(AnimationGroup)
                 Arrow.runAction(RotateForever)
-                FinalNode = Arrow
+                let Encapsulate = SCNNode2()
+                Encapsulate.addChildNode(Arrow)
+                FinalNode = Encapsulate
+                FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)
+                FinalNode.NodeID = Quake.ID
                 
             case .StaticArrow:
                 RadialOffset = 0.7
