@@ -176,7 +176,7 @@ class MainController: NSViewController
     /// - Parameter sender: Not used.
     @IBAction func TakeSnapShot(_ sender: Any)
     {
-        CreateClientSnapshot()
+        Snapshot.Take(From: PrimaryView, WindowID: WindowID(), Frame: view.window!.frame)
     }
     
     /// Respond to the user command to show the about dialog.
