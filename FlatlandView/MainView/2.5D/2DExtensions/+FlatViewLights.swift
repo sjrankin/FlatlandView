@@ -104,18 +104,37 @@ extension FlatView
         self.scene?.rootNode.addChildNode(PolarNode)
     }
     
+    /// Update the intensity of the polar light.
+    /// - Note: If `With` is not `1.0`, the default polar light intensity is multiplied by `With` to form the
+    ///         final intensity value. This is to prevent multiple changes from causing unexpected values.
+    /// - Parameter With: New intensity multiplier. If this value is `1.0`, the polar light's intensity is
+    ///                   reset to the default value found in `FlatConstants.PolarLightIntensity`.
+    func UpdatePolarLight(With IntensityMultiplier: Double)
+    {
+        print("Updating polar light with multiplier: \(IntensityMultiplier)")
+        if IntensityMultiplier == 1.0
+        {
+            PolarNode.light?.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
+            return
+        }
+        let NewIntensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue * IntensityMultiplier)
+        PolarNode.light?.intensity = NewIntensity
+            print("  PolarNode.light?.intensity=\(PolarNode.light?.intensity)")
+    }
+    
     /// Move the polar light to the appropriate pole to cast shadows.
     /// - Note: The 2D sun node is also moved along with the light.
     /// - Parameter ToNorth: Determines if the polar light is moved to the north or south pole.
     func MovePolarLight(ToNorth: Bool)
     {
         var LightPath = Utility.PointsOnArc(Radius: FlatConstants.FlatRadius.rawValue + FlatConstants.PolarSunRimOffset.rawValue,
-                                            Count: 10)
+                                            Count: Int(FlatConstants.LightPathSegmentCount.rawValue))
         if ToNorth
         {
             LightPath = LightPath.reversed()
         }
-        LightPath = Utility.AdjustPointsOnArc(LightPath, XValue: 0.0, ZOffset: Double(PolarNode.position.z))
+        LightPath = Utility.AdjustPointsOnArc(LightPath, XValue: 0.0, ZOffset: Double(PolarNode.position.z),
+                                              ZMultiplier: FlatConstants.PolarLightPathZMultiplier.rawValue)
         LightNode.position = LightPath[0]
         let OverallDuration = FlatConstants.PolarAnimationDuration.rawValue
         let XOrientation = CGFloat(FlatConstants.PolarLightXOrientation.rawValue.Radians)
@@ -144,7 +163,7 @@ extension FlatView
             let PercentElapsed = Elapsed / CGFloat(OverallDuration)
             var Percent = PercentElapsed > 0.5 ? 1.0 - PercentElapsed : PercentElapsed
             Percent = 1.0 - Percent
-            Node.light?.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue) * Percent
+            Node.light?.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue * self.PrimaryLightMultiplier) * Percent
         }
         
         let Pitch = SCNAction.rotateTo(x: NewPitch, y: 0.0, z: 0.0, duration: OverallDuration)
@@ -153,6 +172,7 @@ extension FlatView
         {
             self.PolarNode.removeAllAnimations()
         }
+        
         let SunPoleOrientation = SCNAction.rotateTo(x: CGFloat(180.0.Radians), y: 0.0, z: 0.0,
                                                     duration: OverallDuration)
         let SunBatch = SCNAction.group([MotionSequence, SunPoleOrientation])
