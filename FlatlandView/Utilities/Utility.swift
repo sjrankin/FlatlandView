@@ -1689,13 +1689,17 @@ class Utility
     /// - Parameter Points: The source points used to create the results.
     /// - Parameter XValue: The value to assign to each resultant point's `x` field.
     /// - Parameter ZOffset: The offset value to add to the resultant point's `z` field.
+    /// - Parameter ZMultiplier: Mutlipier for the Z value - applied before summing the offset with the original
+    ///                          point.
     /// - Returns: Array of transformed points suitable for moving lights in flat mode.
-    public static func AdjustPointsOnArc(_ Points: [SCNVector3], XValue: Double, ZOffset: Double) -> [SCNVector3]
+    public static func AdjustPointsOnArc(_ Points: [SCNVector3], XValue: Double, ZOffset: Double,
+                                         ZMultiplier: Double = 1.0) -> [SCNVector3]
     {
         var Result = [SCNVector3]()
         for Point in Points
         {
-            let NewPoint = SCNVector3(CGFloat(XValue), Point.x, Point.y + CGFloat(ZOffset))
+            let FinalZ = (Point.y * CGFloat(ZMultiplier)) + CGFloat(ZOffset)
+            let NewPoint = SCNVector3(CGFloat(XValue), Point.x, FinalZ)
             Result.append(NewPoint)
         }
         return Result
