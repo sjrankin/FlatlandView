@@ -465,7 +465,9 @@ extension FlatView
         ENode.RotateOnY = false
         ENode.RotateOnZ = true
         
-        let Rotation = SCNAction.rotateBy(x: 0.0, y: 0.0, z: CGFloat(360.0.Radians), duration: 5.0)
+        let Direction = Quake.Latitude >= 0.0 ? -1.0 : 1.0
+        
+        let Rotation = SCNAction.rotateBy(x: 0.0, y: 0.0, z: CGFloat(360.0.Radians * Direction), duration: 5.0)
         let Forever = SCNAction.repeatForever(Rotation)
         ENode.runAction(Forever)
         
