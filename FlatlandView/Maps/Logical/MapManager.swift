@@ -50,6 +50,19 @@ class MapManager
         return nil
     }
     
+    /// Returns the light intensity multiplier for the specified map type.
+    /// - Parameter MapType: The map type whose light intensity multiplier is returned. If `MapType`
+    ///                      is not found, `1.0` is returned.
+    /// - Returns: The map's light intensity multiplier value.
+    public static func GetLightMulitplier(MapType: MapTypes) -> Double
+    {
+        if let Map = MapList.Map(For: MapType)
+        {
+            return Map.LightMultiplier2D
+        }
+        return 1.0
+    }
+    
     /// Returns an image of the side of a cubic world.
     /// - Parameter CubicImage: Determines which side to return.
     /// - Returns: Image for the specified side. Nil if not found.
