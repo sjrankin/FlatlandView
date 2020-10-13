@@ -309,6 +309,12 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
         }
     }
     
+    @IBAction func HandleSnapshot(_ sender: Any)
+    {
+        let ID = CGWindowID(view.window!.windowNumber)
+        Snapshot.Take(From: AboutWorld, WindowID: ID, Frame: view.window!.frame)
+    }
+    
     var CurrentView = ViewTypes.Globe3D
     
     func MainClosing()
