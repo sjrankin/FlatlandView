@@ -10,6 +10,7 @@
 		170181C12504A467000F91B6 /* TransparencyParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170181C02504A467000F91B6 /* TransparencyParameters.swift */; };
 		1701BF7A24FCE0D700686C3A /* CityPopulationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */; };
 		1701BF7C24FCE0FD00686C3A /* CityPopulationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */; };
+		1701CFC52535646C00544F05 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701CFC42535646C00544F05 /* Snapshot.swift */; };
 		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
 		1707A7AF249CACAB00A90FCA /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1707A7AE249CACAB00A90FCA /* Earthquake.swift */; };
 		1716DB1624E5011E00C4F8BD /* CustomCityWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1716DB1524E5011E00C4F8BD /* CustomCityWindow.swift */; };
@@ -117,7 +118,6 @@
 		17897C872514AA1100544DE1 /* +MainEventHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C862514AA1100544DE1 /* +MainEventHandling.swift */; };
 		17897C8A2514AA6C00544DE1 /* +MainWindowing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C892514AA6C00544DE1 /* +MainWindowing.swift */; };
 		17897C8D2514AAB300544DE1 /* +MainTimers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C8C2514AAB300544DE1 /* +MainTimers.swift */; };
-		17897C902514AB1400544DE1 /* +MainSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C8F2514AB1400544DE1 /* +MainSnapshot.swift */; };
 		17897C932514AB6E00544DE1 /* +MainTimeAndSun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C922514AB6E00544DE1 /* +MainTimeAndSun.swift */; };
 		178A86932488C0E000BE8D46 /* AboutWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86922488C0E000BE8D46 /* AboutWindow.swift */; };
 		178A86952488C0F800BE8D46 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 178A86942488C0F800BE8D46 /* About.storyboard */; };
@@ -275,6 +275,7 @@
 		170181C02504A467000F91B6 /* TransparencyParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparencyParameters.swift; sourceTree = "<group>"; };
 		1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationWindow.swift; sourceTree = "<group>"; };
 		1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationController.swift; sourceTree = "<group>"; };
+		1701CFC42535646C00544F05 /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
 		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
 		1707A7AE249CACAB00A90FCA /* Earthquake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
 		1716DB1524E5011E00C4F8BD /* CustomCityWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCityWindow.swift; sourceTree = "<group>"; };
@@ -385,7 +386,6 @@
 		17897C862514AA1100544DE1 /* +MainEventHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainEventHandling.swift"; sourceTree = "<group>"; };
 		17897C892514AA6C00544DE1 /* +MainWindowing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainWindowing.swift"; sourceTree = "<group>"; };
 		17897C8C2514AAB300544DE1 /* +MainTimers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainTimers.swift"; sourceTree = "<group>"; };
-		17897C8F2514AB1400544DE1 /* +MainSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainSnapshot.swift"; sourceTree = "<group>"; };
 		17897C922514AB6E00544DE1 /* +MainTimeAndSun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainTimeAndSun.swift"; sourceTree = "<group>"; };
 		178A86922488C0E000BE8D46 /* AboutWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutWindow.swift; sourceTree = "<group>"; };
 		178A86942488C0F800BE8D46 /* About.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = About.storyboard; sourceTree = "<group>"; };
@@ -1253,6 +1253,7 @@
 				17E3EDC524B5B222007C1D72 /* FontHelper.swift */,
 				1748913224C6A53D00B5F6AF /* Imaging.swift */,
 				1737100F24E2BB7300BC6CF8 /* Stenciler.swift */,
+				1701CFC42535646C00544F05 /* Snapshot.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1308,7 +1309,6 @@
 				17EB5C1225159AB1007A75EF /* +MainAsynchronous.swift */,
 				17897C862514AA1100544DE1 /* +MainEventHandling.swift */,
 				17897C8C2514AAB300544DE1 /* +MainTimers.swift */,
-				17897C8F2514AB1400544DE1 /* +MainSnapshot.swift */,
 				17897C892514AA6C00544DE1 /* +MainWindowing.swift */,
 				17897C922514AB6E00544DE1 /* +MainTimeAndSun.swift */,
 				17CFEC5A2522D9B7005C3E49 /* +MainDetailView.swift */,
@@ -1625,7 +1625,6 @@
 				17F9AFEB2520347300DE0219 /* +NSRect.swift in Sources */,
 				17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */,
 				17B8F51E25037D8B00D71931 /* AdjustTransparency.swift in Sources */,
-				17897C902514AB1400544DE1 /* +MainSnapshot.swift in Sources */,
 				17F9B00A2520373A00DE0219 /* +LocationsSettings.swift in Sources */,
 				1716DB1824E5013900C4F8BD /* CustomCityController.swift in Sources */,
 				1759FC6924A615BD001B1D4B /* RecentEarthquakeController.swift in Sources */,
@@ -1713,6 +1712,7 @@
 				17F782C1249742A1000A568E /* USGS.swift in Sources */,
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
+				1701CFC52535646C00544F05 /* Snapshot.swift in Sources */,
 				17DF115E2512F3B400F04EAF /* AnimatedGradientLayer.swift in Sources */,
 				178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */,
 				176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */,
