@@ -23,9 +23,21 @@ extension FlatView
         Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
         FlatEarthNode = SCNNode(geometry: Flat)
         FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue | LightMasks2D.Polar.rawValue
-        let Image = NSImage(named: "SimplePoliticalWorldMapSouthCenter")
+        var Image: NSImage!
+        var IntensityMultiplier = 1.0
+        let MapType = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+        let MapViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
+        if let SavedImage = MapManager.ImageFor(MapType: MapType, ViewType: MapViewType)
+        {
+            IntensityMultiplier = MapManager.GetLightMulitplier(MapType: MapType)
+            Image = SavedImage
+        }
+        else
+        {
+            IntensityMultiplier = MapManager.GetLightMulitplier(MapType: .SimplePoliticalMap1)
+            Image = NSImage(named: "SimplePoliticalWorldMapSouthCenter")
+        }
         SetEarthMap(Image!)
-        let IntensityMultiplier = MapManager.GetLightMulitplier(MapType: .SimplePoliticalMap1)
         PrimaryLightMultiplier = IntensityMultiplier
         UpdatePolarLight(With: PrimaryLightMultiplier)
         FlatEarthNode.geometry?.firstMaterial?.lightingModel = .lambert
