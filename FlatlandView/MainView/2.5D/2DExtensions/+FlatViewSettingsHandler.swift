@@ -32,6 +32,9 @@ extension FlatView
                 {
                     if let MapImage = MapManager.ImageFor(MapType: MapValue, ViewType: CurrentView)
                     {
+                        let IntensityMultiplier = MapManager.GetLightMulitplier(MapType: MapValue)
+                        PrimaryLightMultiplier = IntensityMultiplier
+                        UpdatePolarLight(With: PrimaryLightMultiplier)
                         SetEarthMap(MapImage)
                     }
                 }
