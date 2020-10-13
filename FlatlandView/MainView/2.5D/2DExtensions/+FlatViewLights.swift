@@ -111,7 +111,6 @@ extension FlatView
     ///                   reset to the default value found in `FlatConstants.PolarLightIntensity`.
     func UpdatePolarLight(With IntensityMultiplier: Double)
     {
-        print("Updating polar light with multiplier: \(IntensityMultiplier)")
         if IntensityMultiplier == 1.0
         {
             PolarNode.light?.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
@@ -119,7 +118,6 @@ extension FlatView
         }
         let NewIntensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue * IntensityMultiplier)
         PolarNode.light?.intensity = NewIntensity
-            print("  PolarNode.light?.intensity=\(PolarNode.light?.intensity)")
     }
     
     /// Move the polar light to the appropriate pole to cast shadows.
@@ -150,7 +148,6 @@ extension FlatView
         let SegmentDuration = OverallDuration / Double(LightPath.count - 1)
         var ArcSegments = [SCNAction]()
         for Index in 1 ..< LightPath.count
-        
         {
             let Motion = SCNAction.move(to: SCNVector3(0.0, LightPath[Index].y, LightPath[Index].z), duration: SegmentDuration)
             ArcSegments.append(Motion)
