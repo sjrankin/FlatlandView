@@ -44,7 +44,7 @@
                                         <action selector="ShowAbout:" target="gS1-iC-1Lf" id="cdr-ap-txY"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="FA36CB54-B246-4B11-A021-DF49157EB406" label="Home Position" paletteLabel="Home Position" tag="-1" image="ResetViewIcon" id="Y99-uv-LZz">
+                                <toolbarItem implicitItemIdentifier="FA36CB54-B246-4B11-A021-DF49157EB406" label="Reset Map" paletteLabel="Reset Map" tag="-1" image="ResetViewIcon" id="Y99-uv-LZz">
                                     <size key="minSize" width="24" height="24"/>
                                     <size key="maxSize" width="24" height="24"/>
                                     <connections>
@@ -74,7 +74,7 @@
                                         <action selector="HandleHourTypeChange:" target="gS1-iC-1Lf" id="6Mf-7T-6sD"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="A83762AA-C5FF-4038-AE1E-26FA2FA5BD81" label="View Type" paletteLabel="View Type" sizingBehavior="auto" id="FW5-HH-uvu">
+                                <toolbarItem implicitItemIdentifier="A83762AA-C5FF-4038-AE1E-26FA2FA5BD81" label="Map Type" paletteLabel="Map Type" sizingBehavior="auto" id="FW5-HH-uvu">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="zlI-db-Myb">
                                         <rect key="frame" x="0.0" y="14" width="154" height="24"/>
@@ -97,7 +97,7 @@
                                         <action selector="HandleViewTypeChange:" target="gS1-iC-1Lf" id="uO2-5J-Abp"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="4B42A07B-DD3A-4C5D-9D77-261AFEF8C3FE" label="Item Info" paletteLabel="Item Info" tag="-1" image="Binoculars" id="NG7-vc-2Xn">
+                                <toolbarItem implicitItemIdentifier="4B42A07B-DD3A-4C5D-9D77-261AFEF8C3FE" label="Show Info" paletteLabel="Show Info" tag="-1" image="Binoculars" id="NG7-vc-2Xn">
                                     <size key="minSize" width="48" height="48"/>
                                     <size key="maxSize" width="48" height="48"/>
                                     <connections>
