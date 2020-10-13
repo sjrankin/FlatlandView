@@ -283,10 +283,12 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
             switch Center
             {
                 case .FlatSouthCenter:
+                    UpdatePolarLight(With: PrimaryLightMultiplier)
                     PolarLight.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
                     MovePolarLight(ToNorth: true)
                     
                 case .FlatNorthCenter:
+                    UpdatePolarLight(With: PrimaryLightMultiplier)
                     PolarLight.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
                     MovePolarLight(ToNorth: false)
                     
@@ -364,4 +366,5 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var SunNode = SCNNode2()
     var CitiesToPlot = [City2]()
     var POIsToPlot = [POI]()
+    var PrimaryLightMultiplier: Double = 1.0
 }
