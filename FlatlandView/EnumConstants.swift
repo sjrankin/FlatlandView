@@ -123,7 +123,7 @@ enum FlatConstants: Double, CaseIterable
     /// Z coordinate of the grid light.
     case GridLightZ = 80.0
     /// Standard polar light intensity.
-    case PolarLightIntensity = 3600.0
+    case PolarLightIntensity = 6000.0
     /// Standard sun light intensity.
     case SunLightIntensity = 1000.01
     /// Z coordinate of the sun light.
@@ -134,6 +134,10 @@ enum FlatConstants: Double, CaseIterable
     case PolarZNear = 0.100101
     /// Polar light spot outer angle.
     case PolarLightOuterAngle = 100.00781
+    /// Z coordinate multiplier for moving the polar light.
+    case PolarLightPathZMultiplier = 0.75
+    /// Number of segments in the polar light path.
+    case LightPathSegmentCount = 10.00000000005896
     /// Shadow cascade splitter factor for the polar light shadow rendering.
     case ShadowSplitting = 0.09
     /// Side length of the shadow map for polor light shadow rendering.
