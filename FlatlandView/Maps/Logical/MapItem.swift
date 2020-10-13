@@ -24,7 +24,10 @@ class MapItem
     ///   - South: Name of the south-centered flat map. External files should specify the full name including
     ///            the file's extension.
     ///   - Preload: If true, the map is loaded at instantiation time.
-    init(_ MapType: MapTypes, _ External: Bool, UserMap: Bool = false, _ Global: String, _ North: String, _ South: String, Preload: Bool = false)
+    ///   - LightMultiplier: Value to multiply the intensity of the main light in 2D mode. Defaults
+    ///                      to `1.0`.
+    init(_ MapType: MapTypes, _ External: Bool, UserMap: Bool = false, _ Global: String, _ North: String,
+         _ South: String, Preload: Bool = false, LightMultiplier: Double = 1.0)
     {
         self.MapType = MapType
         self.UserMap = UserMap
@@ -38,6 +41,7 @@ class MapItem
             let _ = GetMapImage(For: .North)
             let _ = GetMapImage(For: .South)
         }
+        LightMultiplier2D = LightMultiplier
     }
     
     /// Returns the map image for the specified map function.
@@ -154,6 +158,7 @@ class MapItem
     public var SouthCenterMap: NSImage? = nil
     public var MapType: MapTypes = .Standard
     public var UserMap: Bool = false
+    public var LightMultiplier2D: Double = 1.0
 }
 
 /// The functional purpose of a map image.
