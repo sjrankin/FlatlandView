@@ -366,7 +366,9 @@ extension GlobeView
                                          NodeScales3D.ArrowScale.rawValue)
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
-                let Rotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: Quake3D.ArrowRotationDuration.rawValue)
+                let RotateDirection = Quake.Latitude >= 0.0 ? 1.0 : -1.0
+                let Rotate = SCNAction.rotateBy(x: 0.0, y: CGFloat(RotateDirection), z: 0.0,
+                                                duration: Quake3D.ArrowRotationDuration.rawValue)
                 let RotateForever = SCNAction.repeatForever(Rotate)
                 
                 let BounceDistance: CGFloat = CGFloat(Quake3D.ArrowBounceDistance.rawValue)
@@ -381,15 +383,7 @@ extension GlobeView
                 let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
                 Arrow.runAction(AnimationGroup)
                 Arrow.runAction(RotateForever)
-                #if false
                 FinalNode = Arrow
-                #else
-                let Encapsulate = SCNNode2()
-                Encapsulate.addChildNode(Arrow)
-                FinalNode = Encapsulate
-                FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
-                FinalNode.NodeID = Quake.ID
-                #endif
                 
             case .StaticArrow:
                 RadialOffset = 0.7
