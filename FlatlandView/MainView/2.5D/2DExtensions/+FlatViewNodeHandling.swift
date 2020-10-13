@@ -25,6 +25,9 @@ extension FlatView
         FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue | LightMasks2D.Polar.rawValue
         let Image = NSImage(named: "SimplePoliticalWorldMapSouthCenter")
         SetEarthMap(Image!)
+        let IntensityMultiplier = MapManager.GetLightMulitplier(MapType: .SimplePoliticalMap1)
+        PrimaryLightMultiplier = IntensityMultiplier
+        UpdatePolarLight(With: PrimaryLightMultiplier)
         FlatEarthNode.geometry?.firstMaterial?.lightingModel = .lambert
         FlatEarthNode.position = SCNVector3(0.0, 0.0, 0.0)
         FlatEarthNode.eulerAngles = SCNVector3(90.0.Radians, 180.0.Radians, 0.0)
