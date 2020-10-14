@@ -186,7 +186,11 @@ extension GlobeView
         }
         for Quake in List
         {
-            let (QShape, MagShape) = MakeEarthquakeNode(Quake)
+            let (QShape, MagShape, InfoNode) = MakeEarthquakeNode(Quake)
+            if let INode = InfoNode
+            {
+                Surface.addChildNode(INode)
+            }
             if let QNode = QShape
             {
                 var BaseColor = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
@@ -310,10 +314,11 @@ extension GlobeView
     /// - Note: If extruded magnitude values are specified as the node, node shapes are not drawn - just the
     ///         extruded number.
     /// - Parameter Quake: The earthquake whose shape will be created.
-    /// - Returns: Tuple of two `SCNNode2`s. The first is a shape to be used to indicate an earthquake and the
+    /// - Returns: Tuple of three `SCNNode2`s. The first is a shape to be used to indicate an earthquake and the
     ///            second (which may not be present, depending on the value of `.EarthquakeMagnitudeViews`)
-    ///            is extruded text with the value of the magntiude of the earthquake.
-    func MakeEarthquakeNode(_ Quake: Earthquake) -> (Shape: SCNNode2?, Magnitude: SCNNode2?)
+    ///            is extruded text with the value of the magntiude of the earthquake. The third node is an
+    ///            invisible info node to interact with the mouse.
+    func MakeEarthquakeNode(_ Quake: Earthquake) -> (Shape: SCNNode2?, Magnitude: SCNNode2?, InfoNode: SCNNode2?)
     {
         #if true
         let FinalRadius = GlobeRadius.Primary.rawValue
@@ -349,6 +354,15 @@ extension GlobeView
             case .Stenciled:
                 break
         }
+        
+        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
+        let ERadius = (Quake.Magnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.SphereConstant.rawValue
+        let QSphere = SCNSphere(radius: CGFloat(ERadius))
+        let INode = SCNNode2(geometry: QSphere)
+        INode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        INode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
+        INode.NodeID = Quake.ID
+        INode.position = SCNVector3(X, Y, Z)
         
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         {
@@ -474,12 +488,12 @@ extension GlobeView
                 FinalNode.NodeID = Quake.ID
                 FinalNode.runAction(ScaleForever)
         }
-        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
+
         FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
         FinalNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FinalNode.position = SCNVector3(X, Y, Z)
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        return (FinalNode, MagNode)
+        return (FinalNode, MagNode, INode)
     }
     
     /// Determines if a given earthquake happened in the number of days prior to the instance.
