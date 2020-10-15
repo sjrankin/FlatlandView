@@ -13,11 +13,6 @@ class OrbitalElements
 {
 }
 
-enum Satellites: String, CaseIterable
-{
-    case ISS = "ISS"
-}
-
 class OrbitalElement
 {
     init(_ Name: String, _ a: Double, _ e: Double, _ I: Double, _ L: Double, _ w: Double,
