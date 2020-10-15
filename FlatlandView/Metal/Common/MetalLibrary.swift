@@ -97,7 +97,7 @@ class MetalLibrary
             //let BitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
             let BitmapInfo = Adjusted.bitmapInfo
             #endif
-            let BitsPerComponent = Adjusted.bitsPerComponent// 8
+            let BitsPerComponent = Adjusted.bitsPerComponent
             let BytesPerRow = Adjusted.bytesPerRow
             let Context = CGContext(data: &RawData,
                                     width: ImageWidth,
