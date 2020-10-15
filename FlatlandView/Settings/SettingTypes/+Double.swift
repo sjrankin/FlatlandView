@@ -26,9 +26,9 @@ extension Settings
     /// - Parameter Value: The initial value of the setting.
     public static func InitializeDoubleNil(_ Setting: SettingKeys, _ Value: Double? = nil)
     {
-        if !TypeIsValid(Setting, Type: Double.self)
+        if !TypeIsValid(Setting, Type: Double?.self)
         {
-            fatalError("\(Setting) is not a Double")
+            fatalError("\(Setting) is not a Double?")
         }
         if let Actual = Value
         {
