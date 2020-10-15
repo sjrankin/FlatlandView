@@ -231,7 +231,7 @@ extension MainController
             #if DEBUG
             UptimeValue.stringValue = "0"
             #endif
-            switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self)!
+            switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .Solar)
             {
                 case HourValueTypes.None:
                     (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 0
@@ -246,7 +246,7 @@ extension MainController
                     (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 1
             }
             
-            switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self)!
+            switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D)
             {
                 case .FlatNorthCenter:
                     (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 0
