@@ -45,6 +45,7 @@ extension MainController: SettingChangedProtocol
                     }
                     if Settings.GetBool(.EnableEarthquakes)
                     {
+                        Main3DView.ClearEarthquakes()
                         Main3DView.PlotEarthquakes()
                     }
                 }
