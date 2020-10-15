@@ -32,8 +32,8 @@ extension MainController: SettingChangedProtocol
                 let MapViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
                 if MapViewType == .Globe3D
                 {
-                    //Main3DView.play(self)
-                    //Main2DView.pause(self)
+                    Main3DView.play(self)
+                    Main2DView.pause(self)
                     let (Earth, Sea) = Main3DView.MakeMaps(NewMap)
                     if Sea != nil
                     {
