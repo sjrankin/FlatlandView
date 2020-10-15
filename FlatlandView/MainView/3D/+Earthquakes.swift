@@ -331,7 +331,7 @@ extension GlobeView
         var FinalNode: SCNNode2!
         var YRotation: Double = 0.0
         var XRotation: Double = 0.0
-        var RadialOffset: Double = 0.0
+        var RadialOffset: Double = 0.5
         
         var MagNode: SCNNode2? = nil
         switch Settings.GetEnum(ForKey: .EarthquakeMagnitudeViews, EnumType: EarthquakeMagnitudeViews.self, Default: .No)
@@ -355,14 +355,16 @@ extension GlobeView
                 break
         }
         
-        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
+        let Radiusp = Double(FinalRadius) + RadialOffset - Quake3D.InvisibleEarthquakeOffset.rawValue
+        let (Xp, Yp, Zp) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radiusp)
         let ERadius = (Quake.Magnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.SphereConstant.rawValue
         let QSphere = SCNSphere(radius: CGFloat(ERadius))
         let INode = SCNNode2(geometry: QSphere)
+        INode.CanShowBoundingShape = true
         INode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         INode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
         INode.NodeID = Quake.ID
-        INode.position = SCNVector3(X, Y, Z)
+        INode.position = SCNVector3(Xp, Yp, Zp)
         
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         {
@@ -489,6 +491,7 @@ extension GlobeView
                 FinalNode.runAction(ScaleForever)
         }
 
+        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
         FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
         FinalNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FinalNode.position = SCNVector3(X, Y, Z)
