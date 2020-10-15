@@ -124,7 +124,7 @@ extension FlatView
                     PreviousNode?.HideBoundingShape()
                 }
                 
-            #if true
+            #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints, .ShowStatistics:
                 let ViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld)
