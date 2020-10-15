@@ -1468,7 +1468,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/VersionUpdater/VersionUpdater \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandView/Versioning.swift\"\n";
+			shellScript = "/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/VersionUpdater/VersionUpdater \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandView/Versioning.swift\" \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandView/Info.plist\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1858,6 +1858,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 4BB235M4GL;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1891,6 +1892,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 4BB235M4GL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = FlatlandView/Info.plist;
