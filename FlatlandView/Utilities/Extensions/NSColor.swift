@@ -188,14 +188,23 @@ extension NSColor
     
     /// Returns the hue, saturation, and brightness channels. Convenience property for calling
     /// getHue on the color.
+    /// - Note: If the instance color cannot be converted to the SRGB colorspace, all returned components
+    ///         are set to `0.0`.
     var HSB: (H: CGFloat, S: CGFloat, B: CGFloat)
     {
         var Hue: CGFloat = 0.0
         var Saturation: CGFloat = 0.0
         var Brightness: CGFloat = 0.0
         var Alpha: CGFloat = 0.0
-        self.getHue(&Hue, saturation: &Saturation, brightness: &Brightness, alpha: &Alpha)
-        return (H: Hue, S: Saturation, B: Brightness)
+        if let ScratchColor = self.usingColorSpace(.sRGB)
+        {
+            ScratchColor.getHue(&Hue, saturation: &Saturation, brightness: &Brightness, alpha: &Alpha)
+            return (H: Hue, S: Saturation, B: Brightness)
+        }
+        else
+        {
+            return (H: 0.0, S: 0.0, B: 0.0)
+        }
     }
     
     /// Returns the CIE LAB equivalent of the instance color, in L, A, B order.
