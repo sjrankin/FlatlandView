@@ -312,6 +312,8 @@ enum Quake3D: Double, CaseIterable
     case ArrowBounceDurationDivisor = 5.00000543
     /// Duration of the rotation of a bouncing earthquake indicator about the Y axis.
     case ArrowRotationDuration = 1.0
+    /// Radial offset for invisible earthquakes.
+    case InvisibleEarthquakeOffset = 0.1045
 }
 
 // MARK: - Light mask values for 2D mode.
