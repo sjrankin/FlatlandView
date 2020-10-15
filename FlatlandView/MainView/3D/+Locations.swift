@@ -342,12 +342,12 @@ extension GlobeView
         let FlagX = 0.6
         let FlagY = -2.0
         
-        let FlagInterior = SCNBox(width: 0.038, height: 0.58, length: 1.18, chamferRadius: 0.0)
+        let FlagInterior = SCNBox(width: 0.035, height: 0.5, length: 1.1, chamferRadius: 0.0)
         let FlagInteriorNode = SCNNode(geometry: FlagInterior)
         FlagInteriorNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FlagInteriorNode.geometry?.firstMaterial?.diffuse.contents = EmissiveColor
         FlagInteriorNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-        #if true
+        #if false
         FlagInteriorNode.geometry?.firstMaterial?.selfIllumination.contents = EmissiveColor
         #else
         FlagInteriorNode.geometry?.firstMaterial?.emission.contents = EmissiveColor
@@ -379,6 +379,8 @@ extension GlobeView
         let XRotation = Longitude + 180.0
         HomeNode?.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
         HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
+        HomeNode?.NodeID = NodeTables.HomeID
+        HomeNode?.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)
         ToSurface.addChildNode(HomeNode!)
     }
     
