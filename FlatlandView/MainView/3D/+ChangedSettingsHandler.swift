@@ -12,11 +12,17 @@ import SceneKit
 
 extension GlobeView: SettingChangedProtocol
 {
+    /// Required by the `SettingChangedProtocol`.
+    /// - Returns: ID of the class.
     func SubscriberID() -> UUID
     {
         return ClassID
     }
     
+    /// Handle changed setting notifications.
+    /// - Parameter Setting: The setting that was changed.
+    /// - Parameter OldValue: The previous value of the setting (may be nil).
+    /// - Parameter NewValue: The new value of the setting (may be nil).
     func SettingChanged(Setting: SettingKeys, OldValue: Any?, NewValue: Any?)
     {
         switch Setting
