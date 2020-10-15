@@ -228,7 +228,9 @@ extension MainController
         let ViewWindow = view.window?.windowController
         if let MainController = ViewWindow as? MainWindow
         {
+            #if DEBUG
             UptimeValue.stringValue = "0"
+            #endif
             switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self)!
             {
                 case HourValueTypes.None:
