@@ -543,6 +543,8 @@ enum SettingGroups: String, CaseIterable
     case Earthquakes = "Earthquake Settings"
     /// Settings for controlling performance.
     case PerformanceSettings = "Performance Settings"
+    /// See the current environment.
+    case Environment = "Environment"
     #if DEBUG
     /// Settings for controlling debugging.
     case DebugSettings = "Debug Settings"
