@@ -27,10 +27,14 @@ class Snapshot
         
         let Multiplier = NSScreen.main!.backingScaleFactor
         var ImageOptions = CGWindowImageOption()
+        #if true
+        ImageOptions = [CGWindowImageOption.boundsIgnoreFraming, CGWindowImageOption.bestResolution]
+        #else
         if Multiplier == 2.0
         {
             ImageOptions = [CGWindowImageOption.boundsIgnoreFraming, CGWindowImageOption.bestResolution]
         }
+        #endif
         if let Ref = CGWindowListCreateImage(CGRect.zero, CGWindowListOption.optionIncludingWindow, WindowID,
                                              ImageOptions)
         {
