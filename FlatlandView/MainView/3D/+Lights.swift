@@ -62,11 +62,13 @@ extension GlobeView
             Light.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
             Light.shadowMode = .forward
             Light.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
+            #if false
             Light.shadowSampleCount = 16
             Light.shadowMapSize = CGSize(width: 2048, height: 2048)
             Light.automaticallyAdjustsShadowProjection = true
             Light.shadowCascadeCount = 3
             Light.shadowCascadeSplittingFactor = 0.09
+            #endif
         }
         Light.zFar = 1000
         Light.zNear = 0.1
