@@ -13,6 +13,10 @@
 		1701CFC52535646C00544F05 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701CFC42535646C00544F05 /* Snapshot.swift */; };
 		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
 		1707A7AF249CACAB00A90FCA /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1707A7AE249CACAB00A90FCA /* Earthquake.swift */; };
+		1714DDB025382EFC001A3002 /* EnvironmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDAF25382EFC001A3002 /* EnvironmentView.swift */; };
+		1714DDB42538342A001A3002 /* LowLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB32538342A001A3002 /* LowLevel.swift */; };
+		1714DDB82539654A001A3002 /* UInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB72539654A001A3002 /* UInt64.swift */; };
+		1714DDBB253965F8001A3002 /* Int64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDBA253965F8001A3002 /* Int64.swift */; };
 		1716DB1624E5011E00C4F8BD /* CustomCityWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1716DB1524E5011E00C4F8BD /* CustomCityWindow.swift */; };
 		1716DB1824E5013900C4F8BD /* CustomCityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1716DB1724E5013900C4F8BD /* CustomCityController.swift */; };
 		1716DB1A24E5575B00C4F8BD /* ClockIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1716DB1924E5575B00C4F8BD /* ClockIndicator.swift */; };
@@ -279,6 +283,10 @@
 		1701CFC42535646C00544F05 /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
 		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
 		1707A7AE249CACAB00A90FCA /* Earthquake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
+		1714DDAF25382EFC001A3002 /* EnvironmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentView.swift; sourceTree = "<group>"; };
+		1714DDB32538342A001A3002 /* LowLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowLevel.swift; sourceTree = "<group>"; };
+		1714DDB72539654A001A3002 /* UInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt64.swift; sourceTree = "<group>"; };
+		1714DDBA253965F8001A3002 /* Int64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int64.swift; sourceTree = "<group>"; };
 		1716DB1524E5011E00C4F8BD /* CustomCityWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCityWindow.swift; sourceTree = "<group>"; };
 		1716DB1724E5013900C4F8BD /* CustomCityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCityController.swift; sourceTree = "<group>"; };
 		1716DB1924E5575B00C4F8BD /* ClockIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockIndicator.swift; sourceTree = "<group>"; };
@@ -829,6 +837,7 @@
 				1759AE6B249F8264003F79F5 /* CitySettingsWindow.swift */,
 				174623D024A81B2B007F5D4C /* DebugSettingsCode.swift */,
 				1718812824B85B9D00EE1E71 /* PerformanceOptions.swift */,
+				1714DDAF25382EFC001A3002 /* EnvironmentView.swift */,
 			);
 			path = OptionsWindows;
 			sourceTree = "<group>";
@@ -871,6 +880,8 @@
 				17E3D4F024FE2091004712BB /* NSWindow.swift */,
 				172D20622521AD1F00FA8687 /* Int.swift */,
 				17CFEC572522BDAE005C3E49 /* NSView.swift */,
+				1714DDB72539654A001A3002 /* UInt64.swift */,
+				1714DDBA253965F8001A3002 /* Int64.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1248,6 +1259,7 @@
 				1760023224D2BEDF00D5EA1A /* Extensions */,
 				1727EA5B24B184110051EA3B /* DataStructures */,
 				17EF3399247A673900A5B55D /* FileIO.swift */,
+				1714DDB32538342A001A3002 /* LowLevel.swift */,
 				17EF33A2247A699300A5B55D /* Utility.swift */,
 				17E5EF5E24F1051400665167 /* Debug.swift */,
 				17EF33C2247A961C00A5B55D /* SunGenerator.swift */,
@@ -1520,6 +1532,7 @@
 				17A25CC62505D44D00214C45 /* Metal2DShapeParameters.swift in Sources */,
 				1750043F24B46271006528A4 /* FontPickerController.swift in Sources */,
 				17C87B7B25177F650065BE6D /* +FlatViewHours.swift in Sources */,
+				1714DDB025382EFC001A3002 /* EnvironmentView.swift in Sources */,
 				174623D824A8400E007F5D4C /* StarField3DCode.swift in Sources */,
 				17B8F5272503897100D71931 /* Splitter.metal in Sources */,
 				17829D4A24B31D2300118DB1 /* EarthquakeDetailController.swift in Sources */,
@@ -1561,6 +1574,7 @@
 				1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */,
 				17F9B00D2520377F00DE0219 /* +LocationAttributes.swift in Sources */,
 				170181C12504A467000F91B6 /* TransparencyParameters.swift in Sources */,
+				1714DDB42538342A001A3002 /* LowLevel.swift in Sources */,
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
 				172F4A2724FA1A900014A65E /* EditorProtocol.swift in Sources */,
 				17E5EF5F24F1051400665167 /* Debug.swift in Sources */,
@@ -1582,6 +1596,7 @@
 				1760023E24D2BFBF00D5EA1A /* NSBezierPath.swift in Sources */,
 				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
 				1759AE60249F817B003F79F5 /* MapSelector.swift in Sources */,
+				1714DDBB253965F8001A3002 /* Int64.swift in Sources */,
 				178B1B3324B5A830007ACBCA /* FontDataType.swift in Sources */,
 				1733C80E24F8D5F70025D555 /* RawSettingsProtocol.swift in Sources */,
 				17F9AFDC252033AE00DE0219 /* +Int.swift in Sources */,
@@ -1658,6 +1673,7 @@
 				17F9B001252035B300DE0219 /* +NotifiedEarthquakeList.swift in Sources */,
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
 				1759AE68249F8215003F79F5 /* OtherLocationsWindow.swift in Sources */,
+				1714DDB82539654A001A3002 /* UInt64.swift in Sources */,
 				17FC221524987B1A005A0929 /* LiveDataViewWindow.swift in Sources */,
 				17C34557252C977F00D01143 /* +MainCityDatabase.swift in Sources */,
 				178A869E2489101E00BE8D46 /* StarField.swift in Sources */,
