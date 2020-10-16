@@ -144,6 +144,7 @@ class EnvironmentView:  NSViewController, NSTableViewDelegate, NSTableViewDataSo
         let Is64Bit = LowLevel.NumericQuery(For: .HWCPU64Bit) != 0 ? true : false
         PrimaryData.append((Key: "64-bit", Value: "\(Is64Bit)"))
         PrimaryData.append((Key: "Cache Line Size", Value: LowLevel.QueryFor(.HWCacheLineSize)))
+        PrimaryData.append((Key: "CPU Thermal Level", Value: LowLevel.QueryFor(.CPUThermalLevel)))
         PrimaryTable.reloadData()
     }
     
@@ -166,6 +167,7 @@ class EnvironmentView:  NSViewController, NSTableViewDelegate, NSTableViewDataSo
             }
         }
         PrimaryData.append((Key: "Allocated GPU Memory", Value: LowLevel.MetalAllocatedSpace()))
+        PrimaryData.append((Key: "GPU Thermal Level", Value: LowLevel.QueryFor(.GPUThermalLevel)))
         PrimaryTable.reloadData()
     }
     
