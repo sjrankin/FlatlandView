@@ -54,6 +54,7 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
         #if DEBUG
         SettingMap[.DebugSettings] = SettingEntry(CreateSettingDialog("DebugSettings"))
         #endif
+        SettingMap[.Environment] = SettingEntry(CreateSettingDialog("Environment"))
     }
     
     var SettingMap = [SettingGroups: SettingEntry]()
@@ -103,6 +104,9 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
             case .DebugSettings:
                 break
                 #endif
+            
+            case .Environment:
+                break
                 
             case .Earthquakes:
                 (SettingMap[Options]!.Controller as! EarthquakeSettingsWindow).MainDelegate = MainDelegate
