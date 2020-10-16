@@ -99,7 +99,7 @@ class MainController: NSViewController
     {
         if let ChangedView = notification.object as? ParentView
         {
-            print("Parent content view frame: \(ChangedView.frame)")
+            //print("Parent content view frame: \(ChangedView.frame)")
             Settings.SetNSSize(.PrimaryViewSize, NSSize(width: ChangedView.frame.size.width,
                                                         height: ChangedView.frame.size.height))
         }
