@@ -118,19 +118,19 @@ public class Versioning: CustomStringConvertible
     }
     
     /// Build number.
-    public static let Build: Int = 4882
+    public static let Build: Int = 4906
     
     /// Build increment.
     private static let BuildIncrement = 1
     
     /// Build ID.
-    public static let BuildID: String = "425EEBA5-3E85-4AF3-9C8F-873AF0F65F2A"
+    public static let BuildID: String = "22F5E3E1-05ED-44FD-8FFD-001ACDFBCEB7"
     
     /// Build date.
-    public static let BuildDate: String = "15 October 2020"
+    public static let BuildDate: String = "16 October 2020"
     
     /// Build Time.
-    public static let BuildTime: String = "13:02"
+    public static let BuildTime: String = "15:54"
     
     /// Holds the release build flag.
     private static var _IsReleaseBuild: Bool = false
@@ -145,6 +145,13 @@ public class Versioning: CustomStringConvertible
         {
             _IsReleaseBuild = newValue
         }
+    }
+    
+    /// Returns the build number as a hex string.
+    /// - Returns: Build number in hexadecimal.
+    public static func BuildAsHex() -> String
+    {
+        return String(Build, radix: 16, uppercase: false)
     }
     
     /// Return a standard build string.
@@ -311,6 +318,17 @@ public class Versioning: CustomStringConvertible
         return UUID(uuidString: ProgramID)!
     }
     
+    /// Returns the compiled-with-debug-flag value.
+    /// - Returns: True if #DEBUG is true, false if not.
+    public static func CompiledWithDebug() -> Bool
+    {
+        #if DEBUG
+        return true
+        #else
+        return false
+        #endif
+    }
+    
     /// Returns a list of parts that make up a version block.
     /// - Returns: List of tuples that make up a version block. The first item in the tuple is the header (if
     ///            desired) and the second item is the actual data for the version block.
@@ -320,6 +338,7 @@ public class Versioning: CustomStringConvertible
         Parts.append(("Name", ApplicationName))
         Parts.append(("Version", MakeVersionString(IncludeVersionSuffix: true, IncludeVersionPrefix: true)))
         Parts.append(("Build", MakeBuildString()))
+        Parts.append(("Build (Hex)", BuildAsHex()))
         Parts.append(("Build ID", BuildID))
         Parts.append(("Copyright", CopyrightText()))
         Parts.append(("Program ID", ProgramID))
