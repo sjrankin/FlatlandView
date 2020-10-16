@@ -140,6 +140,10 @@ class LowLevel
         return Final!
     }
     
+    /// Returns information about the computer where Flatland is running.
+    /// - Parameter From: The model name (in the form computer#,#) of the current computer.
+    /// - Returns: Tuple of the computer type, screen size (in inches), and release year. Nil return if no
+    ///            data is found.
     public static func MacIdentifier(From: String) -> (String, String, String)?
     {
         if let (Computer, Size, When) = MacList[From]
