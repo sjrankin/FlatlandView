@@ -57,8 +57,8 @@ class LowLevel
                                          .CPUThreadCount, .KernelBootTime, .KernelClockRate,
                                          .HWCPU64Bit, .CPUByteOrder, .CPUModel, .CPUExtModel,
                                          .CPUFamily, .CPUExtFamily, .CPUStepping, .CPUCacheSize,
-                                         .KernelRevision, .KernelSafeBoot, .GPUThermalLevel,
-                                         .CPUThermalLevel]
+                                         .KernelRevision, .KernelSafeBoot, .IOThermalLevel,
+                                         .GPUThermalLevel, .CPUThermalLevel]
     
     public static func ThermalState() -> ProcessInfo.ThermalState
     {
@@ -300,7 +300,9 @@ enum SysKeys: String, CaseIterable
     /// Numeric: Safe boot flag.
     case KernelSafeBoot = "kern.safeboot"
     /// Numeric: GPU thermal level.
-    case GPUThermalLevel = "machdep.xcpm.gpu.thermal_level"
+    case GPUThermalLevel = "machdep.xcpm.gpu_thermal_level"
     /// Numeric: CPU thermal level.
-    case CPUThermalLevel = "machdep.xcpm.cpu.thermal_level"
+    case CPUThermalLevel = "machdep.xcpm.cpu_thermal_level"
+    /// Numeric: I/O thermal level.
+    case IOThermalLevel = "machdep.xcpm.io_thermal_level"
 }
