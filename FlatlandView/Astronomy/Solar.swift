@@ -12,6 +12,114 @@ import CoreLocation
 
 public class Solar
 {
+    /// Converts the longitude to a standard set of seconds away from UTC.
+    /// - Parameter Longitude: The longitude to convert to timezone seconds.
+    /// - Returns: Seconds away from UTC for the given longitude. Longitudes in the western hemisphere
+    ///            will be returned as negative values.
+    static func LongitudeToTZSeconds(Longitude: Double) -> Int
+    {
+        let lo = Longitude.rounded()
+        let Long = Int(lo)
+        let LPercent = Double(Long) / 180.0
+        let Hours = Int(LPercent * 12.0)
+        return Int(Hours * 60 * 60)
+    }
+    
+    /// Given the time, return the hour, minute and seconds parts.
+    /// - Parameter TheDate: The date in string format (use `"\(Date())"`).
+    /// - Returns: Tuple with the passed date's hour, minute, and seconds component. Nil on error.
+    static func GetTimeFromDate(TheDate: String) -> (Int, Int, Int)?
+    {
+        let Parts = TheDate.split(separator: " ")
+        let TimePart = String(Parts[1])
+        let TimeParts = TimePart.split(separator: ":")
+        let HourPart = String(TimeParts[0])
+        let MinutePart = String(TimeParts[1])
+        let SecondPart = String(TimeParts[2])
+        guard let Hour = Int(HourPart) else
+        {
+            return nil
+        }
+        guard let Minute = Int(MinutePart) else
+        {
+            return nil
+        }
+        guard let Second = Int(SecondPart) else
+        {
+            return nil
+        }
+        return (Hour, Minute, Second)
+    }
+    
+    /// Convert the passed hour and minute value into the equivalent number of seconds.
+    /// - Parameter Hour: The hour to convert.
+    /// - Parameter Minute: The minute to convert.
+    /// - Returns: The number of seconds `Hour` and `Minute` represent.
+    public static func SecondsFrom(Hour: Int, Minute: Int) -> Int
+    {
+        return Hour * 60 * 60 + Minute * 60
+    }
+    
+    /// Determines if the passed location is in daylight or not.
+    /// - Parameter Latitude: The latitude of the location.
+    /// - Parameter Longitude: The longitude of the location.
+    /// - Returns: True if the location is in the daylight, false if not. Nil on error or no sunrise or sunset.
+    public static func IsInDaylight(_ Latitude: Double, _ Longitude: Double) -> Bool?
+    {
+        let TimeZoneSeconds = LongitudeToTZSeconds(Longitude: Longitude)
+        let (RiseHour, RiseMinute, SetHour, SetMinute) = SunriseSunset(For: Date(),
+                                                                       AtLatitude: Latitude,
+                                                                       AtLongitude: Longitude,
+                                                                       TimeZoneSeconds: TimeZoneSeconds)
+        let LocalNow = Calendar.current.date(byAdding: .second, value: TimeZoneSeconds, to: Date())!
+        if let (Hour, Minute, _) = GetTimeFromDate(TheDate: "\(LocalNow)")
+        {
+            guard RiseHour != nil, RiseMinute != nil, SetHour != nil, SetMinute != nil else
+            {
+                return nil
+            }
+            let RiseSeconds = SecondsFrom(Hour: RiseHour!, Minute: RiseMinute!)
+            let SetSeconds = SecondsFrom(Hour: SetHour!, Minute: SetMinute!)
+            let NowSeconds = SecondsFrom(Hour: Hour, Minute: Minute)
+            if NowSeconds < RiseSeconds
+            {
+                return false
+            }
+            if NowSeconds > SetSeconds
+            {
+                return false
+            }
+            return true
+        }
+        else
+        {
+            print("Error getting time from date.")
+            return nil
+        }
+    }
+    
+    /// Returns the sunrise and sunset time for the pass location.
+    /// - Parameter Latitude: The latitude of the location.
+    /// - Parameter Longitude: The longitude of the location.
+    /// - Returns: Result whose success result is a tuple. The first item is the number of seconds into the day
+    ///            for the sunset, and the second item is the number of seconds into the day for the sunset.
+    public static func SunriseSunsetAt(_ Latitude: Double, _ Longitude: Double) -> Result<(Sunrise: Int, Sunset: Int), SolarResults>
+    {
+        let TimeZoneSeconds = LongitudeToTZSeconds(Longitude: Longitude)
+        let (RiseHour, RiseMinute, SetHour, SetMinute) = SunriseSunset(For: Date(),
+                                                                       AtLatitude: Latitude,
+                                                                       AtLongitude: Longitude,
+                                                                       TimeZoneSeconds: TimeZoneSeconds)
+        guard RiseHour != nil, RiseMinute != nil, SetHour != nil, SetMinute != nil else
+        {
+            return .failure(.Error)
+        }
+        let RiseSeconds = SecondsFrom(Hour: RiseHour!, Minute: RiseMinute!)
+        let SetSeconds = SecondsFrom(Hour: SetHour!, Minute: SetMinute!)
+        
+        return .success((Sunrise: RiseSeconds, Sunset: SetSeconds))
+    }
+    
     /// Determines if the location in the passed point is in day or night time.
     /// - Parameter Where: Contains the location of the point.
     /// - Returns: True if the point is in the day, false if in the night.
@@ -165,7 +273,8 @@ public class Solar
     ///   - AtLongitude: The longitude of the location.
     ///   - TimeZoneSeconds: How far away GMT is from the location in seconds.
     /// - Returns: Tuple with the sequence of (Rise Hour, Rise Minute, Set Hour, Set Minute)
-    public static func SunriseSunset(For: Date, AtLatitude: Double, AtLongitude: Double, TimeZoneSeconds: Int) -> (Int?, Int?, Int?, Int?)
+    public static func SunriseSunset(For: Date, AtLatitude: Double, AtLongitude: Double,
+                                     TimeZoneSeconds: Int) -> (Int?, Int?, Int?, Int?)
     {
         SunNeverVisible = false
         SunAlwaysVisible = false
@@ -495,4 +604,10 @@ public class Solar
     {
         return (180.0 * Radians) / Double.pi
     }
+}
+
+public enum SolarResults: String, CaseIterable, Error
+{
+    case Success = "Success"
+    case Error = "Calculation Error"
 }
