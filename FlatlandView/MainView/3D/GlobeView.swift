@@ -722,4 +722,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
     var MakeLayerLock = NSObject()
     
     var ClassID = UUID()
+    
+    /// Dark clock timer.
+    var DarkClock: Timer!
 }
