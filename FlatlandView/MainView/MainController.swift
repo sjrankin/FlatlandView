@@ -12,10 +12,13 @@ import AppKit
 /// Controller for the view for the main window in Flatland.
 class MainController: NSViewController
 {
+    public static var StartTime: Double = 0.0
+    
     /// Initialize the main window and program.
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        MainController.StartTime = CACurrentMediaTime()
         Settings.Initialize()
         Settings.AddSubscriber(self)
         
