@@ -471,7 +471,220 @@ class SCNNode2: SCNNode
                 HideBoundingSphere()
         }
     }
+    
+    // MARK: - Day/night settings.
+    
+    /// Propagates the current daylight state to all child nodes.
+    /// - Parameter InDay: True indicates daylight, false indicates nighttime.
+    private func PropagateState(InDay: Bool)
+    {
+        for Child in self.childNodes
+        {
+            if let Node = Child as? SCNNode2
+            {
+                Node.IsInDaylight = InDay
+            }
+        }
+    }
+    
+    /// Set the visual state for the node (and all child nodes) to day or night time (based on the parameter).
+    /// - Note: If either `DayState` or `NightState` is nil, no action is taken.
+    /// - Parameter For: Determines which state to show.
+    public func SetState(For DayTime: Bool)
+    {
+        if DayState == nil || NightState == nil
+        {
+            return
+        }
+        if DayTime
+        {
+            self.geometry?.firstMaterial?.diffuse.contents = DayState!.Color
+            self.geometry?.firstMaterial?.lightingModel = DayState!.LightModel
+            if DayState?.Emission != nil
+            {
+                self.geometry?.firstMaterial?.emission.contents = DayState!.Emission!
+            }
+            else
+            {
+                self.geometry?.firstMaterial?.emission.contents = nil
+            }
+            if DayState?.Metalness != nil
+            {
+                self.geometry?.firstMaterial?.metalness.contents = DayState!.Metalness
+            }
+            if DayState?.Roughness != nil
+            {
+                self.geometry?.firstMaterial?.roughness.contents = DayState!.Roughness!
+            }
+        }
+        else
+        {
+            self.geometry?.firstMaterial?.diffuse.contents = NightState!.Color
+            self.geometry?.firstMaterial?.lightingModel = NightState!.LightModel
+            if NightState?.Emission != nil
+            {
+                self.geometry?.firstMaterial?.emission.contents = NightState!.Emission!
+            }
+            else
+            {
+                self.geometry?.firstMaterial?.emission.contents = nil
+            }
+            if NightState?.Metalness != nil
+            {
+                self.geometry?.firstMaterial?.metalness.contents = NightState!.Metalness!
+            }
+            if NightState?.Roughness != nil
+            {
+                self.geometry?.firstMaterial?.roughness.contents = NightState!.Roughness!
+            }
+        }
+    }
+    
+    /// Holds the daylight state. Setting this property updates the visual state for this node and all child
+    /// nodes.
+    private var _IsInDaylight: Bool = true
+    {
+        didSet
+        {
+            SetState(For: _IsInDaylight)
+            PropagateState(InDay: _IsInDaylight)
+        }
+    }
+    /// Get or set the daylight state. Setting the same value two (or more) times in a row will not result
+    /// in any changes.
+    public var IsInDaylight: Bool
+    {
+        get
+        {
+            return _IsInDaylight
+        }
+        set
+        {
+            if PreviousDayState == nil
+            {
+                PreviousDayState = newValue
+            }
+            else
+            {
+                if PreviousDayState == newValue
+                {
+                    return
+                }
+                else
+                {
+                    PreviousDayState = newValue
+                }
+            }
+            _IsInDaylight = newValue
+        }
+    }
+    
+    var PreviousDayState: Bool? = nil
+    
+    /// Holds the can switch state flag.
+    private var _CanSwitchState: Bool = false
+    {
+        didSet
+        {
+            for Child in self.childNodes
+            {
+                if let Node = Child as? SCNNode2
+                {
+                    Node.CanSwitchState = _CanSwitchState
+                }
+            }
+        }
+    }
+    /// Sets the can switch state flag. If false, the node does not respond to state changes. Setting this
+    /// property propagates the same value to all child nodes.
+    public var CanSwitchState: Bool
+    {
+        get
+        {
+            return _CanSwitchState
+        }
+        set
+        {
+            _CanSwitchState = newValue
+        }
+    }
+    
+    public var DayState: NodeState? = nil
+    public var NightState: NodeState? = nil
+ 
+    /// Convenience function to set the state attributes.
+    /// - Parameter For: If true, day time attributes are set. If false, night time attributes are set.
+    /// - Parameter Color: The color for the state.
+    /// - Parameter Emission: The color for the emmission material (eg, glowing). Defaults to nil.
+    /// - Parameter Model: The lighting model for the state. Defaults to `.phong`.
+    /// - Parameter Metalness: The metalness value of the state. If nil, not used. Defaults to nil.
+    /// - Parameter Roughness: The roughness value of the state. If nil, not used. Defaults to nil.
+    public func SetState(For Day: Bool,
+                         Color: NSColor,
+                         Emission: NSColor? = nil,
+                         Model: SCNMaterial.LightingModel = .phong,
+                         Metalness: Double? = nil,
+                         Roughness: Double? = nil)
+    {
+        if Day
+        {
+            DayState = NodeState(Color: Color, Emission: Emission, LightModel: Model,
+                                 Metalness: Metalness, Roughness: Roughness)
+        }
+        else
+        {
+            NightState = NodeState(Color: Color, Emission: Emission, LightModel: Model,
+                                   Metalness: Metalness, Roughness: Roughness)
+        }
+    }
+    
+    // MARK: - Map location data.
+    
+    /// Sets the geographic location of the node in terms of latitude, longitude. All child nodes
+    /// are also set with the same values.
+    /// - Parameter Latitude: The latitude of the node.
+    /// - Parameter Longitude: The longitude of the node.
+    public func SetLocation(_ Latitude: Double, _ Longitude: Double)
+    {
+        self.Latitude = Latitude
+        self.Longitude = Longitude
+        for Child in self.childNodes
+        {
+            if let Node = Child as? SCNNode2
+            {
+                Node.SetLocation(Latitude, Longitude)
+            }
+        }
+    }
+    
+    /// Clears the geographic location of the node. All child nodes are also cleared.
+    public func ClearLocation()
+    {
+        self.Latitude = nil
+        self.Longitude = nil
+        for Child in self.childNodes
+        {
+            if let Node = Child as? SCNNode2
+            {
+                Node.ClearLocation()
+            }
+        }
+    }
+    
+    /// Determines if the node has a geographic location.
+    /// - Returns: True if the node has both latitude and longitude set, false if not.
+    func HasLocation() -> Bool
+    {
+        return Latitude != nil && Longitude != nil
+    }
+    
+    /// If provided, the latitude of the node.
+    public var Latitude: Double? = nil
+    /// If provided, the longitude of the node.
+    public var Longitude: Double? = nil
 }
+
+// MARK: - Bounding shapes.
 
 /// Set of shapes for indicators for `SCNNode2` objects.
 enum NodeBoundingShapes: String, CaseIterable
@@ -482,5 +695,19 @@ enum NodeBoundingShapes: String, CaseIterable
     case Sphere = "Sphere"
 }
 
+/// Visual state for the node.
+struct NodeState
+{
+    /// Diffuse color.
+    let Color: NSColor
+    /// Emission color.
+    let Emission: NSColor?
+    /// Lighting model.
+    let LightModel: SCNMaterial.LightingModel
+    /// Metalness value. If nil, not used.
+    let Metalness: Double?
+    /// Roughness value. If nil, not used.
+    let Roughness: Double?
+}
 
 
