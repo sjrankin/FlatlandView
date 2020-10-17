@@ -140,6 +140,48 @@ extension GlobeView
             StartClock()
         }
         UpdateEarthView()
+        StartDarknessClock()
+    }
+    
+    /// Start the darkness clock. The handler will be called to determine if a node is in night or dark and
+    /// change attributes accordingly.
+    func StartDarknessClock()
+    {
+        DarkClock = Timer.scheduledTimer(timeInterval: 60.0,
+                                         target: self,
+                                         selector: #selector(UpdateNodes),
+                                         userInfo: nil,
+                                         repeats: true)
+        UpdateNodes()
+    }
+    
+    /// Go through all child nodes in the `EarthNode` and update those that allow it for daylight visibility.
+    /// This is used to switch visual attributes to make nodes more visible in the night.
+    @objc func UpdateNodes()
+    {
+        if EarthNode == nil
+        {
+            Debug.Print("No EarthNode in \(#function)")
+            return
+        }
+        for Node in EarthNode!.childNodes
+        {
+            if let UpdateNode = Node as? SCNNode2
+            {
+                if UpdateNode.CanSwitchState
+                {
+                    if UpdateNode.HasLocation()
+                    {
+                        let NodeLocation = GeoPoint(UpdateNode.Latitude!, UpdateNode.Longitude!)
+                        NodeLocation.CurrentTime = Date()
+                        if let SunIsVisible = Solar.IsInDaylight(UpdateNode.Latitude!, UpdateNode.Longitude!)
+                        {
+                            UpdateNode.IsInDaylight = SunIsVisible
+                        }
+                    }
+                }
+            }
+        }
     }
     
     /// Create the default camera. This is the camera that `allowsCameraControl` manipulates.
