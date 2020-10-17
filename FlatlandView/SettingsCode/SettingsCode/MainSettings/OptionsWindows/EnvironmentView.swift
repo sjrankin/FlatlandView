@@ -145,6 +145,7 @@ class EnvironmentView:  NSViewController, NSTableViewDelegate, NSTableViewDataSo
         PrimaryData.append((Key: "64-bit", Value: "\(Is64Bit)"))
         PrimaryData.append((Key: "Cache Line Size", Value: LowLevel.QueryFor(.HWCacheLineSize)))
         PrimaryData.append((Key: "CPU Thermal Level", Value: LowLevel.QueryFor(.CPUThermalLevel)))
+        PrimaryData.append((Key: "I/O Thermal Level", Value: LowLevel.QueryFor(.IOThermalLevel)))
         PrimaryTable.reloadData()
     }
     
@@ -245,6 +246,8 @@ class EnvironmentView:  NSViewController, NSTableViewDelegate, NSTableViewDataSo
         let ThermalState = LowLevel.ThermalState()
         let ThermalValue = ThermalDictionary[ThermalState] ?? "Unknown"
         PrimaryData.append((Key: "Thermal", Value: ThermalValue))
+        let Duration = Int(CACurrentMediaTime() - MainController.StartTime)
+        PrimaryData.append((Key: "Execution time", Value: "\(Duration) seconds"))
         PrimaryTable.reloadData()
     }
     
