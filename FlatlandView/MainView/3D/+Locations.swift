@@ -13,169 +13,6 @@ import CoreImage
 
 extension GlobeView
 {
-    /// Draws a 3D "arrow" shape (a cone and a cylinder) pointing toward the center of the Earth.
-    /// - Parameter Latitude: The latitude of the arrow.
-    /// - Parameter Longitude: The longitude of the arrow.
-    /// - Parameter Radius: The radius of the Earth. (The arrow is plotted above the radius by a
-    ///                     constant to ensure the entire arrow is visible.)
-    /// - Parameter ToSurface: The surface node where the arrow will be added.
-    /// - Parameter IsCurrentLocation: Determines the shape and color of the arrow. If this value is
-    ///                                `true`, a stem will be added to the arrow shape and the arrow
-    ///                                head will be red with an animation transitioning to yellow and
-    ///                                back. Otherwise, there will be no stem and the color is determined
-    ///                                by the caller (see `WithColor').
-    /// - Parameter WithColor: Ignored if `IsCurrentLocation` is true. Otherwise, this is the color of
-    ///                        the arrow head shape.
-    func PlotArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
-                   IsCurrentLocation: Bool = false, WithColor: NSColor = NSColor.red)
-    {
-        let RadialOffset = IsCurrentLocation ? 0.25 : 0.1
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
-        var ConeTop: CGFloat = 0.0
-        var ConeBottom: CGFloat = 0.0
-        if IsCurrentLocation
-        {
-            ConeTop = 0.0
-            ConeBottom = 0.15
-        }
-        else
-        {
-            ConeTop = 0.15
-            ConeBottom = 0.0
-        }
-        let Cone = SCNCone(topRadius: ConeTop, bottomRadius: ConeBottom, height: 0.3)
-        let ConeNode = SCNNode2(geometry: Cone)
-        ConeNode.NodeID = NodeTables.HomeID
-        ConeNode.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
-        ConeNode.CanShowBoundingShape = false
-        ConeNode.scale = SCNVector3(NodeScales3D.HomeArrowScale.rawValue,
-                                    NodeScales3D.HomeArrowScale.rawValue,
-                                    NodeScales3D.HomeArrowScale.rawValue)
-        ConeNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
-        ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-        if !IsCurrentLocation
-        {
-            #if true
-            ConeNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
-            #else
-            ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
-            #endif
-        }
-        ConeNode.castsShadow = true
-        
-        if IsCurrentLocation
-        {
-            let ChangeDuration: Double = 30.0
-            var HueValue = 0.0
-            var HueIncrement = 0.01
-            let ColorAction = SCNAction.customAction(duration: ChangeDuration)
-            {
-                (Node, ElapsedTime) in
-                HueValue = HueValue + HueIncrement
-                if HueValue > Double(63.0 / 360.0)
-                {
-                    HueIncrement = HueIncrement * -1.0
-                    HueValue = HueValue + HueIncrement
-                }
-                else
-                {
-                    if HueValue < 0.0
-                    {
-                        HueIncrement = HueIncrement * -1.0
-                        HueValue = 0.0
-                    }
-                }
-                Node.geometry?.firstMaterial?.diffuse.contents = NSColor(hue: CGFloat(HueValue), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-            }
-            let ColorForever = SCNAction.repeatForever(ColorAction)
-            ConeNode.runAction(ColorForever)
-        }
-        
-        HomeNode = SCNNode2()
-        HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
-        HomeNode?.addChildNode(ConeNode)
-        HomeNode?.CanShowBoundingShape = true
-        
-        if IsCurrentLocation
-        {
-            let Cylinder = SCNCylinder(radius: 0.04, height: 0.5)
-            let CylinderNode = SCNNode2(geometry: Cylinder)
-            CylinderNode.NodeID = NodeTables.HomeID
-            CylinderNode.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
-            CylinderNode.CanShowBoundingShape = true
-            CylinderNode.scale = SCNVector3(NodeScales3D.HomeArrowScale.rawValue,
-                                            NodeScales3D.HomeArrowScale.rawValue,
-                                            NodeScales3D.HomeArrowScale.rawValue)
-            CylinderNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-            CylinderNode.geometry?.firstMaterial?.diffuse.contents = NSColor(red: 1.0, green: 0.6, blue: 0.6, alpha: 1.0)
-            CylinderNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-            CylinderNode.castsShadow = true
-            CylinderNode.position = SCNVector3(0.0, -0.4, 0.0)
-            HomeNode?.addChildNode(CylinderNode)
-        }
-        
-        HomeNode?.position = SCNVector3(X, Y, Z)
-        
-        let YRotation = Latitude + 90.0
-        let XRotation = Longitude + 180.0
-        HomeNode?.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        
-        HomeNode?.NodeID = NodeTables.HomeID
-        HomeNode?.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
-        
-        ToSurface.addChildNode(HomeNode!)
-    }
-    
-    /// Plot the home location as a pulsating sphere.
-    /// - Parameter Latitude: The latitude of the arrow.
-    /// - Parameter Longitude: The longitude of the arrow.
-    /// - Parameter Radius: The radius of the Earth. (The arrow is plotted above the radius by a
-    ///                     constant to ensure the entire arrow is visible.)
-    /// - Parameter ToSurface: The surface node where the arrow will be added.
-    /// - Parameter WithColor: The color of the sphere.
-    func PlotPulsatingHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
-                           WithColor: NSColor = NSColor.magenta)
-    {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
-        
-        let Sphere = SCNSphere(radius: 0.4)
-        
-        HomeNode = SCNNode2(geometry: Sphere)
-        HomeNode?.NodeID = NodeTables.HomeID
-        HomeNode?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
-        HomeNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        HomeNode?.geometry?.firstMaterial?.diffuse.contents = WithColor
-        HomeNode?.geometry?.firstMaterial?.selfIllumination.contents = WithColor
-        HomeNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
-        HomeNode?.castsShadow = true
-        HomeNode?.position = SCNVector3(X, Y, Z)
-        
-        let PulseOut = SCNAction.scale(to: NodeScales3D.PulsatingHomeMaxScale.rawValue, duration: 1.0)
-        let PulseIn = SCNAction.scale(to: NodeScales3D.PulsatingHomeMinScale.rawValue, duration: 1.0)
-        let PulseSequence = SCNAction.sequence([PulseOut, PulseIn])
-        let Forever = SCNAction.repeatForever(PulseSequence)
-        HomeNode?.runAction(Forever)
-        
-        ToSurface.addChildNode(HomeNode!)
-        
-        let SphereHalo = SCNSphere(radius: 0.40)
-        HomeNodeHalo = SCNNode2(geometry: SphereHalo)
-        HomeNodeHalo?.NodeID = NodeTables.HomeID
-        HomeNodeHalo?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
-        HomeNodeHalo?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        HomeNodeHalo?.geometry?.firstMaterial?.diffuse.contents = NSColor.white.withAlphaComponent(0.2)
-        #if true
-        HomeNodeHalo?.geometry?.firstMaterial?.selfIllumination.contents = NSColor.yellow.withAlphaComponent(0.2)
-        #else
-        HomeNodeHalo?.geometry?.firstMaterial?.emission.contents = NSColor.yellow.withAlphaComponent(0.2)
-        #endif
-        HomeNodeHalo?.position = SCNVector3(X, Y, Z)
-        HomeNodeHalo?.castsShadow = false
-        
-        ToSurface.addChildNode(HomeNodeHalo!)
-    }
-    
     /// Plot user locations as inverted cones.
     /// - Parameter Plot: The city to plot.
     /// - Parameter Latitude: The latitude of the arrow.
@@ -254,136 +91,7 @@ extension GlobeView
         ToSurface.addChildNode(UserNode)
         PlottedCities.append(UserNode)
     }
-    
-    /// Plot a location using a bouncing, rotating arrow.
-    /// - Parameter Latitude: The latitude of the arrow.
-    /// - Parameter Longitude: The longitude of the arrow.
-    /// - Parameter Radius: The radius of the Earth.
-    /// - Parameter ToSurface: The surface node where the arrow will be added.
-    func PlotBouncingArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2)
-    {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.3)
-        let Arrow = SCN3DArrow(Length: 2.0, Width: 0.85, Color: NSColor.systemTeal,
-                               StemColor: NSColor.systemBlue)
-        Arrow.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        Arrow.scale = SCNVector3(NodeScales3D.BouncingArrowScale.rawValue,
-                                 NodeScales3D.BouncingArrowScale.rawValue,
-                                 NodeScales3D.BouncingArrowScale.rawValue)
-        
-        let BounceDistance: CGFloat = 0.5
-        let BounceDuration = 1.0
-        let BounceAway = SCNAction.move(by: SCNVector3(0.0, -BounceDistance, 0.0), duration: BounceDuration)
-        BounceAway.timingMode = .easeOut
-        let BounceTo = SCNAction.move(by: SCNVector3(0.0, BounceDistance, 0.0), duration: BounceDuration)
-        BounceTo.timingMode = .easeIn
-        let BounceSequence = SCNAction.sequence([BounceAway, BounceTo])
-        let MoveForever = SCNAction.repeatForever(BounceSequence)
-        Arrow.runAction(MoveForever)
-        
-        HomeNode = SCNNode2()
-        HomeNode?.castsShadow = true
-        HomeNode?.addChildNode(Arrow)
-        HomeNode?.position = SCNVector3(X, Y, Z)
-        HomeNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        
-        let YRotation = Latitude + 90.0
-        let XRotation = Longitude + 180.0
-        HomeNode!.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        
-        ToSurface.addChildNode(HomeNode!)
-    }
-    
-    /// Plot a location using a 3D pin shape.
-    /// - Parameter Latitude: The latitude of the pin.
-    /// - Parameter Longitude: The longitude of the pin.
-    /// - Parameter Radius: The radius of the Earth.
-    /// - Parameter ToSurface: The surface node where the pin will be added.
-    func PlotPinHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2)
-    {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.9)
-        let Pin = SCNPin(KnobHeight: 2.0, KnobRadius: 1.0, PinHeight: 1.4, PinRadius: 0.15,
-                         KnobColor: NSColor.Gold, PinColor: NSColor.gray) 
-        Pin.scale = SCNVector3(NodeScales3D.PinScale.rawValue,
-                               NodeScales3D.PinScale.rawValue,
-                               NodeScales3D.PinScale.rawValue)
-        Pin.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        
-        HomeNode = SCNNode2()
-        HomeNode?.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
-        HomeNode?.NodeID = NodeTables.HomeID
-        HomeNode?.castsShadow = true
-        HomeNode?.addChildNode(Pin)
-        HomeNode?.position = SCNVector3(X, Y, Z)
-        
-        let YRotation = Latitude + 90.0
-        let XRotation = Longitude + 180.0
-        HomeNode!.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        
-        ToSurface.addChildNode(HomeNode!)
-    }
-    
-    /// Plot a location using a home flag.
-    /// - Note: The "background" to the home icon has an emissive color so it will glow even
-    ///         at night time to show the location.
-    /// - Parameter Latitude: The latitude of the arrow.
-    /// - Parameter Longitude: The longitude of the arrow.
-    /// - Parameter Radius: The radius of the Earth. (The arrow is plotted above the radius by a
-    ///                     constant to ensure the entire arrow is visible.)
-    /// - Parameter ToSurface: The surface node where the arrow will be added.
-    /// - Parameter EmissiveColor: The color the home icon will glow.
-    func PlotHomeFlag(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
-                      EmissiveColor: NSColor = NSColor.white)
-    {
-        let Pole = SCNCylinder(radius: 0.04, height: 4.5)
-        let PoleNode = SCNNode(geometry: Pole)
-        PoleNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        PoleNode.geometry?.firstMaterial?.diffuse.contents = NSColor.brown
-        
-        let FlagX = 0.6
-        let FlagY = -2.0
-        
-        let FlagInterior = SCNBox(width: 0.035, height: 0.5, length: 1.1, chamferRadius: 0.0)
-        let FlagInteriorNode = SCNNode(geometry: FlagInterior)
-        FlagInteriorNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        FlagInteriorNode.geometry?.firstMaterial?.diffuse.contents = EmissiveColor
-        FlagInteriorNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-        #if false
-        FlagInteriorNode.geometry?.firstMaterial?.selfIllumination.contents = EmissiveColor
-        #else
-        FlagInteriorNode.geometry?.firstMaterial?.emission.contents = EmissiveColor
-        #endif
-        FlagInteriorNode.position = SCNVector3(FlagX, FlagY, 0.0)
-        FlagInteriorNode.eulerAngles = SCNVector3(0.0, 90.0.Radians, 0.0)
-        
-        let FlagFace = SCNBox(width: 0.04, height: 0.6, length: 1.2, chamferRadius: 0.0)
-        let FlagFaceNode = SCNNode(geometry: FlagFace)
-        FlagFaceNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        FlagFaceNode.position = SCNVector3(FlagX, FlagY, 0.0)
-        let FlagName = "GreenHomeFlag"
-        let FlagImage = NSImage(named: FlagName)
-        FlagFaceNode.geometry?.firstMaterial?.diffuse.contents = FlagImage
-        FlagFaceNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-        FlagFaceNode.geometry?.firstMaterial?.lightingModel = .lambert
-        FlagFaceNode.eulerAngles = SCNVector3(180.0.Radians, 90.0.Radians, 0.0)
-        
-        HomeNode = SCNNode2()
-        HomeNode?.castsShadow = true
-        HomeNode?.addChildNode(PoleNode)
-        HomeNode?.addChildNode(FlagFaceNode)
-        HomeNode?.addChildNode(FlagInteriorNode)
-        
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
-        HomeNode?.position = SCNVector3(X, Y, Z)
-        
-        let YRotation = Latitude + 90.0
-        let XRotation = Longitude + 180.0
-        HomeNode?.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
-        HomeNode?.NodeID = NodeTables.HomeID
-        HomeNode?.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)
-        ToSurface.addChildNode(HomeNode!)
-    }
-    
+
     /// Plot a city on the 3D sphere. A sphere is set on the surface of the Earth.
     /// - Parameter Plot: The city to plot.
     /// - Parameter Latitude: The latitude of the city.
@@ -544,8 +252,13 @@ extension GlobeView
             CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
             if Settings.GetBool(.CityNodesGlow)
             {
-                CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+                //CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
             }
+            CityNode.SetLocation(Latitude, Longitude)
+            CityNode.CanSwitchState = true
+            CityNode.Tag = "Test Node"
+            CityNode.SetState(For: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
+            CityNode.SetState(For: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
         }
         else
         {
@@ -610,6 +323,8 @@ extension GlobeView
         let XRotation = Longitude + 180.0
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
         FinalNode.name = GlobeNodeNames.CityNode.rawValue
+        FinalNode.CanSwitchState = true
+        FinalNode.SetLocation(Latitude, Longitude)
         
         ToSurface.addChildNode(FinalNode)
         PlottedCities.append(FinalNode)
@@ -663,19 +378,23 @@ extension GlobeView
         else
         {
             let CityShape = SCNCylinder(radius: HDim / 2.0, height: CitySize)
-            CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+            CityNode.geometry?.firstMaterial?.diffuse.contents = NSColor.purple//WithColor
             CityNode = SCNNode2(geometry: CityShape)
             if Settings.GetBool(.CityNodesGlow)
             {
-                CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+                //CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
             }
+            CityNode.SetLocation(Latitude, Longitude)
+            CityNode.CanSwitchState = true
+            CityNode.SetState(For: true, Color: WithColor, Emission: nil, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
+            CityNode.SetState(For: false, Color: WithColor, Emission: WithColor, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
         }
         CityNode.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
         CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-        CityNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
+//        CityNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
         CityNode.castsShadow = true
-        CityNode.geometry?.firstMaterial?.roughness.contents = NSNumber(value: 0.7)
-        CityNode.geometry?.firstMaterial?.metalness.contents = NSNumber(value: 1.0)
+//        CityNode.geometry?.firstMaterial?.roughness.contents = NSNumber(value: 0.7)
+//        CityNode.geometry?.firstMaterial?.metalness.contents = NSNumber(value: 1.0)
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + Double(CitySize / 2.0))
         CityNode.position = SCNVector3(X, Y, Z)
         CityNode.name = GlobeNodeNames.CityNode.rawValue
@@ -843,60 +562,6 @@ extension GlobeView
         }
     }
     
-    /// Plot the home location. Intended for use by external callers.
-    func PlotHomeLocation()
-    {
-        PlotHomeLocation(On: EarthNode!, Radius: Double(GlobeRadius.Primary.rawValue))
-    }
-    
-    /// Plot the home location. In order for a location to be plotted, it must be defined and the
-    /// style setting needs to be set to non-`.Hide`.
-    /// - Parameter On: The node to which the home location will be attached.
-    /// - Parameter Radius: The radius of the attachment node.
-    func PlotHomeLocation(On Surface: SCNNode2, Radius: Double)
-    {
-        HomeNode?.removeFromParentNode()
-        HomeNode = nil
-        HomeNodeHalo?.removeFromParentNode()
-        HomeNodeHalo = nil
-        
-        if let LocalLongitude = Settings.GetDoubleNil(.LocalLongitude)
-        {
-            if let LocalLatitude = Settings.GetDoubleNil(.LocalLatitude)
-            {
-                let HomeColor = Settings.GetColor(.HomeColor, NSColor.systemTeal)
-                NodeTables.AddHome(ID: NodeTables.HomeID, Name: "Home location",
-                                   Location: GeoPoint(LocalLatitude, LocalLongitude))
-                switch Settings.GetEnum(ForKey: .HomeShape, EnumType: HomeShapes.self, Default: .Hide)
-                {
-                    case .Hide:
-                        NodeTables.RemoveUserHome()
-                        break
-                        
-                    case .Arrow:
-                        PlotArrow(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
-                                  ToSurface: Surface, IsCurrentLocation: true)
-                        
-                    case .Flag:
-                        PlotHomeFlag(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
-                                     ToSurface: Surface, EmissiveColor: HomeColor)
-                        
-                    case .Pulsate:
-                        PlotPulsatingHome(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
-                                          ToSurface: Surface, WithColor: HomeColor)
-                        
-                    case .Pin:
-                        PlotPinHome(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
-                                    ToSurface: Surface)
-                        
-                    case .BouncingArrow:
-                        PlotBouncingArrow(Latitude: LocalLatitude, Longitude: LocalLongitude, Radius: Radius,
-                                          ToSurface: Surface)
-                }
-            }
-        }
-    }
-    
     /// Plot polar flags. Intended to be used by callers outside of `GlobeView`.
     func PlotPolarShape()
     {
@@ -1048,7 +713,6 @@ extension GlobeView
                 return
             }
             let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
-//            Main2Controller.InitializeWorldHeritageSites()
             MainController.InitializeMappableDatabase()
             let Sites = MainController.GetAllSites()
             var FinalList = [WorldHeritageSite2]()
@@ -1132,25 +796,6 @@ extension GlobeView
             }
         }
     }
-    
-    #if false
-    /// Returns the largest of the city population or the metropolitan population from the passed city.
-    /// - Parameter City: The city whose population is returned.
-    /// - Returns: The largest of the city or the metropolitan populations. Nil if no populations
-    ///            are available.
-    func GetCityPopulation(From: City2) -> Int?
-    {
-        if let Metro = From.MetropolitanPopulation
-        {
-            return Metro
-        }
-        if let Local = From.Population
-        {
-            return Local
-        }
-        return nil
-    }
-    #endif
     
     /// Returns the largest of the city population or the metropolitan population from the passed city.
     /// - Parameter City: The city whose population is returned.
