@@ -327,7 +327,7 @@ extension GlobeView
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
         
         let HomeNode = SCNNode2()
-        HomeNode.name = NodeNames2D.HomeNode.rawValue
+        HomeNode.name = GlobeNodeNames.HomeNode.rawValue
         HomeNode.castsShadow = true
         HomeNode.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
         HomeNode.NodeID = NodeTables.HomeID
@@ -368,7 +368,15 @@ extension GlobeView
         Sphere.geometry?.firstMaterial?.metalness.contents = 1.0
         Sphere.geometry?.firstMaterial?.roughness.contents = 0.5
         Sphere.position = SCNVector3(0.0, -0.4, 0.0)
+        Sphere.CanSwitchState = true
+        Sphere.SetState(ForDay: true, Color: NSColor(HexString: "#ffd700")!, Emission: nil,
+                        Model: .physicallyBased, Metalness: nil, Roughness: nil)
+        Sphere.SetState(ForDay: false, Color: NSColor(HexString: "#ffd700")!, Emission: NSColor(HexString: "#ffd700")!,
+                        Model: .physicallyBased, Metalness: nil, Roughness: nil)
 
+        HomeNode.CanSwitchState = true
+        HomeNode.SetLocation(Latitude, Longitude)
+        HomeNode.IsInDaylight = Solar.IsInDaylight(Latitude, Longitude)!
         HomeNode.addChildNode(Sphere)
         HomeNode.addChildNode(Base)
         HomeNode.addChildNode(Pedestal)
