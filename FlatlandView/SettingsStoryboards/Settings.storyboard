@@ -4850,7 +4850,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="D0y-rl-W9y" column="nSO-dn-FGw" id="hmD-MS-yDG">
                                                     <gridView key="contentView" horizontalCompressionResistancePriority="753" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="oEQ-ZB-Udj">
-                                                        <rect key="frame" x="0.0" y="0.0" width="127" height="21"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="361" height="21"/>
                                                         <constraints>
                                                             <constraint firstItem="eza-QG-G8W" firstAttribute="leading" secondItem="N0s-es-Qof" secondAttribute="trailing" constant="6" id="fIf-4j-bcY"/>
                                                             <constraint firstAttribute="trailing" secondItem="eza-QG-G8W" secondAttribute="trailing" id="yD1-vd-YrY"/>
@@ -5283,19 +5283,6 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="537" height="144"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="inn-St-dU7">
-                                <rect key="frame" x="8" y="44" width="521" height="87"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="87" id="egW-mh-C8y"/>
-                                    <constraint firstAttribute="width" constant="517" id="lmF-LR-LKu"/>
-                                </constraints>
-                                <textFieldCell key="cell" selectable="YES" id="cY4-zv-MTK">
-                                    <font key="font" metaFont="system" size="15"/>
-                                    <string key="title">This type of map must be dowloaded from NASA then assembled. This typically takes from 45 to 90 seconds on fast networks and longer on slow or cell networks and will use your bandwidth to download the maps. Do you want to continue?</string>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2w0-3z-X9e">
                                 <rect key="frame" x="16" y="13" width="62" height="32"/>
                                 <buttonCell key="cell" type="push" title="Yes" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Kii-1U-v8y">
@@ -5316,12 +5303,25 @@ Gw
                                     <action selector="HandleNoButton:" target="AvQ-aD-6jC" id="Pgd-67-R2H"/>
                                 </connections>
                             </button>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="inn-St-dU7">
+                                <rect key="frame" x="8" y="49" width="521" height="87"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="87" id="egW-mh-C8y"/>
+                                    <constraint firstAttribute="width" constant="517" id="lmF-LR-LKu"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" id="cY4-zv-MTK">
+                                    <font key="font" metaFont="system" size="15"/>
+                                    <string key="title">This type of map must be dowloaded from NASA then assembled. This typically takes from 45 to 90 seconds on fast networks and longer on slow or cellular networks and will use your bandwidth to download the maps. Do you want to continue?</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="2w0-3z-X9e" firstAttribute="leading" secondItem="Ung-mU-1oP" secondAttribute="leading" constant="22" id="0nU-XW-5hI"/>
                             <constraint firstAttribute="trailing" secondItem="Qgu-Cg-pL7" secondAttribute="trailing" constant="20" symbolic="YES" id="KHg-mf-FuM"/>
                             <constraint firstItem="inn-St-dU7" firstAttribute="leading" secondItem="Ung-mU-1oP" secondAttribute="leading" constant="10" id="Qoe-gY-wHk"/>
-                            <constraint firstItem="2w0-3z-X9e" firstAttribute="top" secondItem="inn-St-dU7" secondAttribute="bottom" constant="3" id="RbJ-2C-4p4"/>
+                            <constraint firstItem="2w0-3z-X9e" firstAttribute="top" secondItem="inn-St-dU7" secondAttribute="bottom" constant="8" id="RbJ-2C-4p4"/>
                             <constraint firstAttribute="bottom" secondItem="2w0-3z-X9e" secondAttribute="bottom" constant="20" symbolic="YES" id="TTN-pL-S8O"/>
                             <constraint firstItem="2w0-3z-X9e" firstAttribute="baseline" secondItem="Qgu-Cg-pL7" secondAttribute="baseline" id="efc-xk-7Mk"/>
                             <constraint firstItem="inn-St-dU7" firstAttribute="centerX" secondItem="Ung-mU-1oP" secondAttribute="centerX" id="ksS-Ub-SuO"/>
