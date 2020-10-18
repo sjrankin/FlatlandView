@@ -461,6 +461,9 @@ class MainController: NSViewController
     var PrimaryMapList: ActualMapList? = nil
     /// The latest earthquakes from the USGS.
     var LatestEarthquakes = [Earthquake]()
+
+    // MARK: - Database handles/variables
+    
     /// Location of the mappable database.
     var MappableURL: URL? = nil
     /// Flag that indicates whether the mappable database was initialized or not.
@@ -469,6 +472,12 @@ class MainController: NSViewController
     static var MappableHandle: OpaquePointer? = nil
     /// Array of World Heritage Sites.
     var WorldHeritageSites: [WorldHeritageSite2]? = nil
+    /// Location of the POI database.
+    var POIURL: URL? = nil
+    /// Flag that indicates whether the POI database was initialized or not.
+    static var POIInitialized = false
+    /// Handle to the POI database.
+    static var POIHandle: OpaquePointer? = nil
     
     // MARK: - Storyboard outlets
     
