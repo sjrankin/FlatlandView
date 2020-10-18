@@ -49,6 +49,7 @@ extension MainController
         InitializeItemViewer()
 
         MainController.InitializeMappableDatabase()
+        MainController.InitializePOIDatabase()
         WorldHeritageSites = MainController.GetAllSites()
         POIManager.Initialize()
         CityManager.Initialize()
