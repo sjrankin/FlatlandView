@@ -258,9 +258,9 @@ class SCNPin: SCNNode2
         let KnobCenterShape = SCNCylinder(radius: _KnobRadius * 0.45, height: _KnobHeight * 0.9)
         KnobCenterShape.firstMaterial?.diffuse.contents = _KnobColor
         KnobCenterShape.firstMaterial?.specular.contents = _KnobSpecular
-         KnobTop = SCNNode(geometry: KnobTopShape)
-         KnobBottom = SCNNode(geometry: KnobBottomShape)
-         KnobCenter = SCNNode(geometry: KnobCenterShape)
+        KnobTop = SCNNode2(geometry: KnobTopShape)
+        KnobBottom = SCNNode2(geometry: KnobBottomShape)
+        KnobCenter = SCNNode2(geometry: KnobCenterShape)
         KnobTop.position = SCNVector3(0.0, 0.5, 0.0)
         KnobBottom.position = SCNVector3(0.0, -0.5, 0.0)
         let KnobUI = SCNNode()
@@ -269,7 +269,7 @@ class SCNPin: SCNNode2
         KnobUI.addChildNode(KnobCenter)
         KnobUI.position = SCNVector3(0.0, 1.0, 0.0)
         let PinShape = SCNCylinder(radius: _PinRadius, height: _PinHeight)
-         Pin = SCNNode(geometry: PinShape)
+        Pin = SCNNode2(geometry: PinShape)
         Pin.geometry?.firstMaterial?.diffuse.contents = _PinColor
         Pin.geometry?.firstMaterial?.specular.contents = _PinSpecular
         Pin.position = SCNVector3(0.0, 2.5, 0.0)
@@ -277,8 +277,8 @@ class SCNPin: SCNNode2
         self.addChildNode(Pin)
     }
     
-    private var KnobTop = SCNNode()
-    private var KnobBottom = SCNNode()
-    private var KnobCenter = SCNNode()
-    private var Pin = SCNNode()
+    private var KnobTop = SCNNode2()
+    private var KnobBottom = SCNNode2()
+    private var KnobCenter = SCNNode2()
+    private var Pin = SCNNode2()
 }
