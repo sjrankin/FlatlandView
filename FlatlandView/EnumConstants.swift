@@ -525,23 +525,25 @@ enum FileIONames: String, CaseIterable
     case MapDirectory = "Flatland/Maps"
     /// The map structure file name.
     case MapStructure = "Maps.xml"
+    
     /// The database directory.
     case DatabaseDirectory = "Flatland/Database"
-    #if false
-    /// The World Heritage Site database.
-    case UnescoDatabase = "UnescoSites.db"
-    /// The name of the World Heritage Site database.
-    case UnescoName = "UnescoSites"
-    #else
+    
     /// Database of mappable locations and objects.
     case MappableDatabase = "Mappable.db"
     /// Name of the database of mappable locations and objects.
     case MappableName = "Mappable"
-    #endif
+    
     /// The earthquake history database.
     case QuakeHistoryDatabase = "EarthquakeHistory.db"
     /// The name of the earthquake history database.
     case QuakeName = "EarthquakeHistory"
+    
+    /// Database of POI locations.
+    case POIDatabase = "POI.db"
+    /// Name of the database of POI locations.
+    case POIName = "POI"
+    
     /// Common database extension.
     case DatabaseExtension = "db"
 }
@@ -561,6 +563,17 @@ enum MappableTableNames: String, CaseIterable
     case AdditionalCities = "AdditionalCities"
     /// Version table.
     case Version = "Version"
+}
+
+/// Table names in the POI database.
+enum POITableNames: String, CaseIterable
+{
+    /// Home table.
+    case Home = "Home"
+    /// General-purpose POI table.
+    case POI = "POI"
+    /// User POI table.
+    case UserPOI = "UserPOI"
 }
 
 #if DEBUG
