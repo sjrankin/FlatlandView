@@ -38,6 +38,7 @@ extension GlobeView
         ConeNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+        #if false
         if EnableEmission
         {
             #if true
@@ -46,6 +47,12 @@ extension GlobeView
             ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
             #endif
         }
+        #endif
+        ConeNode.SetLocation(Latitude, Longitude)
+        ConeNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
+        ConeNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
+        ConeNode.CanSwitchState = true
+        ConeNode.IsInDaylight = Solar.IsInDaylight(Latitude, Longitude)!
         ConeNode.castsShadow = true
         ConeNode.position = SCNVector3(X, Y, Z)
         let YRotation = Latitude + 90.0
@@ -112,11 +119,18 @@ extension GlobeView
         let CityNode = SCNNode2(geometry: CityShape)
         CityNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        #if false
         if Settings.GetBool(.CityNodesGlow)
         {
             CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
             //        CityNode.geometry?.firstMaterial?.emission.contents = NSImage(named: "CitySphereTexture")
         }
+        #endif
+        CityNode.SetLocation(Latitude, Longitude)
+        CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
+        CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
+        CityNode.CanSwitchState = true
+        CityNode.IsInDaylight = Solar.IsInDaylight(Latitude, Longitude)!
         CityNode.castsShadow = true
         SunLight.intensity = 800
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(10 - (CitySize / 2)))
@@ -250,15 +264,14 @@ extension GlobeView
             CityNode = SCNNode2(geometry: Sphere)
             CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
             CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+            #if false
             if Settings.GetBool(.CityNodesGlow)
             {
-                //CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
+                CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
             }
-            CityNode.SetLocation(Latitude, Longitude)
-            CityNode.CanSwitchState = true
-            CityNode.Tag = "Test Node"
-            CityNode.SetState(For: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
-            CityNode.SetState(For: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
+            #endif
+            CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
+            CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
         }
         else
         {
@@ -274,6 +287,7 @@ extension GlobeView
             CityNode.geometry?.materials.append(SideImage)
             CityNode.geometry?.materials.append(SideImage)
             CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+            #if false
             if Settings.GetBool(.CityNodesGlow)
             {
                 for Material in CityNode.geometry!.materials
@@ -281,10 +295,20 @@ extension GlobeView
                     Material.selfIllumination.contents = WithColor
                 }
             }
+            #endif
+            CityNode.HasImageTextures = true
+            CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
+            CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
         }
+        CityNode.SetLocation(Latitude, Longitude)
+        CityNode.CanSwitchState = true
         CityNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         CityNode.NodeID = Plot.CityID
         CityNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
+        if let IsInDay = Solar.IsInDaylight(Latitude, Longitude)
+        {
+            CityNode.IsInDaylight = IsInDay
+        }
         
         var CylinderLength = CGFloat(LongestStem * RelativeHeight)
         if CylinderLength < 0.1
@@ -378,16 +402,19 @@ extension GlobeView
         else
         {
             let CityShape = SCNCylinder(radius: HDim / 2.0, height: CitySize)
-            CityNode.geometry?.firstMaterial?.diffuse.contents = NSColor.purple//WithColor
+            CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
             CityNode = SCNNode2(geometry: CityShape)
+            #if false
             if Settings.GetBool(.CityNodesGlow)
             {
                 //CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
             }
+            #endif
             CityNode.SetLocation(Latitude, Longitude)
             CityNode.CanSwitchState = true
-            CityNode.SetState(For: true, Color: WithColor, Emission: nil, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
-            CityNode.SetState(For: false, Color: WithColor, Emission: WithColor, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
+            CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
+            CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
+            CityNode.IsInDaylight = Solar.IsInDaylight(Latitude, Longitude)!
         }
         CityNode.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
         CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
