@@ -20,6 +20,7 @@ class FileIO
     public static func Initialize()
     {
         InstallMappableDatabase()
+        InstallPOIDatabase()
         InstallEarthquakeHistoryDatabase()
         InitializeFileStructure()
     }
@@ -146,18 +147,50 @@ class FileIO
         }
     }
     
-    /// Delete the UNESCO World Heritage Site database. Intended for use when updating the database on the fly.
-    public static func DeleteUnescoDatabase()
+    /// Make sure the POI site database is installed.
+    /// - Warning: Fatal errors will be generated on file errors.
+    public static func InstallPOIDatabase()
     {
+        var DBPath: URL!
         if !DirectoryExists(DatabaseDirectory)
         {
-            //Nothing to do.
-            return
+            do
+            {
+                DBPath = GetDocumentDirectory()?.appendingPathComponent(DatabaseDirectory)
+                try FileManager.default.createDirectory(atPath: DBPath!.path, withIntermediateDirectories: true,
+                                                        attributes: nil)
+                Debug.Print("Created database directory \(DBPath!.path)")
+            }
+            catch
+            {
+                fatalError("Error creating database directory \"\(DatabaseDirectory)\"")
+            }
         }
-        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(DatabaseDirectory + "/" + FileIONames.MappableDatabase.rawValue)
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.POIDatabase.rawValue
+        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         if FileManager.default.fileExists(atPath: LookForExisting.path)
         {
-            DeleteFile(LookForExisting)
+            Debug.Print("\"\(FileIONames.POIDatabase.rawValue)\" exists at \(LookForExisting.path)")
+            return
+        }
+        if let Source = Bundle.main.path(forResource: FileIONames.POIName.rawValue,
+                                         ofType: FileIONames.DatabaseExtension.rawValue)
+        {
+            let SourceURL = URL(fileURLWithPath: Source)
+            let DestDir = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
+            do
+            {
+                try FileManager.default.copyItem(at: SourceURL, to: DestDir)
+                Debug.Print("Installed \(FileIONames.POIName) database.")
+            }
+            catch
+            {
+                fatalError("Error copying database. \(error.localizedDescription)")
+            }
+        }
+        else
+        {
+            fatalError("Did not find \(FileIONames.POIDatabase.rawValue) in bundle.")
         }
     }
     
@@ -206,11 +239,20 @@ class FileIO
         }
     }
     
-    /// Returns the URL for the Unesco database.
-    /// - Returns: URL of the Unesco database on success, nil if not found.
+    /// Returns the URL for the mappable database.
+    /// - Returns: URL of the mappable database on success, nil if not found.
     public static func GetMappableDatabaseURL() -> URL?
     {
         let PathComponent = DatabaseDirectory + "/" + FileIONames.MappableDatabase.rawValue
+        let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
+        return DBURL
+    }
+    
+    /// Returns the URL for the POI database.
+    /// - Returns: URL of the POI database on success, nil if not found.
+    public static func GetPOIDatabaseURL() -> URL?
+    {
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.POIDatabase.rawValue
         let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         return DBURL
     }
@@ -224,13 +266,29 @@ class FileIO
         return DBURL
     }
     
-    /// Determines if the UNESCO database exists at its expected location.
+    /// Determines if the mappable database exists at its expected location.
     /// - Returns: True if the database is where it is expected to be, false if not.
     public static func MappableDatabaseExists() -> Bool
     {
         if DirectoryExists(DatabaseDirectory)
         {
             let PathComponent = DatabaseDirectory + "/" + FileIONames.MappableDatabase.rawValue
+            let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
+            if FileManager.default.fileExists(atPath: LookForExisting.path)
+            {
+                return true
+            }
+        }
+        return false
+    }
+    
+    /// Determines if the POI database exists at its expected location.
+    /// - Returns: True if the database is where it is expected to be, false if not.
+    public static func POIDatabaseExists() -> Bool
+    {
+        if DirectoryExists(DatabaseDirectory)
+        {
+            let PathComponent = DatabaseDirectory + "/" + FileIONames.POIDatabase.rawValue
             let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
             if FileManager.default.fileExists(atPath: LookForExisting.path)
             {
