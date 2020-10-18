@@ -10,17 +10,28 @@ import Foundation
 import AppKit
 import SceneKit
 
+/// Implements a ring of triangles.
 class SCNTriangleRing: SCNNode2
 {
+    /// The minimum number of triangles.
     public static let MinimumTriangleCount: Int = 4
+    
+    /// The maximum number of triangles.
     public static let MaximumTriangleCount: Int = 20
     
+    /// Default initializer.
     override init()
     {
         super.init()
         MakeGeometry()
     }
     
+    /// Initializer.
+    /// - Parameter Count: Number of triangles.
+    /// - Parameter Inner: The inner radius.
+    /// - Parameter Outer: The outer radius.
+    /// - Parameter Extrusion: The extrusion of each triangle.
+    /// - Parameter Mask: The light mask.
     init(Count: Int, Inner: CGFloat, Outer: CGFloat, Extrusion: CGFloat, Mask: Int)
     {
         super.init()
@@ -32,19 +43,23 @@ class SCNTriangleRing: SCNNode2
         MakeGeometry()
     }
     
+    /// Initializer.
+    /// - Parameter coder: See Apple documentation.
     required init?(coder: NSCoder)
     {
         super.init(coder: coder)
         MakeGeometry()
     }
     
-    public var _PointsOut: Bool = true
+    /// Holds the points out value.
+    private var _PointsOut: Bool = true
     {
         didSet
         {
             MakeGeometry()
         }
     }
+    /// Get or set the triangle points out flag.
     public var PointsOut: Bool
     {
         get
@@ -57,6 +72,7 @@ class SCNTriangleRing: SCNNode2
         }
     }
     
+    /// Holds the triangle count.
     private var _TriangleCount: Int = 5
     {
         didSet
@@ -64,6 +80,7 @@ class SCNTriangleRing: SCNNode2
             MakeGeometry()
         }
     }
+    /// Get or set the triangle count.
     public var TriangleCount: Int
     {
         get
@@ -78,6 +95,7 @@ class SCNTriangleRing: SCNNode2
         }
     }
     
+    /// Holds the inner radius value.
     private var _InnerRadius: CGFloat = 1.0
     {
         didSet
@@ -85,6 +103,7 @@ class SCNTriangleRing: SCNNode2
             MakeGeometry()
         }
     }
+    /// Get or set the inner radius value.
     public var InnerRadius: CGFloat
     {
         get
@@ -101,6 +120,7 @@ class SCNTriangleRing: SCNNode2
         }
     }
     
+    /// Holds the outer radius value.
     private var _OuterRadius: CGFloat = 2.0
     {
         didSet
@@ -108,6 +128,7 @@ class SCNTriangleRing: SCNNode2
             MakeGeometry()
         }
     }
+    /// Get or set the outer radius value.
     public var OuterRadius: CGFloat
     {
         get
@@ -208,6 +229,7 @@ class SCNTriangleRing: SCNNode2
         }
     }
     
+    /// Holds the triangle rotation duration in seconds.
     private var _TriangleRotationDuration: Double = 0.0
     {
         didSet
@@ -215,6 +237,7 @@ class SCNTriangleRing: SCNNode2
             MakeGeometry()
         }
     }
+    /// Get or set the triangle rotation duration in seconds.
     public var TriangleRotationDuration: Double
     {
         get
@@ -227,6 +250,11 @@ class SCNTriangleRing: SCNNode2
         }
     }
     
+    /// Creates a triangle.
+    /// - Parameter Top: The top point.
+    /// - Parameter Base1: First base point.
+    /// - Parameter Base2: Second base point.
+    /// - Returns: Triangle-shaped `SCNNode2` object.
     private func MakeTriangle(Top: NSPoint, Base1: NSPoint, Base2: NSPoint) -> SCNNode2
     {
         let Path = NSBezierPath()
@@ -246,6 +274,7 @@ class SCNTriangleRing: SCNNode2
         return GeoNode
     }
     
+    /// Create the geometry for the triangle ring.
     func MakeGeometry()
     {
         for Triangle in self.childNodes
