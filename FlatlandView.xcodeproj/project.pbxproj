@@ -191,6 +191,10 @@
 		17C87B7B25177F650065BE6D /* +FlatViewHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C87B7A25177F650065BE6D /* +FlatViewHours.swift */; };
 		17C87B7E25177FBF0065BE6D /* +FlatViewSettingsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C87B7D25177FBF0065BE6D /* +FlatViewSettingsHandler.swift */; };
 		17C87B81251780160065BE6D /* +FlatViewCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C87B80251780160065BE6D /* +FlatViewCities.swift */; };
+		17CB2484253BD9B100BAABDC /* ShapeAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2483253BD9B100BAABDC /* ShapeAttribute.swift */; };
+		17CB2487253C108300BAABDC /* +POIDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2486253C108300BAABDC /* +POIDatabase.swift */; };
+		17CB248A253C122400BAABDC /* POI2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2489253C122400BAABDC /* POI2.swift */; };
+		17CB248D253C5BCB00BAABDC /* POI.db in Resources */ = {isa = PBXBuildFile; fileRef = 17CB248C253C5BCB00BAABDC /* POI.db */; };
 		17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BB82491C8E400CACED5 /* SCNRegular.swift */; };
 		17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BBC2491EAA200CACED5 /* SCNPin.swift */; };
 		17CFEC582522BDAE005C3E49 /* NSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CFEC572522BDAE005C3E49 /* NSView.swift */; };
@@ -466,6 +470,10 @@
 		17C87B7A25177F650065BE6D /* +FlatViewHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewHours.swift"; sourceTree = "<group>"; };
 		17C87B7D25177FBF0065BE6D /* +FlatViewSettingsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewSettingsHandler.swift"; sourceTree = "<group>"; };
 		17C87B80251780160065BE6D /* +FlatViewCities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewCities.swift"; sourceTree = "<group>"; };
+		17CB2483253BD9B100BAABDC /* ShapeAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeAttribute.swift; sourceTree = "<group>"; };
+		17CB2486253C108300BAABDC /* +POIDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+POIDatabase.swift"; sourceTree = "<group>"; };
+		17CB2489253C122400BAABDC /* POI2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POI2.swift; sourceTree = "<group>"; };
+		17CB248C253C5BCB00BAABDC /* POI.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = POI.db; sourceTree = "<group>"; };
 		17CC8BB82491C8E400CACED5 /* SCNRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNRegular.swift; sourceTree = "<group>"; };
 		17CC8BBC2491EAA200CACED5 /* SCNPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPin.swift; sourceTree = "<group>"; };
 		17CFEC572522BDAE005C3E49 /* NSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSView.swift; sourceTree = "<group>"; };
@@ -726,6 +734,8 @@
 				1792486D251A21C700AF4D4B /* +MainWorldHeritageSites.swift */,
 				17C34556252C977F00D01143 /* +MainCityDatabase.swift */,
 				17CFEC5F25232A4B005C3E49 /* WorldHeritageSite2.swift */,
+				17CB2486253C108300BAABDC /* +POIDatabase.swift */,
+				17CB2489253C122400BAABDC /* POI2.swift */,
 			);
 			path = "+MainDatabase";
 			sourceTree = "<group>";
@@ -893,6 +903,7 @@
 			isa = PBXGroup;
 			children = (
 				17267C522537D63A0036F6EA /* FlatlandRelease.entitlements */,
+				17CB248C253C5BCB00BAABDC /* POI.db */,
 				17F79068252D57FE00FA2F23 /* Mappable.db */,
 				1767A8E224794A0100C434B5 /* FlatlandView */,
 				1767A8E124794A0100C434B5 /* Products */,
@@ -1288,6 +1299,7 @@
 				17078AE424AC66FC00782E20 /* SCN3DArrow.swift */,
 				171A583D24BED5A700F9CA76 /* SCNTriangleRing.swift */,
 				17B8B4122536F52F00CF8760 /* SCNSatellite.swift */,
+				17CB2483253BD9B100BAABDC /* ShapeAttribute.swift */,
 			);
 			path = Shapes;
 			sourceTree = "<group>";
@@ -1453,6 +1465,7 @@
 				17ABAFFE24E9209E009DDC35 /* EarthquakeHistory.db in Resources */,
 				1750043924B46110006528A4 /* FontPickerUI.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
+				17CB248D253C5BCB00BAABDC /* POI.db in Resources */,
 				1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */,
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
 				17F79069252D57FF00FA2F23 /* Mappable.db in Resources */,
@@ -1520,6 +1533,7 @@
 				17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */,
 				17F17A4D24DE7B1B00568A4E /* LinesDraw.swift in Sources */,
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
+				17CB2484253BD9B100BAABDC /* ShapeAttribute.swift in Sources */,
 				1760023C24D2BF8000D5EA1A /* NSColor.swift in Sources */,
 				1701BF7C24FCE0FD00686C3A /* CityPopulationController.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
@@ -1618,6 +1632,7 @@
 				17F9AFE22520340400DE0219 /* +CGFloat.swift in Sources */,
 				173F3D3E24EB6C4F008B9870 /* CircularWarp.m in Sources */,
 				1733C81024F8D71A0025D555 /* RawSettingsWindow.swift in Sources */,
+				17CB248A253C122400BAABDC /* POI2.swift in Sources */,
 				178E1CAC25186EB000FDC75B /* +ChangedSettingsHandler.swift in Sources */,
 				172D20662521BEC000FA8687 /* +FlatViewWorldHeritageSites.swift in Sources */,
 				17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */,
@@ -1676,6 +1691,7 @@
 				17F9B001252035B300DE0219 /* +NotifiedEarthquakeList.swift in Sources */,
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
 				1759AE68249F8215003F79F5 /* OtherLocationsWindow.swift in Sources */,
+				17CB2487253C108300BAABDC /* +POIDatabase.swift in Sources */,
 				1714DDB82539654A001A3002 /* UInt64.swift in Sources */,
 				17FC221524987B1A005A0929 /* LiveDataViewWindow.swift in Sources */,
 				17C34557252C977F00D01143 /* +MainCityDatabase.swift in Sources */,
