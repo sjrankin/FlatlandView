@@ -320,14 +320,8 @@ extension GlobeView
     ///            invisible info node to interact with the mouse.
     func MakeEarthquakeNode(_ Quake: Earthquake) -> (Shape: SCNNode2?, Magnitude: SCNNode2?, InfoNode: SCNNode2?)
     {
-        #if true
         let FinalRadius = GlobeRadius.Primary.rawValue
         let Percent = 1.0
-        #else
-        let QuakeRadius = 6371.0 - Quake.Depth
-        let Percent = QuakeRadius / 6371.0
-        let FinalRadius = Double(GlobeRadius.Primary.rawValue) * Percent
-        #endif
         var FinalNode: SCNNode2!
         var YRotation: Double = 0.0
         var XRotation: Double = 0.0
@@ -359,12 +353,12 @@ extension GlobeView
         let (Xp, Yp, Zp) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radiusp)
         let ERadius = (Quake.Magnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.SphereConstant.rawValue
         let QSphere = SCNSphere(radius: CGFloat(ERadius))
-        let INode = SCNNode2(geometry: QSphere)
-        INode.CanShowBoundingShape = true
-        INode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
-        INode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
-        INode.NodeID = Quake.ID
-        INode.position = SCNVector3(Xp, Yp, Zp)
+        let InfoNode = SCNNode2(geometry: QSphere)
+        InfoNode.CanShowBoundingShape = true
+        InfoNode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        InfoNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
+        InfoNode.NodeID = Quake.ID
+        InfoNode.position = SCNVector3(Xp, Yp, Zp)
         
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         {
@@ -380,13 +374,21 @@ extension GlobeView
                 Arrow.scale = SCNVector3(NodeScales3D.ArrowScale.rawValue,
                                          NodeScales3D.ArrowScale.rawValue,
                                          NodeScales3D.ArrowScale.rawValue)
+                Arrow.CanSwitchState = true
+                Arrow.SetLocation(Quake.Latitude, Quake.Longitude)
+                Arrow.SetState(ForDay: true, Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red),
+                               Emission: nil, Model: .physicallyBased, Metalness: nil, Roughness: nil)
+                Arrow.SetState(ForDay: false, Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red),
+                               Emission: Settings.GetColor(.BaseEarthquakeColor, NSColor.red),
+                               Model: .physicallyBased, Metalness: nil, Roughness: nil)
+                Arrow.IsInDaylight = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)!
+                
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
                 let RotateDirection = Quake.Latitude >= 0.0 ? 1.0 : -1.0
                 let Rotate = SCNAction.rotateBy(x: 0.0, y: CGFloat(RotateDirection), z: 0.0,
                                                 duration: Quake3D.ArrowRotationDuration.rawValue)
                 let RotateForever = SCNAction.repeatForever(Rotate)
-                
                 let BounceDistance: CGFloat = CGFloat(Quake3D.ArrowBounceDistance.rawValue)
                 let BounceDuration = (10.0 - Quake.Magnitude) / Quake3D.ArrowBounceDurationDivisor.rawValue
                 let BounceAway = SCNAction.move(by: SCNVector3(0.0, -BounceDistance, 0.0), duration: BounceDuration)
@@ -395,13 +397,18 @@ extension GlobeView
                 BounceTo.timingMode = .easeIn
                 let BounceSequence = SCNAction.sequence([BounceAway, BounceTo])
                 let MoveForever = SCNAction.repeatForever(BounceSequence)
-                
                 let AnimationGroup = SCNAction.group([MoveForever, RotateForever])
                 Arrow.runAction(AnimationGroup)
                 Arrow.runAction(RotateForever)
+                
                 let Encapsulate = SCNNode2()
+                Encapsulate.CanSwitchState = true
+                Encapsulate.SetLocation(Quake.Latitude, Quake.Longitude)
                 Encapsulate.addChildNode(Arrow)
                 FinalNode = Encapsulate
+                FinalNode.CanSwitchState = true
+                FinalNode.SetLocation(Quake.Latitude, Quake.Longitude)
+                FinalNode.IsInDaylight = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)!
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)
                 FinalNode.NodeID = Quake.ID
                 
@@ -496,7 +503,7 @@ extension GlobeView
         FinalNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FinalNode.position = SCNVector3(X, Y, Z)
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        return (FinalNode, MagNode, INode)
+        return (FinalNode, MagNode, InfoNode)
     }
     
     /// Determines if a given earthquake happened in the number of days prior to the instance.
