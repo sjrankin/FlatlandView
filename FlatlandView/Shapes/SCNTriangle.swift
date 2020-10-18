@@ -11,12 +11,13 @@ import AppKit
 import SceneKit
 
 /// Implements a simple triangle `SCNNode2`.
-class SCNTriangle: SCNNode2
+class SCNTriangle: SCNNode2, ShapeAttribute
 {
     /// Initializer. Creates a default triangle.
     override init()
     {
         super.init()
+        self.UseProtocolToSetState = true
         MakeGeometry()
     }
     
@@ -25,6 +26,7 @@ class SCNTriangle: SCNNode2
     required init?(coder: NSCoder)
     {
         super.init(coder: coder)
+        self.UseProtocolToSetState = true
         MakeGeometry()
     }
     
@@ -40,6 +42,7 @@ class SCNTriangle: SCNNode2
          Specular: NSColor = NSColor.white, LightMask: Int = 0)
     {
         super.init()
+        self.UseProtocolToSetState = true
         self.Base = Base
         self.Height = Height
         self.Extrusion = Extrusion
@@ -132,6 +135,27 @@ class SCNTriangle: SCNNode2
         }
     }
     
+    /// Holds the emission color.
+    private var _Emission: NSColor? = nil
+    {
+        didSet
+        {
+            MakeGeometry()
+        }
+    }
+    /// Get or set the emission color.
+    public var Emission: NSColor?
+    {
+        get
+        {
+            return _Emission
+        }
+        set
+        {
+            _Emission = newValue
+        }
+    }
+    
     /// Holds the color of the specular surface of the triangle.
     private var _Specular: NSColor = NSColor.white
     {
@@ -174,6 +198,69 @@ class SCNTriangle: SCNNode2
         }
     }
     
+    /// Holds the lighting model.
+    private var _LightingModel: SCNMaterial.LightingModel = .phong
+    {
+        didSet
+        {
+            MakeGeometry()
+        }
+    }
+    /// Get or set the lighting model.
+    public var LightingModel: SCNMaterial.LightingModel
+    {
+        get
+        {
+            return _LightingModel
+        }
+        set
+        {
+            _LightingModel = newValue
+        }
+    }
+    
+    /// Holds the metalness level.
+    private var _Metalness: Double? = nil
+    {
+        didSet
+        {
+            MakeGeometry()
+        }
+    }
+    /// Get or set the metalness level.
+    public var Metalness: Double?
+    {
+        get
+        {
+            return _Metalness
+        }
+        set
+        {
+            _Metalness = newValue
+        }
+    }
+    
+    /// Holds the roughness level.
+    private var _Roughness: Double? = nil
+    {
+        didSet
+        {
+            MakeGeometry()
+        }
+    }
+    /// Get or set the roughness level.
+    public var Roughness: Double?
+    {
+        get
+        {
+            return _Roughness
+        }
+        set
+        {
+            _Roughness = newValue
+        }
+    }
+    
     /// Create the geometric triangle and add it to `self`. All prior shapes
     /// are removed first.
     func MakeGeometry()
@@ -190,10 +277,55 @@ class SCNTriangle: SCNNode2
         Path.line(to: NSPoint(x: HCenter, y: _Height))
         Path.close()
         let Geo = SCNShape(path: Path, extrusionDepth: _Extrusion)
-        let GeoNode = SCNNode2(geometry: Geo)
+        GeoNode = SCNNode2(geometry: Geo)
         GeoNode.categoryBitMask = _LightMask
         GeoNode.geometry?.firstMaterial?.diffuse.contents = Color
         GeoNode.geometry?.firstMaterial?.specular.contents = Specular
+        GeoNode.geometry?.firstMaterial?.emission.contents = Emission
+        GeoNode.geometry?.firstMaterial?.metalness.contents = Metalness
+        GeoNode.geometry?.firstMaterial?.roughness.contents = Roughness
         self.addChildNode(GeoNode)
+    }
+    
+    var GeoNode = SCNNode2()
+    
+    // MARK: - Shape attributes.
+    
+    func SetMaterialColor(_ Color: NSColor)
+    {
+        GeoNode.geometry?.firstMaterial?.diffuse.contents = Color
+    }
+    
+    func SetEmissionColor(_ Color: NSColor?)
+    {
+        if let Emission = Color
+        {
+            GeoNode.geometry?.firstMaterial?.emission.contents = Emission
+        }
+        else
+        {
+            GeoNode.geometry?.firstMaterial?.emission.contents = nil
+        }
+    }
+    
+    func SetLightingModel(_ Model: SCNMaterial.LightingModel)
+    {
+        GeoNode.geometry?.firstMaterial?.lightingModel = Model
+    }
+    
+    func SetMetalness(_ Value: Double?)
+    {
+        if let Metal = Value
+        {
+            GeoNode.geometry?.firstMaterial?.metalness.contents = Metal
+        }
+    }
+    
+    func SetRoughness(_ Value: Double?)
+    {
+        if let Rough = Value
+        {
+            GeoNode.geometry?.firstMaterial?.roughness.contents = Rough
+        }
     }
 }
