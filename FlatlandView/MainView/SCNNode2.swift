@@ -72,6 +72,17 @@ class SCNNode2: SCNNode
     }
     
     /// Initializer.
+    /// - Parameter CanChange: Sets the node can change state flag.
+    /// - Parameter Latitude: The real-world latitude of the node.
+    /// - Parameter Longitude: The real-word longitude of the node.
+    init(CanChange: Bool, _ Latitude: Double, _ Longitude: Double)
+    {
+        super.init()
+        CanSwitchState = CanChange
+        SetLocation(Latitude, Longitude)
+    }
+    
+    /// Initializer.
     /// - Parameter coder: See Apple documentation.
     required init?(coder: NSCoder)
     {
@@ -487,6 +498,102 @@ class SCNNode2: SCNNode
         }
     }
     
+    /// Sets the day or night state for nodes that have diffuse materials made up of one or more
+    /// materials (usually images).
+    /// - Parameter For: Determines day or night state.
+    private func SetStateWithImages(For DayTime: Bool)
+    {
+        if DayTime
+        {
+            self.geometry?.firstMaterial?.lightingModel = DayState!.LightModel
+            if DayState?.Emission != nil
+            {
+                for Material in self.geometry!.materials
+                {
+                    Material.emission.contents = DayState!.Emission!
+                }
+            }
+            else
+            {
+                for Material in self.geometry!.materials
+                {
+                    Material.emission.contents = nil
+                }
+            }
+            if DayState?.Metalness != nil
+            {
+                for Material in self.geometry!.materials
+                {
+                    Material.metalness.contents = DayState!.Metalness
+                }
+            }
+            if DayState?.Roughness != nil
+            {
+                for Material in self.geometry!.materials
+                {
+                    Material.roughness.contents = DayState!.Roughness
+                }
+            }
+        }
+        else
+        {
+            self.geometry?.firstMaterial?.lightingModel = NightState!.LightModel
+            if NightState?.Emission != nil
+            {
+                for Material in self.geometry!.materials
+                {
+                    Material.emission.contents = NightState!.Emission!
+                }
+            }
+            else
+            {
+                for Material in self.geometry!.materials
+                {
+                    Material.emission.contents = nil
+                }
+            }
+            if NightState?.Metalness != nil
+            {
+                for Material in self.geometry!.materials
+                {
+                    Material.metalness.contents = NightState!.Metalness
+                }
+            }
+            if NightState?.Roughness != nil
+            {
+                for Material in self.geometry!.materials
+                {
+                    Material.roughness.contents = NightState!.Roughness
+                }
+            }
+        }
+    }
+    
+    /// Assign the passed set of state values to the node.
+    /// - Parameter State: The set of state values to assign.
+    private func SetVisualAttributes(_ State: NodeState)
+    {
+        if UseProtocolToSetState
+        {
+            if let PNode = self as? ShapeAttribute
+            {
+                PNode.SetMaterialColor(State.Color)
+                PNode.SetEmissionColor(State.Emission)
+                PNode.SetLightingModel(State.LightModel)
+                PNode.SetMetalness(State.Metalness)
+                PNode.SetRoughness(State.Roughness)
+            }
+        }
+        else
+        {
+            self.geometry?.firstMaterial?.lightingModel = State.LightModel
+            self.geometry?.firstMaterial?.emission.contents = State.Emission
+            self.geometry?.firstMaterial?.lightingModel = State.LightModel
+            self.geometry?.firstMaterial?.metalness.contents = State.Metalness
+            self.geometry?.firstMaterial?.roughness.contents = State.Roughness
+        }
+    }
+    
     /// Set the visual state for the node (and all child nodes) to day or night time (based on the parameter).
     /// - Note: If either `DayState` or `NightState` is nil, no action is taken.
     /// - Parameter For: Determines which state to show.
@@ -496,49 +603,16 @@ class SCNNode2: SCNNode
         {
             return
         }
-        if DayTime
+        if HasImageTextures
         {
-            self.geometry?.firstMaterial?.diffuse.contents = DayState!.Color
-            self.geometry?.firstMaterial?.lightingModel = DayState!.LightModel
-            if DayState?.Emission != nil
-            {
-                self.geometry?.firstMaterial?.emission.contents = DayState!.Emission!
-            }
-            else
-            {
-                self.geometry?.firstMaterial?.emission.contents = nil
-            }
-            if DayState?.Metalness != nil
-            {
-                self.geometry?.firstMaterial?.metalness.contents = DayState!.Metalness
-            }
-            if DayState?.Roughness != nil
-            {
-                self.geometry?.firstMaterial?.roughness.contents = DayState!.Roughness!
-            }
+            SetStateWithImages(For: DayTime)
+            return
         }
-        else
-        {
-            self.geometry?.firstMaterial?.diffuse.contents = NightState!.Color
-            self.geometry?.firstMaterial?.lightingModel = NightState!.LightModel
-            if NightState?.Emission != nil
-            {
-                self.geometry?.firstMaterial?.emission.contents = NightState!.Emission!
-            }
-            else
-            {
-                self.geometry?.firstMaterial?.emission.contents = nil
-            }
-            if NightState?.Metalness != nil
-            {
-                self.geometry?.firstMaterial?.metalness.contents = NightState!.Metalness!
-            }
-            if NightState?.Roughness != nil
-            {
-                self.geometry?.firstMaterial?.roughness.contents = NightState!.Roughness!
-            }
-        }
+        SetVisualAttributes(DayTime ? DayState! : NightState!)
     }
+    
+    /// Set to true if the contents of the diffuse material is made up of one or more images.
+    public var HasImageTextures: Bool = false
     
     /// Holds the daylight state. Setting this property updates the visual state for this node and all child
     /// nodes.
@@ -613,20 +687,20 @@ class SCNNode2: SCNNode
     public var NightState: NodeState? = nil
  
     /// Convenience function to set the state attributes.
-    /// - Parameter For: If true, day time attributes are set. If false, night time attributes are set.
+    /// - Parameter ForDay: If true, day time attributes are set. If false, night time attributes are set.
     /// - Parameter Color: The color for the state.
     /// - Parameter Emission: The color for the emmission material (eg, glowing). Defaults to nil.
     /// - Parameter Model: The lighting model for the state. Defaults to `.phong`.
     /// - Parameter Metalness: The metalness value of the state. If nil, not used. Defaults to nil.
     /// - Parameter Roughness: The roughness value of the state. If nil, not used. Defaults to nil.
-    public func SetState(For Day: Bool,
+    public func SetState(ForDay: Bool,
                          Color: NSColor,
                          Emission: NSColor? = nil,
                          Model: SCNMaterial.LightingModel = .phong,
                          Metalness: Double? = nil,
                          Roughness: Double? = nil)
     {
-        if Day
+        if ForDay
         {
             DayState = NodeState(Color: Color, Emission: Emission, LightModel: Model,
                                  Metalness: Metalness, Roughness: Roughness)
@@ -637,6 +711,11 @@ class SCNNode2: SCNNode
                                    Metalness: Metalness, Roughness: Roughness)
         }
     }
+    
+    /// If true, the ShapeAttribute protocol will be used to set attributes. This is provided for
+    /// nodes that have hard to reach child nodes. This lets such nodes handle setting state for
+    /// themselves. Defaults to `false`.
+    public var UseProtocolToSetState: Bool = false
     
     // MARK: - Map location data.
     
