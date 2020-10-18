@@ -17,6 +17,7 @@ class SCN3DArrow: SCNNode2
     override init()
     {
         super.init()
+        self.UseProtocolToSetState = true
         MakeGeometry()
     }
     
@@ -207,19 +208,23 @@ class SCN3DArrow: SCNNode2
         }
         
         let Cone = SCNCone(topRadius: 0.0, bottomRadius: _Width * 0.75, height: _Length / 3.0)
-        let ConeNode = SCNNode2(geometry: Cone)
+        ConeNode = SCNNode2(geometry: Cone)
         ConeNode.geometry?.firstMaterial?.diffuse.contents = _Color
         ConeNode.geometry?.firstMaterial?.specular.contents = _Specular
         ConeNode.categoryBitMask = _LightMask
         let Stem = SCNCapsule(capRadius: _Width * 0.25, height: _Length * 0.65)
-        let StemNode = SCNNode2(geometry: Stem)
+        StemNode = SCNNode2(geometry: Stem)
         StemNode.position = SCNVector3(0.0, -0.8, 0.0)
         StemNode.geometry?.firstMaterial?.diffuse.contents = _StemColor
         StemNode.geometry?.firstMaterial?.specular.contents = _StemSpecular
         StemNode.categoryBitMask = _LightMask
-        let Arrow = SCNNode2()
+        Arrow = SCNNode2()
         Arrow.addChildNode(ConeNode)
         Arrow.addChildNode(StemNode)
         self.addChildNode(Arrow)
     }
+    
+    var ConeNode = SCNNode2()
+    var StemNode = SCNNode2()
+    var Arrow = SCNNode2()
 }
