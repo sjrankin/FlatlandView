@@ -11,12 +11,13 @@ import AppKit
 import SceneKit
 
 /// Implements/creates a simple arrow shape in an `SCNNode2`.
-class SCNSimpleArrow: SCNNode2
+class SCNSimpleArrow: SCNNode2, ShapeAttribute
 {
     /// Initializer. Creates a default shape.
     override init()
     {
         super.init()
+        self.UseProtocolToSetState = true
         MakeGeometry()
     }
     
@@ -32,6 +33,7 @@ class SCNSimpleArrow: SCNNode2
          Specular: NSColor = NSColor.white, LightMask: Int = 0)
     {
         super.init()
+        self.UseProtocolToSetState = true
         self.Length = Length
         self.Width = Width
         self.Extrusion = Extrusion
@@ -45,6 +47,7 @@ class SCNSimpleArrow: SCNNode2
     required init?(coder: NSCoder)
     {
         super.init(coder: coder)
+        self.UseProtocolToSetState = true
         MakeGeometry()
     }
     
@@ -153,6 +156,27 @@ class SCNSimpleArrow: SCNNode2
         }
     }
     
+    /// Holds the emission color.
+    private var _Emission: NSColor? = nil
+    {
+        didSet
+        {
+            MakeGeometry()
+        }
+    }
+    /// Get or set the emission color.
+    public var Emission: NSColor?
+    {
+        get
+        {
+            return _Emission
+        }
+        set
+        {
+            _Emission = newValue
+        }
+    }
+    
     /// Holds the specular color.
     private var _Specular: NSColor = NSColor.white
     {
@@ -174,6 +198,69 @@ class SCNSimpleArrow: SCNNode2
         }
     }
     
+    /// Holds the lighting model.
+    private var _LightingModel: SCNMaterial.LightingModel = .phong
+        {
+            didSet
+            {
+                MakeGeometry()
+            }
+        }
+    /// Get or set the lighting model.
+    public var LightingModel: SCNMaterial.LightingModel
+    {
+        get
+        {
+            return _LightingModel
+        }
+        set
+        {
+            _LightingModel = newValue
+        }
+    }
+    
+    /// Holds the metalness level.
+    private var _Metalness: Double? = nil
+    {
+        didSet
+        {
+            MakeGeometry()
+        }
+    }
+    /// Get or set the metalness level.
+    public var Metalness: Double?
+    {
+        get
+        {
+            return _Metalness
+        }
+        set
+        {
+            _Metalness = newValue
+        }
+    }
+    
+    /// Holds the roughness level.
+    private var _Roughness: Double? = nil
+    {
+        didSet
+        {
+            MakeGeometry()
+        }
+    }
+    /// Get or set the roughness level.
+    public var Roughness: Double?
+    {
+        get
+        {
+            return _Roughness
+        }
+        set
+        {
+            _Roughness = newValue
+        }
+    }
+    
     /// Create the arrow geometry and add it to `self`.
     func MakeGeometry()
     {
@@ -181,21 +268,75 @@ class SCNSimpleArrow: SCNNode2
         {
             Child.removeFromParentNode()
         }
-        let Triangle = SCNTriangle(Base: _Width, Height: _Length / 3.0, Extrusion: _Extrusion)
+        Triangle = SCNTriangle(Base: _Width, Height: _Length / 3.0, Extrusion: _Extrusion)
         Triangle.Color = _Color
-        Triangle.geometry?.firstMaterial?.specular.contents = _Specular
+        Triangle.Emission = _Emission
+        Triangle.Specular = _Specular
         Triangle.LightMask = _LightMask
+        Triangle.Metalness = _Metalness
+        Triangle.Roughness = _Roughness
         let Box = SCNBox(width: _Width * 0.25, height: _Length * 0.5, length: _Extrusion, chamferRadius: 0.0)
         Box.firstMaterial?.diffuse.contents = _Color
+        Box.firstMaterial?.emission.contents = _Emission
         Box.firstMaterial?.specular.contents = _Specular
-        let Stem = SCNNode(geometry: Box)
+        Box.firstMaterial?.metalness.contents = _Metalness
+        Box.firstMaterial?.roughness.contents = _Roughness
+        Stem = SCNNode2(geometry: Box)
         Stem.categoryBitMask = _LightMask
         let HCenter = _Width / 2.0
         Stem.position = SCNVector3(HCenter , -0.5, 0.0)
-        let Arrow = SCNNode()
+        Arrow = SCNNode2()
         Arrow.position = SCNVector3(-_Width / 2.0, -_Extrusion / 2.0, 0.0)
         Arrow.addChildNode(Triangle)
         Arrow.addChildNode(Stem)
         self.addChildNode(Arrow)
+    }
+    
+    #if true
+    override var CanSwitchState: Bool
+    {
+        get
+        {
+            return super.CanSwitchState
+        }
+        set
+        {
+            super.CanSwitchState = newValue
+            Arrow.CanSwitchState = true
+            Triangle.CanSwitchState = true
+            Stem.CanSwitchState = true
+        }
+    }
+    #endif
+    
+    var Triangle = SCNTriangle()
+    var Stem = SCNNode2()
+    var Arrow = SCNNode2()
+    
+    // MARK: - Shape attributes.
+    
+    func SetMaterialColor(_ Color: NSColor)
+    {
+        self.Color = Color
+    }
+    
+    func SetEmissionColor(_ Color: NSColor?)
+    {
+        self.Emission = Color
+    }
+    
+    func SetLightingModel(_ Model: SCNMaterial.LightingModel)
+    {
+        self.LightingModel = Model
+    }
+    
+    func SetMetalness(_ Value: Double?)
+    {
+        self.Metalness = Value
+    }
+    
+    func SetRoughness(_ Value: Double?)
+    {
+        self.Roughness = Value
     }
 }
