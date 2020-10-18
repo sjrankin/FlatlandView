@@ -49,6 +49,35 @@ extension MainController
         #endif
     }
     
+    /// Initialize the POI item database.
+    /// - Note: This function only initializes access to the database. *It does not load the data.*
+    /// - Warning: Fatal errors are generated if:
+    ///   - The URL of the mappable database is returned as nil.
+    ///   - SQLite returns an error when attempting to open the POI database.
+    public static func InitializePOIDatabase()
+    {
+        if POIInitialized
+        {
+            return
+        }
+        POIInitialized = true
+        if let POIURL = FileIO.GetPOIDatabaseURL()
+        {
+            if sqlite3_open_v2(POIURL.path, &MainController.POIHandle,
+                               SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
+            {
+                fatalError("Error openting \(POIURL.path), \(String(cString: sqlite3_errmsg(MainController.POIHandle!)))")
+            }
+        }
+        else
+        {
+            fatalError("Error getting URL for the mappable database.")
+        }
+        let MyPOIs = GetAllUserPOIs()
+        let MyHomes = GetAllHomes()
+        print("\(MyHomes.count)")
+    }
+    
     /// Set up a query in to the database.
     /// - Parameter DB: The handle of the database for the query.
     /// - Parameter Query: The query string.
@@ -459,4 +488,38 @@ enum POIColumns: Int32
     case Modified = 9
     /// POI Color.
     case Color = 10
+}
+
+enum HomeColumns: Int32
+{
+    case ID = 0
+    case HomeID = 1
+    case Name = 2
+    case Description = 3
+    case Latitude = 4
+    case Longitude = 5
+    case Color = 6
+    case Shape = 7
+    case HomeType = 8
+    case Numeric = 9
+    case Added = 10
+    case Modified = 11
+}
+
+enum POIColumns2: Int32
+{
+    case ID = 0
+    case POIID = 1
+    case Name = 2
+    case Description = 3
+    case Latitude = 4
+    case Longitude = 5
+    case Color = 6
+    case Shape = 7
+    case HomeType = 8
+    case Numeric = 9
+    case Category = 10
+    case SubCategory = 11
+    case Added = 12
+    case Modified = 13
 }
