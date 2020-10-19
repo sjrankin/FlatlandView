@@ -71,11 +71,10 @@ extension MainController
         }
         else
         {
-            fatalError("Error getting URL for the mappable database.")
+            fatalError("Error getting URL for the POI database.")
         }
-        let MyPOIs = GetAllUserPOIs()
-        let MyHomes = GetAllHomes()
-        print("\(MyHomes.count)")
+        UserPOIs = GetAllUserPOIs()
+        UserHomes = GetAllHomes()
     }
     
     /// Set up a query in to the database.
