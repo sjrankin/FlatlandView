@@ -31,10 +31,18 @@ extension GlobeView
                             NodeID: UUID, NodeClass: UUID)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
-        #if true
         let Attributes: ShapeAttributes =
             {
                let A = ShapeAttributes()
+                let TheSize: Sizes =
+                    {
+                       let S = Sizes()
+                        S.TopRadius = 0.15
+                        S.BottomRadius = 0.0
+                        S.Height = 0.45
+                        return S
+                    }()
+                A.ShapeSize = TheSize
                 A.AttributesChange = true
                 A.CastsShadow = true
                 A.Class = NodeClass
@@ -62,40 +70,11 @@ extension GlobeView
                         return N
                     }()
                 A.NightState = Night
+                A.ShowBoundingShapes = true
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 return A
             }()
-        let ConeNode = ShapeManager.ConeShape(TopRadius: 0.15, BottomRadius: 0.0, Height: 0.45,
-                                              Attributes: Attributes)
-        #else
-        let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
-        let ConeNode = SCNNode2(geometry: Cone)
-        ConeNode.NodeID = NodeID
-        ConeNode.NodeClass = NodeClass
-        ConeNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
-        ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-        #if false
-        if EnableEmission
-        {
-            #if true
-            ConeNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
-            #else
-            ConeNode.geometry?.firstMaterial?.emission.contents = WithColor
-            #endif
-        }
-        #endif
-        ConeNode.SetLocation(Latitude, Longitude)
-        ConeNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
-        ConeNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
-        ConeNode.CanSwitchState = true
-        ConeNode.IsInDaylight = Solar.IsInDaylight(Latitude, Longitude)!
-        ConeNode.castsShadow = true
-        ConeNode.position = SCNVector3(X, Y, Z)
-        let YRotation = Latitude + 90.0
-        let XRotation = Longitude + 180.0
-        ConeNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        #endif
+        let ConeNode = ShapeManager.Create(.Cone, Attributes: Attributes)
         ToSurface.addChildNode(ConeNode)
         PlottedCities.append(ConeNode)
     }
@@ -196,6 +175,13 @@ extension GlobeView
         let Attributes: ShapeAttributes =
             {
                 let A = ShapeAttributes()
+                let Size: Sizes =
+                    {
+                       let S = Sizes()
+                        S.Radius = CitySize
+                        return S
+                    }()
+                A.ShapeSize = Size
                 A.AttributesChange = true
                 A.CastsShadow = true
                 A.Class = UUID(uuidString: NodeClasses.City.rawValue)!
@@ -226,7 +212,8 @@ extension GlobeView
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 return A
             }()
-        let CityNode = ShapeManager.SphereShape(Radius: CitySize, Attributes: Attributes)
+        //let CityNode = ShapeManager.SphereShape(Radius: CitySize, Attributes: Attributes)
+        let CityNode = ShapeManager.Create(.Sphere, Attributes: Attributes)
         #else
         let CityShape = SCNSphere(radius: CitySize)
         let CityNode = SCNNode2(geometry: CityShape)
@@ -313,6 +300,15 @@ extension GlobeView
         let Attributes: ShapeAttributes =
             {
                 let A = ShapeAttributes()
+                let Size: Sizes =
+                    {
+                       let S = Sizes()
+                        S.Width = HDim
+                        S.Height = CitySize
+                        S.Length = HDim
+                        return S
+                    }()
+                A.ShapeSize = Size
                 A.AttributesChange = true
                 A.CastsShadow = true
                 A.Class = UUID(uuidString: NodeClasses.City.rawValue)!
@@ -343,8 +339,9 @@ extension GlobeView
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 return A
             }()
-        let CityNode = ShapeManager.PyramidShape(Width: HDim, Height: CitySize, Length: HDim,
-                                                Attributes: Attributes)
+        let CityNode = ShapeManager.Create(.Pyramid, Attributes: Attributes)
+        //let CityNode = ShapeManager.PyramidShape(Width: HDim, Height: CitySize, Length: HDim,
+        //                                        Attributes: Attributes)
         #else
         var CityNode = SCNNode2()
         let CityShape = SCNPyramid(width: HDim, height: CitySize, length: HDim)
@@ -638,7 +635,6 @@ extension GlobeView
         PlottedCities.removeAll()
         CitiesToPlot = CityManager.FilteredCities()
         
-        #if true
         if Settings.GetBool(.ShowUserLocations)
         {
             for SomePOI in MainController.UserPOIs
@@ -659,36 +655,6 @@ extension GlobeView
                                    NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
             }
         }
-        #else
-        if Settings.GetBool(.ShowUserLocations)
-        {
-            let POIList = POIManager.GetPOIs(By: .UserPOI)
-            for SomePOI in POIList
-            {
-                if SomePOI.POIType == POITypes.UserPOI.rawValue
-                {
-                    NodeTables.AddUserPOI(ID: SomePOI.POIID, Name: SomePOI.Name, Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude))
-                    let ToPlot = City2()
-                    ToPlot.Name = SomePOI.Name
-                    ToPlot.CityID = SomePOI.POIID
-                    ToPlot.Latitude = SomePOI.Latitude
-                    ToPlot.Longitude = SomePOI.Longitude
-                    ToPlot.CityColor = SomePOI.POIColor
-                    ToPlot.IsUserCity = true
-                    let ShowEmission = Settings.GetBool(.ShowPOIEmission)
-                    PlotLocationAsCone(ToPlot,
-                                       Latitude: ToPlot.Latitude,
-                                       Longitude: ToPlot.Longitude,
-                                       Radius: Radius,
-                                       ToSurface: Surface,
-                                       WithColor: ToPlot.CityColor,
-                                       EnableEmission: ShowEmission,
-                                       NodeID: SomePOI.POIID,
-                                       NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
-                }
-            }
-        }
-        #endif
         
         let UseMetro = Settings.GetEnum(ForKey: .PopulationType, EnumType: PopulationTypes.self, Default: .Metropolitan) == .Metropolitan
         let (Max, Min) = CityManager.GetPopulationsIn(CityList: CitiesToPlot, UseMetroPopulation: UseMetro)
@@ -828,37 +794,78 @@ extension GlobeView
     /// - Returns: Node with the pole shape.
     func MakePole(NorthPole: Bool) -> SCNNode2
     {
-        let Pole = SCNCylinder(radius: 0.25, height: 2.5)
-        let PoleNode = SCNNode2(geometry: Pole)
-        PoleNode.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
-        PoleNode.NodeID = NorthPole ? NodeTables.NorthPoleID : NodeTables.SouthPoleID
-        PoleNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        PoleNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "PolarTexture")
-        let PoleYOffset = NorthPole ? 0.5 : -0.5
-        PoleNode.position = SCNVector3(0.0, PoleYOffset, 0.0)
-        
-        let Sphere = SCNSphere(radius: 0.5)
-        let SphereNode = SCNNode2(geometry: Sphere)
-        SphereNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        let YOffset = NorthPole ? 2.1 : -2.1
-        SphereNode.position = SCNVector3(0.0, YOffset, 0.0)
-        SphereNode.geometry?.firstMaterial?.diffuse.contents = NSColor(HexString: "#ffd700")
-        SphereNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
-        SphereNode.geometry?.firstMaterial?.metalness.contents = 1.0
-        SphereNode.geometry?.firstMaterial?.roughness.contents = 0.6
-        
-        let FinalNode = SCNNode2()
-        FinalNode.NodeID = NorthPole ? NodeTables.NorthPoleID : NodeTables.SouthPoleID
-        FinalNode.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
-        FinalNode.addChildNode(SphereNode)
-        FinalNode.addChildNode(PoleNode)
-        FinalNode.castsShadow = true
+        let Globe: ShapeAttributes =
+            {
+               let A = ShapeAttributes()
+                A.AttributesChange = false
+                A.CastsShadow = true
+                A.Class = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
+                A.ID = NorthPole ? NodeTables.NorthPoleID : NodeTables.SouthPoleID
+                A.DiffuseColor = NSColor(HexString: "#ffd700")!
+                A.Metalness = 1.0
+                A.Roughness = 0.6
+                A.LightingModel = .physicallyBased
+                A.DiffuseType = .Color
+                A.Latitude = NorthPole ? 90.0 : -90.0
+                A.Longitude = 0.0
+                A.ShowBoundingShapes = true
+                A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+                A.Position = SCNVector3(0.0, NorthPole ? 2.1 : -2.1, 0.0)
+                let Size: Sizes =
+                    {
+                       let S = Sizes()
+                        S.Radius = 0.5
+                        return S
+                    }()
+                A.ShapeSize = Size
+                return A
+            }()
+        let Pole: ShapeAttributes =
+            {
+                let A = ShapeAttributes()
+                A.AttributesChange = false
+                A.CastsShadow = true
+                A.Class = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
+                A.ID = NorthPole ? NodeTables.NorthPoleID : NodeTables.SouthPoleID
+                A.DiffuseMaterial = "PolarTexture"
+                A.DiffuseType = .Image
+                A.Latitude = NorthPole ? 90.0 : -90.0
+                A.Longitude = 0.0
+                A.ShowBoundingShapes = true
+                A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+                A.Position = SCNVector3(0.0, NorthPole ? 0.5 : -0.5, 0.0)
+                let Size: Sizes =
+                    {
+                        let S = Sizes()
+                        S.Radius = 0.25
+                        S.Height = 2.5
+                        return S
+                    }()
+                A.ShapeSize = Size
+                return A
+            }()
+        let Comp = CompositeComponents()
+        Comp.Attributes[.Cylinder] = Pole
+        Comp.Attributes[.Sphere] = Globe
+        let BaseAttributes: ShapeAttributes =
+            {
+               let A = ShapeAttributes()
+                A.CastsShadow = true
+                A.Class = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
+                A.ID = NorthPole ? NodeTables.NorthPoleID : NodeTables.SouthPoleID
+                A.Latitude = NorthPole ? 90.0 : -90.0
+                A.Longitude = 0.0
+                A.ShowBoundingShapes = true
+                return A
+            }()
+        let Base = BaseAttributes
+        let FinalNode = ShapeManager.Create(.Pole, Composite: Comp, BaseAttributes: Base)
         return FinalNode
     }
     
     /// Create a flag shape for either the north or south pole.
     /// - Parameter NorthPole: If true, the North Pole flag is created. If false, the South Pole
-    ///                        flat is created.
+    ///                        flag is created.
     /// - Returns: `SCNNode` with the proper shapes and textures and oriented correctly for the globe.
     func MakeFlag(NorthPole: Bool) -> SCNNode2
     {
@@ -982,6 +989,15 @@ extension GlobeView
                 let Attributes: ShapeAttributes =
                 {
                     let A = ShapeAttributes()
+                    let PolySize: Sizes =
+                        {
+                            let S = Sizes()
+                            S.VertexCount = 3
+                            S.Radius = 0.2
+                            S.Depth = 0.1 + Double(DepthOffset)
+                            return S
+                        }()
+                    A.ShapeSize = PolySize
                     A.AttributesChange = false
                     A.CastsShadow = true
                     A.Class = UUID(uuidString: NodeClasses.WorldHeritageSite.rawValue)!
@@ -1016,9 +1032,7 @@ extension GlobeView
                     A.NightState = Night
                     return A
                 }()
-                let SiteNode = ShapeManager.RegularPolygon(VertexCount: 3, Radius: 0.2,
-                                                           Depth: 0.1 + Double(DepthOffset),
-                                                           Attributes: Attributes)
+                let SiteNode = ShapeManager.Create(.Polygon, Attributes: Attributes)
                 EarthNode!.addChildNode(SiteNode)
             }
         }
