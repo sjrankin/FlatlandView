@@ -14,382 +14,201 @@ import SceneKit
 /// - Note: Shapes are not rotated unless explicitly told to do so.
 class ShapeManager
 {
-    public static func RegularPolygon(VertexCount: Int, Radius: Double, Depth: Double,
-                                      Attributes: ShapeAttributes) -> SCNNode2
+    /// Creates and returns a simple shape populated by the passed set of attributes.
+    /// - Warning: A fatal error is thrown if `Shape` is a composite shape. See `IsComposite` to determine
+    ///            the type of shape.
+    /// - Warning: A fatal error is thrown if the diffuse material type is image but no image name is specified.
+    /// - Parameter Shape: The shape to create.
+    /// - Parameter Attributes: The attributes to use to create the shape.
+    /// - Returns: The shape.
+    public static func Create(_ Shape: Shapes, Attributes: ShapeAttributes) -> SCNNode2
     {
-        let PShape = SCNRegular.Geometry(VertexCount: VertexCount, Radius: CGFloat(Radius), Depth: CGFloat(Depth))
-        let PShapeNode = SCNNode2(geometry: PShape)
-        PShapeNode.NodeClass = Attributes.Class
-        PShapeNode.NodeID = Attributes.ID
-        PShapeNode.CanShowBoundingShape = Attributes.ShowBoundingShapes
+        if IsComposite(Shape)
+        {
+            fatalError("Incorrect shape \(Shape) passed to \(#function)")
+        }
+        var BaseNode = SCNNode2()
+        switch Shape
+        {
+            case .Polygon:
+                BaseNode = CreatePolygon(With: Attributes.ShapeSize)
+                
+            case .Star, .InnerStar:
+                BaseNode = CreateStar(With: Attributes.ShapeSize)
+                
+            case .Box:
+                BaseNode = CreateBox(With: Attributes.ShapeSize)
+                
+            case .Cone:
+                BaseNode = CreateCone(With: Attributes.ShapeSize)
+                
+            case .Cylinder:
+                BaseNode = CreateCylinder(With: Attributes.ShapeSize)
+                
+            case .Pyramid:
+                BaseNode = CreatePyramid(With: Attributes.ShapeSize)
+                
+            case .Sphere:
+                BaseNode = CreateSphere(With: Attributes.ShapeSize)
+                
+            case .Torus:
+                BaseNode = CreateTorus(With: Attributes.ShapeSize)
+                
+            case .Tube:
+                BaseNode = CreateTube(With: Attributes.ShapeSize)
+                
+            case .Capsule:
+                BaseNode = CreateCapsule(With: Attributes.ShapeSize)
+                
+            default:
+                fatalError("Unexpected shape \(Shape) encountered in \(#function)")
+        }
+        BaseNode.NodeClass = Attributes.Class
+        BaseNode.NodeID = Attributes.ID
+        BaseNode.CanShowBoundingShape = Attributes.ShowBoundingShapes
         if let Latitude = Attributes.Latitude, let Longitudes = Attributes.Longitude
         {
-            PShapeNode.SetLocation(Latitude, Longitudes)
+            BaseNode.SetLocation(Latitude, Longitudes)
+        }
+        switch Attributes.DiffuseType
+        {
+            case .Color:
+                BaseNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DiffuseColor
+                BaseNode.geometry?.firstMaterial?.metalness.contents = Attributes.Metalness
+                BaseNode.geometry?.firstMaterial?.roughness.contents = Attributes.Roughness
+                
+            case .Image:
+                if let ImageName = Attributes.DiffuseMaterial
+                {
+                    BaseNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: ImageName)
+                }
+                else
+                {
+                    fatalError("Image name not available even though image specified for diffuse contents in \(#function)")
+                }
         }
         if Attributes.AttributesChange && Attributes.DayState != nil && Attributes.NightState != nil
         {
-            PShapeNode.CanSwitchState = true
-            PShapeNode.NightState = Attributes.NightState!.EmitNodeState()
-            PShapeNode.DayState = Attributes.DayState!.EmitNodeState()
-            let IsDay = Solar.IsInDaylight(PShapeNode.Latitude!, PShapeNode.Longitude!)!
-            PShapeNode.IsInDaylight = IsDay
+            BaseNode.CanSwitchState = true
+            BaseNode.NightState = Attributes.NightState!.EmitNodeState()
+            BaseNode.DayState = Attributes.DayState!.EmitNodeState()
+            let IsDay = Solar.IsInDaylight(BaseNode.Latitude!, BaseNode.Longitude!)!
+            BaseNode.IsInDaylight = IsDay
             if IsDay
             {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DayState!.Color
+                BaseNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DayState!.Color
             }
             else
             {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.NightState!.Color
+                BaseNode.geometry?.firstMaterial?.diffuse.contents = Attributes.NightState!.Color
             }
         }
         else
         {
-            PShapeNode.CanSwitchState = false
-            PShapeNode.geometry?.firstMaterial?.lightingModel = Attributes.LightingMode
-            PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DiffuseColor
-            PShapeNode.geometry?.firstMaterial?.specular.contents = Attributes.SpecularColor
+            BaseNode.CanSwitchState = false
+            BaseNode.geometry?.firstMaterial?.lightingModel = Attributes.LightingModel
+            BaseNode.geometry?.firstMaterial?.specular.contents = Attributes.SpecularColor
             if let Emission = Attributes.EmissionColor
             {
-                PShapeNode.geometry?.firstMaterial?.emission.contents = Emission
+                BaseNode.geometry?.firstMaterial?.emission.contents = Emission
             }
         }
         if let Mask = Attributes.LightMask
         {
-            PShapeNode.categoryBitMask = Mask
+            BaseNode.categoryBitMask = Mask
         }
-        PShapeNode.scale = SCNVector3(Attributes.Scale, Attributes.Scale, Attributes.Scale)
-        PShapeNode.eulerAngles = SCNVector3(Attributes.EulerX, Attributes.EulerY, Attributes.EulerZ)
+        BaseNode.scale = SCNVector3(Attributes.Scale, Attributes.Scale, Attributes.Scale)
+        BaseNode.eulerAngles = SCNVector3(Attributes.EulerX, Attributes.EulerY, Attributes.EulerZ)
         if let Position = Attributes.Position
         {
-            PShapeNode.position = Position
+            BaseNode.position = Position
         }
-        return PShapeNode
+        return BaseNode
     }
     
-    public static func ConeShape(TopRadius: Double, BottomRadius: Double, Height: Double,
-                                 Attributes: ShapeAttributes) -> SCNNode2
+    /// Creates and returns a composite shape.
+    /// - Warning: A fatal error is thrown if a non-composite shape is passed to this function. See
+    ///            `IsComposite` for information on how to determine shape types.
+    /// - Parameter Shape: The composite shape to create.
+    /// - Parameter Composite: Data on sub-components of the composite shape. It is assume the caller sets
+    ///                        the location of each sub-shape prior to calling this function.
+    /// - Parameter BaseAttributes: Attributes that apply to the overall node containing the sub-shapes.
+    /// - Returns: `SCNNode2` object populated with sub-shapes making up the composite shape.
+    public static func Create(_ Shape: Shapes, Composite: CompositeComponents,
+                              BaseAttributes: ShapeAttributes) -> SCNNode2
     {
-        let PShape = SCNCone(topRadius: CGFloat(Float(TopRadius)), bottomRadius: CGFloat(BottomRadius),
-                             height: CGFloat(Height))
-        let PShapeNode = SCNNode2(geometry: PShape)
-        PShapeNode.NodeClass = Attributes.Class
-        PShapeNode.NodeID = Attributes.ID
-        PShapeNode.CanShowBoundingShape = Attributes.ShowBoundingShapes
-        if let Latitude = Attributes.Latitude, let Longitudes = Attributes.Longitude
+        if !IsComposite(Shape)
         {
-            PShapeNode.SetLocation(Latitude, Longitudes)
+            fatalError("Incorrect shape \(Shape) passed to \(#function)")
         }
-        if Attributes.AttributesChange && Attributes.DayState != nil && Attributes.NightState != nil
+        
+        let BaseNode = SCNNode2()
+        BaseNode.CanShowBoundingShape = BaseAttributes.ShowBoundingShapes
+        BaseNode.NodeID = BaseAttributes.ID
+        BaseNode.NodeClass = BaseAttributes.Class
+        BaseNode.CanSwitchState = BaseAttributes.AttributesChange
+        
+        for (Shape, Attributes) in Composite.Attributes
         {
-            PShapeNode.CanSwitchState = true
-            PShapeNode.NightState = Attributes.NightState!.EmitNodeState()
-            PShapeNode.DayState = Attributes.DayState!.EmitNodeState()
-            let IsDay = Solar.IsInDaylight(PShapeNode.Latitude!, PShapeNode.Longitude!)!
-            PShapeNode.IsInDaylight = IsDay
-            if IsDay
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DayState!.Color
-            }
-            else
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.NightState!.Color
-            }
+            let SubComponent = Create(Shape, Attributes: Attributes)
+            BaseNode.addChildNode(SubComponent)
         }
-        else
+        
+        BaseNode.scale = SCNVector3(BaseAttributes.Scale, BaseAttributes.Scale, BaseAttributes.Scale)
+        if let Location = BaseAttributes.Position
         {
-            PShapeNode.CanSwitchState = false
-            PShapeNode.geometry?.firstMaterial?.lightingModel = Attributes.LightingMode
-            PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DiffuseColor
-            PShapeNode.geometry?.firstMaterial?.specular.contents = Attributes.SpecularColor
-            if let Emission = Attributes.EmissionColor
-            {
-                PShapeNode.geometry?.firstMaterial?.emission.contents = Emission
-            }
+            BaseNode.position = Location
         }
-        if let Mask = Attributes.LightMask
-        {
-            PShapeNode.categoryBitMask = Mask
-        }
-        PShapeNode.scale = SCNVector3(Attributes.Scale, Attributes.Scale, Attributes.Scale)
-        PShapeNode.eulerAngles = SCNVector3(Attributes.EulerX, Attributes.EulerY, Attributes.EulerZ)
-        if let Position = Attributes.Position
-        {
-            PShapeNode.position = Position
-        }
-        return PShapeNode
+        BaseNode.eulerAngles = SCNVector3(BaseAttributes.EulerX, BaseAttributes.EulerY, BaseAttributes.EulerZ)
+        
+        return BaseNode
     }
     
-    public static func SphereShape(Radius: Double, Attributes: ShapeAttributes) -> SCNNode2
+    /// Determines if the passed shape is composite or simple.
+    /// - Parameter Shape: The shape to verify for compositeness.
+    /// - Returns: True if `Shape` is a composite shape, false if not.
+    public static func IsComposite(_ Shape: Shapes) -> Bool
     {
-        let PShape = SCNSphere(radius: CGFloat(Radius))
-        let PShapeNode = SCNNode2(geometry: PShape)
-        PShapeNode.NodeClass = Attributes.Class
-        PShapeNode.NodeID = Attributes.ID
-        PShapeNode.CanShowBoundingShape = Attributes.ShowBoundingShapes
-        if let Latitude = Attributes.Latitude, let Longitudes = Attributes.Longitude
-        {
-            PShapeNode.SetLocation(Latitude, Longitudes)
-        }
-        if Attributes.AttributesChange && Attributes.DayState != nil && Attributes.NightState != nil
-        {
-            PShapeNode.CanSwitchState = true
-            PShapeNode.NightState = Attributes.NightState!.EmitNodeState()
-            PShapeNode.DayState = Attributes.DayState!.EmitNodeState()
-            let IsDay = Solar.IsInDaylight(PShapeNode.Latitude!, PShapeNode.Longitude!)!
-            PShapeNode.IsInDaylight = IsDay
-            if IsDay
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DayState!.Color
-            }
-            else
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.NightState!.Color
-            }
-        }
-        else
-        {
-            PShapeNode.CanSwitchState = false
-            PShapeNode.geometry?.firstMaterial?.lightingModel = Attributes.LightingMode
-            PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DiffuseColor
-            PShapeNode.geometry?.firstMaterial?.specular.contents = Attributes.SpecularColor
-            if let Emission = Attributes.EmissionColor
-            {
-                PShapeNode.geometry?.firstMaterial?.emission.contents = Emission
-            }
-        }
-        if let Mask = Attributes.LightMask
-        {
-            PShapeNode.categoryBitMask = Mask
-        }
-        PShapeNode.scale = SCNVector3(Attributes.Scale, Attributes.Scale, Attributes.Scale)
-        PShapeNode.eulerAngles = SCNVector3(Attributes.EulerX, Attributes.EulerY, Attributes.EulerZ)
-        if let Position = Attributes.Position
-        {
-            PShapeNode.position = Position
-        }
-        return PShapeNode
+        return CompositeShapes.contains(Shape)
     }
     
-    public static func PyramidShape(Width: Double, Height: Double, Length: Double, Attributes: ShapeAttributes) -> SCNNode2
-    {
-        let PShape = SCNPyramid(width: CGFloat(Width), height: CGFloat(Height), length: CGFloat(Length))
-        let PShapeNode = SCNNode2(geometry: PShape)
-        PShapeNode.NodeClass = Attributes.Class
-        PShapeNode.NodeID = Attributes.ID
-        PShapeNode.CanShowBoundingShape = Attributes.ShowBoundingShapes
-        if let Latitude = Attributes.Latitude, let Longitudes = Attributes.Longitude
-        {
-            PShapeNode.SetLocation(Latitude, Longitudes)
-        }
-        if Attributes.AttributesChange && Attributes.DayState != nil && Attributes.NightState != nil
-        {
-            PShapeNode.CanSwitchState = true
-            PShapeNode.NightState = Attributes.NightState!.EmitNodeState()
-            PShapeNode.DayState = Attributes.DayState!.EmitNodeState()
-            let IsDay = Solar.IsInDaylight(PShapeNode.Latitude!, PShapeNode.Longitude!)!
-            PShapeNode.IsInDaylight = IsDay
-            if IsDay
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DayState!.Color
-            }
-            else
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.NightState!.Color
-            }
-        }
-        else
-        {
-            PShapeNode.CanSwitchState = false
-            PShapeNode.geometry?.firstMaterial?.lightingModel = Attributes.LightingMode
-            PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DiffuseColor
-            PShapeNode.geometry?.firstMaterial?.specular.contents = Attributes.SpecularColor
-            if let Emission = Attributes.EmissionColor
-            {
-                PShapeNode.geometry?.firstMaterial?.emission.contents = Emission
-            }
-        }
-        if let Mask = Attributes.LightMask
-        {
-            PShapeNode.categoryBitMask = Mask
-        }
-        PShapeNode.scale = SCNVector3(Attributes.Scale, Attributes.Scale, Attributes.Scale)
-        PShapeNode.eulerAngles = SCNVector3(Attributes.EulerX, Attributes.EulerY, Attributes.EulerZ)
-        if let Position = Attributes.Position
-        {
-            PShapeNode.position = Position
-        }
-        return PShapeNode
-    }
-    
-    public static func BoxShape(Width: Double, Height: Double, Length: Double, Chamfer: Double,
-                                Attributes: ShapeAttributes) -> SCNNode2
-    {
-        let PShape = SCNBox(width: CGFloat(Width), height: CGFloat(Height), length: CGFloat(Length),
-                            chamferRadius: CGFloat(Chamfer))
-        let PShapeNode = SCNNode2(geometry: PShape)
-        PShapeNode.NodeClass = Attributes.Class
-        PShapeNode.NodeID = Attributes.ID
-        PShapeNode.CanShowBoundingShape = Attributes.ShowBoundingShapes
-        if let Latitude = Attributes.Latitude, let Longitudes = Attributes.Longitude
-        {
-            PShapeNode.SetLocation(Latitude, Longitudes)
-        }
-        if Attributes.AttributesChange && Attributes.DayState != nil && Attributes.NightState != nil
-        {
-            PShapeNode.CanSwitchState = true
-            PShapeNode.NightState = Attributes.NightState!.EmitNodeState()
-            PShapeNode.DayState = Attributes.DayState!.EmitNodeState()
-            let IsDay = Solar.IsInDaylight(PShapeNode.Latitude!, PShapeNode.Longitude!)!
-            PShapeNode.IsInDaylight = IsDay
-            if IsDay
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DayState!.Color
-            }
-            else
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.NightState!.Color
-            }
-        }
-        else
-        {
-            PShapeNode.CanSwitchState = false
-            PShapeNode.geometry?.firstMaterial?.lightingModel = Attributes.LightingMode
-            PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DiffuseColor
-            PShapeNode.geometry?.firstMaterial?.specular.contents = Attributes.SpecularColor
-            if let Emission = Attributes.EmissionColor
-            {
-                PShapeNode.geometry?.firstMaterial?.emission.contents = Emission
-            }
-        }
-        if let Mask = Attributes.LightMask
-        {
-            PShapeNode.categoryBitMask = Mask
-        }
-        PShapeNode.scale = SCNVector3(Attributes.Scale, Attributes.Scale, Attributes.Scale)
-        PShapeNode.eulerAngles = SCNVector3(Attributes.EulerX, Attributes.EulerY, Attributes.EulerZ)
-        if let Position = Attributes.Position
-        {
-            PShapeNode.position = Position
-        }
-        return PShapeNode
-    }
-    
-    public static func CylinderShape(Radius: Double, Height: Double, Attributes: ShapeAttributes) -> SCNNode2
-    {
-        let PShape = SCNCylinder(radius: CGFloat(Radius), height: CGFloat(Height))
-        let PShapeNode = SCNNode2(geometry: PShape)
-        PShapeNode.NodeClass = Attributes.Class
-        PShapeNode.NodeID = Attributes.ID
-        PShapeNode.CanShowBoundingShape = Attributes.ShowBoundingShapes
-        if let Latitude = Attributes.Latitude, let Longitudes = Attributes.Longitude
-        {
-            PShapeNode.SetLocation(Latitude, Longitudes)
-        }
-        if Attributes.AttributesChange && Attributes.DayState != nil && Attributes.NightState != nil
-        {
-            PShapeNode.CanSwitchState = true
-            PShapeNode.NightState = Attributes.NightState!.EmitNodeState()
-            PShapeNode.DayState = Attributes.DayState!.EmitNodeState()
-            let IsDay = Solar.IsInDaylight(PShapeNode.Latitude!, PShapeNode.Longitude!)!
-            PShapeNode.IsInDaylight = IsDay
-            if IsDay
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DayState!.Color
-            }
-            else
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.NightState!.Color
-            }
-        }
-        else
-        {
-            PShapeNode.CanSwitchState = false
-            PShapeNode.geometry?.firstMaterial?.lightingModel = Attributes.LightingMode
-            PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DiffuseColor
-            PShapeNode.geometry?.firstMaterial?.specular.contents = Attributes.SpecularColor
-            if let Emission = Attributes.EmissionColor
-            {
-                PShapeNode.geometry?.firstMaterial?.emission.contents = Emission
-            }
-        }
-        if let Mask = Attributes.LightMask
-        {
-            PShapeNode.categoryBitMask = Mask
-        }
-        PShapeNode.scale = SCNVector3(Attributes.Scale, Attributes.Scale, Attributes.Scale)
-        PShapeNode.eulerAngles = SCNVector3(Attributes.EulerX, Attributes.EulerY, Attributes.EulerZ)
-        if let Position = Attributes.Position
-        {
-            PShapeNode.position = Position
-        }
-        return PShapeNode
-    }
-    
-    public static func StarShape(VertexCount: Int, Height: Double, Base: Double, ZHeight: Double,
-                                 Attributes: ShapeAttributes) -> SCNNode2
-    {
-        let PShapeNode = SCNNode2(geometry: SCNStar.Geometry(VertexCount: VertexCount, Height: Height, Base: Base, ZHeight: ZHeight))
-        PShapeNode.NodeClass = Attributes.Class
-        PShapeNode.NodeID = Attributes.ID
-        PShapeNode.CanShowBoundingShape = Attributes.ShowBoundingShapes
-        if let Latitude = Attributes.Latitude, let Longitudes = Attributes.Longitude
-        {
-            PShapeNode.SetLocation(Latitude, Longitudes)
-        }
-        if Attributes.AttributesChange && Attributes.DayState != nil && Attributes.NightState != nil
-        {
-            PShapeNode.CanSwitchState = true
-            PShapeNode.NightState = Attributes.NightState!.EmitNodeState()
-            PShapeNode.DayState = Attributes.DayState!.EmitNodeState()
-            let IsDay = Solar.IsInDaylight(PShapeNode.Latitude!, PShapeNode.Longitude!)!
-            PShapeNode.IsInDaylight = IsDay
-            if IsDay
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DayState!.Color
-            }
-            else
-            {
-                PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.NightState!.Color
-            }
-        }
-        else
-        {
-            PShapeNode.CanSwitchState = false
-            PShapeNode.geometry?.firstMaterial?.lightingModel = Attributes.LightingMode
-            PShapeNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DiffuseColor
-            PShapeNode.geometry?.firstMaterial?.specular.contents = Attributes.SpecularColor
-            if let Emission = Attributes.EmissionColor
-            {
-                PShapeNode.geometry?.firstMaterial?.emission.contents = Emission
-            }
-        }
-        if let Mask = Attributes.LightMask
-        {
-            PShapeNode.categoryBitMask = Mask
-        }
-        PShapeNode.scale = SCNVector3(Attributes.Scale, Attributes.Scale, Attributes.Scale)
-        PShapeNode.eulerAngles = SCNVector3(Attributes.EulerX, Attributes.EulerY, Attributes.EulerZ)
-        if let Position = Attributes.Position
-        {
-            PShapeNode.position = Position
-        }
-        return PShapeNode
-    }
+    /// Array of composite shapes.
+    public static let CompositeShapes: [Shapes] =
+    [
+        .EmbeddedStar, .FloatingBox, .FloatingSphere, .Pin, .Pole, .Flag,
+        .Gnomon
+    ]
 }
 
+/// Shape sub-component IDs.
 enum ShapeParts: String, CaseIterable
 {
+    /// Sphere shape.
     case Sphere = "c9a05ed9-2dbb-49e6-8e8e-32dd9feaae20"
+    /// Box shape.
     case Box = "e3e084ae-f2ac-413f-99d9-39665b05bf58"
-    case Combined = "c8e74e77-8e05-434c-a0c9-ef75657f4c39"
-    case ArrowHead = "119a3145-4a90-4644-a762-118d9f10abca"
-    case ArrowTail = "d700fabd-521d-423c-9275-fe169a4beb49"
+    /// Triangle shape.
+    case Triangle = "119a3145-4a90-4644-a762-118d9f10abca"
+    /// Cone shape.
     case Cone = "17f4b413-3a49-450b-adf4-24fc0916d417"
+    /// Capsule shape.
     case Capsule = "ed6ba889-b9e0-498b-beee-fd71ecd3d8d6"
+    /// Cylinder shape.
+    case Cylinder = "3b539b30-377e-434e-a9cd-7fb9be3bbe39"
+    /// Torus shape.
+    case Torus = "04ed8d7f-b792-4ef3-9c53-a95bb1a0699c"
+    /// Pyramid shape.
+    case Pyramid = "5e39674d-771f-451a-8cee-91bdc7f4f767"
+    /// Tube shape.
+    case Tube = "dcb1f4c7-3667-421c-87d5-d704851ada53"
+    /// Regular polygon.
+    case Polygon = "e3230570-786d-487d-b14d-5ed61d5225f4"
+    /// Regular star shape.
+    case Star = "9a0e8d12-d7e7-4ab6-965f-0e880b3fa338"
     
     /// Returns the UUID value of the passed `ShapePart`. `UUID.Empty` is returned if the shape part
     /// value cannot be property converted.
-    func Value(_ Part: ShapeParts) -> UUID
+    static func Value(_ Part: ShapeParts) -> UUID
     {
         if let Actual = UUID(uuidString: Part.rawValue)
         {
@@ -408,6 +227,9 @@ class ShapeAttributes
     /// If present, the ID of the sub-node of the overall shape. Attributes here are applied to only those
     /// sub-nodes with this ID.
     var SubComponentID: UUID? = nil
+    
+    /// Determines the size of the shape.
+    var ShapeSize: Sizes = Sizes()
     
     /// If present, the ID of the node to enable it to participate in the user-interaction system. Defaults to
     /// nil.
@@ -443,6 +265,12 @@ class ShapeAttributes
     
     /// Cast shadow flag. Defaults to `true`.
     var CastsShadow: Bool = true
+
+    /// Determines whether to use the color or image name when creating the diffuse surface contents.
+    var DiffuseType: DiffuseMaterialTypes = .Color
+    
+    /// The node's diffuse material name for non-time changing nodes.
+    var DiffuseMaterial: String? = nil
     
     /// The node's diffuse material color for non-time changing nodes.
     var DiffuseColor: NSColor = NSColor.red
@@ -454,6 +282,12 @@ class ShapeAttributes
     /// This is used only when the node does not change attributes depending on the time of day.
     var EmissionColor: NSColor? = nil
     
+    /// Metalness value for non-changing contents.
+    var Metalness: Double? = nil
+    
+    /// Roughness value for non-changing contents.
+    var Roughness: Double? = nil
+    
     /// If present, the latitude of the real-world position of the shape. Defaults to `nil`.
     var Latitude: Double? = nil
     
@@ -461,7 +295,7 @@ class ShapeAttributes
     var Longitude: Double? = nil
     
     /// The lighting model.
-    var LightingMode: SCNMaterial.LightingModel = .phong
+    var LightingModel: SCNMaterial.LightingModel = .phong
     
     /// Euler X axis value for orientation. *Must be in radians*.
     var EulerX: Double = 0.0
@@ -475,6 +309,22 @@ class ShapeAttributes
     /// If present, the location assigned to the node before being returned. If not present, no location/position
     /// is assigned.
     var Position: SCNVector3? = nil
+}
+
+/// Contains sizes and attributes for composite shapes.
+class CompositeComponents
+{
+    /// Shape to size map.
+    var Size: [Shapes: Sizes] = [Shapes: Sizes]()
+    
+    /// Shape to attribute map.
+    var Attributes: [Shapes: ShapeAttributes] = [Shapes: ShapeAttributes]()
+}
+
+enum DiffuseMaterialTypes: String, CaseIterable
+{
+    case Color = "Color"
+    case Image = "Image"
 }
 
 class TimeState
@@ -495,29 +345,50 @@ class TimeState
     }
 }
 
-enum ShapeManagerShapes: String, CaseIterable
+/// Holds various dimensions for shapes to create. The same field may be used by different shapes.
+class Sizes
 {
-    case RegularPolygon = "Regular Polygon"
-    case Triangle = "Triangle"
-    case Circle = "Circle"
-    case Square = "Square"
-    case Cone = "Cone"
-    case InvertedCone = "Inverted Cone"
-    case SpikyCone = "Spiky Cone"
-    case Pyramid = "Pyramid"
-    case Cylinder = "Cylinder"
-    case Box = "Box"
-    case FloatingBox = "Floating Box"
+    var Width: Double = 0.0
+    var Height: Double = 0.0
+    var Length: Double = 0.0
+    var Base: Double = 0.0
+    var Depth: Double = 0.0
+    var ZHeight: Double = 0.0
+    var VertexCount: Int = 5
+    var SideCount: Int = 5
+    var TopRadius: Double = 0.0
+    var BottomRadius: Double = 0.0
+    var Radius: Double = 0.0
+    var KnobHeight: Double = 0.0
+    var KnobRadius: Double = 0.0
+    var PinHeight: Double = 0.0
+    var PinRadius: Double = 0.0
+    var PoleRadius: Double = 0.0
+    var ChamferRadius: Double = 0.0
+    var RingRadius: Double = 0.0
+    var PipeRadius: Double = 0.0
+    var InnerRadius: Double = 0.0
+    var OuterRadius: Double = 0.0
+}
+
+enum Shapes: String, CaseIterable
+{
     case Sphere = "Sphere"
-    case FloatingSphere = "Floating Sphere"
-    case PulsatingSphere = "Pulsating Sphere"
-    case Pole = "Pole"
-    case Flag = "Flag"
-    case Gnomon = "Gnomon"
+    case Box = "Box"
+    case Cylinder = "Cylinder"
+    case Pyramid = "Pyramid"
+    case Cone = "Cone"
+    case Capsule = "Capsule"
+    case Torus = "Torus"
+    case Tube = "Tube"
     case Pin = "Pin"
-    case Arrow3D = "Arrow3D"
-    case Arrow = "Arrow"
-    case BouncingArrow = "Bouncing Arrow"
+    case Flag = "Flag"
+    case Pole = "Pole"
+    case Polygon = "Polygon"
     case Star = "Star"
-    case EmbeddedStar = "Star in Star"
+    case InnerStar = "Inner Star"
+    case EmbeddedStar = "Embedded Star"
+    case FloatingSphere = "Floating Sphere"
+    case FloatingBox = "Floating Box"
+    case Gnomon = "Gnomon"
 }
