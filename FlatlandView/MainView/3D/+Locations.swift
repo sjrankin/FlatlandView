@@ -31,6 +31,43 @@ extension GlobeView
                             NodeID: UUID, NodeClass: UUID)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
+        #if true
+        let Attributes: ShapeAttributes =
+            {
+               let A = ShapeAttributes()
+                A.AttributesChange = true
+                A.CastsShadow = true
+                A.Class = NodeClass
+                A.ID = NodeID
+                A.EulerX = (Latitude + 90).Radians
+                A.EulerY = (Longitude + 180.0).Radians
+                A.Position = SCNVector3(X, Y, Z)
+                A.Latitude = Latitude
+                A.Longitude = Longitude
+                let Day: TimeState =
+                    {
+                        let D = TimeState()
+                        D.Color = WithColor
+                        D.Emission = nil
+                        D.IsDayState = true
+                        return D
+                    }()
+                A.DayState = Day
+                let Night: TimeState =
+                    {
+                       let N = TimeState()
+                        N.Color = WithColor
+                        N.Emission = WithColor
+                        N.IsDayState = false
+                        return N
+                    }()
+                A.NightState = Night
+                A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+                return A
+            }()
+        let ConeNode = ShapeManager.ConeShape(TopRadius: 0.15, BottomRadius: 0.0, Height: 0.45,
+                                              Attributes: Attributes)
+        #else
         let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
         let ConeNode = SCNNode2(geometry: Cone)
         ConeNode.NodeID = NodeID
@@ -58,10 +95,12 @@ extension GlobeView
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
         ConeNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        #endif
         ToSurface.addChildNode(ConeNode)
         PlottedCities.append(ConeNode)
     }
     
+    #if false
     /// Plot the location as a sphere.
     /// - Parameters:
     ///   - Plot: The city to plot.
@@ -74,7 +113,42 @@ extension GlobeView
                               WithColor: NSColor = NSColor.magenta)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
-        
+        #if true
+        let Attributes: ShapeAttributes =
+            {
+                let A = ShapeAttributes()
+                A.AttributesChange = true
+                A.CastsShadow = true
+                A.Class = Plot.nod
+                A.ID = NodeID
+                A.EulerX = (Latitude + 90).Radians
+                A.EulerY = (Longitude + 180.0).Radians
+                A.Position = SCNVector3(X, Y, Z)
+                A.Latitude = Latitude
+                A.Longitude = Longitude
+                let Day: TimeState =
+                    {
+                        let D = TimeState()
+                        D.Color = WithColor
+                        D.Emission = nil
+                        D.IsDayState = true
+                        return D
+                    }()
+                A.DayState = Day
+                let Night: TimeState =
+                    {
+                        let N = TimeState()
+                        N.Color = WithColor
+                        N.Emission = WithColor
+                        N.IsDayState = false
+                        return N
+                    }()
+                A.NightState = Night
+                A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+                return A
+            }()
+        let SphereNode = ShapeManager.SphereShape(Radius: 0.2, Attributes: Attributes)
+        #else
         let Sphere = SCNSphere(radius: 0.2)
         let SphereNode = SCNNode2(geometry: Sphere)
         SphereNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
@@ -95,9 +169,11 @@ extension GlobeView
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
         UserNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        #endif
         ToSurface.addChildNode(UserNode)
         PlottedCities.append(UserNode)
     }
+    #endif
 
     /// Plot a city on the 3D sphere. A sphere is set on the surface of the Earth.
     /// - Parameter Plot: The city to plot.
@@ -110,11 +186,48 @@ extension GlobeView
     func PlotEmbeddedCitySphere(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                                 WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0, LargestSize: Double = 1.0)
     {
-        var CitySize = CGFloat(RelativeSize * LargestSize)
+        var CitySize = Double(RelativeSize * LargestSize)
         if CitySize < 0.15
         {
             CitySize = 0.15
         }
+        #if true
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(10 - (CitySize / 2)))
+        let Attributes: ShapeAttributes =
+            {
+                let A = ShapeAttributes()
+                A.AttributesChange = true
+                A.CastsShadow = true
+                A.Class = UUID(uuidString: NodeClasses.City.rawValue)!
+                A.ID = Plot.CityID
+                A.EulerX = (Latitude + 90).Radians
+                A.EulerY = (Longitude + 180.0).Radians
+                A.Position = SCNVector3(X, Y, Z)
+                A.Latitude = Latitude
+                A.Longitude = Longitude
+                let Day: TimeState =
+                    {
+                        let D = TimeState()
+                        D.Color = WithColor
+                        D.Emission = nil
+                        D.IsDayState = true
+                        return D
+                    }()
+                A.DayState = Day
+                let Night: TimeState =
+                    {
+                        let N = TimeState()
+                        N.Color = WithColor
+                        N.Emission = WithColor
+                        N.IsDayState = false
+                        return N
+                    }()
+                A.NightState = Night
+                A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+                return A
+            }()
+        let CityNode = ShapeManager.SphereShape(Radius: CitySize, Attributes: Attributes)
+        #else
         let CityShape = SCNSphere(radius: CitySize)
         let CityNode = SCNNode2(geometry: CityShape)
         CityNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
@@ -136,6 +249,7 @@ extension GlobeView
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(10 - (CitySize / 2)))
         CityNode.position = SCNVector3(X, Y, Z)
         CityNode.name = GlobeNodeNames.CityNode.rawValue
+        #endif
         ToSurface.addChildNode(CityNode)
         PlottedCities.append(CityNode)
     }
@@ -184,7 +298,7 @@ extension GlobeView
                          ToSurface: SCNNode2, WithColor: NSColor, RelativeSize: Double = 1.0,
                          LargestSize: Double = 1.0)
     {
-        var CitySize = CGFloat(RelativeSize * LargestSize)
+        var CitySize = Double(RelativeSize * LargestSize)
         if CitySize < 0.33
         {
             CitySize = 0.33
@@ -194,6 +308,44 @@ extension GlobeView
         {
             HDim = 0.25
         }
+        #if true
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
+        let Attributes: ShapeAttributes =
+            {
+                let A = ShapeAttributes()
+                A.AttributesChange = true
+                A.CastsShadow = true
+                A.Class = UUID(uuidString: NodeClasses.City.rawValue)!
+                A.ID = Plot.CityID
+                A.EulerX = (Latitude + 90).Radians
+                A.EulerY = (Longitude + 180.0).Radians
+                A.Position = SCNVector3(X, Y, Z)
+                A.Latitude = Latitude
+                A.Longitude = Longitude
+                let Day: TimeState =
+                    {
+                        let D = TimeState()
+                        D.Color = WithColor
+                        D.Emission = nil
+                        D.IsDayState = true
+                        return D
+                    }()
+                A.DayState = Day
+                let Night: TimeState =
+                    {
+                        let N = TimeState()
+                        N.Color = WithColor
+                        N.Emission = WithColor
+                        N.IsDayState = false
+                        return N
+                    }()
+                A.NightState = Night
+                A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+                return A
+            }()
+        let CityNode = ShapeManager.PyramidShape(Width: HDim, Height: CitySize, Length: HDim,
+                                                Attributes: Attributes)
+        #else
         var CityNode = SCNNode2()
         let CityShape = SCNPyramid(width: HDim, height: CitySize, length: HDim)
         CityNode = SCNNode2(geometry: CityShape)
@@ -223,6 +375,7 @@ extension GlobeView
         let YRotation = Latitude + 270.0
         let XRotation = Longitude + 180.0
         CityNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        #endif
         ToSurface.addChildNode(CityNode)
         PlottedCities.append(CityNode)
     }
@@ -485,6 +638,28 @@ extension GlobeView
         PlottedCities.removeAll()
         CitiesToPlot = CityManager.FilteredCities()
         
+        #if true
+        if Settings.GetBool(.ShowUserLocations)
+        {
+            for SomePOI in MainController.UserPOIs
+            {
+                NodeTables.AddUserPOI(ID: SomePOI.ID,
+                                      Name: SomePOI.Name,
+                                      Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude))
+                let ToPlot = City2(From: SomePOI)
+                let ShowEmission = Settings.GetBool(.ShowPOIEmission)
+                PlotLocationAsCone(ToPlot,
+                                   Latitude: ToPlot.Latitude,
+                                   Longitude: ToPlot.Longitude,
+                                   Radius: Radius,
+                                   ToSurface: Surface,
+                                   WithColor: ToPlot.CityColor,
+                                   EnableEmission: ShowEmission,
+                                   NodeID: SomePOI.ID,
+                                   NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
+            }
+        }
+        #else
         if Settings.GetBool(.ShowUserLocations)
         {
             let POIList = POIManager.GetPOIs(By: .UserPOI)
@@ -513,6 +688,7 @@ extension GlobeView
                 }
             }
         }
+        #endif
         
         let UseMetro = Settings.GetEnum(ForKey: .PopulationType, EnumType: PopulationTypes.self, Default: .Metropolitan) == .Metropolitan
         let (Max, Min) = CityManager.GetPopulationsIn(CityList: CitiesToPlot, UseMetroPopulation: UseMetro)
@@ -788,15 +964,6 @@ extension GlobeView
                     default:
                         DepthOffset = -0.08
                 }
-                let SiteShape = SCNRegular.Geometry(VertexCount: 3, Radius: 0.2, Depth: 0.1 + DepthOffset)
-                let SiteNode = SCNNode2(geometry: SiteShape)
-                SiteNode.NodeClass = UUID(uuidString: NodeClasses.WorldHeritageSite.rawValue)!
-                SiteNode.NodeID = Site.RuntimeID
-                SiteNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-                SiteNode.scale = SCNVector3(NodeScales3D.UnescoScale.rawValue,
-                                            NodeScales3D.UnescoScale.rawValue,
-                                            NodeScales3D.UnescoScale.rawValue)
-                WHSNodeList.append(SiteNode)
                 var NodeColor = NSColor.black
                 switch Site.Category
                 {
@@ -812,13 +979,46 @@ extension GlobeView
                     default:
                         NodeColor = NSColor.white
                 }
-                SiteNode.geometry?.firstMaterial?.diffuse.contents = NodeColor
-                SiteNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-                SiteNode.castsShadow = true
-                SiteNode.position = SCNVector3(X, Y, Z)
-                let YRotation = Site.Latitude
-                let XRotation = Site.Longitude + 180.0
-                SiteNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+                let Attributes: ShapeAttributes =
+                {
+                    let A = ShapeAttributes()
+                    A.AttributesChange = false
+                    A.CastsShadow = true
+                    A.Class = UUID(uuidString: NodeClasses.WorldHeritageSite.rawValue)!
+                    A.ID = Site.RuntimeID
+                    A.ShowBoundingShapes = true
+                    A.ShowBoundingShape = .Sphere
+                    A.DiffuseColor = NodeColor
+                    A.Latitude = Site.Latitude
+                    A.Longitude = Site.Longitude
+                    A.Position = SCNVector3(X, Y, Z)
+                    A.Scale = Double(NodeScales3D.UnescoScale.rawValue)
+                    A.EulerX = Site.Latitude.Radians
+                    A.EulerY = (Site.Longitude + 180.0).Radians
+                    A.AttributesChange = true
+                    let Day: TimeState =
+                        {
+                            let D = TimeState()
+                            D.Color = NodeColor
+                            D.Emission = nil
+                            D.IsDayState = true
+                            return D
+                        }()
+                    A.DayState = Day
+                    let Night: TimeState =
+                        {
+                           let N = TimeState()
+                            N.Color = NodeColor
+                            N.Emission = NodeColor
+                            N.IsDayState = false
+                            return N
+                        }()
+                    A.NightState = Night
+                    return A
+                }()
+                let SiteNode = ShapeManager.RegularPolygon(VertexCount: 3, Radius: 0.2,
+                                                           Depth: 0.1 + Double(DepthOffset),
+                                                           Attributes: Attributes)
                 EarthNode!.addChildNode(SiteNode)
             }
         }
