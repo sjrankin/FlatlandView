@@ -285,6 +285,104 @@ extension GlobeView
     func PlotStarHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
+        #if true
+        let OuterStar: ShapeAttributes =
+            {
+               let A = ShapeAttributes()
+                A.AttributesChange = true
+                let Size: Sizes =
+                    {
+                        let S = Sizes()
+                        S.VertexCount = Int(FlatConstants.HomeStarVertexCount.rawValue)
+                        S.Height = FlatConstants.HomeStarHeight.rawValue
+                        S.Base = FlatConstants.HomeStarBase.rawValue
+                        S.ZHeight = FlatConstants.HomeStarZ.rawValue
+                        return S
+                    }()
+                A.ShapeSize = Size
+                A.Class = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
+                A.ID = NodeTables.HomeID
+                A.Latitude = Latitude
+                A.Longitude = Longitude
+                A.Position = SCNVector3(0.0, 0.0, 0.0)
+                A.LightMask = LightMasks2D.Polar.rawValue
+                A.CastsShadow = true
+                let Day: TimeState =
+                    {
+                       let D = TimeState()
+                        D.Color = NSColor.systemYellow
+                        return D
+                    }()
+                A.DayState = Day
+                let Night: TimeState =
+                    {
+                        let N = TimeState()
+                        N.Color = NSColor.systemYellow
+                            N.Emission = NSColor.systemYellow
+                        return N
+                    }()
+                A.NightState = Night
+                return A
+            }()
+        let InnerStar: ShapeAttributes =
+            {
+                let A = ShapeAttributes()
+                A.AttributesChange = true
+                let Size: Sizes =
+                    {
+                        let S = Sizes()
+                        S.VertexCount = Int(FlatConstants.HomeStarVertexCount.rawValue)
+                        S.Height = FlatConstants.SmallStarHeight.rawValue
+                        S.Base = FlatConstants.SmallStarBase.rawValue
+                        S.ZHeight = FlatConstants.SmallStarZ.rawValue
+                        return S
+                    }()
+                A.ShapeSize = Size
+                A.Class = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
+                A.ID = NodeTables.HomeID
+                A.Latitude = Latitude
+                A.Longitude = Longitude
+                A.Position = SCNVector3(0.0, 0.0, 0.0)
+                A.LightMask = LightMasks2D.Polar.rawValue
+                A.CastsShadow = true
+                let Day: TimeState =
+                    {
+                        let D = TimeState()
+                        D.Color = NSColor.white
+                        return D
+                    }()
+                A.DayState = Day
+                let Night: TimeState =
+                    {
+                        let N = TimeState()
+                        N.Color = NSColor.white
+                        N.Emission = NSColor.white
+                        return N
+                    }()
+                A.NightState = Night
+                return A
+            }()
+        let Base: ShapeAttributes =
+            {
+               let A = ShapeAttributes()
+                A.AttributesChange = true
+                A.CastsShadow = true
+                A.Class = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
+                A.ID = NodeTables.HomeID
+                A.ShowBoundingShapes = true
+                A.Latitude = Latitude
+                A.Longitude = Longitude
+                A.Position = SCNVector3(X, Y, Z)
+                A.EulerX = Latitude.Radians
+                A.EulerY = (Longitude + 180.0).Radians
+                A.EulerZ = 0.0
+                return A
+            }()
+        let Composite = CompositeComponents()
+        Composite.Attributes[.Star] = OuterStar
+        Composite.Attributes[.InnerStar] = InnerStar
+        let Star = ShapeManager.Create(.EmbeddedStar, Composite: Composite, BaseAttributes: Base)
+        #else
         let Star = SCNNode2(geometry: SCNStar.Geometry(VertexCount: Int(FlatConstants.HomeStarVertexCount.rawValue),
                                                        Height: FlatConstants.HomeStarHeight.rawValue,
                                                        Base: FlatConstants.HomeStarBase.rawValue,
@@ -314,6 +412,7 @@ extension GlobeView
         let YRotation = Latitude
         let XRotation = Longitude + 180.0
         Star.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        #endif
         ToSurface.addChildNode(Star)
     }
     
@@ -363,7 +462,7 @@ extension GlobeView
         let Sphere = SCNNode2(geometry: SCNSphere(radius: 0.15))
         Sphere.castsShadow = true
         Sphere.geometry?.firstMaterial?.diffuse.contents = NSColor(HexString: "#ffd700")
-         Sphere.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        Sphere.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         Sphere.geometry?.firstMaterial?.lightingModel = .physicallyBased
         Sphere.geometry?.firstMaterial?.metalness.contents = 1.0
         Sphere.geometry?.firstMaterial?.roughness.contents = 0.5
