@@ -4722,7 +4722,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="qcY-TD-JNO" column="nSO-dn-FGw" id="acg-VR-n6a">
                                                     <gridView key="contentView" horizontalCompressionResistancePriority="752" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ef-Usi">
-                                                        <rect key="frame" x="0.0" y="107" width="167" height="19"/>
+                                                        <rect key="frame" x="0.0" y="107" width="361" height="19"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="sVk-73-Bgl" secondAttribute="trailing" id="O4K-h6-qme"/>
                                                             <constraint firstItem="sVk-73-Bgl" firstAttribute="leading" secondItem="enU-rc-XSn" secondAttribute="trailing" constant="6" id="Ttw-N2-c9M"/>
@@ -4850,7 +4850,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="D0y-rl-W9y" column="nSO-dn-FGw" id="hmD-MS-yDG">
                                                     <gridView key="contentView" horizontalCompressionResistancePriority="753" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="oEQ-ZB-Udj">
-                                                        <rect key="frame" x="0.0" y="0.0" width="361" height="21"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="127" height="21"/>
                                                         <constraints>
                                                             <constraint firstItem="eza-QG-G8W" firstAttribute="leading" secondItem="N0s-es-Qof" secondAttribute="trailing" constant="6" id="fIf-4j-bcY"/>
                                                             <constraint firstAttribute="trailing" secondItem="eza-QG-G8W" secondAttribute="trailing" id="yD1-vd-YrY"/>
