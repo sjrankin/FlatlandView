@@ -16,6 +16,18 @@ class City2: Hashable
     {
     }
     
+    /// Initialize the city from a point of interest.
+    /// - Parameter From: The point of interest used to populate this class.
+    init(From POI: POI2)
+    {
+        Name = POI.Name
+        CityID = POI.ID
+        Latitude = POI.Latitude
+        Longitude = POI.Longitude
+        CityColor = POI.Color
+        IsUserCity = true
+    }
+    
     /// Initializer.
     /// - Parameters:
     ///   - Name: The name of the city.
