@@ -50,7 +50,8 @@ class SCNNode2: SCNNode
     /// Initializer.
     /// - Parameter geometry: The geometry of the node.
     /// - Parameter Tag: The tag value.
-    init(geometry: SCNGeometry?, Tag: Any?)
+    /// - Parameter SubComponent: The sub-component ID.
+    init(geometry: SCNGeometry?, Tag: Any?, SubComponent: UUID? = nil)
     {
         super.init()
         self.geometry = geometry
@@ -113,6 +114,9 @@ class SCNNode2: SCNNode
     
     /// Tag value. Defaults to nil.
     var Tag: Any? = nil
+    
+    /// Sub-component ID.
+    var SubComponent: UUID? = nil
     
     /// Node class ID. Defaults to nil.
     var NodeClass: UUID? = nil
@@ -702,13 +706,13 @@ class SCNNode2: SCNNode
     {
         if ForDay
         {
-            DayState = NodeState(Color: Color, Emission: Emission, LightModel: Model,
-                                 Metalness: Metalness, Roughness: Roughness)
+            DayState = NodeState(Color: Color, Emission: Emission, Specular: NSColor.white,
+                                 LightModel: Model, Metalness: Metalness, Roughness: Roughness)
         }
         else
         {
-            NightState = NodeState(Color: Color, Emission: Emission, LightModel: Model,
-                                   Metalness: Metalness, Roughness: Roughness)
+            NightState = NodeState(Color: Color, Emission: Emission, Specular: NSColor.white,
+                                   LightModel: Model, Metalness: Metalness, Roughness: Roughness)
         }
     }
     
@@ -781,6 +785,8 @@ struct NodeState
     let Color: NSColor
     /// Emission color.
     let Emission: NSColor?
+    /// Specular color.
+    let Specular: NSColor?
     /// Lighting model.
     let LightModel: SCNMaterial.LightingModel
     /// Metalness value. If nil, not used.
