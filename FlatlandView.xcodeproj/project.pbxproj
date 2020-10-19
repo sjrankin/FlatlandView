@@ -163,6 +163,7 @@
 		17ABAFFE24E9209E009DDC35 /* EarthquakeHistory.db in Resources */ = {isa = PBXBuildFile; fileRef = 17ABAFFD24E9209E009DDC35 /* EarthquakeHistory.db */; };
 		17B062D7253D27A000C4BAEE /* ShapeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B062D6253D27A000C4BAEE /* ShapeManager.swift */; };
 		17B062DF253D557D00C4BAEE /* UUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B062DE253D557D00C4BAEE /* UUID.swift */; };
+		17B062E2253D5D8E00C4BAEE /* +SimpleShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B062E1253D5D8E00C4BAEE /* +SimpleShapes.swift */; };
 		17B7D7A824CECFDE000C077B /* MetalLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7A724CECFDE000C077B /* MetalLibrary.swift */; };
 		17B7D7AB24CED02B000C077B /* ImageFlipper.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AA24CED02B000C077B /* ImageFlipper.metal */; };
 		17B7D7AD24CED053000C077B /* ImageFlipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AC24CED053000C077B /* ImageFlipper.swift */; };
@@ -444,6 +445,7 @@
 		17ABAFFD24E9209E009DDC35 /* EarthquakeHistory.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = EarthquakeHistory.db; sourceTree = "<group>"; };
 		17B062D6253D27A000C4BAEE /* ShapeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeManager.swift; sourceTree = "<group>"; };
 		17B062DE253D557D00C4BAEE /* UUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUID.swift; sourceTree = "<group>"; };
+		17B062E1253D5D8E00C4BAEE /* +SimpleShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+SimpleShapes.swift"; sourceTree = "<group>"; };
 		17B7D7A724CECFDE000C077B /* MetalLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLibrary.swift; sourceTree = "<group>"; };
 		17B7D7AA24CED02B000C077B /* ImageFlipper.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageFlipper.metal; sourceTree = "<group>"; };
 		17B7D7AC24CED053000C077B /* ImageFlipper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFlipper.swift; sourceTree = "<group>"; };
@@ -1099,6 +1101,7 @@
 			isa = PBXGroup;
 			children = (
 				17B062D6253D27A000C4BAEE /* ShapeManager.swift */,
+				17B062E1253D5D8E00C4BAEE /* +SimpleShapes.swift */,
 			);
 			path = 3DShapes;
 			sourceTree = "<group>";
@@ -1752,6 +1755,7 @@
 				178909C6250E0CE80092E3A4 /* MainController.swift in Sources */,
 				1792486825198A7F00AF4D4B /* +FlatViewLights.swift in Sources */,
 				176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */,
+				17B062E2253D5D8E00C4BAEE /* +SimpleShapes.swift in Sources */,
 				172F4A2324FA0F420014A65E /* VectorEditor.swift in Sources */,
 				17F9AFFB2520354500DE0219 /* +SCNVector3.swift in Sources */,
 				1747BDBF25135189002B51D9 /* GradientParameters.swift in Sources */,
