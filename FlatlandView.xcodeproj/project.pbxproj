@@ -161,6 +161,8 @@
 		17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */; };
 		17ABAFFC24E8FB02009DDC35 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ABAFFB24E8FB02009DDC35 /* Dictionary.swift */; };
 		17ABAFFE24E9209E009DDC35 /* EarthquakeHistory.db in Resources */ = {isa = PBXBuildFile; fileRef = 17ABAFFD24E9209E009DDC35 /* EarthquakeHistory.db */; };
+		17B062D7253D27A000C4BAEE /* ShapeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B062D6253D27A000C4BAEE /* ShapeManager.swift */; };
+		17B062DF253D557D00C4BAEE /* UUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B062DE253D557D00C4BAEE /* UUID.swift */; };
 		17B7D7A824CECFDE000C077B /* MetalLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7A724CECFDE000C077B /* MetalLibrary.swift */; };
 		17B7D7AB24CED02B000C077B /* ImageFlipper.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AA24CED02B000C077B /* ImageFlipper.metal */; };
 		17B7D7AD24CED053000C077B /* ImageFlipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AC24CED053000C077B /* ImageFlipper.swift */; };
@@ -440,6 +442,8 @@
 		17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphaColorWell.swift; sourceTree = "<group>"; };
 		17ABAFFB24E8FB02009DDC35 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		17ABAFFD24E9209E009DDC35 /* EarthquakeHistory.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = EarthquakeHistory.db; sourceTree = "<group>"; };
+		17B062D6253D27A000C4BAEE /* ShapeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeManager.swift; sourceTree = "<group>"; };
+		17B062DE253D557D00C4BAEE /* UUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUID.swift; sourceTree = "<group>"; };
 		17B7D7A724CECFDE000C077B /* MetalLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLibrary.swift; sourceTree = "<group>"; };
 		17B7D7AA24CED02B000C077B /* ImageFlipper.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageFlipper.metal; sourceTree = "<group>"; };
 		17B7D7AC24CED053000C077B /* ImageFlipper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFlipper.swift; sourceTree = "<group>"; };
@@ -668,6 +672,7 @@
 			children = (
 				1736A4E4252EDCFC0070EE7F /* POIManager.swift */,
 				17C3455D252C9AC700D01143 /* POI.swift */,
+				17CB2489253C122400BAABDC /* POI2.swift */,
 			);
 			path = PointsOfInterest;
 			sourceTree = "<group>";
@@ -735,7 +740,6 @@
 				17C34556252C977F00D01143 /* +MainCityDatabase.swift */,
 				17CFEC5F25232A4B005C3E49 /* WorldHeritageSite2.swift */,
 				17CB2486253C108300BAABDC /* +POIDatabase.swift */,
-				17CB2489253C122400BAABDC /* POI2.swift */,
 			);
 			path = "+MainDatabase";
 			sourceTree = "<group>";
@@ -895,6 +899,7 @@
 				17CFEC572522BDAE005C3E49 /* NSView.swift */,
 				1714DDB72539654A001A3002 /* UInt64.swift */,
 				1714DDBA253965F8001A3002 /* Int64.swift */,
+				17B062DE253D557D00C4BAEE /* UUID.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -984,6 +989,7 @@
 		178909C8250E0F360092E3A4 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
+				17B062D5253D278500C4BAEE /* 3DShapes */,
 				17523CD9247B9725005209FC /* 3D */,
 				172C315A2510AE9500B7CCFC /* 2.5D */,
 				17F98DB4251773E9005E248D /* MainExtensions */,
@@ -1087,6 +1093,14 @@
 				17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */,
 			);
 			path = UIExtensions;
+			sourceTree = "<group>";
+		};
+		17B062D5253D278500C4BAEE /* 3DShapes */ = {
+			isa = PBXGroup;
+			children = (
+				17B062D6253D27A000C4BAEE /* ShapeManager.swift */,
+			);
+			path = 3DShapes;
 			sourceTree = "<group>";
 		};
 		17B4410D24861CB90050A5DF /* UserLocation */ = {
@@ -1541,6 +1555,7 @@
 				17C22C2324EA1CD9006BB3AB /* NASAMapConfirmation.swift in Sources */,
 				172F4A2524FA0F650014A65E /* DateTimeEditor.swift in Sources */,
 				172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */,
+				17B062DF253D557D00C4BAEE /* UUID.swift in Sources */,
 				174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */,
 				17854C672503649800D099A7 /* +Layers.swift in Sources */,
 				174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */,
@@ -1704,6 +1719,7 @@
 				172C315C2510AED100B7CCFC /* FlatView.swift in Sources */,
 				173AC19E2506109900C929BB /* Metal2DBorderedCircle.metal in Sources */,
 				17B7D7B024CED088000C077B /* SolidColorKernel.metal in Sources */,
+				17B062D7253D27A000C4BAEE /* ShapeManager.swift in Sources */,
 				1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */,
 				17A3788424DC25F300EE2B45 /* ImageBlender.swift in Sources */,
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
