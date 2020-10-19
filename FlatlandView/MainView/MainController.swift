@@ -478,6 +478,10 @@ class MainController: NSViewController
     static var POIInitialized = false
     /// Handle to the POI database.
     static var POIHandle: OpaquePointer? = nil
+    /// User POIs from the POI database.
+    static var UserPOIs = [POI2]()
+    /// User homes from the POI database.
+    static var UserHomes = [POI2]()
     
     // MARK: - Storyboard outlets
     
