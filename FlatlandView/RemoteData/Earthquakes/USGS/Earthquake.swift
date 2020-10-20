@@ -218,7 +218,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     
     /// Subjective significance value. Greater values indicate greater significance.
     var Significance: Int = 0
- 
+    
     /// Unique (per instance) ID of the earthquake.
     var ID: UUID = UUID()
     
@@ -425,7 +425,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     {
         if let Related = Related
         {
-        return "\(Magnitude.RoundedTo(3))@(\(Latitude),\(Longitude))#=\(Related.count)"
+            return "\(Magnitude.RoundedTo(3))@(\(Latitude),\(Longitude))#=\(Related.count), Max=\(GreatestMagnitude)"
         }
         else
         {
