@@ -367,9 +367,10 @@ class Stenciler
             #endif
             var LatitudeFontOffset = abs(Quake.Latitude) / 90.0
             LatitudeFontOffset = Constants.StencilFontSize.rawValue * LatitudeFontOffset
-            let FinalFontSize = FontSize + CGFloat(Quake.Magnitude) + CGFloat(LatitudeFontOffset)
+            let Mag = Quake.IsCluster ? Quake.GreatestMagnitude : Quake.Magnitude
+            let FinalFontSize = FontSize + CGFloat(Mag) + CGFloat(LatitudeFontOffset)
             let QuakeFont = NSFont(name: QuakeFontName, size: FinalFontSize)!
-            let MagRange = Utility.GetMagnitudeRange(For: Greatest)//Quake.GreatestMagnitude)
+            let MagRange = Utility.GetMagnitudeRange(For: Greatest)
             var BaseColor = NSColor.systemYellow
             let Colors = Settings.GetMagnitudeColors()
             for (Magnitude, Color) in Colors
@@ -757,7 +758,8 @@ class Stenciler
             #endif
             var LatitudeFontOffset = abs(Quake.Latitude) / 90.0
             LatitudeFontOffset = Constants.StencilFontSize.rawValue * LatitudeFontOffset
-            let FinalFontSize = FontSize + CGFloat(Quake.Magnitude) + CGFloat(LatitudeFontOffset)
+            let Mag = Quake.IsCluster ? Quake.GreatestMagnitude : Quake.Magnitude
+            let FinalFontSize = FontSize + CGFloat(Mag) + CGFloat(LatitudeFontOffset)
             let QuakeFont = NSFont(name: QuakeFontName, size: FinalFontSize)!
             let MagRange = Utility.GetMagnitudeRange(For: Greatest)// Quake.GreatestMagnitude)
             var BaseColor = NSColor.systemYellow
