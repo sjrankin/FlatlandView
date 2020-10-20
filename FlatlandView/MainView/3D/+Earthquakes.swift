@@ -222,11 +222,11 @@ extension GlobeView
                         
                     case .Magnitude:
                         let (H, S, B) = BaseColor.HSB
-                        let Percent = CGFloat(Quake.Magnitude) / 10.0
+                        let Percent = CGFloat(Quake.GreatestMagnitude) / 10.0
                         BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
                         
                     case .MagnitudeRange:
-                        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+                        let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
                         let Colors = Settings.GetMagnitudeColors()
                         for (Magnitude, Color) in Colors
                         {
@@ -257,7 +257,7 @@ extension GlobeView
                         if Significance <= 0
                         {
                             let (H, S, B) = BaseColor.HSB
-                            let Percent = CGFloat(Quake.Magnitude) / 10.0
+                            let Percent = CGFloat(Quake.GreatestMagnitude) / 10.0
                             BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
                         }
                         else
@@ -351,7 +351,7 @@ extension GlobeView
         
         let Radiusp = Double(FinalRadius) + RadialOffset - Quake3D.InvisibleEarthquakeOffset.rawValue
         let (Xp, Yp, Zp) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radiusp)
-        let ERadius = (Quake.Magnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.SphereConstant.rawValue
+        let ERadius = (Quake.GreatestMagnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.SphereConstant.rawValue
         let QSphere = SCNSphere(radius: CGFloat(ERadius))
         let InfoNode = SCNNode2(geometry: QSphere)
         InfoNode.CanShowBoundingShape = true
@@ -390,7 +390,7 @@ extension GlobeView
                                                 duration: Quake3D.ArrowRotationDuration.rawValue)
                 let RotateForever = SCNAction.repeatForever(Rotate)
                 let BounceDistance: CGFloat = CGFloat(Quake3D.ArrowBounceDistance.rawValue)
-                let BounceDuration = (10.0 - Quake.Magnitude) / Quake3D.ArrowBounceDurationDivisor.rawValue
+                let BounceDuration = (10.0 - Quake.GreatestMagnitude) / Quake3D.ArrowBounceDurationDivisor.rawValue
                 let BounceAway = SCNAction.move(by: SCNVector3(0.0, -BounceDistance, 0.0), duration: BounceDuration)
                 BounceAway.timingMode = .easeOut
                 let BounceTo = SCNAction.move(by: SCNVector3(0.0, BounceDistance, 0.0), duration: BounceDuration)
@@ -477,16 +477,16 @@ extension GlobeView
                 XRotation = Quake.Longitude + 180.0
                 
             case .Sphere:
-                let ERadius = (Quake.Magnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.SphereConstant.rawValue
+                let ERadius = (Quake.GreatestMagnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.SphereConstant.rawValue
                 let QSphere = SCNSphere(radius: CGFloat(ERadius))
                 FinalNode = SCNNode2(geometry: QSphere)
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 
             case .PulsatingSphere:
-                let ERRadius = (Quake.Magnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.PulsatingSphereConstant.rawValue
+                let ERRadius = (Quake.GreatestMagnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.PulsatingSphereConstant.rawValue
                 let ScaleDuration: Double = Quake3D.PulsatingBase.rawValue +
-                    (10 - Quake.Magnitude) * Quake3D.MagnitudeMultiplier.rawValue
+                    (10 - Quake.GreatestMagnitude) * Quake3D.MagnitudeMultiplier.rawValue
                 let QSphere = SCNSphere(radius: CGFloat(ERRadius))
                 let ScaleUp = SCNAction.scale(to: CGFloat(Quake3D.PulsatingSphereMaxScale.rawValue), duration: ScaleDuration)
                 let ScaleDown = SCNAction.scale(to: 1.0, duration: ScaleDuration)
@@ -602,9 +602,9 @@ extension GlobeView
     {
         let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
         #if false
-        let Magnitude = "M\(Quake.Magnitude.RoundedTo(2))"
+        let Magnitude = "M\(Quake.GreatestMagnitude.RoundedTo(2))"
         #else
-        let Magnitude = "• M\(Quake.Magnitude.RoundedTo(2))"
+        let Magnitude = "• M\(Quake.GreatestMagnitude.RoundedTo(2))"
         #endif
         
         #if false
@@ -613,11 +613,11 @@ extension GlobeView
         //let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * NodeScales.EarthquakeText.rawValue -
         //    (MagNode.boundingBox.min.y * NodeScales.EarthquakeText.rawValue)
         let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
-        let FontSize = CGFloat(15.0 + Quake.Magnitude)
+        let FontSize = CGFloat(15.0 + Quake.GreatestMagnitude)
         let MagFont = NSFont(name: EqFont.PostscriptName, size: FontSize)
         let MagNodes = Utility.MakeFloatingWord2(Radius: Radius, Word: Magnitude, Scale: NodeScales3D.EarthquakeText.rawValue,
                                                  Latitude: Quake.Latitude, Longitude: Quake.Longitude, //LatitudeOffset: -YOffset,
-                                                 /*LongitudeOffset: XOffset,*/ Extrusion: CGFloat(Quake.Magnitude),
+                                                 /*LongitudeOffset: XOffset,*/ Extrusion: CGFloat(Quake.GreatestMagnitude),
                                                  Mask: MetalSunMask | MetalMoonMask, TextFont: MagFont, TextColor: NSColor.black,
                                                  TextSpecular: NSColor.white, IsMetallic: true)
         let MagNode = SCNNode()
@@ -625,8 +625,8 @@ extension GlobeView
         MagNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
         MagNodes.forEach({MagNode.addChildNode($0)})
         #else
-        let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.Magnitude))
-        let FontSize = CGFloat(15.0 + Quake.Magnitude)
+        let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.GreatestMagnitude))
+        let FontSize = CGFloat(15.0 + Quake.GreatestMagnitude)
         let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
         MagText.font = NSFont(name: EqFont.PostscriptName, size: FontSize)
         
@@ -729,8 +729,8 @@ extension GlobeView
                                                 y: CGFloat(360.0.Radians),
                                                 z: CGFloat(0.0.Radians),
                                                 duration: 1.0)
-                let ScaleDuration = 1.0 - (Quake.Magnitude / 10.0)
-                var ToScale = (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
+                let ScaleDuration = 1.0 - (Quake.GreatestMagnitude / 10.0)
+                var ToScale = (0.3 * (1.0 - (Quake.GreatestMagnitude / 10.0)))
                 ToScale = ToScale + Double(NodeScales3D.AnimatedRingBase.rawValue)
                 let ScaleUp = SCNAction.scale(to: CGFloat(ToScale), duration: 1.0 + ScaleDuration)
                 let ScaleDown = SCNAction.scale(to: 1.0, duration: 1.0 + ScaleDuration)
@@ -808,8 +808,8 @@ extension GlobeView
                                              NodeScales3D.RadiatingRings.rawValue,
                                              NodeScales3D.RadiatingRings.rawValue)
                 
-                let ScaleDuration = 1.0 + (1.0 - (Quake.Magnitude / 10.0))
-                let ToScale = Double(NodeScales3D.RadiatingRingBase.rawValue) + (0.3 * (1.0 - (Quake.Magnitude / 10.0)))
+                let ScaleDuration = 1.0 + (1.0 - (Quake.GreatestMagnitude / 10.0))
+                let ToScale = Double(NodeScales3D.RadiatingRingBase.rawValue) + (0.3 * (1.0 - (Quake.GreatestMagnitude / 10.0)))
                 let ScaleUp = SCNAction.scale(to: CGFloat(ToScale), duration: ScaleDuration)
                 let FinalFade = SCNAction.fadeOut(duration: 0.1)
                 let Wait2 = SCNAction.wait(duration: ScaleDuration - 0.1)
@@ -844,7 +844,7 @@ extension GlobeView
                                             Mask: LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue)
                 TRing.PointsOut = IndicatorType == .TriangleRingOut ? true: false
                 TRing.Color = Settings.GetColor(.EarthquakeColor, NSColor.red)
-                TRing.TriangleRotationDuration = 10.0 - Quake.Magnitude + 2.0
+                TRing.TriangleRotationDuration = 10.0 - Quake.GreatestMagnitude + 2.0
                 TRing.position = SCNVector3(0.0, -OuterRadius / 4.0, 0.0)
                 TRing.scale = SCNVector3(NodeScales3D.TriangleRing.rawValue,
                                          NodeScales3D.TriangleRing.rawValue,
