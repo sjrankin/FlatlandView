@@ -10,20 +10,33 @@ import Foundation
 import AppKit
 
 class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
-                             AsynchronousDataProtocol
+                             AsynchronousDataProtocol, WindowManagement, NSWindowDelegate
 {
     override func viewDidLoad()
     {
         super.viewDidLoad()
         let _ = Settings.GetInt(.EarthquakeDisplayMagnitude, IfZero: 4)
-        EqTable.tableColumns[1].sortDescriptorPrototype = LocationDescriptor
-        EqTable.tableColumns[2].sortDescriptorPrototype = MagnitudeDescriptor
-        EqTable.tableColumns[3].sortDescriptorPrototype = CountDescriptor
-        EqTable.tableColumns[4].sortDescriptorPrototype = DateDescriptor
+        EqTable.tableColumns[2].sortDescriptorPrototype = LocationDescriptor
+        EqTable.tableColumns[3].sortDescriptorPrototype = MagnitudeDescriptor
+        EqTable.tableColumns[4].sortDescriptorPrototype = CountDescriptor
+        EqTable.tableColumns[5].sortDescriptorPrototype = DateDescriptor
         USGSSource = USGS()
         USGSSource?.Delegate = self
         USGSSource?.GetEarthquakes(Every: 60.0)
         EqTable.doubleAction = #selector(HandleDoubleClick)
+        ProgressRing.startAnimation(self)
+        let ColorFilter = CIFilter(name: "CIFalseColor")
+        ColorFilter?.setDefaults()
+        ColorFilter?.setValue(CIColor(cgColor: NSColor.systemBlue.cgColor), forKey: "inputColor0")
+        ColorFilter?.setValue(CIColor(cgColor: NSColor.black.cgColor), forKey: "inputColor1")
+        ProgressRing.contentFilters = [ColorFilter!]
+        DoDecorateCoordinates = Settings.GetBool(.DecorateEarthquakeCoordinates)
+        DecorateCheck.state = DoDecorateCoordinates ? .on : .off
+    }
+    
+    override func viewDidAppear()
+    {
+        self.view.window?.delegate = self
     }
     
     override func viewDidLayout()
@@ -58,6 +71,10 @@ class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDa
         if let Table = sender as? NSTableView
         {
             let Index = Table.selectedRow
+            if Index < 0
+            {
+                return
+            }
             let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
             if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeDetailWindow") as? EarthquakeDetailWindow
             {
@@ -103,7 +120,7 @@ class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDa
         for Quake in SourceData
         {
             let IsInAgeRange = Quake.GetAge() <= SecondsFilter
-            let IsInMagRange = Quake.Magnitude >= Double(Settings.GetInt(.EarthquakeDisplayMagnitude, IfZero: 4))
+            let IsInMagRange = Quake.GreatestMagnitude >= Double(Settings.GetInt(.EarthquakeDisplayMagnitude, IfZero: 4))
             if IsInAgeRange && IsInMagRange
             {
                 EarthquakeList.append(Quake)
@@ -139,7 +156,7 @@ class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDa
         if tableColumn == tableView.tableColumns[3]
         {
             CellIdentifier = "MagnitudeColumn"
-            CellContents = "\(EarthquakeList[row].Magnitude)"
+            CellContents = "\(EarthquakeList[row].GreatestMagnitude)"
         }
         if tableColumn == tableView.tableColumns[4]
         {
@@ -161,7 +178,22 @@ class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDa
         if tableColumn == tableView.tableColumns[6]
         {
             CellIdentifier = "CoordinatesColumn"
-            CellContents = "\(EarthquakeList[row].Latitude.RoundedTo(3)), \(EarthquakeList[row].Longitude.RoundedTo(3))"
+            var Contents = ""
+            if DoDecorateCoordinates
+            {
+                var Latitude = EarthquakeList[row].Latitude.RoundedTo(3)
+                var Longitude = EarthquakeList[row].Longitude.RoundedTo(3)
+                let LatIndicator = Latitude >= 0.0 ? "N" : "S"
+                let LonIndicator = Longitude < 0.0 ? "W" : "E"
+                Latitude = abs(Latitude)
+                Longitude = abs(Longitude)
+                Contents = "\(Latitude)\(LatIndicator)\t\t\(Longitude)\(LonIndicator)"
+            }
+            else
+            {
+                Contents = "\(EarthquakeList[row].Latitude.RoundedTo(3))\t\t\(EarthquakeList[row].Longitude.RoundedTo(3))"
+            }
+            CellContents = Contents
         }
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
@@ -206,9 +238,11 @@ class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDa
     
     func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?)
     {
+        ProgressRing.stopAnimation(self)
         if Actual != nil
         {
             LoadData(DataType: CategoryType, Raw: Actual!)
+            DoSortEarthquakes()
         }
     }
     
@@ -222,78 +256,91 @@ class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDa
         if let Order = EarthquakeDescriptors(rawValue: SortDescriptor.key!)
         {
             SortEarthquakes(By: Order, Ascending: SortDescriptor.ascending)
-            UpdateTable()
         }
     }
     
+    func DoSortEarthquakes()
+    {
+        if let Field = LastSortField
+        {
+            switch Field
+            {
+                case .Location:
+                    if LastSortWasAscending
+                    {
+                        EarthquakeList.sort
+                        {
+                            $0.Place < $1.Place
+                        }
+                    }
+                    else
+                    {
+                        EarthquakeList.sort
+                        {
+                            $0.Place > $1.Place
+                        }
+                    }
+                    
+                case .Date:
+                    if LastSortWasAscending
+                    {
+                        EarthquakeList.sort
+                        {
+                            $0.Time < $1.Time
+                        }
+                    }
+                    else
+                    {
+                        EarthquakeList.sort
+                        {
+                            $0.Time > $1.Time
+                        }
+                    }
+                    
+                case .Magnitude:
+                    if LastSortWasAscending
+                    {
+                        EarthquakeList.sort
+                        {
+                            $0.GreatestMagnitude < $1.GreatestMagnitude
+                        }
+                    }
+                    else
+                    {
+                        EarthquakeList.sort
+                        {
+                            $0.GreatestMagnitude > $1.GreatestMagnitude
+                        }
+                    }
+                    
+                case .Count:
+                    if LastSortWasAscending
+                    {
+                        EarthquakeList.sort
+                        {
+                            $0.ClusterCount < $1.ClusterCount
+                        }
+                    }
+                    else
+                    {
+                        EarthquakeList.sort
+                        {
+                            $0.ClusterCount > $1.ClusterCount
+                        }
+                    }
+            }
+        }
+    }
+    
+    var LastSortField: EarthquakeDescriptors? = nil
+    var LastSortWasAscending: Bool = true
+    
     func SortEarthquakes(By: EarthquakeDescriptors, Ascending: Bool)
     {
-        switch By
-        {
-            case .Location:
-                if Ascending
-                {
-                    EarthquakeList.sort
-                    {
-                        $0.Place < $1.Place
-                    }
-                }
-                else
-                {
-                    EarthquakeList.sort
-                    {
-                        $0.Place > $1.Place
-                    }
-                }
-                
-            case .Magnitude:
-                if Ascending
-                {
-                    EarthquakeList.sort
-                    {
-                        $0.Magnitude < $1.Magnitude
-                    }
-                }
-                else
-                {
-                    EarthquakeList.sort
-                    {
-                        $0.Magnitude > $1.Magnitude
-                    }
-                }
-                
-            case .Date:
-                if Ascending
-                {
-                    EarthquakeList.sort
-                    {
-                        $0.Time < $1.Time
-                    }
-                }
-                else
-                {
-                    EarthquakeList.sort
-                    {
-                        $0.Time > $1.Time
-                    }
-                }
-                
-            case .Count:
-                if Ascending
-                {
-                    EarthquakeList.sort
-                    {
-                        $0.ClusterCount < $1.ClusterCount
-                    }
-                }
-                else
-                {
-                    EarthquakeList.sort
-                    {
-                        $0.ClusterCount > $1.ClusterCount
-                    }
-                }
-        }
+        LastSortField = By
+        LastSortWasAscending = Ascending
+        DoSortEarthquakes()
+        EqTable.reloadData()
     }
     
     @IBAction func HandleClosePressed(_ sender: Any)
@@ -343,6 +390,36 @@ class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDa
         }
     }
     
+    @IBAction func HandleDecorateCheckChanged(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            DoDecorateCoordinates = Button.state == .on ? true : false
+            EqTable.reloadData()
+            Settings.SetBool(.DecorateEarthquakeCoordinates, DoDecorateCoordinates)
+        }
+    }
+    
+    var DoDecorateCoordinates: Bool = false
+    
+    func HandleNewWindowSize()
+    {
+        DoSortEarthquakes()
+        EqTable.reloadData()
+    }
+    
+    func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize
+    {
+        return frameSize
+    }
+    
+    func windowDidResize(_ notification: Notification)
+    {
+        HandleNewWindowSize()
+    }
+    
+    @IBOutlet weak var DecorateCheck: NSButton!
+    @IBOutlet weak var ProgressRing: NSProgressIndicator!
     @IBOutlet weak var MagCombo: NSComboBox!
     @IBOutlet weak var EqTable: NSTableView!
     @IBOutlet weak var AgeCombo: NSComboBox!
@@ -353,5 +430,10 @@ class EarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDa
         case Magnitude = "Magnitude"
         case Date = "Date"
         case Count = "Count"
+    }
+    
+    func MainClosing()
+    {
+        self.view.window?.close()
     }
 }
