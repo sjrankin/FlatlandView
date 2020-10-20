@@ -101,6 +101,8 @@
 		1760023E24D2BFBF00D5EA1A /* NSBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760023D24D2BFBF00D5EA1A /* NSBezierPath.swift */; };
 		1760024024D2BFDC00D5EA1A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760023F24D2BFDC00D5EA1A /* String.swift */; };
 		1760024224D2BFFE00D5EA1A /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760024124D2BFFE00D5EA1A /* Array.swift */; };
+		1765B59B253EBC4A00DD11D8 /* GroupedEarthquakeWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1765B59A253EBC4A00DD11D8 /* GroupedEarthquakeWindow.swift */; };
+		1765B59E253EBC6800DD11D8 /* GroupedEarthquakeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1765B59D253EBC6800DD11D8 /* GroupedEarthquakeController.swift */; };
 		1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E324794A0100C434B5 /* AppDelegate.swift */; };
 		1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E724794A0300C434B5 /* Assets.xcassets */; };
 		176A89802530278900489C22 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176A897F2530278900489C22 /* MainWindow.swift */; };
@@ -381,6 +383,8 @@
 		1760023D24D2BFBF00D5EA1A /* NSBezierPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSBezierPath.swift; sourceTree = "<group>"; };
 		1760023F24D2BFDC00D5EA1A /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1760024124D2BFFE00D5EA1A /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		1765B59A253EBC4A00DD11D8 /* GroupedEarthquakeWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedEarthquakeWindow.swift; sourceTree = "<group>"; };
+		1765B59D253EBC6800DD11D8 /* GroupedEarthquakeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedEarthquakeController.swift; sourceTree = "<group>"; };
 		1767A8E024794A0100C434B5 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1767A8E324794A0100C434B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1767A8E724794A0300C434B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1414,6 +1418,8 @@
 				175F18EB2499E4C30052F653 /* LiveDataViewer.swift */,
 				17829D4724B31D0200118DB1 /* EarthquakeDetailWindow.swift */,
 				17829D4924B31D2300118DB1 /* EarthquakeDetailController.swift */,
+				1765B59A253EBC4A00DD11D8 /* GroupedEarthquakeWindow.swift */,
+				1765B59D253EBC6800DD11D8 /* GroupedEarthquakeController.swift */,
 			);
 			path = LiveDataView;
 			sourceTree = "<group>";
@@ -1567,6 +1573,7 @@
 				17A25CC62505D44D00214C45 /* Metal2DShapeParameters.swift in Sources */,
 				1750043F24B46271006528A4 /* FontPickerController.swift in Sources */,
 				17C87B7B25177F650065BE6D /* +FlatViewHours.swift in Sources */,
+				1765B59B253EBC4A00DD11D8 /* GroupedEarthquakeWindow.swift in Sources */,
 				1714DDB025382EFC001A3002 /* EnvironmentView.swift in Sources */,
 				174623D824A8400E007F5D4C /* StarField3DCode.swift in Sources */,
 				17B8F5272503897100D71931 /* Splitter.metal in Sources */,
@@ -1667,6 +1674,7 @@
 				17B8B4132536F52F00CF8760 /* SCNSatellite.swift in Sources */,
 				17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */,
 				17897C812514A93200544DE1 /* +MainInitialization.swift in Sources */,
+				1765B59E253EBC6800DD11D8 /* GroupedEarthquakeController.swift in Sources */,
 				17F9AFFE2520358C00DE0219 /* +CustomCityList.swift in Sources */,
 				179BE7C524ED06DB0025B349 /* TodayWindow.swift in Sources */,
 				172D20632521AD1F00FA8687 /* Int.swift in Sources */,
