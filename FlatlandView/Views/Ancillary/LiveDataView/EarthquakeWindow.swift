@@ -14,12 +14,6 @@ class EarthquakeWindow: NSWindowController, NSWindowDelegate
     override func windowDidLoad()
     {
         super.windowDidLoad()
-        self.window?.delegate = self
-    }
-    
-    func windowDidResize(_ notification: Notification)
-    {
-        print("Window resized")
     }
     
     override func awakeFromNib()
