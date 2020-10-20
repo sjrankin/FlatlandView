@@ -145,7 +145,9 @@ extension Settings
             .EarthquakeColor: NSColor.self,
             .EarthquakeFontName: String.self,
             .EarthquakeListAge: EarthquakeAges.self,
+            .GroupEarthquakeListAge: EarthquakeAges.self,
             .EarthquakeDisplayMagnitude: Int.self,
+            .GroupEarthquakeDisplayMagnitude: Int.self,
             .EarthquakeMagnitudeViews: EarthquakeMagnitudeViews.self,
             .CombinedEarthquakeColor: NSColor.self,
             .EarthquakeRegions: String.self,
@@ -176,5 +178,6 @@ extension Settings
             .ShowDetailedInformation: Bool.self,
             .HighlightNodeUnderMouse: Bool.self,
             .ShowCamera: Bool.self,
+            .DecorateEarthquakeCoordinates: Bool.self,
         ]
 }
