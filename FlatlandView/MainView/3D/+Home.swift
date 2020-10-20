@@ -302,10 +302,11 @@ extension GlobeView
                 A.ShapeSize = Size
                 A.Class = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
                 A.ID = NodeTables.HomeID
+                A.ShowBoundingShapes = true
                 A.Latitude = Latitude
                 A.Longitude = Longitude
                 A.Position = SCNVector3(0.0, 0.0, 0.0)
-                A.LightMask = LightMasks2D.Polar.rawValue
+                A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 A.CastsShadow = true
                 let Day: TimeState =
                     {
@@ -340,10 +341,11 @@ extension GlobeView
                 A.ShapeSize = Size
                 A.Class = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
                 A.ID = NodeTables.HomeID
+                A.ShowBoundingShapes = true
                 A.Latitude = Latitude
                 A.Longitude = Longitude
                 A.Position = SCNVector3(0.0, 0.0, 0.0)
-                A.LightMask = LightMasks2D.Polar.rawValue
+                A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 A.CastsShadow = true
                 let Day: TimeState =
                     {
