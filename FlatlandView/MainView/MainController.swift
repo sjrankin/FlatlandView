@@ -233,14 +233,29 @@ class MainController: NSViewController
     @IBAction func ShowEarthquakeList(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
+        #if true
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeWindow2") as? GroupedEarthquakeWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? GroupedEarthquakeController
+            Controller?.LoadData(DataType: .Earthquakes, Raw: PreviousEarthquakes as Any)
+            WindowController.showWindow(nil)
+        }
+        #else
         if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeWindow") as? EarthquakeWindow
         {
             let Window = WindowController.window
             let Controller = Window?.contentViewController as? EarthquakeController
+            QuakeController = Controller
+            QuakeDelegate = Controller 
             Controller?.LoadData(DataType: .Earthquakes, Raw: PreviousEarthquakes as Any)
             WindowController.showWindow(nil)
         }
+        #endif
     }
+    
+    var QuakeController: EarthquakeController? = nil
+    var QuakeDelegate: WindowManagement? = nil
     
     /// Array of previous earthquakes (used in a cache-like fasion).
     var PreviousEarthquakes = [Earthquake]()
