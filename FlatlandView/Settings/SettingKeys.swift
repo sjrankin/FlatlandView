@@ -48,6 +48,8 @@ enum SettingKeys: String, CaseIterable
     case WindowOrigin = "WindowOrigin"
     /// NSSize: The size of the primary contents view.
     case PrimaryViewSize = "PrimaryViewSize"
+    /// Boolean: If true, earthquake coordinates are decorated with cardinal directions.
+    case DecorateEarthquakeCoordinates = "DecorateEarthquakeCoordinates"
     
     // MARK: - 2D view settings.
     /// Boolean: Display the equator in 2D mode.
@@ -326,6 +328,11 @@ enum SettingKeys: String, CaseIterable
     case EarthquakeListAge = "EarthquakeListAge"
     /// Integer: Minimum magnitude earthquake to display in the earthquake list dialog.
     case EarthquakeDisplayMagnitude = "EarthquakeDisplayMagnitude"
+    /// Age of earthquakes to view in the earthquake list dialog. Intended for the group view.
+    case GroupEarthquakeListAge = "GroupEarthquakeListAge"
+    /// Integer: Minimum magnitude earthquake to display in the earthquake list dialog. Intended
+    /// for the group view.
+    case GroupEarthquakeDisplayMagnitude = "GroupEarthquakeDisplayMagnitude"
     #if false
     /// Maximum distance (in kilometers) that earthquakes must be to be combined.
     case CombineDistance = "CombineDistance"
