@@ -19,6 +19,7 @@ extension MainController
         MainSettingsDelegate?.MainClosing()
         AboutDelegate?.MainClosing()
         TodayDelegate?.MainClosing()
+        QuakeDelegate?.MainClosing()
         
         print("Flatland closing.")
     }
