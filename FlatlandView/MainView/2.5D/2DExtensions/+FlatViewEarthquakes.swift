@@ -191,7 +191,7 @@ extension FlatView
         let PointY = Distance * sin(LocationBearing)
         
         var BaseColor = NSColor.red
-        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+        let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
         let Colors = Settings.GetMagnitudeColors()
         for (Magnitude, Color) in Colors
         {
@@ -243,7 +243,7 @@ extension FlatView
         let PointY = Distance * sin(LocationBearing)
         
         var BaseColor = NSColor.red
-        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+        let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
         let Colors = Settings.GetMagnitudeColors()
         for (Magnitude, Color) in Colors
         {
@@ -296,7 +296,7 @@ extension FlatView
         let PointY = Distance * sin(LocationBearing)
         
         var BaseColor = NSColor.red
-        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+        let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
         let Colors = Settings.GetMagnitudeColors()
         for (Magnitude, Color) in Colors
         {
@@ -327,7 +327,7 @@ extension FlatView
     /// - Parameter WithColor: The color to use as the texture for the star.
     func PlotEarthquakeStar(Quake: Earthquake, Radius: Double) -> SCNNode2
     {
-        let VCount = 3 + Int(Quake.Magnitude)
+        let VCount = 3 + Int(Quake.GreatestMagnitude)
         let Star = SCNNode2(geometry: SCNStar.Geometry(VertexCount: VCount, Height: 7.0, Base: 3.5, ZHeight: 4.0))
         let Scale = 0.035
         Star.scale = SCNVector3(Scale, Scale, Scale)
@@ -336,7 +336,7 @@ extension FlatView
         Star.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         
         var BaseColor = NSColor.red
-        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+        let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
         let Colors = Settings.GetMagnitudeColors()
         for (Magnitude, Color) in Colors
         {
@@ -395,7 +395,7 @@ extension FlatView
         let PointY = Distance * sin(LocationBearing)
         
         var BaseColor = NSColor.red
-        let MagRange = GetMagnitudeRange(For: Quake.Magnitude)
+        let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
         let Colors = Settings.GetMagnitudeColors()
         for (Magnitude, Color) in Colors
         {
