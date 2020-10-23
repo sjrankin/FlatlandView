@@ -260,6 +260,21 @@ class USGS
         return Unique.map{$1}
     }
     
+    public static func RemoveDuplicates(From: [Earthquake]) -> [Earthquake]
+    {
+        var Unique = [String: Earthquake]()
+        for Quake in From
+        {
+            let QuakeCode = Quake.Code.trimmingCharacters(in: .whitespacesAndNewlines)
+            if let _ = Unique[QuakeCode]
+            {
+                continue
+            }
+            Unique[QuakeCode] = Quake
+        }
+        return Unique.map{$1}
+    }
+    
     /// Filter the passed list for minimum magnitude. Earthquakes that have a magnitude less than
     /// the passed value are excluded from the returned list.
     /// - Parameter List: The source list to filter.
@@ -560,6 +575,57 @@ class USGS
         let OldParent = Earthquake(Quake)
         EarliestChild?.AddRelated(OldParent)
         return EarliestChild!
+    }
+    
+    private static func AddForCombined2(_ Quake: Earthquake, To TopLevel: inout [Earthquake], InRange: Double)
+    {
+        if TopLevel.isEmpty
+        {
+            TopLevel.append(Quake)
+            return
+        }
+        for SomeQuake in TopLevel
+        {
+            let Distance = SomeQuake.DistanceTo(Quake)
+            if Distance <= InRange
+            {
+                SomeQuake.AddRelated(Quake)
+                return
+            }
+        }
+        TopLevel.append(Quake)
+    }
+    
+    public static func CombineEarthquakes2(_ Quakes: [Earthquake], Closeness: Double = 100.0) -> [Earthquake]
+    {
+        var Combined = [Earthquake]()
+        for Quake in Quakes
+        {
+            AddForCombined2(Quake, To: &Combined, InRange: Closeness)
+        }
+        var Final = [Earthquake]()
+        for Quake in Combined
+        {
+            if !Quake.IsCluster
+            {
+                Final.append(Quake)
+            }
+            else
+            {
+                if let Biggest = Quake.GreatestMagnitudeEarthquake
+                {
+                    let NewQuake = Earthquake(Biggest, IncludeRelated: false, IsBiggest: true)
+                    for ChildQuake in Quake.Related!
+                    {
+                        NewQuake.AddRelated(ChildQuake)
+                    }
+                    NewQuake.RemoveDuplicates()
+                    Final.append(NewQuake)
+                }
+            }
+        }
+        Final = RemoveDuplicates(From: Final)
+        return Final
     }
     
     /// Combined the passed list of earthquakes. All earthquakes within a certain radius will be
