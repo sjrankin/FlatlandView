@@ -8,6 +8,7 @@
 
 import Foundation
 import AppKit
+import SceneKit
 
 class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
                                    NSWindowDelegate, AsynchronousDataProtocol, WindowManagement
@@ -15,7 +16,6 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        StartWaitingRing()
         
         /// For default values if none exist.
         let _ = Settings.GetInt(.EarthquakeDisplayMagnitude, IfZero: 4)
@@ -30,7 +30,33 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
         
         DoDecorateCoordinates = Settings.GetBool(.DecorateEarthquakeCoordinates)
         DecorateButton.state = DoDecorateCoordinates ? .on : .off
+
+        RefreshButton.toolTip = "Press to refresh earthquakes immediately."
+        
+        ParentTable.tableColumns[0].sortDescriptorPrototype = ParentDateDescriptor
+        ParentTable.tableColumns[1].sortDescriptorPrototype = ParentMagnitudeDescriptor
+        ParentTable.tableColumns[2].sortDescriptorPrototype = ParentCountDescriptor
+        GroupTable.tableColumns[1].sortDescriptorPrototype = GroupCodeDescriptor
+        GroupTable.tableColumns[2].sortDescriptorPrototype = GroupLocationDescriptor
+        GroupTable.tableColumns[3].sortDescriptorPrototype = GroupMagnitudeDescriptor
+        GroupTable.tableColumns[4].sortDescriptorPrototype = GroupDateDescriptor
+        
+        RoundTextView.RotateClockwise = false
+        RoundTextView.TextFont = NSFont.boldSystemFont(ofSize: 80.0)
+        RoundTextView.TextRadius = 7.0
+        RoundTextView.RotationOffset = 0.33
+        RoundTextView.AnimationDuration = 0.01
+        RoundTextView.ShowText("Please Wait")
     }
+    
+    let ParentCountDescriptor = NSSortDescriptor(key: ParentTableDescriptors.Count.rawValue, ascending: true)
+    let ParentMagnitudeDescriptor = NSSortDescriptor(key: ParentTableDescriptors.Magnitude.rawValue, ascending: false)
+    let ParentDateDescriptor = NSSortDescriptor(key: ParentTableDescriptors.Date.rawValue, ascending: false)
+    
+    let GroupCodeDescriptor = NSSortDescriptor(key: GroupTableDescriptors.Code.rawValue, ascending: true)
+    let GroupLocationDescriptor = NSSortDescriptor(key: GroupTableDescriptors.Location.rawValue, ascending: true)
+    let GroupMagnitudeDescriptor = NSSortDescriptor(key: GroupTableDescriptors.Magnitude.rawValue, ascending: true)
+    let GroupDateDescriptor = NSSortDescriptor(key: GroupTableDescriptors.Date.rawValue, ascending: true)
     
     override func viewDidAppear()
     {
@@ -77,16 +103,6 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
         ParentMagnitudeFilter.selectItem(withObjectValue: "\(PreviousParentMag)")
         let PreviousGroupMag = Settings.GetInt(.GroupEarthquakeDisplayMagnitude, IfZero: 4)
         GroupMagnitudeFilter.selectItem(withObjectValue: "\(PreviousGroupMag)")
-    }
-    
-    func StartWaitingRing()
-    {
-        WaitingRing.startAnimation(self)
-        let ColorFilter = CIFilter(name: "CIFalseColor")
-        ColorFilter?.setDefaults()
-        ColorFilter?.setValue(CIColor(cgColor: NSColor.systemBlue.cgColor), forKey: "inputColor0")
-        ColorFilter?.setValue(CIColor(cgColor: NSColor.black.cgColor), forKey: "inputColor1")
-        WaitingRing.contentFilters = [ColorFilter!]
     }
     
     @objc func HandleDoubleClick(_ sender: Any)
@@ -211,7 +227,7 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
             case .Earthquakes:
                 if let RawData = Raw as? [Earthquake]
                 {
-                    SourceData = USGS.CombineEarthquakes(RawData)
+                    SourceData = USGS.CombineEarthquakes2(RawData)
                     ParentData = SourceData
                     UpdateTable(ParentTable)
                 }
@@ -225,7 +241,7 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
     
     func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?)
     {
-        WaitingRing.stopAnimation(self)
+        RoundTextView.Hide()
         if Actual != nil
         {
             LoadData(DataType: CategoryType, Raw: Actual!)
@@ -241,22 +257,7 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
                 return ParentData.count
                 
             case GroupTable:
-                if ParentData.count < 1
-                {
-                    return 0
-                }
-                if CurrentParent < 0
-                {
-                    return 0
-                }
-                if ParentData[CurrentParent].IsCluster
-                {
-                    return ParentData[CurrentParent].ClusterCount
-                }
-                else
-                {
-                    return 1
-                }
+                return GroupData.count
                 
             default:
                 return 0
@@ -264,16 +265,23 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
     }
     
     var CurrentParent: Int = 0
+    var GroupIndex: Int = 1
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         var CellContents = ""
         var CellIdentifier = ""
         var CellToolTip: String? = nil
+        var RightJustify = false
         
         switch tableView
         {
             case ParentTable:
+                if let Biggest = ParentData[row].GreatestMagnitudeEarthquake
+                {
+                    print("Biggest=\(Biggest.Code) \(Biggest.Magnitude)M")
+                }
+                CellToolTip = "\(ParentData[row].Code): \(ParentData[row].Place) \(ParentData[row].GreatestMagnitude)"
                 if tableColumn == tableView.tableColumns[0]
                 {
                     CellIdentifier = "DateColumn"
@@ -281,12 +289,12 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
                     let Parts = Raw.split(separator: "+", omittingEmptySubsequences: true)
                     let Useful = String(Parts[0]).trimmingCharacters(in: .whitespacesAndNewlines)
                     CellContents = Useful
-                    CellToolTip = Useful
                 }
                 if tableColumn == tableView.tableColumns[1]
                 {
                     CellIdentifier = "MagColumn"
                     CellContents = "\(ParentData[row].GreatestMagnitude)"
+                    RightJustify = true
                 }
                 if tableColumn == tableView.tableColumns[2]
                 {
@@ -305,30 +313,39 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
             case GroupTable:
                 if tableColumn == tableView.tableColumns[0]
                 {
-                    CellIdentifier = "CodeColumn"
-                    CellContents = GroupData[row].Code
+                    CellIdentifier = "IndexColumn"
+                    CellContents = "\(GroupIndex)"
+                    RightJustify = true
+                    GroupIndex = GroupIndex + 1
                 }
                 if tableColumn == tableView.tableColumns[1]
+                {
+                    CellIdentifier = "CodeColumn"
+                    CellContents = GroupData[row].Code
+                CellToolTip = CellContents
+                }
+                if tableColumn == tableView.tableColumns[2]
                 {
                     CellIdentifier = "LocationColumn"
                     CellContents = GroupData[row].Place
                     CellToolTip = CellContents
                 }
-                if tableColumn == tableView.tableColumns[2]
+                if tableColumn == tableView.tableColumns[3]
                 {
                     CellIdentifier = "MagnitudeColumn"
                     CellContents = "\(GroupData[row].Magnitude)"
+                    RightJustify = true
                 }
-                if tableColumn == tableView.tableColumns[3]
+                if tableColumn == tableView.tableColumns[4]
                 {
                     CellIdentifier = "DateColumn"
                     let Raw = GroupData[row].Time.PrettyDateTime()
                     let Parts = Raw.split(separator: "+", omittingEmptySubsequences: true)
                     let Useful = String(Parts[0]).trimmingCharacters(in: .whitespacesAndNewlines)
                     CellContents = Useful
-                    CellToolTip = Useful
+                    CellToolTip = CellContents
                 }
-                if tableColumn == tableView.tableColumns[4]
+                if tableColumn == tableView.tableColumns[5]
                 {
                     CellIdentifier = "CoordinateColumn"
                     if DoDecorateCoordinates
@@ -345,6 +362,7 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
                     {
                         CellContents = "\(GroupData[row].Latitude.RoundedTo(3))\t\t\(GroupData[row].Longitude.RoundedTo(3))"
                     }
+                    CellToolTip = CellContents
                 }
                 
             default:
@@ -353,6 +371,14 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
+        if RightJustify
+        {
+            Cell?.textField?.alignment = .right
+        }
+        else
+        {
+            Cell?.textField?.alignment = .left
+        }
         if let ToolTip = CellToolTip
         {
             Cell?.toolTip = ToolTip
@@ -379,20 +405,54 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
                 ParentTable.reloadData()
                 
             case GroupTable:
+                if CurrentParent < 0
+                {
+                    return
+                }
+                GroupIndex = 1
                 let Seconds = Double(AgeFilterValue(From: GroupAgeFilter))
                 GroupData.removeAll()
-                if let Children = ParentData[CurrentParent].Related
+                if ParentData[CurrentParent].IsCluster
                 {
-                    for Quake in Children
+                    if let Children = ParentData[CurrentParent].Related
                     {
-                        let IsInAgeRange = Quake.GetAge() <= Seconds
-                        let IsInMagRange = Quake.GreatestMagnitude >= Double(Settings.GetInt(.GroupEarthquakeDisplayMagnitude, IfZero: 4))
-                        if IsInAgeRange && IsInMagRange
+                        for Quake in Children
                         {
-                            GroupData.append(Quake)
+                            let IsInAgeRange = Quake.GetAge() <= Seconds
+                            let IsInMagRange = Quake.GreatestMagnitude >= Double(Settings.GetInt(.GroupEarthquakeDisplayMagnitude, IfZero: 4))
+                            if IsInAgeRange && IsInMagRange
+                            {
+                                GroupData.append(Quake)
+                            }
                         }
                     }
-                    GroupTable.reloadData()
+                }
+                GroupTable.reloadData()
+                
+            default:
+                return
+        }
+    }
+    
+    //https://www.raywenderlich.com/830-macos-nstableview-tutorial
+    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor])
+    {
+        guard let SortDescriptor = tableView.sortDescriptors.first else
+        {
+            return
+        }
+        switch tableView
+        {
+            case ParentTable:
+                if let Order = ParentTableDescriptors(rawValue: SortDescriptor.key!)
+                {
+                    SortParentTable(By: Order, Ascending: SortDescriptor.ascending)
+                }
+                
+            case GroupTable:
+                if let Order = GroupTableDescriptors(rawValue: SortDescriptor.key!)
+                {
+                    SortGroupedTable(By: Order, Ascending: SortDescriptor.ascending)
                 }
                 
             default:
@@ -434,6 +494,7 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
             {
                 case ParentTable:
                     CurrentParent = Table.selectedRow
+                    /*
                     if CurrentParent < 0
                     {
                         return
@@ -441,12 +502,22 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
                     GroupData.removeAll()
                     if ParentData[CurrentParent].IsCluster
                     {
-                        GroupData = ParentData[CurrentParent].Related!
+                        print("Child count: \(ParentData[CurrentParent].Related!.count)")
+                        if let Related = ParentData[CurrentParent].Related
+                        {
+                            for CloseBy in Related
+                            {
+                                GroupData.append(CloseBy)
+                            }
+                            print("GroupData.count=\(GroupData.count)")
+                        //GroupData = ParentData[CurrentParent].Related!
+                        }
                     }
                     else
                     {
                         GroupData.append(ParentData[CurrentParent])
                     }
+ */
                     UpdateTable(GroupTable)
                     
                 case GroupTable:
@@ -458,17 +529,199 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
         }
     }
     
+    @IBAction func HandleRefreshButtonPressed(_ sender: Any)
+    {
+        RoundTextView.RotateClockwise = false
+        RoundTextView.TextFont = NSFont.boldSystemFont(ofSize: 80.0)
+        RoundTextView.TextRadius = 7.0
+        RoundTextView.RotationOffset = 0.33
+        RoundTextView.AnimationDuration = 0.01
+        RoundTextView.ShowText("Please Wait")
+        RoundTextView.Show()
+        
+        USGSSource?.ForceFetch()
+    }
+    
+    func DoSortParentEarthquakes()
+    {
+        if let Field = LastParentSortField
+        {
+            switch Field
+            {
+                case .Count:
+                    if LastParentSortWasAscending
+                    {
+                        ParentData.sort
+                        {
+                            $0.ClusterCount < $1.ClusterCount
+                        }
+                    }
+                    else
+                    {
+                        ParentData.sort
+                        {
+                            $0.ClusterCount > $1.ClusterCount
+                        }
+                    }
+                    
+                case .Date:
+                    if LastParentSortWasAscending
+                    {
+                        ParentData.sort
+                        {
+                            $0.Time < $1.Time
+                        }
+                    }
+                    else
+                    {
+                        ParentData.sort
+                        {
+                            $0.Time > $1.Time
+                        }
+                    }
+                    
+                case .Magnitude:
+                    if LastParentSortWasAscending
+                    {
+                        ParentData.sort
+                        {
+                            $0.Magnitude < $1.Magnitude
+                        }
+                    }
+                    else
+                    {
+                        ParentData.sort
+                        {
+                            $0.Magnitude > $1.Magnitude
+                        }
+                    }
+            }
+        }
+    }
+
+    var LastParentSortField: ParentTableDescriptors? = nil
+    var LastParentSortWasAscending: Bool = true
+    
+    func DoSortGroupedEarthquakes()
+    {
+        if let Field = LastGroupedSortField
+        {
+            switch Field
+            {
+                case .Code:
+                    if LastGroupedSortWasAscending
+                    {
+                        GroupData.sort
+                        {
+                            $0.Code < $1.Code
+                        }
+                    }
+                        else
+                    {
+                        GroupData.sort
+                        {
+                            $0.Code > $1.Code
+                        }
+                    }
+                    
+                case .Date:
+                    if LastGroupedSortWasAscending
+                    {
+                        GroupData.sort
+                        {
+                            $0.Time < $1.Time
+                        }
+                    }
+                    else
+                    {
+                        GroupData.sort
+                        {
+                            $0.Time > $1.Time
+                        }
+                    }
+                    
+                case .Location:
+                    if LastGroupedSortWasAscending
+                    {
+                        GroupData.sort
+                        {
+                            $0.Place < $1.Place
+                        }
+                    }
+                    else
+                    {
+                        GroupData.sort
+                        {
+                            $0.Place > $1.Place
+                        }
+                    }
+                    
+                case .Magnitude:
+                    if LastGroupedSortWasAscending
+                    {
+                        GroupData.sort
+                        {
+                            $0.Magnitude < $1.Magnitude
+                        }
+                    }
+                    else
+                    {
+                        GroupData.sort
+                        {
+                            $0.Magnitude > $1.Magnitude
+                        }
+                    }
+            }
+        }
+    }
+    
+    var LastGroupedSortField: GroupTableDescriptors? = nil
+    var LastGroupedSortWasAscending: Bool = true
+    
+    func SortParentTable(By: ParentTableDescriptors, Ascending: Bool)
+    {
+        LastParentSortWasAscending = Ascending
+        LastParentSortField = By
+        DoSortParentEarthquakes()
+        ParentTable.reloadData()
+    }
+    
+    func SortGroupedTable(By: GroupTableDescriptors, Ascending: Bool)
+    {
+        LastGroupedSortWasAscending = Ascending
+        LastGroupedSortField = By
+        DoSortGroupedEarthquakes()
+        GroupTable.reloadData()
+    }
+    
     var GroupData = [Earthquake]()
     var DoDecorateCoordinates: Bool = false
     var USGSSource: USGS? = nil
     var ParentData = [Earthquake]()
     
+    @IBOutlet weak var RefreshButton: NSButton!
+    @IBOutlet weak var RoundTextView: RoundTextIndicator!
     @IBOutlet weak var DecorateButton: NSButton!
     @IBOutlet weak var ParentMagnitudeFilter: NSComboBox!
     @IBOutlet weak var ParentAgeFilter: NSComboBox!
     @IBOutlet weak var GroupMagnitudeFilter: NSComboBox!
     @IBOutlet weak var GroupAgeFilter: NSComboBox!
-    @IBOutlet weak var WaitingRing: NSProgressIndicator!
     @IBOutlet weak var ParentTable: NSTableView!
     @IBOutlet weak var GroupTable: NSTableView!
+}
+
+
+enum ParentTableDescriptors: String
+{
+    case Date = "Date"
+    case Magnitude = "Magnitude"
+    case Count = "Count"
+}
+
+enum GroupTableDescriptors: String
+{
+    case Code = "Code"
+    case Location = "Location"
+    case Magnitude = "Magnitude"
+    case Date = "Date"
 }
