@@ -257,6 +257,17 @@ class MainController: NSViewController
     var QuakeController: EarthquakeController? = nil
     var QuakeDelegate: WindowManagement? = nil
     
+    @IBAction func RunTestDialog(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "RoundTextTest", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "RoundTextTest") as? RoundTextTestWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? RoundTextTestController
+            WindowController.showWindow(nil)
+        }
+    }
+    
     /// Array of previous earthquakes (used in a cache-like fasion).
     var PreviousEarthquakes = [Earthquake]()
     
