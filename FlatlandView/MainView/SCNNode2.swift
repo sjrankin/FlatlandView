@@ -137,6 +137,12 @@ class SCNNode2: SCNNode
         }
     }
     
+    /// Convenience value.
+    var SourceAngle: Double = 0.0
+    
+    /// Auxiliary string tag.
+    var AuxiliaryTag: String? = nil
+    
     // MARK: - Bounding shapes.
     
     var _CanShowBoundingShape: Bool = true
