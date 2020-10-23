@@ -43,8 +43,10 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     /// - Parameter Other: The other earthquake that will be used to populate this instance.
     /// - Parameter IncludeRelated: If true, related earthquakes in `Other` are assigned to this
     ///                             instance.
-    init(_ Other: Earthquake, IncludeRelated: Bool = false)
+    /// - Parameter IsBiggest: Flag that determines if the quake is the biggest in a set.
+    init(_ Other: Earthquake, IncludeRelated: Bool = false, IsBiggest: Bool = false)
     {
+        _IsBiggest = IsBiggest
         GreatestMagnitudeValue = 0.0
         Sequence = Other.Sequence
         Code = Other.Code
@@ -68,6 +70,17 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
             {
                 Related = OtherRelated
             }
+        }
+    }
+    
+    /// Holds the biggest earthquake flag.
+    private var _IsBiggest: Bool = false
+    /// Get the biggest earthquake flag.
+    public var IsBiggest: Bool
+    {
+        get
+        {
+            return _IsBiggest
         }
     }
     
@@ -247,6 +260,25 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     
     /// Related earthquakes. Used for aftershocks.
     var Related: [Earthquake]? = nil
+    
+    /// Remove duplicate earthquakes from the related earthquake list. If there are no child earthquakes,
+    /// no action is taken.
+    public func RemoveDuplicates()
+    {
+        if let Children = Related
+        {
+            var Unique = [String: Earthquake]()
+            for Quake in Children
+            {
+                if let _ = Unique[Quake.Code]
+                {
+                    continue
+                }
+                Unique[Quake.Code] = Quake
+            }
+            Related = Children
+        }
+    }
     
     /// Adds another earthquake to this earthquake if it occurs within a specific timeframe and
     /// distance.
