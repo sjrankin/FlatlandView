@@ -618,7 +618,7 @@ extension GlobeView
         let MagNodes = Utility.MakeFloatingWord2(Radius: Radius, Word: Magnitude, Scale: NodeScales3D.EarthquakeText.rawValue,
                                                  Latitude: Quake.Latitude, Longitude: Quake.Longitude, //LatitudeOffset: -YOffset,
                                                  /*LongitudeOffset: XOffset,*/ Extrusion: CGFloat(Quake.GreatestMagnitude),
-                                                 Mask: MetalSunMask | MetalMoonMask, TextFont: MagFont, TextColor: NSColor.black,
+                                                 Mask: MetalSunMask | MetalMoonMask, TextFont: MagFont, _TextColor: NSColor.black,
                                                  TextSpecular: NSColor.white, IsMetallic: true)
         let MagNode = SCNNode()
         MagNode.position = SCNVector3(0.0, 0.0, 0.0)
