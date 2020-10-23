@@ -105,12 +105,12 @@ extension GlobeView
         #if false
         let CameraX = FlatlandCameraNode?.position.x
         let CameraY = FlatlandCameraNode?.position.y
-        let _CameraZ = FlatlandCameraNode?.position.z
+        let CameraZ = FlatlandCameraNode?.position.z
         if Option
         {
             if Settings.GetBool(.EnableZooming)
             {
-                let NewZ = _CameraZ! + CGFloat(DeltaY)
+                let NewZ = CameraZ! + CGFloat(DeltaY)
                 FlatlandCameraNode?.position = SCNVector3(CameraX!, CameraY!, NewZ)
             }
         }
@@ -120,7 +120,7 @@ extension GlobeView
             {
                 FlatlandCameraNode?.position = SCNVector3(CameraX! + CGFloat(-DeltaX),
                                                           CameraY! + CGFloat(DeltaY),
-                                                          _CameraZ!)
+                                                          CameraZ!)
             }
         }
         #endif
