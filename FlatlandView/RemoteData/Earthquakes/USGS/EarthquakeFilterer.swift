@@ -128,7 +128,7 @@ class EarthquakeFilterer
                 NewList.append(Quake)
             }
         }
-        NewList = USGS.CombineEarthquakes(NewList)
+        NewList = USGS.CombineEarthquakes2(NewList) 
         return NewList
     }
     
