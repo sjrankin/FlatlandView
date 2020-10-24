@@ -228,6 +228,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         }
     }
     
+    #if false
     @IBAction func HandleViewCurrentEarthquakes(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
@@ -239,6 +240,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
             WindowController.showWindow(nil)
         }
     }
+    #endif
     
     #if DEBUG
     @IBAction func HandleDebugEarthquakes(_ sender: Any)
