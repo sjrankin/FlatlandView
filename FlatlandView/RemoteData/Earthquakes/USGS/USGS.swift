@@ -577,6 +577,12 @@ class USGS
         return EarliestChild!
     }
     
+    /// Determines whether an earthquake is related to another solely based on distance.
+    /// - Parameter Quake: The quake to determine which group it belongs to.
+    /// - Parameter To: The set of grouped earthquakes. If no other earthquake is found, `Quake` is placed
+    ///                 at the top level. The first earthquake that is within `InRange` is used even if there
+    ///                 are closer earthquakes.
+    /// - Parameter InRange: Distance that determines inclusion.
     private static func AddForCombined2(_ Quake: Earthquake, To TopLevel: inout [Earthquake], InRange: Double)
     {
         if TopLevel.isEmpty
@@ -596,6 +602,11 @@ class USGS
         TopLevel.append(Quake)
     }
     
+    /// Combine earthquakes according to how close they are to each other.
+    /// - Parameter Quakes: The source list of earthquakes.
+    /// - Parameter Closeness: Determines the radius of how close earthquakes must be to be considered to be
+    ///                        in a group.
+    /// - Returns: List of grouped earthquakes.
     public static func CombineEarthquakes2(_ Quakes: [Earthquake], Closeness: Double = 100.0) -> [Earthquake]
     {
         var Combined = [Earthquake]()
@@ -637,7 +648,7 @@ class USGS
     /// - Parameter RelatedOrderedBy: Determines how earthquakes with related earthquakes are ordered. Defaults
     ///                               to `.ByGreatestMagnitude`.
     /// - Returns: Array of combined earthquakes.
-    public static func CombineEarthquakes(_ Quakes: [Earthquake], Closeness: Double = 100.0,
+    public static func CombineEarthquakesX(_ Quakes: [Earthquake], Closeness: Double = 100.0,
                                           RelatedOrderedBy: MultipleQuakeOrders = .ByGreatestMagnitude) -> [Earthquake]
     {
         var Combined = [Earthquake]()
