@@ -22,6 +22,8 @@ enum ViewTypes: String, CaseIterable
     case Globe3D = "3DGlobe"
     /// 3D cube view. Mostly for silliness.
     case CubicWorld = "Cubic"
+    /// Equirectangular map.
+    case Rectangular = "Rectangular"
 }
 
 /// Types of earthquake notifications.
