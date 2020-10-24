@@ -40,6 +40,9 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
             
             case .FlatSouthCenter:
                 MapSampleViewSegment.selectedSegment = 1
+                
+            case .Rectangular:
+                MapSampleViewSegment.selectedSegment = 3
         }
         MapSampleView.image = nil
         LastMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Standard)
