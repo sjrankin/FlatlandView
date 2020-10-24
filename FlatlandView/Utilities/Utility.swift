@@ -1724,20 +1724,28 @@ class Utility
     
     /// Given a date, return a mask image for a flat map.
     /// - Parameter From: The date for the night mask.
+    /// - Parameter IsRectangular: If true, the name returned will be for rectangular night masks.
     /// - Returns: Name of the night mask image file.
-    public static func MakeNightMaskName(From: Date) -> String
+    public static func MakeNightMaskName(From: Date, IsRectangular: Bool = false) -> String
     {
         let Day = Calendar.current.component(.day, from: From)
         let Month = Calendar.current.component(.month, from: From) - 1
         let MonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][Month]
         var Prefix = ""
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
+        if IsRectangular
         {
-            Prefix = ""
+            Prefix = "Flat_"
         }
         else
         {
-            Prefix = "South_"
+            if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatNorthCenter
+            {
+                Prefix = ""
+            }
+            else
+            {
+                Prefix = "South_"
+            }
         }
         return "\(Prefix)\(Day)_\(MonthName)"
     }
@@ -1760,6 +1768,41 @@ class Utility
         let MaskImage = NSImage(named: ImageName)!
         let Final = MaskImage.Alpha(CGFloat(MaskAlpha))
         return Final
+    }
+    
+    /// Get a night mask image for a flat map for the specified date. This is for rectangular night masks.
+    /// - Parameter ForDate: The date of the night mask.
+    /// - Returns: Image for the passed date (and flat map orientation). Nil returned on error.
+    public static func GetRectangularNightMask(ForDate: Date) -> NSImage?
+    {
+        let AlphaLevels: [NightDarknesses: CGFloat] =
+            [
+                .VeryLight: 0.25,
+                .Light: 0.4,
+                .Dark: 0.6,
+                .VeryDark: 0.75
+            ]
+        let ImageName = MakeNightMaskName(From: ForDate, IsRectangular: true)
+        let DarkLevel = Settings.GetEnum(ForKey: .NightDarkness, EnumType: NightDarknesses.self, Default: .Light)
+        let MaskAlpha = AlphaLevels[DarkLevel]!
+        let MaskImage = NSImage(named: ImageName)!
+        let Final = MaskImage.Alpha(CGFloat(MaskAlpha))
+        return Final
+    }
+    
+    /// Given a latitude and longitude, return the equivalent 2D point on a surface with the passed size.
+    /// - Parameter Latitude: The latitude.
+    /// - Parameter Longitude: The longitude.
+    /// - Parameter Width: The width of the surface.
+    /// - Parameter Height: The height of the surface.
+    /// - Returns: Tuple with the (X, Y) value of the point of the latitude, longitude mapped to the surface.
+    public static func PointFromGeo(Latitude: Double, Longitude: Double, Width: Double, Height: Double) -> (X: Double, Y: Double)
+    {
+        let LatPercent = Latitude / 90.0
+        let LonPercent = Longitude / 180.0
+        let Horizontal = (Width * 0.5) * LonPercent + (Width * 0.5)
+        let Vertical = (Height * 0.5) * LatPercent + (Height * 0.5)
+        return (X: Horizontal, Y: Vertical)
     }
     
     /// Calculate the bearing between two geographic points on the Earth using the forward azimuth formula (great circle).
