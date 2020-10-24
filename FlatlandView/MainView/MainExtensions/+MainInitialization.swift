@@ -102,7 +102,7 @@ extension MainController
         }
         InitializeUpdateTimer()
         Started = true
-        let IsFlat = VType == .FlatNorthCenter || VType == .FlatSouthCenter ? true : false
+        let IsFlat = [ViewTypes.FlatNorthCenter, ViewTypes.FlatSouthCenter, ViewTypes.Rectangular].contains(VType)
         SetFlatMode(IsFlat)
     }
     
@@ -196,8 +196,9 @@ extension MainController
                     MainTimeLabelBottom.isHidden = true
                     Main3DView.play(self)
                     Main2DView.pause(self)
+                    Rect2DView.pause(self)
                     
-                case .FlatNorthCenter:
+                case .FlatNorthCenter, .FlatSouthCenter:
                     Main2DView.SunVisibility(IsShowing: true)
                     MainTimeLabelTop.isHidden = false
                     MainTimeLabelBottom.isHidden = true
@@ -208,7 +209,9 @@ extension MainController
                     }
                     Main3DView.pause(self)
                     Main2DView.play(self)
+                    Rect2DView.pause(self)
                     
+                    #if false
                 case .FlatSouthCenter:
                     Main2DView.SunVisibility(IsShowing: true)
                     MainTimeLabelTop.isHidden = true
@@ -220,6 +223,20 @@ extension MainController
                     }
                     Main3DView.pause(self)
                     Main2DView.play(self)
+                    #endif
+                    
+                case .Rectangular:
+                    Main2DView.SunVisibility(IsShowing: true)
+                    MainTimeLabelTop.isHidden = true
+                    MainTimeLabelBottom.isHidden = false
+                    let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+                    if let MapImage = MapManager.ImageFor(MapType: MapValue, ViewType: .Rectangular)
+                    {
+                        Main2DView.SetEarthMap(MapImage)
+                    }
+                    Main3DView.pause(self)
+                    Main2DView.pause(self)
+                    Rect2DView.play(self)
                     
                 default:
                     break
@@ -234,7 +251,7 @@ extension MainController
             #endif
             switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .Solar)
             {
-                case HourValueTypes.None:
+                case .None:
                     (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 0
                     
                 case .RelativeToLocation:
@@ -259,6 +276,9 @@ extension MainController
                     (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 2
                     
                 case .CubicWorld:
+                    (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 4
+                    
+                case .Rectangular:
                     (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 3
             }
             
