@@ -28,7 +28,7 @@ extension FlatView
             case .MapType:
                 let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
                 let CurrentView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
-                if [.FlatNorthCenter, .FlatSouthCenter].contains(CurrentView)
+                if [.FlatNorthCenter, .FlatSouthCenter, .Rectangular].contains(CurrentView)
                 {
                     if let MapImage = MapManager.ImageFor(MapType: MapValue, ViewType: CurrentView)
                     {
