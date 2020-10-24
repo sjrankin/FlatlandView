@@ -233,28 +233,18 @@ class MainController: NSViewController
     @IBAction func ShowEarthquakeList(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
-        #if true
         if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeWindow2") as? GroupedEarthquakeWindow
         {
             let Window = WindowController.window
             let Controller = Window?.contentViewController as? GroupedEarthquakeController
-            Controller?.LoadData(DataType: .Earthquakes, Raw: PreviousEarthquakes as Any)
-            WindowController.showWindow(nil)
-        }
-        #else
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeWindow") as? EarthquakeWindow
-        {
-            let Window = WindowController.window
-            let Controller = Window?.contentViewController as? EarthquakeController
+            QuakeDelegate = Window?.contentView as? WindowManagement
             QuakeController = Controller
-            QuakeDelegate = Controller 
             Controller?.LoadData(DataType: .Earthquakes, Raw: PreviousEarthquakes as Any)
             WindowController.showWindow(nil)
         }
-        #endif
     }
     
-    var QuakeController: EarthquakeController? = nil
+    var QuakeController: GroupedEarthquakeController? = nil
     var QuakeDelegate: WindowManagement? = nil
     
     @IBAction func RunTestDialog(_ sender: Any)
@@ -282,23 +272,39 @@ class MainController: NSViewController
     /// Set the night mask for the day.
     func SetNightMask()
     {
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.FlatSouthCenter) == .Globe3D
-        {
-            return
-        }
-        
         if !Settings.GetBool(.ShowNight)
         {
             Main2DView.HideNightMask()
+            Rect2DView.HideNightMask()
             return
         }
-        if let Image = Utility.GetNightMask(ForDate: Date())
+        let TheView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.FlatSouthCenter)
+        switch TheView
         {
-            Main2DView.AddNightMask(Image)
-        }
-        else
-        {
-            print("No night mask for \(Date()) found.")
+            case .FlatNorthCenter, .FlatSouthCenter:
+                Main2DView.HideNightMask()
+                if let Image = Utility.GetNightMask(ForDate: Date())
+                {
+                    Main2DView.AddNightMask(Image)
+                }
+                else
+                {
+                    print("No night mask for \(Date()) found.")
+                }
+                
+            case .Rectangular:
+                Rect2DView.HideNightMask()
+                if let Image = Utility.GetRectangularNightMask(ForDate: Date())
+                {
+                    Main2DView.AddNightMask(Image)
+                }
+                else
+                {
+                    print("No rectangular night mask for \(Date()) found.")
+                }
+                
+            default:
+                return
         }
     }
     
@@ -331,6 +337,22 @@ class MainController: NSViewController
         else
         {
             Debug.Print("Error getting image for south centered: \(MapValue)")
+        }
+    }
+    
+    /// Resond to the user command to show the flat map in rectangular mode.
+    /// - Parameter sender: Not used.
+    @IBAction func ViewTypeRectangular(_ sender: Any)
+    {
+        Settings.SetEnum(.Rectangular, EnumType: ViewTypes.self, ForKey: .ViewType)
+        let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+        if let MapImage = MapManager.ImageFor(MapType: MapValue, ViewType: .Rectangular)
+        {
+            Rect2DView.SetEarthMap(MapImage)
+        }
+        else
+        {
+            Debug.Print("Error getting image for north centered: \(MapValue)")
         }
     }
     
@@ -423,6 +445,9 @@ class MainController: NSViewController
                     ViewTypeGlobal(sender)
                     
                 case 3:
+                    ViewTypeRectangular(sender)
+                    
+                case 4:
                     ViewTypeCubic(sender)
                     
                 default:
@@ -450,23 +475,36 @@ class MainController: NSViewController
     {
         if IsFlat
         {
-            Main2DView.isHidden = false
             Main3DView.isHidden = true
             switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
             {
                 case .FlatSouthCenter:
                     MainTimeLabelTop.isHidden = true
                     MainTimeLabelBottom.isHidden = false
+                    Main2DView.isHidden = false
+                    Rect2DView.isHidden = true
+                    Main2DView.UpdateHours()
+                    Main2DView.SunVisibility(IsShowing: true)
                     
                 case .FlatNorthCenter:
                     MainTimeLabelTop.isHidden = false
                     MainTimeLabelBottom.isHidden = true
+                    Main2DView.isHidden = false
+                    Rect2DView.isHidden = true
+                    Main2DView.UpdateHours()
+                    Main2DView.SunVisibility(IsShowing: true)
+                    
+                case .Rectangular:
+                    MainTimeLabelTop.isHidden = true
+                    MainTimeLabelBottom.isHidden = false
+                    Main2DView.isHidden = true
+                    Rect2DView.isHidden = false
+                    Rect2DView.UpdateHours()
+                    Rect2DView.SunVisibility(IsShowing: true)
                     
                 default:
                     break
             }
-            Main2DView.UpdateHours()
-            Main2DView.SunVisibility(IsShowing: true)
             SetNightMask()
         }
         else
@@ -474,6 +512,7 @@ class MainController: NSViewController
             Main2DView.SunVisibility(IsShowing: false)
             Main2DView.isHidden = true
             Main3DView.isHidden = false
+            Rect2DView.isHidden = true
         }
     }
     
@@ -513,6 +552,7 @@ class MainController: NSViewController
     
     @IBOutlet var PrimaryView: ParentView!
     @IBOutlet weak var Main2DView: FlatView!
+    @IBOutlet weak var Rect2DView: RectangleView!
     @IBOutlet var Main3DView: GlobeView!
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
