@@ -13,6 +13,8 @@ import SceneKit
 class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
                                    NSWindowDelegate, AsynchronousDataProtocol, WindowManagement
 {
+    public weak var MainDelegate: MainProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -30,8 +32,10 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
         
         DoDecorateCoordinates = Settings.GetBool(.DecorateEarthquakeCoordinates)
         DecorateButton.state = DoDecorateCoordinates ? .on : .off
-
+        
         RefreshButton.toolTip = "Press to refresh earthquakes immediately."
+        
+        QuakeTypeSegment.selectedSegment = 0
         
         ParentTable.tableColumns[0].sortDescriptorPrototype = ParentDateDescriptor
         ParentTable.tableColumns[1].sortDescriptorPrototype = ParentMagnitudeDescriptor
@@ -227,6 +231,8 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
             case .Earthquakes:
                 if let RawData = Raw as? [Earthquake]
                 {
+                    AllQuakes = RawData
+                    SourceAllQuakes = RawData
                     SourceData = USGS.CombineEarthquakes2(RawData)
                     ParentData = SourceData
                     UpdateTable(ParentTable)
@@ -237,6 +243,8 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
         }
     }
     
+    var SourceAllQuakes = [Earthquake]()
+    var AllQuakes = [Earthquake]()
     var SourceData = [Earthquake]()
     
     func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?)
@@ -257,7 +265,14 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
                 return ParentData.count
                 
             case GroupTable:
-                return GroupData.count
+                if ViewingGroupedQuakes
+                {
+                    return GroupData.count
+                }
+                else
+                {
+                    return AllQuakes.count
+                }
                 
             default:
                 return 0
@@ -273,14 +288,12 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
         var CellIdentifier = ""
         var CellToolTip: String? = nil
         var RightJustify = false
+        var IsEnabled = true
         
         switch tableView
         {
             case ParentTable:
-                if let Biggest = ParentData[row].GreatestMagnitudeEarthquake
-                {
-                    print("Biggest=\(Biggest.Code) \(Biggest.Magnitude)M")
-                }
+                IsEnabled = ViewingGroupedQuakes
                 CellToolTip = "\(ParentData[row].Code): \(ParentData[row].Place) \(ParentData[row].GreatestMagnitude)"
                 if tableColumn == tableView.tableColumns[0]
                 {
@@ -321,25 +334,54 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
                 if tableColumn == tableView.tableColumns[1]
                 {
                     CellIdentifier = "CodeColumn"
-                    CellContents = GroupData[row].Code
-                CellToolTip = CellContents
+                    if ViewingGroupedQuakes
+                    {
+                        CellContents = GroupData[row].Code
+                    }
+                    else
+                    {
+                        CellContents = AllQuakes[row].Code
+                    }
+                    CellToolTip = CellContents
                 }
                 if tableColumn == tableView.tableColumns[2]
                 {
                     CellIdentifier = "LocationColumn"
-                    CellContents = GroupData[row].Place
+                    if ViewingGroupedQuakes
+                    {
+                        CellContents = GroupData[row].Place
+                    }
+                    else
+                    {
+                        CellContents = AllQuakes[row].Place
+                    }
                     CellToolTip = CellContents
                 }
                 if tableColumn == tableView.tableColumns[3]
                 {
                     CellIdentifier = "MagnitudeColumn"
-                    CellContents = "\(GroupData[row].Magnitude)"
+                    if ViewingGroupedQuakes
+                    {
+                        CellContents = "\(GroupData[row].Magnitude)"
+                    }
+                    else
+                    {
+                        CellContents = "\(AllQuakes[row].Magnitude)"
+                    }
                     RightJustify = true
                 }
                 if tableColumn == tableView.tableColumns[4]
                 {
                     CellIdentifier = "DateColumn"
-                    let Raw = GroupData[row].Time.PrettyDateTime()
+                    var Raw = ""
+                    if ViewingGroupedQuakes
+                    {
+                        Raw = GroupData[row].Time.PrettyDateTime()
+                    }
+                    else
+                    {
+                        Raw = AllQuakes[row].Time.PrettyDateTime()
+                    }
                     let Parts = Raw.split(separator: "+", omittingEmptySubsequences: true)
                     let Useful = String(Parts[0]).trimmingCharacters(in: .whitespacesAndNewlines)
                     CellContents = Useful
@@ -350,8 +392,18 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
                     CellIdentifier = "CoordinateColumn"
                     if DoDecorateCoordinates
                     {
-                        var Latitude = GroupData[row].Latitude.RoundedTo(3)
-                        var Longitude = GroupData[row].Longitude.RoundedTo(3)
+                        var Latitude: Double = 0.0
+                        var Longitude: Double = 0.0
+                        if ViewingGroupedQuakes
+                        {
+                            Latitude = GroupData[row].Latitude.RoundedTo(3)
+                            Longitude = GroupData[row].Longitude.RoundedTo(3)
+                        }
+                        else
+                        {
+                            Latitude = AllQuakes[row].Latitude.RoundedTo(3)
+                            Longitude = AllQuakes[row].Longitude.RoundedTo(3)
+                        }
                         let LatIndicator = Latitude >= 0.0 ? "N" : "S"
                         let LonIndicator = Longitude < 0.0 ? "W" : "E"
                         Latitude = abs(Latitude)
@@ -360,7 +412,14 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
                     }
                     else
                     {
-                        CellContents = "\(GroupData[row].Latitude.RoundedTo(3))\t\t\(GroupData[row].Longitude.RoundedTo(3))"
+                        if ViewingGroupedQuakes
+                        {
+                            CellContents = "\(GroupData[row].Latitude.RoundedTo(3))\t\t\(GroupData[row].Longitude.RoundedTo(3))"
+                        }
+                        else
+                        {
+                            CellContents = "\(AllQuakes[row].Latitude.RoundedTo(3))\t\t\(AllQuakes[row].Longitude.RoundedTo(3))"
+                        }
                     }
                     CellToolTip = CellContents
                 }
@@ -371,6 +430,14 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
+        if IsEnabled
+        {
+            Cell?.textField?.textColor = NSColor.black
+        }
+        else
+        {
+            Cell?.textField?.textColor = NSColor.systemGray
+        }
         if RightJustify
         {
             Cell?.textField?.alignment = .right
@@ -405,25 +472,42 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
                 ParentTable.reloadData()
                 
             case GroupTable:
-                if CurrentParent < 0
-                {
-                    return
-                }
                 GroupIndex = 1
-                let Seconds = Double(AgeFilterValue(From: GroupAgeFilter))
-                GroupData.removeAll()
-                if ParentData[CurrentParent].IsCluster
+                if ViewingGroupedQuakes
                 {
-                    if let Children = ParentData[CurrentParent].Related
+                    if CurrentParent < 0
                     {
-                        for Quake in Children
+                        return
+                    }
+                    let Seconds = Double(AgeFilterValue(From: GroupAgeFilter))
+                    GroupData.removeAll()
+                    if ParentData[CurrentParent].IsCluster
+                    {
+                        if let Children = ParentData[CurrentParent].Related
                         {
-                            let IsInAgeRange = Quake.GetAge() <= Seconds
-                            let IsInMagRange = Quake.GreatestMagnitude >= Double(Settings.GetInt(.GroupEarthquakeDisplayMagnitude, IfZero: 4))
-                            if IsInAgeRange && IsInMagRange
+                            for Quake in Children
                             {
-                                GroupData.append(Quake)
+                                let IsInAgeRange = Quake.GetAge() <= Seconds
+                                let IsInMagRange = Quake.GreatestMagnitude >= Double(Settings.GetInt(.GroupEarthquakeDisplayMagnitude, IfZero: 4))
+                                if IsInAgeRange && IsInMagRange
+                                {
+                                    GroupData.append(Quake)
+                                }
                             }
+                        }
+                    }
+                }
+                else
+                {
+                    let Seconds = Double(AgeFilterValue(From: GroupAgeFilter))
+                    AllQuakes.removeAll()
+                    for Quake in SourceAllQuakes
+                    {
+                        let IsInAgeRange = Quake.GetAge() <= Seconds
+                        let IsInMagRange = Quake.Magnitude >= Double(Settings.GetInt(.GroupEarthquakeDisplayMagnitude, IfZero: 4))
+                        if IsInAgeRange && IsInMagRange
+                        {
+                            AllQuakes.append(Quake)
                         }
                     }
                 }
@@ -494,30 +578,6 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
             {
                 case ParentTable:
                     CurrentParent = Table.selectedRow
-                    /*
-                    if CurrentParent < 0
-                    {
-                        return
-                    }
-                    GroupData.removeAll()
-                    if ParentData[CurrentParent].IsCluster
-                    {
-                        print("Child count: \(ParentData[CurrentParent].Related!.count)")
-                        if let Related = ParentData[CurrentParent].Related
-                        {
-                            for CloseBy in Related
-                            {
-                                GroupData.append(CloseBy)
-                            }
-                            print("GroupData.count=\(GroupData.count)")
-                        //GroupData = ParentData[CurrentParent].Related!
-                        }
-                    }
-                    else
-                    {
-                        GroupData.append(ParentData[CurrentParent])
-                    }
- */
                     UpdateTable(GroupTable)
                     
                 case GroupTable:
@@ -598,7 +658,7 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
             }
         }
     }
-
+    
     var LastParentSortField: ParentTableDescriptors? = nil
     var LastParentSortWasAscending: Bool = true
     
@@ -611,64 +671,144 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
                 case .Code:
                     if LastGroupedSortWasAscending
                     {
-                        GroupData.sort
+                        if ViewingGroupedQuakes
                         {
-                            $0.Code < $1.Code
+                            GroupData.sort
+                            {
+                                $0.Code < $1.Code
+                            }
+                        }
+                        else
+                        {
+                            AllQuakes.sort
+                            {
+                                $0.Code < $1.Code
+                            }
                         }
                     }
-                        else
+                    else
                     {
-                        GroupData.sort
+                        if ViewingGroupedQuakes
                         {
-                            $0.Code > $1.Code
+                            GroupData.sort
+                            {
+                                $0.Code > $1.Code
+                            }
+                        }
+                        else
+                        {
+                            AllQuakes.sort
+                            {
+                                $0.Code > $1.Code
+                            }
                         }
                     }
                     
                 case .Date:
                     if LastGroupedSortWasAscending
                     {
-                        GroupData.sort
+                        if ViewingGroupedQuakes
                         {
-                            $0.Time < $1.Time
+                            GroupData.sort
+                            {
+                                $0.Time < $1.Time
+                            }
+                        }
+                        else
+                        {
+                            AllQuakes.sort
+                            {
+                                $0.Time < $1.Time
+                            }
                         }
                     }
                     else
                     {
-                        GroupData.sort
+                        if ViewingGroupedQuakes
                         {
-                            $0.Time > $1.Time
+                            GroupData.sort
+                            {
+                                $0.Time > $1.Time
+                            }
+                        }
+                        else
+                        {
+                            AllQuakes.sort
+                            {
+                                $0.Time > $1.Time
+                            }
                         }
                     }
                     
                 case .Location:
                     if LastGroupedSortWasAscending
                     {
-                        GroupData.sort
+                        if ViewingGroupedQuakes
                         {
-                            $0.Place < $1.Place
+                            GroupData.sort
+                            {
+                                $0.Place < $1.Place
+                            }
+                        }
+                        else
+                        {
+                            AllQuakes.sort
+                            {
+                                $0.Place < $1.Place
+                            }
                         }
                     }
                     else
                     {
-                        GroupData.sort
+                        if ViewingGroupedQuakes
                         {
-                            $0.Place > $1.Place
+                            GroupData.sort
+                            {
+                                $0.Place > $1.Place
+                            }
+                        }
+                        else
+                        {
+                            AllQuakes.sort
+                            {
+                                $0.Place > $1.Place
+                            }
                         }
                     }
                     
                 case .Magnitude:
                     if LastGroupedSortWasAscending
                     {
-                        GroupData.sort
+                        if ViewingGroupedQuakes
                         {
-                            $0.Magnitude < $1.Magnitude
+                            GroupData.sort
+                            {
+                                $0.Magnitude < $1.Magnitude
+                            }
+                        }
+                        else
+                        {
+                            AllQuakes.sort
+                            {
+                                $0.Magnitude < $1.Magnitude
+                            }
                         }
                     }
                     else
                     {
-                        GroupData.sort
+                        if ViewingGroupedQuakes
                         {
-                            $0.Magnitude > $1.Magnitude
+                            GroupData.sort
+                            {
+                                $0.Magnitude > $1.Magnitude
+                            }
+                        }
+                        else
+                        {
+                            AllQuakes.sort
+                            {
+                                $0.Magnitude > $1.Magnitude
+                            }
                         }
                     }
             }
@@ -699,6 +839,51 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
     var USGSSource: USGS? = nil
     var ParentData = [Earthquake]()
     
+    var ViewingGroupedQuakes = true
+    
+    func SetTextState(To Enabled: Bool, Text: NSTextField)
+    {
+        Text.isEnabled = Enabled
+        Text.textColor = Enabled ? NSColor.black : NSColor.systemGray
+    }
+    
+    func UpdateView(AsGrouped: Bool = true)
+    {
+        ViewingGroupedQuakes = AsGrouped
+        SetTextState(To: AsGrouped, Text: ParentQuakeLabel)
+        SetTextState(To: AsGrouped, Text: ParentAgeFilterLabel)
+        SetTextState(To: AsGrouped, Text: ParentMagnitudeFilterLabel)
+        if AsGrouped
+        {
+            ChildQuakeLabel.stringValue = "Earthquakes in Group"
+            ParentTable.isEnabled = true
+            ParentMagnitudeFilter.isEnabled = true
+            ParentAgeFilter.isEnabled = true
+        }
+        else
+        {
+            ChildQuakeLabel.stringValue = "All Earthquakes"
+            ParentTable.isEnabled = false
+            ParentMagnitudeFilter.isEnabled = false
+            ParentAgeFilter.isEnabled = false
+        }
+        ParentTable.reloadData()
+        GroupTable.reloadData()
+    }
+    
+    @IBAction func HandleQuakeTypeSegmentChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            UpdateView(AsGrouped: Segment.selectedSegment == 0)
+        }
+    }
+    
+    @IBOutlet weak var ParentMagnitudeFilterLabel: NSTextField!
+    @IBOutlet weak var ParentAgeFilterLabel: NSTextField!
+    @IBOutlet weak var ChildQuakeLabel: NSTextField!
+    @IBOutlet weak var ParentQuakeLabel: NSTextField!
+    @IBOutlet weak var QuakeTypeSegment: NSSegmentedControl!
     @IBOutlet weak var RefreshButton: NSButton!
     @IBOutlet weak var RoundTextView: RoundTextIndicator!
     @IBOutlet weak var DecorateButton: NSButton!
