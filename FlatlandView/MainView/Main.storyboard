@@ -77,19 +77,16 @@
                                 <toolbarItem implicitItemIdentifier="A83762AA-C5FF-4038-AE1E-26FA2FA5BD81" label="Map Type" paletteLabel="Map Type" sizingBehavior="auto" id="FW5-HH-uvu">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="zlI-db-Myb">
-                                        <rect key="frame" x="0.0" y="14" width="154" height="24"/>
+                                        <rect key="frame" x="0.0" y="14" width="191" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="wYc-Ey-nle">
                                             <font key="font" metaFont="system"/>
                                             <segments>
                                                 <segment image="NorthCenterIcon" width="36"/>
                                                 <segment image="SouthCenterIcon" width="36" selected="YES" tag="1"/>
-                                                <segment image="GlobeIcon" width="36">
-                                                    <nil key="label"/>
-                                                </segment>
-                                                <segment image="CubeIcon" width="36">
-                                                    <nil key="label"/>
-                                                </segment>
+                                                <segment image="GlobeIcon" width="36"/>
+                                                <segment image="RectangleIcon" width="36"/>
+                                                <segment image="CubeIcon" width="36"/>
                                             </segments>
                                         </segmentedCell>
                                     </segmentedControl>
@@ -272,6 +269,12 @@
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="ViewTypeGlobal:" target="vAH-R8-aOX" id="9P9-Sg-log"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Rectangular" id="HB6-mA-twY">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="ViewTypeRectangular:" target="vAH-R8-aOX" id="onf-c2-smw"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="eLC-fe-5yU"/>
@@ -668,6 +671,9 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="svV-Ad-1ju" customClass="FlatView" customModule="Flatland" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                             </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="qi4-7r-za1" customClass="RectangleView" customModule="Flatland" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                            </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Zfw-8N-1gC" customClass="GlobeView" customModule="Flatland" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                             </customView>
@@ -682,12 +688,16 @@
                             <constraint firstItem="Zfw-8N-1gC" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" id="Jbz-vN-O5p"/>
                             <constraint firstItem="Iq2-x8-FBV" firstAttribute="centerX" secondItem="6id-Tb-uKs" secondAttribute="centerX" id="KZr-qv-J9R"/>
                             <constraint firstAttribute="trailing" secondItem="svV-Ad-1ju" secondAttribute="trailing" id="Oav-bW-Ump"/>
+                            <constraint firstItem="qi4-7r-za1" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" id="PKB-tP-vfy"/>
                             <constraint firstItem="c9p-QS-cDp" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" id="Qti-U9-QTm"/>
                             <constraint firstItem="Iq2-x8-FBV" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" constant="10" id="UCR-fg-BQR"/>
                             <constraint firstAttribute="trailing" secondItem="c9p-QS-cDp" secondAttribute="trailing" id="Wzy-3a-l4S"/>
                             <constraint firstItem="svV-Ad-1ju" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" id="Zcj-Ib-PwG"/>
+                            <constraint firstAttribute="bottom" secondItem="qi4-7r-za1" secondAttribute="bottom" id="cQO-U8-m1P"/>
+                            <constraint firstItem="qi4-7r-za1" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" id="dQU-jd-r1C"/>
                             <constraint firstAttribute="bottom" secondItem="Zfw-8N-1gC" secondAttribute="bottom" id="f0X-bi-Db7"/>
                             <constraint firstItem="Zfw-8N-1gC" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" id="lD5-i2-P5C"/>
+                            <constraint firstAttribute="trailing" secondItem="qi4-7r-za1" secondAttribute="trailing" id="mLn-Gc-zDx"/>
                             <constraint firstItem="c9p-QS-cDp" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" id="ozL-1O-g6r"/>
                             <constraint firstAttribute="bottom" secondItem="svV-Ad-1ju" secondAttribute="bottom" id="w16-Ft-xYf"/>
                             <constraint firstAttribute="trailing" secondItem="Zfw-8N-1gC" secondAttribute="trailing" id="yaK-PI-PXP"/>
@@ -713,6 +723,7 @@
                         <outlet property="NumericValue" destination="D6t-Vg-hmy" id="rEX-tS-m5g"/>
                         <outlet property="POIView" destination="Y7N-Pp-SAI" id="JZ1-0v-xky"/>
                         <outlet property="PrimaryView" destination="6id-Tb-uKs" id="SgK-oT-a85"/>
+                        <outlet property="Rect2DView" destination="qi4-7r-za1" id="P7U-lU-wEE"/>
                         <outlet property="TypeLabel" destination="mmC-Ta-3E3" id="TaO-PL-fVI"/>
                         <outlet property="TypeValue" destination="Xcx-uH-3wH" id="9Lf-AT-jou"/>
                         <outlet property="UptimeLabel" destination="hB7-Jd-LMG" id="egy-bi-1kP"/>
@@ -738,6 +749,7 @@
         <image name="InfoIcon" width="24" height="24"/>
         <image name="NorthCenterIcon" width="24" height="24"/>
         <image name="PinIcon" width="24" height="24"/>
+        <image name="RectangleIcon" width="24" height="24"/>
         <image name="ResetViewIcon" width="24" height="24"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
     </resources>
