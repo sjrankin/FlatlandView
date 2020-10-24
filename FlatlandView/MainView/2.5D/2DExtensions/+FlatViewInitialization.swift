@@ -152,6 +152,9 @@ extension FlatView
                                 
                             case .FlatSouthCenter:
                                 Settings.SetEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
+                                
+                            case .Rectangular:
+                                Settings.SetEnum(.Rectangular, EnumType: ViewTypes.self, ForKey: .ViewType)
                         }
                         MainDelegate?.UpdateViewType()
                         return
