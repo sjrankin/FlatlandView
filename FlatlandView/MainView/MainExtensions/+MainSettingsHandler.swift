@@ -30,38 +30,57 @@ extension MainController: SettingChangedProtocol
             case .MapType:
                 let NewMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
                 let MapViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
-                if MapViewType == .Globe3D
+                switch MapViewType
                 {
-                    Main3DView.play(self)
-                    Main2DView.pause(self)
-                    let (Earth, Sea) = Main3DView.MakeMaps(NewMap)
-                    if Sea != nil
-                    {
-                        Main3DView.AddEarth()
-                    }
-                    else
-                    {
-                        Main3DView.ChangeEarthBaseMap(To: Earth)
-                    }
-                    if Settings.GetBool(.EnableEarthquakes)
-                    {
-                        Main3DView.ClearEarthquakes()
-                        Main3DView.PlotEarthquakes()
-                    }
-                }
-                else
-                {
-                    Main3DView.pause(self)
-                    Main2DView.play(self)
-                    if let FlatImage = MapManager.ImageFor(MapType: NewMap, ViewType: MapViewType)
-                    {
-                        Main2DView.ApplyNewMap(FlatImage)
-                        Main2DView.PlotEarthquakes(LatestEarthquakes, Replot: true)
-                    }
-                    else
-                    {
-                        Debug.Print("MapManager.ImageFor(\(NewMap), \(MapViewType)) returned nil for image in \(#function)")
-                    }
+                    case .Globe3D:
+                        Main3DView.play(self)
+                        Main2DView.pause(self)
+                        Rect2DView.pause(self)
+                        let (Earth, Sea) = Main3DView.MakeMaps(NewMap)
+                        if Sea != nil
+                        {
+                            Main3DView.AddEarth()
+                        }
+                        else
+                        {
+                            Main3DView.ChangeEarthBaseMap(To: Earth)
+                        }
+                        if Settings.GetBool(.EnableEarthquakes)
+                        {
+                            Main3DView.ClearEarthquakes()
+                            Main3DView.PlotEarthquakes()
+                        }
+                        
+                    case .FlatNorthCenter, .FlatSouthCenter:
+                        Main3DView.pause(self)
+                        Main2DView.play(self)
+                        Rect2DView.pause(self)
+                        if let FlatImage = MapManager.ImageFor(MapType: NewMap, ViewType: MapViewType)
+                        {
+                            Main2DView.ApplyNewMap(FlatImage)
+                            Main2DView.PlotEarthquakes(LatestEarthquakes, Replot: true)
+                        }
+                        else
+                        {
+                            Debug.Print("MapManager.ImageFor(\(NewMap), \(MapViewType)) returned nil for image in \(#function)")
+                        }
+                        
+                    case .Rectangular:
+                        Main3DView.pause(self)
+                        Main2DView.pause(self)
+                        Rect2DView.play(self)
+                        if let FlatImage = MapManager.ImageFor(MapType: NewMap, ViewType: MapViewType)
+                        {
+                            Rect2DView.ApplyNewMap(FlatImage)
+                            Rect2DView.PlotEarthquakes(LatestEarthquakes, Replot: true)
+                        }
+                        else
+                        {
+                            Debug.Print("MapManager.ImageFor(\(NewMap), \(MapViewType)) returned nil for image in \(#function)")
+                        }
+                        
+                    default:
+                        break
                 }
                 
             case .ViewType:
@@ -70,7 +89,7 @@ extension MainController: SettingChangedProtocol
                     var IsFlat = false
                     switch New
                     {
-                        case .FlatNorthCenter, .FlatSouthCenter:
+                        case .FlatNorthCenter, .FlatSouthCenter, .Rectangular:
                             IsFlat = true
                             
                         case .CubicWorld:
@@ -96,16 +115,23 @@ extension MainController: SettingChangedProtocol
                 {
                     let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
                     Earthquakes?.GetEarthquakes(Every: FetchInterval)
-                    if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                    switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D)
                     {
-                        Main3DView.ClearEarthquakes()
-                        Main3DView.PlotEarthquakes()
-                        Main3DView.ApplyStencils()
-                    }
-                    else
-                    {
-                        Main2DView.Remove2DEarthquakes()
-                        Main2DView.Plot2DEarthquakes(PreviousEarthquakes)
+                        case .Globe3D:
+                            Main3DView.ClearEarthquakes()
+                            Main3DView.PlotEarthquakes()
+                            Main3DView.ApplyStencils()
+                            
+                        case .FlatNorthCenter, .FlatSouthCenter:
+                            Main2DView.Remove2DEarthquakes()
+                            Main2DView.Plot2DEarthquakes(PreviousEarthquakes)
+                            
+                        case .Rectangular:
+                            Rect2DView.Remove2DEarthquakes()
+                            Rect2DView.Plot2DEarthquakes(PreviousEarthquakes)
+                            
+                        default:
+                            break
                     }
                 }
                 else
@@ -114,6 +140,7 @@ extension MainController: SettingChangedProtocol
                     Main3DView.ClearEarthquakes()
                     Main3DView.ApplyStencils()
                     Main2DView.Remove2DEarthquakes()
+                    Rect2DView.Remove2DEarthquakes()
                 }
                 
             case .EarthquakeFetchInterval:
@@ -134,9 +161,6 @@ extension MainController: SettingChangedProtocol
                 return
         }
         
-        Debug.Print("Setting \(Setting) handled in Main2")
+        Debug.Print("Setting \(Setting) handled in MainController")
     }
-    
-
-   
 }
