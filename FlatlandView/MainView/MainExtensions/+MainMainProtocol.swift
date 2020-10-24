@@ -82,7 +82,7 @@ extension MainController: MainProtocol
                 switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
                 {
                     case .CubicWorld:
-                        Index = 3
+                        Index = 4
                         
                     case .FlatNorthCenter:
                         Index = 0
@@ -92,6 +92,9 @@ extension MainController: MainProtocol
                         
                     case .Globe3D:
                         Index = 2
+                        
+                    case .Rectangular:
+                        Index = 3
                 }
                 MainWindow.ViewSegment.selectedSegment = Index
             }
