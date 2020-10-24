@@ -23,11 +23,13 @@ class MapItem
     ///            the file's extension.
     ///   - South: Name of the south-centered flat map. External files should specify the full name including
     ///            the file's extension.
+    ///   - Rectangle: The name of the equirectangular map. External files should speicfy the full name including
+    ///                the file's extension.
     ///   - Preload: If true, the map is loaded at instantiation time.
     ///   - LightMultiplier: Value to multiply the intensity of the main light in 2D mode. Defaults
     ///                      to `1.0`.
     init(_ MapType: MapTypes, _ External: Bool, UserMap: Bool = false, _ Global: String, _ North: String,
-         _ South: String, Preload: Bool = false, LightMultiplier: Double = 1.0)
+         _ South: String, Rectangle: String = "", Preload: Bool = false, LightMultiplier: Double = 1.0)
     {
         self.MapType = MapType
         self.UserMap = UserMap
@@ -40,6 +42,7 @@ class MapItem
             let _ = GetMapImage(For: .Global)
             let _ = GetMapImage(For: .North)
             let _ = GetMapImage(For: .South)
+            let _ = GetMapImage(For: .Rectangular)
         }
         LightMultiplier2D = LightMultiplier
     }
@@ -65,7 +68,7 @@ class MapItem
                     }
                     else
                     {
-                        print("Error loading external image \(GlobalMapName)")
+                        Debug.Print("Error loading external image \(GlobalMapName)")
                         return nil
                     }
                 }
@@ -78,11 +81,11 @@ class MapItem
                     }
                     else
                     {
-                        print("Error finding internal image \(GlobalMapName)")
+                        Debug.Print("Error finding internal image \(GlobalMapName)")
                         return nil
                     }
-            }
-            
+                }
+                
             case .North:
                 if let Image = NorthCenterMap
                 {
@@ -97,7 +100,7 @@ class MapItem
                     }
                     else
                     {
-                        print("Error loading external image \(NorthCenterMapName)")
+                        Debug.Print("Error loading external image \(NorthCenterMapName)")
                         return nil
                     }
                 }
@@ -110,11 +113,11 @@ class MapItem
                     }
                     else
                     {
-                        print("Error finding internal image \(NorthCenterMapName)")
+                        Debug.Print("Error finding internal image \(NorthCenterMapName)")
                         return nil
                     }
-            }
-            
+                }
+                
             case .South:
                 if let Image = SouthCenterMap
                 {
@@ -129,7 +132,7 @@ class MapItem
                     }
                     else
                     {
-                        print("Error loading external image \(SouthCenterMapName)")
+                        Debug.Print("Error loading external image \(SouthCenterMapName)")
                         return nil
                     }
                 }
@@ -142,10 +145,42 @@ class MapItem
                     }
                     else
                     {
-                        print("Error finding internal image \(SouthCenterMapName)")
+                        Debug.Print("Error finding internal image \(SouthCenterMapName)")
                         return nil
                     }
-            }
+                }
+                
+            case .Rectangular:
+                if let Image = RectangleMap
+                {
+                    return Image
+                }
+                if IsExternal
+                {
+                    if let Image = FileIO.ImageFromFile(WithName: RectangularMapName)
+                    {
+                        RectangleMap = Image
+                        return Image
+                    }
+                    else
+                    {
+                        Debug.Print("Error loading external image \(RectangularMapName)")
+                        return nil
+                    }
+                }
+                else
+                {
+                    if let Image = NSImage(named: RectangularMapName)
+                    {
+                        RectangleMap = Image
+                        return Image
+                    }
+                    else
+                    {
+                        Debug.Print("Error finding internal image \(RectangularMapName)")
+                        return nil
+                    }
+                }
         }
     }
     
@@ -153,9 +188,11 @@ class MapItem
     public var GlobalMapName: String = ""
     public var NorthCenterMapName: String = ""
     public var SouthCenterMapName: String = ""
+    public var RectangularMapName: String = ""
     public var GlobalMap: NSImage? = nil
     public var NorthCenterMap: NSImage? = nil
     public var SouthCenterMap: NSImage? = nil
+    public var RectangleMap: NSImage? = nil
     public var MapType: MapTypes = .Standard
     public var UserMap: Bool = false
     public var LightMultiplier2D: Double = 1.0
@@ -170,4 +207,6 @@ enum MapFunctions
     case North
     /// Map image will be used as a flat (eg, 2D) map with south at the center.
     case South
+    /// Map image will be used as a flat, equirectangular map.
+    case Rectangular
 }
