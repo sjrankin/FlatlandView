@@ -379,8 +379,8 @@
                                 <gridCells>
                                     <gridCell row="25d-yX-VTO" column="yal-5i-zf2" id="xXq-KH-Pkn">
                                         <button key="contentView" hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KvK-Tw-vIZ">
-                                            <rect key="frame" x="-2" y="2" width="125" height="18"/>
-                                            <buttonCell key="cell" type="check" title="Transparent map" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="eaw-on-k18">
+                                            <rect key="frame" x="-2" y="2" width="54" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Clear" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="eaw-on-k18">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -390,14 +390,17 @@
                                         </button>
                                     </gridCell>
                                     <gridCell row="25d-yX-VTO" column="lQh-Gq-Pcb" id="wSc-fA-Kc3">
-                                        <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nR2-lJ-icJ">
-                                            <rect key="frame" x="145" y="-2" width="152" height="24"/>
+                                        <segmentedControl key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nR2-lJ-icJ">
+                                            <rect key="frame" x="96" y="-2" width="201" height="24"/>
                                             <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="stt-ut-57F">
                                                 <font key="font" metaFont="system"/>
                                                 <segments>
                                                     <segment image="NorthCenterIcon" width="48"/>
                                                     <segment image="SouthCenterIcon" width="48" tag="1"/>
                                                     <segment image="GlobeIcon" width="48" selected="YES">
+                                                        <nil key="label"/>
+                                                    </segment>
+                                                    <segment image="RectangleIcon" width="48">
                                                         <nil key="label"/>
                                                     </segment>
                                                 </segments>
@@ -4722,7 +4725,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="qcY-TD-JNO" column="nSO-dn-FGw" id="acg-VR-n6a">
                                                     <gridView key="contentView" horizontalCompressionResistancePriority="752" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ef-Usi">
-                                                        <rect key="frame" x="0.0" y="107" width="361" height="19"/>
+                                                        <rect key="frame" x="0.0" y="107" width="167" height="19"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="sVk-73-Bgl" secondAttribute="trailing" id="O4K-h6-qme"/>
                                                             <constraint firstItem="sVk-73-Bgl" firstAttribute="leading" secondItem="enU-rc-XSn" secondAttribute="trailing" constant="6" id="Ttw-N2-c9M"/>
@@ -5068,7 +5071,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="UgZ-w5-wxa" column="Qdo-3i-Rde" id="ggL-5Z-t0L">
                                         <gridView key="contentView" horizontalCompressionResistancePriority="755" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
-                                            <rect key="frame" x="0.0" y="0.0" width="350" height="21"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="196" height="21"/>
                                             <rows>
                                                 <gridRow id="MvR-7n-9cc"/>
                                             </rows>
@@ -6471,6 +6474,7 @@ DQ
         <image name="GlobeIcon" width="24" height="24"/>
         <image name="LeftArrowRed" width="32" height="32"/>
         <image name="NorthCenterIcon" width="24" height="24"/>
+        <image name="RectangleIcon" width="24" height="24"/>
         <image name="RightArrowGreen" width="32" height="32"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
     </resources>
