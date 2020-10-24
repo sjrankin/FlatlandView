@@ -15,6 +15,8 @@ class MapManager
 {
     /// Returns an image for the specified map type and view type.
     /// - Note: Map images are cached upon use.
+    /// - Note: `.Rectangular` view type maps return the same image as `.Globe3D` view type maps. It is up
+    ///         to the caller to use them differently.
     /// - Parameter MapType: The type (style) of map image to return. See `MapTypes` for available map types.
     /// - Parameter ViewType: The general view type (flat or global) of the program.
     /// - Parameter ImageCenter: For `.FlatMap` `ViewType`s only. Determines which pole is in the
@@ -42,6 +44,9 @@ class MapManager
                     {
                     return SomeMap.GetMapImage(For: .Global)
                     }
+                    
+                case .Rectangular:
+                    return SomeMap.GetMapImage(For: .Global)
                 
                 default:
                     return nil
