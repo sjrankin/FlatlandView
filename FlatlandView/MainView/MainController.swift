@@ -50,6 +50,7 @@ class MainController: NSViewController
             {
                 if self.Location.y >= 0 && self.Location.y < self.view.window!.frame.size.height
                 {
+                    self.Rect2DView.MouseAt(Point: CGPoint(x: self.Location.x, y: self.Location.y))
                     self.Main2DView.MouseAt(Point: CGPoint(x: self.Location.x, y: self.Location.y))
                     self.Main3DView.MouseAt(Point: CGPoint(x: self.Location.x, y: self.Location.y))
                 }
@@ -267,6 +268,7 @@ class MainController: NSViewController
     {
         Main3DView.ResetCamera()
         Main2DView.ResetCamera()
+        Rect2DView.ResetCamera()
     }
     
     /// Set the night mask for the day.
@@ -296,7 +298,7 @@ class MainController: NSViewController
                 Rect2DView.HideNightMask()
                 if let Image = Utility.GetRectangularNightMask(ForDate: Date())
                 {
-                    Main2DView.AddNightMask(Image)
+                    Rect2DView.AddNightMask(Image)
                 }
                 else
                 {
@@ -500,7 +502,7 @@ class MainController: NSViewController
                     Main2DView.isHidden = true
                     Rect2DView.isHidden = false
                     Rect2DView.UpdateHours()
-                    Rect2DView.SunVisibility(IsShowing: true)
+                    //Rect2DView.SunVisibility(IsShowing: true)
                     
                 default:
                     break
