@@ -15,14 +15,13 @@ extension RectangleView
     /// Add the earthquake layer. This layer is where all earthquake objects are placed.
     func AddEarthquakeLayer()
     {
-        let Flat = SCNBox(width: 28.0, height: 0.05, length: 14.0, chamferRadius: 0.0)
+        let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue),
+                          length: CGFloat(RectMode.MapDepth.rawValue), chamferRadius: 0.0)
         QuakePlane = SCNNode(geometry: Flat)
         QuakePlane.categoryBitMask = LightMasks3D.Sun.rawValue
         QuakePlane.name = NodeNames2D.EarthquakePlane.rawValue
         QuakePlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         QuakePlane.geometry?.firstMaterial?.isDoubleSided = true
-        QuakePlane.scale = SCNVector3(1.0, 1.0, 1.0)
-        QuakePlane.eulerAngles = SCNVector3(180.0.Radians, 180.0.Radians, 180.0.Radians)
         QuakePlane.position = SCNVector3(0.0, 0.0, 0.0)
         self.scene?.rootNode.addChildNode(QuakePlane)
     }
@@ -55,16 +54,8 @@ extension RectangleView
         let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
         let Percent = Double(ElapsedSeconds) / Double(24 * 60 * 60)
         
-        var FinalOffset = 0.0
-        var Multiplier = -1.0
-        /*
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            FinalOffset = 180.0
-            Multiplier = 1.0
-        }
- */
-        let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
+        let Multiplier = -1.0
+        let Radians = MakeRadialTime(From: Percent, With: 0.0) * Multiplier
         
         PlotEarthquakes(Quakes, RadialTime: Radians, Replot: Replot)
     }
@@ -80,16 +71,8 @@ extension RectangleView
         let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
         let Percent = Double(ElapsedSeconds) / Double(24 * 60 * 60)
         
-        var FinalOffset = 0.0
-        var Multiplier = -1.0
-        /*
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            FinalOffset = 180.0
-            Multiplier = 1.0
-        }
- */
-        let Radians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
+            let Multiplier = -1.0
+        let Radians = MakeRadialTime(From: Percent, With: 0.0) * Multiplier
         PlotPreviousEarthquakes(RadialTime: Radians)
     }
     
@@ -179,25 +162,8 @@ extension RectangleView
     /// - Returns: The earthquake node in the proper orientation and position.
     func PlotPyramid(Quake: Earthquake, Radius: Double, Invert: Bool = true) -> SCNNode2
     {
-        #if true
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude, Width: 28.0, Height: 14.0)
-        #else
-        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
-        var LongitudeAdjustment = -1.0
-        /*
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            LongitudeAdjustment = 1.0
-        }
- */
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
-        let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
-        Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
-        let PointX = Distance * cos(LocationBearing)
-        let PointY = Distance * sin(LocationBearing)
-        #endif
+        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+                                                    Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         
         var BaseColor = NSColor.red
         let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
@@ -215,6 +181,7 @@ extension RectangleView
                                  length: CGFloat(FlatConstants.MainEarthquakeNodeBase.rawValue))
         Pyramid.firstMaterial?.diffuse.contents = BaseColor
         let ENode = SCNNode2(geometry: Pyramid)
+        ENode.castsShadow = true
         ENode.name = NodeNames2D.Earthquake.rawValue
         ENode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         if Invert
@@ -237,23 +204,8 @@ extension RectangleView
     /// - Returns: The earthquake node in the proper orientation and position.
     func PlotInvertedCone(Quake: Earthquake, Radius: Double, Invert: Bool = true) -> SCNNode2
     {
-        #if true
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude, Width: 28.0, Height: 14.0)
-        #else
-        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
-        var LongitudeAdjustment = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            LongitudeAdjustment = 1.0
-        }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
-        let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
-        Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
-        let PointX = Distance * cos(LocationBearing)
-        let PointY = Distance * sin(LocationBearing)
-        #endif
+        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+                                                    Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         
         var BaseColor = NSColor.red
         let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
@@ -266,11 +218,13 @@ extension RectangleView
             }
         }
         
+        let ConeHeight = CGFloat(FlatConstants.MainEarthquakeNodeHeight.rawValue)
         let CenterCone = SCNCone(topRadius: CGFloat(FlatConstants.MainEarthquakeNodeBase.rawValue),
                                  bottomRadius: 0.0,
-                                 height: CGFloat(FlatConstants.MainEarthquakeNodeHeight.rawValue))
+                                 height: ConeHeight)
         CenterCone.firstMaterial?.diffuse.contents = BaseColor
         let ENode = SCNNode2(geometry: CenterCone)
+        ENode.castsShadow = true
         ENode.name = NodeNames2D.Earthquake.rawValue
         ENode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         if Invert
@@ -281,10 +235,7 @@ extension RectangleView
         {
             ENode.eulerAngles = SCNVector3(-90.0.Radians, 0.0, 0.0)
         }
-        ENode.position = SCNVector3(PointX,
-                                    PointY,
-                                    Double(FlatConstants.MainEarthquakeNodeHeight.rawValue) * 0.5 *
-                                        Double(NodeScales2D.EarthquakeScale.rawValue))
+        ENode.position = SCNVector3(PointX, PointY, 0.0 + Double(ConeHeight / 2.0))
         return ENode
     }
     
@@ -294,23 +245,8 @@ extension RectangleView
     /// - Returns: The earthquake node in the proper orientation and position.
     func PlotEarthquakeCircle(Quake: Earthquake, Radius: Double) -> SCNNode2
     {
-        #if true
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude, Width: 28.0, Height: 14.0)
-        #else
-        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
-        var LongitudeAdjustment = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            LongitudeAdjustment = 1.0
-        }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
-        let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
-        Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
-        let PointX = Distance * cos(LocationBearing)
-        let PointY = Distance * sin(LocationBearing)
-        #endif
+        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+                                                    Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         
         var BaseColor = NSColor.red
         let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
@@ -326,12 +262,13 @@ extension RectangleView
         let Circle = SCNCylinder(radius: 0.15, height: 0.1)
         Circle.firstMaterial?.diffuse.contents = BaseColor
         let ENode = SCNNode2(geometry: Circle)
+        ENode.castsShadow = true
         ENode.name = NodeNames2D.Earthquake.rawValue
         ENode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         ENode.eulerAngles = SCNVector3(-90.0.Radians, 180.0.Radians, 0.0)
         ENode.position = SCNVector3(PointX,
                                     PointY,
-                                    0.05)
+                                    0.0)
         return ENode
     }
     
@@ -372,25 +309,10 @@ extension RectangleView
         SmallStar.geometry?.firstMaterial?.diffuse.contents = Opposite
         Star.addChildNode(SmallStar)
         SmallStar.position = SCNVector3(0.0, 0.0, 0.0)
-        
-        #if true
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude, Width: 28.0, Height: 14.0)
-        #else
-        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
-        var LongitudeAdjustment = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            LongitudeAdjustment = 1.0
-        }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
-        let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
-        Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
-        let PointX = Distance * cos(LocationBearing)
-        let PointY = Distance * sin(LocationBearing)
-        #endif
-        Star.position = SCNVector3(PointX, PointY, 4.0 * Scale * 0.5)
+
+        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+                                                    Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
+        Star.position = SCNVector3(PointX, PointY, 0.0)//4.0 * Scale * 0.5)
         
         return Star
     }
@@ -401,23 +323,8 @@ extension RectangleView
     /// - Returns: The earthquake node in the proper orientation and position.
     func PlotSpikyCone(Quake: Earthquake, Radius: Double) -> SCNNode2
     {
-        #if true
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude, Width: 28.0, Height: 14.0)
-        #else
-        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
-        var LongitudeAdjustment = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            LongitudeAdjustment = 1.0
-        }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
-        let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
-        Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
-        let PointX = Distance * cos(LocationBearing)
-        let PointY = Distance * sin(LocationBearing)
-        #endif
+        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+                                                    Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         
         var BaseColor = NSColor.red
         let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
@@ -452,8 +359,9 @@ extension RectangleView
         Cone4.firstMaterial?.diffuse.contents = BaseColor
         
         let ENode = SCNNode2()
+        ENode.castsShadow = true
         ENode.name = NodeNames2D.Earthquake.rawValue
-        //ENode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
+        ENode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         
         let CenterNode = SCNNode2(geometry: CenterCone)
         CenterNode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
@@ -480,12 +388,10 @@ extension RectangleView
         Node4.position = SCNVector3(FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0, 0.0)
         Node4.eulerAngles = SCNVector3(135.0.Radians, 0.0, 90.0.Radians)
         ENode.addChildNode(Node4)
-        
+        let FinalZ = (FlatConstants.MainEarthquakeNodeHeight.rawValue / 2.0) * 0.7
         ENode.scale = SCNVector3(NodeScales2D.EarthquakeScale.rawValue)
-        ENode.position = SCNVector3(PointX,
-                                    PointY,
-                                    Double(FlatConstants.MainEarthquakeNodeHeight.rawValue) * 0.5 *
-                                        Double(NodeScales2D.EarthquakeScale.rawValue))
+        ENode.position = SCNVector3(PointX, PointY, FinalZ)
+        ENode.eulerAngles = SCNVector3(0.0.Radians, 0.0.Radians, 90.0.Radians)
         ENode.RotateOnX = false
         ENode.RotateOnY = false
         ENode.RotateOnZ = true
