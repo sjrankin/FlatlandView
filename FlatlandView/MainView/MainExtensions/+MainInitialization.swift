@@ -56,6 +56,7 @@ extension MainController
         NodeTables.Initialize(Unesco: WorldHeritageSites!)
         
         Main2DView.InitializeLocations()
+        Rect2DView.InitializeLocations()
         Main3DView.PlotCities()
     }
     
@@ -180,6 +181,10 @@ extension MainController
         Main2DView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
         Main2DView.MainDelegate = self
         
+        Rect2DView.wantsLayer = true
+        Rect2DView.layer?.zPosition = CGFloat(LayerZLevels.InactiveLayer.rawValue)
+        Rect2DView.MainDelegate = self
+        
         let DoubleClickRecognizer = NSClickGestureRecognizer(target: self,
                                                              action: #selector(HandleDoubleClick))
         DoubleClickRecognizer.numberOfClicksRequired = 2
@@ -211,28 +216,14 @@ extension MainController
                     Main2DView.play(self)
                     Rect2DView.pause(self)
                     
-                    #if false
-                case .FlatSouthCenter:
-                    Main2DView.SunVisibility(IsShowing: true)
-                    MainTimeLabelTop.isHidden = true
-                    MainTimeLabelBottom.isHidden = false
-                    let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
-                    if let MapImage = MapManager.ImageFor(MapType: MapValue, ViewType: .FlatSouthCenter)
-                    {
-                        Main2DView.SetEarthMap(MapImage)
-                    }
-                    Main3DView.pause(self)
-                    Main2DView.play(self)
-                    #endif
-                    
                 case .Rectangular:
-                    Main2DView.SunVisibility(IsShowing: true)
+                    //Rect2DView.SunVisibility(IsShowing: true)
                     MainTimeLabelTop.isHidden = true
                     MainTimeLabelBottom.isHidden = false
                     let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
                     if let MapImage = MapManager.ImageFor(MapType: MapValue, ViewType: .Rectangular)
                     {
-                        Main2DView.SetEarthMap(MapImage)
+                        Rect2DView.SetEarthMap(MapImage)
                     }
                     Main3DView.pause(self)
                     Main2DView.pause(self)
