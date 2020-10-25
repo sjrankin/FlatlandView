@@ -1795,14 +1795,25 @@ class Utility
     /// - Parameter Longitude: The longitude.
     /// - Parameter Width: The width of the surface.
     /// - Parameter Height: The height of the surface.
+    /// - Parameter OriginInCenter: If true, the point is adjusted such that the origin of the surface is
+    ///                             in the center.
     /// - Returns: Tuple with the (X, Y) value of the point of the latitude, longitude mapped to the surface.
-    public static func PointFromGeo(Latitude: Double, Longitude: Double, Width: Double, Height: Double) -> (X: Double, Y: Double)
+    public static func PointFromGeo(Latitude: Double, Longitude: Double, Width: Double, Height: Double,
+                                    OriginInCenter: Bool = true) -> (X: Double, Y: Double)
     {
-        let LatPercent = Latitude / 90.0
-        let LonPercent = Longitude / 180.0
-        let Horizontal = (Width * 0.5) * LonPercent + (Width * 0.5)
-        let Vertical = (Height * 0.5) * LatPercent + (Height * 0.5)
-        return (X: Horizontal, Y: Vertical)
+        let AdjustedLat = 90.0 + Latitude
+        let AdjustedLon = 180.0 + Longitude
+        let LatPercent = AdjustedLat / 180.0
+        let LonPercent = AdjustedLon / 360.0
+        var Horizontal = Width * LonPercent
+        var Vertical = Height * LatPercent
+        if OriginInCenter
+        {
+            Horizontal = (Width / 2.0) - Horizontal
+            Vertical = (Height / 2.0) - Vertical
+        }
+        //On Mac OSes, the coordinates are reversed so we have to return the value multiplied by -1 for each.
+        return (X: -Horizontal, Y: -Vertical)
     }
     
     /// Calculate the bearing between two geographic points on the Earth using the forward azimuth formula (great circle).
