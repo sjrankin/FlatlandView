@@ -69,13 +69,13 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var QuakePlane = SCNNode()
     var UNESCOPlane = SCNNode()
     
-    /// Set the 2D earth map.
+    /// Set the 2D, rectangular earth map.
     /// - Parameter NewImage: The image to use for the view.
     func SetEarthMap(_ NewImage: NSImage)
     {
         let ImageTiff = NewImage.tiffRepresentation
         var CImage = CIImage(data: ImageTiff!)
-        let Transform = CGAffineTransform(scaleX: -1, y: 1)
+        let Transform = CGAffineTransform(scaleX: -1, y: -1)
         CImage = CImage?.transformed(by: Transform)
         let CImageRep = NSCIImageRep(ciImage: CImage!)
         let Final = NSImage(size: CImageRep.size)
@@ -277,6 +277,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     /// - Parameter ShowShadows: Value that determines whether shadows are shown or not.
     func UpdateLightsForShadows(ShowShadows: Bool)
     {
+        #if false
         if ShowShadows
         {
             SunLight.intensity = 0.0
@@ -301,10 +302,10 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         else
         {
             //FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue
-            print("FlatEarthNode.categoryBitMask=\(FlatEarthNode.categoryBitMask)")
             SunLight.intensity = CGFloat(FlatConstants.SunLightIntensity.rawValue)
             PolarLight.intensity = 0
         }
+        #endif
     }
     
     /// Handle mouse motion reported by the main view controller.
@@ -313,48 +314,44 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     /// - Parameter Point: The point in the view reported by the main controller.
     func MouseAt(Point: CGPoint)
     {
-        let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
-        if MapCenter == .FlatSouthCenter || MapCenter == .FlatNorthCenter
+        let HitObject = self.hitTest(Point, options: [.boundingBoxOnly: true])
+        if HitObject.count > 0
         {
-            let HitObject = self.hitTest(Point, options: [.boundingBoxOnly: true])
-            if HitObject.count > 0
+            if let Node = HitObject[0].node as? SCNNode2
             {
-                if let Node = HitObject[0].node as? SCNNode2
+                if let NodeID = Node.NodeID
                 {
-                    if let NodeID = Node.NodeID
+                    if PreviousNodeID != nil
                     {
-                        if PreviousNodeID != nil
+                        if PreviousNodeID! == NodeID
                         {
-                            if PreviousNodeID! == NodeID
-                            {
-                                return
-                            }
-                        }
-                        PreviousNodeID = NodeID
-                        if PreviousNode != nil
-                        {
-                            if Settings.GetBool(.HighlightNodeUnderMouse)
-                            {
-                                PreviousNode?.HideBoundingShape()
-                            }
-                        }
-                        if let NodeData = NodeTables.GetItemData(For: NodeID)
-                        {
-                            MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
-                            if Settings.GetBool(.HighlightNodeUnderMouse)
-                            {
-                                Node.ShowBoundingShape(.Sphere,
-                                                       LineColor: NSColor.red,
-                                                       SegmentCount: 10)
-                            }
-                            PreviousNode = Node
+                            return
                         }
                     }
+                    PreviousNodeID = NodeID
+                    if PreviousNode != nil
+                    {
+                        if Settings.GetBool(.HighlightNodeUnderMouse)
+                        {
+                            PreviousNode?.HideBoundingShape()
+                        }
+                    }
+                    if let NodeData = NodeTables.GetItemData(For: NodeID)
+                    {
+                        MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
+                        if Settings.GetBool(.HighlightNodeUnderMouse)
+                        {
+                            Node.ShowBoundingShape(.Sphere,
+                                                   LineColor: NSColor.red,
+                                                   SegmentCount: 10)
+                        }
+                        PreviousNode = Node
+                    }
                 }
-                else
-                {
-                    MainDelegate?.DisplayNodeInformation(ItemData: nil)
-                }
+            }
+            else
+            {
+                MainDelegate?.DisplayNodeInformation(ItemData: nil)
             }
         }
     }
