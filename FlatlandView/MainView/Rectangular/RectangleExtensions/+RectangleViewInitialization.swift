@@ -17,6 +17,8 @@ extension RectangleView
     {
         Settings.AddSubscriber(self)
         
+        self.scene = SCNScene()
+        
         #if DEBUG
         showsStatistics = true
         var DebugTypes = [DebugOptions3D]()
@@ -73,7 +75,6 @@ extension RectangleView
         
         self.allowsCameraControl = true
         self.autoenablesDefaultLighting = false
-        self.scene = SCNScene()
         self.backgroundColor = NSColor.clear
         self.antialiasingMode = .multisampling2X
         self.isJitteringEnabled = true
@@ -83,14 +84,13 @@ extension RectangleView
         AddEarth() 
         StartClock()
         UpdateEarthView()
-        AddHourLayer() 
+        AddHourLayer()
         AddHours(HourRadius: FlatConstants.HourRadius.rawValue)
         AddNightMaskLayer()
         AddGridLayer()
         AddCityLayer()
         AddHeritageLayer()
         AddEarthquakeLayer()
-        AddSun()
         UpdateLightsForShadows(ShowShadows: Settings.GetBool(.Show2DShadows))
         SetupMouseHandling()
     }
