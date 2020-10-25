@@ -218,6 +218,9 @@
 		17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */; };
 		17DDEAD3251C3A8500B0ADE7 /* MainRunProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDEAD2251C3A8500B0ADE7 /* MainRunProtocol.swift */; };
 		17DF115E2512F3B400F04EAF /* AnimatedGradientLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */; };
+		17DFAF4F2545A53C00374344 /* ImageShifter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DFAF4E2545A53C00374344 /* ImageShifter.swift */; };
+		17DFAF532545A56300374344 /* ImageShiftParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DFAF522545A56300374344 /* ImageShiftParameters.swift */; };
+		17DFAF562545A5BE00374344 /* ImageShifter.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17DFAF552545A5BE00374344 /* ImageShifter.metal */; };
 		17E3D4F124FE2091004712BB /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3D4F024FE2091004712BB /* NSWindow.swift */; };
 		17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3EDC524B5B222007C1D72 /* FontHelper.swift */; };
 		17E5EF5124F0DE2C00665167 /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E5EF5024F0DBC600665167 /* libc++abi.tbd */; };
@@ -257,7 +260,6 @@
 		17F17A4D24DE7B1B00568A4E /* LinesDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F17A4C24DE7B1B00568A4E /* LinesDraw.swift */; };
 		17F1C7C92543F8650046AE33 /* RectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1C7C82543F8650046AE33 /* RectangleView.swift */; };
 		17F1C7CE2543F8A50046AE33 /* +RectangleViewInitialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1C7CD2543F8A50046AE33 /* +RectangleViewInitialization.swift */; };
-		17F1C7D22543F9250046AE33 /* +RectangleSuns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1C7D12543F9250046AE33 /* +RectangleSuns.swift */; };
 		17F1C7D52543F9460046AE33 /* +RectangleLights.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1C7D42543F9460046AE33 /* +RectangleLights.swift */; };
 		17F1C7D82543F99D0046AE33 /* +RectangleNodeHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1C7D72543F99D0046AE33 /* +RectangleNodeHandling.swift */; };
 		17F1C7DB2543F9FA0046AE33 /* +RectangleHours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1C7DA2543F9FA0046AE33 /* +RectangleHours.swift */; };
@@ -512,6 +514,9 @@
 		17DDA0462484EB280090E1EB /* LocationEditingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEditingProtocol.swift; sourceTree = "<group>"; };
 		17DDEAD2251C3A8500B0ADE7 /* MainRunProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRunProtocol.swift; sourceTree = "<group>"; };
 		17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedGradientLayer.swift; sourceTree = "<group>"; };
+		17DFAF4E2545A53C00374344 /* ImageShifter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageShifter.swift; sourceTree = "<group>"; };
+		17DFAF522545A56300374344 /* ImageShiftParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageShiftParameters.swift; sourceTree = "<group>"; };
+		17DFAF552545A5BE00374344 /* ImageShifter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageShifter.metal; sourceTree = "<group>"; };
 		17E3D4F024FE2091004712BB /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
 		17E3EDC524B5B222007C1D72 /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
 		17E5EF5024F0DBC600665167 /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
@@ -557,7 +562,6 @@
 		17F17A4C24DE7B1B00568A4E /* LinesDraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinesDraw.swift; sourceTree = "<group>"; };
 		17F1C7C82543F8650046AE33 /* RectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleView.swift; sourceTree = "<group>"; };
 		17F1C7CD2543F8A50046AE33 /* +RectangleViewInitialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+RectangleViewInitialization.swift"; sourceTree = "<group>"; };
-		17F1C7D12543F9250046AE33 /* +RectangleSuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+RectangleSuns.swift"; sourceTree = "<group>"; };
 		17F1C7D42543F9460046AE33 /* +RectangleLights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+RectangleLights.swift"; sourceTree = "<group>"; };
 		17F1C7D72543F99D0046AE33 /* +RectangleNodeHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+RectangleNodeHandling.swift"; sourceTree = "<group>"; };
 		17F1C7DA2543F9FA0046AE33 /* +RectangleHours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+RectangleHours.swift"; sourceTree = "<group>"; };
@@ -1163,6 +1167,7 @@
 				175F661224DE7401007B3A60 /* LineDraw */,
 				17A3787E24DC249E00EE2B45 /* ImageBlender */,
 				17B7D7AE24CED06B000C077B /* SolidColor */,
+				17DFAF4D2545A52800374344 /* ImageShift */,
 				17B7D7A924CED00B000C077B /* ImageFlip */,
 				17B7D7B524CED0DD000C077B /* Resize */,
 				1747BDBC2513515B002B51D9 /* Gradient */,
@@ -1257,6 +1262,16 @@
 				174F010D248CD0F700F610DD /* MainSettings */,
 			);
 			path = SettingsCode;
+			sourceTree = "<group>";
+		};
+		17DFAF4D2545A52800374344 /* ImageShift */ = {
+			isa = PBXGroup;
+			children = (
+				17DFAF4E2545A53C00374344 /* ImageShifter.swift */,
+				17DFAF522545A56300374344 /* ImageShiftParameters.swift */,
+				17DFAF552545A5BE00374344 /* ImageShifter.metal */,
+			);
+			path = ImageShift;
 			sourceTree = "<group>";
 		};
 		17E5EF4F24F0DBC500665167 /* Frameworks */ = {
@@ -1398,7 +1413,6 @@
 			isa = PBXGroup;
 			children = (
 				17F1C7CD2543F8A50046AE33 /* +RectangleViewInitialization.swift */,
-				17F1C7D12543F9250046AE33 /* +RectangleSuns.swift */,
 				17F1C7D42543F9460046AE33 /* +RectangleLights.swift */,
 				17F1C7D72543F99D0046AE33 /* +RectangleNodeHandling.swift */,
 				17F1C7DA2543F9FA0046AE33 /* +RectangleHours.swift */,
@@ -1594,6 +1608,7 @@
 				1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */,
 				1740F49B2493173A00F6FAAE /* Hours.swift in Sources */,
 				1750044324B4640B006528A4 /* FontProtocol.swift in Sources */,
+				17DFAF562545A5BE00374344 /* ImageShifter.metal in Sources */,
 				1760024224D2BFFE00D5EA1A /* Array.swift in Sources */,
 				176CBB76251B08E800D6C0AD /* EnumConstants.swift in Sources */,
 				17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */,
@@ -1680,11 +1695,13 @@
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
 				172F4A2724FA1A900014A65E /* EditorProtocol.swift in Sources */,
 				17E5EF5F24F1051400665167 /* Debug.swift in Sources */,
+				17DFAF4F2545A53C00374344 /* ImageShifter.swift in Sources */,
 				17C22C2524EA1F94006BB3AB /* NASAMapConfirmWindow.swift in Sources */,
 				1759AE5B249F7781003F79F5 /* MainSettingsBase.swift in Sources */,
 				1736A4E1252EB36D0070EE7F /* CityManager.swift in Sources */,
 				17EF33A8247A936900A5B55D /* Solar.swift in Sources */,
 				17EF339A247A673900A5B55D /* FileIO.swift in Sources */,
+				17DFAF532545A56300374344 /* ImageShiftParameters.swift in Sources */,
 				178E1C9D2518288500FDC75B /* +Camera.swift in Sources */,
 				1720B388248B68A1001202E5 /* AutoLocationProtocol.swift in Sources */,
 				1759AE62249F81A4003F79F5 /* UserLocation.swift in Sources */,
@@ -1798,7 +1815,6 @@
 				17CFEC582522BDAE005C3E49 /* NSView.swift in Sources */,
 				1750044524B46E73006528A4 /* FontNameWindow.swift in Sources */,
 				1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */,
-				17F1C7D22543F9250046AE33 /* +RectangleSuns.swift in Sources */,
 				1737101024E2BB7300BC6CF8 /* Stenciler.swift in Sources */,
 				1797ED3D24E7B976005C74A0 /* FlatlandNotification.swift in Sources */,
 				1716DB1624E5011E00C4F8BD /* CustomCityWindow.swift in Sources */,
