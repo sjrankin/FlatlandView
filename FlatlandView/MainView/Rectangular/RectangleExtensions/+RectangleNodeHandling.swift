@@ -16,7 +16,8 @@ extension RectangleView
     
     func AddEarth()
     {
-        let Flat = SCNBox(width: 28.0, height: 0.05, length: 14.0, chamferRadius: 0.0)
+        let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapDepth.rawValue),
+                          length: CGFloat(RectMode.MapHeight.rawValue), chamferRadius: 0.0)
         FlatEarthNode = SCNNode(geometry: Flat)
         FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue | LightMasks2D.Polar.rawValue
         var Image: NSImage!
@@ -46,15 +47,13 @@ extension RectangleView
     /// Add the grid layer. Grid "lines" are all 3D shapes generated on the fly.
     func AddGridLayer()
     {
-        let Flat = SCNCylinder(radius: CGFloat(FlatConstants.FlatRadius.rawValue),
-                               height: CGFloat(FlatConstants.GridLayerThickness.rawValue))
-        Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
+        let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue),
+         length: CGFloat(RectMode.MapDepth.rawValue), chamferRadius: 0.0)
         GridNode = SCNNode(geometry: Flat)
         GridNode.castsShadow = false
         GridNode.categoryBitMask = LightMasks2D.Grid.rawValue
         GridNode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         GridNode.position = SCNVector3(0.0, 0.0, 0.0)
-        GridNode.eulerAngles = SCNVector3(90.0.Radians, 180.0.Radians, 90.0.Radians)
         self.scene?.rootNode.addChildNode(GridNode)
         PopulateGrid()
     }
@@ -66,26 +65,31 @@ extension RectangleView
         {
             Node.removeFromParentNode()
         }
-        let EquatorLocation = CGFloat(FlatConstants.FlatRadius.rawValue) / 2.0
-        let CancerLocation = (CGFloat(FlatConstants.FlatRadius.rawValue) * (90.0 + 23.4366) / 180.0)
-        let CapricornLocation = (CGFloat(FlatConstants.FlatRadius.rawValue) * (90.0 - 23.4366) / 180.0)
-        let ArcticLocation = CGFloat(FlatConstants.FlatRadius.rawValue * (90.0 + 66.56) / 180.0)
-        let AntarcticLocation = CGFloat(FlatConstants.FlatRadius.rawValue * (90.0 - 66.56) / 180.0)
-        let Equator = MakeRing(Radius: EquatorLocation)
-        let CancerRing = MakeRing(Radius: CancerLocation)
-        let CapricornRing = MakeRing(Radius: CapricornLocation)
-        let ArcticRing = MakeRing(Radius: ArcticLocation)
-        let AntarcticRing = MakeRing(Radius: AntarcticLocation)
-        GridNode.addChildNode(Equator)
-        GridNode.addChildNode(CancerRing)
-        GridNode.addChildNode(CapricornRing)
-        GridNode.addChildNode(ArcticRing)
-        GridNode.addChildNode(AntarcticRing)
-        let Center = CGFloat(FlatConstants.FlatRadius.rawValue / 2.0)
-        let VLine = MakeVerticalLine(At: Center, Height: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0))
-        let HLine = MakeHorizontalLine(At: Center, Width: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0))
-        GridNode.addChildNode(VLine)
-        GridNode.addChildNode(HLine)
+        let HalfHeight: CGFloat = CGFloat(RectMode.MapHeight.rawValue / 2.0)
+        let EquatorLocation = HalfHeight - CGFloat(RectMode.MapHeight.rawValue / 2.0)
+        let CancerLocation = HalfHeight - CGFloat(RectMode.MapHeight.rawValue) * ((90.0 + 23.4366) / 180.0)
+        let CapricornLocation = HalfHeight - CGFloat(RectMode.MapHeight.rawValue) * ((90.0 - 23.4366) / 180.0)
+        let ArcticLocation = HalfHeight - CGFloat(RectMode.MapHeight.rawValue * (90.0 + 66.56) / 180.0)
+        let AntarcticLocation = HalfHeight - CGFloat(RectMode.MapHeight.rawValue * (90.0 - 66.56) / 180.0)
+        let EqLine = MakeHorizontalLine(At: EquatorLocation, Width: CGFloat(RectMode.MapWidth.rawValue))
+        let CanLine = MakeHorizontalLine(At: CancerLocation, Width: CGFloat(RectMode.MapWidth.rawValue))
+        let CapLine = MakeHorizontalLine(At: CapricornLocation, Width: CGFloat(RectMode.MapWidth.rawValue))
+        let ArLine = MakeHorizontalLine(At: ArcticLocation, Width: CGFloat(RectMode.MapWidth.rawValue))
+        let AnLine = MakeHorizontalLine(At: AntarcticLocation, Width: CGFloat(RectMode.MapWidth.rawValue))
+        GridNode.addChildNode(EqLine)
+        GridNode.addChildNode(CanLine)
+        GridNode.addChildNode(CapLine)
+        GridNode.addChildNode(ArLine)
+        GridNode.addChildNode(AnLine)
+        let HalfWidth = CGFloat(RectMode.MapWidth.rawValue / 2.0)
+        let PrimeMeridian = MakeVerticalLine(At: HalfWidth - CGFloat(RectMode.MapWidth.rawValue / 2.0),
+                                             Height: CGFloat(RectMode.MapHeight.rawValue))
+        GridNode.addChildNode(PrimeMeridian)
+        let AntiPrimeMeridian0 = MakeVerticalLine(At: -HalfWidth, Height: CGFloat(RectMode.MapHeight.rawValue))
+        let AntiPrimeMeridian1 = MakeVerticalLine(At: CGFloat(RectMode.MapWidth.rawValue) - HalfWidth,
+                                                  Height: CGFloat(RectMode.MapHeight.rawValue))
+        GridNode.addChildNode(AntiPrimeMeridian0)
+        GridNode.addChildNode(AntiPrimeMeridian1)
     }
     
     /// Create a vertical line at the specified horizontal position.
@@ -94,13 +98,25 @@ extension RectangleView
     /// - Returns: A long and skinny box that functions as a line.
     func MakeVerticalLine(At: CGFloat, Height: CGFloat) -> SCNNode
     {
-        let LineShape = SCNBox(width: Height, height: 0.1, length: 0.1, chamferRadius: 0.0)
+        let LineShape = SCNBox(width: CGFloat(RectMode.LineWidth.rawValue),
+                               height: Height,
+                               length: CGFloat(RectMode.LineWidth.rawValue),
+                               chamferRadius: 0.0)
         let LineNode = SCNNode(geometry: LineShape)
         LineNode.categoryBitMask = LightMasks2D.Grid.rawValue
         LineNode.castsShadow = false
         LineNode.name = NodeNames2D.GridNodes.rawValue
-        LineNode.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.GridLineColor, NSColor.black)
-        LineNode.position = SCNVector3(0.0, 0.0, 0.0)
+        LineNode.geometry?.firstMaterial?.diffuse.contents = NSColor.systemTeal//Settings.GetColor(.GridLineColor, NSColor.black)
+        var FinalX = At
+        if At < CGFloat(-RectMode.MapWidth.rawValue / 2.0)
+        {
+            FinalX = CGFloat(-RectMode.MapWidth.rawValue / 2.0)
+        }
+        if At > CGFloat(RectMode.MapWidth.rawValue / 2.0)
+        {
+            FinalX = CGFloat(RectMode.MapWidth.rawValue / 2.0) - At
+        }
+        LineNode.position = SCNVector3(FinalX, 0.0, 0.0)
         return LineNode
     }
     
@@ -110,45 +126,29 @@ extension RectangleView
     /// - Returns: A long and skinny box that functions as a line.
     func MakeHorizontalLine(At: CGFloat, Width: CGFloat) -> SCNNode
     {
-        let LineShape = SCNBox(width: 0.1, height: 0.1, length: Width, chamferRadius: 0.0)
+        let LineShape = SCNBox(width: Width,
+                               height: CGFloat(RectMode.LineWidth.rawValue),
+                               length: CGFloat(RectMode.LineWidth.rawValue),
+                               chamferRadius: 0.0)
         let LineNode = SCNNode(geometry: LineShape)
         LineNode.categoryBitMask = LightMasks2D.Grid.rawValue
         LineNode.name = NodeNames2D.GridNodes.rawValue
         LineNode.castsShadow = false
         LineNode.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.GridLineColor, NSColor.black)
-        LineNode.position = SCNVector3(0.0, 0.0, 0.0)
+        LineNode.position = SCNVector3(0.0, At, 0.0)
         return LineNode
-    }
-    
-    /// Create a circle (ring) that is used as a latitude line.
-    /// - Parameter Radius: The radius of the ring.
-    /// - Returns: A thin ring.
-    func MakeRing(Radius: CGFloat) -> SCNNode
-    {
-        let RingShape = SCNTorus(ringRadius: Radius, pipeRadius: 0.06)
-        let RingNode = SCNNode(geometry: RingShape)
-        RingNode.categoryBitMask = LightMasks2D.Grid.rawValue
-        RingShape.ringSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
-        RingShape.pipeSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
-        RingNode.name = NodeNames2D.GridNodes.rawValue
-        RingNode.castsShadow = false
-        RingNode.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.GridLineColor, NSColor.black)
-        RingNode.position = SCNVector3(0.0, 0.0, 0.0)
-        return RingNode
     }
     
     /// Creates a shape to be used to hold the night mask.
     func AddNightMaskLayer()
     {
-        let Flat = SCNCylinder(radius: CGFloat(FlatConstants.FlatRadius.rawValue),
-                               height: CGFloat(FlatConstants.NightMaskThickness.rawValue))
-        Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
+        let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue),
+                          length: CGFloat(RectMode.MapDepth.rawValue), chamferRadius: 0.0)
         NightMaskNode = SCNNode(geometry: Flat)
         NightMaskNode.categoryBitMask = LightMasks2D.Sun.rawValue
         NightMaskNode.castsShadow = false
-        NightMaskNode.geometry?.firstMaterial?.diffuse.contents = nil
-        NightMaskNode.position = SCNVector3(0.0, 0.0, 0.0)
-        NightMaskNode.eulerAngles = SCNVector3(90.0.Radians, 180.0.Radians, 90.0.Radians)
+        NightMaskNode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        NightMaskNode.position = SCNVector3(0.0, 0.0, 0.01)
         self.scene?.rootNode.addChildNode(NightMaskNode)
     }
     
@@ -225,15 +225,15 @@ extension RectangleView
     /// Create the World Heritage Layer.
     func AddHeritageLayer()
     {
-        let Flat = SCNPlane(width: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0),
-                            height: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0))
+        let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapDepth.rawValue),
+                          length: CGFloat(RectMode.MapHeight.rawValue), chamferRadius: 0.0)
         UNESCOPlane = SCNNode(geometry: Flat)
         UNESCOPlane.categoryBitMask = LightMasks3D.Sun.rawValue
         UNESCOPlane.name = NodeNames2D.WorldHeritageSite.rawValue
         UNESCOPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         UNESCOPlane.geometry?.firstMaterial?.isDoubleSided = true
         UNESCOPlane.scale = SCNVector3(1.0, 1.0, 1.0)
-        UNESCOPlane.eulerAngles = SCNVector3(180.0.Radians, 180.0.Radians, 180.0.Radians)
+        UNESCOPlane.eulerAngles = SCNVector3(90.0.Radians, 180.0.Radians, 0.0.Radians)
         UNESCOPlane.position = SCNVector3(0.0, 0.0, 0.0)
         self.scene?.rootNode.addChildNode(UNESCOPlane)
     }
