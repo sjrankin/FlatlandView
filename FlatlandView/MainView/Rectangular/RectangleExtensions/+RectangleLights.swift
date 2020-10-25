@@ -79,9 +79,9 @@ extension RectangleView
         PolarLight.name = LightNames.Polar2D.rawValue
         PolarLight.categoryBitMask = LightMasks2D.Polar.rawValue
         PolarLight.type = .spot
-        PolarLight.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
+        PolarLight.intensity = 1300//CGFloat(FlatConstants.PolarLightIntensity.rawValue)
         PolarLight.castsShadow = true
-        PolarLight.shadowColor = NSColor.black.withAlphaComponent(CGFloat(Defaults.ShadowAlpha.rawValue))
+        PolarLight.shadowColor = NSColor.black//.withAlphaComponent(0.95)//CGFloat(Defaults.ShadowAlpha.rawValue))
         PolarLight.shadowMode = .forward
         PolarLight.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
         PolarLight.shadowSampleCount = 1
@@ -97,10 +97,17 @@ extension RectangleView
         PolarNode = SCNNode()
         PolarNode.name = LightNames.Polar2D.rawValue
         PolarNode.light = PolarLight
-        let PolarNodeY = CGFloat(FlatConstants.FlatRadius.rawValue) + CGFloat(FlatConstants.PolarSunRimOffset.rawValue)
-        PolarNode.position = SCNVector3(0.0, PolarNodeY, CGFloat(FlatConstants.PolarLightZTerminal.rawValue))
-        let XOrientation = CGFloat(FlatConstants.PolarLightXOrientation.rawValue.Radians)
-        PolarNode.eulerAngles = SCNVector3(XOrientation, 0.0, 0.0)
+        //let PolarNodeY = CGFloat(FlatConstants.FlatRadius.rawValue) + CGFloat(FlatConstants.PolarSunRimOffset.rawValue)
+        let PolarNodeY = CGFloat(35)
+        let PolarNodeZ = CGFloat(10)
+        PolarNode.position = SCNVector3(0.0, PolarNodeY, PolarNodeZ)
+//        PolarNode.position = SCNVector3(0.0, PolarNodeY, CGFloat(FlatConstants.PolarLightZTerminal.rawValue))
+        #if true
+        PolarNode.eulerAngles = SCNVector3(CGFloat(240.0.Radians), CGFloat(180.0.Radians), 0.0)
+        #else
+        let XOrientation = CGFloat(-FlatConstants.PolarLightXOrientation.rawValue.Radians)
+        PolarNode.eulerAngles = SCNVector3(XOrientation, CGFloat(180.0.Radians), 0.0)
+        #endif
         self.scene?.rootNode.addChildNode(PolarNode)
     }
     
@@ -111,6 +118,7 @@ extension RectangleView
     ///                   reset to the default value found in `FlatConstants.PolarLightIntensity`.
     func UpdatePolarLight(With IntensityMultiplier: Double)
     {
+        #if false
         if IntensityMultiplier == 1.0
         {
             PolarNode.light?.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
@@ -118,65 +126,7 @@ extension RectangleView
         }
         let NewIntensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue * IntensityMultiplier)
         PolarNode.light?.intensity = NewIntensity
-    }
-    
-    /// Move the polar light to the appropriate pole to cast shadows.
-    /// - Note: The 2D sun node is also moved along with the light.
-    /// - Parameter ToNorth: Determines if the polar light is moved to the north or south pole.
-    func MovePolarLight(ToNorth: Bool)
-    {
-        var LightPath = Utility.PointsOnArc(Radius: FlatConstants.FlatRadius.rawValue + FlatConstants.PolarSunRimOffset.rawValue,
-                                            Count: Int(FlatConstants.LightPathSegmentCount.rawValue))
-        if ToNorth
-        {
-            LightPath = LightPath.reversed()
-        }
-        LightPath = Utility.AdjustPointsOnArc(LightPath, XValue: 0.0, ZOffset: Double(PolarNode.position.z),
-                                              ZMultiplier: FlatConstants.PolarLightPathZMultiplier.rawValue)
-        LightNode.position = LightPath[0]
-        let OverallDuration = FlatConstants.PolarAnimationDuration.rawValue
-        let XOrientation = CGFloat(FlatConstants.PolarLightXOrientation.rawValue.Radians)
-        var NewPitch: CGFloat = 0.0
-        if ToNorth
-        {
-            NewPitch = -XOrientation
-        }
-        else
-        {
-            NewPitch = XOrientation
-        }
-        let SegmentDuration = OverallDuration / Double(LightPath.count - 1)
-        var ArcSegments = [SCNAction]()
-        for Index in 1 ..< LightPath.count
-        {
-            let Motion = SCNAction.move(to: SCNVector3(0.0, LightPath[Index].y, LightPath[Index].z), duration: SegmentDuration)
-            ArcSegments.append(Motion)
-        }
-        let MotionSequence = SCNAction.sequence(ArcSegments)
-        
-        let IntensityAnimation = SCNAction.customAction(duration: OverallDuration)
-        {
-            Node, Elapsed in
-            let PercentElapsed = Elapsed / CGFloat(OverallDuration)
-            var Percent = PercentElapsed > 0.5 ? 1.0 - PercentElapsed : PercentElapsed
-            Percent = 1.0 - Percent
-            Node.light?.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue * self.PrimaryLightMultiplier) * Percent
-        }
-        
-        let Pitch = SCNAction.rotateTo(x: NewPitch, y: 0.0, z: 0.0, duration: OverallDuration)
-        let Batch = SCNAction.group([MotionSequence, Pitch, IntensityAnimation])
-        PolarNode.runAction(Batch)
-        {
-            self.PolarNode.removeAllAnimations()
-        }
-        
-        let SunPoleOrientation = SCNAction.rotateTo(x: CGFloat(180.0.Radians), y: 0.0, z: 0.0,
-                                                    duration: OverallDuration)
-        let SunBatch = SCNAction.group([MotionSequence, SunPoleOrientation])
-        SunNode.runAction(SunBatch)
-        {
-            self.SunNode.removeAllAnimations()
-        }
+        #endif
     }
     
     /// Set the light for the grid.
