@@ -39,19 +39,13 @@ extension RectangleView
     /// Add the city layer. This layer is where all city-related objects are placed.
     func AddCityLayer()
     {
-        #if false
-        let Flat = SCNPlane(width: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0),
-                            height: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0))
-        #else
-        let Flat = SCNPlane(width: 28.0, height: 14.0)
-        #endif
+        let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue),
+                          length: CGFloat(RectMode.MapDepth.rawValue), chamferRadius: 0.0)
         CityPlane = SCNNode(geometry: Flat)
         CityPlane.categoryBitMask = LightMasks3D.Sun.rawValue
         CityPlane.name = NodeNames2D.LocationPlane.rawValue
         CityPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         CityPlane.geometry?.firstMaterial?.isDoubleSided = true
-        CityPlane.scale = SCNVector3(1.0, 1.0, 1.0)
-        CityPlane.eulerAngles = SCNVector3(180.0.Radians, 180.0.Radians, 180.0.Radians)
         CityPlane.position = SCNVector3(0.0, 0.0, 0.0)
         self.scene?.rootNode.addChildNode(CityPlane)
     }
@@ -160,24 +154,9 @@ extension RectangleView
         }
         CityNode.castsShadow = true
         
-        #if true
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude, Width: 28.0, Height: 14.0)
-        #else
-        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
-        var LongitudeAdjustment = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            LongitudeAdjustment = 1.0
-        }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
-        let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
-        Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
-        let PointX = Distance * cos(LocationBearing)
-        let PointY = Distance * sin(LocationBearing)
-        #endif
-        CityNode.position = SCNVector3(PointX, PointY, FlatConstants.UserCityHeight.rawValue * 0.5)
+        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
+                                                    Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
+        CityNode.position = SCNVector3(PointX, PointY, 0.0)//FlatConstants.UserCityHeight.rawValue * 0.5)
         CityNode.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
         
         return CityNode
@@ -203,23 +182,8 @@ extension RectangleView
         }
         CityNode.castsShadow = true
         
-        #if true
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude, Width: 28.0, Height: 14.0)
-        #else
-        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
-        var LongitudeAdjustment = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            LongitudeAdjustment = 1.0
-        }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
-        let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
-        Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
-        let PointX = Distance * cos(LocationBearing)
-        let PointY = Distance * sin(LocationBearing)
-        #endif
+        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
+                                                    Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         CityNode.position = SCNVector3(PointX, PointY, 0.0)
         
         return CityNode
@@ -247,23 +211,8 @@ extension RectangleView
         }
         CityNode.castsShadow = true
         
-        #if true
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude, Width: 28.0, Height: 14.0)
-        #else
-        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
-        var LongitudeAdjustment = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            LongitudeAdjustment = 1.0
-        }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
-        let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
-        Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
-        let PointX = Distance * cos(LocationBearing)
-        let PointY = Distance * sin(LocationBearing)
-        #endif
+        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
+                                                    Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         CityNode.position = SCNVector3(PointX, PointY, 0.0)
         
         return CityNode
@@ -308,23 +257,8 @@ extension RectangleView
         Star.addChildNode(SmallStar)
         SmallStar.position = SCNVector3(0.0, 0.0, 0.0)
         
-        #if true
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude, Width: 28.0, Height: 14.0)
-        #else
-        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
-        var LongitudeAdjustment = -1.0
-        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
-        {
-            LongitudeAdjustment = 1.0
-        }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
-        let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
-        Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
-        let PointX = Distance * cos(LocationBearing)
-        let PointY = Distance * sin(LocationBearing)
-        #endif
+        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
+                                                    Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         Star.position = SCNVector3(PointX, PointY, FlatConstants.HomeStarOverallZ.rawValue)
         
         return Star
