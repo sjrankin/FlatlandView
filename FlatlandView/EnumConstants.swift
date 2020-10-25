@@ -198,6 +198,21 @@ enum FlatConstants: Double, CaseIterable
     case HomeStarOverallZ = 0.10000050069
 }
 
+// MARK: - Rectangle view constants.
+
+/// Constants for rectangle mode.
+enum RectMode: Double
+{
+    /// Width of the map.
+    case MapWidth = 30.0
+    /// Height of the map.
+    case MapHeight = 15.0
+    /// Depth of the map.
+    case MapDepth = 0.02
+    /// Width/height of grid lines.
+    case LineWidth = 0.04
+}
+
 // MARK: - Z level values for old-style 2D mode.
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
