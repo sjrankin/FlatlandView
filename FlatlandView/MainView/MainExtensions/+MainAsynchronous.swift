@@ -22,6 +22,7 @@ extension MainController: AsynchronousDataProtocol
                 {
                     Main3DView.NewEarthquakeList(NewEarthquakes, Final: DoneWithStenciling)
                     Main2DView.PlotEarthquakes(NewEarthquakes, Replot: true)
+                    Rect2DView.PlotEarthquakes(NewEarthquakes, Replot: true)
                     LatestEarthquakes = NewEarthquakes
                     #if false
                     Main3DView.UpdateLayer(.Test)
