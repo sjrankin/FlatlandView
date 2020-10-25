@@ -14,15 +14,13 @@ extension RectangleView
 {
     func AddHourLayer()
     {
-        let Flat = SCNPlane(width: CGFloat(FlatConstants.HourRadius.rawValue * 2.0),
-                            height: CGFloat(FlatConstants.HourRadius.rawValue * 2.0))
+        let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue),
+                          length: CGFloat(RectMode.MapDepth.rawValue), chamferRadius: 0.0)
         HourPlane = SCNNode(geometry: Flat)
         HourPlane.categoryBitMask = LightMasks3D.Sun.rawValue
         HourPlane.name = NodeNames2D.HourPlane.rawValue
         HourPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         HourPlane.geometry?.firstMaterial?.isDoubleSided = true
-        HourPlane.scale = SCNVector3(1.0, 1.0, 1.0)
-        HourPlane.eulerAngles = SCNVector3(180.0.Radians, 180.0.Radians, 180.0.Radians)
         HourPlane.position = SCNVector3(0.0, 0.0, 0.0)
         self.scene?.rootNode.addChildNode(HourPlane)
     }
@@ -37,13 +35,16 @@ extension RectangleView
                 break
                 
             case .Solar:
-                MakeSolarHours(HourRadius: HourRadius)
+                //MakeSolarHours(HourRadius: HourRadius)
+            break
                 
             case .RelativeToNoon:
-                MakeNoonRelativeHours(HourRadius: HourRadius)
+                //MakeNoonRelativeHours(HourRadius: HourRadius)
+            break
                 
             case .RelativeToLocation:
-                MakeRelativetoLocationHours(HourRadius: HourRadius)
+                //MakeRelativetoLocationHours(HourRadius: HourRadius)
+            break
         }
     }
     
