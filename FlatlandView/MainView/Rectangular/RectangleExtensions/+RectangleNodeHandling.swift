@@ -142,14 +142,27 @@ extension RectangleView
     /// Creates a shape to be used to hold the night mask.
     func AddNightMaskLayer()
     {
+        let light = SCNLight()
+        light.intensity = 1000
+        light.color = NSColor.white
+        light.categoryBitMask = LightMasks2D.NightMask.rawValue
+        let ln = SCNNode()
+        ln.light = light
+        ln.position = SCNVector3(0.0,0.0,30.0)
+        self.scene?.rootNode.addChildNode(ln)
+        #if true
+        let Flat = SCNPlane(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue))
+        #else
         let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue),
                           length: CGFloat(RectMode.MapDepth.rawValue), chamferRadius: 0.0)
-        NightMaskNode = SCNNode(geometry: Flat)
-        NightMaskNode.categoryBitMask = LightMasks2D.Sun.rawValue
-        NightMaskNode.castsShadow = false
-        NightMaskNode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
-        NightMaskNode.position = SCNVector3(0.0, 0.0, 0.01)
-        self.scene?.rootNode.addChildNode(NightMaskNode)
+        #endif
+        RectNightMaskNode = SCNNode(geometry: Flat)
+        RectNightMaskNode.categoryBitMask = LightMasks2D.NightMask.rawValue
+        RectNightMaskNode.castsShadow = false
+        RectNightMaskNode.name = "NIGHT MASK PLANE"
+        RectNightMaskNode.geometry?.firstMaterial?.diffuse.contents = nil
+        RectNightMaskNode.position = SCNVector3(0.0, 0.0, 0.03)
+        self.scene?.rootNode.addChildNode(RectNightMaskNode)
     }
     
     /// Remove all nodes with the specified name from the scene's root node.
@@ -196,12 +209,47 @@ extension RectangleView
     /// Adds a night mask to the view. The current date will be used.
     func AddNightMask()
     {
-        if let Mask = Utility.GetNightMask(ForDate: Date())
+        if let Mask = Utility.GetRectangularNightMask(ForDate: Date())
         {
-            AddNightMask(Mask)
+            let ImageTiff = Mask.tiffRepresentation
+            var CImage = CIImage(data: ImageTiff!)
+            let Transform = CGAffineTransform(scaleX: -1, y: 1)
+            CImage = CImage?.transformed(by: Transform)
+            let CImageRep = NSCIImageRep(ciImage: CImage!)
+            let Final = NSImage(size: CImageRep.size)
+            Final.addRepresentation(CImageRep)
+            NightMaskImage = Final
+            AdjustNightMask(With: GetPercentTimeUTC())
         }
     }
     
+    /// Adjusts the night mask to the passed percent.
+    /// - Note: If the passed percent is the same as the previously passed percent, no action is taken.
+    /// - Parameter With: The time percent for solar noon.
+    func AdjustNightMask(With Percent: Double)
+    {
+        if Settings.GetBool(.ShowNight)
+        {
+            if let SourceImage = NightMaskImage
+            {
+                if let Previous = PreviousNightMaskValue
+                {
+                    if Previous == Percent
+                    {
+                        return
+                    }
+                }
+                PreviousNightMaskValue = Percent
+                let Width = Double(SourceImage.size.width)
+                let ShiftAmount = Width * Percent
+                print("ShiftAmount=\(ShiftAmount)")
+                let ShiftedImage = SourceImage.HorizontalShift(By: Int(ShiftAmount))
+                RectNightMaskNode.geometry?.firstMaterial?.diffuse.contents = ShiftedImage
+            }
+        }
+    }
+    
+    #if false
     /// Add the night mask image to the night mask node.
     /// - Parameter Image: The night mask image to add.
     func AddNightMask(_ Image: NSImage)
@@ -213,13 +261,16 @@ extension RectangleView
         let CImageRep = NSCIImageRep(ciImage: CImage!)
         let Final = NSImage(size: CImageRep.size)
         Final.addRepresentation(CImageRep)
-        NightMaskNode.geometry?.firstMaterial?.diffuse.contents = Final
+        NightMaskImage = Final
+        AdjustNightMask(With: GetPercentTimeUTC())
+        //RectNightMaskNode.geometry?.firstMaterial?.diffuse.contents = Final
     }
+    #endif
     
     /// Hide the night mask.
     func HideNightMask()
     {
-        NightMaskNode.geometry?.firstMaterial?.diffuse.contents = nil
+        RectNightMaskNode.geometry?.firstMaterial?.diffuse.contents = nil
     }
     
     /// Create the World Heritage Layer.
