@@ -349,6 +349,8 @@ enum LightMasks2D: Int, CaseIterable
     case AmbientSun = 0b10000
     /// Light used by the hours.
     case Hours = 0b100000
+    /// Light used by the night mask.
+    case NightMask = 0b1000000
 }
 
 // MARK: - General purpose constants.
