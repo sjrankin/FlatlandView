@@ -28,7 +28,7 @@ extension RectangleView
             case .MapType:
                 let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
                 let CurrentView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Rectangular)
-                if [.FlatNorthCenter, .FlatSouthCenter, .Rectangular].contains(CurrentView)
+                if [.Rectangular].contains(CurrentView)
                 {
                     if let MapImage = MapManager.ImageFor(MapType: MapValue, ViewType: CurrentView)
                     {
@@ -37,6 +37,10 @@ extension RectangleView
                         UpdatePolarLight(With: PrimaryLightMultiplier)
                         SetEarthMap(MapImage)
                     }
+                }
+                else
+                {
+                    HorizontalShift = 0
                 }
                 
             case .EnableEarthquakes:
@@ -71,6 +75,7 @@ extension RectangleView
                 }
                 
             case .ShowNight:
+                HorizontalShift = 0
                 if Settings.GetBool(.ShowNight)
                 {
                     AddNightMask()
