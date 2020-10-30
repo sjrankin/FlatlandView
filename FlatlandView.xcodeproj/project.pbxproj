@@ -110,6 +110,7 @@
 		176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */; };
 		176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */; };
 		176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */; };
+		177D0F5F2547F04700CD5041 /* MTLTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177D0F5E2547F04700CD5041 /* MTLTexture.swift */; };
 		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
 		177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D32480D49200CAD1B9 /* ActualMap.swift */; };
 		177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */; };
@@ -169,6 +170,9 @@
 		17B062D7253D27A000C4BAEE /* ShapeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B062D6253D27A000C4BAEE /* ShapeManager.swift */; };
 		17B062DF253D557D00C4BAEE /* UUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B062DE253D557D00C4BAEE /* UUID.swift */; };
 		17B062E2253D5D8E00C4BAEE /* +SimpleShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B062E1253D5D8E00C4BAEE /* +SimpleShapes.swift */; };
+		17B0B7322546AD4500DC0F03 /* MetalHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0B7312546AD4500DC0F03 /* MetalHelper.swift */; };
+		17B0B7352546ADF900DC0F03 /* UInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0B7342546ADF900DC0F03 /* UInt.swift */; };
+		17B0B7382546AE3400DC0F03 /* UInt8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0B7372546AE3400DC0F03 /* UInt8.swift */; };
 		17B7D7A824CECFDE000C077B /* MetalLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7A724CECFDE000C077B /* MetalLibrary.swift */; };
 		17B7D7AB24CED02B000C077B /* ImageFlipper.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AA24CED02B000C077B /* ImageFlipper.metal */; };
 		17B7D7AD24CED053000C077B /* ImageFlipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AC24CED053000C077B /* ImageFlipper.swift */; };
@@ -267,6 +271,13 @@
 		17F1C7E12543FA470046AE33 /* +RectangleCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1C7E02543FA470046AE33 /* +RectangleCities.swift */; };
 		17F1C7E42543FA840046AE33 /* +RectangleWorldHeritageSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1C7E32543FA840046AE33 /* +RectangleWorldHeritageSizes.swift */; };
 		17F1C7E72543FAC70046AE33 /* +RectangleSettingsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F1C7E62543FAC70046AE33 /* +RectangleSettingsHandler.swift */; };
+		17F1E5C32549126600E6F6CF /* SparkParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5C22549126600E6F6CF /* SparkParticleTest.sks */; };
+		17F1E5C6254913DC00E6F6CF /* FireParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5C5254913DC00E6F6CF /* FireParticleTest.sks */; };
+		17F1E5C92549150400E6F6CF /* MagicParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5C82549150400E6F6CF /* MagicParticleTest.sks */; };
+		17F1E5CC2549153A00E6F6CF /* FireflyParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5CB2549153A00E6F6CF /* FireflyParticleTest.sks */; };
+		17F1E5CF2549155500E6F6CF /* SmokeParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5CE2549155500E6F6CF /* SmokeParticleTest.sks */; };
+		17F1E5D22549158000E6F6CF /* SnowParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5D12549158000E6F6CF /* SnowParticleTest.sks */; };
+		17F1E5D5254915AD00E6F6CF /* RainParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5D4254915AD00E6F6CF /* RainParticleTest.sks */; };
 		17F44AA824CEF67700A02B19 /* SatelliteMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F44AA724CEF67700A02B19 /* SatelliteMap.swift */; };
 		17F782C1249742A1000A568E /* USGS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C0249742A1000A568E /* USGS.swift */; };
 		17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C224974442000A568E /* AsynchronousDataProtocol.swift */; };
@@ -406,6 +417,7 @@
 		176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewSuns.swift"; sourceTree = "<group>"; };
 		176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow.swift; sourceTree = "<group>"; };
 		176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController.swift; sourceTree = "<group>"; };
+		177D0F5E2547F04700CD5041 /* MTLTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTLTexture.swift; sourceTree = "<group>"; };
 		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
 		177EE5D32480D49200CAD1B9 /* ActualMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMap.swift; sourceTree = "<group>"; };
 		177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapGroup.swift; sourceTree = "<group>"; };
@@ -465,6 +477,9 @@
 		17B062D6253D27A000C4BAEE /* ShapeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeManager.swift; sourceTree = "<group>"; };
 		17B062DE253D557D00C4BAEE /* UUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUID.swift; sourceTree = "<group>"; };
 		17B062E1253D5D8E00C4BAEE /* +SimpleShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+SimpleShapes.swift"; sourceTree = "<group>"; };
+		17B0B7312546AD4500DC0F03 /* MetalHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalHelper.swift; sourceTree = "<group>"; };
+		17B0B7342546ADF900DC0F03 /* UInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt.swift; sourceTree = "<group>"; };
+		17B0B7372546AE3400DC0F03 /* UInt8.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt8.swift; sourceTree = "<group>"; };
 		17B7D7A724CECFDE000C077B /* MetalLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLibrary.swift; sourceTree = "<group>"; };
 		17B7D7AA24CED02B000C077B /* ImageFlipper.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageFlipper.metal; sourceTree = "<group>"; };
 		17B7D7AC24CED053000C077B /* ImageFlipper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFlipper.swift; sourceTree = "<group>"; };
@@ -569,6 +584,13 @@
 		17F1C7E02543FA470046AE33 /* +RectangleCities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+RectangleCities.swift"; sourceTree = "<group>"; };
 		17F1C7E32543FA840046AE33 /* +RectangleWorldHeritageSizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+RectangleWorldHeritageSizes.swift"; sourceTree = "<group>"; };
 		17F1C7E62543FAC70046AE33 /* +RectangleSettingsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+RectangleSettingsHandler.swift"; sourceTree = "<group>"; };
+		17F1E5C22549126600E6F6CF /* SparkParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SparkParticleTest.sks; sourceTree = "<group>"; };
+		17F1E5C5254913DC00E6F6CF /* FireParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireParticleTest.sks; sourceTree = "<group>"; };
+		17F1E5C82549150400E6F6CF /* MagicParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MagicParticleTest.sks; sourceTree = "<group>"; };
+		17F1E5CB2549153A00E6F6CF /* FireflyParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireflyParticleTest.sks; sourceTree = "<group>"; };
+		17F1E5CE2549155500E6F6CF /* SmokeParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SmokeParticleTest.sks; sourceTree = "<group>"; };
+		17F1E5D12549158000E6F6CF /* SnowParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SnowParticleTest.sks; sourceTree = "<group>"; };
+		17F1E5D4254915AD00E6F6CF /* RainParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RainParticleTest.sks; sourceTree = "<group>"; };
 		17F44AA724CEF67700A02B19 /* SatelliteMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SatelliteMap.swift; sourceTree = "<group>"; };
 		17F782C0249742A1000A568E /* USGS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGS.swift; sourceTree = "<group>"; };
 		17F782C224974442000A568E /* AsynchronousDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousDataProtocol.swift; sourceTree = "<group>"; };
@@ -932,6 +954,9 @@
 				1714DDB72539654A001A3002 /* UInt64.swift */,
 				1714DDBA253965F8001A3002 /* Int64.swift */,
 				17B062DE253D557D00C4BAEE /* UUID.swift */,
+				17B0B7342546ADF900DC0F03 /* UInt.swift */,
+				17B0B7372546AE3400DC0F03 /* UInt8.swift */,
+				177D0F5E2547F04700CD5041 /* MTLTexture.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -968,6 +993,7 @@
 				17EF339F247A691C00A5B55D /* Shapes */,
 				1736A4E3252EDCE60070EE7F /* PointsOfInterest */,
 				17EF33B5247A94A800A5B55D /* Cities */,
+				1760023224D2BEDF00D5EA1A /* Extensions */,
 				17EF3398247A672B00A5B55D /* Utilities */,
 				17EF3391247A66BF00A5B55D /* Maps */,
 				17EF338A247A4EAF00A5B55D /* Settings */,
@@ -980,6 +1006,13 @@
 				17EF339B247A68C600A5B55D /* Enums.swift */,
 				17000B4B251ADF22009CF3B7 /* EnumConstants.swift */,
 				1767A8E724794A0300C434B5 /* Assets.xcassets */,
+				17F1E5C22549126600E6F6CF /* SparkParticleTest.sks */,
+				17F1E5C5254913DC00E6F6CF /* FireParticleTest.sks */,
+				17F1E5C82549150400E6F6CF /* MagicParticleTest.sks */,
+				17F1E5CB2549153A00E6F6CF /* FireflyParticleTest.sks */,
+				17F1E5CE2549155500E6F6CF /* SmokeParticleTest.sks */,
+				17F1E5D12549158000E6F6CF /* SnowParticleTest.sks */,
+				17F1E5D4254915AD00E6F6CF /* RainParticleTest.sks */,
 				1767A8EC24794A0300C434B5 /* Info.plist */,
 				1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */,
 			);
@@ -1179,6 +1212,7 @@
 			isa = PBXGroup;
 			children = (
 				17B7D7A724CECFDE000C077B /* MetalLibrary.swift */,
+				17B0B7312546AD4500DC0F03 /* MetalHelper.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1339,7 +1373,6 @@
 		17EF3398247A672B00A5B55D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				1760023224D2BEDF00D5EA1A /* Extensions */,
 				1727EA5B24B184110051EA3B /* DataStructures */,
 				17EF3399247A673900A5B55D /* FileIO.swift */,
 				1714DDB32538342A001A3002 /* LowLevel.swift */,
@@ -1555,18 +1588,25 @@
 				174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */,
 				178E6F732540533600DA0F76 /* RoundTextTest.storyboard in Resources */,
 				17ABAFFE24E9209E009DDC35 /* EarthquakeHistory.db in Resources */,
+				17F1E5C32549126600E6F6CF /* SparkParticleTest.sks in Resources */,
 				1750043924B46110006528A4 /* FontPickerUI.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
 				17CB248D253C5BCB00BAABDC /* POI.db in Resources */,
 				1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */,
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
+				17F1E5D22549158000E6F6CF /* SnowParticleTest.sks in Resources */,
 				17F79069252D57FF00FA2F23 /* Mappable.db in Resources */,
+				17F1E5C6254913DC00E6F6CF /* FireParticleTest.sks in Resources */,
 				17FC2213249879BE005A0929 /* LiveData.storyboard in Resources */,
+				17F1E5D5254915AD00E6F6CF /* RainParticleTest.sks in Resources */,
 				17EB790C24AEEED100BB0473 /* EarthquakeDebugger.storyboard in Resources */,
 				1733C80A24F79C0C0025D555 /* RawSettingsEditor.storyboard in Resources */,
+				17F1E5CC2549153A00E6F6CF /* FireflyParticleTest.sks in Resources */,
+				17F1E5CF2549155500E6F6CF /* SmokeParticleTest.sks in Resources */,
 				179BE7C324ED053D0025B349 /* Today.storyboard in Resources */,
 				1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */,
 				178909C7250E0DCB0092E3A4 /* Main.storyboard in Resources */,
+				17F1E5C92549150400E6F6CF /* MagicParticleTest.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1606,6 +1646,7 @@
 				17F9B025252069DE00DE0219 /* SCNNode2.swift in Sources */,
 				1716DB1A24E5575B00C4F8BD /* ClockIndicator.swift in Sources */,
 				1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */,
+				17B0B7322546AD4500DC0F03 /* MetalHelper.swift in Sources */,
 				1740F49B2493173A00F6FAAE /* Hours.swift in Sources */,
 				1750044324B4640B006528A4 /* FontProtocol.swift in Sources */,
 				17DFAF562545A5BE00374344 /* ImageShifter.metal in Sources */,
@@ -1625,6 +1666,7 @@
 				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
 				1760023A24D2BF6100D5EA1A /* NSImage.swift in Sources */,
 				17829D4824B31D0200118DB1 /* EarthquakeDetailWindow.swift in Sources */,
+				177D0F5F2547F04700CD5041 /* MTLTexture.swift in Sources */,
 				17A25CC42505D43600214C45 /* Metal2DShapeGenerator.swift in Sources */,
 				17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */,
 				17F17A4D24DE7B1B00568A4E /* LinesDraw.swift in Sources */,
@@ -1826,6 +1868,7 @@
 				178A86A4248912FA00BE8D46 /* +Locations.swift in Sources */,
 				17EB5C1325159AB1007A75EF /* +MainAsynchronous.swift in Sources */,
 				17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */,
+				17B0B7382546AE3400DC0F03 /* UInt8.swift in Sources */,
 				1727EA5D24B184230051EA3B /* Tree.swift in Sources */,
 				17F1C7DE2543FA1D0046AE33 /* +RectangleEarthquakes.swift in Sources */,
 				17F1C7E72543FAC70046AE33 /* +RectangleSettingsHandler.swift in Sources */,
@@ -1843,6 +1886,7 @@
 				1792486825198A7F00AF4D4B /* +FlatViewLights.swift in Sources */,
 				176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */,
 				17B062E2253D5D8E00C4BAEE /* +SimpleShapes.swift in Sources */,
+				17B0B7352546ADF900DC0F03 /* UInt.swift in Sources */,
 				172F4A2324FA0F420014A65E /* VectorEditor.swift in Sources */,
 				17F9AFFB2520354500DE0219 /* +SCNVector3.swift in Sources */,
 				1747BDBF25135189002B51D9 /* GradientParameters.swift in Sources */,
