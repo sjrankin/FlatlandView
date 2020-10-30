@@ -79,9 +79,9 @@ extension RectangleView
         PolarLight.name = LightNames.Polar2D.rawValue
         PolarLight.categoryBitMask = LightMasks2D.Polar.rawValue
         PolarLight.type = .spot
-        PolarLight.intensity = 1300//CGFloat(FlatConstants.PolarLightIntensity.rawValue)
+        PolarLight.intensity = 800//CGFloat(FlatConstants.PolarLightIntensity.rawValue)
         PolarLight.castsShadow = true
-        PolarLight.shadowColor = NSColor.black//.withAlphaComponent(0.95)//CGFloat(Defaults.ShadowAlpha.rawValue))
+        PolarLight.shadowColor = NSColor.black//CGFloat(Defaults.ShadowAlpha.rawValue))
         PolarLight.shadowMode = .forward
         PolarLight.shadowRadius = CGFloat(Defaults.ShadowRadius.rawValue)
         PolarLight.shadowSampleCount = 1
@@ -98,8 +98,8 @@ extension RectangleView
         PolarNode.name = LightNames.Polar2D.rawValue
         PolarNode.light = PolarLight
         //let PolarNodeY = CGFloat(FlatConstants.FlatRadius.rawValue) + CGFloat(FlatConstants.PolarSunRimOffset.rawValue)
-        let PolarNodeY = CGFloat(35)
-        let PolarNodeZ = CGFloat(10)
+        let PolarNodeY = CGFloat(30)
+        let PolarNodeZ = CGFloat(9)
         PolarNode.position = SCNVector3(0.0, PolarNodeY, PolarNodeZ)
 //        PolarNode.position = SCNVector3(0.0, PolarNodeY, CGFloat(FlatConstants.PolarLightZTerminal.rawValue))
         #if true
