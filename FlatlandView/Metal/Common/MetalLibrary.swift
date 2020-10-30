@@ -73,6 +73,8 @@ class MetalLibrary
         return nil
     }
     
+    static var TextureBlock: NSObject = NSObject()
+    
     /// Convert an `NSImage` to a `MTLTexture` for use with Metal compute shaders.
     /// - Parameter From: The image to convert.
     /// - Parameter ForWriting: If true, the returned Metal texture will allow writing. Otherwise, it will
@@ -83,6 +85,8 @@ class MetalLibrary
     public static func MakeTexture(From: NSImage, ForWriting: Bool = false, ImageDevice: MTLDevice,
                                    AsCG: inout CGImage?) -> MTLTexture?
     {
+        objc_sync_enter(TextureBlock)
+        defer{objc_sync_exit(TextureBlock)}
         let ImageSize = From.size
         if let Adjusted = MetalLibrary.AdjustColorSpace(For: From, ForceSize: ImageSize)
         {
@@ -164,40 +168,3 @@ class MetalLibrary
         return TileTexture
     }
 }
-
-/// UInt8 extensions.
-extension UInt8
-{
-    /// Returns the layout size of a `UInt8` for an instance value.
-    /// - Returns: Layout size of a `UInt8`.
-    func SizeOf() -> Int
-    {
-        return MemoryLayout.size(ofValue: self)
-    }
-    
-    /// Returns the layout size of a `UInt8` when used against the `UInt8` type.
-    /// - Returns: Layout size of a `UInt8`.
-    static func SizeOf() -> Int
-    {
-        return MemoryLayout.size(ofValue: UInt8(0))
-    }
-}
-
-/// UInt extensions.
-extension UInt
-{
-    /// Returns the layout size of a `UInt` for an instance value.
-    /// - Returns: Layout size of a `UInt`.
-    func SizeOf() -> Int
-    {
-        return MemoryLayout.size(ofValue: self)
-    }
-    
-    /// Returns the layout size of a `UInt` when used against the `UInt` type.
-    /// - Returns: Layout size of a `UInt`.
-    static func SizeOf() -> Int
-    {
-        return MemoryLayout.size(ofValue: UInt(0))
-    }
-}
-
