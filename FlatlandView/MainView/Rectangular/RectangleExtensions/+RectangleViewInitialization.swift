@@ -78,12 +78,11 @@ extension RectangleView
         self.backgroundColor = NSColor.clear
         self.antialiasingMode = .multisampling2X
         self.isJitteringEnabled = true
-        
+
         CreateCamera()
         CreateLights()
         AddEarth() 
         StartClock()
-        UpdateEarthView()
         AddHourLayer()
         AddHours(HourRadius: FlatConstants.HourRadius.rawValue)
         AddNightMaskLayer()
