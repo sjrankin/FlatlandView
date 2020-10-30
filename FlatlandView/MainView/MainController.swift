@@ -295,6 +295,7 @@ class MainController: NSViewController
                 }
                 
             case .Rectangular:
+                #if false
                 Rect2DView.HideNightMask()
                 if let Image = Utility.GetRectangularNightMask(ForDate: Date())
                 {
@@ -304,6 +305,8 @@ class MainController: NSViewController
                 {
                     print("No rectangular night mask for \(Date()) found.")
                 }
+                #endif
+                break
                 
             default:
                 return
