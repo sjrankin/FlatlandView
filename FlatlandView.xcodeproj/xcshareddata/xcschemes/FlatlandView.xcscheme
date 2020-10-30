@@ -59,6 +59,11 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "TSAN_OPTIONS"
+            value = "symbolize=0"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "CGBITMAP_CONTEXT_LOG_ERRORS"
             value = "YES"
             isEnabled = "YES">
