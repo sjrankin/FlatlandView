@@ -4817,7 +4817,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="upJ-oP-Sw8" column="nSO-dn-FGw" id="LmV-ql-ybi">
                                                     <gridView key="contentView" horizontalCompressionResistancePriority="751" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Zb3-vz-kQo">
-                                                        <rect key="frame" x="0.0" y="36" width="163" height="21"/>
+                                                        <rect key="frame" x="0.0" y="36" width="361" height="21"/>
                                                         <constraints>
                                                             <constraint firstItem="jgx-s7-OCT" firstAttribute="leading" secondItem="6hm-Fr-vwx" secondAttribute="trailing" constant="6" id="Cu5-bk-qvw"/>
                                                             <constraint firstAttribute="trailing" secondItem="jgx-s7-OCT" secondAttribute="trailing" id="Ren-xt-Ugf"/>
@@ -5071,7 +5071,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="UgZ-w5-wxa" column="Qdo-3i-Rde" id="ggL-5Z-t0L">
                                         <gridView key="contentView" horizontalCompressionResistancePriority="755" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
-                                            <rect key="frame" x="0.0" y="0.0" width="196" height="21"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="21"/>
                                             <rows>
                                                 <gridRow id="MvR-7n-9cc"/>
                                             </rows>
@@ -5095,7 +5095,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="MvR-7n-9cc" column="e7a-yF-CtL" id="EWz-Z6-I1c">
                                                     <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ojh-YB-tvi">
-                                                        <rect key="frame" x="53" y="-7" width="80" height="32"/>
+                                                        <rect key="frame" x="207" y="-7" width="80" height="32"/>
                                                         <buttonCell key="cell" type="push" title="Delete" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fbo-bi-0FR">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -5107,7 +5107,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="MvR-7n-9cc" column="OaW-Xe-n4J" id="lg4-1D-V8F">
                                                     <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eN5-aZ-P0s">
-                                                        <rect key="frame" x="127" y="-7" width="75" height="32"/>
+                                                        <rect key="frame" x="281" y="-7" width="75" height="32"/>
                                                         <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="19q-fH-mod">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
