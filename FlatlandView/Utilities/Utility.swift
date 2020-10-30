@@ -1730,7 +1730,11 @@ class Utility
     {
         let Day = Calendar.current.component(.day, from: From)
         let Month = Calendar.current.component(.month, from: From) - 1
-        let MonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][Month]
+        var MonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][Month]
+        if IsRectangular
+        {
+            MonthName = MonthName + "a"
+        }
         var Prefix = ""
         if IsRectangular
         {
