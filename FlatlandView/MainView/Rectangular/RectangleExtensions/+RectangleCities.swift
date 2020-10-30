@@ -156,7 +156,7 @@ extension RectangleView
         
         let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
                                                     Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
-        CityNode.position = SCNVector3(PointX, PointY, 0.0)//FlatConstants.UserCityHeight.rawValue * 0.5)
+        CityNode.position = SCNVector3(PointX, PointY, FlatConstants.UserCityHeight.rawValue * 0.5)
         CityNode.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
         
         return CityNode
