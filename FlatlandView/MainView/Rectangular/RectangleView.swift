@@ -60,7 +60,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var AmbientSunLightNode = SCNNode()
     var HourLight = SCNLight()
     var HourLightNode = SCNNode()
-    var NightMaskNode = SCNNode()
+    var RectNightMaskNode = SCNNode()
     var GridNode = SCNNode()
     var HourPlane = SCNNode()
     var CityPlane = SCNNode()
@@ -87,11 +87,12 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     
     func StartClock()
     {
-        EarthClock = Timer.scheduledTimer(timeInterval: Defaults.EarthClockTick.rawValue,
-                                          target: self, selector: #selector(UpdateEarthView),
+        EarthClock = Timer.scheduledTimer(timeInterval: 1.0,//Defaults.EarthClockTick.rawValue,
+                                          target: self, selector: #selector(UpdateNightMask),
                                           userInfo: nil, repeats: true)
         EarthClock?.tolerance = Defaults.EarthClockTickTolerance.rawValue
         RunLoop.current.add(EarthClock!, forMode: .common)
+        UpdateNightMask()
     }
     
     var EarthClock: Timer? = nil
@@ -101,7 +102,22 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     /// if this function is called too infrequently, the Earth will show jerky motion as it rotates.
     /// - Note: When compiled in #DEBUG mode, code is included for debugging time functionality but
     ///         only when the proper settings are enabled.
-    @objc func UpdateEarthView()
+    @objc func UpdateNightMask()
+    {
+        OperationQueue.main.addOperation
+        {
+            let PrettyPercent = self.GetPercentTimeUTC()
+            self.NightMaskImage = Utility.GetRectangularNightMask(ForDate: Date())
+            self.AdjustNightMask(With: PrettyPercent)
+        }
+    }
+    
+    /// Holds the source night mask image.
+    var NightMaskImage: NSImage? = nil
+    
+    /// Get the time in UTC as a percent of the day.
+    /// - Returns: UTC time expressed in terms of percent of a day.
+    func GetPercentTimeUTC() -> Double
     {
         let Now = Date()
         let TZ = TimeZone(abbreviation: "UTC")
@@ -113,7 +129,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
         let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
         let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
-        //UpdateEarth(With: PrettyPercent)
+        return PrettyPercent
     }
     
     /// Returns the local time zone abbreviation (a three-letter indicator, not a set of words).
@@ -143,80 +159,10 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         return Degrees * Double.pi / 180.0
     }
     
-    #if false
-    /// Update the Earth's rotational value.
-    /// - With: Hour expressed in terms of percent.
-    func UpdateEarth(With Percent: Double)
-    {
-        let FlatViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
-        PreviousPercent = Percent
-        var FinalOffset = 90.0
-        var Multiplier = 1.0
-        if FlatViewType == .FlatSouthCenter
-        {
-            FinalOffset = 90.0
-            Multiplier = -1.0
-        }
-        //Be sure to rotate the proper direction based on the map.
-        let MapRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
-        let Duration = UseInitialRotation ? FlatConstants.InitialRotation.rawValue : FlatConstants.NormalRotation.rawValue
-        UseInitialRotation = false
-        let RotateAction = SCNAction.rotateTo(x: CGFloat(90.0.Radians),
-                                              y: CGFloat(180.0.Radians),
-                                              z: CGFloat(MapRadians),
-                                              duration: Duration,
-                                              usesShortestUnitArc: true)
-        FlatEarthNode.runAction(RotateAction)
-        GridNode.runAction(RotateAction)
-        CityPlane.runAction(RotateAction)
-        if Settings.GetBool(.ShowCities) || Settings.GetBool(.EnableEarthquakes)
-        {
-            if FlatViewType == .FlatNorthCenter
-            {
-                FinalOffset = 0.0
-            }
-            else
-            {
-                FinalOffset = 180.0
-            }
-            let CityRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
-            let CityRotateAction = SCNAction.rotateTo(x: 0.0,
-                                                      y: 0.0,
-                                                      z: CGFloat(CityRadians),
-                                                      duration: Duration,
-                                                      usesShortestUnitArc: true)
-            CityPlane.runAction(CityRotateAction)
-            QuakePlane.runAction(CityRotateAction)
-            UNESCOPlane.runAction(CityRotateAction)
-        }
-        if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
-        {
-            FinalOffset = 90.0 + 15.0 * 3
-            let HourRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
-            LastRelativeTimeRadial = HourRadians
-            let LastAngle = LastRelativeTimeRadial * 180.0 / Double.pi
-            let Delta = fmod(180.0 - LastAngle, 360.0)
-            let HourRotateAction = SCNAction.rotateTo(x: 0.0,
-                                                      y: 0.0,
-                                                      z: CGFloat(HourRadians),
-                                                      duration: Duration,
-                                                      usesShortestUnitArc: true)
-            HourPlane.runAction(HourRotateAction)
-        }
-        else
-        {
-            HourPlane.eulerAngles = SCNVector3(CGFloat(0.0.Radians),
-                                               CGFloat(0.0.Radians),
-                                               CGFloat(0.0.Radians))
-        }
-    }
-    #endif
-    
     private var LastRelativeTimeRadial: Double = -1
     private var UseInitialRotation = true
     
     var ClassID = UUID()
-    
     
     func ApplyNewMap(_ NewMapImage: NSImage)
     {
@@ -277,27 +223,12 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     /// - Parameter ShowShadows: Value that determines whether shadows are shown or not.
     func UpdateLightsForShadows(ShowShadows: Bool)
     {
-        #if false
         if ShowShadows
         {
             SunLight.intensity = 0.0
+            UpdatePolarLight(With: PrimaryLightMultiplier)
+            PolarLight.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
             //FlatEarthNode.categoryBitMask = LightMasks2D.Polar.rawValue
-            let Center = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
-            switch Center
-            {
-                case .FlatSouthCenter:
-                    UpdatePolarLight(With: PrimaryLightMultiplier)
-                    PolarLight.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
-                    MovePolarLight(ToNorth: true)
-                    
-                case .FlatNorthCenter:
-                    UpdatePolarLight(With: PrimaryLightMultiplier)
-                    PolarLight.intensity = CGFloat(FlatConstants.PolarLightIntensity.rawValue)
-                    MovePolarLight(ToNorth: false)
-                    
-                default:
-                    return
-            }
         }
         else
         {
@@ -305,7 +236,6 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
             SunLight.intensity = CGFloat(FlatConstants.SunLightIntensity.rawValue)
             PolarLight.intensity = 0
         }
-        #endif
     }
     
     /// Handle mouse motion reported by the main view controller.
@@ -366,4 +296,6 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var CitiesToPlot = [City2]()
     var POIsToPlot = [POI]()
     var PrimaryLightMultiplier: Double = 1.0
+    var PreviousNightMaskValue: Double? = nil
+    var HorizontalShift = 0
 }
