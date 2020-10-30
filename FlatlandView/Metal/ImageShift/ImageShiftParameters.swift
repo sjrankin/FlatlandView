@@ -12,6 +12,8 @@ import simd
 
 struct ImageShiftParameters
 {
-    let XOffset: simd_uint1
-    let YOffset: simd_uint1
+    let XOffset: simd_int1
+    let YOffset: simd_int1
+    let ImageWidth: simd_uint1
+    let ImageHeight: simd_uint1
 }
