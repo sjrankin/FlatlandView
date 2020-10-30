@@ -287,6 +287,8 @@ extension MainController
         PrimaryView.wantsLayer = true
         let NewBackgroundColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
         PrimaryView.layer?.backgroundColor = NewBackgroundColor.cgColor
+        BackgroundView.wantsLayer = true
+        BackgroundView.layer?.backgroundColor = NewBackgroundColor.cgColor
         let Opposite = Utility.OppositeColor(From: NewBackgroundColor)
         UpdateScreenText(With: Opposite)
     }
