@@ -39,12 +39,12 @@ class MainController: NSViewController
     
     /// Set up event handling so we can monitor the mouse. This is used to notify the user when the mouse
     /// is over a location that has data.
-    /// - Note: Mouse location handling is done in the 2D and 3D view controllers (see `Main2DView` and
-    ///         `Main3DView`).
+    /// - Note: Mouse location handling is done in the 2D and 3D view controllers (see `Main2DView`,
+    ///         `Main3DView` and `Rect2DView`).
     /// - Note: See [Getting Mouse Coordinates in Swift](https://stackoverflow.com/questions/31931403/getting-mouse-coordinates-in-swift)
     func MonitorMouse()
     {
-        NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved])
+        NSEvent.addLocalMonitorForEvents(matching: [.leftMouseUp])
         {
             if self.Location.x >= 0 && self.Location.x < self.view.window!.frame.size.width
             {
@@ -95,7 +95,22 @@ class MainController: NSViewController
                 //MainWindow?.setContentSize(ContentsSize)
             }
         }
+        
+        if let AD = NSApplication.shared.delegate as? AppDelegate
+        {
+            MainApp = AD
+            if MainApp == nil
+            {
+                print("MainApp is nil")
+            }
+        }
+        else
+        {
+            fatalError("Unable to get app delegate: \(#function)")
+        }
     }
+    
+    public var MainApp: AppDelegate!
     
     /// Handle content view size changed events.
     /// - Parameter notification: The event notification.
@@ -163,18 +178,25 @@ class MainController: NSViewController
     // Flag used to determine if the settings window is open.
     var SettingsWindowOpen = false
     
-    /// Respond to the user command to show or hide item data.
-    /// - Parameter sender: Not used.
-    @IBAction func ShowItemViewer(_ sender: Any)
+    @IBAction func RunPreferences(_ sender: Any)
     {
-        let NewShow = Settings.InvertBool(.ShowDetailedInformation, SendNotification: false)
-        POIView.isHidden = !NewShow
-        if let Window = self.view.window?.windowController as? MainWindow
+        if PreferencesWindowOpen
         {
-            let NewImageName = NewShow ? "BinocularsIconShowing" : "Binoculars"
-            Window.ChangeShowInfoImage(To: NSImage(named: NewImageName)!)
+            return
+        }
+        let Storyboard = NSStoryboard(name: "PreferencePanel", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "PreferencePanelWindow") as? PreferencePanelWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? PreferencePanelController
+            Controller?.MainDelegate = self
+            MainSettingsDelegate = Controller
+            WindowController.showWindow(nil)
+            PreferencesWindowOpen = true
         }
     }
+    
+    var PreferencesWindowOpen = false
     
     /// Respond to the user command to take a snapshot of the current view.
     /// - Parameter sender: Not used.
@@ -231,8 +253,9 @@ class MainController: NSViewController
     
     /// Respond to the user command to show the list of earthquakes.
     /// - Parameter sender: Not used.
-    @IBAction func ShowEarthquakeList(_ sender: Any)
+    @IBAction func ShowEarthquakeListX(_ sender: Any)
     {
+        #if false
         let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeWindow2") as? GroupedEarthquakeWindow
         {
@@ -243,18 +266,34 @@ class MainController: NSViewController
             Controller?.LoadData(DataType: .Earthquakes, Raw: PreviousEarthquakes as Any)
             WindowController.showWindow(nil)
         }
+        #endif
     }
-    
-    var QuakeController: GroupedEarthquakeController? = nil
+
+    var QuakeController: EarthquakeViewerController? = nil
     var QuakeDelegate: WindowManagement? = nil
+    
+    @IBAction func ShowEarthquakeList(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "EarthquakeData", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeViewerWindow3") as? EarthquakeViewerWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? EarthquakeViewerController
+            QuakeDelegate = Window?.contentView as? WindowManagement
+            Controller?.MainDelegate = self
+            QuakeController = Controller
+            WindowController.showWindow(nil)
+            Controller?.LoadData(DataType: .Earthquakes, Raw: PreviousEarthquakes as Any)
+        }
+    }
     
     @IBAction func RunTestDialog(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "RoundTextTest", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "RoundTextTest") as? RoundTextTestWindow
         {
-            let Window = WindowController.window
-            let Controller = Window?.contentViewController as? RoundTextTestController
+            //let Window = WindowController.window
+            //let Controller = Window?.contentViewController as? RoundTextTestController
             WindowController.showWindow(nil)
         }
     }
@@ -562,6 +601,7 @@ class MainController: NSViewController
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var BackgroundView: NSView!
+    /*
     // Item view elements
     @IBOutlet weak var POIView: NSView!
     @IBOutlet weak var DescriptionValue: NSTextField!
@@ -573,7 +613,8 @@ class MainController: NSViewController
     @IBOutlet weak var NameLabel: NSTextField!
     @IBOutlet weak var TypeValue: NSTextField!
     @IBOutlet weak var TypeLabel: NSTextField!
-    //Debug elements
+ */
+ //Debug elements
     @IBOutlet weak var VersionLabel: NSTextField!
     @IBOutlet weak var VersionValue: NSTextField!
     @IBOutlet weak var BuildLabel: NSTextField!
