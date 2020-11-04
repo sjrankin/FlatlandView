@@ -349,6 +349,18 @@ enum SettingKeys: String, CaseIterable
     case ShowEarthquakeRegions = "ShowEarthquakeRegions"
     /// Double: Minimum value that earthquakes must be to be included in any list.
     case GeneralMinimumMagnitude = "GeneralMinimumMagnitude"
+    /// Double: Use for earthquake table for regions. Radius of the region from which
+    ///         quakes are reported.
+    case QuakeRegionRadius = "QuakeRegionRadius"
+    /// Double: Latitude of the center of the quake region for earthquake tables.
+    case QuakeRegionLatitude = "QuakeRegionLatitude"
+    /// Double: Longitude of the center of the quake region for earthquake tables.
+    case QuakeRegionLongitude = "QuakeRegionLongitude"
+    /// Bool: Enable quake regions in the earthquake table.
+    case QuakeRegionEnable = "QuakeRegionEnable"
+    /// Bool: If true all quakes will be shown in the regional set. Otherwise the current
+    ///       filter will be used.
+    case QuakeSetAll = "QuakeSetAll"
     /// Boolean: If true, tiles from NASA servers are preloaded. Otherwise, they are not
     ///          loaded until the user requires them.
     case PreloadNASATiles = "PreloadNASATiles"
