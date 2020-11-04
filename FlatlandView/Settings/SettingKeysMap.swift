@@ -179,5 +179,10 @@ extension Settings
             .HighlightNodeUnderMouse: Bool.self,
             .ShowCamera: Bool.self,
             .DecorateEarthquakeCoordinates: Bool.self,
+            .QuakeRegionRadius: Double?.self,
+            .QuakeRegionLatitude: Double?.self,
+            .QuakeRegionLongitude: Double?.self,
+            .QuakeRegionEnable: Bool.self,
+            .QuakeSetAll: Bool.self,
         ]
 }
