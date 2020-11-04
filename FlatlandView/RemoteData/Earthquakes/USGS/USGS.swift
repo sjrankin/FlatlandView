@@ -426,6 +426,111 @@ class USGS
                                     case "sig":
                                         NewEarthquake.Significance = PropVal as! Int
                                         
+                                    case "title":
+                                        NewEarthquake.Title = PropVal as! String
+                                        
+                                    case "magError":
+                                        if let MagError = PropVal as? Double
+                                        {
+                                            NewEarthquake.MagError = MagError
+                                        }
+                                        
+                                    case "magNst":
+                                        NewEarthquake.MagNST = PropVal as! Int
+                                        
+                                    case "magSource":
+                                        NewEarthquake.MagSource = PropVal as! String
+                                        
+                                    case "magType":
+                                        if let MagType = PropVal as? String
+                                        {
+                                        NewEarthquake.MagType = MagType
+                                        }
+                                        
+                                    case "net":
+                                        NewEarthquake.Net = PropVal as! String
+                                        
+                                    case "nph":
+                                        NewEarthquake.NPH = PropVal as! String
+                                        
+                                    case "nst":
+                                        if let NST = PropVal as? Int
+                                        {
+                                        NewEarthquake.NST = NST
+                                        }
+                                        
+                                    case "sources":
+                                        NewEarthquake.Sources = PropVal as! String
+                                        
+                                    case "type":
+                                        NewEarthquake.EventType = PropVal as! String
+                                        
+                                    case "types":
+                                        NewEarthquake.Types = PropVal as! String
+                                        
+                                    case "tz":
+                                        if let TZ = PropVal as? Int
+                                        {
+                                            NewEarthquake.TZ = TZ
+                                        }
+                                        
+                                    case "alert":
+                                        if let Alert = PropVal as? String
+                                        {
+                                        NewEarthquake.Alert = Alert
+                                        }
+                                        
+                                    case "url":
+                                        NewEarthquake.EventPageURL = PropVal as! String
+                                        
+                                    case "cdi":
+                                        if let CDI = PropVal as? Double
+                                        {
+                                            NewEarthquake.CDI = CDI
+                                        }
+                                        
+                                    case "depthError":
+                                        if let DepthError = PropVal as? Double
+                                        {
+                                            NewEarthquake.DepthError = DepthError
+                                        }
+                                        
+                                    case "detail":
+                                        NewEarthquake.Detail = PropVal as! String
+                                        
+                                    case "dmin":
+                                        if let DMin = PropVal as? Double
+                                        {
+                                            NewEarthquake.DMin = DMin
+                                        }
+                                        
+                                    case "gap":
+                                        if let Gap = PropVal as? Double
+                                        {
+                                            NewEarthquake.Gap = Gap
+                                        }
+                                        
+                                    case "horizontalError":
+                                        if let HError = PropVal as? Double
+                                        {
+                                            NewEarthquake.HorizontalError = HError
+                                        }
+                                        
+                                    case "id":
+                                        NewEarthquake.EventID = PropVal as! String
+                                        
+                                    case "ids":
+                                        NewEarthquake.IDs = PropVal as! String
+                                        
+                                    case "locationSource":
+                                        NewEarthquake.LocationSource = PropVal as! String
+                                        
+                                    case "rms":
+                                        if let RMS = PropVal as? Double
+                                        {
+                                            NewEarthquake.RMS = RMS
+                                        }
+                                        
                                     default:
                                         continue
                                 }
