@@ -391,7 +391,7 @@
                                     </gridCell>
                                     <gridCell row="25d-yX-VTO" column="lQh-Gq-Pcb" id="wSc-fA-Kc3">
                                         <segmentedControl key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nR2-lJ-icJ">
-                                            <rect key="frame" x="96" y="-2" width="201" height="24"/>
+                                            <rect key="frame" x="74" y="-2" width="201" height="24"/>
                                             <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="stt-ut-57F">
                                                 <font key="font" metaFont="system"/>
                                                 <segments>
@@ -4725,7 +4725,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="qcY-TD-JNO" column="nSO-dn-FGw" id="acg-VR-n6a">
                                                     <gridView key="contentView" horizontalCompressionResistancePriority="752" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ef-Usi">
-                                                        <rect key="frame" x="0.0" y="107" width="167" height="19"/>
+                                                        <rect key="frame" x="0.0" y="107" width="361" height="19"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="sVk-73-Bgl" secondAttribute="trailing" id="O4K-h6-qme"/>
                                                             <constraint firstItem="sVk-73-Bgl" firstAttribute="leading" secondItem="enU-rc-XSn" secondAttribute="trailing" constant="6" id="Ttw-N2-c9M"/>
@@ -5071,7 +5071,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="UgZ-w5-wxa" column="Qdo-3i-Rde" id="ggL-5Z-t0L">
                                         <gridView key="contentView" horizontalCompressionResistancePriority="755" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
-                                            <rect key="frame" x="0.0" y="0.0" width="350" height="21"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="196" height="21"/>
                                             <rows>
                                                 <gridRow id="MvR-7n-9cc"/>
                                             </rows>
@@ -5095,7 +5095,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="MvR-7n-9cc" column="e7a-yF-CtL" id="EWz-Z6-I1c">
                                                     <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ojh-YB-tvi">
-                                                        <rect key="frame" x="207" y="-7" width="80" height="32"/>
+                                                        <rect key="frame" x="53" y="-7" width="80" height="32"/>
                                                         <buttonCell key="cell" type="push" title="Delete" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fbo-bi-0FR">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -5107,7 +5107,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="MvR-7n-9cc" column="OaW-Xe-n4J" id="lg4-1D-V8F">
                                                     <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eN5-aZ-P0s">
-                                                        <rect key="frame" x="281" y="-7" width="75" height="32"/>
+                                                        <rect key="frame" x="127" y="-7" width="75" height="32"/>
                                                         <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="19q-fH-mod">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
