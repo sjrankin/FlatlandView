@@ -11,6 +11,7 @@ import AppKit
 
 /// Encapsulates one or more earthquakes. Encapsulated earthquakes are those that are in a small
 /// geographic region.
+/// - Note: See [ComCatDocumentation - Event Terms](https://earthquake.usgs.gov/data/comcat/data-eventterms.php)
 class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
 {
     /// Number of dimensions.
@@ -48,6 +49,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     {
         _IsBiggest = IsBiggest
         GreatestMagnitudeValue = 0.0
+        EventID = Other.EventID
         Sequence = Other.Sequence
         Code = Other.Code
         Place = Other.Place
@@ -63,6 +65,29 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         MMI = Other.MMI
         Felt = Other.Felt
         Significance = Other.Significance
+        MagType = Other.MagType
+        MagError = Other.MagError
+        MagNST = Other.MagNST
+        DMin = Other.DMin
+        Alert = Other.Alert
+        Title = Other.Title
+        Types = Other.Types
+        EventType = Other.EventType
+        Detail = Other.Detail
+        TZ = Other.TZ
+        Net = Other.Net
+        NST = Other.NST
+        Gap = Other.Gap
+        IDs = Other.IDs
+        HorizontalError = Other.HorizontalError
+        CDI = Other.CDI
+        RMS = Other.RMS
+        NPH = Other.NPH
+        LocationSource = Other.LocationSource
+        MagSource = Other.MagSource
+        EventPageURL = Other.EventPageURL
+        Sources = Other.Sources
+        DepthError = Other.DepthError
         Marked = false
         if IncludeRelated
         {
@@ -217,6 +242,9 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     /// Depth of the earthquake in kilometers.
     var Depth: Double = 0.0
     
+    /// Uncertainty of the depth.
+    var DepthError: Double = 0.0
+    
     /// Status of the event.
     var Status: String = ""
     
@@ -234,6 +262,81 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     
     /// Unique (per instance) ID of the earthquake.
     var ID: UUID = UUID()
+    
+    /// The event ID.
+    var EventID: String = ""
+    
+    /// How magnitude was calculated.
+    /// - Notes: See [Magnitude Types](https://www.usgs.gov/natural-hazards/earthquake-hazards/science/magnitude-types?qt-science_center_objects=0#qt-science_center_objects)
+    var MagType: String = ""
+    
+    /// Uncertainty of reported magnitude of event.
+    var MagError: Double = 0.0
+    
+    /// Number of seismic stations used to calculate magnitude.
+    var MagNST: Int = 0
+    
+    /// Horizontal distance from the epicenter to the nearest station in degrees.
+    var DMin: Double = 0.0
+    
+    /// Alert level from PAGER.
+    var Alert: String = ""
+    
+    /// Title.
+    var Title: String = ""
+    
+    /// List of product types associated with this event.
+    var Types: String = ""
+
+    /// Type of seismic event.
+    var EventType: String = ""
+    
+    /// Link to GeoJSON detail.
+    var Detail: String = ""
+    
+    /// Timezone offset from UTC in minutes at the epicenter.
+    var TZ: Int? = nil
+
+    /// Link to USGS event page for the event.
+    var EventPageURL: String = ""
+    
+    /// List of network contributors.
+    var Sources: String = ""
+    
+    /// ID of data contributors.
+    var Net: String = ""
+    
+    /// Number of seismic stations used to determine location.
+    var NST: Int = 0
+    
+    /// The largest azimuthal gap between adjacent stations.
+    var Gap: Double = 0
+    
+    /// List of event IDs associated with an event.
+    var IDs: String = ""
+    
+    /// Uncertainty of reported location of even in kilometers.
+    var HorizontalError: Double = 0.0
+    
+    /// Maximum reported intensity for the event - computed by DYFI. Should be reported as a Roman numeral.
+    var CDI: Double = 0.0
+    
+    /// Root mean square travel time residual in seconds.
+    var RMS: Double = 0.0
+    
+    /// Number of phases used.
+    var NPH: String = ""
+    
+    /// Network that authored the report.
+    var LocationSource: String = ""
+    
+    /// Network that generated the magnitude.
+    var MagSource: String = ""
+    
+    /// Distance from something else. If nil, no distance used.
+    var ContextDistance: Double? = nil
+    
+    // MARK: - Code for data manipulation
     
     /// Determines if this earthquake (or any clustered/related earthquakes) have the specified
     /// Code value.
