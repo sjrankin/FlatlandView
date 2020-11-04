@@ -106,6 +106,7 @@ extension MainController: MainProtocol
     {
     }
     
+    /*
     /// Display information in the proper view with data sent to us. If the data is nil, the color is
     /// changed to indicate stale data.
     /// - Parameter ItemData: The data to display.
@@ -122,5 +123,13 @@ extension MainController: MainProtocol
                 SetValueTextColor(To: NSColor.lightGray)
             }
         }
+    }
+ */
+    
+    /// Returns the main program's app delegate.
+    /// - Returns: Main program app delegate.
+    func GetAppDelegate() -> AppDelegate
+    {
+        return MainApp
     }
 }
