@@ -285,7 +285,6 @@ extension GlobeView
     func PlotStarHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
-        #if true
         let OuterStar: ShapeAttributes =
             {
                let A = ShapeAttributes()
@@ -384,37 +383,7 @@ extension GlobeView
         Composite.Attributes[.Star] = OuterStar
         Composite.Attributes[.InnerStar] = InnerStar
         let Star = ShapeManager.Create(.EmbeddedStar, Composite: Composite, BaseAttributes: Base)
-        #else
-        let Star = SCNNode2(geometry: SCNStar.Geometry(VertexCount: Int(FlatConstants.HomeStarVertexCount.rawValue),
-                                                       Height: FlatConstants.HomeStarHeight.rawValue,
-                                                       Base: FlatConstants.HomeStarBase.rawValue,
-                                                       ZHeight: FlatConstants.HomeStarZ.rawValue))
-        Star.position = SCNVector3(X, Y, Z)
-        Star.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
-        Star.NodeID = NodeTables.HomeID
-        Star.castsShadow = true
-        Star.name = NodeNames2D.HomeNode.rawValue
-        Star.categoryBitMask = LightMasks2D.Polar.rawValue
-        Star.geometry?.firstMaterial?.diffuse.contents = NSColor.systemYellow
-        if Settings.GetBool(.CityNodesGlow)
-        {
-            Star.geometry?.firstMaterial?.emission.contents = NSColor.systemYellow
-        }
-        
-        let SmallStar = SCNNode2(geometry: SCNStar.Geometry(VertexCount: Int(FlatConstants.HomeStarVertexCount.rawValue),
-                                                            Height: FlatConstants.SmallStarHeight.rawValue,
-                                                            Base: FlatConstants.SmallStarBase.rawValue,
-                                                            ZHeight: FlatConstants.SmallStarZ.rawValue))
-        SmallStar.castsShadow = true
-        SmallStar.name = NodeNames2D.HomeNode.rawValue
-        SmallStar.categoryBitMask = LightMasks2D.Polar.rawValue
-        SmallStar.geometry?.firstMaterial?.diffuse.contents = NSColor.white
-        Star.addChildNode(SmallStar)
-        SmallStar.position = SCNVector3(0.0, 0.0, 0.0)
-        let YRotation = Latitude
-        let XRotation = Longitude + 180.0
-        Star.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        #endif
+        self.HomeNode = Star
         ToSurface.addChildNode(Star)
     }
     
@@ -482,6 +451,7 @@ extension GlobeView
         HomeNode.addChildNode(Base)
         HomeNode.addChildNode(Pedestal)
         HomeNode.eulerAngles = SCNVector3(CGFloat(Latitude + 90.0).Radians, CGFloat(Longitude + 180.0).Radians, 0.0)
+        self.HomeNode = HomeNode
         ToSurface.addChildNode(HomeNode)
     }
     
