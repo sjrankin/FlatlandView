@@ -63,7 +63,7 @@ class NodeTables
     {
         let QItem = DisplayItem(ID: Quake.ID, ItemType: .Earthquake, Name: "\(Quake.Time)",
                                 Numeric: Quake.GreatestMagnitude, Location: Quake.LocationAsGeoPoint(),
-                                Description: Quake.Place)
+                                Description: Quake.Title)
         QuakeTable[QItem.ID] = QItem
     }
     
