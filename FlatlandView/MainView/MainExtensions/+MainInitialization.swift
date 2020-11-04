@@ -45,8 +45,6 @@ extension MainController
         FileIO.Initialize()
         PrimaryMapList = ActualMapIO.LoadMapList()
         FontHelper.Initialize()
-        //Initialize item data viewer.
-        InitializeItemViewer()
 
         MainController.InitializeMappableDatabase()
         MainController.InitializePOIDatabase()
