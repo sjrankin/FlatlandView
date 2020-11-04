@@ -338,7 +338,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                         }
                         if let NodeData = NodeTables.GetItemData(For: NodeID)
                         {
-                            MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
+                            //MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
                             if Settings.GetBool(.HighlightNodeUnderMouse)
                             {
                                 Node.ShowBoundingShape(.Sphere,
@@ -346,16 +346,35 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                                                        SegmentCount: 10)
                             }
                             PreviousNode = Node
+                            MakePopOver(At: Point, For: NodeData)
                         }
                     }
                 }
                 else
                 {
-                    MainDelegate?.DisplayNodeInformation(ItemData: nil) 
+                    Pop?.performClose(self)
+                    //MainDelegate?.DisplayNodeInformation(ItemData: nil)
                 }
             }
         }
     }
+    
+    func MakePopOver(At: CGPoint, For: DisplayItem)
+    {
+        if let PopController = NSStoryboard(name: "Popovers", bundle: nil).instantiateController(withIdentifier: "POIPopover") as? POIPopover
+        {
+            Pop = NSPopover()
+            Pop?.contentSize = NSSize(width: 376, height: 159)
+            Pop?.behavior = .semitransient
+            Pop?.animates = true
+            Pop?.contentViewController = PopController
+            Pop?.show(relativeTo: NSRect(x: At.x, y: At.y, width: 10.0, height: 10.0), of: self, preferredEdge: .minX)
+            PopController.DisplayItem(For)
+            PopController.SetSelf(Pop!)
+        }
+    }
+    
+    var Pop: NSPopover? = nil
     
     var PreviousNode: SCNNode2? = nil
     var PreviousNodeID: UUID? = nil
