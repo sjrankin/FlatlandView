@@ -28,5 +28,11 @@ import Cocoa
     func applicationWillTerminate(_ aNotification: Notification)
     {
     }
+    
+    @IBOutlet weak var DecorateMenuItem: NSMenuItem!
+    @IBOutlet weak var MagnitudeFilterMenu: NSMenuItem!
+    @IBOutlet weak var AgeFilterMenu: NSMenuItem!
+    @IBOutlet weak var EarthquakeMenu: NSMenuItem!
+    @IBOutlet weak var MainMenu: NSMenu!
 }
 
