@@ -50,9 +50,24 @@ class MainController: NSViewController
             {
                 if self.Location.y >= 0 && self.Location.y < self.view.window!.frame.size.height
                 {
-                    self.Rect2DView.MouseAt(Point: CGPoint(x: self.Location.x, y: self.Location.y))
-                    self.Main2DView.MouseAt(Point: CGPoint(x: self.Location.x, y: self.Location.y))
-                    self.Main3DView.MouseAt(Point: CGPoint(x: self.Location.x, y: self.Location.y))
+                    let Point = CGPoint(x: self.Location.x, y: self.Location.y)
+                    self.Rect2DView.MouseAt(Point: Point)
+                    self.Main2DView.MouseAt(Point: Point)
+                    self.Main3DView.MouseAt(Point: Point)
+                }
+            }
+            return $0
+        }
+        NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved])
+        {
+            if self.Location.x >= 0 && self.Location.x < self.view.window!.frame.size.width
+            {
+                if self.Location.y >= 0 && self.Location.y < self.view.window!.frame.size.height
+                {
+                    let Point = CGPoint(x: self.Location.x, y: self.Location.y)
+                    self.Main3DView.MouseMovedTo(Point: Point)
+                    self.Main2DView.MouseMovedTo(Point: Point)
+                    self.Rect2DView.MouseMovedTo(Point: Point)
                 }
             }
             return $0
@@ -197,6 +212,32 @@ class MainController: NSViewController
     }
     
     var PreferencesWindowOpen = false
+    
+    /// Set the world lock status. This stops the user from moving the camera in all scenes.
+    /// - Note: Prior to locking the scene, the camera is moved back to its default position.
+    /// - Parameter Locked: If true, all scenes in 3D views are reset then locked. If false, the camera
+    ///                     is allowed to be moved and no other action is taken.
+    func SetWorldLock(_ Locked: Bool)
+    {
+        if let WindowController = self.view.window?.windowController as? MainWindow
+        {
+            WindowController.WorldLockButton.toolTip = Locked ? "Currently locked: Click to unlock world scenes" :
+                                                                "Currently unlocked: Click to reset then lock world scenes"
+            WindowController.WorldLockButton.image = Locked ? NSImage(named: "LockWorldIcon") : NSImage(named: "UnlockWorldIcon")
+            let LockMenu = GetAppDelegate().LockUnlockMenuItem
+            LockMenu?.state = Locked ? .off : .on
+            Main3DView.SetCameraLock(Locked)
+            Main2DView.SetCameraLock(Locked)
+            Rect2DView.SetCameraLock(Locked)
+        }
+    }
+    
+    /// Responds to the lock/unlock world button and menu item.
+    /// - Parameter sender: Not used.
+    @IBAction func HandleLockUnlockWorldButton(_ sender: Any)
+    {
+        SetWorldLock(Settings.InvertBool(.WorldIsLocked))
+    }
     
     /// Respond to the user command to take a snapshot of the current view.
     /// - Parameter sender: Not used.
@@ -601,20 +642,8 @@ class MainController: NSViewController
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var BackgroundView: NSView!
-    /*
-    // Item view elements
-    @IBOutlet weak var POIView: NSView!
-    @IBOutlet weak var DescriptionValue: NSTextField!
-    @IBOutlet weak var LocationValue: NSTextField!
-    @IBOutlet weak var LocationLabel: NSTextField!
-    @IBOutlet weak var NumericValue: NSTextField!
-    @IBOutlet weak var NumericLabel: NSTextField!
-    @IBOutlet weak var NameValue: NSTextField!
-    @IBOutlet weak var NameLabel: NSTextField!
-    @IBOutlet weak var TypeValue: NSTextField!
-    @IBOutlet weak var TypeLabel: NSTextField!
- */
- //Debug elements
+
+    //Debug elements
     @IBOutlet weak var VersionLabel: NSTextField!
     @IBOutlet weak var VersionValue: NSTextField!
     @IBOutlet weak var BuildLabel: NSTextField!
