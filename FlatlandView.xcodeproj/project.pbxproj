@@ -56,6 +56,10 @@
 		172F4A2724FA1A900014A65E /* EditorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F4A2624FA1A900014A65E /* EditorProtocol.swift */; };
 		172F4A2924FA4B300014A65E /* +EnumHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172F4A2824FA4B300014A65E /* +EnumHandling.swift */; };
 		17303AFE24F379FB00948127 /* SCNVector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17303AFD24F379FB00948127 /* SCNVector3.swift */; };
+		173056BA2553BAD700B1D4C9 /* DeleteConfirmationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173056B92553BAD700B1D4C9 /* DeleteConfirmationWindow.swift */; };
+		173056BD2553BAFE00B1D4C9 /* DeleteConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173056BC2553BAFE00B1D4C9 /* DeleteConfirmationController.swift */; };
+		173056C02553E7C700B1D4C9 /* +FollowMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173056BF2553E7C700B1D4C9 /* +FollowMode.swift */; };
+		173056C32553F06900B1D4C9 /* +FollowModeRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173056C22553F06900B1D4C9 /* +FollowModeRect.swift */; };
 		1733C80A24F79C0C0025D555 /* RawSettingsEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1733C80924F79C0C0025D555 /* RawSettingsEditor.storyboard */; };
 		1733C80C24F79E180025D555 /* SettingKeysMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1733C80B24F79E180025D555 /* SettingKeysMap.swift */; };
 		1733C80E24F8D5F70025D555 /* RawSettingsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1733C80D24F8D5F70025D555 /* RawSettingsProtocol.swift */; };
@@ -248,6 +252,9 @@
 		17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3EDC524B5B222007C1D72 /* FontHelper.swift */; };
 		17E5EF5124F0DE2C00665167 /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E5EF5024F0DBC600665167 /* libc++abi.tbd */; };
 		17E5EF5F24F1051400665167 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E5EF5E24F1051400665167 /* Debug.swift */; };
+		17E901E62552C3650097A89A /* EarthquakeRegionController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E901E52552C3650097A89A /* EarthquakeRegionController2.swift */; };
+		17E901EA2552C38C0097A89A /* SubPanels.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17E901E92552C38B0097A89A /* SubPanels.storyboard */; };
+		17E901ED2552C9190097A89A /* EarthquakeRegionWindow2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E901EC2552C9190097A89A /* EarthquakeRegionWindow2.swift */; };
 		17EB5C1325159AB1007A75EF /* +MainAsynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB5C1225159AB1007A75EF /* +MainAsynchronous.swift */; };
 		17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790424AEC8D100BB0473 /* K-Means.swift */; };
 		17EB790824AEEE6B00BB0473 /* EarthquakeDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790724AEEE6B00BB0473 /* EarthquakeDebugWindow.swift */; };
@@ -379,6 +386,10 @@
 		172F4A2624FA1A900014A65E /* EditorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorProtocol.swift; sourceTree = "<group>"; };
 		172F4A2824FA4B300014A65E /* +EnumHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+EnumHandling.swift"; sourceTree = "<group>"; };
 		17303AFD24F379FB00948127 /* SCNVector3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNVector3.swift; sourceTree = "<group>"; };
+		173056B92553BAD700B1D4C9 /* DeleteConfirmationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteConfirmationWindow.swift; sourceTree = "<group>"; };
+		173056BC2553BAFE00B1D4C9 /* DeleteConfirmationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteConfirmationController.swift; sourceTree = "<group>"; };
+		173056BF2553E7C700B1D4C9 /* +FollowMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FollowMode.swift"; sourceTree = "<group>"; };
+		173056C22553F06900B1D4C9 /* +FollowModeRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FollowModeRect.swift"; sourceTree = "<group>"; };
 		1733C80924F79C0C0025D555 /* RawSettingsEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RawSettingsEditor.storyboard; sourceTree = "<group>"; };
 		1733C80B24F79E180025D555 /* SettingKeysMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingKeysMap.swift; sourceTree = "<group>"; };
 		1733C80D24F8D5F70025D555 /* RawSettingsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawSettingsProtocol.swift; sourceTree = "<group>"; };
@@ -580,6 +591,9 @@
 		17E5EF5A24F0E04600665167 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		17E5EF5C24F0E0F200665167 /* libdtrace.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libdtrace.tbd; path = usr/lib/libdtrace.tbd; sourceTree = SDKROOT; };
 		17E5EF5E24F1051400665167 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
+		17E901E52552C3650097A89A /* EarthquakeRegionController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController2.swift; sourceTree = "<group>"; };
+		17E901E92552C38B0097A89A /* SubPanels.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SubPanels.storyboard; sourceTree = "<group>"; };
+		17E901EC2552C9190097A89A /* EarthquakeRegionWindow2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow2.swift; sourceTree = "<group>"; };
 		17EB5C1225159AB1007A75EF /* +MainAsynchronous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainAsynchronous.swift"; sourceTree = "<group>"; };
 		17EB790424AEC8D100BB0473 /* K-Means.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "K-Means.swift"; sourceTree = "<group>"; };
 		17EB790724AEEE6B00BB0473 /* EarthquakeDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDebugWindow.swift; sourceTree = "<group>"; };
@@ -748,6 +762,7 @@
 		172F0601255129A300BEA156 /* Panels */ = {
 			isa = PBXGroup;
 			children = (
+				17E901E42552C34E0097A89A /* SubPanels */,
 				172F0602255129B700BEA156 /* GeneralPreferences.swift */,
 				172F0605255129DF00BEA156 /* POIPreferences.swift */,
 				172F0608255129FE00BEA156 /* MapPreferences.swift */,
@@ -942,6 +957,7 @@
 				178E1CA225186DE900FDC75B /* +Attract.swift */,
 				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
 				178E1CAB25186EB000FDC75B /* +ChangedSettingsHandler.swift */,
+				173056BF2553E7C700B1D4C9 /* +FollowMode.swift */,
 				1714DDBD25399401001A3002 /* +Home.swift */,
 				178A869D2489101E00BE8D46 /* StarField.swift */,
 				178A86A62489132800BE8D46 /* GlobeProtocol.swift */,
@@ -1134,14 +1150,14 @@
 				172F06182551509800BEA156 /* Popovers */,
 				17F98DB4251773E9005E248D /* MainExtensions */,
 				178909C4250E0BED0092E3A4 /* MainController.swift */,
+				176A897F2530278900489C22 /* MainWindow.swift */,
+				178909C2250E09ED0092E3A4 /* Main.storyboard */,
 				17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */,
 				17F9AFCD25202DEE00DE0219 /* ParentView.swift */,
 				17F9B024252069DE00DE0219 /* SCNNode2.swift */,
 				172D205F252183C500FA8687 /* NodeTables.swift */,
-				178909C2250E09ED0092E3A4 /* Main.storyboard */,
 				17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */,
 				17DDEAD2251C3A8500B0ADE7 /* MainRunProtocol.swift */,
-				176A897F2530278900489C22 /* MainWindow.swift */,
 				17EF3388247A4E3D00A5B55D /* MainProtocol.swift */,
 				176A89822530280800489C22 /* WindowManagement.swift */,
 				1767A8E324794A0100C434B5 /* AppDelegate.swift */,
@@ -1436,6 +1452,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		17E901E42552C34E0097A89A /* SubPanels */ = {
+			isa = PBXGroup;
+			children = (
+				17E901E52552C3650097A89A /* EarthquakeRegionController2.swift */,
+				17E901EC2552C9190097A89A /* EarthquakeRegionWindow2.swift */,
+				17E901E92552C38B0097A89A /* SubPanels.storyboard */,
+				173056B92553BAD700B1D4C9 /* DeleteConfirmationWindow.swift */,
+				173056BC2553BAFE00B1D4C9 /* DeleteConfirmationController.swift */,
+			);
+			path = SubPanels;
+			sourceTree = "<group>";
+		};
 		17EB790624AEEE5100BB0473 /* EarthquakeDebug */ = {
 			isa = PBXGroup;
 			children = (
@@ -1567,6 +1595,7 @@
 				17F1C7E02543FA470046AE33 /* +RectangleCities.swift */,
 				17F1C7E32543FA840046AE33 /* +RectangleWorldHeritageSizes.swift */,
 				17F1C7E62543FAC70046AE33 /* +RectangleSettingsHandler.swift */,
+				173056C22553F06900B1D4C9 /* +FollowModeRect.swift */,
 			);
 			path = RectangleExtensions;
 			sourceTree = "<group>";
@@ -1700,6 +1729,7 @@
 			files = (
 				174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */,
 				178E6F732540533600DA0F76 /* RoundTextTest.storyboard in Resources */,
+				17E901EA2552C38C0097A89A /* SubPanels.storyboard in Resources */,
 				17ABAFFE24E9209E009DDC35 /* EarthquakeHistory.db in Resources */,
 				17F1E5C32549126600E6F6CF /* SparkParticleTest.sks in Resources */,
 				1750043924B46110006528A4 /* FontPickerUI.storyboard in Resources */,
@@ -1754,6 +1784,7 @@
 			files = (
 				17F1C7CE2543F8A50046AE33 /* +RectangleViewInitialization.swift in Sources */,
 				17B8F5252503892800D71931 /* SplitterParameters.swift in Sources */,
+				17E901E62552C3650097A89A /* EarthquakeRegionController2.swift in Sources */,
 				178A869A2488C3B600BE8D46 /* AboutDetailsController.swift in Sources */,
 				17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */,
 				17D570A324F8FDFD00EB5C08 /* GeneralEditor.swift in Sources */,
@@ -1804,6 +1835,7 @@
 				1718812924B85B9D00EE1E71 /* PerformanceOptions.swift in Sources */,
 				174444FB25525A750003C386 /* MapAttributesPreferences.swift in Sources */,
 				17B8F523250388D800D71931 /* Splitter.swift in Sources */,
+				173056C32553F06900B1D4C9 /* +FollowModeRect.swift in Sources */,
 				17A25CC62505D44D00214C45 /* Metal2DShapeParameters.swift in Sources */,
 				1750043F24B46271006528A4 /* FontPickerController.swift in Sources */,
 				17C87B7B25177F650065BE6D /* +FlatViewHours.swift in Sources */,
@@ -1940,6 +1972,7 @@
 				1759FC6924A615BD001B1D4B /* RecentEarthquakeController.swift in Sources */,
 				172F4A1D24F9F2530014A65E /* ColorEditor.swift in Sources */,
 				1759FC6724A615A2001B1D4B /* RecentEarthquakeWindow.swift in Sources */,
+				173056BA2553BAD700B1D4C9 /* DeleteConfirmationWindow.swift in Sources */,
 				17C0FD732531648D008F3D05 /* TLE.swift in Sources */,
 				17F9B0292520ABD900DE0219 /* FlatlandEventProtocol.swift in Sources */,
 				173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */,
@@ -1957,6 +1990,7 @@
 				17F9AFE82520344F00DE0219 /* +CGPoint.swift in Sources */,
 				17897C872514AA1100544DE1 /* +MainEventHandling.swift in Sources */,
 				1792486B251A1E3100AF4D4B /* +FlatViewEarthquakes.swift in Sources */,
+				173056C02553E7C700B1D4C9 /* +FollowMode.swift in Sources */,
 				17176C0D254CFE210051960D /* EarthquakeViewerController.swift in Sources */,
 				1760023424D2BEF800D5EA1A /* Double.swift in Sources */,
 				17F9B001252035B300DE0219 /* +NotifiedEarthquakeList.swift in Sources */,
@@ -1976,6 +2010,7 @@
 				173AC19E2506109900C929BB /* Metal2DBorderedCircle.metal in Sources */,
 				17B7D7B024CED088000C077B /* SolidColorKernel.metal in Sources */,
 				17B062D7253D27A000C4BAEE /* ShapeManager.swift in Sources */,
+				173056BD2553BAFE00B1D4C9 /* DeleteConfirmationController.swift in Sources */,
 				1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */,
 				17A3788424DC25F300EE2B45 /* ImageBlender.swift in Sources */,
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
@@ -2004,6 +2039,7 @@
 				17DD791C24DA7A8E0046EB25 /* ResetConfirmController.swift in Sources */,
 				17F44AA824CEF67700A02B19 /* SatelliteMap.swift in Sources */,
 				178A86A92489134300BE8D46 /* +GridLines.swift in Sources */,
+				17E901ED2552C9190097A89A /* EarthquakeRegionWindow2.swift in Sources */,
 				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
 				17C87B7525177E360065BE6D /* +FlatViewInitialization.swift in Sources */,
 				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
