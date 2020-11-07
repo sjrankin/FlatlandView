@@ -21,7 +21,7 @@ extension FlatView
         let Flat = SCNCylinder(radius: CGFloat(FlatConstants.FlatRadius.rawValue),
                                height: CGFloat(FlatConstants.FlatThickness.rawValue))
         Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
-        FlatEarthNode = SCNNode(geometry: Flat)
+        FlatEarthNode = SCNNode2(geometry: Flat)
         FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue | LightMasks2D.Polar.rawValue
         var Image: NSImage!
         var IntensityMultiplier = 1.0
@@ -240,5 +240,19 @@ extension FlatView
         UNESCOPlane.eulerAngles = SCNVector3(180.0.Radians, 180.0.Radians, 180.0.Radians)
         UNESCOPlane.position = SCNVector3(0.0, 0.0, 0.0)
         self.scene?.rootNode.addChildNode(UNESCOPlane)
+    }
+    
+    func AddFollowPlane()
+    {
+        let Flat = SCNCylinder(radius: CGFloat(FlatConstants.FlatRadius.rawValue),
+                               height: CGFloat(FlatConstants.FlatThickness.rawValue))
+        Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
+        FollowPlane = SCNNode2(geometry: Flat)
+        FollowPlane?.categoryBitMask = LightMasks2D.Sun.rawValue | LightMasks2D.Polar.rawValue
+        FollowPlane?.position = SCNVector3(0.0, 0.0, 0.01)
+        FollowPlane?.eulerAngles = SCNVector3(90.0.Radians, 180.0.Radians, 0.0)
+        FollowPlane?.name = NodeNames2D.FollowPlane.rawValue
+        FollowPlane?.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        self.scene?.rootNode.addChildNode(FollowPlane!)
     }
 }
