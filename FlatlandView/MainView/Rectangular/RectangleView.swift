@@ -83,8 +83,6 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         FlatEarthNode.geometry?.firstMaterial?.diffuse.contents = Final
     }
     
-    var FlatEarthNode = SCNNode()
-    
     func StartClock()
     {
         EarthClock = Timer.scheduledTimer(timeInterval: 1.0,//Defaults.EarthClockTick.rawValue,
@@ -286,6 +284,62 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         }
     }
     
+    func MouseMovedTo(Point: CGPoint)
+    {
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.Rectangular) == .Rectangular
+        {
+        if InFollowMode
+        {
+            let SearchOptions: [SCNHitTestOption: Any] =
+            [
+                .searchMode: SCNHitTestSearchMode.closest.rawValue,
+                .ignoreHiddenNodes: true,
+                .ignoreChildNodes: true,
+                .rootNode: self.FlatEarthNode as Any
+            ]
+            let HitObject = self.hitTest(Point, options: SearchOptions)
+            if HitObject.count > 0
+            {
+                if HitObject[0].node.self is SCNNode2
+                {
+                    let Where = HitObject[0].worldCoordinates
+                    if test == nil
+                    {
+                        test = maketestnode()
+                        FlatEarthNode.addChildNode(test!)
+                    }
+                    let RawPosition = SCNVector3(-Where.x,
+                                             -0.75,
+                                             -Where.y)
+                    let (lat, lon) = Utility.ConvertRectangleToGeo(Point: RawPosition, Width: RectMode.MapWidth.rawValue,
+                                                                   Height: RectMode.MapHeight.rawValue)
+                    print("Rect: Where=\(Where.RoundedTo(3)), \(lat.RoundedTo(3)),\(lon.RoundedTo(3))")
+                    test?.position = RawPosition
+                }
+            }
+        }
+        }
+    }
+    
+    func maketestnode() -> SCNNode2
+    {
+        let top = SCNCone(topRadius: 0.0, bottomRadius: 0.25, height: 0.5)
+        let bottom = SCNCone(topRadius: 0.25, bottomRadius: 0.0, height: 0.5)
+        let topnode = SCNNode2(geometry: top)
+        let bottomnode = SCNNode2(geometry: bottom)
+        topnode.categoryBitMask = LightMasks2D.Polar.rawValue
+        bottomnode.categoryBitMask = LightMasks2D.Polar.rawValue
+        topnode.position = SCNVector3(0.0, 0.5, 0.0)
+        topnode.geometry?.firstMaterial?.diffuse.contents = NSColor.systemOrange
+        bottomnode.geometry?.firstMaterial?.diffuse.contents = NSColor.yellow
+        let final = SCNNode2()
+        final.addChildNode(topnode)
+        final.addChildNode(bottomnode)
+        return final
+    }
+    
+    var test: SCNNode2? = nil
+    
     func MakePopOver(At: CGPoint, For: DisplayItem)
     {
         if let PopController = NSStoryboard(name: "Popovers", bundle: nil).instantiateController(withIdentifier: "POIPopover") as? POIPopover
@@ -301,8 +355,20 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         }
     }
     
+    func SetCameraLock(_ IsLocked: Bool)
+    {
+        if IsLocked
+        {
+            ResetCamera()
+        }
+        self.allowsCameraControl = !IsLocked
+    }
+    
     var Pop: NSPopover? = nil
     
+    var FlatEarthNode = SCNNode2()
+    var InFollowMode: Bool = true
+    var FollowModeNode: SCNNode2? = nil
     var PreviousNode: SCNNode2? = nil
     var PreviousNodeID: UUID? = nil
     var NodesWithShadows = [SCNNode]()
