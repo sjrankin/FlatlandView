@@ -638,6 +638,8 @@ enum NodeNames2D: String
     case Earthquake = "Earthquake"
     /// The sun node.
     case Sun = "Sun"
+    /// The mouse follow plane.
+    case FollowPlane = "FollowPlane"
 }
 
 /// Shapes for earthquakes in 2D mode.
