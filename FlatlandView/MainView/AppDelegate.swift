@@ -29,6 +29,7 @@ import Cocoa
     {
     }
     
+    @IBOutlet weak var LockUnlockMenuItem: NSMenuItem!
     @IBOutlet weak var DecorateMenuItem: NSMenuItem!
     @IBOutlet weak var MagnitudeFilterMenu: NSMenuItem!
     @IBOutlet weak var AgeFilterMenu: NSMenuItem!
