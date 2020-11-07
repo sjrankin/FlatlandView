@@ -18,7 +18,7 @@ extension RectangleView
     {
         let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapDepth.rawValue),
                           length: CGFloat(RectMode.MapHeight.rawValue), chamferRadius: 0.0)
-        FlatEarthNode = SCNNode(geometry: Flat)
+        FlatEarthNode = SCNNode2(geometry: Flat)
         FlatEarthNode.categoryBitMask = LightMasks2D.Sun.rawValue | LightMasks2D.Polar.rawValue
         var Image: NSImage!
         var IntensityMultiplier = 1.0
