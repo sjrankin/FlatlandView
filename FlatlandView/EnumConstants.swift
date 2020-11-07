@@ -542,25 +542,20 @@ enum FileIONames: String, CaseIterable
     case MapDirectory = "Flatland/Maps"
     /// The map structure file name.
     case MapStructure = "Maps.xml"
-    
     /// The database directory.
     case DatabaseDirectory = "Flatland/Database"
-    
     /// Database of mappable locations and objects.
     case MappableDatabase = "Mappable.db"
     /// Name of the database of mappable locations and objects.
     case MappableName = "Mappable"
-    
     /// The earthquake history database.
     case QuakeHistoryDatabase = "EarthquakeHistory.db"
     /// The name of the earthquake history database.
     case QuakeName = "EarthquakeHistory"
-    
     /// Database of POI locations.
     case POIDatabase = "POI.db"
     /// Name of the database of POI locations.
     case POIName = "POI"
-    
     /// Common database extension.
     case DatabaseExtension = "db"
 }
