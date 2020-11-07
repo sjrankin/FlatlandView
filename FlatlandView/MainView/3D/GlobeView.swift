@@ -600,6 +600,120 @@ class GlobeView: SCNView, FlatlandEventProtocol
     var HourNode: SCNNode2? = nil
     var PlottedEarthquakes = Set<String>()
     
+    @objc func Context_AddPOI(_ sender: Any)
+    {
+        print("Add POI here!")
+    }
+    
+    @objc func Context_EditPOI(_ sender: Any)
+    {
+        print("Edit POI here!")
+    }
+    
+    @objc func Context_AddQuakeRegion(_ sender: Any)
+    {
+        print("Add earthquake region")
+    }
+    
+    @objc func Context_EditQuakeRegion(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "SubPanels", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeRegionWindow2") as? EarthquakeRegionWindow2
+        {
+            let Window = WindowController.window
+            if let Controller = Window?.contentViewController as? EarthquakeRegionController2
+            {
+                Controller.IsModal(false)
+                WindowController.showWindow(nil)
+            }
+        }
+    }
+    
+    @objc func Context_MakeCircularRegion(_ sender: Any)
+    {
+        
+    }
+    
+    @objc func Context_MakeRectangularRegion(_ sender: Any)
+    {
+        
+    }
+    
+    override func menu(for event: NSEvent) -> NSMenu?
+    {
+        if event.type == .rightMouseDown
+        {
+            let Menu = NSMenu(title: "Actions")
+            Menu.items =
+                [
+                    MakePOIMenu(),
+                    MakeEarthquakeMenu()
+                ]
+            return Menu
+        }
+        return nil
+    }
+    
+    func MakePOIMenu() -> NSMenuItem
+    {
+        POIMenu = NSMenuItem()
+        POIMenu?.title = "Points of Interest"
+        POIMenu?.submenu = NSMenu(title: "Points of Interest")
+        let AddPOI = NSMenuItem(title: "Add POI", action: #selector(Context_AddPOI), keyEquivalent: "")
+        AddPOI.target = self
+        let EditPOI = NSMenuItem(title: "Edit POI", action: #selector(Context_EditPOI), keyEquivalent: "")
+        EditPOI.target = self
+        POIMenu?.submenu?.items.append(AddPOI)
+        POIMenu?.submenu?.items.append(EditPOI)
+        return POIMenu!
+    }
+    
+    func MakeEarthquakeMenu() -> NSMenuItem
+    {
+        QuakeMenu = NSMenuItem()
+        QuakeMenu?.title = "Earthquakes"
+        QuakeMenu?.submenu = NSMenu(title: "Earthquakes")
+        let AddRegion = NSMenuItem(title: "Add Earthquake Region", action: #selector(Context_AddQuakeRegion), keyEquivalent: "")
+        AddRegion.target = self
+        let EditRegion = NSMenuItem(title: "Edit Earthquake Region", action: #selector(Context_EditQuakeRegion), keyEquivalent: "")
+        EditRegion.target = self
+        QuakeMenu?.submenu?.items.append(AddRegion)
+        QuakeMenu?.submenu?.items.append(EditRegion)
+        QuakeMenu?.submenu?.items.append(NSMenuItem.separator())
+        let CircleRegion = NSMenuItem(title: "Create Circular Region", action: #selector(Context_MakeCircularRegion), keyEquivalent: "")
+        CircleRegion.target = self
+        let RectRegion = NSMenuItem(title: "Create Rectangular Region", action: #selector(Context_MakeRectangularRegion), keyEquivalent: "")
+        RectRegion.target = self
+        QuakeMenu?.submenu?.items.append(CircleRegion)
+        QuakeMenu?.submenu?.items.append(RectRegion)
+        return QuakeMenu!
+    }
+    
+    var POIMenu: NSMenuItem? = nil
+    var QuakeMenu: NSMenuItem? = nil
+    
+    func MouseMovedTo(Point: CGPoint)
+    {
+        if InFollowMode
+        {
+            let SearchOptions: [SCNHitTestOption: Any] =
+                [
+                    .searchMode: SCNHitTestSearchMode.closest.rawValue,
+                    .ignoreHiddenNodes: true,
+                    .ignoreChildNodes: false,
+                    .rootNode: self.EarthNode as Any
+                ]
+            let HitObject = self.hitTest(Point, options: SearchOptions)
+            if HitObject.count > 0
+            {
+                if let Node = HitObject[0].node as? SCNNode2
+                {
+                    //do something only if Node is the globe
+                }
+            }
+        }
+    }
+    
     /// Handle mouse motion reported by the main view controller.
     /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
     ///         the node under the mouse is queried and its associated data may be displayed.
@@ -677,6 +791,15 @@ class GlobeView: SCNView, FlatlandEventProtocol
         }
     }
     
+    func SetCameraLock(_ IsLocked: Bool)
+    {
+        if IsLocked
+        {
+            ResetCamera()
+        }
+        self.allowsCameraControl = !IsLocked
+    }
+    
     var Pop: NSPopover? = nil
     
     var PreviousNode: SCNNode2? = nil
@@ -742,4 +865,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
     
     /// Dark clock timer.
     var DarkClock: Timer!
+    
+    var InFollowMode: Bool = false
+    var FollowModeNode: SCNNode2? = nil
 }
