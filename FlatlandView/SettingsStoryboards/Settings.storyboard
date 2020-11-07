@@ -391,7 +391,7 @@
                                     </gridCell>
                                     <gridCell row="25d-yX-VTO" column="lQh-Gq-Pcb" id="wSc-fA-Kc3">
                                         <segmentedControl key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nR2-lJ-icJ">
-                                            <rect key="frame" x="74" y="-2" width="201" height="24"/>
+                                            <rect key="frame" x="96" y="-2" width="201" height="24"/>
                                             <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="stt-ut-57F">
                                                 <font key="font" metaFont="system"/>
                                                 <segments>
@@ -4776,7 +4776,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="6wR-X2-Nd8" column="nSO-dn-FGw" id="kuD-Yb-Cfp">
                                                     <gridView key="contentView" horizontalCompressionResistancePriority="754" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TCU-og-MA0">
-                                                        <rect key="frame" x="0.0" y="67" width="172" height="30"/>
+                                                        <rect key="frame" x="0.0" y="67" width="361" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="sXw-XA-hZV" secondAttribute="trailing" id="cxf-Dr-hMK"/>
                                                             <constraint firstItem="sXw-XA-hZV" firstAttribute="leading" secondItem="Y5g-g4-Y3g" secondAttribute="trailing" constant="6" id="yse-8H-PO8"/>
@@ -4853,7 +4853,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="D0y-rl-W9y" column="nSO-dn-FGw" id="hmD-MS-yDG">
                                                     <gridView key="contentView" horizontalCompressionResistancePriority="753" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="oEQ-ZB-Udj">
-                                                        <rect key="frame" x="0.0" y="0.0" width="127" height="21"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="361" height="21"/>
                                                         <constraints>
                                                             <constraint firstItem="eza-QG-G8W" firstAttribute="leading" secondItem="N0s-es-Qof" secondAttribute="trailing" constant="6" id="fIf-4j-bcY"/>
                                                             <constraint firstAttribute="trailing" secondItem="eza-QG-G8W" secondAttribute="trailing" id="yD1-vd-YrY"/>
@@ -5071,7 +5071,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="UgZ-w5-wxa" column="Qdo-3i-Rde" id="ggL-5Z-t0L">
                                         <gridView key="contentView" horizontalCompressionResistancePriority="755" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
-                                            <rect key="frame" x="0.0" y="0.0" width="196" height="21"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="21"/>
                                             <rows>
                                                 <gridRow id="MvR-7n-9cc"/>
                                             </rows>
