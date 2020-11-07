@@ -108,6 +108,20 @@
                                         <action selector="HandleViewTypeChange:" target="gS1-iC-1Lf" id="uO2-5J-Abp"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="458F6142-08F3-4DE8-8D82-69A64701DC1C" label="Lock/Unlock Camera" paletteLabel="Lock/Unlock Camera" image="UnlockWorldIcon" sizingBehavior="auto" id="Twt-2m-O8i">
+                                    <nil key="toolTip"/>
+                                    <button key="view" id="mul-Uu-lPY">
+                                        <rect key="frame" x="34" y="14" width="48" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="UnlockWorldIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="wmP-dE-aEH">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="HandleLockUnlockWorldButton:" target="gS1-iC-1Lf" id="Ubc-zW-k3K"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="Mks-dR-lsJ"/>
@@ -117,6 +131,8 @@
                                 <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="y1a-2M-gUr"/>
                                 <toolbarItem reference="FW5-HH-uvu"/>
+                                <toolbarItem reference="AwX-nU-XIN"/>
+                                <toolbarItem reference="Twt-2m-O8i"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="Y99-uv-LZz"/>
                                 <toolbarItem reference="Fk7-Vk-xXx"/>
@@ -131,6 +147,8 @@
                         <outlet property="HourSegment" destination="bPC-zz-fFT" id="6Q9-yt-Pms"/>
                         <outlet property="MainToolBar" destination="Olf-7r-jti" id="mOd-dQ-sAa"/>
                         <outlet property="ViewSegment" destination="zlI-db-Myb" id="Zcj-ft-Zy5"/>
+                        <outlet property="WorldLockBarButton" destination="Twt-2m-O8i" id="okR-Uu-VZm"/>
+                        <outlet property="WorldLockButton" destination="mul-Uu-lPY" id="SU6-RU-fYc"/>
                         <segue destination="BrD-hm-rhT" kind="relationship" relationship="window.shadowedContentViewController" id="w6z-7E-nbl"/>
                     </connections>
                 </windowController>
@@ -310,6 +328,12 @@
                                                 <action selector="Reset3DView:" target="vAH-R8-aOX" id="gvk-of-ZVW"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="World Motion Unlocked" identifier="LockUnlockMenuItem" id="LWx-Kz-SLu">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="HandleLockUnlockWorldButton:" target="vAH-R8-aOX" id="8rv-ON-PYD"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" title="Hours" id="2ha-9P-wWY"/>
                                         <menuItem title="Today's Times" id="Svz-QT-dyg">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -414,6 +438,7 @@
                 <customObject id="vAH-R8-aOX" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <customObject id="Tgd-4X-nn7" customClass="AppDelegate" customModule="Flatland" customModuleProvider="target">
                     <connections>
+                        <outlet property="LockUnlockMenuItem" destination="LWx-Kz-SLu" id="KxV-kR-mdr"/>
                         <outlet property="MainMenu" destination="WZs-Z4-DcR" id="Z4o-fF-u2M"/>
                     </connections>
                 </customObject>
@@ -621,5 +646,6 @@
         <image name="RectangleIcon" width="24" height="24"/>
         <image name="ResetViewIcon" width="24" height="24"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
+        <image name="UnlockWorldIcon" width="32" height="32"/>
     </resources>
 </document>
