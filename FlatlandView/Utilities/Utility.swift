@@ -1896,20 +1896,6 @@ class Utility
         }
     }
     
-    /// Converts polar coordintes into Cartesian coordinates, optionally adding an offset value.
-    /// - Parameter Theta: The angle of the polar coordinate.
-    /// - Parameter Radius: The radial value of the polar coordinate.
-    /// - Parameter HOffset: Value added to the returned `x` value. Defaults to 0.0.
-    /// - Parameter VOffset: Value added to the returned `y` value. Defaults to 0.0.
-    /// - Returns: `CGPoint` with the converted polar coorindate.
-    public static func PolarToCartesian(Theta: Double, Radius: Double, HOffset: Double = 0.0, VOffset: Double = 0.0) -> CGPoint
-    {
-        let Radial = Theta * Double.pi / 180.0
-        let X = Radius * cos(Radial) + HOffset
-        let Y = Radius * sin(Radial) + VOffset
-        return CGPoint(x: X, y: Y)
-    }
-    
     /// Returns a set of points along an arc, equally spaced.
     /// - Note: Returned points all have a `z` value of 0.0
     /// - Parameter Radius: The radius of the arc.
@@ -1950,6 +1936,70 @@ class Utility
             Result.append(NewPoint)
         }
         return Result
+    }
+    
+    /// Converts polar coordintes into Cartesian coordinates, optionally adding an offset value.
+    /// - Parameter Theta: The angle of the polar coordinate.
+    /// - Parameter Radius: The radial value of the polar coordinate.
+    /// - Parameter HOffset: Value added to the returned `x` value. Defaults to 0.0.
+    /// - Parameter VOffset: Value added to the returned `y` value. Defaults to 0.0.
+    /// - Returns: `CGPoint` with the converted polar coorindate.
+    public static func PolarToCartesian(Theta: Double, Radius: Double, HOffset: Double = 0.0, VOffset: Double = 0.0) -> CGPoint
+    {
+        let Radial = Theta * Double.pi / 180.0
+        let X = Radius * cos(Radial) + HOffset
+        let Y = Radius * sin(Radial) + VOffset
+        return CGPoint(x: X, y: Y)
+    }
+    
+    /// Converts Cartesian coordinates into polar coordinates.
+    /// - Parameter X: The horizontal Cartesian coordinate.
+    /// - Parameter Y: The vertical Cartesian coordinate.
+    /// - Returns: Tuple in the form (Radius, Angle) where `Angle` is in degrees.
+    public static func CartesianToPolar(X: Double, Y: Double) -> (Radius: Double, Angle: Double)
+    {
+        let Radius = sqrt((X * X) + (Y * Y))
+        let Theta = atan2(Y, X)
+        return (Radius: Radius, Angle: Theta.Degrees)
+    }
+    
+    /// Converts a point on a rectangle in an `SCNView` to a geographical coordinate.
+    /// - Parameter Point: The point to convert. Assumes `x` is the horizontal coordinate and
+    ///                    `z` is the vertical coordinate. Furthermore, this function assumes
+    ///                    `z` is negated - negative values are towards the top. This function
+    ///                    corrects for that.
+    /// - Parameter Width: Width of the rectangle.
+    /// - Parameter Height: Height of the rectangle.
+    /// - Returns: Tuple in the form (Latitude, Longitude).
+    public static func ConvertRectangleToGeo(Point: SCNVector3, Width: Double,
+                                             Height: Double) -> (Latitude: Double, Longitude: Double)
+    {
+        let X = Double(Point.x)
+        let Y = Double(-Point.z)
+        let HalfWidth = Width / 2.0
+        let HalfHeight = Height / 2.0
+        let XPercent = X / HalfWidth
+        let YPercent = Y / HalfHeight
+        let Longitude = 180.0 * XPercent * -1.0
+        let Latitude = 90.0 * YPercent
+        return (Latitude, Longitude)
+    }
+    
+    public static func ConvertCircleToGeo(Point: SCNVector3, Radius: Double,
+                                          Angle: Double, NorthCenter: Bool,
+                                          ThetaValue: inout Double) -> (Latitude: Double, Longitude: Double)
+    {
+        let (R, Theta) = CartesianToPolar(X: Double(Point.x), Y: Double(Point.z))
+        ThetaValue = Theta
+        let RadialPercent = R / Radius
+        let FinalRadial = 180.0 * RadialPercent
+        var Latitude = FinalRadial - 90.0
+        if NorthCenter
+        {
+            Latitude = Latitude * -1.0
+        }
+        let Longitude = Theta + Angle
+        return (Latitude, Longitude)
     }
 }
 
