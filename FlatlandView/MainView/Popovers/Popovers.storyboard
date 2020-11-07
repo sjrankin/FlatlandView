@@ -11,11 +11,11 @@
             <objects>
                 <viewController title="Location Information" storyboardIdentifier="POIPopover" id="GtX-lJ-3HJ" customClass="POIPopover" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="IU6-4P-QcJ">
-                        <rect key="frame" x="0.0" y="0.0" width="376" height="159"/>
+                        <rect key="frame" x="0.0" y="0.0" width="359" height="178"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <gridView fixedFrame="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="sZV-dS-tSF">
-                                <rect key="frame" x="20" y="28" width="276" height="104"/>
+                            <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="sZV-dS-tSF">
+                                <rect key="frame" x="13" y="37" width="276" height="104"/>
                                 <rows>
                                     <gridRow id="YEt-Eo-CDX"/>
                                     <gridRow id="FTt-ix-VK7"/>
@@ -26,7 +26,7 @@
                                 <gridCells>
                                     <gridCell row="YEt-Eo-CDX" column="Ugu-cH-QNY" id="wkh-RG-gKZ">
                                         <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="F4H-mO-jrk">
-                                            <rect key="frame" x="0.0" y="22" width="180" height="82"/>
+                                            <rect key="frame" x="0.0" y="22" width="190" height="82"/>
                                             <rows>
                                                 <gridRow id="6rc-57-bID"/>
                                                 <gridRow id="k22-IX-DaQ"/>
@@ -35,7 +35,7 @@
                                             </rows>
                                             <columns>
                                                 <gridColumn id="FUy-x1-HdQ"/>
-                                                <gridColumn id="2p0-9x-9KC"/>
+                                                <gridColumn leadingPadding="10" id="2p0-9x-9KC"/>
                                             </columns>
                                             <gridCells>
                                                 <gridCell row="6rc-57-bID" column="FUy-x1-HdQ" id="uy9-Tc-wPM">
@@ -50,7 +50,7 @@
                                                 </gridCell>
                                                 <gridCell row="6rc-57-bID" column="2p0-9x-9KC" id="NMK-iF-6BZ">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rpA-Yl-TrI">
-                                                        <rect key="frame" x="69" y="66" width="28" height="16"/>
+                                                        <rect key="frame" x="79" y="66" width="28" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="City" id="hj1-mf-ftM">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -70,7 +70,7 @@
                                                 </gridCell>
                                                 <gridCell row="k22-IX-DaQ" column="2p0-9x-9KC" id="EBk-ad-qmT">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dau-Y4-HJU">
-                                                        <rect key="frame" x="69" y="44" width="40" height="16"/>
+                                                        <rect key="frame" x="79" y="44" width="40" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Tokyo" id="UEc-WJ-Pcp">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -90,7 +90,7 @@
                                                 </gridCell>
                                                 <gridCell row="oqS-ci-dVQ" column="2p0-9x-9KC" id="G4L-sy-NOK">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9fK-77-qZI">
-                                                        <rect key="frame" x="69" y="22" width="94" height="16"/>
+                                                        <rect key="frame" x="79" y="22" width="94" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="A whole bunch" id="roX-sA-8kQ">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -110,7 +110,7 @@
                                                 </gridCell>
                                                 <gridCell row="z23-lL-6Ml" column="2p0-9x-9KC" id="hED-YH-Hcn">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6U3-v5-usg">
-                                                        <rect key="frame" x="69" y="0.0" width="113" height="16"/>
+                                                        <rect key="frame" x="79" y="0.0" width="113" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="35.676N, 139.65E" id="t2q-fC-7Ko">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -134,7 +134,7 @@
                                 </gridCells>
                             </gridView>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="dFd-UY-itq">
-                                <rect key="frame" x="5" y="140" width="14" height="14"/>
+                                <rect key="frame" x="5" y="159" width="14" height="14"/>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="HSs-l7-Z5O">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -143,14 +143,29 @@
                                     <action selector="HandleClosePressed:" target="GtX-lJ-3HJ" id="G1Q-8i-v2A"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NMG-5j-mmz">
+                                <rect key="frame" x="291" y="0.0" width="64" height="32"/>
+                                <buttonCell key="cell" type="push" title="Edit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zhV-bw-gaG">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleEditButton:" target="GtX-lJ-3HJ" id="lAP-ap-62s"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="dFd-UY-itq" firstAttribute="top" secondItem="IU6-4P-QcJ" secondAttribute="top" constant="5" id="8Yu-0t-3tT"/>
+                            <constraint firstItem="sZV-dS-tSF" firstAttribute="centerY" secondItem="IU6-4P-QcJ" secondAttribute="centerY" id="8w2-U6-iPG"/>
+                            <constraint firstItem="sZV-dS-tSF" firstAttribute="leading" secondItem="IU6-4P-QcJ" secondAttribute="leading" constant="13" id="KA5-8x-l1D"/>
+                            <constraint firstAttribute="trailing" secondItem="NMG-5j-mmz" secondAttribute="trailing" constant="10" id="P2w-NU-lZy"/>
                             <constraint firstItem="dFd-UY-itq" firstAttribute="leading" secondItem="IU6-4P-QcJ" secondAttribute="leading" constant="5" id="rE1-RA-8JU"/>
+                            <constraint firstAttribute="bottom" secondItem="NMG-5j-mmz" secondAttribute="bottom" constant="7" id="zJj-jI-7FU"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="DescriptionLabel" destination="suR-0y-e8I" id="pTh-rE-BqD"/>
+                        <outlet property="EditButton" destination="NMG-5j-mmz" id="OdG-lp-r1N"/>
                         <outlet property="LocationLabel" destination="qta-uC-MDN" id="Kfb-j8-l9e"/>
                         <outlet property="LocationValue" destination="6U3-v5-usg" id="P3b-K6-JbC"/>
                         <outlet property="NameLabel" destination="YmL-gv-Bak" id="rox-QL-xKI"/>
@@ -163,7 +178,7 @@
                 </viewController>
                 <customObject id="sef-kb-LOB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-69" y="32.5"/>
+            <point key="canvasLocation" x="-77.5" y="42"/>
         </scene>
     </scenes>
     <resources>
