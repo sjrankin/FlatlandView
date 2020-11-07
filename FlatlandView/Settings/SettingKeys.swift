@@ -185,6 +185,8 @@ enum SettingKeys: String, CaseIterable
     case ShowCamera = "ShowCamera"
     /// Boolean: If true, the node under the mouse is highlighted.
     case HighlightNodeUnderMouse = "HighlightNodeUnderMouse"
+    /// Boolean: If true, the 3D scenes cannot be moved. If false, they can.
+    case WorldIsLocked = "WorldIsLocked"
     
     // MARK: - Performance and optimization settings.
     /// Boolean: If true, hours have a chamfer value set.
