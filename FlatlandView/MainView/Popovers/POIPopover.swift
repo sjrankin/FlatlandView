@@ -31,6 +31,7 @@ class POIPopover: NSViewController, NSPopoverDelegate
     
     func Initialize()
     {
+        EditButton.isHidden = true
         LocationLabel.stringValue = ""
         LocationValue.stringValue = ""
         NumericLabel.stringValue = ""
@@ -85,6 +86,7 @@ class POIPopover: NSViewController, NSPopoverDelegate
             LocationValue.stringValue = ""
         }
         DescriptionLabel.stringValue = ItemToDisplay.Description
+        DisplayedItem = ItemToDisplay.ItemType
         switch ItemToDisplay.ItemType
         {
             case .City:
@@ -93,6 +95,9 @@ class POIPopover: NSViewController, NSPopoverDelegate
                 NumericLabel.stringValue = "Population"
                 let FinalPop = Int(ItemToDisplay.Numeric).Delimited()
                 NumericValue.stringValue = "\(FinalPop)"
+                NameValue.font = NSFont.boldSystemFont(ofSize: 13.0)
+                NumericValue.font = NSFont.boldSystemFont(ofSize: 13.0)
+                LocationValue.font = NSFont.boldSystemFont(ofSize: 13.0)
                 
             case .Earthquake:
                 NumericLabel.stringValue = "Magnitude"
@@ -107,12 +112,14 @@ class POIPopover: NSViewController, NSPopoverDelegate
                 NameValue.stringValue = ItemToDisplay.Name
                 
             case .UserPOI:
+                EditButton.isHidden = false
                 NumericLabel.stringValue = ""
                 NumericValue.stringValue = ""
                 NameLabel.stringValue = "Name"
                 NameValue.stringValue = ItemToDisplay.Name
                 
             case .Home:
+                EditButton.isHidden = false
                 NumericLabel.stringValue = ""
                 NumericValue.stringValue = ""
                 NameLabel.stringValue = "Name"
@@ -137,11 +144,31 @@ class POIPopover: NSViewController, NSPopoverDelegate
         }
     }
     
+    var DisplayedItem: ItemTypes = .Unknown
+    
     @IBAction func HandleClosePressed(_ sender: Any)
     {
         self.view.window?.close()
     }
     
+    @IBAction func HandleEditButton(_ sender: Any)
+    {
+        switch DisplayedItem
+        {
+            case .Home:
+                print("Will edit home.")
+                self.view.window?.close()
+                
+            case .UserPOI:
+                print("Will edit POI.")
+                self.view.window?.close()
+                
+            default:
+                return
+        }
+    }
+    
+    @IBOutlet weak var EditButton: NSButton!
     @IBOutlet weak var LocationValue: NSTextField!
     @IBOutlet weak var LocationLabel: NSTextField!
     @IBOutlet weak var NumericValue: NSTextField!
