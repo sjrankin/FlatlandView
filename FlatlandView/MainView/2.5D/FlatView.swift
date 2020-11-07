@@ -83,7 +83,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         FlatEarthNode.geometry?.firstMaterial?.diffuse.contents = Final
     }
     
-    var FlatEarthNode = SCNNode()
+    var FlatEarthNode = SCNNode2()
     
     func StartClock()
     {
@@ -112,9 +112,11 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         let Second = Cal.component(.second, from: Now)
         let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
         let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
-        let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+         PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
         UpdateEarth(With: PrettyPercent)
     }
+    
+    var PrettyPercent: Double = 0.0
     
     /// Returns the local time zone abbreviation (a three-letter indicator, not a set of words).
     /// - Returns: The local time zone identifier if found, nil if not found.
@@ -376,6 +378,77 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     
     var Pop: NSPopover? = nil
     
+    func MouseMovedTo(Point: CGPoint)
+    {
+        let Mode = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.Rectangular)
+        if Mode == .FlatNorthCenter || Mode == .FlatSouthCenter
+        {
+            if InFollowMode
+            {
+                let SearchOptions: [SCNHitTestOption: Any] =
+                    [
+                        .searchMode: SCNHitTestSearchMode.closest.rawValue,
+                        .ignoreHiddenNodes: true,
+                        .ignoreChildNodes: true,
+                        .rootNode: FollowPlane! as Any
+                    ]
+                let HitObject = self.hitTest(Point, options: SearchOptions)
+                if HitObject.count > 0
+                {
+                    if HitObject[0].node.self is SCNNode2
+                    {
+                        let Where = HitObject[0].worldCoordinates
+                        if test == nil
+                        {
+                            test = maketestnode()
+                            FollowPlane?.addChildNode(test!)
+                        }
+                        let MousePoint = SCNVector3(-Where.x, -0.75, -Where.y)
+                        test?.position = MousePoint
+                        var Theta: Double = 0.0
+                        let CurrentAngle = PrettyPercent * 360.0 - 90.0
+                        let (Lat, Lon) = Utility.ConvertCircleToGeo(Point: MousePoint,
+                                                                    Radius: FlatConstants.FlatRadius.rawValue,
+                                                                    Angle: CurrentAngle,
+                                                                    NorthCenter: Mode == .FlatNorthCenter,
+                                                                    ThetaValue: &Theta)
+                        print("Mouse at \(test!.position.RoundedTo(3)) = Lat: \(Lat.RoundedTo(3)), Lon: \(Lon.RoundedTo(3))")
+                    }
+                }
+            }
+        }
+    }
+    
+    func maketestnode() -> SCNNode2
+    {
+        let top = SCNCone(topRadius: 0.0, bottomRadius: 0.25, height: 0.5)
+        let bottom = SCNCone(topRadius: 0.25, bottomRadius: 0.0, height: 0.5)
+        let topnode = SCNNode2(geometry: top)
+        let bottomnode = SCNNode2(geometry: bottom)
+        topnode.categoryBitMask = LightMasks2D.Polar.rawValue
+        bottomnode.categoryBitMask = LightMasks2D.Polar.rawValue
+        topnode.position = SCNVector3(0.0, 0.5, 0.0)
+        topnode.geometry?.firstMaterial?.diffuse.contents = NSColor.systemOrange
+        bottomnode.geometry?.firstMaterial?.diffuse.contents = NSColor.yellow
+        let final = SCNNode2()
+        final.addChildNode(topnode)
+        final.addChildNode(bottomnode)
+        return final
+    }
+    
+    func SetCameraLock(_ IsLocked: Bool)
+    {
+        if IsLocked
+        {
+            ResetCamera()
+        }
+        print("Set allowsCameraControl to \(IsLocked)")
+        self.allowsCameraControl = !IsLocked
+    }
+    
+    var test: SCNNode2? = nil
+    
+    var InFollowMode = true
     var PreviousNode: SCNNode2? = nil
     var PreviousNodeID: UUID? = nil
     var NodesWithShadows = [SCNNode]()
@@ -386,4 +459,5 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var CitiesToPlot = [City2]()
     var POIsToPlot = [POI]()
     var PrimaryLightMultiplier: Double = 1.0
+    var FollowPlane: SCNNode2? = nil
 }
