@@ -38,6 +38,7 @@ class EarthquakeRegion: CustomStringConvertible
         Notification = .None
         SoundName = .None
         NotifyOnNewEarthquakes = false
+        IsRectangular = true
         Age = 5
         _ID = UUID()
     }
@@ -72,6 +73,12 @@ class EarthquakeRegion: CustomStringConvertible
             Value.append("\(IsEnabled)")
             Value.append("\t")
             Value.append("\(NotifyOnNewEarthquakes)")
+            Value.append("\t")
+            Value.append("\(IsRectangular)")
+            Value.append("\t")
+            Value.append("\(Center)")
+            Value.append("\t")
+            Value.append("\(Radius)")
             return Value
         }
     }
@@ -104,6 +111,12 @@ class EarthquakeRegion: CustomStringConvertible
     var Age: Int = 5
     /// Notify on new earthquakes.
     var NotifyOnNewEarthquakes: Bool = false
+    /// Shape is rectangular. If false, shape is circular.
+    var IsRectangular: Bool = true
+    /// Center of the circular region.
+    var Center: GeoPoint = GeoPoint(0.0, 0.0)
+    /// Radius of the circular region.
+    var Radius: Double = 0.0
     
     /// Decode a serialized earthquake region.
     /// - Parameter Raw: The raw, serialized earthquake region.
@@ -111,7 +124,7 @@ class EarthquakeRegion: CustomStringConvertible
     public static func Decode(Raw: String) -> EarthquakeRegion?
     {
         let Parts = Raw.split(separator: "\t", omittingEmptySubsequences: true)
-        if Parts.count != 13
+        if Parts.count != 16
         {
             return nil
         }
@@ -173,6 +186,22 @@ class EarthquakeRegion: CustomStringConvertible
                     
                 case 12:
                     Region.NotifyOnNewEarthquakes = Bool(Part)!
+                    
+                case 13:
+                    Region.IsRectangular = Bool(Part)!
+                    
+                case 14:
+                    if let Cntr = GeoPoint(Raw: Part)
+                    {
+                        Region.Center = Cntr
+                    }
+                    else
+                    {
+                        return nil
+                    }
+                    
+                case 15:
+                    Region.Radius = Double(Part)!
                     
                 default:
                     return nil
