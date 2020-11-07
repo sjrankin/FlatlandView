@@ -184,5 +184,6 @@ extension Settings
             .QuakeRegionLongitude: Double?.self,
             .QuakeRegionEnable: Bool.self,
             .QuakeSetAll: Bool.self,
+            .WorldIsLocked: Bool.self,
         ]
 }
