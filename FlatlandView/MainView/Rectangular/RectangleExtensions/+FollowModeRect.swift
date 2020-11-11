@@ -18,12 +18,14 @@ extension RectangleView
         if InFollowMode
         {
             FollowModeNode = MakeFollowNode()
+            MainDelegate?.ShowMouseLocationView(true)
         }
         else
         {
             FollowModeNode?.removeAllAnimations()
             FollowModeNode?.removeAllActions()
-            FollowModeNode?.removeFromParentNode()  
+            FollowModeNode?.removeFromParentNode()
+            MainDelegate?.ShowMouseLocationView(false)
         }
     }
     
