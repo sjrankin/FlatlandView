@@ -58,47 +58,55 @@ extension MainController
         Main3DView.PlotCities()
     }
     
+    /// Load the current view with the initial map.
+    /// - Warning: If the initial map cannot be found and the backup-standard map cannot be found, a
+    ///            fatal error is thrown.
     func LoadInitialMaps()
     {
         let VType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
-        if VType == .Globe3D
+       
+        switch VType
         {
-            if let Category = MapManager.CategoryFor(Map: MapValue)
-            {
-                if Category == .Satellite && Settings.GetBool(.EnableNASATiles)
+            case .Globe3D:
+                if let Category = MapManager.CategoryFor(Map: MapValue)
                 {
-                    //Start loading the map here.
-                    let Earlier = Date().HoursAgo(36)
-                    let Maps = EarthData.MakeSatelliteMapDefinitions()
-                    let Earth = EarthData()
-                    Earth.MainDelegate = self
-                    Earth.Delegate = self
-                    Debug.Print("Calling LoadMap in \(#function)")
-                    Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
-                    return
+                    if Category == .Satellite && Settings.GetBool(.EnableNASATiles)
+                    {
+                        //Start loading the map here.
+                        let Earlier = Date().HoursAgo(36)
+                        let Maps = EarthData.MakeSatelliteMapDefinitions()
+                        let Earth = EarthData()
+                        Earth.MainDelegate = self
+                        Earth.Delegate = self
+                        Debug.Print("Calling LoadMap in \(#function)")
+                        Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
+                        return
+                    }
                 }
-            }
+                
+            case .FlatNorthCenter, .FlatSouthCenter, .Rectangular:
+                if let InitialImage = MapManager.ImageFor(MapType: MapValue, ViewType: VType)
+                {
+                    Main2DView.SetEarthMap(InitialImage)
+                }
+                else
+                {
+                    if let StandardMap = MapManager.ImageFor(MapType: .Standard, ViewType: VType)
+                    {
+                        Main2DView.SetEarthMap(StandardMap)
+                        Settings.SetEnum(.Standard, EnumType: MapTypes.self, ForKey: .MapType)
+                    }
+                    else
+                    {
+                        Debug.FatalError("Unable to get specified and standard maps for view type \(VType).")
+                    }
+                }
+                
+            case .CubicWorld:
+                return
         }
         
-        if VType != .CubicWorld
-        {
-            if let InitialImage = MapManager.ImageFor(MapType: MapValue, ViewType: VType)
-            {
-                //FlatViewMainImage.image = FinalizeImage(InitialImage)
-            }
-            else
-            {
-                //Hopefully we will never get here, but in case we do, default to a known good map. If we do
-                //get here, set the known map user settings and use it instead of the unknown map we seem to
-                //have run into.
-                if let StandardMap = MapManager.ImageFor(MapType: .Standard, ViewType: VType)
-                {
-                    //FlatViewMainImage.image = FinalizeImage(StandardMap)
-                    Settings.SetEnum(.Standard, EnumType: MapTypes.self, ForKey: .MapType)
-                }
-            }
-        }
         InitializeUpdateTimer()
         Started = true
         let IsFlat = [ViewTypes.FlatNorthCenter, ViewTypes.FlatSouthCenter, ViewTypes.Rectangular].contains(VType)
