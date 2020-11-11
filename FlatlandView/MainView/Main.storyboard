@@ -122,6 +122,20 @@
                                         <action selector="HandleLockUnlockWorldButton:" target="gS1-iC-1Lf" id="Ubc-zW-k3K"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="B5A7BC55-4B4B-40B7-877B-BAA61BB45D43" label="Debugger" paletteLabel="Debugger" image="DebuggerIcon" sizingBehavior="auto" id="4KN-d7-uhV">
+                                    <nil key="toolTip"/>
+                                    <button key="view" id="Ba2-YP-90b">
+                                        <rect key="frame" x="6" y="14" width="48" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="DebuggerIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="o0G-jZ-ra7">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="RunDebugger:" target="gS1-iC-1Lf" id="taA-Vm-oeS"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="Mks-dR-lsJ"/>
@@ -132,6 +146,7 @@
                                 <toolbarItem reference="y1a-2M-gUr"/>
                                 <toolbarItem reference="FW5-HH-uvu"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
+                                <toolbarItem reference="4KN-d7-uhV"/>
                                 <toolbarItem reference="Twt-2m-O8i"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="Y99-uv-LZz"/>
@@ -144,6 +159,7 @@
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="DebuggerButton" destination="4KN-d7-uhV" id="GCW-fC-5eP"/>
                         <outlet property="HourSegment" destination="bPC-zz-fFT" id="6Q9-yt-Pms"/>
                         <outlet property="MainToolBar" destination="Olf-7r-jti" id="mOd-dQ-sAa"/>
                         <outlet property="ViewSegment" destination="zlI-db-Myb" id="Zcj-ft-Zy5"/>
@@ -356,6 +372,12 @@
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="DebugResetSettings:" target="vAH-R8-aOX" id="znt-OL-dGe"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Debugger" id="I53-tv-2Uk">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="RunDebugger:" target="vAH-R8-aOX" id="xbQ-gI-JmD"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="dyj-iO-Xvv"/>
@@ -636,6 +658,7 @@
         <image name="CircleIcon" width="24" height="24"/>
         <image name="ClockIcon" width="24" height="24"/>
         <image name="CubeIcon" width="24" height="24"/>
+        <image name="DebuggerIcon" width="24" height="24"/>
         <image name="DeltaIcon" width="24" height="24"/>
         <image name="GearIcon" width="24" height="24"/>
         <image name="GlobeIcon" width="24" height="24"/>
