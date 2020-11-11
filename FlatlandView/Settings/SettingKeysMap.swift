@@ -185,5 +185,15 @@ extension Settings
             .QuakeRegionEnable: Bool.self,
             .QuakeSetAll: Bool.self,
             .WorldIsLocked: Bool.self,
+            // MARK: - Debugging settings
+            .Debug_EnableClockControl: Bool.self,
+            .Debug_ClockDebugMap: Debug_MapTypes.self,
+            .Debug_ClockActionFreeze: Bool.self,
+            .Debug_ClockActionFreezeAtTime: Bool.self,
+            .Debug_ClockActionFreezeTime: Date.self,
+            .Debug_ClockActionSetClockAngle: Bool.self,
+            .Debug_ClockActionClockAngle: Double.self,
+            .Debug_ClockUseTimeMultiplier: Bool.self,
+            .Debug_ClockActionClockMultiplier: Double.self,
         ]
 }
