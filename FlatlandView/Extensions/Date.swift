@@ -489,5 +489,21 @@ extension Date
         let Ago = Cal.date(byAdding: HourComponent, to: self)!
         return Ago
     }
+    
+    /// Determines if the instance time is on or later than the passed time.
+    /// - Parameter Than: The other time to compare to the instance time. Date components are ignored.
+    /// - Returns: True if the instance time is the same or later than the passed time, false otherwise.
+    func IsOnOrLater(Than Time: Date) -> Bool
+    {
+        let SelfHour = self.Hour
+        let SelfMinute = self.Minute
+        let SelfSecond = self.Second
+        let SelfSeconds = (SelfHour * 60 * 60) + (SelfMinute * 60) + SelfSecond
+        let OtherHour = Time.Hour
+        let OtherMinute = Time.Minute
+        let OtherSecond = Time.Second
+        let OtherSeconds = (OtherHour * 60 * 60) + (OtherMinute * 60) + OtherSecond
+        return SelfSecond >= OtherSecond
+    }
 }
 
