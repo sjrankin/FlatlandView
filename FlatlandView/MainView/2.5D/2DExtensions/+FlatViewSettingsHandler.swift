@@ -186,6 +186,12 @@ extension FlatView
                     }
                     SetDebugOption(DebugTypes)
                 }
+                
+            case .Debug_EnableClockControl, .Debug_ClockDebugMap, .Debug_ClockActionFreeze,
+                 .Debug_ClockActionFreezeTime, .Debug_ClockActionClockAngle, .Debug_ClockUseTimeMultiplier,
+                 .Debug_ClockActionClockMultiplier, .Debug_ClockActionSetClockAngle,
+                 .Debug_ClockActionFreezeAtTime:
+                UpdateEarthView()
             #endif
             
             default:
