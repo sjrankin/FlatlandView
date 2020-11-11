@@ -83,6 +83,7 @@ class MainWindow: NSWindowController, NSWindowDelegate
         ChangeToolbarItemImage(Item: ItemInfoButton, To: Image)
     }
     
+    @IBOutlet weak var DebuggerButton: NSToolbarItem!
     @IBOutlet weak var WorldLockButton: NSButton!
     @IBOutlet weak var WorldLockBarButton: NSToolbarItem!
     @IBOutlet weak var ItemInfoButton: NSToolbarItem!
