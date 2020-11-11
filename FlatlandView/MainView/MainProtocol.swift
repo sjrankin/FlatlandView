@@ -37,4 +37,22 @@ protocol MainProtocol: class
     
     /// Returns the app delegate.
     func GetAppDelegate() -> AppDelegate
+    
+    /// Called when a child window closes.
+    func ChildWindowClosed(_ ChildWindow: ChildWindows)
+    
+    /// Called when the mouse moves in follow-mouse mode.
+    func MouseAtLocation(Latitude: Double, Longitude: Double)
+    
+    func MouseAtLocation(Latitude: Double, Longitude: Double, _ X: Double, _ Y: Double)
+    
+    /// Show or hide the mouse location.
+    func ShowMouseLocationView(_ Show: Bool)
+}
+
+enum ChildWindows: String, CaseIterable
+{
+    case PreferenceWindow = "PreferenceWindow"
+    case SettingsWindow = "SettingsWindow"
+    case DebuggerWindow = "DebuggerWindow"
 }
