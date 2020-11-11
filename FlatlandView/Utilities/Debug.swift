@@ -10,13 +10,69 @@ import Foundation
 
 class Debug
 {
+    /// Returns debug function availability. The value returned depends on how the code was compiled.
+    public static var DebugAvailable: Bool
+    {
+        get
+        {
+            #if DEBUG
+            return true
+            #else
+            return false
+            #endif
+        }
+    }
+    
+    /// Thin wrapper around `fatalError` to record extra information.
+    /// - Note: If compiled with `#DEBUG` on, a stack track is dumped to the debug console. If `#DEBUG` is off,
+    ///         the caller is prepended to `Message` and `fatalError` is called.
+    /// - Parameter Message: The message to send to `fatalError`.
+    /// - Returns: Never returns.
+    public static func FatalError(_ Message: String) -> Never
+    {
+        let Caller = PrettyStackTrace(StackFrameContents(1))
+        #if DEBUG
+        let Trace = PrettyStackTrace(StackFrameContents(10))
+        print("Fatal error: stack track: \(Trace)")
+        FatalError(Message)
+        #else
+        fatalError("\(Caller): \(Message)")
+        #endif
+    }
+    
     /// Print a message to the debug console prefixed by the time this function was called.
+    /// - Note: If compiled with #DEBUG on, the message will be prefixed with a time stamp and saved in the
+    ///         cumulative log list. If #DEBUG is false, the message will be printed in the debug console.
     /// - Parameter Message: The message to print.
     public static func Print(_ Message: String)
     {
         #if DEBUG
         let Prefix = Utility.MakeTimeString(TheDate: Date())
         print("\(Prefix): \(Message)")
+        Log.append((TimeStamp: Prefix, Payload: Message))
+        #else
+        print(Message)
+        #endif
+    }
+    
+    /// Holds the log.
+    private static var Log = [(TimeStamp: String, Payload: String)]()
+    
+    /// Unconditionally removes all entries in the log.
+    public static func ClearLog()
+    {
+        Log.removeAll()
+    }
+    
+    /// Returns the contents of the log.
+    /// - Note: If not compiled in #DEBUG, an empty array is returned.
+    /// - Returns: Array of tuples, the first element being the string value timestamp and the second the text.
+    public static func GetLog() -> [(TimeStamp: String, Payload: String)]
+    {
+        #if DEBUG
+        return Log
+        #else
+        return [(String, String)]()
         #endif
     }
     
