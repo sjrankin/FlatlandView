@@ -1985,6 +1985,17 @@ class Utility
         return (Latitude, Longitude)
     }
     
+    /// Converts a point on a circular, flat `SCNView` map to a geographical coordinate.
+    /// - Parameter Point: The point to convert. Assumes `x` is the horizontal coordinate and
+    ///                    `z` is the vertical coordinate. Furthermore, this function assumes
+    ///                    `z` is negated - negative values are towards the top. This function
+    ///                    corrects for that.
+    /// - Parameter Radius: The length of the radius of the circular map.
+    /// - Parameter Angle: The angle offset of the circular map (which may correspond to rotational
+    ///                    values associated with time).
+    /// - Parameter NorthCenter: For maps with the north in the center.
+    /// - Parameter ThetaValue: Returned theta value.
+    /// - Returns: Tuple with the latitude and longitude.
     public static func ConvertCircleToGeo(Point: SCNVector3, Radius: Double,
                                           Angle: Double, NorthCenter: Bool,
                                           ThetaValue: inout Double) -> (Latitude: Double, Longitude: Double)
@@ -2000,6 +2011,21 @@ class Utility
         }
         let Longitude = Theta + Angle
         return (Latitude, Longitude)
+    }
+    
+    /// Rotate a point around the origin.
+    /// - Parameter Point: The point to rotate.
+    /// - Parameter By: The number of degrees (will be converted internally to radians) to
+    ///                 rotate `Point` by.
+    /// - Returns: A new point based on the rotation of the passed point.
+    public static func RotatePoint(_ Point: CGPoint, By Degrees: Double) -> CGPoint
+    {
+        let Radians = Degrees.Radians
+        let SinRadians = sin(Radians)
+        let CosRadians = cos(Radians)
+        let X = Double(Point.x) * CosRadians - Double(Point.y) * SinRadians
+        let Y = Double(Point.x) * SinRadians + Double(Point.y) * CosRadians
+        return CGPoint(x: X, y: Y)
     }
 }
 
