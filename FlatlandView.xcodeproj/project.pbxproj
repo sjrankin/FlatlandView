@@ -13,6 +13,10 @@
 		1701CFC52535646C00544F05 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701CFC42535646C00544F05 /* Snapshot.swift */; };
 		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
 		1707A7AF249CACAB00A90FCA /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1707A7AE249CACAB00A90FCA /* Earthquake.swift */; };
+		170E7BE92559165F00EA3AD3 /* +DynamicInfoDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BE82559165F00EA3AD3 /* +DynamicInfoDisplay.swift */; };
+		170E7BF12559284300EA3AD3 /* FloatingViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */; };
+		170E7BF52559290900EA3AD3 /* MouseInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BF42559290900EA3AD3 /* MouseInfoController.swift */; };
+		170E7BF82559293C00EA3AD3 /* MouseInfoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */; };
 		1714DDB025382EFC001A3002 /* EnvironmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDAF25382EFC001A3002 /* EnvironmentView.swift */; };
 		1714DDB42538342A001A3002 /* LowLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB32538342A001A3002 /* LowLevel.swift */; };
 		1714DDB82539654A001A3002 /* UInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB72539654A001A3002 /* UInt64.swift */; };
@@ -82,6 +86,12 @@
 		1747BDC5251353AF002B51D9 /* MetalGradientKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1747BDC4251353AF002B51D9 /* MetalGradientKernel.metal */; };
 		1748913124C5747C00B5F6AF /* EarthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748913024C5747C00B5F6AF /* EarthData.swift */; };
 		1748913324C6A53D00B5F6AF /* Imaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1748913224C6A53D00B5F6AF /* Imaging.swift */; };
+		174A6A202557BD5E00488274 /* Debug.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 174A6A1F2557BD5E00488274 /* Debug.storyboard */; };
+		174A6A252557CCF000488274 /* DebuggerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174A6A242557CCF000488274 /* DebuggerWindow.swift */; };
+		174A6A292557CD0B00488274 /* DebuggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174A6A282557CD0B00488274 /* DebuggerController.swift */; };
+		174A6A2C2557CD6600488274 /* DebugPanelBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174A6A2B2557CD6600488274 /* DebugPanelBase.swift */; };
+		174A6A302557D22500488274 /* LogPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174A6A2F2557D22500488274 /* LogPanel.swift */; };
+		174A6A342557D24B00488274 /* ClockControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174A6A332557D24B00488274 /* ClockControlPanel.swift */; };
 		174D0359252C929D00692B89 /* +MainDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174D0358252C929D00692B89 /* +MainDatabase.swift */; };
 		174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 174F0106248CCD6C00F610DD /* MapManager.storyboard */; };
 		174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F0109248CD03200F610DD /* MapManagerWindow.swift */; };
@@ -342,6 +352,10 @@
 		1701CFC42535646C00544F05 /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
 		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
 		1707A7AE249CACAB00A90FCA /* Earthquake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
+		170E7BE82559165F00EA3AD3 /* +DynamicInfoDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+DynamicInfoDisplay.swift"; sourceTree = "<group>"; };
+		170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FloatingViews.storyboard; sourceTree = "<group>"; };
+		170E7BF42559290900EA3AD3 /* MouseInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseInfoController.swift; sourceTree = "<group>"; };
+		170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseInfoProtocol.swift; sourceTree = "<group>"; };
 		1714DDAF25382EFC001A3002 /* EnvironmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentView.swift; sourceTree = "<group>"; };
 		1714DDB32538342A001A3002 /* LowLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowLevel.swift; sourceTree = "<group>"; };
 		1714DDB72539654A001A3002 /* UInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt64.swift; sourceTree = "<group>"; };
@@ -413,6 +427,12 @@
 		1747BDC4251353AF002B51D9 /* MetalGradientKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MetalGradientKernel.metal; sourceTree = "<group>"; };
 		1748913024C5747C00B5F6AF /* EarthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthData.swift; sourceTree = "<group>"; };
 		1748913224C6A53D00B5F6AF /* Imaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Imaging.swift; sourceTree = "<group>"; };
+		174A6A1F2557BD5E00488274 /* Debug.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Debug.storyboard; sourceTree = "<group>"; };
+		174A6A242557CCF000488274 /* DebuggerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggerWindow.swift; sourceTree = "<group>"; };
+		174A6A282557CD0B00488274 /* DebuggerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggerController.swift; sourceTree = "<group>"; };
+		174A6A2B2557CD6600488274 /* DebugPanelBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPanelBase.swift; sourceTree = "<group>"; };
+		174A6A2F2557D22500488274 /* LogPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogPanel.swift; sourceTree = "<group>"; };
+		174A6A332557D24B00488274 /* ClockControlPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockControlPanel.swift; sourceTree = "<group>"; };
 		174D0358252C929D00692B89 /* +MainDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainDatabase.swift"; sourceTree = "<group>"; };
 		174F0106248CCD6C00F610DD /* MapManager.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapManager.storyboard; sourceTree = "<group>"; };
 		174F0109248CD03200F610DD /* MapManagerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManagerWindow.swift; sourceTree = "<group>"; };
@@ -694,6 +714,24 @@
 			path = CityPopulations;
 			sourceTree = "<group>";
 		};
+		170E7BEE2559281C00EA3AD3 /* Floating */ = {
+			isa = PBXGroup;
+			children = (
+				170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */,
+				170E7BEF2559282700EA3AD3 /* MouseInfo */,
+			);
+			path = Floating;
+			sourceTree = "<group>";
+		};
+		170E7BEF2559282700EA3AD3 /* MouseInfo */ = {
+			isa = PBXGroup;
+			children = (
+				170E7BF42559290900EA3AD3 /* MouseInfoController.swift */,
+				170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */,
+			);
+			path = MouseInfo;
+			sourceTree = "<group>";
+		};
 		1710D22324E661FE009B6BB7 /* StatusView */ = {
 			isa = PBXGroup;
 			children = (
@@ -872,6 +910,27 @@
 			path = NASA;
 			sourceTree = "<group>";
 		};
+		174A6A222557BD6400488274 /* DebugUI */ = {
+			isa = PBXGroup;
+			children = (
+				174A6A2E2557D21A00488274 /* DebugPanels */,
+				174A6A1F2557BD5E00488274 /* Debug.storyboard */,
+				174A6A242557CCF000488274 /* DebuggerWindow.swift */,
+				174A6A282557CD0B00488274 /* DebuggerController.swift */,
+				174A6A2B2557CD6600488274 /* DebugPanelBase.swift */,
+			);
+			path = DebugUI;
+			sourceTree = "<group>";
+		};
+		174A6A2E2557D21A00488274 /* DebugPanels */ = {
+			isa = PBXGroup;
+			children = (
+				174A6A2F2557D22500488274 /* LogPanel.swift */,
+				174A6A332557D24B00488274 /* ClockControlPanel.swift */,
+			);
+			path = DebugPanels;
+			sourceTree = "<group>";
+		};
 		174D035B252C952900692B89 /* +MainDatabase */ = {
 			isa = PBXGroup;
 			children = (
@@ -932,6 +991,7 @@
 		17523CD7247B9716005209FC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				170E7BEE2559281C00EA3AD3 /* Floating */,
 				178E6F712540531600DA0F76 /* Test */,
 				1740F49A2493173A00F6FAAE /* Hours.swift */,
 				17FC2210249878F8005A0929 /* Ancillary */,
@@ -1143,6 +1203,7 @@
 		178909C8250E0F360092E3A4 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
+				174A6A222557BD6400488274 /* DebugUI */,
 				17B062D5253D278500C4BAEE /* 3DShapes */,
 				17523CD9247B9725005209FC /* 3D */,
 				17F1C7C72543F8440046AE33 /* Rectangular */,
@@ -1516,9 +1577,9 @@
 			isa = PBXGroup;
 			children = (
 				1727EA5B24B184110051EA3B /* DataStructures */,
+				17EF33A2247A699300A5B55D /* Utility.swift */,
 				17EF3399247A673900A5B55D /* FileIO.swift */,
 				1714DDB32538342A001A3002 /* LowLevel.swift */,
-				17EF33A2247A699300A5B55D /* Utility.swift */,
 				17E5EF5E24F1051400665167 /* Debug.swift */,
 				17EF33C2247A961C00A5B55D /* SunGenerator.swift */,
 				17EF33C0247A95E300A5B55D /* ColorList.swift */,
@@ -1612,6 +1673,7 @@
 				17897C8C2514AAB300544DE1 /* +MainTimers.swift */,
 				17897C892514AA6C00544DE1 /* +MainWindowing.swift */,
 				17897C922514AB6E00544DE1 /* +MainTimeAndSun.swift */,
+				170E7BE82559165F00EA3AD3 /* +DynamicInfoDisplay.swift */,
 			);
 			path = MainExtensions;
 			sourceTree = "<group>";
@@ -1729,6 +1791,7 @@
 			files = (
 				174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */,
 				178E6F732540533600DA0F76 /* RoundTextTest.storyboard in Resources */,
+				174A6A202557BD5E00488274 /* Debug.storyboard in Resources */,
 				17E901EA2552C38C0097A89A /* SubPanels.storyboard in Resources */,
 				17ABAFFE24E9209E009DDC35 /* EarthquakeHistory.db in Resources */,
 				17F1E5C32549126600E6F6CF /* SparkParticleTest.sks in Resources */,
@@ -1741,6 +1804,7 @@
 				17F1E5D22549158000E6F6CF /* SnowParticleTest.sks in Resources */,
 				17F79069252D57FF00FA2F23 /* Mappable.db in Resources */,
 				17F1E5C6254913DC00E6F6CF /* FireParticleTest.sks in Resources */,
+				170E7BF12559284300EA3AD3 /* FloatingViews.storyboard in Resources */,
 				17FC2213249879BE005A0929 /* EarthquakeData.storyboard in Resources */,
 				17F1E5D5254915AD00E6F6CF /* RainParticleTest.sks in Resources */,
 				17EB790C24AEEED100BB0473 /* EarthquakeDebugger.storyboard in Resources */,
@@ -1822,6 +1886,7 @@
 				1760023C24D2BF8000D5EA1A /* NSColor.swift in Sources */,
 				1701BF7C24FCE0FD00686C3A /* CityPopulationController.swift in Sources */,
 				172F05FF255128FB00BEA156 /* PreferencePanelBase.swift in Sources */,
+				170E7BE92559165F00EA3AD3 /* +DynamicInfoDisplay.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
 				17F1C7DB2543F9FA0046AE33 /* +RectangleHours.swift in Sources */,
 				17897C842514A9BA00544DE1 /* +MainMainProtocol.swift in Sources */,
@@ -1870,9 +1935,11 @@
 				17F17A4924DE793800568A4E /* LinesDrawKernel.metal in Sources */,
 				172F4A2124FA0F0D0014A65E /* BooleanEditor.swift in Sources */,
 				17B8F52025037DB800D71931 /* AdjustTransparency.metal in Sources */,
+				174A6A252557CCF000488274 /* DebuggerWindow.swift in Sources */,
 				17F9AFF82520352500DE0219 /* +StoredFont.swift in Sources */,
 				17ABAFFC24E8FB02009DDC35 /* Dictionary.swift in Sources */,
 				17303AFE24F379FB00948127 /* SCNVector3.swift in Sources */,
+				170E7BF82559293C00EA3AD3 /* MouseInfoProtocol.swift in Sources */,
 				17897C7E2514A72100544DE1 /* +MainSettingsHandler.swift in Sources */,
 				172F061B255150BC00BEA156 /* POIPopover.swift in Sources */,
 				17B7D7A824CECFDE000C077B /* MetalLibrary.swift in Sources */,
@@ -1886,6 +1953,7 @@
 				17F9B00D2520377F00DE0219 /* +LocationAttributes.swift in Sources */,
 				170181C12504A467000F91B6 /* TransparencyParameters.swift in Sources */,
 				1714DDB42538342A001A3002 /* LowLevel.swift in Sources */,
+				174A6A292557CD0B00488274 /* DebuggerController.swift in Sources */,
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
 				172F4A2724FA1A900014A65E /* EditorProtocol.swift in Sources */,
 				17E5EF5F24F1051400665167 /* Debug.swift in Sources */,
@@ -1961,6 +2029,7 @@
 				1727EA5A24B170730051EA3B /* Queue.swift in Sources */,
 				17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
+				170E7BF52559290900EA3AD3 /* MouseInfoController.swift in Sources */,
 				172F4A2924FA4B300014A65E /* +EnumHandling.swift in Sources */,
 				17F9AFD52520334B00DE0219 /* +Boolean.swift in Sources */,
 				17F9AFEB2520347300DE0219 /* +NSRect.swift in Sources */,
@@ -1987,6 +2056,7 @@
 				1760023824D2BF3500D5EA1A /* Date.swift in Sources */,
 				17C87B81251780160065BE6D /* +FlatViewCities.swift in Sources */,
 				178E1CA0251829C700FDC75B /* +Lights.swift in Sources */,
+				174A6A342557D24B00488274 /* ClockControlPanel.swift in Sources */,
 				17F9AFE82520344F00DE0219 /* +CGPoint.swift in Sources */,
 				17897C872514AA1100544DE1 /* +MainEventHandling.swift in Sources */,
 				1792486B251A1E3100AF4D4B /* +FlatViewEarthquakes.swift in Sources */,
@@ -2011,6 +2081,7 @@
 				17B7D7B024CED088000C077B /* SolidColorKernel.metal in Sources */,
 				17B062D7253D27A000C4BAEE /* ShapeManager.swift in Sources */,
 				173056BD2553BAFE00B1D4C9 /* DeleteConfirmationController.swift in Sources */,
+				174A6A302557D22500488274 /* LogPanel.swift in Sources */,
 				1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */,
 				17A3788424DC25F300EE2B45 /* ImageBlender.swift in Sources */,
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
@@ -2023,6 +2094,7 @@
 				1716DB1624E5011E00C4F8BD /* CustomCityWindow.swift in Sources */,
 				1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */,
 				17EF3395247A66F000A5B55D /* MapList.swift in Sources */,
+				174A6A2C2557CD6600488274 /* DebugPanelBase.swift in Sources */,
 				172F0606255129DF00BEA156 /* POIPreferences.swift in Sources */,
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
 				17C0FD7025316402008F3D05 /* GroundTrack.swift in Sources */,
