@@ -399,6 +399,26 @@ enum SettingKeys: String, CaseIterable
     /// Boolean: Enables or disables the stop time.
     case EnableStopTime = "EnableStopTime"
     
+    // MARK: - General debug settings
+    /// Boolean: Enable clock control
+    case Debug_EnableClockControl = "Debug_EnableClockControl"
+    /// Determines which map type is affected by the debug.
+    case Debug_ClockDebugMap = "Debug_ClockDebugMap"
+    /// Boolean: Freeze the clock.
+    case Debug_ClockActionFreeze = "Debug_ClockActionFreeze"
+    /// Boolean: Freeze the clock at the specified time.
+    case Debug_ClockActionFreezeAtTime = "Debug_ClockActionFreezeAtTime"
+    /// Date: When to freeze the clock (only the time component is used).
+    case Debug_ClockActionFreezeTime = "Debug_ClockActionFreezeTime"
+    /// Boolean: Set the clock angle.
+    case Debug_ClockActionSetClockAngle = "Debug_ClockActionSetAngle"
+    /// Double: New clock angle.
+    case Debug_ClockActionClockAngle = "Debug_ClockActionClockAngle"
+    /// Boolean: Use clock multiplier.
+    case Debug_ClockUseTimeMultiplier = "Debug_ClockUseTimeMultiplier"
+    /// Double: Clock time multiplier.
+    case Debug_ClockActionClockMultiplier = "Debug_ClockActionClockMultiplier"
+    
     // MARK: - Settings used in areas outside of the Settings system.
     /// Live data viewer.
     case LiveViewWindowFrame = "LiveViewWindowFrame"
