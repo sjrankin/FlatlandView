@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "UnlockWorldIcon32.png",
+      "filename" : "UnlockWorldIconC32.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "UnlockWorldIcon64.png",
+      "filename" : "UnlockWorldIconC64.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "UnlockWorldIcon256.png",
+      "filename" : "UnlockWorldIconC256.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
