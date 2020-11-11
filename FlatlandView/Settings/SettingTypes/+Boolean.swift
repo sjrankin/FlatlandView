@@ -97,4 +97,52 @@ extension Settings
         UserDefaults.standard.set(BoolValue, forKey: Setting.rawValue)
         Completion(BoolValue)
     }
+    
+    /// Compares all boolean values in the passed list of setting keys to the value of `Are`.
+    /// - Warning: If any `SettingKey` in `BoolList` is not a Boolean, a fatal error is thrown.
+    /// - Parameter BoolList: Array of `SettingKeys` whose values will be tested. **Must** all be of
+    ///                       Boolean type. If not, a fatal error is thrown.
+    /// - Parameter Are: The value to test all values in `BoolList` against.
+    /// - Returns: All values in `BoolList` must match this value for `true` to be returned. Otherwise,
+    ///            false is returned. Additionally, false is returned if `BoolList` is empty.
+    public static func AllBools(_ BoolList: [SettingKeys], Are: Bool) -> Bool
+    {
+        if BoolList.count < 1
+        {
+            return false
+        }
+        for SomeSetting in BoolList
+        {
+            if !TypeIsValid(SomeSetting, Type: Bool.self)
+            {
+                fatalError("\(SomeSetting) is not a boolean")
+            }
+            let SomeValue = GetBool(SomeSetting)
+            if SomeValue != Are
+            {
+                return false
+            }
+        }
+        return true
+    }
+    
+    /// Determines if all Boolean settings in `InList` are true.
+    /// - Note: See also `AllBools`.
+    /// - Warning: If any `SettingKey` in `InList` is not a Boolean, a fatal error will the thrown.
+    /// - Parameter InList: Set of Boolean `SettingKeys` to compare to `true`.
+    /// - Returns: True if all values in `InList` are true, false otherwise (including no values in `InList`).
+    public static func AllBoolsAreTrue(_ InList: [SettingKeys]) -> Bool
+    {
+        return AllBools(InList, Are: true)
+    }
+    
+    /// Determines if all Boolean settings in `InList` are false.
+    /// - Note: See also `AllBools`.
+    /// - Warning: If any `SettingKey` in `InList` is not a Boolean, a fatal error will the thrown.
+    /// - Parameter InList: Set of Boolean `SettingKeys` to compare to `false`.
+    /// - Returns: True if all values in `InList` are false, false otherwise (including no values in `InList`).
+    public static func AllBoolsAreFalse(_ InList: [SettingKeys]) -> Bool
+    {
+        return AllBools(InList, Are: false)
+    }
 }
