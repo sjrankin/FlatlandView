@@ -20,8 +20,9 @@ extension MainController
         AboutDelegate?.MainClosing()
         TodayDelegate?.MainClosing()
         QuakeDelegate?.MainClosing()
+        DebugDelegate?.MainClosing()
         
-        print("Flatland closing.")
+        Debug.Print("Flatland closing.")
     }
     
     /// Handle new window size.
