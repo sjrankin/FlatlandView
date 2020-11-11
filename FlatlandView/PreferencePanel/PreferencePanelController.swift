@@ -27,6 +27,11 @@ class PreferencePanelController: NSViewController, WindowManagement
         LoadPanel(.General)
     }
     
+    override func viewWillDisappear()
+    {
+        MainDelegate?.ChildWindowClosed(.PreferenceWindow)
+    }
+    
     func CreatePreferencePanels()
     {
         Panels[.General] = PreferencePanelBase(CreatePanelDialog("GeneralPreferences"))
