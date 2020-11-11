@@ -106,30 +106,45 @@ extension MainController: MainProtocol
     {
     }
     
-    /*
-    /// Display information in the proper view with data sent to us. If the data is nil, the color is
-    /// changed to indicate stale data.
-    /// - Parameter ItemData: The data to display.
-    func DisplayNodeInformation(ItemData: DisplayItem?)
-    {
-        if Settings.GetBool(.ShowDetailedInformation)
-        {
-            if let ItemToDisplay = ItemData
-            {
-                DisplayItem(ItemToDisplay: ItemToDisplay)
-            }
-            else
-            {
-                SetValueTextColor(To: NSColor.lightGray)
-            }
-        }
-    }
- */
-    
     /// Returns the main program's app delegate.
     /// - Returns: Main program app delegate.
     func GetAppDelegate() -> AppDelegate
     {
         return MainApp
+    }
+    
+    /// Called when a child window is closed.
+    /// - Parameter ChildWindow: The child window that was closed.
+    func ChildWindowClosed(_ ChildWindow: ChildWindows)
+    {
+        switch ChildWindow
+        {
+            case .DebuggerWindow:
+                DebuggerOpen = false
+                
+            case .PreferenceWindow:
+                PreferencesWindowOpen = false
+                
+            case .SettingsWindow:
+                SettingsWindowOpen = false
+        }
+    }
+    
+    /// Display the geographic location under the mouse.
+    func MouseAtLocation(Latitude: Double, Longitude: Double)
+    {
+        ShowMouseLocation(Latitude: Latitude, Longitude: Longitude)
+    }
+    
+    func MouseAtLocation(Latitude: Double, Longitude: Double, _ X: Double, _ Y: Double)
+    {
+        ShowMouseLocation(Latitude: Latitude, Longitude: Longitude, X, Y)
+    }
+    
+    /// Show or hide the mouse location.
+    /// - Parameter Show: Determines whether the mouse location view is visible or hidden.
+    func ShowMouseLocationView(_ Show: Bool)
+    {
+        SetMouseLocationVisibility(Visible: Show)
     }
 }
