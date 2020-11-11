@@ -747,4 +747,9 @@ enum LightNames: String, CaseIterable
     case Polar2D = "Polar"
 }
 
-
+enum Debug_MapTypes: String, CaseIterable
+{
+    case Rectangular = "Rectangular"
+    case Round = "Round"
+    case Globe = "Globe"
+}
