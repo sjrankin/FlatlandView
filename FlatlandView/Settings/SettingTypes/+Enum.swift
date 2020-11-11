@@ -14,6 +14,7 @@ extension Settings
     // MARK: - Enum-based settings.
     
     /// Initialize an Enum-based setting. No notification is sent to subscribers.
+    /// - Warning: A fatal error is generated if `NewValue` has a different type from `EnumType`.
     /// - Parameter NewValue: The value to set.
     /// - Parameter EnumType: The type of enum to save.
     /// - Parameter ForKey: The setting key.
@@ -27,7 +28,7 @@ extension Settings
     }
     
     /// Return an enum case value from user settings.
-    /// - Note: A fatal error is generated if `ForKey` does not point to a string setting.
+    /// - Warning: A fatal error is generated if `ForKey` does not point to a string setting.
     /// - Note: See: [Pass an enum type name](https://stackoverflow.com/questions/38793536/possible-to-pass-an-enum-type-name-as-an-argument-in-swift)
     /// - Parameter ForKey: The setting key that points to where the enum case is stored (as a string).
     /// - Parameter EnumType: The type of the enum to return.
@@ -51,7 +52,7 @@ extension Settings
     }
     
     /// Return an enum case value from user settings.
-    /// - Note: A fatal error is generated if `ForKey` does not point to a string setting.
+    /// - Warning: A fatal error is generated if `ForKey` does not point to a string setting.
     /// - Note: See: [Pass an enum type name](https://stackoverflow.com/questions/38793536/possible-to-pass-an-enum-type-name-as-an-argument-in-swift)
     /// - Parameter ForKey: The setting key that points to where the enum case is stored (as a string).
     /// - Parameter EnumType: The type of the enum to return.
@@ -73,7 +74,23 @@ extension Settings
         return nil
     }
     
+    /// Determines if the enum value in `SettingKeys` is the same as `TestFor`.
+    /// - Warning: A fatal error is generated if `EnumKey` does not point to a string setting.
+    /// - Parameter TestFor: The value to test against the contents of `EnumKey`.
+    /// - Parameter EnumKey: The location of the stored enum to test against `TestFor`.
+    /// - Parameter EnumType: The type of enum being tested.
+    /// - Returns: True if the stored enum value is the same as `TestFor`, false otherwise.
+    public static func EnumIs<T: RawRepresentable>(_ TestFor: T, _ EnumKey: SettingKeys, EnumType: T.Type) -> Bool where T.RawValue == String
+    {
+        if let RawEnum = GetEnum(ForKey: EnumKey, EnumType: EnumType)
+        {
+            return RawEnum == TestFor
+        }
+        return false
+    }
+    
     /// Queries an enum setting value.
+    /// - Warning: A fatal error is generated if `ForKey` does not point to a string setting.
     /// - Parameter Setting: The setting whose enum value will be passed to the completion handler.
     /// - Parameter Completion: Code to execute after the value is retrieved. The value is passed
     ///                         to the completion handler.
@@ -89,7 +106,7 @@ extension Settings
     
     /// Saves an enum value to user settings. This function will convert the enum value into a string (so the
     /// enum *must* be `String`-based) and save that.
-    /// - Note: Fatal errors are generated if:
+    /// - Warning: Fatal errors are generated if:
     ///   - `NewValue` is not from `EnumType`.
     ///   - `ForKey` does not point to a String setting.
     /// - Parameter NewValue: Enum case to save.
@@ -116,7 +133,7 @@ extension Settings
     
     /// Saves an enum value to user settings. This function will convert the enum value into a string (so the
     /// enum *must* be `String`-based) and save that.
-    /// - Note: Fatal errors are generated if:
+    /// - Warning: Fatal errors are generated if:
     ///   - `NewValue` is not from `EnumType`.
     ///   - `ForKey` does not point to a String setting.
     /// - Parameter NewValue: Enum case to save.
