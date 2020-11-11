@@ -87,7 +87,7 @@ class PreferencePanelWindow: NSWindowController
         #if true
         if let Item = ButtonMap[Button]
         {
-        Item.view?.layer?.backgroundColor = NSColor.clear.cgColor
+            Item.view?.layer?.backgroundColor = NSColor.clear.cgColor
             Item.view?.layer?.borderColor = NSColor.clear.cgColor
         }
         #else
