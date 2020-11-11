@@ -102,11 +102,11 @@ class MainController: NSViewController
             if let UpperLeft = Settings.GetCGPoint(.WindowOrigin)
             {
                 MainWindow?.setFrameTopLeftPoint(UpperLeft)
-                print("Starting window point: \(UpperLeft)")
+                Debug.Print("Starting window point: \(UpperLeft)")
             }
             if let ContentsSize = Settings.GetNSSize(.PrimaryViewSize)
             {
-                print("ContentsSize=\(ContentsSize)")
+                Debug.Print("ContentsSize=\(ContentsSize)")
                 //MainWindow?.setContentSize(ContentsSize)
             }
         }
@@ -116,13 +116,16 @@ class MainController: NSViewController
             MainApp = AD
             if MainApp == nil
             {
-                print("MainApp is nil")
+                Debug.Print("MainApp is nil")
             }
         }
         else
         {
             fatalError("Unable to get app delegate: \(#function)")
         }
+        
+        SetWorldLock(Settings.GetBool(.WorldIsLocked))
+        SetMouseLocationVisibility(Visible: true)
     }
     
     public var MainApp: AppDelegate!
@@ -152,6 +155,8 @@ class MainController: NSViewController
     var MainSettingsDelegate: WindowManagement? = nil
     /// About delegate. Used for communication and closing when the main window closes.
     var AboutDelegate: WindowManagement? = nil
+    /// Debugger window delegate.
+    var DebugDelegate: WindowManagement? = nil
     /// Update timer.
     var UpdateTimer: Timer? = nil
     /// Program started flag.
@@ -212,6 +217,26 @@ class MainController: NSViewController
     }
     
     var PreferencesWindowOpen = false
+    
+    @IBAction func RunDebugger(_ sender: Any)
+    {
+        if DebuggerOpen
+        {
+            return
+        }
+        let Storyboard = NSStoryboard(name: "Debug", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "DebuggerWindow") as? DebuggerWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? DebuggerController
+            Controller?.MainDelegate = self
+            DebugDelegate = Controller
+            WindowController.showWindow(nil)
+            DebuggerOpen = false
+        }
+    }
+    
+    var DebuggerOpen = false
     
     /// Set the world lock status. This stops the user from moving the camera in all scenes.
     /// - Note: Prior to locking the scene, the camera is moved back to its default position.
@@ -611,6 +636,9 @@ class MainController: NSViewController
     var PrimaryMapList: ActualMapList? = nil
     /// The latest earthquakes from the USGS.
     var LatestEarthquakes = [Earthquake]()
+    /// Delegate to communicate with the mouse popover.
+    var MouseInfoDelegate: MouseInfoProtocol? = nil
+    var MouseInfoView: MouseInfoController? = nil
 
     // MARK: - Database handles/variables
     
