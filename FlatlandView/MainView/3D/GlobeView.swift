@@ -780,7 +780,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
     {
         if let PopController = NSStoryboard(name: "Popovers", bundle: nil).instantiateController(withIdentifier: "POIPopover") as? POIPopover
         {
-             Pop = NSPopover()
+            Pop = NSPopover()
             Pop?.contentSize = NSSize(width: 376, height: 159)
             Pop?.behavior = .semitransient
             Pop?.animates = true
