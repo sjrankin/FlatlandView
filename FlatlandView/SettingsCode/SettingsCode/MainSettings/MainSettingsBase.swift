@@ -159,6 +159,7 @@ class MainSettingsBase: NSViewController, NSTableViewDelegate, NSTableViewDataSo
     override func viewWillDisappear()
     {
         MainDelegate?.DidClose("MainSettings")
+        MainDelegate?.ChildWindowClosed(.SettingsWindow)
     }
     
     @IBAction func HandleCloseClicked(_ sender: Any)
