@@ -99,8 +99,9 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     /// Called periodically to update the rotation of the Earth. Regardless of the frequency of
     /// being called, the Earth will always be updated to the correct position when called. However,
     /// if this function is called too infrequently, the Earth will show jerky motion as it rotates.
-    /// - Note: When compiled in #DEBUG mode, code is included for debugging time functionality but
-    ///         only when the proper settings are enabled.
+    /// - Note: When compiled in `#DEBUG` mode, code is included for debugging time functionality but
+    ///         only when the proper settings (`.Debug_EnableClockControl` and `.Debug_ClockDebugMap`) are
+    ///         enabled.
     @objc func UpdateEarthView()
     {
         let Now = Date()
@@ -112,10 +113,64 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         let Second = Cal.component(.second, from: Now)
         let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
         let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
-         PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+        
+        if PreviousPrettyPercent == nil
+        {
+            PreviousPrettyPercent = 0.0
+        }
+        else
+        {
+            PreviousPrettyPercent = PrettyPercent
+        }
+        PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+        
+        #if DEBUG
+        if Settings.GetBool(.Debug_EnableClockControl)
+        {
+            if Settings.EnumIs(.Round, .Debug_ClockDebugMap, EnumType: Debug_MapTypes.self)
+            {
+                if Settings.GetBool(.Debug_ClockActionFreeze)
+                {
+                    if let Previous = PreviousPrettyPercent
+                    {
+                        PrettyPercent = Previous
+                    }
+                    else
+                    {
+                        PrettyPercent = 0.0
+                    }
+                }
+                if Settings.GetBool(.Debug_ClockActionFreezeAtTime)
+                {
+                    let FreezeTime = Settings.GetDate(.Debug_ClockActionFreezeTime, Date())
+                    if FreezeTime.IsOnOrLater(Than: Date())
+                    {
+                        if let Previous = PreviousPrettyPercent
+                        {
+                            PrettyPercent = Previous
+                        }
+                        else
+                        {
+                            PrettyPercent = 0.0
+                        }
+                    }
+                }
+                if Settings.GetBool(.Debug_ClockActionSetClockAngle)
+                {
+                    let Angle = Settings.GetDouble(.Debug_ClockActionClockAngle)
+                    PrettyPercent = Angle / 360.0
+                }
+                if Settings.GetBool(.Debug_ClockUseTimeMultiplier)
+                {
+                    
+                }
+            }
+        }
+        #endif
         UpdateEarth(With: PrettyPercent)
     }
     
+    var PreviousPrettyPercent: Double? = nil
     var PrettyPercent: Double = 0.0
     
     /// Returns the local time zone abbreviation (a three-letter indicator, not a set of words).
@@ -340,7 +395,6 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                         }
                         if let NodeData = NodeTables.GetItemData(For: NodeID)
                         {
-                            //MainDelegate?.DisplayNodeInformation(ItemData: NodeData)
                             if Settings.GetBool(.HighlightNodeUnderMouse)
                             {
                                 Node.ShowBoundingShape(.Sphere,
@@ -355,7 +409,6 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                 else
                 {
                     Pop?.performClose(self)
-                    //MainDelegate?.DisplayNodeInformation(ItemData: nil)
                 }
             }
         }
@@ -403,17 +456,68 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                             test = maketestnode()
                             FollowPlane?.addChildNode(test!)
                         }
+                        
+                        #if true
                         let MousePoint = SCNVector3(-Where.x, -0.75, -Where.y)
                         test?.position = MousePoint
                         var Theta: Double = 0.0
-                        let CurrentAngle = PrettyPercent * 360.0 - 90.0
                         let (Lat, Lon) = Utility.ConvertCircleToGeo(Point: MousePoint,
                                                                     Radius: FlatConstants.FlatRadius.rawValue,
-                                                                    Angle: CurrentAngle,
+                                                                    Angle: 90.0,
                                                                     NorthCenter: Mode == .FlatNorthCenter,
                                                                     ThetaValue: &Theta)
-                        print("Mouse at \(test!.position.RoundedTo(3)) = Lat: \(Lat.RoundedTo(3)), Lon: \(Lon.RoundedTo(3))")
-                    }
+                        var FinalLon = Lon
+                        if Mode == .FlatSouthCenter
+                        {
+                            FinalLon = fmod(FinalLon, 360.0) - 180.0
+                            if (-270.0 ... -180.0).contains(FinalLon)
+                            {
+                                let Delta = 180.0 + FinalLon
+                                FinalLon = 180.0 - abs(Delta)
+                            }
+                            FinalLon = FinalLon * -1.0
+                        }
+                        else
+                        {
+                            if FinalLon > 180.0
+                            {
+                                let Delta = FinalLon - 180.0
+                                FinalLon = 180.0 - Delta
+                                FinalLon = FinalLon * -1.0
+                            }
+                        }
+                        MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLon)
+                        #else
+                        let CurrentAngle = PrettyPercent * 360.0
+                        var HitPoint = CGPoint(x: -Where.x, y: -Where.y)
+                        HitPoint = Utility.RotatePoint(HitPoint, By: 90 - CurrentAngle)
+                        let HitVector = SCNVector3(HitPoint.x, -0.75, HitPoint.y)
+                        
+                        let MousePoint = SCNVector3(-Where.x, -0.75, -Where.y)
+                        test?.position = MousePoint
+                        var Theta: Double = 0.0
+
+                        //CurrentAngle = CurrentAngle - 90.0
+                        let (Lat, Lon) = Utility.ConvertCircleToGeo(Point: HitVector,//MousePoint,
+                                                                    Radius: FlatConstants.FlatRadius.rawValue,
+                                                                    Angle: 0.0,//CurrentAngle,
+                                                                    NorthCenter: Mode == .FlatNorthCenter,
+                                                                    ThetaValue: &Theta)
+                        /*
+                        var FinalLongitude = Lon + (CurrentAngle - 90)
+                        if FinalLongitude > 180.0
+                        {
+                            FinalLongitude = -(360.0 - FinalLongitude)
+                        }
+ */
+                        let Rotated = Utility.RotatePoint(CGPoint(x: Lon, y: Lat), By: 90 + CurrentAngle)
+                        //print(" Lon=\(Lon), CurrentAngle=\(CurrentAngle), FinalLongitude=\(FinalLongitude)")
+                        print("    Rotated=\(Rotated)")
+                        //let RLon = CurrentAngle >= 180.0 ? Double(Rotated.x) : Double(Rotated.y)
+                        MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: Double(Rotated.x), -Double(Where.x), -Double(Where.y))
+//                        MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLongitude, -Double(Where.x), -Double(Where.y))
+                        #endif
+                        }
                 }
             }
         }
@@ -442,7 +546,6 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         {
             ResetCamera()
         }
-        print("Set allowsCameraControl to \(IsLocked)")
         self.allowsCameraControl = !IsLocked
     }
     
