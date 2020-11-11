@@ -16,7 +16,7 @@ import Cocoa
     
     func applicationWillFinishLaunching(_ notification: Notification)
     {
-        print("At applicationWillFinishLaunching")
+        Debug.Print("At applicationWillFinishLaunching")
     }
 
     /// Close the application after the last window is closed.
