@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "DeltaIconx1.png",
+      "filename" : "TriangleDeselected32.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "DeltaIconx2.png",
+      "filename" : "TriangleDeselected48.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "DeltaIcon.png",
+      "filename" : "TriangleDeselected96.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

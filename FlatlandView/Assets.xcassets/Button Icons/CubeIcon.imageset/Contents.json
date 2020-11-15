@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "CubeIconx2.png",
+      "filename" : "CubeDeselected32.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "CubeIcon2x.png",
+      "filename" : "CubeDeselected48.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "CubeIcon.png",
+      "filename" : "CubeDeselected96.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

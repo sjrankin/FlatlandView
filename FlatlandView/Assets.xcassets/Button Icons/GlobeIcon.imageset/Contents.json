@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "GlobeIconx1.png",
+      "filename" : "GlobeDeselected32.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "GlobeIconx2.png",
+      "filename" : "GlobeDeselected48.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "GlobeIcon.png",
+      "filename" : "GlobeDeselected96.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

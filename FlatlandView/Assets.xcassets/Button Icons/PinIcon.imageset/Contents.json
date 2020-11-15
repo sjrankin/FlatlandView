@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "PinIconx1.png",
+      "filename" : "PinDeselected32.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "PinIconx2.png",
+      "filename" : "PinDeselected48.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "PinIcon.png",
+      "filename" : "PinDeselected96.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
