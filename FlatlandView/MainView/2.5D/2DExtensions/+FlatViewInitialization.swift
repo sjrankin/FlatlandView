@@ -93,7 +93,9 @@ extension FlatView
         AddFollowPlane()
         AddSun()
         UpdateLightsForShadows(ShowShadows: Settings.GetBool(.Show2DShadows))
+        #if false
         SetupMouseHandling()
+        #endif
     }
     
     /// Initialize location objects (eg, cities and World Heritage Sites).
@@ -118,6 +120,7 @@ extension FlatView
         }
     }
     
+    #if false
     /// Initialize handling the mouse in 2D mode for certain tasks.
     func SetupMouseHandling()
     {
@@ -128,7 +131,6 @@ extension FlatView
     /// If the user clicks on the sun, change the view (from north-centered to south-centered and back).
     @objc func HandleMouseClick(Recognizer: NSGestureRecognizer)
     {
-        #if false
         let Where = Recognizer.location(in: self)
         if Recognizer.state == .ended
         {
@@ -166,8 +168,8 @@ extension FlatView
         }
         print("Passing hit to super")
         super.hitTest(Where, options: nil)
-        #endif
     }
+    #endif
     
     /// Create the camera. Remove any previously created cameras.
     func CreateCamera()
