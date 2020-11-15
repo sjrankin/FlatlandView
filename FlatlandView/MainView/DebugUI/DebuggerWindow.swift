@@ -21,9 +21,14 @@ class DebuggerWindow: NSWindowController
         DebugLogBarItem.view?.layer?.cornerRadius = 3.0
         DebugLogBarItem.view?.layer?.borderWidth = 1.0
         DebugLogBarItem.view?.layer?.borderColor = NSColor.clear.cgColor
+        CommandLineBarItem.view?.wantsLayer = true
+        CommandLineBarItem.view?.layer?.cornerRadius = 3.0
+        CommandLineBarItem.view?.layer?.borderWidth = 1.0
+        CommandLineBarItem.view?.layer?.borderColor = NSColor.clear.cgColor
         
         ButtonMap[ClockControlButton] = ClockControlBarItem
         ButtonMap[DebugLogButton] = DebugLogBarItem
+        ButtonMap[CommandLineButton] = CommandLineBarItem
     }
     
     var ButtonMap = [NSButton: NSToolbarItem]()
@@ -53,9 +58,11 @@ class DebuggerWindow: NSWindowController
         }
     }
     
+    @IBOutlet weak var CommandLineBarItem: NSToolbarItem!
     @IBOutlet weak var ClockControlBarItem: NSToolbarItem!
     @IBOutlet weak var DebugLogBarItem: NSToolbarItem!
     
+    @IBOutlet weak var CommandLineButton: NSButton!
     @IBOutlet weak var ClockControlButton: NSButton!
     @IBOutlet weak var DebugLogButton: NSButton!
 }
