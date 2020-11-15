@@ -185,6 +185,7 @@ extension Settings
             .QuakeRegionEnable: Bool.self,
             .QuakeSetAll: Bool.self,
             .WorldIsLocked: Bool.self,
+            .FollowMouse: Bool.self,
             // MARK: - Debugging settings
             .Debug_EnableClockControl: Bool.self,
             .Debug_ClockDebugMap: Debug_MapTypes.self,
