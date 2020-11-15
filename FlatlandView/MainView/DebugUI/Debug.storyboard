@@ -51,9 +51,24 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="848E47D4-E66A-4B3A-975B-436EC3543024" label="Command Line" paletteLabel="Command Line" image="CommandLineIcon" sizingBehavior="auto" id="vz4-83-a3S">
+                                    <nil key="toolTip"/>
+                                    <button key="view" id="lKZ-6D-sVf">
+                                        <rect key="frame" x="19" y="14" width="48" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="CommandLineIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="815-yk-yya">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="HandleCommandLine:" target="sf5-Kb-zIO" id="Mj2-w0-Sew"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="9kM-oJ-34g"/>
+                                <toolbarItem reference="vz4-83-a3S"/>
                                 <toolbarItem reference="W58-c2-tUv"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -64,6 +79,8 @@
                     <connections>
                         <outlet property="ClockControlBarItem" destination="9kM-oJ-34g" id="coM-EM-wy2"/>
                         <outlet property="ClockControlButton" destination="7Ls-Fa-gjb" id="wDj-fl-CGv"/>
+                        <outlet property="CommandLineBarItem" destination="vz4-83-a3S" id="qNn-9l-bzd"/>
+                        <outlet property="CommandLineButton" destination="lKZ-6D-sVf" id="HsR-Z5-jEP"/>
                         <outlet property="DebugLogBarItem" destination="W58-c2-tUv" id="dgu-Qj-eGc"/>
                         <outlet property="DebugLogButton" destination="QTK-ma-aNd" id="lCX-Za-VaO"/>
                         <segue destination="xPc-Ng-wHy" kind="relationship" relationship="window.shadowedContentViewController" id="Abn-s7-tN1"/>
@@ -533,8 +550,62 @@
             </objects>
             <point key="canvasLocation" x="728.5" y="1554"/>
         </scene>
+        <!--Command Line Panel-->
+        <scene sceneID="c4U-5f-nwj">
+            <objects>
+                <viewController storyboardIdentifier="CommandLineUI" id="6Oc-7O-MLp" customClass="CommandLinePanel" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="xwW-IK-B31">
+                        <rect key="frame" x="0.0" y="0.0" width="839" height="362"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fYa-le-DKN">
+                                <rect key="frame" x="20" y="20" width="799" height="322"/>
+                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="J7B-KW-5xd">
+                                    <rect key="frame" x="0.0" y="0.0" width="784" height="322"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="KUz-cU-Ywj">
+                                            <rect key="frame" x="0.0" y="0.0" width="784" height="322"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="784" height="322"/>
+                                            <size key="maxSize" width="789" height="10000000"/>
+                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="6Oc-7O-MLp" id="cpb-d8-nXU"/>
+                                            </connections>
+                                        </textView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="2dK-0i-zaw">
+                                    <rect key="frame" x="-100" y="-100" width="225" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="Y9C-dc-FiN">
+                                    <rect key="frame" x="784" y="0.0" width="15" height="322"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="fYa-le-DKN" secondAttribute="bottom" constant="20" id="5MV-Yh-6hA"/>
+                            <constraint firstItem="fYa-le-DKN" firstAttribute="top" secondItem="xwW-IK-B31" secondAttribute="top" constant="20" id="876-Co-w76"/>
+                            <constraint firstAttribute="trailing" secondItem="fYa-le-DKN" secondAttribute="trailing" constant="20" id="OwD-ob-Wzi"/>
+                            <constraint firstItem="fYa-le-DKN" firstAttribute="leading" secondItem="xwW-IK-B31" secondAttribute="leading" constant="20" id="oB7-b0-7sj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="TextBox" destination="KUz-cU-Ywj" id="AC1-7O-9wL"/>
+                    </connections>
+                </viewController>
+                <customObject id="wyn-QL-9Sz" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="731.5" y="2061"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="CommandLineIcon" width="24" height="24"/>
         <image name="DebugLogIcon" width="24" height="24"/>
         <image name="DebugTimeIcon" width="24" height="24"/>
     </resources>
