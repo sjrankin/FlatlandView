@@ -76,6 +76,10 @@
 		173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173EB18A2490D1B7006CDB86 /* +Orbits.swift */; };
 		173F3D3E24EB6C4F008B9870 /* CircularWarp.m in Sources */ = {isa = PBXBuildFile; fileRef = 173F3D3D24EB6C4F008B9870 /* CircularWarp.m */; };
 		1740F49B2493173A00F6FAAE /* Hours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740F49A2493173A00F6FAAE /* Hours.swift */; };
+		1743FE74255D048600AD05A7 /* CommandLineCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743FE73255D048600AD05A7 /* CommandLineCommand.swift */; };
+		1743FE77255D1C1E00AD05A7 /* +Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743FE76255D1C1E00AD05A7 /* +Query.swift */; };
+		1743FE7A255D275D00AD05A7 /* EnumList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743FE79255D275D00AD05A7 /* EnumList.swift */; };
+		1743FE7D255D5AD300AD05A7 /* NSRegularExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743FE7C255D5AD300AD05A7 /* NSRegularExpression.swift */; };
 		1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1744316E2480F2C10087B00A /* ActualMapIO.swift */; };
 		174444FB25525A750003C386 /* MapAttributesPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174444FA25525A750003C386 /* MapAttributesPreferences.swift */; };
 		174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174623D024A81B2B007F5D4C /* DebugSettingsCode.swift */; };
@@ -127,6 +131,8 @@
 		1760023E24D2BFBF00D5EA1A /* NSBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760023D24D2BFBF00D5EA1A /* NSBezierPath.swift */; };
 		1760024024D2BFDC00D5EA1A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760023F24D2BFDC00D5EA1A /* String.swift */; };
 		1760024224D2BFFE00D5EA1A /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760024124D2BFFE00D5EA1A /* Array.swift */; };
+		1762BD682560BB2E009C6965 /* +MouseHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1762BD672560BB2E009C6965 /* +MouseHandling.swift */; };
+		1762BD6B2560BD1C009C6965 /* +FlatViewMouseHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1762BD6A2560BD1C009C6965 /* +FlatViewMouseHandling.swift */; };
 		1765B59B253EBC4A00DD11D8 /* GroupedEarthquakeWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1765B59A253EBC4A00DD11D8 /* GroupedEarthquakeWindow.swift */; };
 		1765B59E253EBC6800DD11D8 /* GroupedEarthquakeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1765B59D253EBC6800DD11D8 /* GroupedEarthquakeController.swift */; };
 		1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E324794A0100C434B5 /* AppDelegate.swift */; };
@@ -182,6 +188,7 @@
 		1792486B251A1E3100AF4D4B /* +FlatViewEarthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792486A251A1E3100AF4D4B /* +FlatViewEarthquakes.swift */; };
 		1792486E251A21C700AF4D4B /* +MainWorldHeritageSites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792486D251A21C700AF4D4B /* +MainWorldHeritageSites.swift */; };
 		1797ED3D24E7B976005C74A0 /* FlatlandNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1797ED3C24E7B976005C74A0 /* FlatlandNotification.swift */; };
+		17998145255BC32100E23B75 /* CommandLinePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17998144255BC32100E23B75 /* CommandLinePanel.swift */; };
 		179BE7C324ED053D0025B349 /* Today.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 179BE7C224ED053D0025B349 /* Today.storyboard */; };
 		179BE7C524ED06DB0025B349 /* TodayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179BE7C424ED06DB0025B349 /* TodayWindow.swift */; };
 		179BE7C724ED07020025B349 /* TodayCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179BE7C624ED07020025B349 /* TodayCode.swift */; };
@@ -417,6 +424,10 @@
 		173F3D3C24EB6C4F008B9870 /* Flatland-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Flatland-Bridging-Header.h"; sourceTree = "<group>"; };
 		173F3D3D24EB6C4F008B9870 /* CircularWarp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularWarp.m; sourceTree = "<group>"; };
 		1740F49A2493173A00F6FAAE /* Hours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hours.swift; sourceTree = "<group>"; };
+		1743FE73255D048600AD05A7 /* CommandLineCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineCommand.swift; sourceTree = "<group>"; };
+		1743FE76255D1C1E00AD05A7 /* +Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Query.swift"; sourceTree = "<group>"; };
+		1743FE79255D275D00AD05A7 /* EnumList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumList.swift; sourceTree = "<group>"; };
+		1743FE7C255D5AD300AD05A7 /* NSRegularExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSRegularExpression.swift; sourceTree = "<group>"; };
 		1744316E2480F2C10087B00A /* ActualMapIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapIO.swift; sourceTree = "<group>"; };
 		174444FA25525A750003C386 /* MapAttributesPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAttributesPreferences.swift; sourceTree = "<group>"; };
 		174623D024A81B2B007F5D4C /* DebugSettingsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsCode.swift; sourceTree = "<group>"; };
@@ -468,6 +479,8 @@
 		1760023D24D2BFBF00D5EA1A /* NSBezierPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSBezierPath.swift; sourceTree = "<group>"; };
 		1760023F24D2BFDC00D5EA1A /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1760024124D2BFFE00D5EA1A /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		1762BD672560BB2E009C6965 /* +MouseHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MouseHandling.swift"; sourceTree = "<group>"; };
+		1762BD6A2560BD1C009C6965 /* +FlatViewMouseHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewMouseHandling.swift"; sourceTree = "<group>"; };
 		1765B59A253EBC4A00DD11D8 /* GroupedEarthquakeWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedEarthquakeWindow.swift; sourceTree = "<group>"; };
 		1765B59D253EBC6800DD11D8 /* GroupedEarthquakeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedEarthquakeController.swift; sourceTree = "<group>"; };
 		1767A8E024794A0100C434B5 /* Flatland.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatland.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -525,6 +538,7 @@
 		1792486A251A1E3100AF4D4B /* +FlatViewEarthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewEarthquakes.swift"; sourceTree = "<group>"; };
 		1792486D251A21C700AF4D4B /* +MainWorldHeritageSites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainWorldHeritageSites.swift"; sourceTree = "<group>"; };
 		1797ED3C24E7B976005C74A0 /* FlatlandNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlandNotification.swift; sourceTree = "<group>"; };
+		17998144255BC32100E23B75 /* CommandLinePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLinePanel.swift; sourceTree = "<group>"; };
 		179BE7C224ED053D0025B349 /* Today.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Today.storyboard; sourceTree = "<group>"; };
 		179BE7C424ED06DB0025B349 /* TodayWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWindow.swift; sourceTree = "<group>"; };
 		179BE7C624ED07020025B349 /* TodayCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayCode.swift; sourceTree = "<group>"; };
@@ -927,6 +941,8 @@
 			children = (
 				174A6A2F2557D22500488274 /* LogPanel.swift */,
 				174A6A332557D24B00488274 /* ClockControlPanel.swift */,
+				17998144255BC32100E23B75 /* CommandLinePanel.swift */,
+				1743FE73255D048600AD05A7 /* CommandLineCommand.swift */,
 			);
 			path = DebugPanels;
 			sourceTree = "<group>";
@@ -1003,6 +1019,7 @@
 			isa = PBXGroup;
 			children = (
 				178A86AA2489135C00BE8D46 /* GlobeView.swift */,
+				1762BD672560BB2E009C6965 /* +MouseHandling.swift */,
 				178E1CA525186E1300FDC75B /* +Initialize.swift */,
 				178E1C9F251829C700FDC75B /* +Lights.swift */,
 				17854C662503649800D099A7 /* +Layers.swift */,
@@ -1105,6 +1122,7 @@
 				17B0B7342546ADF900DC0F03 /* UInt.swift */,
 				17B0B7372546AE3400DC0F03 /* UInt8.swift */,
 				177D0F5E2547F04700CD5041 /* MTLTexture.swift */,
+				1743FE7C255D5AD300AD05A7 /* NSRegularExpression.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1153,6 +1171,7 @@
 				178909C8250E0F360092E3A4 /* MainView */,
 				17EF33BE247A958B00A5B55D /* Versioning.swift */,
 				17EF339B247A68C600A5B55D /* Enums.swift */,
+				1743FE79255D275D00AD05A7 /* EnumList.swift */,
 				17000B4B251ADF22009CF3B7 /* EnumConstants.swift */,
 				1767A8E724794A0300C434B5 /* Assets.xcassets */,
 				17F1E5C22549126600E6F6CF /* SparkParticleTest.sks */,
@@ -1250,6 +1269,7 @@
 				1792486725198A7F00AF4D4B /* +FlatViewLights.swift */,
 				176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */,
 				172D20652521BEC000FA8687 /* +FlatViewWorldHeritageSites.swift */,
+				1762BD6A2560BD1C009C6965 /* +FlatViewMouseHandling.swift */,
 			);
 			path = 2DExtensions;
 			sourceTree = "<group>";
@@ -1700,6 +1720,7 @@
 				17F9B006252036F900DE0219 /* +EarthquakeSettings.swift */,
 				17F9B0092520373A00DE0219 /* +LocationsSettings.swift */,
 				17F9B00C2520377F00DE0219 /* +LocationAttributes.swift */,
+				1743FE76255D1C1E00AD05A7 /* +Query.swift */,
 			);
 			path = SettingTypes;
 			sourceTree = "<group>";
@@ -1848,6 +1869,7 @@
 			files = (
 				17F1C7CE2543F8A50046AE33 /* +RectangleViewInitialization.swift in Sources */,
 				17B8F5252503892800D71931 /* SplitterParameters.swift in Sources */,
+				1743FE77255D1C1E00AD05A7 /* +Query.swift in Sources */,
 				17E901E62552C3650097A89A /* EarthquakeRegionController2.swift in Sources */,
 				178A869A2488C3B600BE8D46 /* AboutDetailsController.swift in Sources */,
 				17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */,
@@ -1862,6 +1884,7 @@
 				17DFAF562545A5BE00374344 /* ImageShifter.metal in Sources */,
 				1760024224D2BFFE00D5EA1A /* Array.swift in Sources */,
 				176CBB76251B08E800D6C0AD /* EnumConstants.swift in Sources */,
+				17998145255BC32100E23B75 /* CommandLinePanel.swift in Sources */,
 				17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */,
 				177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */,
 				17B7D7B424CED0C4000C077B /* SolidColorImage.swift in Sources */,
@@ -1877,6 +1900,7 @@
 				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
 				1760023A24D2BF6100D5EA1A /* NSImage.swift in Sources */,
 				17829D4824B31D0200118DB1 /* EarthquakeDetailWindow.swift in Sources */,
+				1743FE7A255D275D00AD05A7 /* EnumList.swift in Sources */,
 				177D0F5F2547F04700CD5041 /* MTLTexture.swift in Sources */,
 				17A25CC42505D43600214C45 /* Metal2DShapeGenerator.swift in Sources */,
 				17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */,
@@ -2013,6 +2037,7 @@
 				171A583E24BED5A700F9CA76 /* SCNTriangleRing.swift in Sources */,
 				17EF33AE247A93C400A5B55D /* TimeHelper.swift in Sources */,
 				177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */,
+				1762BD6B2560BD1C009C6965 /* +FlatViewMouseHandling.swift in Sources */,
 				177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */,
 				178E1CA625186E1300FDC75B /* +Initialize.swift in Sources */,
 				17EF3393247A66D200A5B55D /* MapManager.swift in Sources */,
@@ -2026,6 +2051,7 @@
 				17A25CC82505D4B000214C45 /* Metal2DCircle.metal in Sources */,
 				17C87B7E25177FBF0065BE6D /* +FlatViewSettingsHandler.swift in Sources */,
 				1759AE66249F81F6003F79F5 /* View3DSettingsWindow.swift in Sources */,
+				1743FE7D255D5AD300AD05A7 /* NSRegularExpression.swift in Sources */,
 				1727EA5A24B170730051EA3B /* Queue.swift in Sources */,
 				17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
@@ -2073,6 +2099,7 @@
 				1760024024D2BFDC00D5EA1A /* String.swift in Sources */,
 				17F1C7C92543F8650046AE33 /* RectangleView.swift in Sources */,
 				17F9AFD92520338500DE0219 /* +String.swift in Sources */,
+				1762BD682560BB2E009C6965 /* +MouseHandling.swift in Sources */,
 				175F661424DE7416007B3A60 /* LineDrawParameters.swift in Sources */,
 				17EF33AC247A93A300A5B55D /* GeoPoint.swift in Sources */,
 				1759AE64249F81D3003F79F5 /* View2DSettingsWindow.swift in Sources */,
@@ -2152,6 +2179,7 @@
 				17CA645C254E7DB100B6DFCC /* RegionalQuakeController.swift in Sources */,
 				178A86972488C23C00BE8D46 /* AboutController.swift in Sources */,
 				17C87B7825177EB00065BE6D /* +FlatViewNodeHandling.swift in Sources */,
+				1743FE74255D048600AD05A7 /* CommandLineCommand.swift in Sources */,
 				17BCCC3F24D7F15600030E37 /* EarthquakeFilterer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2300,6 +2328,7 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Irorio.FlatlandView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -2332,6 +2361,7 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Irorio.FlatlandView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "FlatlandView/ObjectiveC/Flatland-Bridging-Header.h";
