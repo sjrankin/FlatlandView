@@ -68,7 +68,7 @@ extension Settings
     /// - Parameter SendNotification: If true, a notification is sent when this function is called.
     ///                               If false, subscribers are not notified.
     /// - Returns: Inverted value found at `Setting`.
-    public static func InvertBool(_ Setting: SettingKeys, SendNotification: Bool = true) -> Bool
+    @discardableResult public static func InvertBool(_ Setting: SettingKeys, SendNotification: Bool = true) -> Bool
     {
         let OldBool = GetBool(Setting)
         let NewBool = !OldBool
@@ -78,6 +78,17 @@ extension Settings
             NotifySubscribers(Setting: Setting, OldValue: OldBool, NewValue: NewBool)
         }
         return NewBool
+    }
+    
+    /// Thin wrapper around `InvertBool`. Inverts the boolean value at the specified setting and returns the new value.
+    /// The inverted value is saved and any subscribers are notified of changes.
+    /// - Parameter Setting: The setting where the boolean value to invert lives.
+    /// - Parameter SendNotification: If true, a notification is sent when this function is called.
+    ///                               If false, subscribers are not notified.
+    /// - Returns: Inverted value found at `Setting`.
+    @discardableResult public static func ToggleBool(_ Setting: SettingKeys, SendNotification: Bool = true) -> Bool
+    {
+        return InvertBool(Setting, SendNotification: SendNotification)
     }
     
     /// Queries an inverted boolean setting value.
