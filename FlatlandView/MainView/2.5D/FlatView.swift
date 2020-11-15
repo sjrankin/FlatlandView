@@ -83,8 +83,6 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         FlatEarthNode.geometry?.firstMaterial?.diffuse.contents = Final
     }
     
-    var FlatEarthNode = SCNNode2()
-    
     func StartClock()
     {
         EarthClock = Timer.scheduledTimer(timeInterval: Defaults.EarthClockTick.rawValue,
@@ -361,185 +359,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
             PolarLight.intensity = 0
         }
     }
-    
-    /// Handle mouse motion reported by the main view controller.
-    /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
-    ///         the node under the mouse is queried and its associated data may be displayed.
-    /// - Parameter Point: The point in the view reported by the main controller.
-    func MouseAt(Point: CGPoint)
-    {
-        let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
-        if MapCenter == .FlatSouthCenter || MapCenter == .FlatNorthCenter
-        {
-            let HitObject = self.hitTest(Point, options: [.boundingBoxOnly: true])
-            if HitObject.count > 0
-            {
-                if let Node = HitObject[0].node as? SCNNode2
-                {
-                    if let NodeID = Node.NodeID
-                    {
-                        if PreviousNodeID != nil
-                        {
-                            if PreviousNodeID! == NodeID
-                            {
-                                return
-                            }
-                        }
-                        PreviousNodeID = NodeID
-                        if PreviousNode != nil
-                        {
-                            if Settings.GetBool(.HighlightNodeUnderMouse)
-                            {
-                                PreviousNode?.HideBoundingShape()
-                            }
-                        }
-                        if let NodeData = NodeTables.GetItemData(For: NodeID)
-                        {
-                            if Settings.GetBool(.HighlightNodeUnderMouse)
-                            {
-                                Node.ShowBoundingShape(.Sphere,
-                                                       LineColor: NSColor.red,
-                                                       SegmentCount: 10)
-                            }
-                            PreviousNode = Node
-                            MakePopOver(At: Point, For: NodeData)
-                        }
-                    }
-                }
-                else
-                {
-                    Pop?.performClose(self)
-                }
-            }
-        }
-    }
-    
-    func MakePopOver(At: CGPoint, For: DisplayItem)
-    {
-        if let PopController = NSStoryboard(name: "Popovers", bundle: nil).instantiateController(withIdentifier: "POIPopover") as? POIPopover
-        {
-            Pop = NSPopover()
-            Pop?.contentSize = NSSize(width: 376, height: 159)
-            Pop?.behavior = .semitransient
-            Pop?.animates = true
-            Pop?.contentViewController = PopController
-            Pop?.show(relativeTo: NSRect(x: At.x, y: At.y, width: 10.0, height: 10.0), of: self, preferredEdge: .minX)
-            PopController.DisplayItem(For)
-            PopController.SetSelf(Pop!)
-        }
-    }
-    
-    var Pop: NSPopover? = nil
-    
-    func MouseMovedTo(Point: CGPoint)
-    {
-        let Mode = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.Rectangular)
-        if Mode == .FlatNorthCenter || Mode == .FlatSouthCenter
-        {
-            if InFollowMode
-            {
-                let SearchOptions: [SCNHitTestOption: Any] =
-                    [
-                        .searchMode: SCNHitTestSearchMode.closest.rawValue,
-                        .ignoreHiddenNodes: true,
-                        .ignoreChildNodes: true,
-                        .rootNode: FollowPlane! as Any
-                    ]
-                let HitObject = self.hitTest(Point, options: SearchOptions)
-                if HitObject.count > 0
-                {
-                    if HitObject[0].node.self is SCNNode2
-                    {
-                        let Where = HitObject[0].worldCoordinates
-                        if test == nil
-                        {
-                            test = maketestnode()
-                            FollowPlane?.addChildNode(test!)
-                        }
-                        
-                        #if true
-                        let MousePoint = SCNVector3(-Where.x, -0.75, -Where.y)
-                        test?.position = MousePoint
-                        var Theta: Double = 0.0
-                        let (Lat, Lon) = Utility.ConvertCircleToGeo(Point: MousePoint,
-                                                                    Radius: FlatConstants.FlatRadius.rawValue,
-                                                                    Angle: 90.0,
-                                                                    NorthCenter: Mode == .FlatNorthCenter,
-                                                                    ThetaValue: &Theta)
-                        var FinalLon = Lon
-                        if Mode == .FlatSouthCenter
-                        {
-                            FinalLon = fmod(FinalLon, 360.0) - 180.0
-                            if (-270.0 ... -180.0).contains(FinalLon)
-                            {
-                                let Delta = 180.0 + FinalLon
-                                FinalLon = 180.0 - abs(Delta)
-                            }
-                            FinalLon = FinalLon * -1.0
-                        }
-                        else
-                        {
-                            if FinalLon > 180.0
-                            {
-                                let Delta = FinalLon - 180.0
-                                FinalLon = 180.0 - Delta
-                                FinalLon = FinalLon * -1.0
-                            }
-                        }
-                        MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLon)
-                        #else
-                        let CurrentAngle = PrettyPercent * 360.0
-                        var HitPoint = CGPoint(x: -Where.x, y: -Where.y)
-                        HitPoint = Utility.RotatePoint(HitPoint, By: 90 - CurrentAngle)
-                        let HitVector = SCNVector3(HitPoint.x, -0.75, HitPoint.y)
-                        
-                        let MousePoint = SCNVector3(-Where.x, -0.75, -Where.y)
-                        test?.position = MousePoint
-                        var Theta: Double = 0.0
 
-                        //CurrentAngle = CurrentAngle - 90.0
-                        let (Lat, Lon) = Utility.ConvertCircleToGeo(Point: HitVector,//MousePoint,
-                                                                    Radius: FlatConstants.FlatRadius.rawValue,
-                                                                    Angle: 0.0,//CurrentAngle,
-                                                                    NorthCenter: Mode == .FlatNorthCenter,
-                                                                    ThetaValue: &Theta)
-                        /*
-                        var FinalLongitude = Lon + (CurrentAngle - 90)
-                        if FinalLongitude > 180.0
-                        {
-                            FinalLongitude = -(360.0 - FinalLongitude)
-                        }
- */
-                        let Rotated = Utility.RotatePoint(CGPoint(x: Lon, y: Lat), By: 90 + CurrentAngle)
-                        //print(" Lon=\(Lon), CurrentAngle=\(CurrentAngle), FinalLongitude=\(FinalLongitude)")
-                        print("    Rotated=\(Rotated)")
-                        //let RLon = CurrentAngle >= 180.0 ? Double(Rotated.x) : Double(Rotated.y)
-                        MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: Double(Rotated.x), -Double(Where.x), -Double(Where.y))
-//                        MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLongitude, -Double(Where.x), -Double(Where.y))
-                        #endif
-                        }
-                }
-            }
-        }
-    }
-    
-    func maketestnode() -> SCNNode2
-    {
-        let top = SCNCone(topRadius: 0.0, bottomRadius: 0.25, height: 0.5)
-        let bottom = SCNCone(topRadius: 0.25, bottomRadius: 0.0, height: 0.5)
-        let topnode = SCNNode2(geometry: top)
-        let bottomnode = SCNNode2(geometry: bottom)
-        topnode.categoryBitMask = LightMasks2D.Polar.rawValue
-        bottomnode.categoryBitMask = LightMasks2D.Polar.rawValue
-        topnode.position = SCNVector3(0.0, 0.5, 0.0)
-        topnode.geometry?.firstMaterial?.diffuse.contents = NSColor.systemOrange
-        bottomnode.geometry?.firstMaterial?.diffuse.contents = NSColor.yellow
-        let final = SCNNode2()
-        final.addChildNode(topnode)
-        final.addChildNode(bottomnode)
-        return final
-    }
-    
     func SetCameraLock(_ IsLocked: Bool)
     {
         if IsLocked
@@ -549,9 +369,15 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         self.allowsCameraControl = !IsLocked
     }
     
+    var FollowMenu: NSMenuItem? = nil
+    var POIMenu: NSMenuItem? = nil
+    var QuakeMenu: NSMenuItem? = nil
+    var ResetMenu: NSMenuItem? = nil
+    var LockMenu: NSMenuItem? = nil
+    var SunMenu: NSMenuItem? = nil
+    var FlatEarthNode = SCNNode2()
     var test: SCNNode2? = nil
-    
-    var InFollowMode = true
+    var Pop: NSPopover? = nil
     var PreviousNode: SCNNode2? = nil
     var PreviousNodeID: UUID? = nil
     var NodesWithShadows = [SCNNode]()
@@ -563,4 +389,5 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var POIsToPlot = [POI]()
     var PrimaryLightMultiplier: Double = 1.0
     var FollowPlane: SCNNode2? = nil
+    var PolarLightLock = NSObject()
 }
