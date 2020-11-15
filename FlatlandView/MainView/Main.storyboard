@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -26,8 +25,8 @@
                                 <toolbarItem implicitItemIdentifier="9EF5C577-251D-4321-8F61-C43AB1D0E9B5" label="Preferences" paletteLabel="Preferences" image="Preferences" sizingBehavior="auto" id="b5h-QO-yWS">
                                     <nil key="toolTip"/>
                                     <button key="view" id="1oP-yc-eXi">
-                                        <rect key="frame" x="11" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="23" y="14" width="24" height="24"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Preferences" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Owc-Ai-YIM">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -68,17 +67,17 @@
                                 <toolbarItem implicitItemIdentifier="46302FE2-E66E-47DD-B258-020795B771FA" label="Hours" paletteLabel="Hours" sizingBehavior="auto" id="y1a-2M-gUr">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="bPC-zz-fFT">
-                                        <rect key="frame" x="0.0" y="14" width="153" height="23"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="0.0" y="14" width="149" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="dD0-AG-Y6N">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment image="CircleIcon" width="36"/>
-                                                <segment image="ClockIcon" width="36" selected="YES" tag="1"/>
-                                                <segment image="DeltaIcon" width="36">
+                                                <segment image="CircleIcon" width="32"/>
+                                                <segment image="ClockIcon" width="32" selected="YES" tag="1"/>
+                                                <segment image="DeltaIcon" width="32">
                                                     <nil key="label"/>
                                                 </segment>
-                                                <segment image="PinIcon" width="36">
+                                                <segment image="PinIcon" width="32">
                                                     <nil key="label"/>
                                                 </segment>
                                             </segments>
@@ -91,16 +90,16 @@
                                 <toolbarItem implicitItemIdentifier="A83762AA-C5FF-4038-AE1E-26FA2FA5BD81" label="Map Type" paletteLabel="Map Type" sizingBehavior="auto" id="FW5-HH-uvu">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="zlI-db-Myb">
-                                        <rect key="frame" x="0.0" y="14" width="191" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="0.0" y="14" width="186" height="23"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="wYc-Ey-nle">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment image="NorthCenterIcon" width="36"/>
-                                                <segment image="SouthCenterIcon" width="36" selected="YES" tag="1"/>
-                                                <segment image="GlobeIcon" width="36"/>
-                                                <segment image="RectangleIcon" width="36"/>
-                                                <segment image="CubeIcon" width="36"/>
+                                                <segment image="NorthCenterIcon" width="32"/>
+                                                <segment image="SouthCenterIcon" width="32" selected="YES" tag="1"/>
+                                                <segment image="GlobeIcon" width="32"/>
+                                                <segment image="RectangleIcon" width="32"/>
+                                                <segment image="CubeIcon" width="32"/>
                                             </segments>
                                         </segmentedCell>
                                     </segmentedControl>
@@ -111,8 +110,8 @@
                                 <toolbarItem implicitItemIdentifier="458F6142-08F3-4DE8-8D82-69A64701DC1C" label="Lock/Unlock Camera" paletteLabel="Lock/Unlock Camera" image="UnlockWorldIcon" sizingBehavior="auto" id="Twt-2m-O8i">
                                     <nil key="toolTip"/>
                                     <button key="view" id="mul-Uu-lPY">
-                                        <rect key="frame" x="34" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="42" y="14" width="32" height="32"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="UnlockWorldIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="wmP-dE-aEH">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -125,8 +124,8 @@
                                 <toolbarItem implicitItemIdentifier="B5A7BC55-4B4B-40B7-877B-BAA61BB45D43" label="Debugger" paletteLabel="Debugger" image="DebuggerIcon" sizingBehavior="auto" id="4KN-d7-uhV">
                                     <nil key="toolTip"/>
                                     <button key="view" id="Ba2-YP-90b">
-                                        <rect key="frame" x="6" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="18" y="14" width="24" height="24"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="DebuggerIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="o0G-jZ-ra7">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -148,7 +147,6 @@
                                 <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="4KN-d7-uhV"/>
                                 <toolbarItem reference="Twt-2m-O8i"/>
-                                <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="Y99-uv-LZz"/>
                                 <toolbarItem reference="Fk7-Vk-xXx"/>
                                 <toolbarItem reference="MOf-3f-WGP"/>
@@ -581,7 +579,7 @@
                                 </constraints>
                             </customView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iq2-x8-FBV">
-                                <rect key="frame" x="392" y="943" width="216" height="47"/>
+                                <rect key="frame" x="393" y="943" width="214" height="47"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="23:45 UTC" id="3pi-ty-vTi">
                                     <font key="font" metaFont="systemBlack" size="40"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -589,7 +587,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UlV-IY-Q92">
-                                <rect key="frame" x="392" y="16" width="216" height="47"/>
+                                <rect key="frame" x="393" y="16" width="214" height="47"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="23:45 UTC" id="cuD-KW-T9X">
                                     <font key="font" metaFont="systemBlack" size="40"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
