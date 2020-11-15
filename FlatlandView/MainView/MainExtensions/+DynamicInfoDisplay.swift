@@ -30,17 +30,37 @@ extension MainController
             {
                 Controller.view.wantsLayer = true
                 Controller.view.layer?.zPosition = 100000
-                let Y = self.view.frame.size.height - 165
-                Controller.view.frame = NSRect(x: 10, y: Y, width: 250, height: 100)
+                Controller.view.alphaValue = 0.0
+                let ViewWidth = Controller.view.frame.width
+                let Bottom: CGFloat = Settings.GetBool(.ShowStatistics) ? 20.0 : 10.0
+                Controller.view.frame = NSRect(x: self.view.frame.size.width - ViewWidth - 10,
+                                               y: Bottom,
+                                               width: ViewWidth,
+                                               height: 100)
                 self.view.addSubview(Controller.view)
                 MouseInfoDelegate = Controller
                 MouseInfoView = Controller
+                NSAnimationContext.runAnimationGroup
+                {
+                    Context in
+                    Context.duration = 0.15
+                    self.MouseInfoView?.view.animator().alphaValue = 1.0
+                }
             }
         }
         else
         {
-            MouseInfoView?.removeFromParent()
-            MouseInfoView = nil
+
+            NSAnimationContext.runAnimationGroup
+            {
+                Context in
+                Context.duration = 0.3
+                self.MouseInfoView?.view.animator().alphaValue = 0.0
+            } completionHandler:
+            {
+                self.MouseInfoView?.removeFromParent()
+                self.MouseInfoView = nil
+            }
         }
     }
     
