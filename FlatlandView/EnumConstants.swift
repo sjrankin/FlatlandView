@@ -15,7 +15,7 @@ import Foundation
 
 /// Default Double and CGFloat values (CGFloat values must be cast) for various
 /// settings. These are used instead of hard-coded numbers embedded in the code.
-enum Defaults: Double
+enum Defaults: Double, CaseIterable
 {
     /// How often the Earth clock is called.
     case EarthClockTick = 1.0
@@ -201,7 +201,7 @@ enum FlatConstants: Double, CaseIterable
 // MARK: - Rectangle view constants.
 
 /// Constants for rectangle mode.
-enum RectMode: Double
+enum RectMode: Double, CaseIterable
 {
     /// Width of the map.
     case MapWidth = 30.0
@@ -217,7 +217,7 @@ enum RectMode: Double
 
 /// Z position enum and layer values. Defines which layers are on top of other layers.
 /// Higher values mean closer to the user which means more likely to be visible.
-enum LayerZLevels: Int
+enum LayerZLevels: Int, CaseIterable
 {
     /// Time lables.
     case TimeLabels = 100000
@@ -433,7 +433,7 @@ enum GravitationParameters: Double, CaseIterable
 // MARK: - Scale values for 3D nodes.
 
 /// Scales for 3D nodes.
-enum NodeScales3D: CGFloat
+enum NodeScales3D: CGFloat, CaseIterable
 {
     /// Earthquake text.
     case EarthquakeText = 0.03
@@ -472,7 +472,7 @@ enum NodeScales3D: CGFloat
 // MARK: - Scale values for 2D nodes.
 
 /// Scales for 2D nodes.
-enum NodeScales2D: CGFloat
+enum NodeScales2D: CGFloat, CaseIterable
 {
     /// Earthquake node scale.
     case EarthquakeScale = 0.75
