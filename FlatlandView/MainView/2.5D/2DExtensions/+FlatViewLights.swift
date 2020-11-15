@@ -122,9 +122,13 @@ extension FlatView
     
     /// Move the polar light to the appropriate pole to cast shadows.
     /// - Note: The 2D sun node is also moved along with the light.
+    /// - Note: To prevent the user from clicking on the map control when the light is moving, this function
+    ///         has a synchronization gate to avoid the light's position from getting confused.
     /// - Parameter ToNorth: Determines if the polar light is moved to the north or south pole.
     func MovePolarLight(ToNorth: Bool)
     {
+        objc_sync_enter(PolarLightLock)
+        defer{objc_sync_exit(PolarLightLock)}
         var LightPath = Utility.PointsOnArc(Radius: FlatConstants.FlatRadius.rawValue + FlatConstants.PolarSunRimOffset.rawValue,
                                             Count: Int(FlatConstants.LightPathSegmentCount.rawValue))
         if ToNorth
