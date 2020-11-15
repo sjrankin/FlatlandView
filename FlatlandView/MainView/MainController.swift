@@ -125,7 +125,55 @@ class MainController: NSViewController
         }
         
         SetWorldLock(Settings.GetBool(.WorldIsLocked))
-        SetMouseLocationVisibility(Visible: true)
+        SetMouseLocationVisibility(Visible: Settings.GetBool(.FollowMouse))
+        
+        //Make sure the proper segments in the toolbar segment controls are highlighted - macOS 11 does not
+        //highlight selected segments with sufficient contrast so we have to do it ourself.
+        if let WinCtrl = self.view.window?.windowController as? MainWindow
+        {
+            WinCtrl.ViewSegment.setImage(NSImage(named: "NorthCenterIcon"), forSegment: 0)
+            WinCtrl.ViewSegment.setImage(NSImage(named: "SouthCenterIcon"), forSegment: 1)
+            WinCtrl.ViewSegment.setImage(NSImage(named: "GlobeIcon"), forSegment: 2)
+            WinCtrl.ViewSegment.setImage(NSImage(named: "RectangleIcon"), forSegment: 3)
+            WinCtrl.ViewSegment.setImage(NSImage(named: "CubeIcon"), forSegment: 4)
+            switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D)
+            {
+                case .CubicWorld:
+                    WinCtrl.ViewSegment.setImage(NSImage(named: "CubeIconSelected"), forSegment: 4)
+                    
+                case .FlatNorthCenter:
+                    WinCtrl.ViewSegment.setImage(NSImage(named: "NorthCenterIconSelected"), forSegment: 0)
+                    
+                case .FlatSouthCenter:
+                    WinCtrl.ViewSegment.setImage(NSImage(named: "SouthCenterIconSelected"), forSegment: 1)
+                    
+                case .Globe3D:
+                    WinCtrl.ViewSegment.setImage(NSImage(named: "GlobeIconSelected"), forSegment: 2)
+                    
+                case .Rectangular:
+                    WinCtrl.ViewSegment.setImage(NSImage(named: "RectangleIconSelected"), forSegment: 3)
+                    
+            }
+            
+            WinCtrl.HourSegment.setImage(NSImage(named: "CircleIcon"), forSegment: 0)
+            WinCtrl.HourSegment.setImage(NSImage(named: "ClockIcon"), forSegment: 1)
+            WinCtrl.HourSegment.setImage(NSImage(named: "DeltaIcon"), forSegment: 2)
+            WinCtrl.HourSegment.setImage(NSImage(named: "PinIcon"), forSegment: 3)
+            switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .Solar)
+            {
+                case .None:
+                    WinCtrl.HourSegment.setImage(NSImage(named: "CircleIconSelected"), forSegment: 0)
+                    
+                case .RelativeToLocation:
+                    WinCtrl.HourSegment.setImage(NSImage(named: "PinIconSelected"), forSegment: 3)
+                    
+                case .RelativeToNoon:
+                    WinCtrl.HourSegment.setImage(NSImage(named: "DeltaIconSelected"), forSegment: 2)
+                    
+                case .Solar:
+                    WinCtrl.HourSegment.setImage(NSImage(named: "ClockIconSelected"), forSegment: 1)
+            }
+        }
     }
     
     public var MainApp: AppDelegate!
@@ -317,6 +365,7 @@ class MainController: NSViewController
     /// Reference to the today viewer. Used to close the viewer if the main window is closed first.
     var TodayDelegate: WindowManagement? = nil
     
+    #if false
     /// Respond to the user command to show the list of earthquakes.
     /// - Parameter sender: Not used.
     @IBAction func ShowEarthquakeListX(_ sender: Any)
@@ -334,7 +383,8 @@ class MainController: NSViewController
         }
         #endif
     }
-
+    #endif
+    
     var QuakeController: EarthquakeViewerController? = nil
     var QuakeDelegate: WindowManagement? = nil
     
@@ -517,19 +567,27 @@ class MainController: NSViewController
     {
         if let Segment = sender as? NSSegmentedControl
         {
+            Segment.setImage(NSImage(named: "CircleIcon"), forSegment: 0)
+            Segment.setImage(NSImage(named: "ClockIcon"), forSegment: 1)
+            Segment.setImage(NSImage(named: "DeltaIcon"), forSegment: 2)
+            Segment.setImage(NSImage(named: "PinIcon"), forSegment: 3)
             switch Segment.selectedSegment
             {
                 case 0:
                     ViewHoursHideAll(sender)
+                    Segment.setImage(NSImage(named: "CircleIconSelected"), forSegment: 0)
                     
                 case 1:
                     ViewHoursNoonCentered(sender)
+                    Segment.setImage(NSImage(named: "ClockIconSelected"), forSegment: 1)
                     
                 case 2:
                     ViewHoursNoonDelta(sender)
+                    Segment.setImage(NSImage(named: "DeltaIconSelected"), forSegment: 2)
                     
                 case 3:
                     ViewHoursLocationRelative(sender)
+                    Segment.setImage(NSImage(named: "PinIconSelected"), forSegment: 3)
                     
                 default:
                     return
@@ -543,22 +601,32 @@ class MainController: NSViewController
     {
         if let Segment = sender as? NSSegmentedControl
         {
+            Segment.setImage(NSImage(named: "NorthCenterIcon"), forSegment: 0)
+            Segment.setImage(NSImage(named: "SouthCenterIcon"), forSegment: 1)
+            Segment.setImage(NSImage(named: "GlobeIcon"), forSegment: 2)
+            Segment.setImage(NSImage(named: "RectangleIcon"), forSegment: 3)
+            Segment.setImage(NSImage(named: "CubeIcon"), forSegment: 4)
             switch Segment.selectedSegment
             {
                 case 0:
                     ViewTypeNorthCentered(sender)
+                    Segment.setImage(NSImage(named: "NorthCenterIconSelected"), forSegment: 0)
                     
                 case 1:
                     ViewTypeSouthCentered(sender)
+                    Segment.setImage(NSImage(named: "SouthCenterIconSelected"), forSegment: 1)
                     
                 case 2:
                     ViewTypeGlobal(sender)
+                    Segment.setImage(NSImage(named: "GlobeIconSelected"), forSegment: 2)
                     
                 case 3:
                     ViewTypeRectangular(sender)
+                    Segment.setImage(NSImage(named: "RectangleIconSelected"), forSegment: 3)
                     
                 case 4:
                     ViewTypeCubic(sender)
+                    Segment.setImage(NSImage(named: "CubeIconSelected"), forSegment: 4)
                     
                 default:
                     return
