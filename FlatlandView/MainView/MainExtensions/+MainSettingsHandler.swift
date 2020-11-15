@@ -157,6 +157,13 @@ extension MainController: SettingChangedProtocol
                 let Opposite = Utility.OppositeColor(From: NewBackgroundColor)
                 UpdateScreenText(With: Opposite)
                 
+            case .WorldIsLocked:
+                //Just need to update user interface elements.
+                SetWorldLock(Settings.GetBool(.WorldIsLocked))
+                
+            case .FollowMouse:
+                SetMouseLocationVisibility(Visible: Settings.GetBool(.FollowMouse))
+                
             default:
                 return
         }
