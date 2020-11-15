@@ -16,6 +16,15 @@ class MainWindow: NSWindowController, NSWindowDelegate
     {
         window?.acceptsMouseMovedEvents = true
         WorldLockButton.toolTip = "Locks or unlocks camera motion for views."
+        
+        HourSegment.wantsLayer = true
+        HourSegment.layer?.borderWidth = 0.5
+        HourSegment.layer?.borderColor = NSColor.gray.cgColor
+        HourSegment.layer?.cornerRadius = 5.0
+        ViewSegment.wantsLayer = true
+        ViewSegment.layer?.borderWidth = 0.5
+        ViewSegment.layer?.borderColor = NSColor.gray.cgColor
+        ViewSegment.layer?.cornerRadius = 5.0
     }
     
     /// Handle resize window events.
@@ -60,7 +69,7 @@ class MainWindow: NSWindowController, NSWindowDelegate
         let VC = window?.contentViewController as? MainController
         VC?.WindowMovedTo(WindowOrigin)
     }
-    
+
     /// Handle closing window events.
     func windowWillClose(_ notification: Notification)
     {
