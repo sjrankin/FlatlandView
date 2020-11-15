@@ -48,6 +48,7 @@ class DebuggerController: NSViewController, WindowManagement
     {
         Panels[.TimeControl] = DebugPanelBase(CreatePanelDialog("TimeControlUI"))
         Panels[.DebugLog] = DebugPanelBase(CreatePanelDialog("DebugLogViewer"))
+        Panels[.CommandLine] = DebugPanelBase(CreatePanelDialog("CommandLineUI"))
     }
     
     var Panels = [DebugPanels: DebugPanelBase]()
@@ -79,6 +80,15 @@ class DebuggerController: NSViewController, WindowManagement
         }
     }
     
+    @IBAction func HandleCommandLine(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            ParentWindow?.Highlight(Button)
+            SelectPanel(.CommandLine)
+        }
+    }
+    
     func MainClosing()
     {
         self.view.window?.close()
@@ -91,4 +101,5 @@ enum DebugPanels
 {
     case TimeControl
     case DebugLog
+    case CommandLine
 }
