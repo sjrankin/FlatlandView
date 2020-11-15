@@ -384,6 +384,8 @@ enum SettingKeys: String, CaseIterable
     case SplashScreenDuration = "SplashScreenDuration"
     /// Boolean: If true, details of geographic nodes are shown. If false, nothing is shown.
     case ShowDetailedInformation = "ShowDetailedInformation"
+    /// Boolean: If true, the mouse is tracked in map views.
+    case FollowMouse = "FollowMouse"
     
     // MARK: - Time debug settings.
     /// Boolean: Enables debugging of time.
