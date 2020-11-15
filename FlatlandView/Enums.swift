@@ -308,16 +308,16 @@ enum StarSpeeds: String, CaseIterable
 }
 
 /// Time units.
-public enum TimeUnits
+public enum TimeUnits: String, CaseIterable
 {
     /// Represents a calendar year.
-    case Year
+    case Year = "Year"
     /// Represents a calendar day.
-    case Day
+    case Day = "Day"
     /// Represents an hour.
-    case Hour
+    case Hour = "Hour"
     /// Represents a minute.
-    case Minute
+    case Minute = "Minute"
 }
 
 /// Defines the types of asynchronous data that may be received.
@@ -463,7 +463,7 @@ enum EarthquakeIndicators2D: String, CaseIterable
 
 /// Determines how earthquakes with related earthquakes are sorted. This affects only the earthquake
 /// and its related quakes, not full lists of earthquakes.
-enum MultipleQuakeOrders
+enum MultipleQuakeOrders: CaseIterable
 {
     /// Earthquakes are not ordered.
     case Unordered
@@ -565,7 +565,7 @@ enum TimeControls: String, CaseIterable
 }
 
 /// Layer names for 2D mode.
-enum LayerNames: String
+enum LayerNames: String, CaseIterable
 {
     /// Earthquake display layer.
     case Earthquakes = "Earthquake Layer"
@@ -593,7 +593,7 @@ enum CameraProjections: String, CaseIterable
 }
 
 /// 3D view node names.
-enum GlobeNodeNames: String
+enum GlobeNodeNames: String, CaseIterable
 {
     /// Nodes related to earthquakes.
     case EarthquakeNodes = "EarthquakeNodes"
@@ -612,7 +612,7 @@ enum GlobeNodeNames: String
 }
 
 /// 2D view node names.
-enum NodeNames2D: String
+enum NodeNames2D: String, CaseIterable
 {
     /// Hour text nodes.
     case HourNodes = "HourNode"
