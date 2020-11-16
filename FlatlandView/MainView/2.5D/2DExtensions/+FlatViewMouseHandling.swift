@@ -139,10 +139,10 @@ extension FlatView
         Settings.ToggleBool(.FollowMouse)
         if !Settings.GetBool(.FollowMouse)
         {
-            test?.removeAllActions()
-            test?.removeAllAnimations()
-            test?.removeFromParentNode()
-            test = nil
+            MouseIndicator?.removeAllActions()
+            MouseIndicator?.removeAllAnimations()
+            MouseIndicator?.removeFromParentNode()
+            MouseIndicator = nil
         }
     }
     
@@ -183,23 +183,18 @@ extension FlatView
     
     // MARK: Mouse handling.
     
-    /// Handle mouse motion reported by the main view controller.
-    /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
+    /// Handle mouse clicks reported by the main view controller.
+    /// - Note:
+    ///    - Depending on various parameters, the mouse's location is translated to scene coordinates and
     ///         the node under the mouse is queried and its associated data may be displayed.
+    ///    - In order to work, the options for the hit test must be `.boundingBoxOnly: true`.
     /// - Parameter Point: The point in the view reported by the main controller.
     func MouseAt(Point: CGPoint)
     {
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if MapCenter == .FlatSouthCenter || MapCenter == .FlatNorthCenter
         {
-//            let HitObject = self.hitTest(Point, options: [.boundingBoxOnly: true])
-            let SearchOptions: [SCNHitTestOption: Any] =
-                [
-                    .searchMode: SCNHitTestSearchMode.closest.rawValue,
-                    .ignoreHiddenNodes: true,
-                    .ignoreChildNodes: false,
-                    .rootNode: self.FlatEarthNode as Any
-                ]
+            let SearchOptions: [SCNHitTestOption: Any] = [.boundingBoxOnly: true]
             let HitObject = self.hitTest(Point, options: SearchOptions)
             if HitObject.count > 0
             {
@@ -258,94 +253,100 @@ extension FlatView
         }
     }
     
+    /// Handle mouse motion reported by the main view controller.
+    /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
+    ///         the node under the mouse is queried and its associated data may be displayed. If mouse follow
+    ///         mode is not on, control returns immediately.
+    /// - Parameter Point: The point in the view reported by the main controller.
     func MouseMovedTo(Point: CGPoint)
     {
+        if !Settings.GetBool(.FollowMouse)
+        {
+            return
+        }
         let Mode = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.Rectangular)
         if Mode == .FlatNorthCenter || Mode == .FlatSouthCenter
         {
-            if Settings.GetBool(.FollowMouse)
+            let SearchOptions: [SCNHitTestOption: Any] =
+                [
+                    .searchMode: SCNHitTestSearchMode.closest.rawValue,
+                    .ignoreHiddenNodes: true,
+                    .ignoreChildNodes: true,
+                    .rootNode: FollowPlane! as Any
+                ]
+            let HitObject = self.hitTest(Point, options: SearchOptions)
+            if HitObject.count > 0
             {
-                let SearchOptions: [SCNHitTestOption: Any] =
-                    [
-                        .searchMode: SCNHitTestSearchMode.closest.rawValue,
-                        .ignoreHiddenNodes: true,
-                        .ignoreChildNodes: true,
-                        .rootNode: FollowPlane! as Any
-                    ]
-                let HitObject = self.hitTest(Point, options: SearchOptions)
-                if HitObject.count > 0
+                if HitObject[0].node.self is SCNNode2
                 {
-                    if HitObject[0].node.self is SCNNode2
+                    let Where = HitObject[0].worldCoordinates
+                    if MouseIndicator == nil
                     {
-                        let Where = HitObject[0].worldCoordinates
-                        if test == nil
-                        {
-                            test = maketestnode()
-                            FollowPlane?.addChildNode(test!)
-                        }
-                        
-                        let CurrentAngle = PrettyPercent * 360.0
-                        let MousePoint = SCNVector3(-Where.x, -0.75, -Where.y)
-                        test?.position = MousePoint
-                        var Theta: Double = 0.0
-                        let (Lat, Lon) = Utility.ConvertCircleToGeo(Point: MousePoint,
-                                                                    Radius: FlatConstants.FlatRadius.rawValue,
-                                                                    Angle: 90.0,
-                                                                    NorthCenter: Mode == .FlatNorthCenter,
-                                                                    ThetaValue: &Theta)
-                        var FinalLon = Lon
-                        if Mode == .FlatSouthCenter
-                        {
-                            FinalLon = fmod(FinalLon, 360.0) - 180.0
-                            if (-270.0 ... -180.0).contains(FinalLon)
-                            {
-                                let Delta = 180.0 + FinalLon
-                                FinalLon = 180.0 - abs(Delta)
-                            }
-                            FinalLon = FinalLon * -1.0
-                            FinalLon = FinalLon - CurrentAngle
-                            print("FinalLon=\(FinalLon)")
-                            if FinalLon > 180.0
-                            {
-                                FinalLon = fmod(FinalLon, 180.0)
-                                print(" Adjusted=\(FinalLon)")
-                            }
-                        }
-                        else
-                        {
-                            if FinalLon > 180.0
-                            {
-                                let Delta = FinalLon - 180.0
-                                FinalLon = 180.0 - Delta
-                                FinalLon = FinalLon * -1.0
-                            }
-                            if FinalLon < -180.0
-                            {
-                                let Delta = 180.0 + FinalLon
-                                FinalLon = 180.0 - abs(Delta)
-                                FinalLon = FinalLon * -1.0
-                            }
-                            FinalLon = FinalLon - CurrentAngle
-                            print("FinalLon=\(FinalLon)")
-                            if FinalLon < -180.0
-                            {
-                                FinalLon = fmod(FinalLon, 360.0)
-                                if (-360.0 ... -180.0).contains(FinalLon)
-                                {
-                                    FinalLon = 360.0 + FinalLon
-                                }
-                                print(" Adjusted=\(FinalLon)")
-                            }
-                        }
-                        
-                        MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLon)
+                        MouseIndicator = MakeMouseIndicator()
+                        FollowPlane?.addChildNode(MouseIndicator!)
                     }
+                    
+                    let CurrentAngle = PrettyPercent * 360.0
+                    let MousePoint = SCNVector3(-Where.x, -0.75, -Where.y)
+                    MouseIndicator?.position = MousePoint
+                    var Theta: Double = 0.0
+                    let (Lat, Lon) = Utility.ConvertCircleToGeo(Point: MousePoint,
+                                                                Radius: FlatConstants.FlatRadius.rawValue,
+                                                                Angle: 90.0,
+                                                                NorthCenter: Mode == .FlatNorthCenter,
+                                                                ThetaValue: &Theta)
+                    var FinalLon = Lon
+                    if Mode == .FlatSouthCenter
+                    {
+                        FinalLon = fmod(FinalLon, 360.0) - 180.0
+                        if (-270.0 ... -180.0).contains(FinalLon)
+                        {
+                            let Delta = 180.0 + FinalLon
+                            FinalLon = 180.0 - abs(Delta)
+                        }
+                        FinalLon = FinalLon * -1.0
+                        FinalLon = FinalLon - CurrentAngle
+                        print("FinalLon=\(FinalLon)")
+                        if FinalLon > 180.0
+                        {
+                            FinalLon = fmod(FinalLon, 180.0)
+                            print(" Adjusted=\(FinalLon)")
+                        }
+                    }
+                    else
+                    {
+                        if FinalLon > 180.0
+                        {
+                            let Delta = FinalLon - 180.0
+                            FinalLon = 180.0 - Delta
+                            FinalLon = FinalLon * -1.0
+                        }
+                        if FinalLon < -180.0
+                        {
+                            let Delta = 180.0 + FinalLon
+                            FinalLon = 180.0 - abs(Delta)
+                            FinalLon = FinalLon * -1.0
+                        }
+                        FinalLon = FinalLon - CurrentAngle
+                        print("FinalLon=\(FinalLon)")
+                        if FinalLon < -180.0
+                        {
+                            FinalLon = fmod(FinalLon, 360.0)
+                            if (-360.0 ... -180.0).contains(FinalLon)
+                            {
+                                FinalLon = 360.0 + FinalLon
+                            }
+                            print(" Adjusted=\(FinalLon)")
+                        }
+                    }
+                    
+                    MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLon)
                 }
             }
         }
     }
     
-    func maketestnode() -> SCNNode2
+    func MakeMouseIndicator() -> SCNNode2
     {
         let top = SCNCone(topRadius: 0.0, bottomRadius: 0.25, height: 0.5)
         let bottom = SCNCone(topRadius: 0.25, bottomRadius: 0.0, height: 0.5)
