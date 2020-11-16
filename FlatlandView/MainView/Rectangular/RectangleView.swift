@@ -305,7 +305,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                     let Where = HitObject[0].worldCoordinates
                     if test == nil
                     {
-                        test = maketestnode()
+                        test = MakeMousePointer()
                         FlatEarthNode.addChildNode(test!)
                     }
                     let RawPosition = SCNVector3(-Where.x,
@@ -321,7 +321,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         }
     }
     
-    func maketestnode() -> SCNNode2
+    func MakeMousePointer() -> SCNNode2
     {
         let top = SCNCone(topRadius: 0.0, bottomRadius: 0.25, height: 0.5)
         let bottom = SCNCone(topRadius: 0.25, bottomRadius: 0.0, height: 0.5)
