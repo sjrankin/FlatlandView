@@ -376,7 +376,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var LockMenu: NSMenuItem? = nil
     var SunMenu: NSMenuItem? = nil
     var FlatEarthNode = SCNNode2()
-    var test: SCNNode2? = nil
+    var MouseIndicator: SCNNode2? = nil
     var Pop: NSPopover? = nil
     var PreviousNode: SCNNode2? = nil
     var PreviousNodeID: UUID? = nil
