@@ -290,7 +290,7 @@ extension FlatView
                     let MousePoint = SCNVector3(-Where.x, -0.75, -Where.y)
                     MouseIndicator?.position = MousePoint
                     var Theta: Double = 0.0
-                    let InitialAngle = Mode == .FlatNorthCenter ? 90.0 : -90.0
+                    let InitialAngle = Mode == .FlatNorthCenter ? 90.0 : 0.0
                     let (Lat, Lon) = Utility.ConvertCircleToGeo(Point: MousePoint,
                                                                 Radius: FlatConstants.FlatRadius.rawValue,
                                                                 Angle: InitialAngle,
@@ -309,7 +309,20 @@ extension FlatView
                         FinalLon = 180.0 - abs(Delta)
                         FinalLon = FinalLon * -1.0
                     }
-                    FinalLon = FinalLon - CurrentAngle
+                    let AngleAdjustment = Mode == .FlatNorthCenter ? -1.0 : 1.0
+                    FinalLon = FinalLon + (CurrentAngle * AngleAdjustment)
+                    if Mode == .FlatSouthCenter
+                    {
+                        FinalLon = FinalLon - 90.0
+                        FinalLon = FinalLon * -1.0
+                        if FinalLon > 180.0
+                        {
+                            let Delta = FinalLon - 180.0
+                            FinalLon = -(180.0 - Delta)
+                        }
+                    }
+                    else
+                    {
                     if FinalLon < -180.0
                     {
                         FinalLon = fmod(FinalLon, 360.0)
@@ -317,6 +330,7 @@ extension FlatView
                         {
                             FinalLon = 360.0 + FinalLon
                         }
+                    }
                     }
                     
                     MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLon)
