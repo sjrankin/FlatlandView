@@ -141,6 +141,47 @@ extension GlobeView
         }
         UpdateEarthView()
         StartDarknessClock()
+        TestMouseIndicator()
+    }
+    
+    func TestMouseIndicator()
+    {
+        MouseIndicator = MakeMouseIndicator()
+        EarthNode?.addChildNode(MouseIndicator!)
+        let _ = Timer.scheduledTimer(timeInterval: 0.005,
+                                     target: self,
+                                     selector: #selector(MoveIndicator),
+                                     userInfo: nil,
+                                     repeats: true)
+    }
+    
+    @objc func MoveIndicator()
+    {
+        let (X, Y, Z) = ToECEF(IndicatorLatitude,
+                               IndicatorLongitude,
+                               Radius: Double(GlobeRadius.Primary.rawValue + 0.9))
+        MouseIndicator?.position = SCNVector3(X, Y, Z)
+        MouseIndicator?.eulerAngles = SCNVector3(CGFloat(IndicatorLatitude + 90.0).Radians,
+                                                 CGFloat(IndicatorLongitude + 180.0).Radians,
+                                                 0.0)
+        IndicatorLongitude = IndicatorLongitude + LongitudeIncrement
+        if IndicatorLongitude >= 360.0
+        {
+            IndicatorLongitude = 0.0
+        }
+        IndicatorLatitude = IndicatorLatitude + (LatitudeIncrement * IndicatorLatitudeDirection)
+        if IndicatorLatitude > 90.0
+        {
+            IndicatorLatitudeDirection = -1.0
+            IndicatorLatitude = 90.0 - LatitudeIncrement
+            IndicatorLongitude = IndicatorLongitude + 180.0
+        }
+        if IndicatorLatitude < -90.0
+        {
+            IndicatorLatitudeDirection = 1.0
+            IndicatorLatitude = -90.0 + LatitudeIncrement
+            IndicatorLongitude = IndicatorLongitude + 180.0
+        }
     }
     
     /// Start the darkness clock. The handler will be called to determine if a node is in night or dark and
