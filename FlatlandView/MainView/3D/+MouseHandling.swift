@@ -59,9 +59,12 @@ extension GlobeView
             Menu.items =
                 [
                     MakeResetMenu(),
+                    MakeLockMenu(),
                     NSMenuItem.separator(),
                     MakePOIMenu(),
-                    MakeEarthquakeMenu()
+                    MakeEarthquakeMenu(),
+                    NSMenuItem.separator(),
+                    MakeFollowMenu()
                 ]
             return Menu
         }
@@ -114,6 +117,44 @@ extension GlobeView
         return QuakeMenu!
     }
     
+    func MakeLockMenu() -> NSMenuItem
+    {
+        LockMenu = NSMenuItem(title: "Lock Camera", action: #selector(HandleLockMenu), keyEquivalent: "")
+        LockMenu?.target = self
+        let IsLocked = Settings.GetBool(.WorldIsLocked)
+        LockMenu?.state = IsLocked ? .on : .off
+        return LockMenu!
+    }
+    
+    @objc func HandleLockMenu(_ sender: Any)
+    {
+        Settings.InvertBool(.WorldIsLocked)
+    }
+    
+    func MakeFollowMenu() -> NSMenuItem
+    {
+        FollowMenu = NSMenuItem()
+        FollowMenu?.title = "Follow Mode"
+        FollowMenu?.submenu = NSMenu(title: "Follow")
+        let FollowMouse = NSMenuItem(title: "Follow Mouse", action: #selector(ContextToggleFollowMouse), keyEquivalent: "")
+        FollowMouse.target = self
+        FollowMouse.state = Settings.GetBool(.FollowMouse) ? .on : .off
+        FollowMenu?.submenu?.items.append(FollowMouse)
+        return FollowMenu!
+    }
+    
+    @objc func ContextToggleFollowMouse(_ sender: Any)
+    {
+        Settings.ToggleBool(.FollowMouse)
+        if !Settings.GetBool(.FollowMouse)
+        {
+            MouseIndicator?.removeAllActions()
+            MouseIndicator?.removeAllAnimations()
+            MouseIndicator?.removeFromParentNode()
+            MouseIndicator = nil
+        }
+    }
+    
     func MouseMovedTo(Point: CGPoint)
     {
         if Settings.GetBool(.FollowMouse)
@@ -131,9 +172,16 @@ extension GlobeView
                 if let Node = HitObject[0].node as? SCNNode2
                 {
                     //do something only if Node is the globe
+                    let Where = HitObject[0].worldCoordinates
+                    print("Where=\(Where), Percent=\(PrettyPercent)")
                 }
             }
         }
+    }
+    
+    func MouseToGeographic(MouseX: Double, MouseY: Double) -> (X: Double, Y: Double, Z: Double)
+    {
+return (0,0,0)
     }
     
     /// Handle mouse motion reported by the main view controller.
@@ -213,4 +261,20 @@ extension GlobeView
         }
     }
     
+    func MakeMouseIndicator() -> SCNNode2
+    {
+        let top = SCNCone(topRadius: 0.0, bottomRadius: 0.25, height: 0.5)
+        let bottom = SCNCone(topRadius: 0.25, bottomRadius: 0.0, height: 0.5)
+        let topnode = SCNNode2(geometry: top)
+        let bottomnode = SCNNode2(geometry: bottom)
+        topnode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        bottomnode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        topnode.position = SCNVector3(0.0, 0.5, 0.0)
+        topnode.geometry?.firstMaterial?.diffuse.contents = NSColor.systemOrange
+        bottomnode.geometry?.firstMaterial?.diffuse.contents = NSColor.yellow
+        let final = SCNNode2()
+        final.addChildNode(topnode)
+        final.addChildNode(bottomnode)
+        return final
+    }
 }
