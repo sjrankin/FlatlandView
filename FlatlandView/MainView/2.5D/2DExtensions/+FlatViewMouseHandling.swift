@@ -290,53 +290,32 @@ extension FlatView
                     let MousePoint = SCNVector3(-Where.x, -0.75, -Where.y)
                     MouseIndicator?.position = MousePoint
                     var Theta: Double = 0.0
+                    let InitialAngle = Mode == .FlatNorthCenter ? 90.0 : -90.0
                     let (Lat, Lon) = Utility.ConvertCircleToGeo(Point: MousePoint,
                                                                 Radius: FlatConstants.FlatRadius.rawValue,
-                                                                Angle: 90.0,
+                                                                Angle: InitialAngle,
                                                                 NorthCenter: Mode == .FlatNorthCenter,
                                                                 ThetaValue: &Theta)
                     var FinalLon = Lon
-                    if Mode == .FlatSouthCenter
+                    if FinalLon > 180.0
                     {
-                        FinalLon = fmod(FinalLon, 360.0) - 180.0
-                        if (-270.0 ... -180.0).contains(FinalLon)
-                        {
-                            let Delta = 180.0 + FinalLon
-                            FinalLon = 180.0 - abs(Delta)
-                        }
+                        let Delta = FinalLon - 180.0
+                        FinalLon = 180.0 - Delta
                         FinalLon = FinalLon * -1.0
-                        FinalLon = FinalLon - CurrentAngle
-                        print("FinalLon=\(FinalLon)")
-                        if FinalLon > 180.0
-                        {
-                            FinalLon = fmod(FinalLon, 180.0)
-                            print(" Adjusted=\(FinalLon)")
-                        }
                     }
-                    else
+                    if FinalLon < -180.0
                     {
-                        if FinalLon > 180.0
+                        let Delta = 180.0 + FinalLon
+                        FinalLon = 180.0 - abs(Delta)
+                        FinalLon = FinalLon * -1.0
+                    }
+                    FinalLon = FinalLon - CurrentAngle
+                    if FinalLon < -180.0
+                    {
+                        FinalLon = fmod(FinalLon, 360.0)
+                        if (-360.0 ... -180.0).contains(FinalLon)
                         {
-                            let Delta = FinalLon - 180.0
-                            FinalLon = 180.0 - Delta
-                            FinalLon = FinalLon * -1.0
-                        }
-                        if FinalLon < -180.0
-                        {
-                            let Delta = 180.0 + FinalLon
-                            FinalLon = 180.0 - abs(Delta)
-                            FinalLon = FinalLon * -1.0
-                        }
-                        FinalLon = FinalLon - CurrentAngle
-                        print("FinalLon=\(FinalLon)")
-                        if FinalLon < -180.0
-                        {
-                            FinalLon = fmod(FinalLon, 360.0)
-                            if (-360.0 ... -180.0).contains(FinalLon)
-                            {
-                                FinalLon = 360.0 + FinalLon
-                            }
-                            print(" Adjusted=\(FinalLon)")
+                            FinalLon = 360.0 + FinalLon
                         }
                     }
                     
