@@ -323,16 +323,15 @@ extension FlatView
                     }
                     else
                     {
-                    if FinalLon < -180.0
-                    {
-                        FinalLon = fmod(FinalLon, 360.0)
-                        if (-360.0 ... -180.0).contains(FinalLon)
+                        if FinalLon < -180.0
                         {
-                            FinalLon = 360.0 + FinalLon
+                            FinalLon = fmod(FinalLon, 360.0)
+                            if (-360.0 ... -180.0).contains(FinalLon)
+                            {
+                                FinalLon = 360.0 + FinalLon
+                            }
                         }
                     }
-                    }
-                    
                     MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLon)
                 }
             }
