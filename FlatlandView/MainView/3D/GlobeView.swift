@@ -193,9 +193,66 @@ class GlobeView: SCNView, FlatlandEventProtocol
         let Second = Cal.component(.second, from: Now)
         let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
         let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
-        let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+        
+        if PreviousPrettyPercent == nil
+        {
+            PreviousPrettyPercent = 0.0
+        }
+        else
+        {
+            PreviousPrettyPercent = PrettyPercent
+        }
+        PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+        
+        #if DEBUG
+        if Settings.GetBool(.Debug_EnableClockControl)
+        {
+            if Settings.EnumIs(.Globe, .Debug_ClockDebugMap, EnumType: Debug_MapTypes.self)
+            {
+                if Settings.GetBool(.Debug_ClockActionFreeze)
+                {
+                    if let Previous = PreviousPrettyPercent
+                    {
+                        PrettyPercent = Previous
+                    }
+                    else
+                    {
+                        PrettyPercent = 0.0
+                    }
+                }
+                if Settings.GetBool(.Debug_ClockActionFreezeAtTime)
+                {
+                    let FreezeTime = Settings.GetDate(.Debug_ClockActionFreezeTime, Date())
+                    if FreezeTime.IsOnOrLater(Than: Date())
+                    {
+                        if let Previous = PreviousPrettyPercent
+                        {
+                            PrettyPercent = Previous
+                        }
+                        else
+                        {
+                            PrettyPercent = 0.0
+                        }
+                    }
+                }
+                if Settings.GetBool(.Debug_ClockActionSetClockAngle)
+                {
+                    let Angle = Settings.GetDouble(.Debug_ClockActionClockAngle)
+                    PrettyPercent = Angle / 360.0
+                }
+                if Settings.GetBool(.Debug_ClockUseTimeMultiplier)
+                {
+                    
+                }
+            }
+        }
+        #endif
+        
         UpdateEarth(With: PrettyPercent)
     }
+    
+    var PreviousPrettyPercent: Double? = nil
+    var PrettyPercent = 0.0
     
     #if DEBUG
     /// Holds the current debug time.
@@ -604,6 +661,8 @@ class GlobeView: SCNView, FlatlandEventProtocol
     var POIMenu: NSMenuItem? = nil
     var QuakeMenu: NSMenuItem? = nil
     var ResetMenu: NSMenuItem? = nil
+    var LockMenu: NSMenuItem? = nil
+    var FollowMenu: NSMenuItem? = nil
     
     func SetCameraLock(_ IsLocked: Bool)
     {
@@ -682,4 +741,10 @@ class GlobeView: SCNView, FlatlandEventProtocol
     
     var InFollowMode: Bool = false
     var FollowModeNode: SCNNode2? = nil
+    var MouseIndicator: SCNNode2? = nil
+    var IndicatorLongitude: Double = 0.0
+    var IndicatorLatitude: Double = 0.0
+    var IndicatorLatitudeDirection: Double = 1.0
+    let LongitudeIncrement = 0.19
+    let LatitudeIncrement = 0.23
 }
