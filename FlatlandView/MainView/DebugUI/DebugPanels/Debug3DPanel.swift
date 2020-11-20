@@ -36,6 +36,7 @@ class Debug3DPanel: NSViewController, NSTableViewDelegate, NSTableViewDataSource
     override func viewDidLayout()
     {
         FlagTable.reloadData()
+        ShowAxesSwitch.state = Settings.GetBool(.ShowAxes) ? .on : .off
         EnableSwitch.state = Settings.GetBool(.Enable3DDebugging) ? .on : .off
         let MapType = Settings.GetEnum(ForKey: .Debug3DMap, EnumType: Debug_MapTypes.self, Default: .Globe)
         switch MapType
@@ -148,7 +149,15 @@ class Debug3DPanel: NSViewController, NSTableViewDelegate, NSTableViewDataSource
             }
         }
     }
+    @IBAction func HandleShowAxesChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.ShowAxes, Switch.state == .on)
+        }
+    }
     
+    @IBOutlet weak var ShowAxesSwitch: NSSwitch!
     @IBOutlet weak var MapSegment: NSSegmentedControl!
     @IBOutlet weak var EnableSwitch: NSSwitch!
     @IBOutlet weak var FlagTable: NSTableView!
