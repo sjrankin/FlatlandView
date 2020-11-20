@@ -128,7 +128,7 @@ extension FlatView
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints, .ShowStatistics, .ShowCreases,
                  .ShowPhysicsShapes, .ShowPhysicsFields, .Enable3DDebugging, .Debug3DMap,
-                 .RenderAsWireframe:
+                 .RenderAsWireframe, .ShowAxes:
                     Settings.QueryBool(.ShowStatistics)
                     {
                         Show in
