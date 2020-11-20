@@ -25,10 +25,15 @@ class DebuggerWindow: NSWindowController
         CommandLineBarItem.view?.layer?.cornerRadius = 3.0
         CommandLineBarItem.view?.layer?.borderWidth = 1.0
         CommandLineBarItem.view?.layer?.borderColor = NSColor.clear.cgColor
+        Debug3DBarItem.view?.wantsLayer = true
+        Debug3DBarItem.view?.layer?.cornerRadius = 3.0
+        Debug3DBarItem.view?.layer?.borderWidth = 1.0
+        Debug3DBarItem.view?.layer?.borderColor = NSColor.clear.cgColor
         
         ButtonMap[ClockControlButton] = ClockControlBarItem
         ButtonMap[DebugLogButton] = DebugLogBarItem
         ButtonMap[CommandLineButton] = CommandLineBarItem
+        ButtonMap[Debug3DButton] = Debug3DBarItem
     }
     
     var ButtonMap = [NSButton: NSToolbarItem]()
@@ -58,10 +63,12 @@ class DebuggerWindow: NSWindowController
         }
     }
     
+    @IBOutlet weak var Debug3DBarItem: NSToolbarItem!
     @IBOutlet weak var CommandLineBarItem: NSToolbarItem!
     @IBOutlet weak var ClockControlBarItem: NSToolbarItem!
     @IBOutlet weak var DebugLogBarItem: NSToolbarItem!
     
+    @IBOutlet weak var Debug3DButton: NSButton!
     @IBOutlet weak var CommandLineButton: NSButton!
     @IBOutlet weak var ClockControlButton: NSButton!
     @IBOutlet weak var DebugLogButton: NSButton!
