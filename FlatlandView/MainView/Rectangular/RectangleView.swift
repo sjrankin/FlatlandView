@@ -36,17 +36,26 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     ///                      (regardless of the presence of any other option), all debug options disabled.
     func SetDebugOption(_ Options: [DebugOptions3D])
     {
-        if Options.count == 0 || Options.contains(.AllOff)
+        let DoDebug = Settings.GetBool(.Enable3DDebugging)
+        let DebugMap = Settings.GetEnum(ForKey: .Debug3DMap, EnumType: Debug_MapTypes.self)
+        if DoDebug && DebugMap == .Rectangular
+        {
+            if Options.count == 0 || Options.contains(.AllOff)
+            {
+                self.debugOptions = []
+                return
+            }
+            var DOptions: UInt = 0
+            for Option in Options
+            {
+                DOptions = DOptions + Option.rawValue
+            }
+            self.debugOptions = SCNDebugOptions(rawValue: DOptions)
+        }
+        else
         {
             self.debugOptions = []
-            return
         }
-        var DOptions: UInt = 0
-        for Option in Options
-        {
-            DOptions = DOptions + Option.rawValue
-        }
-        self.debugOptions = SCNDebugOptions(rawValue: DOptions)
     }
     #endif
     
@@ -288,36 +297,36 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     {
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.Rectangular) == .Rectangular
         {
-        if InFollowMode
-        {
-            let SearchOptions: [SCNHitTestOption: Any] =
-            [
-                .searchMode: SCNHitTestSearchMode.closest.rawValue,
-                .ignoreHiddenNodes: true,
-                .ignoreChildNodes: true,
-                .rootNode: self.FlatEarthNode as Any
-            ]
-            let HitObject = self.hitTest(Point, options: SearchOptions)
-            if HitObject.count > 0
+            if InFollowMode
             {
-                if HitObject[0].node.self is SCNNode2
+                let SearchOptions: [SCNHitTestOption: Any] =
+                    [
+                        .searchMode: SCNHitTestSearchMode.closest.rawValue,
+                        .ignoreHiddenNodes: true,
+                        .ignoreChildNodes: true,
+                        .rootNode: self.FlatEarthNode as Any
+                    ]
+                let HitObject = self.hitTest(Point, options: SearchOptions)
+                if HitObject.count > 0
                 {
-                    let Where = HitObject[0].worldCoordinates
-                    if test == nil
+                    if HitObject[0].node.self is SCNNode2
                     {
-                        test = MakeMousePointer()
-                        FlatEarthNode.addChildNode(test!)
+                        let Where = HitObject[0].worldCoordinates
+                        if test == nil
+                        {
+                            test = MakeMousePointer()
+                            FlatEarthNode.addChildNode(test!)
+                        }
+                        let RawPosition = SCNVector3(-Where.x,
+                                                     -0.75,
+                                                     -Where.y)
+                        let (Lat, Lon) = Utility.ConvertRectangleToGeo(Point: RawPosition, Width: RectMode.MapWidth.rawValue,
+                                                                       Height: RectMode.MapHeight.rawValue)
+                        test?.position = RawPosition
+                        MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: Lon)
                     }
-                    let RawPosition = SCNVector3(-Where.x,
-                                             -0.75,
-                                             -Where.y)
-                    let (Lat, Lon) = Utility.ConvertRectangleToGeo(Point: RawPosition, Width: RectMode.MapWidth.rawValue,
-                                                                   Height: RectMode.MapHeight.rawValue)
-                    test?.position = RawPosition
-                    MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: Lon)
                 }
             }
-        }
         }
     }
     
