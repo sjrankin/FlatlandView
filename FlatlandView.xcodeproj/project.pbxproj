@@ -1023,25 +1023,8 @@
 		17523CD9247B9725005209FC /* 3D */ = {
 			isa = PBXGroup;
 			children = (
+				17765C602567EB9500B2FE37 /* GlobeExtensions */,
 				178A86AA2489135C00BE8D46 /* GlobeView.swift */,
-				1762BD672560BB2E009C6965 /* +MouseHandling.swift */,
-				178E1CA525186E1300FDC75B /* +Initialize.swift */,
-				178E1C9F251829C700FDC75B /* +Lights.swift */,
-				17854C662503649800D099A7 /* +Layers.swift */,
-				178A86A82489134300BE8D46 /* +GridLines.swift */,
-				178A86A3248912FA00BE8D46 /* +Locations.swift */,
-				178A86A12489127C00BE8D46 /* +Hours.swift */,
-				178A869F2489108C00BE8D46 /* +CubicEarth.swift */,
-				173EB18A2490D1B7006CDB86 /* +Orbits.swift */,
-				17F782C424979218000A568E /* +Earthquakes.swift */,
-				1727EA5724B15CD10051EA3B /* +UserCamera.swift */,
-				178E1C9C2518288500FDC75B /* +Camera.swift */,
-				178E1CA225186DE900FDC75B /* +Attract.swift */,
-				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
-				178E1CAB25186EB000FDC75B /* +ChangedSettingsHandler.swift */,
-				173056BF2553E7C700B1D4C9 /* +FollowMode.swift */,
-				1714DDBD25399401001A3002 /* +Home.swift */,
-				178A869D2489101E00BE8D46 /* StarField.swift */,
 				178A86A62489132800BE8D46 /* GlobeProtocol.swift */,
 			);
 			path = 3D;
@@ -1202,6 +1185,31 @@
 				17DD791B24DA7A8E0046EB25 /* ResetConfirmController.swift */,
 			);
 			path = EarthquakeRegion;
+			sourceTree = "<group>";
+		};
+		17765C602567EB9500B2FE37 /* GlobeExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				178E1CA525186E1300FDC75B /* +Initialize.swift */,
+				178E1CAB25186EB000FDC75B /* +ChangedSettingsHandler.swift */,
+				178E1C9F251829C700FDC75B /* +Lights.swift */,
+				178E1C9C2518288500FDC75B /* +Camera.swift */,
+				17854C662503649800D099A7 /* +Layers.swift */,
+				178A86A82489134300BE8D46 /* +GridLines.swift */,
+				178A86A3248912FA00BE8D46 /* +Locations.swift */,
+				1714DDBD25399401001A3002 /* +Home.swift */,
+				17F782C424979218000A568E /* +Earthquakes.swift */,
+				1762BD672560BB2E009C6965 /* +MouseHandling.swift */,
+				178A86A12489127C00BE8D46 /* +Hours.swift */,
+				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
+				178A869F2489108C00BE8D46 /* +CubicEarth.swift */,
+				1727EA5724B15CD10051EA3B /* +UserCamera.swift */,
+				173EB18A2490D1B7006CDB86 /* +Orbits.swift */,
+				178E1CA225186DE900FDC75B /* +Attract.swift */,
+				173056BF2553E7C700B1D4C9 /* +FollowMode.swift */,
+				178A869D2489101E00BE8D46 /* StarField.swift */,
+			);
+			path = GlobeExtensions;
 			sourceTree = "<group>";
 		};
 		177EE5D72480D4AE00CAD1B9 /* Actual */ = {
