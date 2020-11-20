@@ -169,24 +169,36 @@ enum SettingKeys: String, CaseIterable
     //3D debug settings.
     /// Render 3D elements as wireframes.
     case ShowWireframes = "ShowWireframes"
-    /// Show bounding boxes around 3D elements.
+    /// Boolean: Show bounding boxes around 3D elements.
     case ShowBoundingBoxes = "ShowBoundingBoxes"
-    /// Show skeletons.
+    /// Boolean: Show skeletons.
     case ShowSkeletons = "ShowSkeletons"
-    /// Show node constraints.
+    /// Boolean: Show node constraints.
     case ShowConstraints = "ShowConstraints"
-    /// Show light influences.
+    /// Boolean: Show light influences.
     case ShowLightInfluences = "ShowLightInfluences"
-    /// Show light extents.
+    /// Boolean: Show light extents.
     case ShowLightExtents = "ShowLightExtents"
-    /// Show rendering statistics.
+    /// Boolean: Show rendering statistics.
     case ShowStatistics = "ShowStatistics"
-    /// Show the camera.
+    /// Boolean: Show the camera.
     case ShowCamera = "ShowCamera"
+    /// Boolean: Show creases.
+    case ShowCreases = "ShowCreases"
+    /// Boolean: Show physics shapes.
+    case ShowPhysicsShapes = "ShowPhysicsShapes"
+    /// Boolean: Show physics fields.
+    case ShowPhysicsFields = "ShowPhysicsFields"
+    /// Boolean: Render as wireframe.
+    case RenderAsWireframe = "RenderAsWireframe"
     /// Boolean: If true, the node under the mouse is highlighted.
     case HighlightNodeUnderMouse = "HighlightNodeUnderMouse"
     /// Boolean: If true, the 3D scenes cannot be moved. If false, they can.
     case WorldIsLocked = "WorldIsLocked"
+    /// Determines which map type is affected by the 3D debug flags.
+    case Debug3DMap = "Debug3DMap"
+    /// Boolean: If true, 3D debugging is enabled.
+    case Enable3DDebugging = "Enable3DDebugging"
     
     // MARK: - Performance and optimization settings.
     /// Boolean: If true, hours have a chamfer value set.
