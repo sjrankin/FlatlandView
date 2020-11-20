@@ -106,6 +106,8 @@
 		1750044324B4640B006528A4 /* FontProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750044224B4640B006528A4 /* FontProtocol.swift */; };
 		1750044524B46E73006528A4 /* FontNameWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750044424B46E73006528A4 /* FontNameWindow.swift */; };
 		1750044724B46E92006528A4 /* FontNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750044624B46E92006528A4 /* FontNameView.swift */; };
+		17561A852567838400FD0506 /* SCNVector4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17561A842567838400FD0506 /* SCNVector4.swift */; };
+		17561A8D25678BE700FD0506 /* Debug3DPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17561A8C25678BE700FD0506 /* Debug3DPanel.swift */; };
 		175623A92500C1D6006C0A60 /* AsynchronousData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175623A82500C1D6006C0A60 /* AsynchronousData.swift */; };
 		1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1757CACC24949C3F00ECA8C1 /* 3DDebugWindow.swift */; };
 		1757CACF24949C6300ECA8C1 /* 3DDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1757CACE24949C6300ECA8C1 /* 3DDebugController.swift */; };
@@ -454,6 +456,8 @@
 		1750044224B4640B006528A4 /* FontProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontProtocol.swift; sourceTree = "<group>"; };
 		1750044424B46E73006528A4 /* FontNameWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontNameWindow.swift; sourceTree = "<group>"; };
 		1750044624B46E92006528A4 /* FontNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontNameView.swift; sourceTree = "<group>"; };
+		17561A842567838400FD0506 /* SCNVector4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNVector4.swift; sourceTree = "<group>"; };
+		17561A8C25678BE700FD0506 /* Debug3DPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug3DPanel.swift; sourceTree = "<group>"; };
 		175623A82500C1D6006C0A60 /* AsynchronousData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousData.swift; sourceTree = "<group>"; };
 		1757CACC24949C3F00ECA8C1 /* 3DDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DDebugWindow.swift; sourceTree = "<group>"; };
 		1757CACE24949C6300ECA8C1 /* 3DDebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DDebugController.swift; sourceTree = "<group>"; };
@@ -941,6 +945,7 @@
 			children = (
 				174A6A2F2557D22500488274 /* LogPanel.swift */,
 				174A6A332557D24B00488274 /* ClockControlPanel.swift */,
+				17561A8C25678BE700FD0506 /* Debug3DPanel.swift */,
 				17998144255BC32100E23B75 /* CommandLinePanel.swift */,
 				1743FE73255D048600AD05A7 /* CommandLineCommand.swift */,
 			);
@@ -1113,6 +1118,7 @@
 				1760024124D2BFFE00D5EA1A /* Array.swift */,
 				17ABAFFB24E8FB02009DDC35 /* Dictionary.swift */,
 				17303AFD24F379FB00948127 /* SCNVector3.swift */,
+				17561A842567838400FD0506 /* SCNVector4.swift */,
 				17E3D4F024FE2091004712BB /* NSWindow.swift */,
 				172D20622521AD1F00FA8687 /* Int.swift */,
 				17CFEC572522BDAE005C3E49 /* NSView.swift */,
@@ -1958,6 +1964,7 @@
 				178E6F762540545000DA0F76 /* RoundTextTestWindow.swift in Sources */,
 				17F17A4924DE793800568A4E /* LinesDrawKernel.metal in Sources */,
 				172F4A2124FA0F0D0014A65E /* BooleanEditor.swift in Sources */,
+				17561A8D25678BE700FD0506 /* Debug3DPanel.swift in Sources */,
 				17B8F52025037DB800D71931 /* AdjustTransparency.metal in Sources */,
 				174A6A252557CCF000488274 /* DebuggerWindow.swift in Sources */,
 				17F9AFF82520352500DE0219 /* +StoredFont.swift in Sources */,
@@ -2073,6 +2080,7 @@
 				173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */,
 				172F0603255129B700BEA156 /* GeneralPreferences.swift in Sources */,
 				17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */,
+				17561A852567838400FD0506 /* SCNVector4.swift in Sources */,
 				1759AE59249F7715003F79F5 /* ContainerController.swift in Sources */,
 				17C3455A252C9AB100D01143 /* City2.swift in Sources */,
 				17EF33AA247A938D00A5B55D /* Geometry.swift in Sources */,
