@@ -199,6 +199,8 @@ enum SettingKeys: String, CaseIterable
     case Debug3DMap = "Debug3DMap"
     /// Boolean: If true, 3D debugging is enabled.
     case Enable3DDebugging = "Enable3DDebugging"
+    /// Boolean: If true, axis markers are shown in 3D debug.
+    case ShowAxes = "ShowAxes"
     
     // MARK: - Performance and optimization settings.
     /// Boolean: If true, hours have a chamfer value set.
