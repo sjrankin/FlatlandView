@@ -155,6 +155,11 @@ extension GlobeView
         }
     }
     
+    /// Handle mouse motion reported by the main view controller.
+    /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
+    ///         the node under the mouse is queried and its associated data may be displayed.
+    /// - Note: The implementation for mouse over node is slightly different between the 2D and 3D displays...
+    /// - Parameter Point: The point in the view reported by the main controller.
     func MouseMovedTo(Point: CGPoint)
     {
         if Settings.GetBool(.FollowMouse)
@@ -169,22 +174,42 @@ extension GlobeView
             let HitObject = self.hitTest(Point, options: SearchOptions)
             if HitObject.count > 0
             {
-                if let Node = HitObject[0].node as? SCNNode2
+                if HitObject[0].node.self is SCNNode2
                 {
-                    //do something only if Node is the globe
                     let Where = HitObject[0].worldCoordinates
-                    print("Where=\(Where), Percent=\(PrettyPercent)")
+                    let (Latitude, Longitude) = Mouse3DToGeographicPoint(Mouse: Where)
+                    PlotMouseIndicator(Latitude: Latitude, Longitude: Longitude)
+                    //print("Where=\(Where), Percent=\(PrettyPercent)")
                 }
             }
         }
     }
     
-    func MouseToGeographic(MouseX: Double, MouseY: Double) -> (X: Double, Y: Double, Z: Double)
+    func PlotMouseIndicator(Latitude: Double, Longitude: Double)
     {
-return (0,0,0)
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue + 0.9))
+        MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude)
+        MouseIndicator?.position = SCNVector3(X, Y, Z)
+        MouseIndicator?.eulerAngles = SCNVector3(CGFloat(Latitude + 90.0).Radians,
+                                                 CGFloat(Longitude + 180.0).Radians,
+                                                 0.0)
     }
     
-    /// Handle mouse motion reported by the main view controller.
+    func Mouse3DToGeographicPoint(Mouse Location: SCNVector3) -> (Latitude: Double, Longitude: Double)
+    {
+        if let CameraPOV = CameraPointOfView
+        {
+            print("Camera Orientation: \(CameraOrientation!.RoundedTo(3))")
+            print("Camera Rotation: \(CameraRotation!.RoundedTo(3))")
+            return (0.0, 0.0)
+        }
+        else
+        {
+        return (0.0, 0.0)
+        }
+    }
+    
+    /// Handle mouse clicks reported by the main view controller.
     /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
     ///         the node under the mouse is queried and its associated data may be displayed.
     /// - Note: The implementation for mouse over node is slightly different between the 2D and 3D displays...
