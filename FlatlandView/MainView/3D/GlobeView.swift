@@ -51,12 +51,6 @@ class GlobeView: SCNView, FlatlandEventProtocol
         self.isHidden = false
     }
     
-    public var CameraObserver: NSKeyValueObservation? = nil
-    
-    var OldPointOfView: SCNVector3? = nil
-    
-    var Camera: SCNCamera = SCNCamera()
-    
     /// Remove all nodes with the specified name from the scene's root node.
     /// - Note: Nodes are removed only from the specified node - see `FromParent`.
     /// - Parameter Name: The name of the node to remove. *Must match exactly.*
@@ -88,13 +82,6 @@ class GlobeView: SCNView, FlatlandEventProtocol
         }
     }
     
-    // MARK: - User camera variables.
-    
-    var FlatlandCamera: SCNCamera? = nil
-    var FlatlandCameraNode: SCNNode? = nil
-    //var FlatlandCameraLocation = SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue)
-    var MouseLocations = Queue<NSEvent>(WithCapacity: 5)
-    
     #if DEBUG
     /// Set debug options for the visual debugging of the 3D globe.
     /// - Note: See [SCNDebugOptions](https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12)
@@ -102,17 +89,26 @@ class GlobeView: SCNView, FlatlandEventProtocol
     ///                      (regardless of the presence of any other option), all debug options disabled.
     func SetDebugOption(_ Options: [DebugOptions3D])
     {
-        if Options.count == 0 || Options.contains(.AllOff)
+        let DoDebug = Settings.GetBool(.Enable3DDebugging)
+        let DebugMap = Settings.GetEnum(ForKey: .Debug3DMap, EnumType: Debug_MapTypes.self)
+        if DoDebug && DebugMap == .Globe
+        {
+            if Options.count == 0 || Options.contains(.AllOff)
+            {
+                self.debugOptions = []
+                return
+            }
+            var DOptions: UInt = 0
+            for Option in Options
+            {
+                DOptions = DOptions + Option.rawValue
+            }
+            self.debugOptions = SCNDebugOptions(rawValue: DOptions)
+        }
+        else
         {
             self.debugOptions = []
-            return
         }
-        var DOptions: UInt = 0
-        for Option in Options
-        {
-            DOptions = DOptions + Option.rawValue
-        }
-        self.debugOptions = SCNDebugOptions(rawValue: DOptions)
     }
     #endif
     
@@ -121,20 +117,6 @@ class GlobeView: SCNView, FlatlandEventProtocol
     {
         Camera.wantsHDR = Settings.GetBool(.UseHDRCamera)
     }
-    
-    var AmbientLightNode: SCNNode? = nil
-    var MetalSunLight = SCNLight()
-    var MetalMoonLight = SCNLight()
-    var MetalSunNode = SCNNode()
-    var MetalMoonNode = SCNNode()
-    var SunLight = SCNLight()
-    var CameraNode = SCNNode()
-    var LightNode = SCNNode()
-    var GridLight1 = SCNLight()
-    var GridLightNode1 = SCNNode()
-    var GridLight2 = SCNLight()
-    var GridLightNode2 = SCNNode()
-    var MoonNode: SCNNode? = nil
     
     func SetDisplayLanguage()
     {
@@ -747,4 +729,31 @@ class GlobeView: SCNView, FlatlandEventProtocol
     var IndicatorLatitudeDirection: Double = 1.0
     let LongitudeIncrement = 0.19
     let LatitudeIncrement = 0.23
+    public var CameraObserver: NSKeyValueObservation? = nil
+    var OldPointOfView: SCNVector3? = nil
+    var Camera: SCNCamera = SCNCamera()
+    
+    var AmbientLightNode: SCNNode? = nil
+    var MetalSunLight = SCNLight()
+    var MetalMoonLight = SCNLight()
+    var MetalSunNode = SCNNode()
+    var MetalMoonNode = SCNNode()
+    var SunLight = SCNLight()
+    var CameraNode = SCNNode()
+    var LightNode = SCNNode()
+    var GridLight1 = SCNLight()
+    var GridLightNode1 = SCNNode()
+    var GridLight2 = SCNLight()
+    var GridLightNode2 = SCNNode()
+    var MoonNode: SCNNode? = nil
+    
+    // MARK: - User camera variables.
+    
+    var CameraPointOfView: SCNVector3? = nil
+    var CameraOrientation: SCNQuaternion? = nil
+    var CameraRotation: SCNVector4? = nil
+    var FlatlandCamera: SCNCamera? = nil
+    var FlatlandCameraNode: SCNNode? = nil
+    //var FlatlandCameraLocation = SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue)
+    var MouseLocations = Queue<NSEvent>(WithCapacity: 5)
 }
