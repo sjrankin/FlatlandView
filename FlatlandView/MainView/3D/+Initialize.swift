@@ -12,6 +12,7 @@ import SceneKit
 extension GlobeView
 {
     /// Initialize the globe view.
+    /// - Note: See: [Get camera position.](https://stackoverflow.com/questions/24768031/can-i-get-the-scnview-camera-position-when-using-allowscameracontrol)
     func InitializeView()
     {
         Settings.AddSubscriber(self)
@@ -70,6 +71,27 @@ extension GlobeView
         #endif
         
         self.allowsCameraControl = true
+        
+        CameraObserver = self.observe(\.pointOfView?.position, options: [.new, .initial])
+        {
+            (Node, Change) in
+            OperationQueue.current?.addOperation
+            {
+                let Location = Node.pointOfView!.position
+                self.CameraPointOfView = Location
+                self.CameraOrientation = Node.pointOfView!.orientation
+                self.CameraRotation = Node.pointOfView!.rotation
+                #if false
+                let RotX = Node.pointOfView!.rotation.x
+                let RotY = Node.pointOfView!.rotation.y
+                let RotZ = Node.pointOfView!.rotation.z
+                let OriX = Node.pointOfView!.orientation.x
+                let OriY = Node.pointOfView!.orientation.y
+                let OriZ = Node.pointOfView!.orientation.z
+                print("CameraPointOfView=\(self.CameraPointOfView!.RoundedTo(3)), orientation=\(Node.pointOfView!.orientation.RoundedTo(3)), Rotation=\(Node.pointOfView!.rotation.RoundedTo(3))")
+                #endif
+            }
+        }
         
         #if false
         //If the user-camera control is enabled, this prevents the user from zooming in too close to the
@@ -160,6 +182,7 @@ extension GlobeView
         let (X, Y, Z) = ToECEF(IndicatorLatitude,
                                IndicatorLongitude,
                                Radius: Double(GlobeRadius.Primary.rawValue + 0.9))
+        MainDelegate?.MouseAtLocation(Latitude: IndicatorLatitude, Longitude: IndicatorLongitude)
         MouseIndicator?.position = SCNVector3(X, Y, Z)
         MouseIndicator?.eulerAngles = SCNVector3(CGFloat(IndicatorLatitude + 90.0).Radians,
                                                  CGFloat(IndicatorLongitude + 180.0).Radians,
