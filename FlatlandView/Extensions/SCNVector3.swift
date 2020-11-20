@@ -97,8 +97,8 @@ extension SCNVector3
     public func RoundedTo(_ Places: Int) -> String
     {
         let X = "\(self.x.RoundedTo(3))"
-        let Y = "\(self.x.RoundedTo(3))"
-        let Z = "\(self.x.RoundedTo(3))"
+        let Y = "\(self.y.RoundedTo(3))"
+        let Z = "\(self.z.RoundedTo(3))"
         return "(x: \(X), y: \(Y), z: \(Z))"
     }
 }
