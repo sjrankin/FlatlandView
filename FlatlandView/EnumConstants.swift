@@ -598,8 +598,10 @@ enum DebugOptions3D: UInt, CaseIterable
 {
     /// All debug options are disabled.
     case AllOff = 0
-    /// Show the wire frame.
-    case WireFrame = 64
+    /// Show as wireframe.
+    case WireFrame = 32
+    /// Render as wireframe.
+    case RenderWireFrame = 64
     /// Show bounding boxes.
     case BoundingBoxes = 2
     /// Show the skeleton.
@@ -608,10 +610,16 @@ enum DebugOptions3D: UInt, CaseIterable
     case LightInfluences = 4
     /// Show light extents.
     case LightExtents = 8
+    /// Show creases
+    case Creases = 256
     /// Show constraints.
     case Constraints = 512
     /// Show cameras.
     case Cameras = 1024
+    /// Show physics shapes.
+    case PhysicsShapes = 1
+    /// Show physics fields.
+    case PhysicsFields = 16
 }
 #endif
 
