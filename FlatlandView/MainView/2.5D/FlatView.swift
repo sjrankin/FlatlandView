@@ -36,17 +36,26 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     ///                      (regardless of the presence of any other option), all debug options disabled.
     func SetDebugOption(_ Options: [DebugOptions3D])
     {
-        if Options.count == 0 || Options.contains(.AllOff)
+        let DoDebug = Settings.GetBool(.Enable3DDebugging)
+        let DebugMap = Settings.GetEnum(ForKey: .Debug3DMap, EnumType: Debug_MapTypes.self)
+        if DoDebug && DebugMap == .Round
+        {
+            if Options.count == 0 || Options.contains(.AllOff)
+            {
+                self.debugOptions = []
+                return
+            }
+            var DOptions: UInt = 0
+            for Option in Options
+            {
+                DOptions = DOptions + Option.rawValue
+            }
+            self.debugOptions = SCNDebugOptions(rawValue: DOptions)
+        }
+        else
         {
             self.debugOptions = []
-            return
         }
-        var DOptions: UInt = 0
-        for Option in Options
-        {
-            DOptions = DOptions + Option.rawValue
-        }
-        self.debugOptions = SCNDebugOptions(rawValue: DOptions)
     }
     #endif
     
