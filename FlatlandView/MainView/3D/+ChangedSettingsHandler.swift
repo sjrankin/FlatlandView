@@ -237,16 +237,47 @@ extension GlobeView: SettingChangedProtocol
                 
             #if DEBUG
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
-                 .ShowLightInfluences, .ShowConstraints, .ShowStatistics:
-                let ViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld)
-                if ViewType == .Globe3D || ViewType == .CubicWorld
-                {
+                 .ShowLightInfluences, .ShowConstraints, .ShowStatistics, .ShowCreases,
+                 .ShowPhysicsFields, .ShowPhysicsShapes, .RenderAsWireframe, .Debug3DMap,
+                 .Enable3DDebugging:
                     Settings.QueryBool(.ShowStatistics)
                     {
                         Show in
                         showsStatistics = Show
                     }
                     var DebugTypes = [DebugOptions3D]()
+                    Settings.QueryBool(.ShowCreases)
+                    {
+                        Show in
+                        if Show
+                        {
+                            DebugTypes.append(.Creases)
+                        }
+                    }
+                    Settings.QueryBool(.RenderAsWireframe)
+                    {
+                        Show in
+                        if Show
+                        {
+                            DebugTypes.append(.RenderWireFrame)
+                        }
+                    }
+                    Settings.QueryBool(.ShowPhysicsShapes)
+                    {
+                        Show in
+                        if Show
+                        {
+                            DebugTypes.append(.PhysicsShapes)
+                        }
+                    }
+                    Settings.QueryBool(.ShowPhysicsFields)
+                    {
+                        Show in
+                        if Show
+                        {
+                            DebugTypes.append(.PhysicsFields)
+                        }
+                    }
                     Settings.QueryBool(.ShowSkeletons)
                     {
                         Show in
@@ -306,7 +337,12 @@ extension GlobeView: SettingChangedProtocol
                     }
  */
                     SetDebugOption(DebugTypes)
-                }
+                
+            case .Debug_EnableClockControl, .Debug_ClockDebugMap, .Debug_ClockActionFreeze,
+                 .Debug_ClockActionFreezeTime, .Debug_ClockActionClockAngle, .Debug_ClockUseTimeMultiplier,
+                 .Debug_ClockActionClockMultiplier, .Debug_ClockActionSetClockAngle,
+                 .Debug_ClockActionFreezeAtTime:
+                UpdateEarthView()
             #endif
             
             default:
