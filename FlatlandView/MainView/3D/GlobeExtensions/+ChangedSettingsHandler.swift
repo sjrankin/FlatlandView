@@ -239,7 +239,7 @@ extension GlobeView: SettingChangedProtocol
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints, .ShowStatistics, .ShowCreases,
                  .ShowPhysicsFields, .ShowPhysicsShapes, .RenderAsWireframe, .Debug3DMap,
-                 .Enable3DDebugging:
+                 .Enable3DDebugging, .ShowAxes:
                     Settings.QueryBool(.ShowStatistics)
                     {
                         Show in

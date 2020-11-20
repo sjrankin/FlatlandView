@@ -200,7 +200,7 @@ extension GlobeView
         if let CameraPOV = CameraPointOfView
         {
             print("Camera Orientation: \(CameraOrientation!.RoundedTo(3))")
-            print("Camera Rotation: \(CameraRotation!.RoundedTo(3))")
+            //print("Camera Rotation: \(CameraRotation!.RoundedTo(3))")
             return (0.0, 0.0)
         }
         else
