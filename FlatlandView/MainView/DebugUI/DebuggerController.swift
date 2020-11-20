@@ -49,6 +49,7 @@ class DebuggerController: NSViewController, WindowManagement
         Panels[.TimeControl] = DebugPanelBase(CreatePanelDialog("TimeControlUI"))
         Panels[.DebugLog] = DebugPanelBase(CreatePanelDialog("DebugLogViewer"))
         Panels[.CommandLine] = DebugPanelBase(CreatePanelDialog("CommandLineUI"))
+        Panels[.Debug3D] = DebugPanelBase(CreatePanelDialog("Debug3D"))
     }
     
     var Panels = [DebugPanels: DebugPanelBase]()
@@ -89,6 +90,15 @@ class DebuggerController: NSViewController, WindowManagement
         }
     }
     
+    @IBAction func HandleDebug3D(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            ParentWindow?.Highlight(Button)
+            SelectPanel(.Debug3D)
+        }
+    }
+    
     func MainClosing()
     {
         self.view.window?.close()
@@ -102,4 +112,5 @@ enum DebugPanels
     case TimeControl
     case DebugLog
     case CommandLine
+    case Debug3D
 }
