@@ -133,7 +133,7 @@ extension RectangleView
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints, .ShowStatistics, .RenderAsWireframe,
                  .ShowCreases, .ShowPhysicsShapes, .ShowPhysicsFields, .Enable3DDebugging,
-                 .Debug3DMap:
+                 .Debug3DMap, .ShowAxes:
                 Settings.QueryBool(.ShowStatistics)
                 {
                     Show in
