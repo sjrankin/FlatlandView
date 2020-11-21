@@ -179,7 +179,7 @@ extension GlobeView
                     let Where = HitObject[0].worldCoordinates
                     let (Latitude, Longitude) = Mouse3DToGeographicPoint(Mouse: Where)
                     PlotMouseIndicator(Latitude: Latitude, Longitude: Longitude)
-                    //print("Where=\(Where), Percent=\(PrettyPercent)")
+                    print("Mouse=\(Where.RoundedTo(3)), Percent=\(PrettyPercent.RoundedTo(3))")
                 }
             }
         }
@@ -205,7 +205,7 @@ extension GlobeView
         }
         else
         {
-        return (0.0, 0.0)
+            return (0.0, 0.0)
         }
     }
     
