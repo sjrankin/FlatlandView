@@ -107,6 +107,7 @@ class GlobeView: SCNView, FlatlandEventProtocol
         }
         else
         {
+            RemoveAxis() 
             self.debugOptions = []
         }
     }
@@ -756,4 +757,8 @@ class GlobeView: SCNView, FlatlandEventProtocol
     var FlatlandCameraNode: SCNNode? = nil
     //var FlatlandCameraLocation = SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue)
     var MouseLocations = Queue<NSEvent>(WithCapacity: 5)
+    
+    var DebugXAxis: SCNNode2? = nil
+    var DebugYAxis: SCNNode2? = nil
+    var DebugZAxis: SCNNode2? = nil
 }
