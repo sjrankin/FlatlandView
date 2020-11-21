@@ -351,6 +351,7 @@
 		17F9B025252069DE00DE0219 /* SCNNode2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B024252069DE00DE0219 /* SCNNode2.swift */; };
 		17F9B0292520ABD900DE0219 /* FlatlandEventProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */; };
 		17FC2213249879BE005A0929 /* EarthquakeData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17FC2212249879BE005A0929 /* EarthquakeData.storyboard */; };
+		17FFF8CC2567ED04008B50AD /* +Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FFF8CB2567ED04008B50AD /* +Axes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -709,6 +710,7 @@
 		17F9B024252069DE00DE0219 /* SCNNode2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNNode2.swift; sourceTree = "<group>"; };
 		17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlandEventProtocol.swift; sourceTree = "<group>"; };
 		17FC2212249879BE005A0929 /* EarthquakeData.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EarthquakeData.storyboard; sourceTree = "<group>"; };
+		17FFF8CB2567ED04008B50AD /* +Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Axes.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1192,6 +1194,7 @@
 			children = (
 				178E1CA525186E1300FDC75B /* +Initialize.swift */,
 				178E1CAB25186EB000FDC75B /* +ChangedSettingsHandler.swift */,
+				17FFF8CB2567ED04008B50AD /* +Axes.swift */,
 				178E1C9F251829C700FDC75B /* +Lights.swift */,
 				178E1C9C2518288500FDC75B /* +Camera.swift */,
 				17854C662503649800D099A7 /* +Layers.swift */,
@@ -1995,6 +1998,7 @@
 				174A6A292557CD0B00488274 /* DebuggerController.swift in Sources */,
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
 				172F4A2724FA1A900014A65E /* EditorProtocol.swift in Sources */,
+				17FFF8CC2567ED04008B50AD /* +Axes.swift in Sources */,
 				17E5EF5F24F1051400665167 /* Debug.swift in Sources */,
 				17DFAF4F2545A53C00374344 /* ImageShifter.swift in Sources */,
 				17C22C2524EA1F94006BB3AB /* NASAMapConfirmWindow.swift in Sources */,
