@@ -266,6 +266,8 @@ enum LightMasks3D: Int, CaseIterable
     case MetalMoon = 0b01000
     /// Mask for the grid light.
     case Grid = 0b10000
+    /// Mask for the debug ambient light.
+    case DebugAmbient = 0b100000
 }
 
 // MARK: - 3D earthquake constants.
