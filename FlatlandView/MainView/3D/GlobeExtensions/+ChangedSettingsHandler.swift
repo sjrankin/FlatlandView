@@ -236,10 +236,20 @@ extension GlobeView: SettingChangedProtocol
                 UpdateFlatlandCamera()
                 
             #if DEBUG
+            case .ShowAxes:
+                if Settings.GetBool(.ShowAxes)
+                {
+                    AddAxis()
+                }
+                else
+                {
+                    RemoveAxis()
+                }
+                
             case .ShowSkeletons, .ShowWireframes, .ShowBoundingBoxes, .ShowLightExtents,
                  .ShowLightInfluences, .ShowConstraints, .ShowStatistics, .ShowCreases,
                  .ShowPhysicsFields, .ShowPhysicsShapes, .RenderAsWireframe, .Debug3DMap,
-                 .Enable3DDebugging, .ShowAxes:
+                 .Enable3DDebugging:
                     Settings.QueryBool(.ShowStatistics)
                     {
                         Show in
