@@ -81,15 +81,6 @@ extension GlobeView
                 self.CameraPointOfView = Location
                 self.CameraOrientation = Node.pointOfView!.orientation
                 self.CameraRotation = Node.pointOfView!.rotation
-                #if false
-                let RotX = Node.pointOfView!.rotation.x
-                let RotY = Node.pointOfView!.rotation.y
-                let RotZ = Node.pointOfView!.rotation.z
-                let OriX = Node.pointOfView!.orientation.x
-                let OriY = Node.pointOfView!.orientation.y
-                let OriZ = Node.pointOfView!.orientation.z
-                print("CameraPointOfView=\(self.CameraPointOfView!.RoundedTo(3)), orientation=\(Node.pointOfView!.orientation.RoundedTo(3)), Rotation=\(Node.pointOfView!.rotation.RoundedTo(3))")
-                #endif
             }
         }
         
@@ -163,7 +154,13 @@ extension GlobeView
         }
         UpdateEarthView()
         StartDarknessClock()
-        TestMouseIndicator()
+        //TestMouseIndicator()
+        #if DEBUG
+        if Settings.GetBool(.ShowAxes)
+        {
+            AddAxis()
+        }
+        #endif
     }
     
     func TestMouseIndicator()
