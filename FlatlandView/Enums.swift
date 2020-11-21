@@ -753,3 +753,14 @@ enum Debug_MapTypes: String, CaseIterable
     case Round = "Round"
     case Globe = "Globe"
 }
+
+/// Used to display (or hide) debug axes.
+enum DebugAxes: String, CaseIterable
+{
+    /// The X axis display.
+    case X = "X"
+    /// The Y axis display.
+    case Y = "Y"
+    /// The Z axis display.
+    case Z = "Z"
+}
