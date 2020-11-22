@@ -72,6 +72,7 @@ extension GlobeView
         
         self.allowsCameraControl = true
         
+        /// Watch the camera to ensure we always have the camera's orientation.
         CameraObserver = self.observe(\.pointOfView?.position, options: [.new, .initial])
         {
             (Node, Change) in
@@ -154,7 +155,9 @@ extension GlobeView
         }
         UpdateEarthView()
         StartDarknessClock()
+        #if DEBUG
         //TestMouseIndicator()
+        #endif
         #if DEBUG
         if Settings.GetBool(.ShowAxes)
         {
@@ -163,6 +166,8 @@ extension GlobeView
         #endif
     }
     
+    #if DEBUG
+    /// Test the mouse indicator. Intended only for testing/debugging purposes.
     func TestMouseIndicator()
     {
         MouseIndicator = MakeMouseIndicator()
@@ -174,6 +179,7 @@ extension GlobeView
                                      repeats: true)
     }
     
+    /// Move the mouse indicator on a semi-circular path. Intended only for testing/debug purposes.
     @objc func MoveIndicator()
     {
         let (X, Y, Z) = ToECEF(IndicatorLatitude,
@@ -203,6 +209,7 @@ extension GlobeView
             IndicatorLongitude = IndicatorLongitude + 180.0
         }
     }
+    #endif
     
     /// Start the darkness clock. The handler will be called to determine if a node is in night or dark and
     /// change attributes accordingly.
