@@ -11,7 +11,7 @@ import AppKit
 import SceneKit
 
 /// Provide the main 3D view for Flatland.
-class GlobeView: SCNView, FlatlandEventProtocol
+class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
 {
     public weak var MainDelegate: MainProtocol? = nil
     
@@ -669,6 +669,35 @@ class GlobeView: SCNView, FlatlandEventProtocol
         let SatelliteAltitude = 10.5 * (At.Altitude / 6378.1)
         let (X, Y, Z) = ToECEF(At.Latitude, At.Longitude, Radius: SatelliteAltitude)
         #endif
+    }
+    
+    // MARK: - Stencil pipeline protocol functions
+    
+    var StageSynchronization: NSObject = NSObject()
+    
+    func StageCompleted(_ Image: NSImage?, _ Stage: StencilStages?, _ Time: Double?)
+    {
+        objc_sync_enter(StageSynchronization)
+        defer{objc_sync_exit(StageSynchronization)}
+        if let CompletedStage = Stage
+        {
+            print("Completed stencil stage \(CompletedStage)")
+        }
+        if let StenciledImage = Image
+        {
+            OperationQueue.main.addOperation
+            {
+                self.EarthNode?.geometry?.firstMaterial?.diffuse.contents = StenciledImage
+            }
+        }
+    }
+    
+    func StencilPipelineCompleted(Time: Double)
+    {
+    }
+    
+    func StencilPipelineStarted(Time: Double)
+    {
     }
     
     // MARK: - Variables for extensions.
