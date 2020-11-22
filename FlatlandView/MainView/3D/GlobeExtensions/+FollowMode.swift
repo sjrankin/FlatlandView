@@ -12,6 +12,10 @@ import SceneKit
 
 extension GlobeView
 {
+    // MARK: - Mouse follow mode
+    
+    /// Sets the follow mode flag.
+    /// - Parameter DoEnable: The value to set the view's mouse follow mode flag.
     func EnableFollowMode(_ DoEnable: Bool)
     {
         InFollowMode = DoEnable
@@ -27,6 +31,8 @@ extension GlobeView
         }
     }
     
+    /// Create the shape to indicate the mouse location when in mouse follow mode.
+    /// - Returns: A shape that indicates the mouse location over the main displayed node.
     func MakeFollowNode() -> SCNNode2
     {
         let Top = SCNCone(topRadius: 0.0, bottomRadius: 0.5, height: 1.5)
