@@ -11,6 +11,8 @@ import AppKit
 
 extension GlobeView
 {
+    // MARK: - 3D grid lines
+    
     /// Draw an image with grid lines on it that can be used as a texture on top of a global image.
     /// - Note:
     ///    - This function draws the minor grid lines. It calls another function to draw the
