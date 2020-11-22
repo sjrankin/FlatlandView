@@ -764,3 +764,18 @@ enum DebugAxes: String, CaseIterable
     /// The Z axis display.
     case Z = "Z"
 }
+
+/// Pipeline stages for stenciling.
+enum StencilStages: String, CaseIterable
+{
+    /// Earthquake magnitude stencils.
+    case Earthquakes = "Earthquakes"
+    /// Earthquake region stencils.
+    case EarthquakeRegions = "EarthquakeRegions"
+    /// City name stencils.
+    case CityNames = "CityNames"
+    /// Grid line stencils.
+    case GridLines = "GridLines"
+    /// UNESCO site stencils.
+    case UNESCOSites = "UNESCOSites"
+}
