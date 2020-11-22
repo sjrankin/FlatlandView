@@ -12,6 +12,8 @@ import SceneKit
 
 extension GlobeView
 {
+    // MARK: - Globe layer handling
+    
     /// Remove a layer from the globe view.
     /// - Parameter Layer: The layer to remove. If not present, no action is taken.
     func RemoveLayer(_ Layer: GlobeLayers)
