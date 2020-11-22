@@ -12,6 +12,8 @@ import SceneKit
 
 extension GlobeView
 {
+    // MARK: - Cubic Earth Creation
+    
     /// Draws a cubical Earth for no other reason than being silly.
     func ShowCubicEarth()
     {
