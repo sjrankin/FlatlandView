@@ -12,6 +12,8 @@ import SceneKit
 
 extension GlobeView
 {
+    // MARK: - Mouse and menu handling
+    
     @objc func Context_AddPOI(_ sender: Any)
     {
         print("Add POI here!")
@@ -51,6 +53,9 @@ extension GlobeView
         
     }
     
+    /// Return a menu to display provided the passed event is a right mouse down event.
+    /// - Parameter for: The event that determines if a menu is returned.
+    /// - Returns: An `NSMenu` if `event` is `.rightMouseDown`, nil if not.
     override func menu(for event: NSEvent) -> NSMenu?
     {
         if event.type == .rightMouseDown
@@ -77,6 +82,8 @@ extension GlobeView
         return ResetMenu!
     }
     
+    /// Reset the camera.
+    /// - Parameter sender: Not used.
     @objc func HandleResetViewMenu(_ sender: Any)
     {
         ResetCamera()
@@ -126,6 +133,8 @@ extension GlobeView
         return LockMenu!
     }
     
+    /// Toggle the world locked flag. Settings changed handlers will detect the change and act accordingly.
+    /// - Parameter sender: Not used.
     @objc func HandleLockMenu(_ sender: Any)
     {
         Settings.InvertBool(.WorldIsLocked)
@@ -143,6 +152,8 @@ extension GlobeView
         return FollowMenu!
     }
     
+    /// Toggle the mouse follow mode. If disabling, the mouse indicator is removed from the scene.
+    /// - Parameter sender: Not used.
     @objc func ContextToggleFollowMouse(_ sender: Any)
     {
         Settings.ToggleBool(.FollowMouse)
@@ -185,6 +196,9 @@ extension GlobeView
         }
     }
     
+    /// Draw the mouse indicator on the surface of the globe.
+    /// - Parameter Latitude: The latitude of where to draw the indicator.
+    /// - Parameter Longitude: The longitude of where to draw the indicator.
     func PlotMouseIndicator(Latitude: Double, Longitude: Double)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue + 0.9))
