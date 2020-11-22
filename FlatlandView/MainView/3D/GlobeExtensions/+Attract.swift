@@ -12,6 +12,8 @@ import SceneKit
 
 extension GlobeView
 {
+    // MARK: - Attract mode
+    
     /// Set or reset attract mode depending on the current user settings.
     public func SetAttractMode()
     {
