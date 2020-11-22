@@ -12,6 +12,8 @@ import SceneKit
 
 extension GlobeView: SettingChangedProtocol
 {
+    // MARK: - Changed setting handling
+    
     /// Required by the `SettingChangedProtocol`.
     /// - Returns: ID of the class.
     func SubscriberID() -> UUID
