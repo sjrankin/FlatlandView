@@ -12,6 +12,8 @@ import SceneKit
 
 extension GlobeView
 {
+    // MARK: - Surface stenciling
+    
     /// Apply stencils to `GlobalBaseMap` as needed. When the stenciled map is ready,
     /// `GotStenciledMap` is called.
     /// - Notes:
