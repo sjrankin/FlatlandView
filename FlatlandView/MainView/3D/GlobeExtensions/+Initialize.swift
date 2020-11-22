@@ -15,8 +15,6 @@ extension GlobeView
     /// - Note: See: [Get camera position.](https://stackoverflow.com/questions/24768031/can-i-get-the-scnview-camera-position-when-using-allowscameracontrol)
     func InitializeView()
     {
-        Settings.AddSubscriber(self)
-        
         #if DEBUG
         var DebugTypes = [DebugOptions3D]()
         Settings.QueryBool(.ShowSkeletons)
@@ -164,6 +162,7 @@ extension GlobeView
             AddAxis()
         }
         #endif
+        ApplyStencils(Caller: "\(#function)", Final: nil)
     }
     
     #if DEBUG
