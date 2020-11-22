@@ -13,6 +13,8 @@ import CoreImage
 
 extension GlobeView
 {
+    // MARK: - Location Plotter
+    
     /// Plot user locations as inverted cones.
     /// - Parameter Plot: The city to plot.
     /// - Parameter Latitude: The latitude of the arrow.
