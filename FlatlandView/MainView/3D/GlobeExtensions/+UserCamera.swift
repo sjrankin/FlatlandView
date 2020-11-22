@@ -14,6 +14,8 @@ import SceneKit
 /// camera control).
 extension GlobeView
 {
+    // MARK: - Flatland's Camera
+    
     #if false
     /// Create the user camera.
     /// - Parameter At: The initial location of the camera. Defaults to `SCNVector3(0.0, 0.0, 16.0)`.
