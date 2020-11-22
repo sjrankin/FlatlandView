@@ -32,6 +32,33 @@ extension GlobeView
         #endif
         if let Map = GlobalBaseMap
         {
+            #if true
+            var Quakes: [Earthquake]? = nil
+            var Stages = [StencilStages]()
+            if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
+            {
+                Stages.append(.Earthquakes)
+                Quakes = EarthquakeList
+            }
+            if Settings.GetBool(.ShowWorldHeritageSites) && Settings.GetBool(.PlotSitesAs2D)
+            {
+                Stages.append(.UNESCOSites)
+            }
+            if Settings.GetBool(.ShowEarthquakeRegions)
+            {
+                Stages.append(.EarthquakeRegions)
+            }
+            if Settings.GetBool(.CityNamesDrawnOnMap)
+            {
+                Stages.append(.CityNames)
+            }
+            if Settings.GetBool(.GridLinesDrawnOnMap)
+            {
+                Stages.append(.GridLines)
+            }
+            print("Stencil with \(Stages)")
+            Stenciler.RunStencilPipeline(To: Map, Quakes: Quakes, Stages: Stages, Caller: self)
+            #else
             let ShowEarthquakes = Settings.GetBool(.MagnitudeValuesDrawnOnMap)
             var Quakes: [Earthquake]? = nil
             if ShowEarthquakes
@@ -51,6 +78,7 @@ extension GlobeView
                                   CalledBy: Caller,
                                   FinalNotify: Final,
                                   Completed: GotStenciledMap)
+            #endif
         }
     }
     
