@@ -12,6 +12,8 @@ import SceneKit
 
 extension GlobeView
 {
+    // MARK: - Orbital item plotting
+    
     func PlotOrbits()
     {
         
