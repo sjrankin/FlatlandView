@@ -12,6 +12,8 @@ import SceneKit
 
 extension GlobeView
 {
+    // MARK: - Hour plotting and handling
+    
     /// Convience function to update the hours by those callers who do not want to worry about
     /// the internals of doing so.
     func UpdateHours()
