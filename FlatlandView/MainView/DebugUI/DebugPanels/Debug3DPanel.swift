@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class Debug3DPanel: NSViewController, NSTableViewDelegate, NSTableViewDataSource
+class Debug3DPanel: PanelController, NSTableViewDelegate, NSTableViewDataSource 
 {
     override func viewDidLoad()
     {
