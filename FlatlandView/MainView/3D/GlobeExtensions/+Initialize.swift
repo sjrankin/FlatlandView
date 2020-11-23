@@ -162,7 +162,7 @@ extension GlobeView
             AddAxis()
         }
         #endif
-        ApplyStencils(Caller: "\(#function)", Final: nil)
+        ApplyAllStencils(Caller: "\(#function)")
     }
     
     #if DEBUG
