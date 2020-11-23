@@ -584,7 +584,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     {
         GlobalBaseMap = NewMap
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
-        ApplyStencils(Caller: #function)
+        ApplyAllStencils(Caller: #function)
     }
     
     var PreviousHourType: HourValueTypes = .None
@@ -673,15 +673,23 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     
     // MARK: - Stencil pipeline protocol functions
     
+    /// Used to prevent stenciled maps from fighting to be displayed. Helps to enforce serialization.
     var StageSynchronization: NSObject = NSObject()
     
+    /// Handle a new stencil map stage available.
+    /// - Parameter Image: If nil, take no action. If not nil, display on the map layer of the main shape.
+    /// - Parameter Stage: Used mainly for debug purposes - if not nil, contains the stage the the stenciling
+    ///                    pipeline just completed. If nil, the image is undefined and should not be used.
+    /// - Parameter Time: Duration from the start of the execution of the pipeline to the finish of the stage
+    ///                   just completed.
     func StageCompleted(_ Image: NSImage?, _ Stage: StencilStages?, _ Time: Double?)
     {
         objc_sync_enter(StageSynchronization)
         defer{objc_sync_exit(StageSynchronization)}
-        if let CompletedStage = Stage
+
+        if Stage == nil || Time == nil
         {
-            print("Completed stencil stage \(CompletedStage)")
+            return
         }
         if let StenciledImage = Image
         {
@@ -692,10 +700,24 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         }
     }
     
-    func StencilPipelineCompleted(Time: Double)
+    /// Called when the stenciling pipeline is completed.
+    /// - Notes: `Final` is saved in `InitialStenciledMap` to cache it for when earthquakes need to redraw
+    ///          the map asynchronously.
+    /// - Parameter Time: The duration for the stenciling pipeline to execute with all passed stages.
+    /// - Parameter Final: The final image created.
+    func StencilPipelineCompleted(Time: Double, Final: NSImage?)
     {
+        if self.InitialStenciledMap == nil
+        {
+            if let FinalImage = Final
+            {
+                self.InitialStenciledMap = FinalImage
+            }
+        }
     }
     
+    /// Called at the start of the pipeline execution.
+    /// - Parameter Time: The starting time of the execution.
     func StencilPipelineStarted(Time: Double)
     {
     }
@@ -790,4 +812,6 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var DebugXAxis: SCNNode2? = nil
     var DebugYAxis: SCNNode2? = nil
     var DebugZAxis: SCNNode2? = nil
+    
+    var InitialStenciledMap: NSImage? = nil
 }
