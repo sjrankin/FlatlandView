@@ -150,6 +150,7 @@
 		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
 		177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D32480D49200CAD1B9 /* ActualMap.swift */; };
 		177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */; };
+		1781BCBF256B5297007BACA8 /* PanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1781BCBE256B5297007BACA8 /* PanelController.swift */; };
 		17829D4824B31D0200118DB1 /* EarthquakeDetailWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17829D4724B31D0200118DB1 /* EarthquakeDetailWindow.swift */; };
 		17829D4A24B31D2300118DB1 /* EarthquakeDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17829D4924B31D2300118DB1 /* EarthquakeDetailController.swift */; };
 		17854C672503649800D099A7 /* +Layers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17854C662503649800D099A7 /* +Layers.swift */; };
@@ -507,6 +508,7 @@
 		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
 		177EE5D32480D49200CAD1B9 /* ActualMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMap.swift; sourceTree = "<group>"; };
 		177EE5D52480D4A700CAD1B9 /* ActualMapGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapGroup.swift; sourceTree = "<group>"; };
+		1781BCBE256B5297007BACA8 /* PanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelController.swift; sourceTree = "<group>"; };
 		17829D4724B31D0200118DB1 /* EarthquakeDetailWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDetailWindow.swift; sourceTree = "<group>"; };
 		17829D4924B31D2300118DB1 /* EarthquakeDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDetailController.swift; sourceTree = "<group>"; };
 		17854C662503649800D099A7 /* +Layers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Layers.swift"; sourceTree = "<group>"; };
@@ -958,6 +960,7 @@
 				17561A8C25678BE700FD0506 /* Debug3DPanel.swift */,
 				17998144255BC32100E23B75 /* CommandLinePanel.swift */,
 				1743FE73255D048600AD05A7 /* CommandLineCommand.swift */,
+				1781BCBE256B5297007BACA8 /* PanelController.swift */,
 			);
 			path = DebugPanels;
 			sourceTree = "<group>";
@@ -2050,6 +2053,7 @@
 				17F9B00D2520377F00DE0219 /* +LocationAttributes.swift in Sources */,
 				170181C12504A467000F91B6 /* TransparencyParameters.swift in Sources */,
 				1714DDB42538342A001A3002 /* LowLevel.swift in Sources */,
+				1781BCBF256B5297007BACA8 /* PanelController.swift in Sources */,
 				174A6A292557CD0B00488274 /* DebuggerController.swift in Sources */,
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
 				172F4A2724FA1A900014A65E /* EditorProtocol.swift in Sources */,
