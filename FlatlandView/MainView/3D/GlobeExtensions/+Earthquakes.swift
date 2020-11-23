@@ -28,7 +28,14 @@ extension GlobeView
                 }
                 let StackFrames = Debug.StackFrameContents(6)
                 Debug.Print(Debug.PrettyStackTrace(StackFrames))
-                ApplyStencils(Caller: #function)
+                if let AlreadyDone = InitialStenciledMap
+                {
+                    ApplyEarthquakeStencils(InitialMap: AlreadyDone, Caller: #function)
+                }
+                else
+                {
+                    ApplyAllStencils(Caller: #function)
+                }
             }
             PlotEarthquakes(EarthquakeList, On: Earth)
             Final?()
@@ -116,7 +123,7 @@ extension GlobeView
         EarthquakeList.removeAll()
         EarthquakeList = FilteredList
         PlottedEarthquakes.removeAll()
-        PlotEarthquakes("\(#function)", Final)
+        PlotEarthquakes(#function, Final)
         
         NodeTables.RemoveEarthquakes()
         for Quake in EarthquakeList
