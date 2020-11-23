@@ -40,7 +40,7 @@ extension GlobeView: SettingChangedProtocol
                 
             case .CityShapes:
                 PlotCities()
-                ApplyStencils(Caller: "SettingChanged(.CityShapes)")
+                ApplyAllStencils(Caller: "SettingChanged(.CityShapes)")
                 
             case .PopulationType:
                 PlotCities()
@@ -64,17 +64,17 @@ extension GlobeView: SettingChangedProtocol
                 PlotPolarShape()
                 
             case .ShowWorldHeritageSites:
-                ApplyStencils(Caller: "SettingChanged(.ShowWorldHeritageSites)")
+                ApplyAllStencils(Caller: "SettingChanged(.ShowWorldHeritageSites)")
                 PlotWorldHeritageSites()
                 
             case .WorldHeritageSiteType:
-                ApplyStencils(Caller: "SettingChanged(.WorldHeritageSiteType)")
+                ApplyAllStencils(Caller: "SettingChanged(.WorldHeritageSiteType)")
                 PlotWorldHeritageSites()
                 
             case .Show3DEquator, .Show3DTropics, .Show3DMinorGrid, .Show3DPolarCircles, .Show3DPrimeMeridians,
                  .MinorGrid3DGap, .Show3DGridLines, .GridLineColor, .MinorGridLineColor:
                 SetLineLayer()
-                ApplyStencils(Caller: "SettingChanged(.{Multiple})")
+                ApplyAllStencils(Caller: "SettingChanged(.{Multiple})")
                 
             case .Script:
                 PlotPolarShape()
@@ -135,7 +135,14 @@ extension GlobeView: SettingChangedProtocol
                     {
                         ClearEarthquakes()
                         PlotEarthquakes()
-                        ApplyStencils(Caller: "SettingChanged(.ColorDetermination)")
+                        if let InitialMap = InitialStenciledMap
+                        {
+                        ApplyEarthquakeStencils(InitialMap: InitialMap)
+                        }
+                        else
+                        {
+                        ApplyAllStencils(Caller: "SettingChanged(.ColorDetermination)")
+                        }
                     }
                 }
                 
@@ -156,7 +163,14 @@ extension GlobeView: SettingChangedProtocol
                     {
                         ClearEarthquakes()
                         PlotEarthquakes()
-                        ApplyStencils(Caller: "SettingChanged(.EarthquakeMagnitudeColors)")
+                        if let InitialMap = InitialStenciledMap
+                        {
+                            ApplyEarthquakeStencils(InitialMap: InitialMap)
+                        }
+                        else
+                        {
+                        ApplyAllStencils(Caller: "SettingChanged(.EarthquakeMagnitudeColors)")
+                        }
                     }
                 }
                 
@@ -170,7 +184,14 @@ extension GlobeView: SettingChangedProtocol
                     {
                         ClearEarthquakes()
                         PlotEarthquakes()
-                        ApplyStencils(Caller: ".EarthquakeFontName")
+                        if let InitialMap = InitialStenciledMap
+                        {
+                            ApplyEarthquakeStencils(InitialMap: InitialMap)
+                        }
+                        else
+                        {
+                        ApplyAllStencils(Caller: ".EarthquakeFontName")
+                        }
                     }
                 }
                 
@@ -196,13 +217,13 @@ extension GlobeView: SettingChangedProtocol
                 
             case .CityFontName, .CityFontRelativeSize, .MagnitudeRelativeFontSize:
                 PlotCities()
-                ApplyStencils(Caller: "{.Multiple}")
+                ApplyAllStencils(Caller: "{.Multiple}")
                 
             case .WorldCityColor, .AfricanCityColor, .AsianCityColor, .EuropeanCityColor,
                  .NorthAmericanCityColor, .SouthAmericanCityColor, .CapitalCityColor,
                  .CustomCityListColor, .CityNodesGlow, .PopulationColor:
                 PlotCities()
-                ApplyStencils()
+                ApplyAllStencils()
                 
             case .ShowCustomCities, .ShowAfricanCities, .ShowAsianCities,
                  .ShowEuropeanCities, .ShowNorthAmericanCities, .ShowSouthAmericanCities,
@@ -210,13 +231,13 @@ extension GlobeView: SettingChangedProtocol
                  .PopulationRank, .PopulationRankIsMetro, .PopulationFilterValue,
                  .PopulationFilterGreater, .PopulationFilterType:
                 PlotCities()
-                ApplyStencils()
+                ApplyAllStencils()
                 
             case .CustomCityList:
                 if Settings.GetBool(.ShowCustomCities)
                 {
                     PlotCities()
-                    ApplyStencils()
+                    ApplyAllStencils()
                 }
                 
             case .HourFontName:
@@ -228,7 +249,7 @@ extension GlobeView: SettingChangedProtocol
                 if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld) == .Globe3D
                 {
                     ClearEarthquakes()
-                    ApplyStencils(Caller: "SettingChanged(.{Multiple})")
+                    ApplyAllStencils(Caller: "SettingChanged(.{Multiple})")
                 }
                 
             case .UseSystemCameraControl:
