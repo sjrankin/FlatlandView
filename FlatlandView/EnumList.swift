@@ -84,5 +84,8 @@ class EnumList
         "MappableTableNames": MappableTableNames.allCases.map{"\($0)"},
         "POITableNames": POITableNames.allCases.map{"\($0)"},
         "DebugOptions3D": DebugOptions3D.allCases.map{"\($0) = \($0.rawValue)"},
+        "StencilStages": StencilStages.allCases.map{"\($0) = \($0.rawValue)"},
+        "NodeUsages": NodeUsages.allCases.map{"\($0) = \($0.rawValue)"},
+        "DebugAxes": DebugAxes.allCases.map{"\($0) = \($0.rawValue)"},
     ]
 }
