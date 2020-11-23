@@ -403,6 +403,12 @@ class MainController: NSViewController
         }
     }
     
+    /// Refresh earthquakes even if it's earlier than scheduled.
+    @IBAction func RefreshEarthquakes(_ sender: Any)
+    {
+        Earthquakes?.GetNewEarthquakeData()
+    }
+    
     @IBAction func RunTestDialog(_ sender: Any)
     {
         let Storyboard = NSStoryboard(name: "RoundTextTest", bundle: nil)
@@ -706,6 +712,7 @@ class MainController: NSViewController
     var LatestEarthquakes = [Earthquake]()
     /// Delegate to communicate with the mouse popover.
     var MouseInfoDelegate: MouseInfoProtocol? = nil
+    /// Mouse infor view controller.
     var MouseInfoView: MouseInfoController? = nil
 
     // MARK: - Database handles/variables
