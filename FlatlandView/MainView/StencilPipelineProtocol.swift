@@ -28,5 +28,6 @@ protocol StencilPipelineProtocol: class
     /// Called a tthe end of the pipeline process.
     /// - Parameter Time: The end time of the pipeline process. To determine duration, subtract the value from
     ///                   `StencilPipelineStarted` from this value to get the duration in seconds.
-    func StencilPipelineCompleted(Time: Double)
+    /// - Parameter Final: The last image from the pipeline. If nil, an error occurred.
+    func StencilPipelineCompleted(Time: Double, Final: NSImage?)
 }
