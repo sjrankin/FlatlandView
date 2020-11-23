@@ -31,6 +31,25 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     }
     
     /// Initializer.
+    /// - Parameter Latitude: The latitude of the earthquake.
+    /// - Parameter Longitude: The longitude of the earthquake.
+    /// - Parameter Magnitude: The magnitude of the earthquake.
+    /// - Parameter IsDebug: Sets the debug flag. Defaults to `false`.
+    init(Latitude: Double, Longitude: Double, Magnitude: Double, IsDebug: Bool = false)
+    {
+        GreatestMagnitudeValue = 0.0
+        Marked = false
+        self.Latitude = Latitude
+        self.Longitude = Longitude
+        self.Magnitude = Magnitude
+        DebugQuake = IsDebug
+        if IsDebug
+        {
+            Title = "Injected debug earthquake"
+        }
+    }
+    
+    /// Initializer.
     /// - Parameter Sequence: For debugging purposes.
     init(Sequence: Int)
     {
@@ -89,6 +108,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         Sources = Other.Sources
         DepthError = Other.DepthError
         Marked = false
+        DebugQuake = Other.DebugQuake
         if IncludeRelated
         {
             if let OtherRelated = Other.Related
@@ -335,6 +355,9 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     
     /// Distance from something else. If nil, no distance used.
     var ContextDistance: Double? = nil
+    
+    /// If true, the earthquake was injected and is intended for debug use.
+    var DebugQuake: Bool = false
     
     // MARK: - Code for data manipulation
     
