@@ -43,6 +43,8 @@ class USGS
     /// - Note: Execution occurs on a background thread.
     @objc func GetNewEarthquakeData()
     {
+        _IsBusy = true
+        defer{_IsBusy = false}
         let Queue = OperationQueue()
         Queue.name = "Earthquake Retrieval Queue"
         Queue.addOperation
@@ -84,22 +86,41 @@ class USGS
         }
     }
     
+    /// Holds the busy flag.
+    private var _IsBusy: Bool = false
+    /// Get the busy flag. This is set when getting data from online sources and reset once all data has
+    /// been received. When this flag is true, other threads should not access earthquakes.
+    public var IsBusy: Bool
+    {
+        get
+        {
+            return _IsBusy
+        }
+    }
+    
     /// Called by `GetNewEarthquakeData` when all data for a given asynchronous call have been
     /// received and parsed. Calls `Delegate` on the main thread. The array of earthquakes passed
-    /// to the delegate is flat and uncombined. Callers should call `GetCurrentEarthquakes` to get
-    /// combined, cleaned up earthquakes.
+    /// to the delegate is flat and uncombined.
     func HaveAllEarthquakes()
     {
         DispatchQueue.main.async
         {
-            var FinalList = self.RemoveDuplicates(From: self.EarthquakeList)
+            let FinalList = self.MakeEarthquakeList()
             self.CurrentList = FinalList
-            #if DEBUG
-            FinalList.append(contentsOf: self.DebugEarthquakes)
-            #endif
-            //print("Received \(FinalList.count) unique earthquakes")
             self.Delegate?.AsynchronousDataAvailable(CategoryType: .Earthquakes, Actual: FinalList as Any)
         }
+    }
+    
+    /// Creates a list of earthquakes.
+    /// - Returns: Array of current earthquakes including debug and injected quakes.
+    private func MakeEarthquakeList() -> [Earthquake]
+    {
+        var FinalList = RemoveDuplicates(From: EarthquakeList)
+        #if DEBUG
+        FinalList.append(contentsOf: DebugEarthquakes)
+        FinalList.append(contentsOf: InjectedEarthquakes)
+        #endif
+        return FinalList
     }
     
     private var CurrentList = [Earthquake]()
@@ -307,9 +328,9 @@ class USGS
             {
                 if let HTTPResponse = Response as? HTTPURLResponse
                 {
-                print("Response error: \(HTTPResponse)")
-                completion(nil)
-                return
+                    print("Response error: \(HTTPResponse)")
+                    completion(nil)
+                    return
                 }
                 else
                 {
@@ -342,7 +363,7 @@ class USGS
     /// - Parameter JSON: Array of arrays of JSON data.
     func ParseJsonEntity(_ JSON: [[String: Any]])
     {
-        EarthquakeList.removeAll()
+        ClearEarthquakes()
         var Seq = 0
         for OneFeature in JSON
         {
@@ -444,7 +465,7 @@ class USGS
                                     case "magType":
                                         if let MagType = PropVal as? String
                                         {
-                                        NewEarthquake.MagType = MagType
+                                            NewEarthquake.MagType = MagType
                                         }
                                         
                                     case "net":
@@ -456,7 +477,7 @@ class USGS
                                     case "nst":
                                         if let NST = PropVal as? Int
                                         {
-                                        NewEarthquake.NST = NST
+                                            NewEarthquake.NST = NST
                                         }
                                         
                                     case "sources":
@@ -477,7 +498,7 @@ class USGS
                                     case "alert":
                                         if let Alert = PropVal as? String
                                         {
-                                        NewEarthquake.Alert = Alert
+                                            NewEarthquake.Alert = Alert
                                         }
                                         
                                     case "url":
@@ -544,10 +565,26 @@ class USGS
                 /// a general minimum magnitude, it won't be included.
                 if NewEarthquake.Magnitude >= Settings.GetDouble(.GeneralMinimumMagnitude, 4.0)
                 {
-                    EarthquakeList.append(NewEarthquake)
+                    AddEarthquakeToList(NewEarthquake)
                 }
             }
         }
+    }
+    
+    var ListAccess = NSObject()
+    
+    private func AddEarthquakeToList(_ NewQuake: Earthquake)
+    {
+        objc_sync_enter(ListAccess)
+        defer{objc_sync_exit(ListAccess)}
+        EarthquakeList.append(NewQuake)
+    }
+    
+    private func ClearEarthquakes()
+    {
+        objc_sync_enter(ListAccess)
+        defer{objc_sync_exit(ListAccess)}
+        EarthquakeList.removeAll()
     }
     
     /// Current list of earthquakes.
@@ -624,6 +661,27 @@ class USGS
         }
         To.append(Quake)
     }
+    
+    /// Inject the passed earthquake. Presumed to be for debugged purposes.
+    /// - Note: `HaveAllEarthquakes` is called immediately after adding the injected earthquake.
+    /// - Parameter Quake: The earthquake to inject.
+    public func InjectEarthquake(_ Quake: Earthquake)
+    {
+        InjectedEarthquakes.append(Quake)
+        print("InjectedEarthquakes.count=\(InjectedEarthquakes.count)")
+        HaveAllEarthquakes()
+    }
+    
+    /// Remove all injected earthquakes.
+    /// - Note: `HaveAllEarthquakes` is called immediately after clearing injected earthquakes.
+    public func ClearInjectedEarthquakes()
+    {
+        InjectedEarthquakes.removeAll()
+        HaveAllEarthquakes()
+    }
+    
+    /// Array of injected earthquakes.
+    private var InjectedEarthquakes = [Earthquake]()
     
     private static var USGSLock = NSObject()
     
@@ -754,7 +812,7 @@ class USGS
     ///                               to `.ByGreatestMagnitude`.
     /// - Returns: Array of combined earthquakes.
     public static func CombineEarthquakesX(_ Quakes: [Earthquake], Closeness: Double = 100.0,
-                                          RelatedOrderedBy: MultipleQuakeOrders = .ByGreatestMagnitude) -> [Earthquake]
+                                           RelatedOrderedBy: MultipleQuakeOrders = .ByGreatestMagnitude) -> [Earthquake]
     {
         var Combined = [Earthquake]()
         for Quake in Quakes
