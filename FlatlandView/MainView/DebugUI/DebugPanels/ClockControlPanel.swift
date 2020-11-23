@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class ClockControlPanel: NSViewController, NSTextFieldDelegate
+class ClockControlPanel: PanelController, NSTextFieldDelegate
 {
     override func viewDidLoad()
     {
