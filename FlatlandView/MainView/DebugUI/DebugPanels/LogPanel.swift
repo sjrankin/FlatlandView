@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class LogPanel: NSViewController, NSTableViewDelegate, NSTableViewDataSource
+class LogPanel: PanelController, NSTableViewDelegate, NSTableViewDataSource
 {
     override func viewDidLoad()
     {
