@@ -58,7 +58,11 @@ class DebuggerController: NSViewController, WindowManagement
     {
         if let Controller = NSStoryboard(name: "Debug", bundle: nil).instantiateController(withIdentifier: IDName) as? NSViewController
         {
-            return Controller
+            if let PController = Controller as? PanelController
+            {
+                PController.Main = MainDelegate
+                return PController
+            }
         }
         fatalError("Error creating \(IDName)")
     }
