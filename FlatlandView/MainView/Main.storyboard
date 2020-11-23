@@ -168,7 +168,7 @@
                 </windowController>
                 <customObject id="gS1-iC-1Lf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="178" y="14"/>
+            <point key="canvasLocation" x="149" y="140"/>
         </scene>
         <!--Application-->
         <scene sceneID="M8f-57-hTp">
@@ -324,11 +324,24 @@
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Earthquake List" id="kUg-cf-XRX">
+                                        <menuItem title="Earthquakes" id="Rl8-u9-yiP">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="ShowEarthquakeList:" target="vAH-R8-aOX" id="5gL-5u-H6t"/>
-                                            </connections>
+                                            <menu key="submenu" id="F3j-7z-g3V">
+                                                <items>
+                                                    <menuItem title="Earthquake List" id="kUg-cf-XRX">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="ShowEarthquakeList:" target="vAH-R8-aOX" id="5gL-5u-H6t"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Refresh Earthquakes" id="ZNM-99-Lii">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="RefreshEarthquakes:" target="vAH-R8-aOX" id="LEo-Zq-kWt"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
                                         </menuItem>
                                         <menuItem title="Item Viewer" id="m0t-GP-bl2">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -648,7 +661,7 @@
                 </viewController>
                 <customObject id="Qhx-E0-N3F" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="178" y="839"/>
+            <point key="canvasLocation" x="170" y="974"/>
         </scene>
     </scenes>
     <resources>
