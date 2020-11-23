@@ -50,7 +50,6 @@ extension MainController
         }
         else
         {
-
             NSAnimationContext.runAnimationGroup
             {
                 Context in
