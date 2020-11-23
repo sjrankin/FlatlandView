@@ -147,4 +147,10 @@ extension MainController: MainProtocol
     {
         SetMouseLocationVisibility(Visible: Show)
     }
+    
+    /// Returns the current earthquake class.
+    func GetEarthquakeController() -> USGS?
+    {
+        return Earthquakes
+    }
 }
