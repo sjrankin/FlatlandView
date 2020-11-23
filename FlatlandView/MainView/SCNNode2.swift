@@ -31,12 +31,14 @@ class SCNNode2: SCNNode
     /// - Parameter Tag: The tag value.
     /// - Parameter NodeID: The node's ID. Assumed to be unique.
     /// - Parameter NodeClass: The node class ID. Assumed to be non-unique.
-    init(Tag: Any? = nil, NodeID: UUID, NodeClass: UUID)
+    /// - Parameter Usage: Intended usage of the node.
+    init(Tag: Any? = nil, NodeID: UUID, NodeClass: UUID, Usage: NodeUsages = .Generic)
     {
         super.init()
         self.Tag = Tag
         self.NodeID = NodeID
         self.NodeClass = NodeClass
+        self.NodeUsage = Usage
     }
     
     /// Initializer.
@@ -63,13 +65,15 @@ class SCNNode2: SCNNode
     /// - Parameter Tag: The tag value.
     /// - Parameter NodeID: The node's ID. Assumed to be unique.
     /// - Parameter NodeClass: The node class ID. Assumed to be non-unique.
-    init(geometry: SCNGeometry?, Tag: Any? = nil, NodeID: UUID, NodeClass: UUID)
+    /// - Parameter Usage: Intended usage of the node.
+    init(geometry: SCNGeometry?, Tag: Any? = nil, NodeID: UUID, NodeClass: UUID, Usage: NodeUsages = .Generic)
     {
         super.init()
         self.geometry = geometry
         self.Tag = Tag
         self.NodeID = NodeID
         self.NodeClass = NodeClass
+        self.NodeUsage = Usage
     }
     
     /// Initializer.
@@ -123,6 +127,21 @@ class SCNNode2: SCNNode
     
     /// Node ID. Defaults to nil.
     var NodeID: UUID? = nil
+    
+    /// Intended node usage.
+    var NodeUsage: NodeUsages? = nil
+    
+    /// Propagate the parent's `NodeUsage` value to its children.
+    func PropagateUsage()
+    {
+        for Child in self.childNodes
+        {
+            if let TheChild = Child as? SCNNode2
+            {
+                TheChild.NodeUsage = NodeUsage
+            }
+        }
+    }
     
     /// Propagate the parent's IDs to its children.
     func PropagateIDs()
