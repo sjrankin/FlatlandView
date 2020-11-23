@@ -13,6 +13,28 @@ import AppKit
 
 extension String
 {
+    /// Create a random string out of alphanumeric characters.
+    /// - Note: See [Generate random alphanumeric string](https://stackoverflow.com/questions/26845307/generate-random-alphanumeric-string-in-swift)
+    /// - Parameter Count: Number of characters to return.
+    /// - Returns: A string of `Count` characters consisting of randomly generated alphanumeric characters. If
+    ///            `Count` is 0 or less, an empty string is returned.
+    public static func Random(_ Count: Int) -> String
+    {
+        if Count <= 0
+        {
+            return ""
+        }
+        var Working = ""
+        let Source = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        for _ in 0 ..< Count
+        {
+            let RandomIndex = Int.random(in: 0 ..< Source.count)
+            let RandomIntoSource = Source.index(Source.startIndex, offsetBy: RandomIndex)
+            Working.append(Source[RandomIntoSource])
+        }
+        return Working
+    }
+    
     /// Converts the passed Double value to a string and ensures it has
     /// a suffix of ".0".
     /// - Parameter Raw: The double value to convert.
