@@ -289,12 +289,14 @@ extension Date
     
     /// Converts the passed date's date and time components into a pretty string.
     /// - Parameter From: The date whose date and time components will be used to generate a pretty string.
+    /// - Parameter AddComma: If true, a comma is placed between the date and time.
     /// - Returns: String value of the date and time components of `From`.
-    static func PrettyDateTime(From: Date) -> String
+    static func PrettyDateTime(From: Date, AddComma: Bool = true) -> String
     {
         let NiceTime = From.PrettyTime()
         let NiceDate = From.PrettyDate()
-        return "\(NiceDate), \(NiceTime)"
+        let Separator = AddComma ? "," : ""
+        return "\(NiceDate)\(Separator) \(NiceTime)"
     }
     
     /// Converts the instance date's time components into a pretty string.
@@ -312,10 +314,11 @@ extension Date
     }
     
     /// Converts the instance date's time and date components into a pretty string.
+    /// - Parameter AddComma: If true, a comma is placed between the date and time.
     /// - Returns: String value of the time and date components of the instance date.
-    func PrettyDateTime() -> String
+    func PrettyDateTime(AddComma: Bool = true) -> String
     {
-        return Date.PrettyDateTime(From: self)
+        return Date.PrettyDateTime(From: self, AddComma: AddComma)
     }
     
     /// Returns the time zone of the instance date.
