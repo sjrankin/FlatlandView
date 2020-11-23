@@ -747,10 +747,14 @@ enum LightNames: String, CaseIterable
     case Polar2D = "Polar"
 }
 
+/// Debug map types.
 enum Debug_MapTypes: String, CaseIterable
 {
+    /// The rectangular map.
     case Rectangular = "Rectangular"
+    /// The flat round map (either orientation).
     case Round = "Round"
+    /// The globe map.
     case Globe = "Globe"
 }
 
@@ -778,4 +782,33 @@ enum StencilStages: String, CaseIterable
     case GridLines = "GridLines"
     /// UNESCO site stencils.
     case UNESCOSites = "UNESCOSites"
+}
+
+/// Defines the node usage for 3D shapes on maps.
+enum NodeUsages: String, CaseIterable
+{
+    /// Generic, unspecified node.
+    case Generic = "Generic"
+    /// Nodes used to display 3D hour text.
+    case HourText = "HourText"
+    /// Non-hour 3D text nodes.
+    case TextNodes = "TextNodes"
+    /// 3D grid lines.
+    case GridLines = "GridLines"
+    /// Earthquake nodes.
+    case Earthquake = "Earthquake"
+    /// New earthquake indicator nodes.
+    case EarthquakeIndicator = "EarthquakeIndicator"
+    /// UNESCO site nodes.
+    case UNESCOSite = "UNESCOSite"
+    /// City nodes.
+    case City = "City"
+    /// Points of interest nodes.
+    case POI = "POI"
+    /// User-defined points of interest nodes.
+    case UserPOI = "UserPOI"
+    /// Home nodes.
+    case Home = "Home"
+    /// Satellite nodes.
+    case Satellite = "Satellite"
 }
