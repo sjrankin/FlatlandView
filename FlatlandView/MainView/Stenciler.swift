@@ -68,7 +68,7 @@ class Stenciler
         {
             //Nothing to do - return the image unaltered.
             Caller.StageCompleted(nil, nil, nil)
-            Caller.StencilPipelineCompleted(Time: 0)
+            Caller.StencilPipelineCompleted(Time: 0, Final: nil)
             return
         }
         let MapRatio: Double = Double(Image.size.width) / 3600.0
@@ -111,17 +111,21 @@ class Stenciler
             {
                 if let QuakeList = LocalQuakes
                 {
-                    Rep = AddMagnitudeValues(To: Rep, With: QuakeList, Ratio: MapRatio)
-                    Caller.StageCompleted(GetImage(From: Rep), .Earthquakes, CACurrentMediaTime())
+                    if QuakeList.count > 0
+                    {
+                        Rep = AddMagnitudeValues(To: Rep, With: QuakeList, Ratio: MapRatio)
+                        Caller.StageCompleted(GetImage(From: Rep), .Earthquakes, CACurrentMediaTime())
+                    }
                 }
             }
-            Caller.StencilPipelineCompleted(Time: CACurrentMediaTime())
+            Caller.StencilPipelineCompleted(Time: CACurrentMediaTime(), Final: GetImage(From: Rep))
         }
     }
     
     /// Provides a lock from too many callers at once.
     private static let StencilLock = NSObject()
     
+    #if false
     /// Add stencils to the passed image.
     /// - Notes:
     ///   1. Most of the drawing is done in a background thread. Control is returned to the caller almost
@@ -228,6 +232,7 @@ class Stenciler
             Completed?(Final, Duration, CalledBy, FinalNotify)
         }
     }
+    #endif
     
     /// Create a stencil layer.
     /// - Parameter Layer: Determines the contents of the image of the stencil layer.
@@ -307,8 +312,6 @@ class Stenciler
     {
         let ScaleFactor = NSScreen.main!.backingScaleFactor
         var Working = Image
-        //        let CityList = Cities()
-        //        let CitiesToPlot = CityList.FilteredCities()
         let CitiesToPlot = CityManager.FilteredCities()
         var PlotMe = [TextRecord]()
         let CityFontRecord = Settings.GetString(.CityFontName, "Avenir")
@@ -434,13 +437,13 @@ class Stenciler
         var Working = Image
         let QuakeFontRecord = Settings.GetString(.EarthquakeFontName, "Avenir")
         let QuakeFontName = Settings.ExtractFontName(From: QuakeFontRecord)!
-        let BaseFontSize = Settings.ExtractFontSize(From: QuakeFontRecord)!
+        let BaseFontSize = 24.0//Settings.ExtractFontSize(From: QuakeFontRecord)!
         var FontMultiplier: CGFloat = 1.0
         if Image.size.width / 2.0 < 3600.0
         {
             FontMultiplier = 2.0
         }
-        let FontSize = BaseFontSize * CGFloat(Ratio) * ScaleFactor * FontMultiplier
+        let FontSize = CGFloat(BaseFontSize) * CGFloat(Ratio) * ScaleFactor * FontMultiplier
         for Quake in Earthquakes
         {
             let Location = Quake.LocationAsGeoPoint().ToEquirectangular(Width: Int(Image.size.width),
