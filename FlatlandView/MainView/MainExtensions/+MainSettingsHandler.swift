@@ -120,7 +120,7 @@ extension MainController: SettingChangedProtocol
                         case .Globe3D:
                             Main3DView.ClearEarthquakes()
                             Main3DView.PlotEarthquakes()
-                            Main3DView.ApplyStencils()
+                            Main3DView.ApplyAllStencils()
                             
                         case .FlatNorthCenter, .FlatSouthCenter:
                             Main2DView.Remove2DEarthquakes()
@@ -138,7 +138,7 @@ extension MainController: SettingChangedProtocol
                 {
                     Earthquakes?.StopReceivingEarthquakes()
                     Main3DView.ClearEarthquakes()
-                    Main3DView.ApplyStencils()
+                    Main3DView.ApplyAllStencils()
                     Main2DView.Remove2DEarthquakes()
                     Rect2DView.Remove2DEarthquakes()
                 }
