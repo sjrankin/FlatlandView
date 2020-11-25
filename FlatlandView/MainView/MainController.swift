@@ -12,8 +12,6 @@ import AppKit
 /// Controller for the view for the main window in Flatland.
 class MainController: NSViewController
 {
-    public static var StartTime: Double = 0.0
-    
     /// Initialize the main window and program.
     override func viewDidLoad()
     {
@@ -74,18 +72,11 @@ class MainController: NSViewController
         }
     }
     
-    /// Holds the location of the mouse pointer in the window.
-    var Location: NSPoint {self.view.window!.mouseLocationOutsideOfEventStream}
-    
-    /// Holds the most recent stenciled image.
-    var StenciledImage: NSImage? = nil
-    
     /// Handle the view will appear event.
     override func viewWillAppear()
     {
         super.viewWillAppear()
         self.view.window!.acceptsMouseMovedEvents = true
-        //POIView.isHidden = true
     }
     
     /// Initialize things that require a fully set-up window.
@@ -177,10 +168,9 @@ class MainController: NSViewController
         }
         
         ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))", For: 10.0)
+        AddQueuedMessage("Getting earthquake data.", ExpiresIn: 30.0, ID: EQMessageID)
     }
-    
-    public var MainApp: AppDelegate!
-    
+
     /// Handle content view size changed events.
     /// - Parameter notification: The event notification.
     @objc func HandlePrimaryViewContentsSizeChange(_ notification: Notification)
@@ -201,26 +191,6 @@ class MainController: NSViewController
     {
         Debug.Print("Stenciling completed.")
     }
-    
-    /// Main settings delegate. Used for communication and closing when the main window closes.
-    var MainSettingsDelegate: WindowManagement? = nil
-    /// About delegate. Used for communication and closing when the main window closes.
-    var AboutDelegate: WindowManagement? = nil
-    /// Debugger window delegate.
-    var DebugDelegate: WindowManagement? = nil
-    /// Update timer.
-    var UpdateTimer: Timer? = nil
-    /// Program started flag.
-    var Started = false
-    
-    #if DEBUG
-    /// Time stamp for when the program started.
-    var StartDebugCount: Double = 0.0
-    /// Number of seconds running in the current instantiation.
-    var UptimeSeconds: Int = 0
-    #endif
-    /// Previous second count.
-    var OldSeconds: Double = 0.0
     
     // MARK: Menu and toolbar event handlers
     
@@ -703,6 +673,37 @@ class MainController: NSViewController
         }
     }
     
+    let EQMessageID = UUID()
+    
+    public static var StartTime: Double = 0.0
+    public var MainApp: AppDelegate!
+    
+    /// Main settings delegate. Used for communication and closing when the main window closes.
+    var MainSettingsDelegate: WindowManagement? = nil
+    /// About delegate. Used for communication and closing when the main window closes.
+    var AboutDelegate: WindowManagement? = nil
+    /// Debugger window delegate.
+    var DebugDelegate: WindowManagement? = nil
+    /// Update timer.
+    var UpdateTimer: Timer? = nil
+    /// Program started flag.
+    var Started = false
+    
+    /// Holds the location of the mouse pointer in the window.
+    var Location: NSPoint {self.view.window!.mouseLocationOutsideOfEventStream}
+    
+    /// Holds the most recent stenciled image.
+    var StenciledImage: NSImage? = nil
+    
+    #if DEBUG
+    /// Time stamp for when the program started.
+    var StartDebugCount: Double = 0.0
+    /// Number of seconds running in the current instantiation.
+    var UptimeSeconds: Int = 0
+    #endif
+    /// Previous second count.
+    var OldSeconds: Double = 0.0
+    
     // MARK: - Extension variables
     
     /// ID used for settings subscriptions.
@@ -744,6 +745,11 @@ class MainController: NSViewController
     var InsignificanceTimer: Timer? = nil
     /// How long before the status text is reduced in alpha.
     var LastInsignificanceDuration: Double = 60.0
+    /// Queued messages for the status bar.
+    var StatusMessageQueue = Queue<QueuedMessage>()
+    /// ID of the current message in the simple status bar.
+    var CurrentMessageID: UUID = UUID()
+    var StatusBarLock: NSObject = NSObject()
     
     // MARK: - Storyboard outlets
     
