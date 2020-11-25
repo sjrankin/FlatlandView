@@ -117,6 +117,9 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
         let Command = Tokens[0].lowercased()
         switch Command
         {
+            case "status":
+                RunSetStatusText(Tokens)
+                
             case "inject":
                 if Tokens.count < 2
                 {
@@ -160,6 +163,14 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
                 }
                 RunClear(Tokens)
                 
+            case "program":
+                if Tokens.count < 2
+                {
+                    Print("Program command requires an operand.")
+                    return
+                }
+                RunProgramCommand(Tokens)
+                
             case "help":
                 if Tokens.count < 2
                 {
@@ -170,6 +181,8 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
                     Print("set: Set the value of a setting.")
                     Print("find: Find an enum or setting.")
                     Print("clear: Removes a set of objects.")
+                    Print("status: Sets status text.")
+                    Print("program: Issue a program command.")
                     return
                 }
                 RunShowHelp(Tokens)
@@ -179,10 +192,60 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
         }
     }
     
+    func RunProgramCommand(_ Tokens: [String])
+    {
+        if Tokens.count < 2
+        {
+            return
+        }
+        switch Tokens[1].lowercased()
+        {
+            case "quit", "exit", "stop":
+                Main?.ExitProgram()
+                
+            case "settings":
+                if Tokens.count < 3
+                {
+                    Print("Need to specify program settings operation.")
+                    return
+                }
+                if ["reset", "default"].contains(Tokens[2].lowercased())
+                {
+                    //reset settings
+                    return
+                }
+                
+            default:
+                return
+        }
+    }
+    
+    func RunSetStatusText(_ Tokens: [String])
+    {
+        if Tokens.count < 2
+        {
+            Main?.ClearStatusText()
+            return
+        }
+        var TextToDisplay = ""
+        for Index in 1 ..< Tokens.count
+        {
+            TextToDisplay.append(Tokens[Index])
+            TextToDisplay.append(" ")
+        }
+        TextToDisplay = TextToDisplay.trimmingCharacters(in: .whitespaces)
+        Main?.SetDisappearingStatusText(TextToDisplay, HideAfter: 25.0)
+    }
+    
     func RunClear(_ Tokens: [String])
     {
         if Tokens.count < 2
         {
+            return
+        }
+        if ["status"].contains(Tokens[1].lowercased())
+        {
+            Main?.ClearStatusText()
             return
         }
         if ["inject", "injected"].contains(Tokens[1].lowercased())
@@ -550,6 +613,23 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
                 return
             }
             ShowEnum(Tokens[2])
+            return
+        }
+        if ["applications", "programs"].contains(Tokens[1].lowercased())
+        {
+            var Results = [(Name: String, PID: Int32)]()
+            for Running in NSWorkspace.shared.runningApplications
+            {
+                if let AppName = Running.localizedName
+                {
+                    Results.append((AppName, Running.processIdentifier))
+                }
+            }
+            Results.sort{$0.Name < $1.Name}
+            for Result in Results
+            {
+                Print("\(Result.Name) (\(Result.PID))")
+            }
             return
         }
         if ["quake", "quakes", "earthquake", "earthquakes"].contains(Tokens[1].lowercased())
