@@ -24,6 +24,8 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
         var LocalSunrise = ""
         var LocalSunset = ""
         var LocalNoon = ""
+        var SunlightHours = ""
+        var SunlightPercent = ""
         let Cal = Calendar.current
         let SunTimes = Sun()
         if Settings.HaveLocalLocation()
@@ -71,6 +73,12 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
                 let MinuteS = (NoonMinute < 10 ? "0" : "") + "\(NoonMinute)"
                 let SecondS = (NoonSecond < 10 ? "0" : "") + "\(NoonSecond)"
                 LocalNoon = "\(HourS):\(MinuteS):\(SecondS)"
+                let SunlightSeconds = SetSeconds - RiseSeconds + 1
+                let SunHours = Double(SunlightSeconds) / Double(60.0 * 60.0)
+//                SunlightHours = "\(SunHours.RoundedTo(3))"
+                SunlightHours = Utility.MakePrettyElapsedTime(SunlightSeconds, AppendSeconds: true)
+                let SunPercent = Double(SunlightSeconds) / Double(24.0 * 60.0 * 60.0)
+                SunlightPercent = "\(SunPercent.RoundedTo(2))"
             }
             else
             {
@@ -82,11 +90,15 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
             LocalSunset = "N/A"
             LocalSunrise = "N/A"
             LocalNoon = "N/A"
+            SunlightHours = "N/A"
+            SunlightPercent = ""
         }
         
         TimeTable.append(("Local Sunrise", LocalSunrise))
         TimeTable.append(("Local Noon", LocalNoon))
         TimeTable.append(("Local Sunset", LocalSunset))
+        TimeTable.append(("Sunlight hours", "\(SunlightHours)"))
+        TimeTable.append(("Sunlight percent", "\(SunlightPercent)%"))
         
         let DaysDeclination = Sun.Declination(For: Date())
         let DeclinationLabel = "\(DaysDeclination.RoundedTo(3))°"
