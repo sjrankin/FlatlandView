@@ -13,6 +13,9 @@ extension MainController: AsynchronousDataProtocol
 {
     // MARK: - Asynchronous data protocol functions
     
+    /// Asynchornous data has become available.
+    /// - Parameter CategoryType: The type of asynchronous data.
+    /// - Parameter Actual: The asynchronous data.
     func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?)
     {
         switch CategoryType
@@ -20,13 +23,11 @@ extension MainController: AsynchronousDataProtocol
             case .Earthquakes:
                 if let NewEarthquakes = Actual as? [Earthquake]
                 {
+                    HideStatusText(ForID: EQMessageID, ClearQueue: false)
                     Main3DView.NewEarthquakeList(NewEarthquakes, Final: DoneWithStenciling)
                     Main2DView.PlotEarthquakes(NewEarthquakes, Replot: true)
                     Rect2DView.PlotEarthquakes(NewEarthquakes, Replot: true)
                     LatestEarthquakes = NewEarthquakes
-                    #if false
-                    Main3DView.UpdateLayer(.Test)
-                    #endif
                 }
                 
             default:
