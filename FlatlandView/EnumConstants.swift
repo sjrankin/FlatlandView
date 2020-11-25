@@ -609,6 +609,10 @@ enum StatusBarConstants: Double, CaseIterable
     case ContainerZ = 1000000.0
     /// Z value for the status bar text.
     case TextZ = 5000000.0
+    /// Number of seconds for the initial message (the version number) shows.
+    case InitialMessageDuration = 10.0
+    /// Maximum number of seconds to show the "getting earthquake data" message.
+    case EarthquakeWaitingDuration = 600.0
 }
 
 #if DEBUG
