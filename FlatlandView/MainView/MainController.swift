@@ -167,8 +167,10 @@ class MainController: NSViewController
             }
         }
         
-        ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))", For: 10.0)
-        AddQueuedMessage("Getting earthquake data.", ExpiresIn: 30.0, ID: EQMessageID)
+        ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
+                       For: StatusBarConstants.InitialMessageDuration.rawValue)
+        AddQueuedMessage("Getting earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
+                         ID: EQMessageID)
     }
 
     /// Handle content view size changed events.
