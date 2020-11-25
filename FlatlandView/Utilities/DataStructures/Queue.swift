@@ -169,7 +169,6 @@ class Queue<T>
     }
     
     /// Return the contents of the queue as an array.
-    ///
     /// - Returns: Contents of the queue as an array.
     public func AsArray() -> [T]
     {
@@ -179,5 +178,16 @@ class Queue<T>
             Results.append(SomeT)
         }
         return Results
+    }
+    
+    /// Remove items in the queue that meet the conditions in the closure.
+    /// - Parameter Where: The closure that determines what will be removed.
+    public func Remove(Where: (T) -> Bool)
+    {
+        if Q == nil
+        {
+            return
+        }
+        Q!.removeAll(where: {Where($0)})
     }
 }
