@@ -590,6 +590,27 @@ enum POITableNames: String, CaseIterable
     case UserPOI = "UserPOI"
 }
 
+/// Constants used by the simple status bar.
+enum StatusBarConstants: Double, CaseIterable
+{
+    /// Duration in seconds before the insignificance event triggers and the alpha level is reduced.
+    case Insignificance = 60.0
+    /// The alpha value of the status bar when it is insignificant.
+    case AlphaInsignificance = 0.6
+    /// Left and right margin of the status bar when 3D scenes are showing statistics.
+    case DebugMargin = 180.0
+    /// Left and right margin of the status bar when no 3D debug information is present.
+    case StandardMargin = 80.0
+    /// Corner radius of the status bar.
+    case CornerRadius = 5.0
+    /// Border width of the border of the status bar.
+    case BorderWidth = 2.0
+    /// Z value for the status bar container.
+    case ContainerZ = 1000000.0
+    /// Z value for the status bar text.
+    case TextZ = 5000000.0
+}
+
 #if DEBUG
 // MARK: - 3D scene debug constants.
 
