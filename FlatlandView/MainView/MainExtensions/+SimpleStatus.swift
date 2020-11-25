@@ -55,11 +55,47 @@ extension MainController
         CancelInsignificanceFade()
     }
     
+    /// Hide the current text and clear the message queue.
+    func HideAndClear()
+    {
+        ClearMessageQueue()
+        StatusTextField.stringValue = ""
+        RemoveTextTimer?.invalidate()
+        RemoveTextTimer = nil
+    }
+    
+    /// Hide the status text. If there are more messages in the queue, they will be displayed in turn.
+    func HideStatusText()
+    {
+        StatusTextField.stringValue = ""
+        if RemoveTextTimer != nil
+        {
+            RemoveTextTimer?.invalidate()
+            RemoveTextTimer = nil
+        }
+        RemoveTextLater()
+    }
+    
+    /// If the current status message has the specified ID, it is removed and any messages in the message
+    /// queue will be shown in order.
+    /// - Parameter ForID: If the current message has the same value as this ID, it will be removed. Otherwise,
+    ///                    no action is taken.
+    /// - Parameter ClearQueue: If true, the message queue is cleared as long as the IDs match. Defaults to false.
+    func HideStatusText(ForID: UUID, ClearQueue: Bool = false)
+    {
+        if CurrentMessageID == ForID
+        {
+            ClearMessageQueue()
+            HideStatusText()
+        }
+    }
+    
     /// Show text in the status bar. See also `ShowStatusText(Text, For)`.
     /// - Note: If the status bar is not visible, it is made visible. The insignificance timer is reset.
     /// - Parameter Text: The text to display.
-    func ShowStatusText(_ Text: String)
+    func ShowStatusText(_ Text: String, ID: UUID = UUID())
     {
+        CurrentMessageID = ID
         RemoveTextTimer?.invalidate()
         RemoveTextTimer = nil
         StatusTextContainer.isHidden = false
@@ -82,8 +118,7 @@ extension MainController
     /// - Parameter ID: The ID of the message.
     func ShowStatusText(_ Text: String, For Duration: Double, ID: UUID = UUID())
     {
-        ShowStatusText(Text)
-        CurrentMessageID = ID
+        ShowStatusText(Text, ID: ID)
         RemoveTextTimer = Timer.scheduledTimer(timeInterval: Duration,
                                                target: self,
                                                selector: #selector(RemoveTextLater),
@@ -100,17 +135,9 @@ extension MainController
             self.StatusTextField.stringValue = ""
             if let NextMessage = self.StatusMessageQueue.Dequeue()
             {
-                self.ShowStatusText(NextMessage.Message, For: NextMessage.ExpiresIn)
+                self.ShowStatusText(NextMessage.Message, For: NextMessage.ExpiresIn, ID: NextMessage.ID)
             }
         }
-    }
-    
-    /// Hide (remove) status text. This function also deletes the remove text timer.
-    func HideStatusText()
-    {
-        RemoveTextTimer?.invalidate()
-        RemoveTextTimer = nil
-        StatusTextField.stringValue = ""
     }
     
     /// Reset the insignificance timer. Should be called everytime the text of the status bar is changed.
@@ -169,6 +196,23 @@ extension MainController
         {
             ShowStatusText(Text, For: ExpiresIn, ID: ID)
         }
+    }
+    
+    /// Inserts a message into the status bar in place of the current message and ahead of the messages in
+    /// the message queue. Queued messages are shown in order once this message expires.
+    /// - Parameter Text: The message to display.
+    /// - Parameter ExpiresIn: How long to show the message.
+    /// - Parameter ID: The ID of the message.
+    func InsertMessageAheadOfQueue(_ Text: String, ExpiresIn: Double, ID: UUID)
+    {
+        ShowStatusText(Text, For: ExpiresIn, ID: ID)
+    }
+    
+    /// Remove the message in the message queue whose ID is passed to this function.
+    /// - Parameter With: The ID of the message to delete.
+    func RemoveQueuedMessage(With ID: UUID)
+    {
+        StatusMessageQueue.Remove(Where: {Element in Element.ID == ID})
     }
     
     /// Clear the message queue.
