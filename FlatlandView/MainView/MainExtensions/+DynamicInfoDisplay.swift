@@ -32,9 +32,8 @@ extension MainController
                 Controller.view.layer?.zPosition = 100000
                 Controller.view.alphaValue = 0.0
                 let ViewWidth = Controller.view.frame.width
-                let Bottom: CGFloat = Settings.GetBool(.ShowStatistics) ? 20.0 : 10.0
                 Controller.view.frame = NSRect(x: self.view.frame.size.width - ViewWidth - 10,
-                                               y: Bottom,
+                                               y: 40.0,
                                                width: ViewWidth,
                                                height: 100)
                 self.view.addSubview(Controller.view)
