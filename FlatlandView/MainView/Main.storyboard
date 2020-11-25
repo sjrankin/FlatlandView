@@ -487,11 +487,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="NAV-Li-XZu">
+                                <rect key="frame" x="150" y="5" width="700" height="30"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABV-Rw-XMN">
+                                        <rect key="frame" x="8" y="6" width="684" height="19"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" allowsUndo="NO" alignment="left" title="Label" id="lwU-nG-sil">
+                                            <font key="font" metaFont="systemSemibold" size="16"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="AQ2-eT-Vfb"/>
+                                    <constraint firstAttribute="trailing" secondItem="ABV-Rw-XMN" secondAttribute="trailing" constant="10" id="BIG-Gu-Qag"/>
+                                    <constraint firstItem="ABV-Rw-XMN" firstAttribute="centerY" secondItem="NAV-Li-XZu" secondAttribute="centerY" id="Gru-fw-3vz"/>
+                                    <constraint firstItem="ABV-Rw-XMN" firstAttribute="leading" secondItem="NAV-Li-XZu" secondAttribute="leading" constant="10" id="hvo-Rh-lXh"/>
+                                </constraints>
+                            </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="c9p-QS-cDp">
                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                                 <subviews>
                                     <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="8bV-LF-Aru">
-                                        <rect key="frame" x="16" y="32" width="115" height="82"/>
+                                        <rect key="frame" x="16" y="40" width="115" height="82"/>
                                         <rows>
                                             <gridRow id="rd2-2S-9be"/>
                                             <gridRow id="hUu-6V-Wv1"/>
@@ -588,7 +607,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="8bV-LF-Aru" firstAttribute="leading" secondItem="c9p-QS-cDp" secondAttribute="leading" constant="16" id="39F-N6-cHf"/>
-                                    <constraint firstAttribute="bottom" secondItem="8bV-LF-Aru" secondAttribute="bottom" constant="32" id="6l8-z1-ike"/>
+                                    <constraint firstAttribute="bottom" secondItem="8bV-LF-Aru" secondAttribute="bottom" constant="40" id="6l8-z1-ike"/>
                                 </constraints>
                             </customView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iq2-x8-FBV">
@@ -600,7 +619,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UlV-IY-Q92">
-                                <rect key="frame" x="393" y="16" width="214" height="47"/>
+                                <rect key="frame" x="393" y="30" width="214" height="47"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="23:45 UTC" id="cuD-KW-T9X">
                                     <font key="font" metaFont="systemBlack" size="40"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -620,7 +639,7 @@
                         <constraints>
                             <constraint firstItem="svV-Ad-1ju" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" id="5g2-fC-EBG"/>
                             <constraint firstItem="UlV-IY-Q92" firstAttribute="centerX" secondItem="6id-Tb-uKs" secondAttribute="centerX" id="9GT-a7-G61"/>
-                            <constraint firstAttribute="bottom" secondItem="UlV-IY-Q92" secondAttribute="bottom" constant="16" id="FL3-s9-nSw"/>
+                            <constraint firstAttribute="bottom" secondItem="UlV-IY-Q92" secondAttribute="bottom" constant="30" id="FL3-s9-nSw"/>
                             <constraint firstAttribute="bottom" secondItem="c9p-QS-cDp" secondAttribute="bottom" id="G3H-z8-02q"/>
                             <constraint firstItem="Zfw-8N-1gC" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" id="Jbz-vN-O5p"/>
                             <constraint firstItem="Iq2-x8-FBV" firstAttribute="centerX" secondItem="6id-Tb-uKs" secondAttribute="centerX" id="KZr-qv-J9R"/>
@@ -628,9 +647,12 @@
                             <constraint firstItem="qi4-7r-za1" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" id="PKB-tP-vfy"/>
                             <constraint firstItem="c9p-QS-cDp" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" id="Qti-U9-QTm"/>
                             <constraint firstItem="Iq2-x8-FBV" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" constant="10" id="UCR-fg-BQR"/>
+                            <constraint firstAttribute="bottom" secondItem="NAV-Li-XZu" secondAttribute="bottom" constant="5" id="VcN-3G-O6h"/>
                             <constraint firstAttribute="trailing" secondItem="c9p-QS-cDp" secondAttribute="trailing" id="Wzy-3a-l4S"/>
                             <constraint firstItem="svV-Ad-1ju" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" id="Zcj-Ib-PwG"/>
+                            <constraint firstItem="NAV-Li-XZu" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" constant="150" id="apy-Fh-tRQ"/>
                             <constraint firstAttribute="bottom" secondItem="qi4-7r-za1" secondAttribute="bottom" id="cQO-U8-m1P"/>
+                            <constraint firstAttribute="trailing" secondItem="NAV-Li-XZu" secondAttribute="trailing" constant="150" id="cfG-Xy-Yza"/>
                             <constraint firstItem="qi4-7r-za1" firstAttribute="top" secondItem="6id-Tb-uKs" secondAttribute="top" id="dQU-jd-r1C"/>
                             <constraint firstAttribute="bottom" secondItem="Zfw-8N-1gC" secondAttribute="bottom" id="f0X-bi-Db7"/>
                             <constraint firstItem="Zfw-8N-1gC" firstAttribute="leading" secondItem="6id-Tb-uKs" secondAttribute="leading" id="lD5-i2-P5C"/>
@@ -653,6 +675,10 @@
                         <outlet property="MainTimeLabelTop" destination="Iq2-x8-FBV" id="1pC-lg-ZK9"/>
                         <outlet property="PrimaryView" destination="6id-Tb-uKs" id="SgK-oT-a85"/>
                         <outlet property="Rect2DView" destination="qi4-7r-za1" id="P7U-lU-wEE"/>
+                        <outlet property="StatusTextContainer" destination="NAV-Li-XZu" id="tp6-uD-GUq"/>
+                        <outlet property="StatusTextContainerLeftConstraint" destination="apy-Fh-tRQ" id="wQL-kp-A2o"/>
+                        <outlet property="StatusTextContainerRightConstraint" destination="cfG-Xy-Yza" id="Qbn-qv-dGE"/>
+                        <outlet property="StatusTextField" destination="ABV-Rw-XMN" id="wV2-KG-E75"/>
                         <outlet property="UptimeLabel" destination="hB7-Jd-LMG" id="egy-bi-1kP"/>
                         <outlet property="UptimeValue" destination="nJR-aJ-l3k" id="bxn-h0-y3z"/>
                         <outlet property="VersionLabel" destination="QkX-vn-KDb" id="7Jt-Th-gp2"/>
