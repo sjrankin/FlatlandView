@@ -91,6 +91,7 @@ class MainController: NSViewController
     /// Initialize things that require a fully set-up window.
     override func viewDidLayout()
     {
+        InitializeSimpleStatus()
         InterfaceInitialization()
         InitializeFlatland()
         NotificationCenter.default.addObserver(self, selector: #selector(HandlePrimaryViewContentsSizeChange),
@@ -174,6 +175,8 @@ class MainController: NSViewController
                     WinCtrl.HourSegment.setImage(NSImage(named: "ClockIconSelected"), forSegment: 1)
             }
         }
+        
+        ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))", For: 10.0)
     }
     
     public var MainApp: AppDelegate!
@@ -735,9 +738,19 @@ class MainController: NSViewController
     static var UserPOIs = [POI2]()
     /// User homes from the POI database.
     static var UserHomes = [POI2]()
+    /// Timer for hiding simple status text over time.
+    var RemoveTextTimer: Timer? = nil
+    /// Timer for reducing the alpha of the status text container.
+    var InsignificanceTimer: Timer? = nil
+    /// How long before the status text is reduced in alpha.
+    var LastInsignificanceDuration: Double = 60.0
     
     // MARK: - Storyboard outlets
     
+    @IBOutlet weak var StatusTextField: NSTextField!
+    @IBOutlet weak var StatusTextContainerRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var StatusTextContainerLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var StatusTextContainer: NSView!
     @IBOutlet var PrimaryView: ParentView!
     @IBOutlet weak var Main2DView: FlatView!
     @IBOutlet weak var Rect2DView: RectangleView!
@@ -747,6 +760,7 @@ class MainController: NSViewController
     @IBOutlet weak var BackgroundView: NSView!
 
     //Debug elements
+    
     @IBOutlet weak var VersionLabel: NSTextField!
     @IBOutlet weak var VersionValue: NSTextField!
     @IBOutlet weak var BuildLabel: NSTextField!
