@@ -146,6 +146,7 @@
 		176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */; };
 		176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */; };
 		176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */; };
+		1774BD75256E417100D927F3 /* +SimpleStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1774BD74256E417100D927F3 /* +SimpleStatus.swift */; };
 		177D0F5F2547F04700CD5041 /* MTLTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177D0F5E2547F04700CD5041 /* MTLTexture.swift */; };
 		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
 		177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D32480D49200CAD1B9 /* ActualMap.swift */; };
@@ -158,7 +159,7 @@
 		178909C7250E0DCB0092E3A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 178909C2250E09ED0092E3A4 /* Main.storyboard */; };
 		17897C7E2514A72100544DE1 /* +MainSettingsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C7D2514A72100544DE1 /* +MainSettingsHandler.swift */; };
 		17897C812514A93200544DE1 /* +MainInitialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C802514A93200544DE1 /* +MainInitialization.swift */; };
-		17897C842514A9BA00544DE1 /* +MainMainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C832514A9BA00544DE1 /* +MainMainProtocol.swift */; };
+		17897C842514A9BA00544DE1 /* +MainProtocolImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C832514A9BA00544DE1 /* +MainProtocolImplementation.swift */; };
 		17897C872514AA1100544DE1 /* +MainEventHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C862514AA1100544DE1 /* +MainEventHandling.swift */; };
 		17897C8A2514AA6C00544DE1 /* +MainWindowing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C892514AA6C00544DE1 /* +MainWindowing.swift */; };
 		17897C8D2514AAB300544DE1 /* +MainTimers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17897C8C2514AAB300544DE1 /* +MainTimers.swift */; };
@@ -504,6 +505,7 @@
 		176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewSuns.swift"; sourceTree = "<group>"; };
 		176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow.swift; sourceTree = "<group>"; };
 		176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController.swift; sourceTree = "<group>"; };
+		1774BD74256E417100D927F3 /* +SimpleStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+SimpleStatus.swift"; sourceTree = "<group>"; };
 		177D0F5E2547F04700CD5041 /* MTLTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTLTexture.swift; sourceTree = "<group>"; };
 		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
 		177EE5D32480D49200CAD1B9 /* ActualMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMap.swift; sourceTree = "<group>"; };
@@ -516,7 +518,7 @@
 		178909C4250E0BED0092E3A4 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		17897C7D2514A72100544DE1 /* +MainSettingsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainSettingsHandler.swift"; sourceTree = "<group>"; };
 		17897C802514A93200544DE1 /* +MainInitialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainInitialization.swift"; sourceTree = "<group>"; };
-		17897C832514A9BA00544DE1 /* +MainMainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainMainProtocol.swift"; sourceTree = "<group>"; };
+		17897C832514A9BA00544DE1 /* +MainProtocolImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainProtocolImplementation.swift"; sourceTree = "<group>"; };
 		17897C862514AA1100544DE1 /* +MainEventHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainEventHandling.swift"; sourceTree = "<group>"; };
 		17897C892514AA6C00544DE1 /* +MainWindowing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainWindowing.swift"; sourceTree = "<group>"; };
 		17897C8C2514AAB300544DE1 /* +MainTimers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainTimers.swift"; sourceTree = "<group>"; };
@@ -1759,13 +1761,14 @@
 				174D035B252C952900692B89 /* +MainDatabase */,
 				17897C802514A93200544DE1 /* +MainInitialization.swift */,
 				17897C7D2514A72100544DE1 /* +MainSettingsHandler.swift */,
-				17897C832514A9BA00544DE1 /* +MainMainProtocol.swift */,
+				17897C832514A9BA00544DE1 /* +MainProtocolImplementation.swift */,
 				17EB5C1225159AB1007A75EF /* +MainAsynchronous.swift */,
 				17897C862514AA1100544DE1 /* +MainEventHandling.swift */,
 				17897C8C2514AAB300544DE1 /* +MainTimers.swift */,
 				17897C892514AA6C00544DE1 /* +MainWindowing.swift */,
 				17897C922514AB6E00544DE1 /* +MainTimeAndSun.swift */,
 				170E7BE82559165F00EA3AD3 /* +DynamicInfoDisplay.swift */,
+				1774BD74256E417100D927F3 /* +SimpleStatus.swift */,
 			);
 			path = MainExtensions;
 			sourceTree = "<group>";
@@ -1987,7 +1990,7 @@
 				170E7BE92559165F00EA3AD3 /* +DynamicInfoDisplay.swift in Sources */,
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
 				17F1C7DB2543F9FA0046AE33 /* +RectangleHours.swift in Sources */,
-				17897C842514A9BA00544DE1 /* +MainMainProtocol.swift in Sources */,
+				17897C842514A9BA00544DE1 /* +MainProtocolImplementation.swift in Sources */,
 				17C22C2324EA1CD9006BB3AB /* NASAMapConfirmation.swift in Sources */,
 				172F4A2524FA0F650014A65E /* DateTimeEditor.swift in Sources */,
 				172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */,
@@ -2168,6 +2171,7 @@
 				173056C02553E7C700B1D4C9 /* +FollowMode.swift in Sources */,
 				17176C0D254CFE210051960D /* EarthquakeViewerController.swift in Sources */,
 				1760023424D2BEF800D5EA1A /* Double.swift in Sources */,
+				1774BD75256E417100D927F3 /* +SimpleStatus.swift in Sources */,
 				17F9B001252035B300DE0219 /* +NotifiedEarthquakeList.swift in Sources */,
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
 				1759AE68249F8215003F79F5 /* OtherLocationsWindow.swift in Sources */,
