@@ -52,6 +52,16 @@ protocol MainProtocol: class
     
     /// Returns the current earthequake class.
     func GetEarthquakeController() -> USGS?
+    
+    func SetStatusText(_ Text: String)
+    
+    func SetDisappearingStatusText(_ Text: String, HideAfter: Double)
+    
+    func ClearStatusText()
+    
+    func ExitProgram()
+    
+    func ResetSettings()
 }
 
 enum ChildWindows: String, CaseIterable
