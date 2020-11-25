@@ -173,10 +173,11 @@ extension MainController: MainProtocol
     /// Clears the status display of text.
     func ClearStatusText()
     {
-        ShowStatusText("") 
+        ShowStatusText("")
     }
     
-    //https://developer.apple.com/forums/thread/106825
+    /// Force an exit of Flatland.
+    /// - Notes: [Terminal application](https://developer.apple.com/forums/thread/106825)
     func ExitProgram()
     {
         for Running in NSWorkspace.shared.runningApplications
@@ -188,6 +189,7 @@ extension MainController: MainProtocol
         }
     }
     
+    /// Reset settings here.
     func ResetSettings()
     {
         
