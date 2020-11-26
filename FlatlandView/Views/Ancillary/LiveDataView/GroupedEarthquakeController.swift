@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SceneKit
 
-class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
+class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTableViewDataSource, 
                                    NSWindowDelegate, AsynchronousDataProtocol, WindowManagement
 {
     public weak var MainDelegate: MainProtocol? = nil
@@ -247,7 +247,7 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
     var AllQuakes = [Earthquake]()
     var SourceData = [Earthquake]()
     
-    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?)
+    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double)
     {
         RoundTextView.Hide()
         if Actual != nil
