@@ -229,6 +229,12 @@ enum SettingKeys: String, CaseIterable
     case ShowHomeLocation = "ShowHomeLocation"
     /// NSColor: Color of the home location for shapes that use it.
     case HomeColor = "HomeColor"
+    /// String: Name of the location for the Today window for non-home locations.
+    case DailyLocationName = "DailyLocationName"
+    /// Double?: Latitude of the location for the Today window for non-home locations.
+    case DailyLocationLatitude = "DailyLocationLatitude"
+    /// Double?: Longitude of the location for the Today window for non-home locations.
+    case DailyLocationLongitude = "DailyLocationLongitude"
     
     // MARK: - City-related settings.
     /// Boolean: Show cities on the map. This is a filter boolean meaning if it is false,
