@@ -14,6 +14,7 @@ protocol AsynchronousDataProtocol: class
     /// Called when remote/asynchronous data is available.
     /// - Parameter CategoryType: The type of available data.
     /// - Parameter Actual: The data that was received. May be nil.
-    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?)
+    /// - Parameter StartTime: The time the asynchronous process started.
+    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double)
 }
 
