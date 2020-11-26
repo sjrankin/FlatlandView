@@ -39,12 +39,15 @@ class USGS
         GetNewEarthquakeData()
     }
     
+    var EarthquakeStartTime: Double = 0.0
+    
     /// Make a web request to the USGS to return earthquake data.
     /// - Note: Execution occurs on a background thread.
     @objc func GetNewEarthquakeData()
     {
         _IsBusy = true
         defer{_IsBusy = false}
+        EarthquakeStartTime = CACurrentMediaTime()
         let Queue = OperationQueue()
         Queue.name = "Earthquake Retrieval Queue"
         Queue.addOperation
@@ -107,7 +110,8 @@ class USGS
         {
             let FinalList = self.MakeEarthquakeList()
             self.CurrentList = FinalList
-            self.Delegate?.AsynchronousDataAvailable(CategoryType: .Earthquakes, Actual: FinalList as Any)
+            self.Delegate?.AsynchronousDataAvailable(CategoryType: .Earthquakes, Actual: FinalList as Any,
+                                                     StartTime: self.EarthquakeStartTime)
         }
     }
     
