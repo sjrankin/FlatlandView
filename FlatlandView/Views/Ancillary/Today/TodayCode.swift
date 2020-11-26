@@ -15,12 +15,18 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
         PopulateTable()
         TodayTable.reloadData()
     }
     
+    var ShowHomeData = true
+    
     func PopulateTable()
     {
+        TimeTable.removeAll()
+        var LocationString = ""
+        var HomeName = ""
         var LocalSunrise = ""
         var LocalSunset = ""
         var LocalNoon = ""
@@ -28,15 +34,49 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
         var SunlightPercent = ""
         let Cal = Calendar.current
         let SunTimes = Sun()
-        if Settings.HaveLocalLocation()
+        var LocationAvailable = false
+        var CountryName = ""
+        var TimeZoneDescription = ""
+        if ShowHomeData
         {
+            if Settings.GetDoubleNil(.LocalLatitude) != nil && Settings.GetDoubleNil(.LocalLongitude) != nil
+            {
+                LocationAvailable = true
+            }
+        }
+        else
+        {
+            if Settings.GetDoubleNil(.DailyLocationLatitude) != nil && Settings.GetDoubleNil(.DailyLocationLongitude) != nil
+            {
+                LocationAvailable = true
+            }
+        }
+        if LocationAvailable
+        {
+            if ShowHomeData
+            {
+                HomeName = Settings.GetString(.LocalName, "")
+            }
+            else
+            {
+                HomeName = Settings.GetString(.DailyLocationName, "")
+            }
+            LocationNote.stringValue = ""
             var RiseAndSetAvailable = true
             var SunRiseTime = Date()
             var SunSetTime = Date()
-            let LocalLat = Settings.GetDoubleNil(.LocalLatitude)
-            let LocalLon = Settings.GetDoubleNil(.LocalLongitude)
+            let LocalLat = ShowHomeData ? Settings.GetDoubleNil(.LocalLatitude) : Settings.GetDoubleNil(.DailyLocationLatitude)
+            let LocalLon = ShowHomeData ? Settings.GetDoubleNil(.LocalLongitude) : Settings.GetDoubleNil(.DailyLocationLongitude)
             let Location = GeoPoint(LocalLat!, LocalLon!)
-            if let SunriseTime = SunTimes.Sunrise(For: Date(), At: Location, TimeZoneOffset: 0)
+            let LatS = LocalLat! >= 0.0 ? "\(LocalLat!.RoundedTo(4))N" : "\(abs(LocalLat!).RoundedTo(4))S"
+            let LonS = LocalLon! >= 0.0 ? "\(LocalLon!.RoundedTo(4))E" : "\(abs(LocalLon!).RoundedTo(4))W"
+            LocationString = "\(LatS), \(LonS)"
+            
+            let Loc = CLLocation(latitude: LocalLat!, longitude: LocalLon!)
+            let Coder = CLGeocoder()
+            Coder.reverseGeocodeLocation(Loc, completionHandler: GeocoderCompletion)
+            print("*** TimeZoneSeconds=\(TimeZoneSeconds)")
+            if let SunriseTime = SunTimes.Sunrise(For: Date(), At: Location, TimeZoneOffset: TimeZoneSeconds)
             {
                 SunRiseTime = SunriseTime
                 LocalSunrise = SunriseTime.PrettyTime()
@@ -46,7 +86,7 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
                 RiseAndSetAvailable = false
                 LocalSunrise = "No sunrise"
             }
-            if let SunsetTime = SunTimes.Sunset(For: Date(), At: Location, TimeZoneOffset: 0)
+            if let SunsetTime = SunTimes.Sunset(For: Date(), At: Location, TimeZoneOffset: TimeZoneSeconds)
             {
                 SunSetTime = SunsetTime
                 LocalSunset = SunsetTime.PrettyTime()
@@ -74,10 +114,8 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
                 let SecondS = (NoonSecond < 10 ? "0" : "") + "\(NoonSecond)"
                 LocalNoon = "\(HourS):\(MinuteS):\(SecondS)"
                 let SunlightSeconds = SetSeconds - RiseSeconds + 1
-                let SunHours = Double(SunlightSeconds) / Double(60.0 * 60.0)
-//                SunlightHours = "\(SunHours.RoundedTo(3))"
                 SunlightHours = Utility.MakePrettyElapsedTime(SunlightSeconds, AppendSeconds: true)
-                let SunPercent = Double(SunlightSeconds) / Double(24.0 * 60.0 * 60.0)
+                let SunPercent = Double(SunlightSeconds) / Double(24.0 * 60.0 * 60.0) * 100.0
                 SunlightPercent = "\(SunPercent.RoundedTo(2))"
             }
             else
@@ -87,6 +125,8 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
         }
         else
         {
+            HomeName = "N/A"
+            LocationString = "Not set"
             LocalSunset = "N/A"
             LocalSunrise = "N/A"
             LocalNoon = "N/A"
@@ -94,14 +134,19 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
             SunlightPercent = ""
         }
         
+        TimeTable.append(("Location", HomeName))
+        TimeTable.append(("Country", CountryName))
+        TimeTable.append(("Coordinates", LocationString))
+        TimeTable.append(("Time in Location", ""))
+        TimeTable.append(("Time Zone", TimeZoneDescription))
         TimeTable.append(("Local Sunrise", LocalSunrise))
         TimeTable.append(("Local Noon", LocalNoon))
         TimeTable.append(("Local Sunset", LocalSunset))
-        TimeTable.append(("Sunlight hours", "\(SunlightHours)"))
-        TimeTable.append(("Sunlight percent", "\(SunlightPercent)%"))
+        TimeTable.append(("Daylight Hours", "\(SunlightHours)"))
+        TimeTable.append(("Daylight Percent", "\(SunlightPercent)%"))
         
         let DaysDeclination = Sun.Declination(For: Date())
-        let DeclinationLabel = "\(DaysDeclination.RoundedTo(3))°"
+        let DeclinationLabel = "\(DaysDeclination.RoundedTo(4))°"
         TimeTable.append(("Declination", DeclinationLabel))
         let _ = Timer.scheduledTimer(timeInterval: 1.0, target: self,
                                      selector: #selector(UpdateCurrentSeconds),
@@ -110,32 +155,142 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
         UpdateCurrentSeconds()
     }
     
-    @objc func UpdateCurrentSeconds()
+    var TimeZoneSeconds = 0
+    
+    /// Close for server call to reverse locate a coordinate.
+    /// - Parameter Placemarks: Array of placemarks related to the coordinates passed to the original call.
+    /// - Parameter Err: Errors, if any.
+    func GeocoderCompletion(_ Placemarks: [CLPlacemark]?, _ Err: Error?)
     {
-        let Cal = Calendar.current
-        let H = Cal.component(.hour, from: Date())
-        let M = Cal.component(.minute, from: Date())
-        let S = Cal.component(.second, from: Date())
-        let CurrentSeconds = S + (M * 60) + (H * 60 * 60)
-        let Index = IndexOfElapsedSeconds()
-        if Index > -1
+        if let PM = Placemarks?[0]
         {
-            let Percent = Double(CurrentSeconds) / (24.0 * 60 * 60) * 100.0
-            TimeTable[Index] = ("Seconds Elapsed", "\(CurrentSeconds), \(Percent.RoundedTo(2))%")
+            let CountryName = PM.country ?? "unknown"
+            let TimeZoneDescription = PM.timeZone?.description ?? "unknown"
+            let Offset = PM.timeZone?.secondsFromGMT()
+            if let Index = IndexOfRow(With: "Country")
+            {
+                TimeTable[Index] = ("Country", CountryName)
+            }
+            if let Index = IndexOfRow(With: "Time Zone")
+            {
+                var OffsetString = ""
+                if let TZOffset = Offset
+                {
+                    let OffsetValue = TZOffset / (60 * 60)
+                    var OffsetSign = ""
+                    if OffsetValue > 0
+                    {
+                        OffsetSign = "+"
+                    }
+                    OffsetString = "\(OffsetSign)\(OffsetValue)"
+                }
+                TimeTable[Index] = ("Time Zone", "\(TimeZoneDescription) \(OffsetString)")
+            }
+            if let TZ = PM.timeZone
+            {
+                TimeZoneSeconds = TZ.secondsFromGMT(for: Date())
+            }
         }
         TodayTable.reloadData()
     }
     
-    func IndexOfElapsedSeconds() -> Int
+    @objc func UpdateCurrentSeconds()
+    {
+        var Cal = Calendar.current
+        Cal.timeZone = TimeZone(secondsFromGMT: TimeZoneSeconds)!
+        let H = Cal.component(.hour, from: Date())
+        let M = Cal.component(.minute, from: Date())
+        let S = Cal.component(.second, from: Date())
+        let CurrentSeconds = S + (M * 60) + (H * 60 * 60)
+        if let Index = IndexOfRow(With: "Seconds Elapsed")
+        {
+            let Percent = Double(CurrentSeconds) / (24.0 * 60.0 * 60.0) * 100.0
+            TimeTable[Index] = ("Seconds Elapsed", "\(CurrentSeconds)\t\t\(Percent.RoundedTo(2))%")
+        }
+        if let TimeIndex = IndexOfRow(With: "Time in Location")
+        {
+            if let TZ = TimeZone(secondsFromGMT: TimeZoneSeconds)
+            {
+                let TimeStringAtLocation = DateToTimeZoneDate(Date(), Timezone: TZ)
+                let (DateString, TimeString) = ParseTimeZoneDate(TimeStringAtLocation)
+                let Final = "\(TimeString)\t\(DateString)"
+                TimeTable[TimeIndex] = ("Time in Location", Final)
+            }
+        }
+        TodayTable.reloadData()
+    }
+    
+    func ParseTimeZoneDate(_ Raw: String) -> (DateString: String, TimeString: String)
+    {
+        let Parts = Raw.split(separator: "T", omittingEmptySubsequences: true)
+        if Parts.count != 2
+        {
+            Debug.FatalError("Invalid date string passed to \(#function)")
+        }
+        
+        let DatePart = String(Parts[0])
+        let DateParts = DatePart.split(separator: "-", omittingEmptySubsequences: true)
+        if DateParts.count != 3
+        {
+            Debug.FatalError("Error parsing date in \(#function)")
+        }
+        let YearPart = String(DateParts[0])
+        let MonthPart = String(DateParts[1])
+        let DayPart = String(DateParts[2])
+        guard let MonthValue = Int(MonthPart) else
+        {
+            Debug.FatalError("Error converting month value \(MonthPart) to Int in \(#function)")
+        }
+        if MonthValue < 1 || MonthValue > 12
+        {
+            Debug.FatalError("Invalid month value: \(MonthValue) in \(#function)")
+        }
+        let MonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][MonthValue - 1]
+        let FinalDateString = "\(DayPart) \(MonthName) \(YearPart)"
+        
+        let TimePart = String(Parts[1])
+        let TimeParts = TimePart.split(separator: "+", omittingEmptySubsequences: true)
+        if TimeParts.count != 2
+        {
+            Debug.FatalError("Invalid time string apssed to \(#function)")
+        }
+        let FinalTime = String(TimeParts[0])
+        
+        return (DateString: FinalDateString, TimeString: FinalTime)
+    }
+    
+    func DateToTimeZoneDate(_ When: Date, Timezone: TimeZone) -> String
+    {
+        let DFormatter = DateFormatter()
+        DFormatter.timeZone = Timezone
+        DFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let StringDate = DFormatter.string(from: When)
+        return StringDate
+    }
+    
+    /*
+    func DateToTimeZoneDate(_ When: Date, Timezone: TimeZone) -> Date?
+    {
+        let DFormatter = DateFormatter()
+        DFormatter.timeZone = Timezone
+        DFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let StringDate = DFormatter.string(from: When)
+        print("Timezone=\(Timezone), StringDate=\(StringDate)")
+        let LTime = DFormatter.date(from: StringDate)
+        return LTime
+    }
+ */
+    
+    func IndexOfRow(With Title: String) -> Int?
     {
         for Index in 0 ..< TimeTable.count
         {
-            if TimeTable[Index].Event == "Seconds Elapsed"
+            if TimeTable[Index].Event == Title
             {
                 return Index
             }
         }
-        return -1
+        return nil
     }
     
     var TimeTable = [(Event: String, Value: String)]()
@@ -192,5 +347,65 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
         self.view.window?.close()
     }
     
+    @IBAction func HandleSetHomeLocationButton(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Today", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "LocationWindow") as? LocationWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? LocationController
+            Controller?.IsForHomeLocation = true
+            self.view.window?.beginSheet(Window!)
+            {
+                Result in
+                if Result == .OK
+                {
+                    self.ShowHomeData = true
+                    self.PopulateTable()
+                    self.TodayTable.reloadData()
+                }
+            }
+        }
+    }
+    
+    @IBAction func HandleUseOtherLocationButton(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Today", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "LocationWindow") as? LocationWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? LocationController
+            Controller?.IsForHomeLocation = false
+            self.view.window?.beginSheet(Window!)
+            {
+                Result in
+                if Result == .OK
+                {
+                    self.ShowHomeData = false
+                    self.PopulateTable()
+                    self.TodayTable.reloadData()
+                }
+            }
+        }
+    }
+    
+    @IBAction func HandleLocationChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            if Segment.selectedSegment == 0
+            {
+                ShowHomeData = true
+            }
+            else
+            {
+                ShowHomeData = false
+            }
+            PopulateTable()
+            TodayTable.reloadData()
+        }
+    }
+    
+    @IBOutlet weak var LocationNote: NSTextField!
     @IBOutlet weak var TodayTable: NSTableView!
 }
