@@ -16,7 +16,8 @@ extension MainController: AsynchronousDataProtocol
     /// Asynchornous data has become available.
     /// - Parameter CategoryType: The type of asynchronous data.
     /// - Parameter Actual: The asynchronous data.
-    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?)
+    /// - Parameter StartTime: The time the asynchronous process started.
+    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double)
     {
         switch CategoryType
         {
@@ -24,6 +25,13 @@ extension MainController: AsynchronousDataProtocol
                 if let NewEarthquakes = Actual as? [Earthquake]
                 {
                     HideStatusText(ForID: EQMessageID, ClearQueue: false)
+                    if StartTime > 0.0
+                    {
+                        let Duration = CACurrentMediaTime() - StartTime
+                        let PrettyDuration = Utility.MakePrettyElapsedTime(Int(Duration), AppendSeconds: true)
+                        Debug.Print("Earthquake retrieval duration: \(PrettyDuration)")
+                        InsertMessageAheadOfQueue("Earthquake retrieval duration: \(PrettyDuration)", ExpiresIn: 10.0, ID: UUID())
+                    }
                     Main3DView.NewEarthquakeList(NewEarthquakes, Final: DoneWithStenciling)
                     Main2DView.PlotEarthquakes(NewEarthquakes, Replot: true)
                     Rect2DView.PlotEarthquakes(NewEarthquakes, Replot: true)
