@@ -289,14 +289,21 @@ extension Date
     
     /// Converts the passed date's date and time components into a pretty string.
     /// - Parameter From: The date whose date and time components will be used to generate a pretty string.
-    /// - Parameter AddComma: If true, a comma is placed between the date and time.
+    /// - Parameter Separator: Determines how the time and date are separated.
+    /// - Parameter DateFirst: If true, the date preceeds the time. If false, the time preceeds the date.
     /// - Returns: String value of the date and time components of `From`.
-    static func PrettyDateTime(From: Date, AddComma: Bool = true) -> String
+    static func PrettyDateTime(From: Date, Separator: DateTimeSeparators = .Comma, DateFirst: Bool = true) -> String
     {
         let NiceTime = From.PrettyTime()
         let NiceDate = From.PrettyDate()
-        let Separator = AddComma ? "," : ""
-        return "\(NiceDate)\(Separator) \(NiceTime)"
+        if DateFirst
+        {
+        return "\(NiceDate)\(Separator.rawValue) \(NiceTime)"
+        }
+        else
+        {
+            return "\(NiceTime)\(Separator.rawValue) \(NiceDate)"
+        }
     }
     
     /// Converts the instance date's time components into a pretty string.
@@ -314,11 +321,12 @@ extension Date
     }
     
     /// Converts the instance date's time and date components into a pretty string.
-    /// - Parameter AddComma: If true, a comma is placed between the date and time.
+    /// - Parameter Separator: Determines how the date and time are separated.
+    /// - Parameter DateFirst: If true, the date preceeds the time. Otherwise the time preceeds the date.
     /// - Returns: String value of the time and date components of the instance date.
-    func PrettyDateTime(AddComma: Bool = true) -> String
+    func PrettyDateTime(Separator: DateTimeSeparators = .Comma, DateFirst: Bool = true) -> String
     {
-        return Date.PrettyDateTime(From: self, AddComma: AddComma)
+        return Date.PrettyDateTime(From: self, Separator: Separator, DateFirst: DateFirst)
     }
     
     /// Returns the time zone of the instance date.
@@ -510,3 +518,10 @@ extension Date
     }
 }
 
+enum DateTimeSeparators: String, CaseIterable
+{
+    case Space = " "
+    case Comma = ", "
+    case OneTab = "\t"
+    case TwoTabs = "\t\t"
+}
