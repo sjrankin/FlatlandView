@@ -127,7 +127,7 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
                     return
                 }
                 RunInjection(Tokens)
-            
+                
             case "ver":
                 Print(Versioning.MakeSimpleVersionString())
                 
@@ -377,17 +377,17 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
             return
         }
         let What = Tokens[1].lowercased()
-            for Setting in SettingKeys.allCases
+        for Setting in SettingKeys.allCases
+        {
+            if Setting.rawValue.lowercased() == What
             {
-                if Setting.rawValue.lowercased() == What
+                let SetOK = Settings.TryToSet(Setting, WithValue: Tokens[2])
+                if !SetOK
                 {
-                    let SetOK = Settings.TryToSet(Setting, WithValue: Tokens[2])
-                    if !SetOK
-                    {
-                        Print("Error setting \(Setting.rawValue) to \(Tokens[2])")
-                    }
+                    Print("Error setting \(Setting.rawValue) to \(Tokens[2])")
                 }
             }
+        }
     }
     
     func GetOptionalValue(From: String, Value: inout Double, Constraint: inout ConstraintTypes) -> Bool
@@ -475,7 +475,7 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
                 case "a3":
                     ForAge.ConstrainTo = 3
                     ForAge.ConstraintType = .LessOrEqual
-
+                    
                 case "a4":
                     ForAge.ConstrainTo = 4
                     ForAge.ConstraintType = .LessOrEqual
@@ -650,22 +650,22 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
                 {
                     if ValidQuake(Quake, ForAge: Ages, ForMagnitude: Magnitudes)
                     {
-                    var qd = ""
-                    if Quake.DebugQuake
-                    {
-                        qd = "* "
-                    }
-                    qd.append("M\(Quake.Magnitude), ")
-                    let Lat = Quake.Latitude.RoundedTo(3)
-                    let SLat = Lat < 0.0 ? "\(abs(Lat))S" : "\(Lat)N"
-                    qd.append("\(SLat), ")
-                    let Lon = Quake.Longitude.RoundedTo(3)
-                    let SLon = Lon < 0.0 ? "\(abs(Lon))W" : "\(Lon)E"
-                    qd.append("\(SLon), ")
-                    qd.append("\(Quake.Time.PrettyDateTime(AddComma: false)), ")
-                    qd.append("\"\(Quake.Title)\"")
-                    Print(qd)
-                    Count = Count + 1
+                        var qd = ""
+                        if Quake.DebugQuake
+                        {
+                            qd = "* "
+                        }
+                        qd.append("M\(Quake.Magnitude), ")
+                        let Lat = Quake.Latitude.RoundedTo(3)
+                        let SLat = Lat < 0.0 ? "\(abs(Lat))S" : "\(Lat)N"
+                        qd.append("\(SLat), ")
+                        let Lon = Quake.Longitude.RoundedTo(3)
+                        let SLon = Lon < 0.0 ? "\(abs(Lon))W" : "\(Lon)E"
+                        qd.append("\(SLon), ")
+                        qd.append("\(Quake.Time.PrettyDateTime(Separator: .Space)), ")
+                        qd.append("\"\(Quake.Title)\"")
+                        Print(qd)
+                        Count = Count + 1
                     }
                 }
                 let Plural = Count == 1 ? "" : "s"
