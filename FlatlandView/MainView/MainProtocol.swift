@@ -62,6 +62,10 @@ protocol MainProtocol: class
     func ExitProgram()
     
     func ResetSettings()
+    
+    func ConnectedToInternet() -> Bool
+    
+    func GetWorldHeritageSites() -> [WorldHeritageSite2]
 }
 
 enum ChildWindows: String, CaseIterable
