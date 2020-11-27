@@ -26,7 +26,7 @@
                                     <nil key="toolTip"/>
                                     <button key="view" id="g8t-A0-k21">
                                         <rect key="frame" x="30" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="HomeIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="F3K-uw-obN">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -40,7 +40,7 @@
                                     <nil key="toolTip"/>
                                     <button key="view" id="hnn-Zg-gvC">
                                         <rect key="frame" x="29" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SearchIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Dpx-WD-lc9">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -54,7 +54,7 @@
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="866-Lc-Wth">
                                         <rect key="frame" x="0.0" y="14" width="120" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="mKt-Xc-6ru">
                                             <font key="font" metaFont="system"/>
                                             <segments>
@@ -297,7 +297,7 @@ Gw
                                     <rect key="frame" x="1" y="1" width="527" height="356"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" headerView="Bmg-kW-nbS" viewBased="YES" id="Unk-Ar-DLs">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" alternatingRowBackgroundColors="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" headerView="Bmg-kW-nbS" viewBased="YES" id="Unk-Ar-DLs">
                                             <rect key="frame" x="0.0" y="0.0" width="527" height="331"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -341,7 +341,7 @@ Gw
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
-                                                <tableColumn identifier="WhenColumn" width="332" minWidth="40" maxWidth="1000" id="KnI-yA-mnM">
+                                                <tableColumn identifier="WhenColumn" width="303" minWidth="40" maxWidth="1000" id="KnI-yA-mnM">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Time">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -354,11 +354,11 @@ Gw
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="Y1d-F6-BcO">
-                                                            <rect key="frame" x="189" y="1" width="336" height="17"/>
+                                                            <rect key="frame" x="189" y="1" width="307" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="K38-QO-cfB">
-                                                                    <rect key="frame" x="0.0" y="1" width="336" height="16"/>
+                                                                    <rect key="frame" x="0.0" y="1" width="307" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="qeR-e6-nDp">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -437,7 +437,7 @@ Gw
         </scene>
     </scenes>
     <resources>
-        <image name="HomeIcon" width="32" height="32"/>
-        <image name="SearchIcon" width="32" height="32"/>
+        <image name="HomeIcon" width="24" height="24"/>
+        <image name="SearchIcon" width="24" height="24"/>
     </resources>
 </document>
