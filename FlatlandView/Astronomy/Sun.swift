@@ -61,6 +61,7 @@ class Sun
             return (nil, nil)
         }
         let N: Double = Double(NI)
+        print(">>> N=\(N), TargetDate=\(TargetDate)")
         let RadLatitude = Latitude.Radians
         let RadZenith = Zenith.Radians
         
@@ -86,7 +87,7 @@ class Sun
         var RA = atan(0.91764 * tan(L.Radians)).Degrees
         if RA.isNaN
         {
-            //print("RA calculation failed.")
+            Debug.Print("RA calculation failed.")
             return (nil, nil)
         }
         RA = Normalize(RA, Max: 360.0)
@@ -103,7 +104,7 @@ class Sun
         {
             if CosH > 1.0
             {
-                //print("CosH=\(CosH): No sun rise.")
+                Debug.Print("CosH=\(CosH): No sun rise.")
                 return (nil, nil)
             }
         }
@@ -111,7 +112,7 @@ class Sun
         {
             if CosH < -1.0
             {
-                //print("CosH=\(CosH): No sun set.")
+                Debug.Print("CosH=\(CosH): No sun set.")
                 return (nil, nil)
             }
         }
@@ -119,7 +120,7 @@ class Sun
         var H: Double = 360.0 - acos(CosH).Degrees
         if H.isNaN
         {
-            //print("H calculation failed.")
+            Debug.Print("H calculation failed.")
             return (nil, nil)
         }
         if !ForRise
