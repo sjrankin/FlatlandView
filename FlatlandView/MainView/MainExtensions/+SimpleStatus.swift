@@ -137,6 +137,13 @@ extension MainController
             {
                 self.ShowStatusText(NextMessage.Message, For: NextMessage.ExpiresIn, ID: NextMessage.ID)
             }
+            else
+            {
+                //No messages left - make the status bar insignificant.
+                self.InsignificanceTimer?.invalidate()
+                self.InsignificanceTimer = nil
+                self.StartInsignificance(Duration: 2.0)
+            }
         }
     }
     
