@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
-{    
+{
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -146,6 +146,9 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
                     return
                 }
                 RunFind(Tokens)
+                
+            case "today":
+                RunToday(Tokens)
                 
             case "set":
                 if Tokens.count < 3
@@ -355,6 +358,9 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
             case "find":
                 Print("Finds information and prints it. Form is: find something where something is what you want to find.")
                 
+            case "today":
+                Print("Displays solar information for current home location. Optionally for other location.")
+                
             default:
                 Print("No help for \"\(Tokens[1])\"")
         }
@@ -367,7 +373,136 @@ class CommandLinePanel: PanelController, NSTextFieldDelegate, NSTextViewDelegate
             return
         }
         let SearchFor = Tokens[1]
+        switch SearchFor.lowercased()
+        {
+            case "name", "location", "place":
+                if Tokens.count < 3
+                {
+                    Print("You must specify a placename - no spaces allowed.")
+                    return
+                }
+                SearchForPlaces(Tokens[2])
+                
+            case "enum":
+                if Tokens.count < 3
+                {
+                    Print("You must specify the enum case.")
+                    return
+                }
+                break
+                
+            default:
+                Print("Find what?")
+        }
+    }
+    
+    func SearchForPlaces(_ Placename: String)
+    {
+        if Placename.isEmpty
+        {
+            Print("Empty placename.")
+            return
+        }
+        #if true
+        let LocationFinder = Locations()
+        LocationFinder.Main = Main
+        if let Record = LocationFinder.SearchFor(Placename, Compressed: true, CaseSensitive: false)
+        {
+            let Coordinates = Utility.PrettyCoordinates(Record.Latitude, Record.Longitude)
+            switch Record.LocationType
+            {
+                case .City:
+                    Print("Found city \(Record.Name) at \(Coordinates), population \(Record.Population)")
+                    return
+                    
+                case .Home:
+                    let HomeName = Record.Name.isEmpty ? "" : "\(Record.Name) "
+                    Print("Found home \(HomeName)at \(Coordinates)")
+                    return
+                    
+                case .UNESCO:
+                    Print("Found World Heritage Site \(Record.Name) at \(Coordinates)")
+                    return
+                    
+                case .UserPOI:
+                    Print("Found user POI \(Record.Name) at \(Coordinates)")
+                    return
+            }
+        }
+        #else
+        if Placename.lowercased() == "home"
+        {
+            if Settings.HaveLocalLocation()
+            {
+                let Coordinates = Utility.PrettyCoordinates(Settings.GetDoubleNil(.LocalLatitude)!,
+                                                            Settings.GetDoubleNil(.LocalLongitude)!)
+                let HomeName = Settings.GetString(.LocalName, "")
+                let FinalName = HomeName.isEmpty ? "" : "\"\(HomeName)\" "
+                Print("Found home \(FinalName)at \(Coordinates)")
+                return
+            }
+        }
+        let LookFor = Placename.lowercased()
         
+        for City in CityManager.AllCities!
+        {
+            var CityName = City.Name
+            CityName = CityName.replacingOccurrences(of: " ", with: "").lowercased()
+            if CityName == LookFor
+            {
+                let Coordinates = Utility.PrettyCoordinates(City.Latitude, City.Longitude)
+                Print("Found \(City.Name) at \(Coordinates), population \(City.GetPopulation())")
+                return
+            }
+        }
+        
+        let Locations = Settings.GetLocations()
+        for Location in Locations
+        {
+            let LocName = Location.Name.replacingOccurrences(of: " ", with: "").lowercased()
+            if LocName == LookFor
+            {
+                let Coordinates = Utility.PrettyCoordinates(Location.Coordinates.Latitude,
+                                                            Location.Coordinates.Longitude)
+                Print("Found \(Location.Name) at \(Coordinates)")
+                return
+            }
+        }
+        #endif
+        
+        Print("\(Placename) not found.")
+    }
+    
+    func RunToday(_ Tokens: [String])
+    {
+        if Tokens.count == 1
+        {
+            //Today for home location.
+            return
+        }
+        
+        if Tokens.count == 2
+        {
+            //Today for placename.
+            let LocationFinder = Locations()
+            LocationFinder.Main = Main
+            if let Record = LocationFinder.SearchFor(Tokens[1], Compressed: true, CaseSensitive: false)
+            {
+                return
+            }
+            Print("Did not find \(Tokens[1]).")
+        }
+        
+        if Tokens.count == 3
+        {
+            //Today for coordinate.
+            if let (Latitude, Longitude) = Utility.PrettyCoordinateToActual("\(Tokens[1]) \(Tokens[2])")
+            {
+                Print("TEST: Latitude=\(Latitude), Longitude=\(Longitude)")
+                return
+            }
+            Print("Command must be in the format today latitude longitude. latitude and longitude must not have any spaces")
+        }
     }
     
     func RunSet(_ Tokens: [String])
