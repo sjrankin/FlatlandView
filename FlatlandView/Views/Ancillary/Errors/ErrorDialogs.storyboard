@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Window Controller-->
+        <scene sceneID="CwO-Nu-5Cd">
+            <objects>
+                <windowController storyboardIdentifier="ErrorWindow" id="dLa-4B-8er" customClass="ErrorReporterWindow" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="0Bw-pU-gGq">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="425" y="462" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
+                        <view key="contentView" id="hql-5i-GOo">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="dLa-4B-8er" id="IW4-is-AWc"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="gNS-tD-OqE" kind="relationship" relationship="window.shadowedContentViewController" id="VFR-3h-1eu"/>
+                    </connections>
+                </windowController>
+                <customObject id="4XK-ea-5HD" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="191" y="2133"/>
+        </scene>
+        <!--Error Reporter-->
+        <scene sceneID="g7X-6a-Sl0">
+            <objects>
+                <viewController id="gNS-tD-OqE" customClass="ErrorReporter" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="9F7-u6-rqD">
+                        <rect key="frame" x="0.0" y="0.0" width="612" height="162"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Zu2-L5-xck">
+                                <rect key="frame" x="18" y="42" width="576" height="107"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="107" id="H94-P6-XaH"/>
+                                    <constraint firstAttribute="width" constant="572" id="j2A-37-tEq"/>
+                                </constraints>
+                                <textFieldCell key="cell" selectable="YES" title="Multiline Label" id="YUt-OQ-PUl">
+                                    <font key="font" metaFont="system" size="16"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cAF-dX-sN2">
+                                <rect key="frame" x="280" y="-1" width="53" height="32"/>
+                                <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cwB-K5-Kxr">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleOKPressed:" target="gNS-tD-OqE" id="d2k-Ny-Alp"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="cAF-dX-sN2" firstAttribute="centerX" secondItem="9F7-u6-rqD" secondAttribute="centerX" id="2rc-68-kHl"/>
+                            <constraint firstItem="cAF-dX-sN2" firstAttribute="top" secondItem="Zu2-L5-xck" secondAttribute="bottom" constant="16" id="jJz-1e-elu"/>
+                            <constraint firstItem="Zu2-L5-xck" firstAttribute="centerX" secondItem="9F7-u6-rqD" secondAttribute="centerX" id="rUG-aP-Kgp"/>
+                            <constraint firstItem="Zu2-L5-xck" firstAttribute="top" secondItem="9F7-u6-rqD" secondAttribute="top" constant="13" id="uub-uz-Vul"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="TextLabel" destination="Zu2-L5-xck" id="3J8-gW-Chi"/>
+                    </connections>
+                </viewController>
+                <customObject id="qrI-Bo-gM6" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="191" y="2530"/>
+        </scene>
+    </scenes>
+</document>
