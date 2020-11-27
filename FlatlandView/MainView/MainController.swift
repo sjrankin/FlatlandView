@@ -33,7 +33,14 @@ class MainController: NSViewController
         #endif
         
        MonitorMouse()
+        Internet.IsAvailable
+        {
+            Connected in
+            self.CurrentlyConnected = Connected
+        }
     }
+    
+    var CurrentlyConnected: Bool = false
     
     /// Set up event handling so we can monitor the mouse. This is used to notify the user when the mouse
     /// is over a location that has data.
@@ -327,11 +334,30 @@ class MainController: NSViewController
     /// - Parameter sender: Not used.
     @IBAction func ShowTodaysTimes(_ sender: Any)
     {
+        if !CurrentlyConnected
+        {
+            let Storyboard = NSStoryboard(name: "ErrorDialogs", bundle: nil)
+            if let WindowController = Storyboard.instantiateController(withIdentifier: "ErrorWindow") as? ErrorReporterWindow
+            {
+                let Window = WindowController.window
+                if let Controller = Window?.contentViewController as? ErrorReporter
+                {
+                    Controller.SetText("Not currently connected to the internet - unable to show today times.")
+                    self.view.window?.beginSheet(Window!)
+                    {
+                        _ in
+                        return
+                    }
+                }
+            }
+            return
+        }
         let Storyboard = NSStoryboard(name: "Today", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "TodayWindow") as? TodayWindow
         {
             let Window = WindowController.window
             let Controller = Window?.contentViewController as? TodayCode
+            Controller?.Main = self
             TodayDelegate = Controller
             WindowController.showWindow(nil)
         }
