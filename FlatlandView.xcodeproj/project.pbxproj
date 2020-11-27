@@ -125,6 +125,13 @@
 		1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1759FC6424A61355001B1D4B /* RecentEarthquakes.storyboard */; };
 		1759FC6724A615A2001B1D4B /* RecentEarthquakeWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759FC6624A615A2001B1D4B /* RecentEarthquakeWindow.swift */; };
 		1759FC6924A615BD001B1D4B /* RecentEarthquakeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759FC6824A615BD001B1D4B /* RecentEarthquakeController.swift */; };
+		175BA5542570CEBA001ED3A2 /* Internet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA5532570CEBA001ED3A2 /* Internet.swift */; };
+		175BA5582570D565001ED3A2 /* ErrorDialogs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 175BA5572570D565001ED3A2 /* ErrorDialogs.storyboard */; };
+		175BA55B2570D5B7001ED3A2 /* ErrorReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA55A2570D5B7001ED3A2 /* ErrorReporter.swift */; };
+		175BA55E2570D60E001ED3A2 /* ErrorReporterWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA55D2570D60E001ED3A2 /* ErrorReporterWindow.swift */; };
+		175BA5622570F5A0001ED3A2 /* creeKSolar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA5612570F5A0001ED3A2 /* creeKSolar.swift */; };
+		175BA56525711F76001ED3A2 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA56425711F76001ED3A2 /* Locations.swift */; };
+		175BA56825712A1A001ED3A2 /* SolarToday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA56725712A1A001ED3A2 /* SolarToday.swift */; };
 		175F661424DE7416007B3A60 /* LineDrawParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175F661324DE7416007B3A60 /* LineDrawParameters.swift */; };
 		1760023424D2BEF800D5EA1A /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760023324D2BEF800D5EA1A /* Double.swift */; };
 		1760023624D2BF1800D5EA1A /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760023524D2BF1800D5EA1A /* CGFloat.swift */; };
@@ -484,6 +491,13 @@
 		1759FC6424A61355001B1D4B /* RecentEarthquakes.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RecentEarthquakes.storyboard; sourceTree = "<group>"; };
 		1759FC6624A615A2001B1D4B /* RecentEarthquakeWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentEarthquakeWindow.swift; sourceTree = "<group>"; };
 		1759FC6824A615BD001B1D4B /* RecentEarthquakeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentEarthquakeController.swift; sourceTree = "<group>"; };
+		175BA5532570CEBA001ED3A2 /* Internet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Internet.swift; sourceTree = "<group>"; };
+		175BA5572570D565001ED3A2 /* ErrorDialogs.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ErrorDialogs.storyboard; sourceTree = "<group>"; };
+		175BA55A2570D5B7001ED3A2 /* ErrorReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorReporter.swift; sourceTree = "<group>"; };
+		175BA55D2570D60E001ED3A2 /* ErrorReporterWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorReporterWindow.swift; sourceTree = "<group>"; };
+		175BA5612570F5A0001ED3A2 /* creeKSolar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = creeKSolar.swift; sourceTree = "<group>"; };
+		175BA56425711F76001ED3A2 /* Locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
+		175BA56725712A1A001ED3A2 /* SolarToday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarToday.swift; sourceTree = "<group>"; };
 		175F661324DE7416007B3A60 /* LineDrawParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineDrawParameters.swift; sourceTree = "<group>"; };
 		1760023324D2BEF800D5EA1A /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		1760023524D2BF1800D5EA1A /* CGFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
@@ -1095,6 +1109,24 @@
 			path = RecentEarthquakes;
 			sourceTree = "<group>";
 		};
+		175BA5562570D54F001ED3A2 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				175BA5572570D565001ED3A2 /* ErrorDialogs.storyboard */,
+				175BA55A2570D5B7001ED3A2 /* ErrorReporter.swift */,
+				175BA55D2570D60E001ED3A2 /* ErrorReporterWindow.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		175BA5602570F57C001ED3A2 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				175BA5612570F5A0001ED3A2 /* creeKSolar.swift */,
+			);
+			path = ThirdParty;
+			sourceTree = "<group>";
+		};
 		175F661224DE7401007B3A60 /* LineDraw */ = {
 			isa = PBXGroup;
 			children = (
@@ -1159,6 +1191,7 @@
 		1767A8E224794A0100C434B5 /* FlatlandView */ = {
 			isa = PBXGroup;
 			children = (
+				175BA5602570F57C001ED3A2 /* ThirdParty */,
 				173F3D3B24EB6C2D008B9870 /* ObjectiveC */,
 				17B7D7A524CECFB5000C077B /* Metal */,
 				1792108024960DDD00626FD9 /* RemoteData */,
@@ -1680,6 +1713,7 @@
 				1727EA5B24B184110051EA3B /* DataStructures */,
 				17EF33A2247A699300A5B55D /* Utility.swift */,
 				17EF3399247A673900A5B55D /* FileIO.swift */,
+				175BA5532570CEBA001ED3A2 /* Internet.swift */,
 				1714DDB32538342A001A3002 /* LowLevel.swift */,
 				17E5EF5E24F1051400665167 /* Debug.swift */,
 				17EF33C2247A961C00A5B55D /* SunGenerator.swift */,
@@ -1689,6 +1723,8 @@
 				17E3EDC524B5B222007C1D72 /* FontHelper.swift */,
 				1748913224C6A53D00B5F6AF /* Imaging.swift */,
 				1701CFC42535646C00544F05 /* Snapshot.swift */,
+				175BA56425711F76001ED3A2 /* Locations.swift */,
+				175BA56725712A1A001ED3A2 /* SolarToday.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1809,6 +1845,7 @@
 		17FC2210249878F8005A0929 /* Ancillary */ = {
 			isa = PBXGroup;
 			children = (
+				175BA5562570D54F001ED3A2 /* Errors */,
 				17176C07254CFC220051960D /* EarthquakeViewer */,
 				179BE7C124ED02E40025B349 /* Today */,
 				1710D22324E661FE009B6BB7 /* StatusView */,
@@ -1898,6 +1935,7 @@
 				17ABAFFE24E9209E009DDC35 /* EarthquakeHistory.db in Resources */,
 				17F1E5C32549126600E6F6CF /* SparkParticleTest.sks in Resources */,
 				1750043924B46110006528A4 /* FontPickerUI.storyboard in Resources */,
+				175BA5582570D565001ED3A2 /* ErrorDialogs.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
 				17CB248D253C5BCB00BAABDC /* POI.db in Resources */,
 				1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */,
@@ -1949,6 +1987,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				17F1C7CE2543F8A50046AE33 /* +RectangleViewInitialization.swift in Sources */,
+				175BA55E2570D60E001ED3A2 /* ErrorReporterWindow.swift in Sources */,
 				17B8F5252503892800D71931 /* SplitterParameters.swift in Sources */,
 				1743FE77255D1C1E00AD05A7 /* +Query.swift in Sources */,
 				17DE2BA32569FB04008077C7 /* MapScene.swift in Sources */,
@@ -2028,6 +2067,7 @@
 				17B7D7AD24CED053000C077B /* ImageFlipper.swift in Sources */,
 				172F061225512A4500BEA156 /* LiveDataPreferences.swift in Sources */,
 				1748913324C6A53D00B5F6AF /* Imaging.swift in Sources */,
+				175BA5542570CEBA001ED3A2 /* Internet.swift in Sources */,
 				17DDEAD3251C3A8500B0ADE7 /* MainRunProtocol.swift in Sources */,
 				17EF338C247A4EBB00A5B55D /* Settings.swift in Sources */,
 				17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */,
@@ -2054,12 +2094,14 @@
 				17B7D7A824CECFDE000C077B /* MetalLibrary.swift in Sources */,
 				17F9AFE52520342D00DE0219 /* +NSSize.swift in Sources */,
 				1736A4E5252EDCFC0070EE7F /* POIManager.swift in Sources */,
+				175BA56525711F76001ED3A2 /* Locations.swift in Sources */,
 				1757CACF24949C6300ECA8C1 /* 3DDebugController.swift in Sources */,
 				17176C09254CFC3C0051960D /* EarthquakeViewerWindow.swift in Sources */,
 				178A86A02489108C00BE8D46 /* +CubicEarth.swift in Sources */,
 				1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */,
 				1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */,
 				17F9B00D2520377F00DE0219 /* +LocationAttributes.swift in Sources */,
+				175BA55B2570D5B7001ED3A2 /* ErrorReporter.swift in Sources */,
 				170181C12504A467000F91B6 /* TransparencyParameters.swift in Sources */,
 				1714DDB42538342A001A3002 /* LowLevel.swift in Sources */,
 				1781BCBF256B5297007BACA8 /* PanelController.swift in Sources */,
@@ -2179,6 +2221,7 @@
 				17176C0D254CFE210051960D /* EarthquakeViewerController.swift in Sources */,
 				1760023424D2BEF800D5EA1A /* Double.swift in Sources */,
 				1774BD75256E417100D927F3 /* +SimpleStatus.swift in Sources */,
+				175BA5622570F5A0001ED3A2 /* creeKSolar.swift in Sources */,
 				17F9B001252035B300DE0219 /* +NotifiedEarthquakeList.swift in Sources */,
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
 				1759AE68249F8215003F79F5 /* OtherLocationsWindow.swift in Sources */,
@@ -2269,6 +2312,7 @@
 				178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */,
 				176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */,
 				17CA645C254E7DB100B6DFCC /* RegionalQuakeController.swift in Sources */,
+				175BA56825712A1A001ED3A2 /* SolarToday.swift in Sources */,
 				178A86972488C23C00BE8D46 /* AboutController.swift in Sources */,
 				17C87B7825177EB00065BE6D /* +FlatViewNodeHandling.swift in Sources */,
 				1743FE74255D048600AD05A7 /* CommandLineCommand.swift in Sources */,
