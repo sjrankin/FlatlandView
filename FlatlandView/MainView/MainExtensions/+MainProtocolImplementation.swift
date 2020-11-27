@@ -194,4 +194,16 @@ extension MainController: MainProtocol
     {
         
     }
+    
+    /// Returns the connected-to-internet status.
+    /// - Returns: True if the system is connected to the internet, false if not.
+    func ConnectedToInternet() -> Bool
+    {
+        return CurrentlyConnected
+    }
+    
+    func GetWorldHeritageSites() -> [WorldHeritageSite2]
+    {
+        return GetAllWorldHeritageSites()
+    }
 }
