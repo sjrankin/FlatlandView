@@ -2027,5 +2027,57 @@ class Utility
         let Y = Double(Point.x) * SinRadians + Double(Point.y) * CosRadians
         return CGPoint(x: X, y: Y)
     }
+    
+    public static func PrettyCoordinates(_ Latitude: Double, _ Longitude: Double,
+                           Separator: String = ",", Precision: Int = 4) -> String
+    {
+        let Lat = Latitude.RoundedTo(Precision)
+        let Lon = Longitude.RoundedTo(Precision)
+        let LatS = Lat < 0.0 ? "\(abs(Lat))S" : "\(Lat)N"
+        let LonS = Lon < 0.0 ? "\(abs(Lon))W" : "\(Lon)E"
+        return "\(LatS)\(Separator)\(LonS)"
+    }
+    
+    public static func PrettyCoordinateToActual(_ Pretty: String) -> (Latitude: Double, Longitude: Double)?
+    {
+        let Parts = Pretty.split(separator: " ", omittingEmptySubsequences: true)
+        if Parts.count != 2
+        {
+            return nil
+        }
+        var LatS = String(Parts[0]).lowercased()
+        var LonS = String(Parts[1]).lowercased()
+        var LatMultiplier = 1.0
+        if LatS.contains("n")
+        {
+            LatS = LatS.replacingOccurrences(of: "n", with: "")
+        }
+        if LatS.contains("s")
+        {
+            LatS = LatS.replacingOccurrences(of: "s", with: "")
+            LatMultiplier = -1.0
+        }
+        guard var FinalLat = Double(LatS) else
+        {
+            return nil
+        }
+        FinalLat = FinalLat * LatMultiplier
+        var LonMultiplier = 1.0
+        if LonS.contains("e")
+        {
+            LonS = LonS.replacingOccurrences(of: "e", with: "")
+        }
+        if LonS.contains("w")
+        {
+            LonS = LonS.replacingOccurrences(of: "w", with: "")
+            LonMultiplier = -1.0
+        }
+        guard var FinalLon = Double(LonS) else
+        {
+            return nil
+        }
+        FinalLon = FinalLon * LonMultiplier
+        return (FinalLat, FinalLon)
+    }
 }
 
