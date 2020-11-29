@@ -61,7 +61,6 @@ class Sun
             return (nil, nil)
         }
         let N: Double = Double(NI)
-        print(">>> N=\(N), TargetDate=\(TargetDate)")
         let RadLatitude = Latitude.Radians
         let RadZenith = Zenith.Radians
         
