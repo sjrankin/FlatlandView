@@ -38,6 +38,7 @@ class SolarToday
         }
         let GeoCoder = CLGeocoder()
         GeoCoder.reverseGeocodeLocation(Location, completionHandler: GeocoderCompletion)
+        CurrentTimezoneSeconds = TimeZone.current.secondsFromGMT()
     }
     
     /// Closure to finalized location and times. Called by `reverseGeocodeLocation`.
@@ -96,20 +97,93 @@ class SolarToday
     /// Calculate the times for the date and location.
     func CalculateTimes()
     {
+        let SunTimes = Sun()
         
+        var RiseAndSetAvailable = true
+        let Location = GeoPoint(Latitude!, Longitude!)
+        if let SunriseTime = SunTimes.Sunrise(For: SolarDate!, At: Location, TimeZoneOffset: 0)
+        {
+            Sunrise = SunriseTime
+        }
+        else
+        {
+            RiseAndSetAvailable = false
+        }
+        if let SunsetTime = SunTimes.Sunset(For: SolarDate!, At: Location, TimeZoneOffset: 0)
+        {
+            Sunset = SunsetTime
+        }
+        else
+        {
+            RiseAndSetAvailable = false
+        }
+        if RiseAndSetAvailable
+        {
+            let Cal = Calendar.current
+            let RiseHour = Cal.component(.hour, from: Sunrise!)
+            let RiseMinute = Cal.component(.minute, from: Sunrise!)
+            let RiseSecond = Cal.component(.second, from: Sunrise!)
+            let SetHour = Cal.component(.hour, from: Sunset!)
+            let SetMinute = Cal.component(.minute, from: Sunset!)
+            let SetSecond = Cal.component(.second, from: Sunset!)
+            let RiseSeconds = RiseSecond + (RiseMinute * 60) + (RiseHour * 60 * 60)
+            let SetSeconds = SetSecond + (SetMinute * 60) + (SetHour * 60 * 60)
+            let SecondDelta = SetSeconds - RiseSeconds
+            let NoonTime = RiseSeconds + (SecondDelta / 2)
+            let NoonPercent = Double(NoonTime) / (24.0 * 60.0 * 60.0)
+            LocalNoon = Date.DateFrom(Percent: NoonPercent)
+            let SunlightSeconds = SetSeconds - RiseSeconds + 1
+            DaylightHours = Double(SunlightSeconds) / (60.0 * 60.0)
+            DaylightPercent = Double(SunlightSeconds) / Double(24.0 * 60.0 * 60.0) * 100.0
+        }
+        Inclination = Sun.Declination(For: SolarDate!)
     }
     
+    /// Holds the completion handler.
     private var GeocoderCompleted: GeocoderCompletedType? = nil
+    
+    /// The date used to calculate solar times. The time component is ignored.
     fileprivate(set) var SolarDate: Date? = nil
+    
+    /// The sunrise time. If nil, no sunrise for that day/location (eg, polar day or night).
+    /// - Warning: Only the time component is valid.
     fileprivate(set) var Sunrise: Date? = nil
+    
+    /// The sunset time. If nil, no sunset for the day/location (eg, polar day or night).
+    /// - Warning: Only the time component is valid.
     fileprivate(set) var Sunset: Date? = nil
+    
+    /// Local noon. If nil, in the polar night.
+    /// - Warning: Only the time component is valid.
     fileprivate(set) var LocalNoon: Date? = nil
+    
+    /// Number of daylight house. If nil, in the polar night.
     fileprivate(set) var DaylightHours: Double? = nil
+    
+    /// Percent of the day the sun is shining. If nil, in the polar night.
     fileprivate(set) var DaylightPercent: Double? = nil
+    
+    /// The latitude used to calculate solar times.
     fileprivate(set) var Latitude: Double? = nil
+    
+    /// The longitude used to calcualte solar times.
     fileprivate(set) var Longitude: Double? = nil
+    
+    /// The timezone of the location.
     fileprivate(set) var Timezone: TimeZone? = nil
+    
+    /// The seconds offset from GMT of the location.
     fileprivate(set) var TimezoneSeconds: Int? = nil
+    
+    /// The seconds offset from GMT of the user's location.
+    fileprivate(set) var CurrentTimezoneSeconds: Int = 0
+    
+    /// The pretty time zone name.
     fileprivate(set) var PrettyTimezoneName: String? = nil
+    
+    /// The country of the location (if known).
     fileprivate(set) var Country: String? = nil
+    
+    /// The solar inclination on the specified day.
+    fileprivate(set) var Inclination: Double? = nil
 }
