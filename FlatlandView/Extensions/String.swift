@@ -70,7 +70,11 @@ extension String
         return WordList
     }
     
-    //https://www.hackingwithswift.com/articles/108/how-to-use-regular-expressions-in-swift
+    /// Used with regular expressions.
+    /// - Note: [How to use regular expressions in Swift.](https://www.hackingwithswift.com/articles/108/how-to-use-regular-expressions-in-swift)
+    /// - Parameter lhs: Left hand side operand.
+    /// - Parameter rhs: Right hand side.
+    /// - Returns: True if `lhs` is in `rhs`. False otherwise.
     static func ~= (lhs: String, rhs: String) -> Bool
     {
         guard let regex = try? NSRegularExpression(pattern: rhs) else
@@ -79,5 +83,158 @@ extension String
         }
         let range = NSRange(location: 0, length: lhs.utf16.count)
         return regex.firstMatch(in: lhs, options: [], range: range) != nil
+    }
+    
+    /// Determines if the instance strings contains only a given character.
+    /// - Parameter SomeCharacter: The character to test. Defaults to a space character.
+    /// - Returns: True if the instance string only contains `SomeCharacter`, false otherwise.
+    func ContainsOnly(_ SomeCharacter: String = " ") -> Bool
+    {
+        for Char in self
+        {
+            if String(Char) != SomeCharacter
+            {
+                return false
+            }
+        }
+        return true
+    }
+    
+    /// Tokenize the instance string into words. Words are defined as substrings that are separated by
+    /// characters in `Separators`. If `Quotations` has contents, they are used to determine quotations.
+    /// - Parameter Separators: Array of separators that determines word boundaries. Ignored when inside
+    ///                         a quotation. If this array is empty, the original string is returned
+    ///                         unaltered.
+    /// - Parameter Quotation: Determines if a substring is in a quoration. If
+    ///                         empty, quotations are parses as if they are not quoted.
+    /// - Returns: Array of words from the instance string. All empty strings are removed.
+    func Tokenize(Separators: [String] = [" "], Quotation: String = "\"") -> [String]
+    {
+        if Separators.count < 1
+        {
+            return [self]
+        }
+        
+        var Tokens = [String]()
+        var InQuote = false
+        var Word: String = ""
+        for Character in self
+        {
+            if InQuote
+            {
+                if String(Character) == Quotation
+                {
+                    InQuote = false
+                    if !Word.ContainsOnly(" ")
+                    {
+                        Tokens.append(Word)
+                    }
+                    Word = ""
+                    continue
+                }
+                else
+                {
+                    Word.append(String(Character))
+                    continue
+                }
+            }
+            if String(Character) == Quotation
+            {
+                InQuote = true
+                continue
+            }
+            if Separators.contains(String(Character))
+            {
+                if !Word.ContainsOnly(" ")
+                {
+                    Tokens.append(Word)
+                }
+                Word = ""
+                continue
+            }
+            Word.append(String(Character))
+        }
+        Tokens.append(Word)
+        
+        Tokens.removeAll(where: {$0.count < 1})
+        
+        return Tokens
+    }
+    
+    /// Tokenize the instance string into words or phrases.
+    /// - Note: Quotations around phrases result in the phrase being treated as a word. Embedded quotations
+    ///         are not supported.
+    /// - Note: Words are defined by substrings surrounded by spaces. If two words look like this: word1"word2,
+    ///         this function will treat them as a single word.
+    /// - Returns: The contents of the instance string tokenized into words.
+    func Tokenize2() -> [String]
+    {
+        let Raw = self
+        let Parts = Raw.split(separator: " ", omittingEmptySubsequences: true)
+        var Tokens = [String]()
+        var InQuote = false
+        var Phrase = ""
+        for Part in Parts
+        {
+            let Word = String(Part)
+            if InQuote
+            {
+                if Word.reversed().starts(with: "\"")
+                {
+                    Phrase.append(" \(Word)")
+                    Tokens.append(Phrase)
+                    Phrase = ""
+                    InQuote = false
+                }
+                else
+                {
+                    Phrase.append(" \(Word)")
+                }
+            }
+            else
+            {
+                if Word.starts(with: "\"")
+                {
+                    Phrase.append(Word)
+                    InQuote = true
+                }
+                else
+                {
+                    Tokens.append(Word)
+                }
+            }
+        }
+        if !Phrase.isEmpty
+        {
+            Tokens.append(Phrase)
+        }
+        var working = [String]()
+        for Token in Tokens
+        {
+            working.append(Token.replacingOccurrences(of: "\"", with: ""))
+        }
+        return working
+    }
+    
+    public static func SubString(_ Raw: String, Start: Int, End: Int) -> String
+    {
+        let AStart = Start - 1
+        let AEnd = End - 1
+        if AStart < 0 || AEnd < AStart
+        {
+            print("AStart less than 0.")
+            return ""
+        }
+        if AEnd > Raw.count - 1 || AStart > AEnd
+        {
+            print("AEnd > count - 1.")
+            return ""
+        }
+        let StartIndex = Raw.index(Raw.startIndex, offsetBy: AStart)
+        let EndIndex = Raw.index(Raw.startIndex, offsetBy: AEnd)
+        let Range = StartIndex ... EndIndex
+        var Final = String(Raw[Range])
+        Final = Final.trimmingCharacters(in: .whitespacesAndNewlines)
+        return Final
     }
 }
