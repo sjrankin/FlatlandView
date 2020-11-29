@@ -2028,6 +2028,13 @@ class Utility
         return CGPoint(x: X, y: Y)
     }
     
+    /// Returns a geographical coordinate as a pretty string.
+    /// - Parameter Latitude: The latitude of the coordinate.
+    /// - Parameter Longitude: The longitude of the coordinate.
+    /// - Parameter Separator: The separator string between the two parts of the
+    ///                        coordinate. Defaults to `,`.
+    /// - Parameter Precision: The precision of the coordinates when converted to strings.
+    /// - Returns: A string with the `Latitude` and `Longitude` prettified.
     public static func PrettyCoordinates(_ Latitude: Double, _ Longitude: Double,
                            Separator: String = ",", Precision: Int = 4) -> String
     {
@@ -2038,6 +2045,14 @@ class Utility
         return "\(LatS)\(Separator)\(LonS)"
     }
     
+    /// Returns the latitude and longitude from a string with the latitude and longitude in
+    /// string format separated by a space.
+    /// - Parameter Pretty: The string to convert to the latitude and longitude. Individual
+    ///                     coordinate components may have suffixes ("N" or "S" for latitude
+    ///                     or "E" or "W" for longitude) or be negative. Invalidly formatted
+    ///                     strings result in a nil return value.
+    /// - Returns: Tuple with the latitude and longitude on success, nil if the source was
+    ///            not formatted correctly.
     public static func PrettyCoordinateToActual(_ Pretty: String) -> (Latitude: Double, Longitude: Double)?
     {
         let Parts = Pretty.split(separator: " ", omittingEmptySubsequences: true)
