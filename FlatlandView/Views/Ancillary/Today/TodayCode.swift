@@ -35,9 +35,33 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
         let Loc = CLLocation(latitude: LocalLat!, longitude: LocalLon!)
         let Coder = CLGeocoder()
         Coder.reverseGeocodeLocation(Loc, completionHandler: GeocoderCompletion)
+//        SolarNow = SolarToday(For: Date(), Latitude: LocalLat!, Longitude: LocalLon!)
+        SolarNow = SolarToday(For: Date(), Latitude: 53.01667, Longitude: 158.65)//51.6014, Longitude: 5.3122)
+        {
+            Success in
+            if Success
+            {
+                let HourOffset = self.SolarNow.TimezoneSeconds! / (60 * 60)
+                let LocalOffset = self.SolarNow.CurrentTimezoneSeconds / (60 * 60)
+                let OffsetDelta = LocalOffset - HourOffset
+                let AdjustBy = Double(OffsetDelta * 60 * 60 * -1)
+                var RiseString = "n/a"
+                var SetString = "n/a"
+                if let Rise = self.SolarNow.Sunrise
+                {
+                    RiseString = Date.PrettyTime(From: Rise.addingTimeInterval(AdjustBy))
+                }
+                if let SetTime = self.SolarNow.Sunset
+                {
+                    SetString = Date.PrettyTime(From: SetTime.addingTimeInterval(AdjustBy))
+                }
+                print("SolarNow Sunrise=\(RiseString), Sunset=\(SetString), Timezone offset=\(HourOffset), Local offset=\(LocalOffset)")
+            }
+        }
     }
     
     var ShowHomeData = true
+    var SolarNow: SolarToday! = nil
     
     /// Populate the data needed to display the current (or otherwise specified) data for the location.
     /// This function assumes it is called from the closure that gets the geolocation data.
