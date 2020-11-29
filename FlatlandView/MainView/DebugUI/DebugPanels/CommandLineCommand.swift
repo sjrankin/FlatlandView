@@ -11,10 +11,21 @@ import AppKit
 
 class CommandLineCommand
 {
+    var RawCommandLine: String = ""
     var Command: String = ""
     var Syntax = [SyntaxTokens]()
     var Options = [String]()
     var Help = ""
+    
+    func CommandHelp() -> String
+    {
+        return ""
+    }
+    
+    func CommandSummary() -> String
+    {
+        return ""
+    }
     
     func IsValid(Tokenized: [String]) -> Bool
     {
@@ -39,17 +50,10 @@ class CommandLineCommand
         {
             return .failure(.ParseFailure)
         }
-        var ResultString = ""
-        return .success(ResultString as Any)
+        var Results = [String]()
+        
+        return .success(Results as Any)
     }
-}
-
-enum CommandLineResults: String, CaseIterable, Error
-{
-    case Success = "Success"
-    case Error = "Error"
-    case ParseFailure = "ParseFailure"
-    case EmptyCommand = "EmptyCommand"
 }
 
 enum SyntaxTokens: String, CaseIterable
