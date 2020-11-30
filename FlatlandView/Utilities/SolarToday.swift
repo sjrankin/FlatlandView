@@ -8,18 +8,48 @@
 
 import Foundation
 import AppKit
+import Contacts
 
 /// Calculates various time events for a geographical point for a given date.
 class SolarToday
 {
     /// Type alias for the initializer closure.
     typealias GeocoderCompletedType = ((Bool) -> ())
+    /// Type alias for more complex closure.
+    typealias GeocoderCompletedType2 = ((Bool, Date?, Date?, String, String, Int, Int, Date,
+                                         Double, Double, LocationData?) -> ())
     
     /// Initializer.
     /// - Note: Data will become available asynchronously and is dependent on a working internet connection to
     ///         Apple's servers to get certain information.
     /// - Warning: If the caller does not specify the closure, the caller will not be notified when all
-    ///            results will be available.
+    ///            results will be available. Alternativately, the caller can use the alternative initializer.
+    /// - Parameter For: The date to get the times for.
+    /// - Parameter Latitude: The latitude of the location.
+    /// - Parameter Longitude: The longitude of the location.
+    /// - Parameter Completed: The closure that will receive the notification when data are available. The
+    ///                        parameter will be true on success, false on failure.
+    init?(For When: Date, Latitude: Double, Longitude: Double, _ Completed: GeocoderCompletedType2? = nil)
+    {
+        SolarDate = When
+        self.Latitude = Latitude
+        self.Longitude = Longitude
+        GeocoderCompleted2 = Completed
+        let Location = CLLocation(latitude: Latitude, longitude: Longitude)
+        if !CLLocationCoordinate2DIsValid(Location.coordinate)
+        {
+            return nil
+        }
+        let GeoCoder = CLGeocoder()
+        GeoCoder.reverseGeocodeLocation(Location, completionHandler: GeocoderCompletion2)
+        CurrentTimezoneSeconds = TimeZone.current.secondsFromGMT()
+    }
+    
+    /// Initializer.
+    /// - Note: Data will become available asynchronously and is dependent on a working internet connection to
+    ///         Apple's servers to get certain information.
+    /// - Warning: If the caller does not specify the closure, the caller will not be notified when all
+    ///            results will be available. Alternativately, the caller can use the alternative initializer.
     /// - Parameter For: The date to get the times for.
     /// - Parameter Latitude: The latitude of the location.
     /// - Parameter Longitude: The longitude of the location.
@@ -78,6 +108,61 @@ class SolarToday
             return
         }
         GeocoderCompleted?(false)
+    }
+    
+    /// Closure to finalized location and times. Called by `reverseGeocodeLocation`.
+    /// - Note: See [Getting full address string from CLPlacemark](https://stackoverflow.com/questions/46576338/getting-full-address-string-from-clplacemark-using-swift-4-xcode-9)
+    /// - Parameter Placemarks: Array of returned placemarks.
+    /// - Parameter Err: If present the error returned.
+    func GeocoderCompletion2(_ Placemarks: [CLPlacemark]?, _ Err: Error?)
+    {
+        if let SomeError = Err
+        {
+            Debug.Print("Error \(SomeError.localizedDescription) returned by reverseGeocodeLocation.")
+            GeocoderCompleted2?(false, nil, nil, "", "", 0, 0, Date(), 0.0, 0.0, nil)
+        }
+        if let PM = Placemarks?[0]
+        {
+            Country = PM.country ?? "unknown"
+            let TimeZoneDescription = PM.timeZone?.description ?? "unknown"
+            Timezone = PM.timeZone
+            let Offset = PM.timeZone?.secondsFromGMT()
+            var OffsetString = ""
+            if let TZOffset = Offset
+            {
+                let OffsetValue = TZOffset / (60 * 60)
+                var OffsetSign = ""
+                if OffsetValue > 0
+                {
+                    OffsetSign = "+"
+                }
+                OffsetString = "\(OffsetSign)\(OffsetValue)"
+            }
+            PrettyTimezoneName = "\(CleanupTimezone(TimeZoneDescription)) \(OffsetString)"
+            if let TZ = PM.timeZone
+            {
+                TimezoneSeconds = TZ.secondsFromGMT(for: SolarDate!)
+            }
+            CalculateTimes()
+            let OtherData = LocationData(Name: PM.name,
+                                         CountryCode: PM.isoCountryCode,
+                                         PostalCode: PM.postalCode,
+                                         AdministrativeArea: PM.administrativeArea,
+                                         SubAdministrativeArea: PM.subAdministrativeArea,
+                                         Locality: PM.locality,
+                                         SubLocality: PM.subLocality,
+                                         Thoroughfare: PM.thoroughfare,
+                                         SubThoroughfare: PM.subThoroughfare,
+                                         Region: PM.region,
+                                         PostalAddress: PM.postalAddress,
+                                         InlandWater: PM.inlandWater,
+                                         Ocean: PM.ocean,
+                                         AreasOfInterest: PM.areasOfInterest)
+            GeocoderCompleted2?(true, Sunrise, Sunset, Country!, PrettyTimezoneName!, TimezoneSeconds!,
+                                CurrentTimezoneSeconds, SolarDate!, Latitude!, Longitude!, OtherData)
+            return
+        }
+        GeocoderCompleted2?(false, nil, nil, "", "", 0, 0, Date(), 0.0, 0.0, nil)
     }
     
     /// Clean up the raw timezone string.
@@ -142,6 +227,8 @@ class SolarToday
     /// Holds the completion handler.
     private var GeocoderCompleted: GeocoderCompletedType? = nil
     
+    private var GeocoderCompleted2: GeocoderCompletedType2? = nil
+    
     /// The date used to calculate solar times. The time component is ignored.
     fileprivate(set) var SolarDate: Date? = nil
     
@@ -186,4 +273,22 @@ class SolarToday
     
     /// The solar inclination on the specified day.
     fileprivate(set) var Inclination: Double? = nil
+}
+
+struct LocationData
+{
+    let Name: String?
+    let CountryCode: String?
+    let PostalCode: String?
+    let AdministrativeArea: String?
+    let SubAdministrativeArea: String?
+    let Locality: String?
+    let SubLocality: String?
+    let Thoroughfare: String?
+    let SubThoroughfare: String?
+    let Region: CLRegion?
+    let PostalAddress: CNPostalAddress?
+    let InlandWater: String?
+    let Ocean: String?
+    let AreasOfInterest: [String]?
 }
