@@ -46,6 +46,8 @@ class ShowCommand: CommandProtocol
     {
         var Help = [String]()
         Help.append("Show command summary:")
+        Help.append("Show setting settingname: Shows information about the specified setting key.")
+        Help.append("Show settings: Shows all settings and associated current values.")
         Help.append("Show enum name: Shows the contents of the named enum.")
         Help.append("Show enum list: Shows all enums.")
         Help.append("Show ver build|date|copyright|all: Shows the version of Flatland with options.")
@@ -140,6 +142,38 @@ class ShowCommand: CommandProtocol
                         return .failure(.UnknownCommandParameter)
                 }
                 
+            case "settings":
+                for Setting in SettingKeys.allCases
+                {
+                    if let (SettingName, SettingValue, SettingType) = Settings.Query(Setting)
+                    {
+                        Results.append("\(SettingName): \(SettingType) = \(SettingValue)")
+                    }
+                }
+                Results.sort()
+                return .success(Results)
+                
+            case "setting":
+                if CTokens.count < 2
+                {
+                    return.failure(.MissingOperand)
+                }
+                for Setting in SettingKeys.allCases
+                {
+                    if Setting.rawValue.lowercased() == CTokens[0].lowercased()
+                    {
+                        if let (SettingName, SettingValue, SettingType) = Settings.Query(Setting)
+                        {
+                            Results.append("\(SettingName): \(SettingType) = \(SettingValue)")
+                            return .success(Results)
+                        }
+                        else
+                        {
+                            return .failure(.ErrorGettingSettingInformation)
+                        }
+                    }
+                }
+                
             case "enum":
                 if CTokens.count < 2
                 {
@@ -188,8 +222,10 @@ class ShowCommand: CommandProtocol
                 }
                 
             default:
-                return .failure(.TooFewParameters)
+                return .failure(.UnknownCommandParameter)
         }
+        
+        return .failure(.UnknownCommandParameter)
     }
     
     func ShowEnum(_ EnumName: String) -> Result<Any, CommandLineResults>
