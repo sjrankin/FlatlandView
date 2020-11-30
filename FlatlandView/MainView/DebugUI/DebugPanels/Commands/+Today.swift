@@ -179,7 +179,7 @@ class TodayCommand: CommandProtocol
                 if let (Latitude, Longitude) = Utility.PrettyCoordinateToActual("\(Tokens[1]) \(Tokens[2])")
                 {
                     Sun = SolarToday(For: DataForDate, Latitude: Latitude, Longitude: Longitude,
-                                     ResultsAvailable(_:))
+                                     ResultsAvailable(_:)) 
                     return .failure(.LateResults)
                 }
                 else
@@ -192,6 +192,8 @@ class TodayCommand: CommandProtocol
         }
     }
     
+    /// Results are available from the solar time generator.
+    /// - Parameter Success: Success flag.
     func ResultsAvailable(_ Success: Bool)
     {
         self.Results.removeAll()
@@ -211,6 +213,9 @@ class TodayCommand: CommandProtocol
         }
         self.Results.append("Sunrise: \(RiseString)")
         self.Results.append("Sunset: \(SetString)")
+        let Now = self.Sun!.SolarDate!.addingTimeInterval(AdjustBy)
+        let PrettyNow = Date.PrettyDateTime(From: Now, DateFirst: false)
+        self.Results.append("Time now: \(PrettyNow)")
         Parent?.LateResults(self.Results)
     }
     
