@@ -72,4 +72,6 @@ enum CommandLineResults: String, CaseIterable, Error
     /// Used to indicate to the command line that results will be
     /// delayed.
     case LateResults = "LateResults"
+    /// Used when there is an error retrieving setting information.
+    case ErrorGettingSettingInformation = "Error retrieving setting information."
 }
