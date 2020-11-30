@@ -237,4 +237,23 @@ extension String
         Final = Final.trimmingCharacters(in: .whitespacesAndNewlines)
         return Final
     }
+    
+    /// Splits the string on a variety of separators. The first time a separator splits the string into
+    /// more than one part is the separator that is used.
+    /// - Parameter Separators: Array of strings that the function will use to split the string.
+    /// - Parameter omittingEmptySubsequences: Passed to `String.split`.
+    /// - Returns: Array of substrings based on the split string. Original string if no splitting occurs.
+    public func Split(Separators: [String], omittingEmptySubsequences: Bool = false) -> [String.SubSequence]
+    {
+        for Separator in Separators
+        {
+            let Parts = self.split(separator: String.Element(Separator),
+                                   omittingEmptySubsequences: omittingEmptySubsequences)
+            if Parts.count > 1
+            {
+                return Parts
+            }
+        }
+        return [String.SubSequence(self)]
+    }
 }
