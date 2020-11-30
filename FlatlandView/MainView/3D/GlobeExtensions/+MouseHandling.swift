@@ -190,7 +190,7 @@ extension GlobeView
                     let Where = HitObject[0].worldCoordinates
                     let (Latitude, Longitude) = Mouse3DToGeographicPoint(Mouse: Where)
                     PlotMouseIndicator(Latitude: Latitude, Longitude: Longitude)
-                    print("Mouse=\(Where.RoundedTo(3)), Percent=\(PrettyPercent.RoundedTo(3))")
+                    //print("Mouse=\(Where.RoundedTo(3)), Percent=\(PrettyPercent.RoundedTo(3))")
                 }
             }
         }
@@ -213,7 +213,7 @@ extension GlobeView
     {
         if let CameraPOV = CameraPointOfView
         {
-            print("Camera Orientation: \(CameraOrientation!.RoundedTo(3))")
+            //print("Camera Orientation: \(CameraOrientation!.RoundedTo(3))")
             //print("Camera Rotation: \(CameraRotation!.RoundedTo(3))")
             return (0.0, 0.0)
         }
