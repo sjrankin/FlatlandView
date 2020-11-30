@@ -77,7 +77,6 @@
 		173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173EB18A2490D1B7006CDB86 /* +Orbits.swift */; };
 		173F3D3E24EB6C4F008B9870 /* CircularWarp.m in Sources */ = {isa = PBXBuildFile; fileRef = 173F3D3D24EB6C4F008B9870 /* CircularWarp.m */; };
 		1740F49B2493173A00F6FAAE /* Hours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740F49A2493173A00F6FAAE /* Hours.swift */; };
-		1743FE74255D048600AD05A7 /* CommandLineCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743FE73255D048600AD05A7 /* CommandLineCommand.swift */; };
 		1743FE77255D1C1E00AD05A7 /* +Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743FE76255D1C1E00AD05A7 /* +Query.swift */; };
 		1743FE7A255D275D00AD05A7 /* EnumList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743FE79255D275D00AD05A7 /* EnumList.swift */; };
 		1743FE7D255D5AD300AD05A7 /* NSRegularExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743FE7C255D5AD300AD05A7 /* NSRegularExpression.swift */; };
@@ -129,7 +128,6 @@
 		175BA5582570D565001ED3A2 /* ErrorDialogs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 175BA5572570D565001ED3A2 /* ErrorDialogs.storyboard */; };
 		175BA55B2570D5B7001ED3A2 /* ErrorReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA55A2570D5B7001ED3A2 /* ErrorReporter.swift */; };
 		175BA55E2570D60E001ED3A2 /* ErrorReporterWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA55D2570D60E001ED3A2 /* ErrorReporterWindow.swift */; };
-		175BA5622570F5A0001ED3A2 /* creeKSolar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA5612570F5A0001ED3A2 /* creeKSolar.swift */; };
 		175BA56525711F76001ED3A2 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA56425711F76001ED3A2 /* Locations.swift */; };
 		175BA56825712A1A001ED3A2 /* SolarToday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA56725712A1A001ED3A2 /* SolarToday.swift */; };
 		175F661424DE7416007B3A60 /* LineDrawParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175F661324DE7416007B3A60 /* LineDrawParameters.swift */; };
@@ -454,7 +452,6 @@
 		173F3D3C24EB6C4F008B9870 /* Flatland-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Flatland-Bridging-Header.h"; sourceTree = "<group>"; };
 		173F3D3D24EB6C4F008B9870 /* CircularWarp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularWarp.m; sourceTree = "<group>"; };
 		1740F49A2493173A00F6FAAE /* Hours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hours.swift; sourceTree = "<group>"; };
-		1743FE73255D048600AD05A7 /* CommandLineCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineCommand.swift; sourceTree = "<group>"; };
 		1743FE76255D1C1E00AD05A7 /* +Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Query.swift"; sourceTree = "<group>"; };
 		1743FE79255D275D00AD05A7 /* EnumList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumList.swift; sourceTree = "<group>"; };
 		1743FE7C255D5AD300AD05A7 /* NSRegularExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSRegularExpression.swift; sourceTree = "<group>"; };
@@ -506,7 +503,6 @@
 		175BA5572570D565001ED3A2 /* ErrorDialogs.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ErrorDialogs.storyboard; sourceTree = "<group>"; };
 		175BA55A2570D5B7001ED3A2 /* ErrorReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorReporter.swift; sourceTree = "<group>"; };
 		175BA55D2570D60E001ED3A2 /* ErrorReporterWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorReporterWindow.swift; sourceTree = "<group>"; };
-		175BA5612570F5A0001ED3A2 /* creeKSolar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = creeKSolar.swift; sourceTree = "<group>"; };
 		175BA56425711F76001ED3A2 /* Locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
 		175BA56725712A1A001ED3A2 /* SolarToday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarToday.swift; sourceTree = "<group>"; };
 		175F661324DE7416007B3A60 /* LineDrawParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineDrawParameters.swift; sourceTree = "<group>"; };
@@ -1001,9 +997,8 @@
 				174A6A332557D24B00488274 /* ClockControlPanel.swift */,
 				17561A8C25678BE700FD0506 /* Debug3DPanel.swift */,
 				17998144255BC32100E23B75 /* CommandLinePanel.swift */,
-				1743FE73255D048600AD05A7 /* CommandLineCommand.swift */,
-				17A180F325722195002C6611 /* Commands */,
 				1781BCBE256B5297007BACA8 /* PanelController.swift */,
+				17A180F325722195002C6611 /* Commands */,
 			);
 			path = DebugPanels;
 			sourceTree = "<group>";
@@ -1145,7 +1140,6 @@
 		175BA5602570F57C001ED3A2 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
-				175BA5612570F5A0001ED3A2 /* creeKSolar.swift */,
 			);
 			path = ThirdParty;
 			sourceTree = "<group>";
@@ -2266,7 +2260,6 @@
 				17176C0D254CFE210051960D /* EarthquakeViewerController.swift in Sources */,
 				1760023424D2BEF800D5EA1A /* Double.swift in Sources */,
 				1774BD75256E417100D927F3 /* +SimpleStatus.swift in Sources */,
-				175BA5622570F5A0001ED3A2 /* creeKSolar.swift in Sources */,
 				17F9B001252035B300DE0219 /* +NotifiedEarthquakeList.swift in Sources */,
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
 				1759AE68249F8215003F79F5 /* OtherLocationsWindow.swift in Sources */,
@@ -2367,7 +2360,6 @@
 				175BA56825712A1A001ED3A2 /* SolarToday.swift in Sources */,
 				178A86972488C23C00BE8D46 /* AboutController.swift in Sources */,
 				17C87B7825177EB00065BE6D /* +FlatViewNodeHandling.swift in Sources */,
-				1743FE74255D048600AD05A7 /* CommandLineCommand.swift in Sources */,
 				17BCCC3F24D7F15600030E37 /* EarthquakeFilterer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
