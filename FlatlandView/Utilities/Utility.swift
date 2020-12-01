@@ -2094,5 +2094,39 @@ class Utility
         FinalLon = FinalLon * LonMultiplier
         return (FinalLat, FinalLon)
     }
+    
+    //https://stackoverflow.com/questions/34050929/3d-point-rotation-algorithm/34060479
+    public static func Rotate3D(Point: SCNVector3, Pitch: Double, Roll: Double, Yaw: Double, ConvertToRadians: Bool = true) -> SCNVector3
+    {
+        let X = ConvertToRadians ? Pitch.Radians : Pitch
+        let Y = ConvertToRadians ? Roll.Radians : Roll
+        let Z = ConvertToRadians ? Yaw.Radians : Yaw
+        let CosA: Double = cos(Z)
+        let SinA: Double = sin(Z)
+        let CosB: Double = cos(X)
+        let SinB: Double = sin(X)
+        let CosC: Double = cos(Y)
+        let SinC: Double = cos(Y)
+        let Axx: Double = CosA * CosB
+        let Axy: Double = CosA * SinB * SinC - (SinA * CosC)
+        let Axz: Double = CosA * SinB * CosC + (SinA * SinC)
+        let Ayx: Double = SinA * CosB
+        let Ayy: Double = SinA * SinB * SinC + (CosA * CosC)
+        let Ayz: Double = SinA * SinB * CosC - (CosA * SinC)
+        let Azx: Double = -SinB
+        let Azy: Double = CosB * SinC
+        let Azz: Double = CosB * CosC
+        let FinalX: Double = Double(Axx * Double(Point.x)) + Double(Axy * Double(Point.y)) + Double(Axz * Double(Point.z))
+        let FinalY: Double = Double(Ayx * Double(Point.x)) + Double(Ayy * Double(Point.y)) + Double(Ayz * Double(Point.z))
+        let FinalZ: Double = Double(Azx * Double(Point.x)) + Double(Azy * Double(Point.y)) + Double(Azz * Double(Point.z))
+        return SCNVector3(FinalX, FinalY, FinalZ)
+    }
+    
+    public static func Rotate3D(_ X: Double, _ Y: Double, _ Z: Double, Pitch: Double, Roll: Double, Yaw: Double,
+                                ConvertToRadians: Bool = true) -> SCNVector3
+    {
+        return Rotate3D(Point: SCNVector3(X, Y, Z), Pitch: Pitch, Roll: Roll, Yaw: Yaw,
+                        ConvertToRadians: ConvertToRadians)
+    }
 }
 
