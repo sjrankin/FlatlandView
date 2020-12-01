@@ -86,6 +86,11 @@ extension SCNVector3
         return SCNVector3(X, Y, Z)
     }
     
+    /// Returns an instance `SCNVector3` populated by `X`, `Y`, and `Z` converted from degrees to radians.
+    /// - Parameter X: X value in degrees.
+    /// - Parameter Y: Y value in degrees.
+    /// - Parameter Z: Z value in degrees.
+    /// - Returns: `SCNVector3` populated by the radial equivalent of the parameters.
     public static func Degrees(_ X: Double, _ Y: Double, _ Z: Double) -> SCNVector3
     {
         let XRadians = X.Radians
@@ -94,6 +99,9 @@ extension SCNVector3
         return SCNVector3(XRadians, YRadians, ZRadians)
     }
     
+    /// Returns a string representatio of the instance with each component rounded accordingly.
+    /// - Parameter Places: Number of places to round each component.
+    /// - Returns: String representation of the instance value.
     public func RoundedTo(_ Places: Int) -> String
     {
         let X = "\(self.x.RoundedTo(3))"
