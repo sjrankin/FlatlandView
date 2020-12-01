@@ -10,5 +10,5 @@ import Foundation
 
 protocol MouseInfoProtocol: class
 {
-    func SetLocation(Latitude: String, Longitude: String, _ X: Double?, _ Y: Double?)
+    func SetLocation(Latitude: String, Longitude: String, _ X: Double?, _ Y: Double?, _ Z: Double?)
 }
