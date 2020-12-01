@@ -47,30 +47,48 @@ protocol MainProtocol: class
     /// Called when the mouse moves in follow-mouse mode.
     func MouseAtLocation(Latitude: Double, Longitude: Double, _ X: Double, _ Y: Double)
     
+    /// Called when the mouse moves in follow-mouse mode.
+    func MouseAtLocation(Latitude: Double, Longitude: Double, _ X: Double, _ Y: Double, _ Z: Double)
+    
     /// Show or hide the mouse location.
     func ShowMouseLocationView(_ Show: Bool)
     
     /// Returns the current earthequake class.
     func GetEarthquakeController() -> USGS?
     
+    /// Sets the text of the status bar.
+    /// - Parameter Text: The text to set.
     func SetStatusText(_ Text: String)
     
+    /// Set text in the status bar that will disappear after the specified amount of time.
+    /// - Parameter Text: The text to set.
+    /// - Parameter HideAfter: The duration, in seconds, the text will be visible.
     func SetDisappearingStatusText(_ Text: String, HideAfter: Double)
     
+    /// Clear text from the status bar.
     func ClearStatusText()
     
+    /// Stop program execution.
     func ExitProgram()
     
+    /// Reset settings to default values.
     func ResetSettings()
     
+    /// Return connected to internet flag.
     func ConnectedToInternet() -> Bool
     
+    /// Returns an array of UNESCO World Heritage Sites.
+    /// - Returns: Array of World Heritage Site data.
     func GetWorldHeritageSites() -> [WorldHeritageSite2]
 }
 
+/// Flatland's child windows.
 enum ChildWindows: String, CaseIterable
 {
+    /// Preferences window.
     case PreferenceWindow = "PreferenceWindow"
+    /// Settings window.
     case SettingsWindow = "SettingsWindow"
+    /// Debugger window.
     case DebuggerWindow = "DebuggerWindow"
 }
