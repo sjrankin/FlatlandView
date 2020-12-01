@@ -18,6 +18,7 @@ class MouseInfoController: NSViewController, MouseInfoProtocol
         SetLocation(Latitude: "", Longitude: "")
         ActualX.stringValue = ""
         ActualY.stringValue = ""
+        ActualZ.stringValue = ""
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.gray.cgColor
         self.view.layer?.borderWidth = 3.0
@@ -27,7 +28,8 @@ class MouseInfoController: NSViewController, MouseInfoProtocol
         LongitudeValue.textColor = NSColor(calibratedRed: 0.05, green: 0.05, blue: 0.2, alpha: 1.0)
     }
     
-    func SetLocation(Latitude: String, Longitude: String, _ X: Double? = nil, _ Y: Double? = nil)
+    func SetLocation(Latitude: String, Longitude: String, _ X: Double? = nil, _ Y: Double? = nil,
+                     _ Z: Double? = nil)
     {
         LatitudeValue.stringValue = Latitude
         LongitudeValue.stringValue = Longitude
@@ -39,10 +41,15 @@ class MouseInfoController: NSViewController, MouseInfoProtocol
         {
             ActualY.stringValue = "\(YValue.RoundedTo(3))"
         }
+        if let ZValue = Z
+        {
+            ActualZ.stringValue = "\(ZValue.RoundedTo(3))"
+        }
     }
     
     @IBOutlet weak var ActualX: NSTextField!
     @IBOutlet weak var ActualY: NSTextField!
+    @IBOutlet weak var ActualZ: NSTextField!
     @IBOutlet weak var LatitudeValue: NSTextField!
     @IBOutlet weak var LongitudeValue: NSTextField!
 }
