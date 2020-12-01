@@ -65,11 +65,12 @@ extension MainController
     /// Processes the raw geographic coordinates and sends them to the display for viewing.
     /// - Parameter Latitude: The latitude of the location where the mouse is.
     /// - Parameter Longitude: The longitude of the location where the mouse is.
-    func ShowMouseLocation(Latitude: Double, Longitude: Double, _ X: Double? = nil, _ Y: Double? = nil)
+    func ShowMouseLocation(Latitude: Double, Longitude: Double, _ X: Double? = nil, _ Y: Double? = nil,
+                           _ Z: Double? = nil)
     {
         #if true
         MouseInfoDelegate?.SetLocation(Latitude: "\(Latitude.RoundedTo(3))", Longitude: "\(Longitude.RoundedTo(3))",
-                                       X, Y)
+                                       X, Y, Z)
         #else
         var LatString = "\(abs(Latitude.RoundedTo(3)))"
         var LonString = "\(abs(Longitude.RoundedTo(3)))"
