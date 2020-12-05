@@ -618,6 +618,48 @@ extension GlobeView
         PlotWorldHeritageSites()
     }
     
+    func PlotKnownLocations()
+    {
+        NodeTables.RemoveKnownLocations()
+        for Longitude in [-90.0, 0.0, 90.0, 180.0]
+        {
+            for Latitude in [-66.56341666666667, -23.43657, 0.0, 23.43657, 66.56341666666667]
+            {
+                let (X, Y, Z) = ToECEF(Latitude, Longitude - 20.0, Radius: Double(GlobeRadius.Primary.rawValue))
+                let Sphere = SCNSphere(radius: 0.2)
+                let KnownNode = SCNNode2(geometry: Sphere)
+                KnownNode.NodeID = UUID()
+                NodeTables.AddKnownLocation(ID: KnownNode.NodeID!, Latitude, Longitude - 20.0, X: X, Y: Y, Z: Z)
+                KnownNode.name = GlobeNodeNames.KnownLocation.rawValue
+                KnownNode.geometry?.firstMaterial?.diffuse.contents = NSColor.black
+                KnownNode.geometry?.firstMaterial?.emission.contents = NSColor.yellow
+                KnownNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+                KnownNode.position = SCNVector3(X, Y, Z)
+                EarthNode?.addChildNode(KnownNode)
+                let LightSwitch = SCNAction.customAction(duration: 1.0)
+                {
+                    Node, Elapsed in
+                    if Elapsed >= 1.0
+                    {
+                        if let OldColor = Node.geometry?.firstMaterial?.emission.contents as? NSColor
+                        {
+                            if OldColor == NSColor.yellow
+                            {
+                                Node.geometry?.firstMaterial?.emission.contents = NSColor.systemOrange
+                            }
+                            else
+                            {
+                                Node.geometry?.firstMaterial?.emission.contents = NSColor.yellow
+                            }
+                        }
+                    }
+                }
+                let SwitchForever = SCNAction.repeatForever(LightSwitch)
+                KnownNode.runAction(SwitchForever)
+            }
+        }
+    }
+    
     /// Plot cities on the globe.
     func PlotCities()
     {
@@ -634,6 +676,9 @@ extension GlobeView
         {
             AlreadyPlotted!.removeFromParentNode()
         }
+        #if DEBUG
+        PlotKnownLocations()
+        #endif
         PlottedCities.removeAll()
         CitiesToPlot = CityManager.FilteredCities()
         
