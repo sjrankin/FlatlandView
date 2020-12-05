@@ -42,7 +42,9 @@ class Geometry
     /// - Note: The caller should probably use alterative functions to this one.
     /// - Note: Algorithm from Geodetic Coordinate Conversions by James R. Clynch, Naval Postgraduate School, 2002
     /// - Note: This function assumes the order of coordinate values in `SomePoint` is in X, Y, Z order.
-    /// - Parameter SomePoint: Native X, Y, Z mouse coordinates. **Must be in X, Y, Z order.**
+    /// - Parameter SomePoint: Native X, Y, Z mouse coordinates. **Must be in X, Y, Z order.** It is assumed that
+    ///                        these values are the ones returned by SceneKit when the mouse moves over the
+    ///                        3D globe node.
     /// - Returns: Tuple with the converted latitude and longitude values.
     public static func FromECEF(_ SomePoint: [Double]) -> (Latitude: Double, Longitude: Double)
     {
