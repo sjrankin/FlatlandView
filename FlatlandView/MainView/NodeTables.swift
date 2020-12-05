@@ -73,6 +73,28 @@ class NodeTables
         QuakeTable.removeAll()
     }
     
+    /// Add a known location.
+    /// - Parameter: ID: The ID of the known location.
+    /// - Parameter Latitude: The latitude of the known location.
+    /// - Parameter Longitude: The longitude of the known location.
+    /// - Parameter X: The SceneKit X position of the location.
+    /// - Parameter Y: The SceneKit Y position of the location.
+    /// - Parameter Z: The SceneKit Z position of the location.
+    public static func AddKnownLocation(ID: UUID, _ Latitude: Double, _ Longitude: Double,
+                                        X: Double, Y: Double, Z: Double)
+    {
+        let KItem = DisplayItem(ID: ID, ItemType: .KnownLocation, Name: "Known Location",
+                                Numeric: 0.0, Location: GeoPoint(Latitude, Longitude),
+                                Description: "\(X.RoundedTo(3)),\(Y.RoundedTo(3)),\(Z.RoundedTo(3))")
+        KnownTable[ID] = KItem
+    }
+    
+    /// Remove all known locations from the Known Table.
+    public static func RemoveKnownLocations()
+    {
+        KnownTable.removeAll()
+    }
+    
     /// Add user points of interesting.
     /// - Parameter ID: The ID of the user POI.
     /// - Parameter Name: The name of the user POI.
@@ -175,6 +197,13 @@ class NodeTables
                 return ItemData
             }
         }
+        for (ItemID, ItemData) in KnownTable
+        {
+            if ItemID == ID
+            {
+                return ItemData
+            }
+        }
         return nil
     }
     
@@ -203,6 +232,9 @@ class NodeTables
             case .Miscellaneous:
                 return MiscTable.count
                 
+            case .KnownLocation:
+                return KnownTable.count
+                
             default:
                 return nil
         }
@@ -214,6 +246,7 @@ class NodeTables
     private static var HomeTable = [UUID: DisplayItem]()
     private static var UNESCOTable = [UUID: DisplayItem]()
     private static var MiscTable = [UUID: DisplayItem]()
+    private static var KnownTable = [UUID: DisplayItem]()
     
     #if DEBUG
     public static func DumpTableKeys(For Class: NodeClasses)
@@ -262,6 +295,13 @@ class NodeTables
                     Debug.Print("  \(Key.uuidString)")
                 }
                 
+            case .KnownLocation:
+                Debug.Print("Known Location Keys:")
+                for (Key, _) in KnownTable
+                {
+                    Debug.Print("  \(Key.uuidString)")
+                }
+                
             default:
                 Debug.Print("Unknown class \"\(Class)\" specified")
         }
@@ -278,6 +318,7 @@ class NodeTables
         UUID(uuidString: NodeClasses.UserPOI.rawValue)!: ItemTypes.UserPOI,
         UUID(uuidString: NodeClasses.WorldHeritageSite.rawValue)!: ItemTypes.WorldHeritageSite,
         UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!: ItemTypes.Miscellaneous,
+        UUID(uuidString: NodeClasses.KnownLocation.rawValue)!: ItemTypes.KnownLocation,
     ]
     
     /// The home ID.
@@ -333,6 +374,7 @@ enum ItemTypes: String, CaseIterable
     case Earthquake = "Earthquake"
     case WorldHeritageSite = "World Heritage Site"
     case Miscellaneous = "Miscellaneous"
+    case KnownLocation = "Known Location"
 }
 
 enum NodeClasses: String, CaseIterable
@@ -344,5 +386,6 @@ enum NodeClasses: String, CaseIterable
     case Earthquake = "fff542af-daf9-4629-8325-a26d8e54b427"
     case WorldHeritageSite = "f0b85fc5-c761-4b74-91fc-5b79b3d7d606"
     case Miscellaneous = "736aec23-506e-4eb5-bda6-03af23c85126"
+    case KnownLocation = "1727d4c5-a660-42bb-ab39-ceaed478fb59"
 }
 
