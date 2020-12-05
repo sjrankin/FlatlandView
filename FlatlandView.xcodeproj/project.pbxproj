@@ -346,6 +346,8 @@
 		17F1E5D22549158000E6F6CF /* SnowParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5D12549158000E6F6CF /* SnowParticleTest.sks */; };
 		17F1E5D5254915AD00E6F6CF /* RainParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5D4254915AD00E6F6CF /* RainParticleTest.sks */; };
 		17F44AA824CEF67700A02B19 /* SatelliteMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F44AA724CEF67700A02B19 /* SatelliteMap.swift */; };
+		17F6C4F1257BA019003FFDA2 /* MapDebugPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */; };
+		17F6C4F5257BA24F003FFDA2 /* +Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C4F4257BA24F003FFDA2 /* +Debug.swift */; };
 		17F782C1249742A1000A568E /* USGS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C0249742A1000A568E /* USGS.swift */; };
 		17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C224974442000A568E /* AsynchronousDataProtocol.swift */; };
 		17F782C524979218000A568E /* +Earthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C424979218000A568E /* +Earthquakes.swift */; };
@@ -729,6 +731,8 @@
 		17F1E5D12549158000E6F6CF /* SnowParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SnowParticleTest.sks; sourceTree = "<group>"; };
 		17F1E5D4254915AD00E6F6CF /* RainParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RainParticleTest.sks; sourceTree = "<group>"; };
 		17F44AA724CEF67700A02B19 /* SatelliteMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SatelliteMap.swift; sourceTree = "<group>"; };
+		17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDebugPanel.swift; sourceTree = "<group>"; };
+		17F6C4F4257BA24F003FFDA2 /* +Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Debug.swift"; sourceTree = "<group>"; };
 		17F782C0249742A1000A568E /* USGS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGS.swift; sourceTree = "<group>"; };
 		17F782C224974442000A568E /* AsynchronousDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousDataProtocol.swift; sourceTree = "<group>"; };
 		17F782C424979218000A568E /* +Earthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Earthquakes.swift"; sourceTree = "<group>"; };
@@ -998,6 +1002,7 @@
 				17561A8C25678BE700FD0506 /* Debug3DPanel.swift */,
 				17998144255BC32100E23B75 /* CommandLinePanel.swift */,
 				1781BCBE256B5297007BACA8 /* PanelController.swift */,
+				17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */,
 				17A180F325722195002C6611 /* Commands */,
 			);
 			path = DebugPanels;
@@ -1268,6 +1273,7 @@
 				178A86A82489134300BE8D46 /* +GridLines.swift */,
 				178A86A3248912FA00BE8D46 /* +Locations.swift */,
 				1714DDBD25399401001A3002 /* +Home.swift */,
+				17F6C4F4257BA24F003FFDA2 /* +Debug.swift */,
 				17F782C424979218000A568E /* +Earthquakes.swift */,
 				1762BD672560BB2E009C6965 /* +MouseHandling.swift */,
 				178A86A12489127C00BE8D46 /* +Hours.swift */,
@@ -2222,6 +2228,7 @@
 				17C87B7E25177FBF0065BE6D /* +FlatViewSettingsHandler.swift in Sources */,
 				1759AE66249F81F6003F79F5 /* View3DSettingsWindow.swift in Sources */,
 				1743FE7D255D5AD300AD05A7 /* NSRegularExpression.swift in Sources */,
+				17F6C4F1257BA019003FFDA2 /* MapDebugPanel.swift in Sources */,
 				1727EA5A24B170730051EA3B /* Queue.swift in Sources */,
 				17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
@@ -2303,6 +2310,7 @@
 				17C0FD7025316402008F3D05 /* GroundTrack.swift in Sources */,
 				1714DDBE25399401001A3002 /* +Home.swift in Sources */,
 				17A180FE257274C4002C6611 /* +Program.swift in Sources */,
+				17F6C4F5257BA24F003FFDA2 /* +Debug.swift in Sources */,
 				17FE3BE1256F74D500451F9F /* LocationController.swift in Sources */,
 				178A86A4248912FA00BE8D46 /* +Locations.swift in Sources */,
 				17EB5C1325159AB1007A75EF /* +MainAsynchronous.swift in Sources */,
