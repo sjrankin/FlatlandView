@@ -201,6 +201,12 @@ enum SettingKeys: String, CaseIterable
     case Enable3DDebugging = "Enable3DDebugging"
     /// Boolean: If true, axis markers are shown in 3D debug.
     case ShowAxes = "ShowAxes"
+    /// Boolean: If true, known locations are shown on the map.
+    case ShowKnownLocations = "ShowKnownLocations"
+    /// Boolean: If true, 3D jittering is enabled.
+    case EnableJittering = "EnableJittering"
+    /// Antialias value.
+    case AntialiasLevel = "AntialiasLevel"
     
     // MARK: - Performance and optimization settings.
     /// Boolean: If true, hours have a chamfer value set.
