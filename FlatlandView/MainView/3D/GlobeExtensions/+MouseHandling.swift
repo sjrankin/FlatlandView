@@ -188,9 +188,10 @@ extension GlobeView
                 if HitObject[0].node.self is SCNNode2
                 {
                     let Where = HitObject[0].worldCoordinates
-                    let (Latitude, Longitude) = Mouse3DToGeographicPoint(Mouse: Where)
-                    PlotMouseIndicator(Latitude: Latitude, Longitude: Longitude)
-                    MainDelegate?.MouseAtLocation(Latitude: 0.0, Longitude: 0.0, Double(Where.x), Double(Where.y), Double(Where.z))
+                    let (Latitude, Longitude) = Geometry.FromECEF(Where)
+                    PlotMouseIndicator(Latitude: Latitude, Longitude: Longitude, Actual: Where)
+                    MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude,
+                                                  Double(Where.x), Double(Where.y), Double(Where.z))
                 }
             }
         }
@@ -199,26 +200,19 @@ extension GlobeView
     /// Draw the mouse indicator on the surface of the globe.
     /// - Parameter Latitude: The latitude of where to draw the indicator.
     /// - Parameter Longitude: The longitude of where to draw the indicator.
-    func PlotMouseIndicator(Latitude: Double, Longitude: Double)
+    func PlotMouseIndicator(Latitude: Double, Longitude: Double, Actual: SCNVector3)
     {
+        if MouseIndicator == nil
+        {
+            MouseIndicator = MakeMouseIndicator()
+            EarthNode?.addChildNode(MouseIndicator!)
+        }
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue + 0.9))
         MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude)
         MouseIndicator?.position = SCNVector3(X, Y, Z)
         MouseIndicator?.eulerAngles = SCNVector3(CGFloat(Latitude + 90.0).Radians,
                                                  CGFloat(Longitude + 180.0).Radians,
                                                  0.0)
-    }
-    
-    func Mouse3DToGeographicPoint(Mouse Location: SCNVector3) -> (Latitude: Double, Longitude: Double)
-    {
-        if let CameraPOV = CameraPointOfView
-        {
-            return (0.0, 0.0)
-        }
-        else
-        {
-            return (0.0, 0.0)
-        }
     }
     
     /// Handle mouse clicks reported by the main view controller.
@@ -298,6 +292,8 @@ extension GlobeView
         }
     }
     
+    /// Make a mouse indicator for the globe.
+    /// - Returns: A shape to use for the indicator.
     func MakeMouseIndicator() -> SCNNode2
     {
         let top = SCNCone(topRadius: 0.0, bottomRadius: 0.25, height: 0.5)
@@ -309,9 +305,9 @@ extension GlobeView
         topnode.position = SCNVector3(0.0, 0.5, 0.0)
         topnode.geometry?.firstMaterial?.diffuse.contents = NSColor.systemOrange
         bottomnode.geometry?.firstMaterial?.diffuse.contents = NSColor.yellow
-        let final = SCNNode2()
-        final.addChildNode(topnode)
-        final.addChildNode(bottomnode)
-        return final
+        let FinalIndicator = SCNNode2()
+        FinalIndicator.addChildNode(topnode)
+        FinalIndicator.addChildNode(bottomnode)
+        return FinalIndicator
     }
 }
