@@ -87,5 +87,6 @@ class EnumList
         "StencilStages": StencilStages.allCases.map{"\($0) = \($0.rawValue)"},
         "NodeUsages": NodeUsages.allCases.map{"\($0) = \($0.rawValue)"},
         "DebugAxes": DebugAxes.allCases.map{"\($0) = \($0.rawValue)"},
+        "SceneJitters": SceneJitters.allCases.map{"\($0) = \($0.rawValue)"},
     ]
 }
