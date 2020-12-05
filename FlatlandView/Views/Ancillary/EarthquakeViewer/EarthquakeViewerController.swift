@@ -236,7 +236,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         let MaxDistance = Settings.GetDoubleNil(.QuakeRegionRadius,  0.0)
         for Quake in Source
         {
-            var Distance = Utility.HaversineDistance(Latitude1: Quake.Latitude, Longitude1: Quake.Longitude,
+            var Distance = Geometry.HaversineDistance(Latitude1: Quake.Latitude, Longitude1: Quake.Longitude,
                                                      Latitude2: PointLatitude!, Longitude2: PointLongitude!)
             Distance = Distance / 1000.0
             if Distance <= MaxDistance!
