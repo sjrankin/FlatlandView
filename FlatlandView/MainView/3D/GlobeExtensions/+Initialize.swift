@@ -15,6 +15,8 @@ extension GlobeView
     /// - Note: See: [Get camera position.](https://stackoverflow.com/questions/24768031/can-i-get-the-scnview-camera-position-when-using-allowscameracontrol)
     func InitializeView()
     {
+        Settings.AddSubscriber(self)
+        
         #if DEBUG
         var DebugTypes = [DebugOptions3D]()
         Settings.QueryBool(.ShowSkeletons)
@@ -126,8 +128,25 @@ extension GlobeView
         self.backgroundColor = NSColor.clear
         //Higher antialiasing mode values tend to use a lot of alpha which SceneKit uses when doing final
         //rendering, making the globe transparent along the edges of grid lines, which looks really weird.
-        self.antialiasingMode = .multisampling2X
-        self.isJitteringEnabled = true
+        switch Settings.GetEnum(ForKey: .AntialiasLevel, EnumType: SceneJitters.self, Default: .Jitter4X)
+        {
+            case .None:
+                self.antialiasingMode = .none
+                
+            case .Jitter2X:
+                self.antialiasingMode = .multisampling2X
+                
+            case .Jitter4X:
+                self.antialiasingMode = .multisampling4X
+                
+            case .Jitter8X:
+                self.antialiasingMode = .multisampling8X
+                
+            case .Jitter16X:
+                self.antialiasingMode = .multisampling16X
+        }
+        self.antialiasingMode = .multisampling16X
+        self.isJitteringEnabled = Settings.GetBool(.EnableJittering)
         #if DEBUG
         self.showsStatistics = Settings.GetBool(.ShowStatistics)
         #else
@@ -161,9 +180,12 @@ extension GlobeView
         {
             AddAxis()
         }
+        if Settings.GetBool(.ShowKnownLocations)
+        {
+            PlotKnownLocations()
+        }
         #endif
         ApplyInitialStencils()
-//        ApplyAllStencils(Caller: "\(#function)")
     }
     
     #if DEBUG
