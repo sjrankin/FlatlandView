@@ -122,10 +122,10 @@ extension RectangleView
         {
             LongitudeAdjustment = 1.0
         }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
+        var Distance = Geometry.DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
         let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
         Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
+        var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
         LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
         let PointX = Distance * cos(LocationBearing)
         let PointY = Distance * sin(LocationBearing)
