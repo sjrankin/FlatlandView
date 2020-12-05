@@ -814,3 +814,12 @@ enum NodeUsages: String, CaseIterable
     /// Satellite nodes.
     case Satellite = "Satellite"
 }
+
+enum SceneJitters: String, CaseIterable
+{
+    case None = "None"
+    case Jitter2X = "Jitter2X"
+    case Jitter4X = "Jitter4X"
+    case Jitter8X = "Jitter8X"
+    case Jitter16X = "Jitter16X"
+}
