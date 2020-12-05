@@ -609,6 +609,8 @@ enum GlobeNodeNames: String, CaseIterable
     case FlatlandCameraNode = "FlatlandCameraNode"
     /// City nodes.
     case CityNode = "CityNode"
+    /// Known location nodes.
+    case KnownLocation = "KnownLocation"
 }
 
 /// 2D view node names.
