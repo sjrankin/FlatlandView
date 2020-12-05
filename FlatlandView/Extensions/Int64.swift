@@ -44,5 +44,23 @@ extension Int64
         }
         return Working
     }
+    
+    /// Return the square of the instance value.
+    var Squared: Int64
+    {
+        get
+        {
+            return self * self
+        }
+    }
+    
+    /// Return the cube of the instance value.
+    var Cubed: Int64
+    {
+        get
+        {
+            return self * self * self
+        }
+    }
 }
 

@@ -58,4 +58,22 @@ extension CGFloat
             return ToDegrees()
         }
     }
+    
+    /// Return the square of the instance value.
+    var Squared: CGFloat
+    {
+        get
+        {
+            return self * self
+        }
+    }
+    
+    /// Return the cube of the instance value.
+    var Cubed: CGFloat
+    {
+        get
+        {
+            return self * self * self
+        }
+    }
 }

@@ -127,5 +127,23 @@ extension Double
         }
         return "\(Working).\(Trailing)"
     }
+    
+    /// Return the square of the instance value.
+    var Squared: Double
+    {
+        get
+        {
+            return self * self
+        }
+    }
+    
+    /// Return the cube of the instance value.
+    var Cubed: Double
+    {
+        get
+        {
+            return self * self * self
+        }
+    }
 }
 

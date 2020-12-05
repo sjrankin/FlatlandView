@@ -44,4 +44,22 @@ extension UInt64
         }
         return Working
     }
+    
+    /// Return the square of the instance value.
+    var Squared: UInt64
+    {
+        get
+        {
+            return self * self
+        }
+    }
+    
+    /// Return the cube of the instance value.
+    var Cubed: UInt64
+    {
+        get
+        {
+            return self * self * self
+        }
+    }
 }

@@ -25,6 +25,24 @@ extension UInt
     {
         return MemoryLayout.size(ofValue: UInt(0))
     }
+    
+    /// Return the square of the instance value.
+    var Squared: UInt
+    {
+        get
+        {
+            return self * self
+        }
+    }
+    
+    /// Return the cube of the instance value.
+    var Cubed: UInt
+    {
+        get
+        {
+            return self * self * self
+        }
+    }
 }
 
 

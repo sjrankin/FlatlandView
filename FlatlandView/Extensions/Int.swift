@@ -44,4 +44,22 @@ extension Int
         }
         return Working
     }
+    
+    /// Return the square of the instance value.
+    var Squared: Int
+    {
+        get
+        {
+            return self * self
+        }
+    }
+    
+    /// Return the cube of the instance value.
+    var Cubed: Int
+    {
+        get
+        {
+            return self * self * self
+        }
+    }
 }

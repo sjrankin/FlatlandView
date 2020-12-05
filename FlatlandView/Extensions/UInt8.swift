@@ -24,4 +24,22 @@ extension UInt8
     {
         return MemoryLayout.size(ofValue: UInt8(0))
     }
+    
+    /// Return the square of the instance value.
+    var Squared: UInt8
+    {
+        get
+        {
+            return self * self
+        }
+    }
+    
+    /// Return the cube of the instance value.
+    var Cubed: UInt8
+    {
+        get
+        {
+            return self * self * self
+        }
+    }
 }
