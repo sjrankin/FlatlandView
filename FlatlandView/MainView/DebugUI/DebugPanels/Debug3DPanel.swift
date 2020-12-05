@@ -50,6 +50,25 @@ class Debug3DPanel: PanelController, NSTableViewDelegate, NSTableViewDataSource
             case .Round:
                 MapSegment.selectedSegment = 1
         }
+        let AntialiasLevel = Settings.GetEnum(ForKey: .AntialiasLevel, EnumType: SceneJitters.self, Default: .Jitter4X)
+        switch AntialiasLevel
+        {
+            case .None:
+                AntialiasCombo.selectItem(at: 0)
+                
+            case .Jitter2X:
+                AntialiasCombo.selectItem(at: 1)
+                
+            case .Jitter4X:
+                AntialiasCombo.selectItem(at: 2)
+                
+            case .Jitter8X:
+                AntialiasCombo.selectItem(at: 3)
+                
+            case .Jitter16X:
+                AntialiasCombo.selectItem(at: 4)
+        }
+        JitteringSwitch.state = Settings.GetBool(.EnableJittering) ? .on : .off
     }
     
     @IBAction func HandleEnableChanged(_ sender: Any)
@@ -157,6 +176,46 @@ class Debug3DPanel: PanelController, NSTableViewDelegate, NSTableViewDataSource
         }
     }
     
+    @IBAction func HandAntialiasChanged(_ sender: Any)
+    {
+        if let Combo = sender as? NSComboBox
+        {
+            var NewAntialiasLevel: SceneJitters = .None
+            let Index = Combo.indexOfSelectedItem
+            switch Index
+            {
+                case 0:
+                    NewAntialiasLevel = .None
+                    
+                case 1:
+                    NewAntialiasLevel = .Jitter2X
+                    
+                case 2:
+                    NewAntialiasLevel = .Jitter4X
+                    
+                case 3:
+                    NewAntialiasLevel = .Jitter8X
+                    
+                case 4:
+                    NewAntialiasLevel = .Jitter16X
+                    
+                default:
+                    return
+            }
+            Settings.SetEnum(NewAntialiasLevel, EnumType: SceneJitters.self, ForKey: .AntialiasLevel)
+        }
+    }
+    
+    @IBAction func HandleJitterChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.EnableJittering, Switch.state == .on)
+        }
+    }
+    
+    @IBOutlet weak var JitteringSwitch: NSSwitch!
+    @IBOutlet weak var AntialiasCombo: NSComboBox!
     @IBOutlet weak var ShowAxesSwitch: NSSwitch!
     @IBOutlet weak var MapSegment: NSSegmentedControl!
     @IBOutlet weak var EnableSwitch: NSSwitch!
