@@ -391,9 +391,9 @@ enum Longitudes: Double, CaseIterable
     /// Antartic circle, measured in percent from the South Pole.
     case AntarcticCircle = 0.130218
     /// Tropic of Cancer, measured in percent from the South Pole.
-    case TropicOfCancer = 0.61718
+    case TropicOfCancer = 0.63021889
     /// Tropic of Capricorn, measured in percent from the South Pole.
-    case TropicOfCapricorn = 0.38282
+    case TropicOfCapricorn = 0.36978111
 }
 
 /// **Standard latitudes.** The raw value of each case is the percent away from the left side of
