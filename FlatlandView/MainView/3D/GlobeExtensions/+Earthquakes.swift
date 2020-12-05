@@ -575,7 +575,7 @@ extension GlobeView
         {
             let (QX, QY, QZ) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
             let (CX, CY, CZ) = ToECEF(SomeCity.Latitude, SomeCity.Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
-            let PDistance = Utility.Distance3D(X1: QX, Y1: QY, Z1: QZ, X2: CX, Y2: CY, Z2: CZ)
+            let PDistance = Geometry.Distance3D(X1: QX, Y1: QY, Z1: QZ, X2: CX, Y2: CY, Z2: CZ)
             if PDistance < Distance
             {
                 Distance = PDistance
@@ -650,7 +650,7 @@ extension GlobeView
         YOffset = MagNode.boundingBox.max.y * NodeScales3D.EarthquakeText.rawValue * 3.5
         let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * NodeScales3D.EarthquakeText.rawValue -
             (MagNode.boundingBox.min.y * NodeScales3D.EarthquakeText.rawValue)
-        let (X, Y, Z) = Utility.ToECEF(Quake.Latitude, Quake.Longitude,
+        let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude,
                                        LatitudeOffset: Double(-YOffset), LongitudeOffset: Double(XOffset),
                                        Radius: Radius)
         MagNode.position = SCNVector3(X, Y, Z)
