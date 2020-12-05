@@ -129,13 +129,13 @@ extension FlatView
     {
         objc_sync_enter(PolarLightLock)
         defer{objc_sync_exit(PolarLightLock)}
-        var LightPath = Utility.PointsOnArc(Radius: FlatConstants.FlatRadius.rawValue + FlatConstants.PolarSunRimOffset.rawValue,
+        var LightPath = Geometry.PointsOnArc(Radius: FlatConstants.FlatRadius.rawValue + FlatConstants.PolarSunRimOffset.rawValue,
                                             Count: Int(FlatConstants.LightPathSegmentCount.rawValue))
         if ToNorth
         {
             LightPath = LightPath.reversed()
         }
-        LightPath = Utility.AdjustPointsOnArc(LightPath, XValue: 0.0, ZOffset: Double(PolarNode.position.z),
+        LightPath = Geometry.AdjustPointsOnArc(LightPath, XValue: 0.0, ZOffset: Double(PolarNode.position.z),
                                               ZMultiplier: FlatConstants.PolarLightPathZMultiplier.rawValue)
         LightNode.position = LightPath[0]
         let OverallDuration = FlatConstants.PolarAnimationDuration.rawValue
