@@ -376,7 +376,40 @@ extension GlobeView: SettingChangedProtocol
                  .Debug_ClockActionClockMultiplier, .Debug_ClockActionSetClockAngle,
                  .Debug_ClockActionFreezeAtTime:
                 UpdateEarthView()
+                
+            case .ShowKnownLocations:
+                if Settings.GetBool(.ShowKnownLocations)
+                {
+                    PlotKnownLocations()
+                }
+                else
+                {
+                    HideKnownLocations()
+                }
             #endif
+            
+            case .AntialiasLevel:
+                let NewLevel = Settings.GetEnum(ForKey: .AntialiasLevel, EnumType: SceneJitters.self, Default: .Jitter4X)
+                switch NewLevel
+                {
+                    case .None:
+                        self.antialiasingMode = .none
+                        
+                    case .Jitter2X:
+                        self.antialiasingMode = .multisampling2X
+                        
+                    case .Jitter4X:
+                        self.antialiasingMode = .multisampling4X
+                        
+                    case .Jitter8X:
+                        self.antialiasingMode = .multisampling8X
+                        
+                    case .Jitter16X:
+                        self.antialiasingMode = .multisampling16X
+                }
+                
+            case .EnableJittering:
+                self.isJitteringEnabled = Settings.GetBool(.EnableJittering)
             
             default:
                 return
