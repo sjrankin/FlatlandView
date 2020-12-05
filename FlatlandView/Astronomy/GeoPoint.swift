@@ -896,7 +896,8 @@ public class GeoPoint: CustomStringConvertible
     /// - Returns: Distance between OtherPoint and this point, in kilometers.
     public func DistanceFrom(OtherPoint: GeoPoint) -> Double
     {
-        return Geometry.Haversine(Point1: self, Point2: OtherPoint)
+        return Geometry.HaversineDistance(Point1: self, Point2: OtherPoint)
+//        return Geometry2.Haversine(Point1: self, Point2: OtherPoint)
     }
     
     /// Returns the distance (in kilometers) from the current location to the prime meridian at the same latitude.
@@ -905,7 +906,8 @@ public class GeoPoint: CustomStringConvertible
     public func PrimeMeridianDistance() -> Double
     {
         let PrimeMeridian = GeoPoint(self.Latitude, 0.0)
-        return Geometry.Haversine(Point1: self, Point2: PrimeMeridian)
+        return Geometry.HaversineDistance(Point1: self, Point2: PrimeMeridian)
+//        return Geometry2.Haversine(Point1: self, Point2: PrimeMeridian)
     }
     
     /// Returns the initial bearing (in degrees) from the instantiated point to OtherPoint.
@@ -923,6 +925,7 @@ public class GeoPoint: CustomStringConvertible
     /// - Returns: Initial bearing from this point to the passed point.
     public func Bearing(OtherPoint: GeoPoint) -> Int
     {
+//        let Angle = Geometry2.Bearing2I(Start: self, End: OtherPoint)
         let Angle = Geometry.Bearing2I(Start: self, End: OtherPoint)
         return Angle
     }
