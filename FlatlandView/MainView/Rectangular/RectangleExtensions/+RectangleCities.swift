@@ -154,7 +154,7 @@ extension RectangleView
         }
         CityNode.castsShadow = true
         
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
+        let (PointX, PointY) = Geometry.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
                                                     Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         CityNode.position = SCNVector3(PointX, PointY, FlatConstants.UserCityHeight.rawValue * 0.5)
         CityNode.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
@@ -182,7 +182,7 @@ extension RectangleView
         }
         CityNode.castsShadow = true
         
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
+        let (PointX, PointY) = Geometry.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
                                                     Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         CityNode.position = SCNVector3(PointX, PointY, 0.0)
         
@@ -211,7 +211,7 @@ extension RectangleView
         }
         CityNode.castsShadow = true
         
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
+        let (PointX, PointY) = Geometry.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
                                                     Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         CityNode.position = SCNVector3(PointX, PointY, 0.0)
         
@@ -257,7 +257,7 @@ extension RectangleView
         Star.addChildNode(SmallStar)
         SmallStar.position = SCNVector3(0.0, 0.0, 0.0)
         
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
+        let (PointX, PointY) = Geometry.PointFromGeo(Latitude: Latitude, Longitude: Longitude,
                                                     Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         Star.position = SCNVector3(PointX, PointY, FlatConstants.HomeStarOverallZ.rawValue)
         
