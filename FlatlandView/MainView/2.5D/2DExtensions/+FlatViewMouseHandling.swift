@@ -291,7 +291,7 @@ extension FlatView
                     MouseIndicator?.position = MousePoint
                     var Theta: Double = 0.0
                     let InitialAngle = Mode == .FlatNorthCenter ? 90.0 : 0.0
-                    let (Lat, Lon) = Utility.ConvertCircleToGeo(Point: MousePoint,
+                    let (Lat, Lon) = Geometry.ConvertCircleToGeo(Point: MousePoint,
                                                                 Radius: FlatConstants.FlatRadius.rawValue,
                                                                 Angle: InitialAngle,
                                                                 NorthCenter: Mode == .FlatNorthCenter,
