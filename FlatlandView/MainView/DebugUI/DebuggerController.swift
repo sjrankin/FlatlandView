@@ -50,6 +50,7 @@ class DebuggerController: NSViewController, WindowManagement
         Panels[.DebugLog] = DebugPanelBase(CreatePanelDialog("DebugLogViewer"))
         Panels[.CommandLine] = DebugPanelBase(CreatePanelDialog("CommandLineUI"))
         Panels[.Debug3D] = DebugPanelBase(CreatePanelDialog("Debug3D"))
+        Panels[.MapDebug] = DebugPanelBase(CreatePanelDialog("MapDebug"))
     }
     
     var Panels = [DebugPanels: DebugPanelBase]()
@@ -103,6 +104,15 @@ class DebuggerController: NSViewController, WindowManagement
         }
     }
     
+    @IBAction func HandleMapDebug(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            ParentWindow?.Highlight(Button)
+            SelectPanel(.MapDebug)
+        }
+    }
+    
     func MainClosing()
     {
         self.view.window?.close()
@@ -117,4 +127,5 @@ enum DebugPanels
     case DebugLog
     case CommandLine
     case Debug3D
+    case MapDebug
 }
