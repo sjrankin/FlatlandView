@@ -78,11 +78,26 @@
                                         <action selector="HandleDebug3D:" target="sf5-Kb-zIO" id="bWc-2Y-oBK"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="E90252A0-7D10-408E-8CC1-4830D02B60A6" label="Debug Map" paletteLabel="Debug Map" image="MapDebugIcon" sizingBehavior="auto" id="SDc-NC-WfX">
+                                    <nil key="toolTip"/>
+                                    <button key="view" id="8gY-km-krP">
+                                        <rect key="frame" x="22" y="14" width="24" height="24"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="MapDebugIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="b1w-D0-eL2">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="HandleMapDebug:" target="sf5-Kb-zIO" id="2Be-JX-oLE"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="9kM-oJ-34g"/>
                                 <toolbarItem reference="vz4-83-a3S"/>
                                 <toolbarItem reference="4fH-Ux-Bm7"/>
+                                <toolbarItem reference="SDc-NC-WfX"/>
                                 <toolbarItem reference="W58-c2-tUv"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -99,6 +114,8 @@
                         <outlet property="Debug3DButton" destination="0m7-mG-CgF" id="ETv-pZ-GEv"/>
                         <outlet property="DebugLogBarItem" destination="W58-c2-tUv" id="dgu-Qj-eGc"/>
                         <outlet property="DebugLogButton" destination="QTK-ma-aNd" id="lCX-Za-VaO"/>
+                        <outlet property="DebugMapButton" destination="8gY-km-krP" id="9Vu-Rh-J9N"/>
+                        <outlet property="DebugMapButtonItem" destination="SDc-NC-WfX" id="wd4-an-ccb"/>
                         <segue destination="xPc-Ng-wHy" kind="relationship" relationship="window.shadowedContentViewController" id="Abn-s7-tN1"/>
                     </connections>
                 </windowController>
@@ -859,18 +876,142 @@
                                     <gridCell row="NkX-dq-p14" column="P3C-Pv-9C0" id="i5f-vh-mPB"/>
                                 </gridCells>
                             </gridView>
+                            <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="pgx-8H-pbR">
+                                <rect key="frame" x="578" y="190" width="161" height="83"/>
+                                <rows>
+                                    <gridRow id="ZFG-cY-YiQ"/>
+                                    <gridRow id="Mhr-AK-G3i"/>
+                                    <gridRow id="fPj-ai-t49"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn id="mpG-Ix-Nrp"/>
+                                    <gridColumn id="s3l-Hc-1Vr"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="ZFG-cY-YiQ" column="mpG-Ix-Nrp" id="72j-Zv-2dN">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nHW-N7-7jL">
+                                            <rect key="frame" x="-2" y="66" width="74" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Antialiasing" id="5Dm-jk-7oC">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="ZFG-cY-YiQ" column="s3l-Hc-1Vr" id="hyn-Ch-sPM">
+                                        <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TKM-sp-XEk">
+                                            <rect key="frame" x="76" y="60" width="88" height="25"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="19" id="OBr-we-eCb"/>
+                                                <constraint firstAttribute="width" constant="85" id="i92-4Y-486"/>
+                                            </constraints>
+                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="0OH-JM-sJa">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                <objectValues>
+                                                    <string>None</string>
+                                                    <string>2X</string>
+                                                    <string>4X</string>
+                                                    <string>8X</string>
+                                                    <string>16X</string>
+                                                </objectValues>
+                                            </comboBoxCell>
+                                            <connections>
+                                                <action selector="HandAntialiasChanged:" target="LTj-d3-bKm" id="oMe-ze-MxC"/>
+                                            </connections>
+                                        </comboBox>
+                                    </gridCell>
+                                    <gridCell row="Mhr-AK-G3i" column="mpG-Ix-Nrp" id="blr-DM-bjA">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mEa-Iz-Mk8">
+                                            <rect key="frame" x="-2" y="39" width="54" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Jittering" id="DIF-OE-Kab">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="Mhr-AK-G3i" column="s3l-Hc-1Vr" id="4Mk-iP-Vz7">
+                                        <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="rEd-Ec-f4E">
+                                            <rect key="frame" x="74" y="34" width="42" height="25"/>
+                                            <connections>
+                                                <action selector="HandleJitterChanged:" target="LTj-d3-bKm" id="UJ9-3M-CD6"/>
+                                            </connections>
+                                        </switch>
+                                    </gridCell>
+                                    <gridCell row="fPj-ai-t49" column="mpG-Ix-Nrp" id="xhk-V8-fBx"/>
+                                    <gridCell row="fPj-ai-t49" column="s3l-Hc-1Vr" id="zYw-ca-rgL"/>
+                                </gridCells>
+                            </gridView>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="AntialiasCombo" destination="TKM-sp-XEk" id="ekg-NM-FZZ"/>
                         <outlet property="EnableSwitch" destination="aih-vm-lu3" id="5iA-s7-LJI"/>
                         <outlet property="FlagTable" destination="C6b-J4-4Hy" id="TUn-vj-zdc"/>
+                        <outlet property="JitteringSwitch" destination="rEd-Ec-f4E" id="g34-fJ-QAq"/>
                         <outlet property="MapSegment" destination="pNq-02-mcb" id="xsM-aT-Rtx"/>
                         <outlet property="ShowAxesSwitch" destination="K0n-qd-lNd" id="f41-6S-sQI"/>
                     </connections>
                 </viewController>
                 <customObject id="Vmh-4g-9o0" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="729.5" y="2529"/>
+            <point key="canvasLocation" x="728.5" y="2557"/>
+        </scene>
+        <!--Map Debug Panel-->
+        <scene sceneID="kKN-9z-fqa">
+            <objects>
+                <viewController storyboardIdentifier="MapDebug" id="Pj5-VV-IK1" customClass="MapDebugPanel" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="aRv-Bj-G9G">
+                        <rect key="frame" x="0.0" y="0.0" width="839" height="362"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="dCm-TI-NBN">
+                                <rect key="frame" x="20" y="248" width="179" height="94"/>
+                                <rows>
+                                    <gridRow id="lI7-up-mHi"/>
+                                    <gridRow id="yDo-kH-GYl"/>
+                                    <gridRow id="s7g-kR-o7Z"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn id="bbb-5V-P9U"/>
+                                    <gridColumn id="3ZQ-Da-4GI"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="lI7-up-mHi" column="bbb-5V-P9U" id="HPM-ph-ZQQ">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4GW-2p-CZP">
+                                            <rect key="frame" x="-2" y="75" width="139" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Show known locations" id="hdA-y8-pe7">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="lI7-up-mHi" column="3ZQ-Da-4GI" id="CGh-cj-hKz">
+                                        <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="U15-cc-Ol5">
+                                            <rect key="frame" x="139" y="70" width="42" height="25"/>
+                                            <connections>
+                                                <action selector="HandleKnownLocationSwitchChanged:" target="Pj5-VV-IK1" id="zSO-bg-GcZ"/>
+                                            </connections>
+                                        </switch>
+                                    </gridCell>
+                                    <gridCell row="yDo-kH-GYl" column="bbb-5V-P9U" id="SoP-Gy-cpz"/>
+                                    <gridCell row="yDo-kH-GYl" column="3ZQ-Da-4GI" id="b2P-HH-PtF"/>
+                                    <gridCell row="s7g-kR-o7Z" column="bbb-5V-P9U" id="MnJ-fn-bAF"/>
+                                    <gridCell row="s7g-kR-o7Z" column="3ZQ-Da-4GI" id="dY9-qW-raw"/>
+                                </gridCells>
+                            </gridView>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="KnownLocationSwitch" destination="U15-cc-Ol5" id="bfc-zX-R8V"/>
+                    </connections>
+                </viewController>
+                <customObject id="Gis-2k-k2d" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="729" y="3143"/>
         </scene>
     </scenes>
     <resources>
@@ -878,5 +1019,6 @@
         <image name="CommandLineIcon" width="24" height="24"/>
         <image name="DebugLogIcon" width="24" height="24"/>
         <image name="DebugTimeIcon" width="24" height="24"/>
+        <image name="MapDebugIcon" width="24" height="24"/>
     </resources>
 </document>
