@@ -320,7 +320,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                         let RawPosition = SCNVector3(-Where.x,
                                                      -0.75,
                                                      -Where.y)
-                        let (Lat, Lon) = Utility.ConvertRectangleToGeo(Point: RawPosition, Width: RectMode.MapWidth.rawValue,
+                        let (Lat, Lon) = Geometry.ConvertRectangleToGeo(Point: RawPosition, Width: RectMode.MapWidth.rawValue,
                                                                        Height: RectMode.MapHeight.rawValue)
                         test?.position = RawPosition
                         MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: Lon)
