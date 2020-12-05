@@ -182,10 +182,10 @@ extension FlatView
         {
             LongitudeAdjustment = 1.0
         }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
+        var Distance = Geometry.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
         let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
         Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
+        var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
         LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
         let PointX = Distance * cos(LocationBearing)
         let PointY = Distance * sin(LocationBearing)
@@ -234,10 +234,10 @@ extension FlatView
         {
             LongitudeAdjustment = 1.0
         }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
+        var Distance = Geometry.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
         let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
         Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
+        var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
         LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
         let PointX = Distance * cos(LocationBearing)
         let PointY = Distance * sin(LocationBearing)
@@ -287,10 +287,10 @@ extension FlatView
         {
             LongitudeAdjustment = 1.0
         }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
+        var Distance = Geometry.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
         let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
         Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
+        var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
         LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
         let PointX = Distance * cos(LocationBearing)
         let PointY = Distance * sin(LocationBearing)
@@ -362,10 +362,10 @@ extension FlatView
         {
             LongitudeAdjustment = 1.0
         }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
+        var Distance = Geometry.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
         let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
         Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
+        var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
         LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
         let PointX = Distance * cos(LocationBearing)
         let PointY = Distance * sin(LocationBearing)
@@ -386,10 +386,10 @@ extension FlatView
         {
             LongitudeAdjustment = 1.0
         }
-        var Distance = Utility.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
+        var Distance = Geometry.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
         let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
         Distance = Distance * Ratio
-        var LocationBearing = Utility.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
+        var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
         LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
         let PointX = Distance * cos(LocationBearing)
         let PointY = Distance * sin(LocationBearing)
