@@ -162,7 +162,7 @@ extension RectangleView
     /// - Returns: The earthquake node in the proper orientation and position.
     func PlotPyramid(Quake: Earthquake, Radius: Double, Invert: Bool = true) -> SCNNode2
     {
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+        let (PointX, PointY) = Geometry.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
                                                     Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         
         var BaseColor = NSColor.red
@@ -204,7 +204,7 @@ extension RectangleView
     /// - Returns: The earthquake node in the proper orientation and position.
     func PlotInvertedCone(Quake: Earthquake, Radius: Double, Invert: Bool = true) -> SCNNode2
     {
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+        let (PointX, PointY) = Geometry.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
                                                     Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         
         var BaseColor = NSColor.red
@@ -245,7 +245,7 @@ extension RectangleView
     /// - Returns: The earthquake node in the proper orientation and position.
     func PlotEarthquakeCircle(Quake: Earthquake, Radius: Double) -> SCNNode2
     {
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+        let (PointX, PointY) = Geometry.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
                                                     Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         
         var BaseColor = NSColor.red
@@ -310,7 +310,7 @@ extension RectangleView
         Star.addChildNode(SmallStar)
         SmallStar.position = SCNVector3(0.0, 0.0, 0.0)
 
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+        let (PointX, PointY) = Geometry.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
                                                     Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         Star.position = SCNVector3(PointX, PointY, 0.0)//4.0 * Scale * 0.5)
         
@@ -323,7 +323,7 @@ extension RectangleView
     /// - Returns: The earthquake node in the proper orientation and position.
     func PlotSpikyCone(Quake: Earthquake, Radius: Double) -> SCNNode2
     {
-        let (PointX, PointY) = Utility.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
+        let (PointX, PointY) = Geometry.PointFromGeo(Latitude: Quake.Latitude, Longitude: Quake.Longitude,
                                                     Width: RectMode.MapWidth.rawValue, Height: RectMode.MapHeight.rawValue)
         
         var BaseColor = NSColor.red
