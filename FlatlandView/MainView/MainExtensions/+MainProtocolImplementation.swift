@@ -136,16 +136,6 @@ extension MainController: MainProtocol
         ShowMouseLocation(Latitude: Latitude, Longitude: Longitude)
     }
     
-    func MouseAtLocation(Latitude: Double, Longitude: Double, _ X: Double, _ Y: Double)
-    {
-        ShowMouseLocation(Latitude: Latitude, Longitude: Longitude, X, Y)
-    }
-    
-    func MouseAtLocation(Latitude: Double, Longitude: Double, _ X: Double, _ Y: Double, _ Z: Double)
-    {
-        ShowMouseLocation(Latitude: Latitude, Longitude: Longitude, X, Y, Z)
-    }
-    
     /// Show or hide the mouse location.
     /// - Parameter Show: Determines whether the mouse location view is visible or hidden.
     func ShowMouseLocationView(_ Show: Bool)
