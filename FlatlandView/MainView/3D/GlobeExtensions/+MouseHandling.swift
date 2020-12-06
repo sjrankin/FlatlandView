@@ -355,11 +355,55 @@ extension GlobeView
         topnode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         bottomnode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         topnode.position = SCNVector3(0.0, 0.5, 0.0)
-        topnode.geometry?.firstMaterial?.diffuse.contents = NSColor.systemOrange
-        bottomnode.geometry?.firstMaterial?.diffuse.contents = NSColor.yellow
+        topnode.geometry?.firstMaterial?.diffuse.contents = NSColor.black
+        topnode.geometry?.firstMaterial?.emission.contents = NSColor.systemOrange
+        bottomnode.geometry?.firstMaterial?.diffuse.contents = NSColor.black
+        bottomnode.geometry?.firstMaterial?.emission.contents = NSColor.systemYellow
+        let SwapDuration: Double = 1.1
+        let TopColorSwap = SCNAction.customAction(duration: SwapDuration)
+        {
+            Node, Elapsed in
+            if Double(Elapsed) >= SwapDuration
+            {
+                if let OldColor = Node.geometry?.firstMaterial?.emission.contents as? NSColor
+                {
+                    if OldColor == NSColor.systemYellow
+                    {
+                        Node.geometry?.firstMaterial?.emission.contents = NSColor.systemOrange
+                    }
+                    else
+                    {
+                        Node.geometry?.firstMaterial?.emission.contents = NSColor.systemYellow
+                    }
+                }
+            }
+        }
+        let SwapTopForever = SCNAction.repeatForever(TopColorSwap)
+        topnode.runAction(SwapTopForever)
+        let BottomColorSwap = SCNAction.customAction(duration: SwapDuration)
+        {
+            Node, Elapsed in
+            if Double(Elapsed) >= SwapDuration
+            {
+                if let OldColor = Node.geometry?.firstMaterial?.emission.contents as? NSColor
+                {
+                    if OldColor == NSColor.systemOrange
+                    {
+                        Node.geometry?.firstMaterial?.emission.contents = NSColor.systemYellow
+                    }
+                    else
+                    {
+                        Node.geometry?.firstMaterial?.emission.contents = NSColor.systemOrange
+                    }
+                }
+            }
+        }
+        let SwapBottomForever = SCNAction.repeatForever(BottomColorSwap)
+        bottomnode.runAction(SwapBottomForever)
         let FinalIndicator = SCNNode2()
         FinalIndicator.addChildNode(topnode)
         FinalIndicator.addChildNode(bottomnode)
+        
         return FinalIndicator
     }
 }
