@@ -44,12 +44,6 @@ protocol MainProtocol: class
     /// Called when the mouse moves in follow-mouse mode.
     func MouseAtLocation(Latitude: Double, Longitude: Double)
     
-    /// Called when the mouse moves in follow-mouse mode.
-    func MouseAtLocation(Latitude: Double, Longitude: Double, _ X: Double, _ Y: Double)
-    
-    /// Called when the mouse moves in follow-mouse mode.
-    func MouseAtLocation(Latitude: Double, Longitude: Double, _ X: Double, _ Y: Double, _ Z: Double)
-    
     /// Show or hide the mouse location.
     func ShowMouseLocationView(_ Show: Bool)
     
