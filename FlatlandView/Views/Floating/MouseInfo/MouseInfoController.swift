@@ -12,13 +12,13 @@ import AppKit
 /// Controller for the Mouse Info UI.
 class MouseInfoController: NSViewController, MouseInfoProtocol
 {
+    public weak var MainDelegate: MainProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         SetLocation(Latitude: "", Longitude: "")
-        ActualX.stringValue = ""
-        ActualY.stringValue = ""
-        ActualZ.stringValue = ""
+        LocationLabel.stringValue = ""
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.gray.cgColor
         self.view.layer?.borderWidth = 3.0
@@ -26,30 +26,59 @@ class MouseInfoController: NSViewController, MouseInfoProtocol
         self.view.layer?.borderColor = NSColor.white.cgColor
         LatitudeValue.textColor = NSColor(calibratedRed: 0.05, green: 0.05, blue: 0.2, alpha: 1.0)
         LongitudeValue.textColor = NSColor(calibratedRed: 0.05, green: 0.05, blue: 0.2, alpha: 1.0)
+        LocationManager = Locations()
+        LocationManager?.Main = MainDelegate
     }
     
-    func SetLocation(Latitude: String, Longitude: String, _ X: Double? = nil, _ Y: Double? = nil,
-                     _ Z: Double? = nil)
+    func SetMainDelegate(_ Main: MainProtocol?)
+    {
+        MainDelegate = Main
+        LocationManager?.Main = Main
+    }
+    
+    var LocationManager: Locations? = nil
+    
+    func SetLocation(Latitude: String, Longitude: String)
     {
         LatitudeValue.stringValue = Latitude
         LongitudeValue.stringValue = Longitude
-        if let XValue = X
+    }
+    
+    func SetLocation(Latitude: Double, Longitude: Double)
+    {
+        LatitudeValue.stringValue = Utility.PrettyLatitude(Latitude, Precision: 3)
+        LongitudeValue.stringValue = Utility.PrettyLongitude(Longitude, Precision: 3)
+        let LookForTypes: [LocationTypes] = [.City, .Home, .UNESCO, .UserPOI]
+        if var NearBy = LocationManager?.WhatIsCloseTo(Latitude: Latitude, Longitude: Longitude,
+                                                       CloseIs: 100.0, ForLocations: LookForTypes)
         {
-            ActualX.stringValue = "\(XValue.RoundedTo(3))"
+            if NearBy.count > 0
+            {
+                NearBy.sort(by: {$0.Distance < $1.Distance})
+                let DisplayCount = min(NearBy.count, 3)
+                var CloseBy = ""
+                for Index in 0 ..< DisplayCount
+                {
+                    CloseBy.append(NearBy[Index].Name)
+                    if Index < DisplayCount - 1
+                    {
+                        CloseBy.append("\n")
+                    }
+                }
+                LocationLabel.stringValue = CloseBy
+            }
+            else
+            {
+                LocationLabel.stringValue = ""
+            }
         }
-        if let YValue = Y
+        else
         {
-            ActualY.stringValue = "\(YValue.RoundedTo(3))"
-        }
-        if let ZValue = Z
-        {
-            ActualZ.stringValue = "\(ZValue.RoundedTo(3))"
+            LocationLabel.stringValue = ""
         }
     }
     
-    @IBOutlet weak var ActualX: NSTextField!
-    @IBOutlet weak var ActualY: NSTextField!
-    @IBOutlet weak var ActualZ: NSTextField!
+    @IBOutlet weak var LocationLabel: NSTextField!
     @IBOutlet weak var LatitudeValue: NSTextField!
     @IBOutlet weak var LongitudeValue: NSTextField!
 }
