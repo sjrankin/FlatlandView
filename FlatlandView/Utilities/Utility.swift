@@ -1679,11 +1679,35 @@ class Utility
     public static func PrettyCoordinates(_ Latitude: Double, _ Longitude: Double,
                            Separator: String = ",", Precision: Int = 4) -> String
     {
-        let Lat = Latitude.RoundedTo(Precision)
-        let Lon = Longitude.RoundedTo(Precision)
-        let LatS = Lat < 0.0 ? "\(abs(Lat))S" : "\(Lat)N"
-        let LonS = Lon < 0.0 ? "\(abs(Lon))W" : "\(Lon)E"
+        let LatS = PrettyLatitude(Latitude, Precision: Precision)
+        let LonS = PrettyLongitude(Longitude, Precision: Precision)
         return "\(LatS)\(Separator)\(LonS)"
+    }
+    
+    /// Returns a pretty latitude value. "Pretty" is defined as a rounded off number
+    /// with a north or south indicated appended as appropriate. (0.0 is considered
+    /// north).
+    /// - Parameter Raw: The raw latitude to convert.
+    /// - Parameter Precision: The precision of the coordinates when converted to strings.
+    /// - Returns: A string version of the passed latitude.
+    public static func PrettyLatitude(_ Raw: Double, Precision: Int = 4) -> String
+    {
+        let Lat = Raw.RoundedTo(Precision)
+        let LatS = Lat < 0.0 ? "\(abs(Lat))S" : "\(Lat)N"
+        return LatS
+    }
+    
+    /// Returns a pretty longitude value. "Pretty" is defined as a rounded off number
+    /// with a east or west indicated appended as appropriate. (0.0 is considered
+    /// east).
+    /// - Parameter Raw: The raw longitude to convert.
+    /// - Parameter Precision: The precision of the coordinates when converted to strings.
+    /// - Returns: A string version of the passed longitude.
+    public static func PrettyLongitude(_ Raw: Double, Precision: Int = 4) -> String
+    {
+        let Lon = Raw.RoundedTo(Precision)
+        let LonS = Lon < 0.0 ? "\(abs(Lon))W" : "\(Lon)E"
+        return LonS
     }
     
     /// Returns the latitude and longitude from a string with the latitude and longitude in
