@@ -39,6 +39,7 @@ extension MainController
                 self.view.addSubview(Controller.view)
                 MouseInfoDelegate = Controller
                 MouseInfoView = Controller
+                Controller.SetMainDelegate(self)
                 NSAnimationContext.runAnimationGroup
                 {
                     Context in
@@ -65,32 +66,8 @@ extension MainController
     /// Processes the raw geographic coordinates and sends them to the display for viewing.
     /// - Parameter Latitude: The latitude of the location where the mouse is.
     /// - Parameter Longitude: The longitude of the location where the mouse is.
-    func ShowMouseLocation(Latitude: Double, Longitude: Double, _ X: Double? = nil, _ Y: Double? = nil,
-                           _ Z: Double? = nil)
+    func ShowMouseLocation(Latitude: Double, Longitude: Double)
     {
-        #if true
-        MouseInfoDelegate?.SetLocation(Latitude: "\(Latitude.RoundedTo(3))", Longitude: "\(Longitude.RoundedTo(3))",
-                                       X, Y, Z)
-        #else
-        var LatString = "\(abs(Latitude.RoundedTo(3)))"
-        var LonString = "\(abs(Longitude.RoundedTo(3)))"
-        if Latitude >= 0.0
-        {
-            LatString.append(" N")
-        }
-        else
-        {
-            LatString.append(" S")
-        }
-        if Longitude >= 0.0
-        {
-            LonString.append(" E")
-        }
-        else
-        {
-            LonString.append(" W")
-        }
-        MouseInfoDelegate?.SetLocation(Latitude: LatString, Longitude: LonString, X, Y)
-        #endif
+        MouseInfoDelegate?.SetLocation(Latitude: Latitude, Longitude: Longitude)
     }
 }
