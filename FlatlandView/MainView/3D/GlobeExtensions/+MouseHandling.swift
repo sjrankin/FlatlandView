@@ -179,7 +179,7 @@ extension GlobeView
                 [
                     .searchMode: SCNHitTestSearchMode.closest.rawValue,
                     .ignoreHiddenNodes: true,
-                    .ignoreChildNodes: false,
+                    .ignoreChildNodes: true,
                     .rootNode: self.EarthNode as Any
                 ]
             let HitObject = self.hitTest(Point, options: SearchOptions)
@@ -187,20 +187,72 @@ extension GlobeView
             {
                 if HitObject[0].node.self is SCNNode2
                 {
-                    let Where = HitObject[0].worldCoordinates
-                    let (Latitude, Longitude) = Geometry.FromECEF(Where)
-                    PlotMouseIndicator(Latitude: Latitude, Longitude: Longitude, Actual: Where)
-                    MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude,
-                                                  Double(Where.x), Double(Where.y), Double(Where.z))
+                    let TxWhere = HitObject[0].textureCoordinates(withMappingChannel: 0)
+                    let (Latitude, Longitude) = MakeWhereFromTexture(TxWhere)
+                    MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude)
+                    PlotMouseIndicator(Latitude: Latitude, Longitude: Longitude)
                 }
             }
         }
     }
     
+    /// Create the latitude and longitude from the passed texture location. The texture location is the location
+    /// of the mouse on the globe's texture where the top is at Y == 0.0, the bototm at Y == 1.0, left is X == 0.0
+    /// and right is X == 1.0.
+    /// - Parameter TextureLocation: The location of the mouse on the texture of the globe. See summary for
+    ///                              description.
+    /// - Returns: Tuple of the latitude and longitude.
+    func MakeWhereFromTexture(_ TextureLocation: CGPoint) -> (Latitude: Double, Longitude: Double)
+    {
+        if TextureLocation == CGPoint.zero
+        {
+            return (0.0, 0.0)
+        }
+        var Latitude: Double = 0.0
+        var Longitude: Double = 0.0
+        if TextureLocation.x < 0.5
+        {
+            //Western hemisphere
+            let AdjustedX = 0.5 - Double(TextureLocation.x)
+            Longitude = (AdjustedX * 2.0) * 180.0 * -1.0
+            if TextureLocation.y <= 0.5
+            {
+                //Northern hemisphere
+                let AdjustedY = 0.5 - Double(TextureLocation.y)
+                Latitude = (AdjustedY * 2.0) * 90.0
+            }
+            else
+            {
+                //Southern hemisphere
+                let AdjustedY = Double(TextureLocation.y) - 0.5
+                Latitude = (AdjustedY * 2.0) * 90.0 * -1.0
+            }
+        }
+        else
+        {
+            //Eastern hemisphere
+            let AdjustedX = Double(TextureLocation.x) - 0.5
+            Longitude = (AdjustedX * 2.0) * 180.0
+            if TextureLocation.y <= 0.5
+            {
+                //Nothern hemisphere
+                let AdjustedY = 0.5 - Double(TextureLocation.y)
+                Latitude = (AdjustedY * 2.0) * 90.0
+            }
+            else
+            {
+                //Southern hemisphere
+                let AdjustedY = Double(TextureLocation.y) - 0.5
+                Latitude = (AdjustedY * 2.0) * 90.0 * -1.0
+            }
+        }
+        return (Latitude, Longitude)
+    }
+    
     /// Draw the mouse indicator on the surface of the globe.
     /// - Parameter Latitude: The latitude of where to draw the indicator.
     /// - Parameter Longitude: The longitude of where to draw the indicator.
-    func PlotMouseIndicator(Latitude: Double, Longitude: Double, Actual: SCNVector3)
+    func PlotMouseIndicator(Latitude: Double, Longitude: Double)
     {
         if MouseIndicator == nil
         {
