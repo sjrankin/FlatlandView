@@ -14,7 +14,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView fixedFrame="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="p6h-oT-dYd">
-                                <rect key="frame" x="20" y="26" width="167" height="65"/>
+                                <rect key="frame" x="20" y="7" width="210" height="86"/>
                                 <rows>
                                     <gridRow id="Dew-dP-kZ0"/>
                                     <gridRow id="us4-1Z-DpH"/>
@@ -25,7 +25,7 @@
                                 <gridCells>
                                     <gridCell row="Dew-dP-kZ0" column="O2V-hP-jHM" id="Utv-oy-fuI">
                                         <gridView key="contentView" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="RnN-pg-o7c">
-                                            <rect key="frame" x="0.0" y="21" width="167" height="44"/>
+                                            <rect key="frame" x="0.0" y="42" width="167" height="44"/>
                                             <rows>
                                                 <gridRow id="OvZ-ex-9oM"/>
                                                 <gridRow id="Y0c-od-idO"/>
@@ -79,42 +79,24 @@
                                         </gridView>
                                     </gridCell>
                                     <gridCell row="us4-1Z-DpH" column="O2V-hP-jHM" id="gJW-cM-uqp">
-                                        <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="beR-S7-4j5">
-                                            <rect key="frame" x="0.0" y="0.0" width="167" height="15"/>
+                                        <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="beR-S7-4j5">
+                                            <rect key="frame" x="0.0" y="0.0" width="210" height="36"/>
                                             <rows>
                                                 <gridRow id="gny-rv-BLB"/>
                                             </rows>
                                             <columns>
                                                 <gridColumn id="oxh-fb-ogh"/>
-                                                <gridColumn id="zar-2B-7f2"/>
-                                                <gridColumn id="yCg-HO-gJw"/>
                                             </columns>
                                             <gridCells>
                                                 <gridCell row="gny-rv-BLB" column="oxh-fb-ogh" xPlacement="trailing" id="dD6-rA-rAV">
-                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xFL-dO-BdD">
-                                                        <rect key="frame" x="60" y="0.0" width="35" height="15"/>
-                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Pph-PU-Upj">
-                                                            <font key="font" metaFont="cellTitle"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                </gridCell>
-                                                <gridCell row="gny-rv-BLB" column="zar-2B-7f2" xPlacement="trailing" id="7yv-qf-nha">
-                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2MK-QV-lDs">
-                                                        <rect key="frame" x="97" y="0.0" width="35" height="15"/>
-                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="fd2-81-4Hy">
-                                                            <font key="font" metaFont="cellTitle"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                </gridCell>
-                                                <gridCell row="gny-rv-BLB" column="yCg-HO-gJw" xPlacement="trailing" id="Nxy-d5-27X">
-                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6WC-za-9sE">
-                                                        <rect key="frame" x="134" y="0.0" width="35" height="15"/>
-                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="lN2-Tu-fxe">
-                                                            <font key="font" metaFont="cellTitle"/>
+                                                    <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="rjp-TS-wNz">
+                                                        <rect key="frame" x="-2" y="0.0" width="214" height="36"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="36" id="16f-JU-XK0"/>
+                                                            <constraint firstAttribute="width" constant="210" id="T33-hJ-TsJ"/>
+                                                        </constraints>
+                                                        <textFieldCell key="cell" selectable="YES" title="Multiline Label" id="kFy-xD-jGr">
+                                                            <font key="font" metaFont="system" size="12"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
@@ -128,16 +110,14 @@
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="ActualX" destination="xFL-dO-BdD" id="epX-1Y-hYh"/>
-                        <outlet property="ActualY" destination="2MK-QV-lDs" id="hrH-c6-vCb"/>
-                        <outlet property="ActualZ" destination="6WC-za-9sE" id="UWO-zu-5gB"/>
                         <outlet property="LatitudeValue" destination="JsU-Ri-zWy" id="n7G-R5-9dy"/>
+                        <outlet property="LocationLabel" destination="rjp-TS-wNz" id="RTZ-Pk-k2Y"/>
                         <outlet property="LongitudeValue" destination="4bx-CQ-OCg" id="WeR-9e-6cF"/>
                     </connections>
                 </viewController>
                 <customObject id="p3Y-jC-Rbq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-305.5" y="131"/>
+            <point key="canvasLocation" x="-306" y="131"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="fyZ-bn-YRM">
