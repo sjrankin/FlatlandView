@@ -220,6 +220,46 @@ class EarthquakeRegion: CustomStringConvertible
             return _ID
         }
     }
+    
+    /// Determines if the passed coordinate is within the defined region.
+    /// - Parameter Latitude: The latitude of the point to test.
+    /// - Parameter Longitude: The longitude of the point to test.
+    /// - Returns: True if the passed point is in the region, false if not.
+    public func InRegion(Latitude: Double, Longitude: Double) -> Bool
+    {
+        if IsRectangular
+        {
+            let TestLat = Latitude + 90.0
+            let TestLon = Longitude + 180.0
+            let Lat1 = UpperLeft.Latitude + 90.0
+            let Lon1 = UpperLeft.Longitude + 180.0
+            let Lat2 = LowerRight.Latitude + 90.0
+            let Lon2 = LowerRight.Longitude + 180.0
+            if TestLat < Lat1
+            {
+                return false
+            }
+            if TestLat > Lat2
+            {
+                return false
+            }
+            if TestLon < Lon1
+            {
+                return false
+            }
+            if TestLon > Lon2
+            {
+                return false
+            }
+            return true
+        }
+        else
+        {
+            let Distance = Geometry.HaversineDistance(Latitude1: Latitude, Longitude1: Longitude,
+                                                      Latitude2: Center.Latitude, Longitude2: Center.Longitude) / 1000.0
+            return Distance <= Radius
+        }
+    }
 }
 
 
