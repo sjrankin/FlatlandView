@@ -174,6 +174,9 @@ class FindCommand: CommandProtocol
                     {
                     return .success(["Found user POI \(Record.Name) at \(Coordinates)"])
                     }
+                    
+                default:
+                    break
             }
         }
         return .failure(.PlacenameNotFound)
