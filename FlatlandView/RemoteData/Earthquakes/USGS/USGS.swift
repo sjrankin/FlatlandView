@@ -591,6 +591,13 @@ class USGS
         EarthquakeList.removeAll()
     }
     
+    public func GetCurrentEarthquakes() -> [Earthquake]
+    {
+        objc_sync_enter(ListAccess)
+        defer{objc_sync_exit(ListAccess)}
+        return EarthquakeList
+    }
+    
     /// Current list of earthquakes.
     var EarthquakeList = [Earthquake]()
     var DebugEarthquakes = [Earthquake]()
