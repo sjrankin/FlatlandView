@@ -1323,6 +1323,7 @@
 				178909C4250E0BED0092E3A4 /* MainController.swift */,
 				176A897F2530278900489C22 /* MainWindow.swift */,
 				178909C2250E09ED0092E3A4 /* Main.storyboard */,
+				17EF3388247A4E3D00A5B55D /* MainProtocol.swift */,
 				17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */,
 				17F9AFCD25202DEE00DE0219 /* ParentView.swift */,
 				17F9B024252069DE00DE0219 /* SCNNode2.swift */,
@@ -1331,7 +1332,6 @@
 				172D205F252183C500FA8687 /* NodeTables.swift */,
 				17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */,
 				17DDEAD2251C3A8500B0ADE7 /* MainRunProtocol.swift */,
-				17EF3388247A4E3D00A5B55D /* MainProtocol.swift */,
 				176A89822530280800489C22 /* WindowManagement.swift */,
 				1767A8E324794A0100C434B5 /* AppDelegate.swift */,
 			);
