@@ -416,7 +416,9 @@ enum Latitudes: Double, CaseIterable
 enum PhysicalConstants: Double, CaseIterable
 {
     /// Circumference of the Earth in kilometers.
-    case EarthCircumference = 40075.0
+    case EarthCircumference = 40075.017
+    /// Circumference of the Earth in miles.
+    case EarthCircumferenceMiles = 24901.461
     /// Half of the circumference of the Earth in kilometers.
     case HalfEarthCircumference = 20037.5
     /// Radius of the Earth in kilometers.
@@ -425,6 +427,10 @@ enum PhysicalConstants: Double, CaseIterable
     case EarthDiameter = 12742.0
     /// Gravitation parameter of the Earth.
     case EarthGravitationParameter = 398600.0
+    /// Constant to convert kilometers to miles.
+    case KilometersToMiles  = 0.62137
+    /// Constant to convert miles to kilometers.
+    case MilesToKilometers = 1.609
 }
 
 enum GravitationParameters: Double, CaseIterable
