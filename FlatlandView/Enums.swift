@@ -815,11 +815,26 @@ enum NodeUsages: String, CaseIterable
     case Satellite = "Satellite"
 }
 
+/// Scene jittering types.
 enum SceneJitters: String, CaseIterable
 {
+    /// No scene jittering.
     case None = "None"
+    /// 2x scene jittering.
     case Jitter2X = "Jitter2X"
+    /// 4x scene jittering.
     case Jitter4X = "Jitter4X"
+    /// 8x scene jittering.
     case Jitter8X = "Jitter8X"
+    /// 16x scene jittering.
     case Jitter16X = "Jitter16X"
+}
+
+/// Valid and known input units.
+enum InputUnits: String, CaseIterable
+{
+    /// Units are kilometers.
+    case Kilometers = "Kilometers"
+    /// Units are miles.
+    case Miles = "Miles"
 }
