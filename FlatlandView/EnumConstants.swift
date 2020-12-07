@@ -615,6 +615,21 @@ enum StatusBarConstants: Double, CaseIterable
     case EarthquakeWaitingDuration = 600.0
 }
 
+/// Constants used for the drawing of the mouse pointer shape.
+enum MouseShape: Double, CaseIterable
+{
+    /// The point radius.
+    case PointRadius = 0.0
+    /// The bottom radius (where the top and bottom are joined).
+    case BottomRadius = 0.25
+    /// Height of each part.
+    case Height = 0.5
+    /// Duration in seconds of color swapping.
+    case ColorSwapDuration = 2.2
+    /// Offset for radial placement.
+    case RadialOffset = 0.7
+}
+
 #if DEBUG
 // MARK: - 3D scene debug constants.
 
