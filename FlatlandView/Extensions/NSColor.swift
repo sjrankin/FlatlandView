@@ -50,6 +50,41 @@ extension NSColor
         }
     }
     
+    /// Returns an interpolated color between the two passed colors.
+    /// - Parameter Color1: First color.
+    /// - Parameter Color2: Second color.
+    /// - Parameter Distance: How far the interpolated color is between `Color1` and `Color2`. This function
+    ///                       expects this value to be normalized. If it isn't, the value is clamped to 0.0
+    ///                       to 1.0.
+    /// - Returns: Interpolated color between the two passed color.
+    public static func Interpolate(_ Color1: NSColor, _ Color2: NSColor, Distance: Double) -> NSColor
+    {
+        var Dist = CGFloat(Distance)
+        Dist = Dist < 0.0 ? 0.0 : Dist
+        Dist = Dist > 1.0 ? 1.0 : Dist
+        let (H1, S1, L1) = Color1.HSL
+        let (H2, S2, L2) = Color2.HSL
+        let HDelta = abs(H1 - H2)
+        let HPercent = HDelta * Dist
+        let SDelta = abs(S1 - S2)
+        let SPercent = SDelta * Dist
+        let LDelta = abs(L1 - L2)
+        let LPercent = LDelta * Dist
+        let FinalH = min(H1, H2) + HPercent
+        let FinalS = min(S1, S2) + SPercent
+        let FinalL = min(L1, L2) + LPercent
+        return NSColor(calibratedHue: FinalH, saturation: FinalS, brightness: FinalL, alpha: 1.0)
+    }
+    
+    /// Returns an interpolated color between the instance color and the passed color.
+    /// - Parameter Other: The other color to use to interpolate a new color.
+    /// - Parameter Distance: How far the interpolated color is between the instance color and `Other`.
+    /// - Returns: Interpolated color between the instance color and the other color.
+    public func Interpolate(_ Other: NSColor, Distance: Double) -> NSColor
+    {
+        return NSColor.Interpolate(self, Other, Distance: Distance)
+    }
+    
     /// Returns the color as a color guaranteed to be in RGB colorspace.
     var InRGB: NSColor
     {
