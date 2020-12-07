@@ -50,6 +50,9 @@ protocol MainProtocol: class
     /// Returns the current earthequake class.
     func GetEarthquakeController() -> USGS?
     
+    /// Returns the set of current earthquakes the main view has.
+    func GetCurrentEarthquakes() -> [Earthquake]
+    
     /// Sets the text of the status bar.
     /// - Parameter Text: The text to set.
     func SetStatusText(_ Text: String)
