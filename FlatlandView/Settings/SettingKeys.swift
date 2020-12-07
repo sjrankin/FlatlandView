@@ -449,6 +449,11 @@ enum SettingKeys: String, CaseIterable
     /// Double: Clock time multiplier.
     case Debug_ClockActionClockMultiplier = "Debug_ClockActionClockMultiplier"
     
+    // MARK: - Input/local settings.
+    
+    /// Determines the default input unit.
+    case InputUnit = "InputUnit"
+    
     // MARK: - Settings used in areas outside of the Settings system.
     /// Live data viewer.
     case LiveViewWindowFrame = "LiveViewWindowFrame"
