@@ -968,7 +968,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="dCm-TI-NBN">
-                                <rect key="frame" x="20" y="248" width="179" height="94"/>
+                                <rect key="frame" x="20" y="256" width="271" height="86"/>
                                 <rows>
                                     <gridRow id="lI7-up-mHi"/>
                                     <gridRow id="yDo-kH-GYl"/>
@@ -981,7 +981,7 @@
                                 <gridCells>
                                     <gridCell row="lI7-up-mHi" column="bbb-5V-P9U" id="HPM-ph-ZQQ">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4GW-2p-CZP">
-                                            <rect key="frame" x="-2" y="75" width="139" height="16"/>
+                                            <rect key="frame" x="-2" y="67" width="139" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show known locations" id="hdA-y8-pe7">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -991,14 +991,30 @@
                                     </gridCell>
                                     <gridCell row="lI7-up-mHi" column="3ZQ-Da-4GI" id="CGh-cj-hKz">
                                         <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="U15-cc-Ol5">
-                                            <rect key="frame" x="139" y="70" width="42" height="25"/>
+                                            <rect key="frame" x="231" y="62" width="42" height="25"/>
                                             <connections>
                                                 <action selector="HandleKnownLocationSwitchChanged:" target="Pj5-VV-IK1" id="zSO-bg-GcZ"/>
                                             </connections>
                                         </switch>
                                     </gridCell>
-                                    <gridCell row="yDo-kH-GYl" column="bbb-5V-P9U" id="SoP-Gy-cpz"/>
-                                    <gridCell row="yDo-kH-GYl" column="3ZQ-Da-4GI" id="b2P-HH-PtF"/>
+                                    <gridCell row="yDo-kH-GYl" column="bbb-5V-P9U" id="SoP-Gy-cpz">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lEh-LG-bce">
+                                            <rect key="frame" x="-2" y="39" width="231" height="16"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Search for locations under the mouse" id="hNK-SY-MfC">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="yDo-kH-GYl" column="3ZQ-Da-4GI" id="b2P-HH-PtF">
+                                        <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="MJ2-MW-XTM">
+                                            <rect key="frame" x="231" y="34" width="42" height="25"/>
+                                            <connections>
+                                                <action selector="HandleSearchForLocationChanged:" target="Pj5-VV-IK1" id="6j9-5Q-2bX"/>
+                                            </connections>
+                                        </switch>
+                                    </gridCell>
                                     <gridCell row="s7g-kR-o7Z" column="bbb-5V-P9U" id="MnJ-fn-bAF"/>
                                     <gridCell row="s7g-kR-o7Z" column="3ZQ-Da-4GI" id="dY9-qW-raw"/>
                                 </gridCells>
@@ -1007,6 +1023,7 @@
                     </view>
                     <connections>
                         <outlet property="KnownLocationSwitch" destination="U15-cc-Ol5" id="bfc-zX-R8V"/>
+                        <outlet property="SearchForLocationSwitch" destination="MJ2-MW-XTM" id="sRi-JA-9JM"/>
                     </connections>
                 </viewController>
                 <customObject id="Gis-2k-k2d" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
