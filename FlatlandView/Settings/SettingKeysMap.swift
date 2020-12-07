@@ -199,6 +199,7 @@ extension Settings
             .ShowKnownLocations: Bool.self,
             .EnableJittering: Bool.self,
             .AntialiasLevel: SceneJitters.self,
+            .SearchForLocation: Bool.self,
             // MARK: - Debugging settings
             .Debug_EnableClockControl: Bool.self,
             .Debug_ClockDebugMap: Debug_MapTypes.self,
