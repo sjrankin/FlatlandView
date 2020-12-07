@@ -15,6 +15,7 @@ class MapDebugPanel: PanelController
     {
         super.viewDidLoad()
         KnownLocationSwitch.state = Settings.GetBool(.ShowKnownLocations) ? .on : .off
+        SearchForLocationSwitch.state = Settings.GetBool(.SearchForLocation) ? .on : .off
     }
     
     @IBAction func HandleKnownLocationSwitchChanged(_ sender: Any)
@@ -25,5 +26,14 @@ class MapDebugPanel: PanelController
         }
     }
     
+    @IBAction func HandleSearchForLocationChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.SearchForLocation, Switch.state == .on)
+        }
+    }
+    
+    @IBOutlet weak var SearchForLocationSwitch: NSSwitch!
     @IBOutlet weak var KnownLocationSwitch: NSSwitch!
 }
