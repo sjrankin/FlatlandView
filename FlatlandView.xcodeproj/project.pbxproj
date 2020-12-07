@@ -35,6 +35,7 @@
 		1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B384248B5255001202E5 /* GetLocationCode.swift */; };
 		1720B388248B68A1001202E5 /* AutoLocationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B387248B68A1001202E5 /* AutoLocationProtocol.swift */; };
 		1723C80324D54C4C00C41EEE /* EarthquakeRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1723C80224D54C4C00C41EEE /* EarthquakeRegion.swift */; };
+		1723E698257E4870003CC24C /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1723E697257E4870003CC24C /* InputValidation.swift */; };
 		1727EA5824B15CD10051EA3B /* +UserCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5724B15CD10051EA3B /* +UserCamera.swift */; };
 		1727EA5A24B170730051EA3B /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5924B170730051EA3B /* Queue.swift */; };
 		1727EA5D24B184230051EA3B /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5C24B184230051EA3B /* Tree.swift */; };
@@ -410,6 +411,7 @@
 		1720B384248B5255001202E5 /* GetLocationCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationCode.swift; sourceTree = "<group>"; };
 		1720B387248B68A1001202E5 /* AutoLocationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLocationProtocol.swift; sourceTree = "<group>"; };
 		1723C80224D54C4C00C41EEE /* EarthquakeRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegion.swift; sourceTree = "<group>"; };
+		1723E697257E4870003CC24C /* InputValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
 		17267C522537D63A0036F6EA /* FlatlandRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandRelease.entitlements; sourceTree = "<group>"; };
 		1727EA5724B15CD10051EA3B /* +UserCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+UserCamera.swift"; sourceTree = "<group>"; };
 		1727EA5924B170730051EA3B /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
@@ -1767,6 +1769,7 @@
 				175BA56425711F76001ED3A2 /* Locations.swift */,
 				175BA56725712A1A001ED3A2 /* SolarToday.swift */,
 				1700852A25773183002FD62F /* Geometry.swift */,
+				1723E697257E4870003CC24C /* InputValidation.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2042,6 +2045,7 @@
 				1716DB1A24E5575B00C4F8BD /* ClockIndicator.swift in Sources */,
 				1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */,
 				17B0B7322546AD4500DC0F03 /* MetalHelper.swift in Sources */,
+				1723E698257E4870003CC24C /* InputValidation.swift in Sources */,
 				1740F49B2493173A00F6FAAE /* Hours.swift in Sources */,
 				1750044324B4640B006528A4 /* FontProtocol.swift in Sources */,
 				17DFAF562545A5BE00374344 /* ImageShifter.metal in Sources */,
