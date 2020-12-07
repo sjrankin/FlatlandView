@@ -70,7 +70,6 @@ extension MainController: MainProtocol
         #endif
     }
     
-    
     /// Update the view type in the controls.
     func UpdateViewType()
     {
@@ -147,6 +146,12 @@ extension MainController: MainProtocol
     func GetEarthquakeController() -> USGS?
     {
         return Earthquakes
+    }
+    
+    /// Returns the set of current earthquakes.
+    func GetCurrentEarthquakes() -> [Earthquake]
+    {
+        return LatestEarthquakes
     }
     
     /// Sends the passed text to the simple status display.
