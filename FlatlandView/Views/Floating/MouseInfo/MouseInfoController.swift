@@ -30,6 +30,8 @@ class MouseInfoController: NSViewController, MouseInfoProtocol
         LocationManager?.Main = MainDelegate
     }
     
+    /// Set the main delegate. Ensure the location manager has the same delegate.
+    /// - Parameter Main: The main delegate.
     func SetMainDelegate(_ Main: MainProtocol?)
     {
         MainDelegate = Main
@@ -38,43 +40,52 @@ class MouseInfoController: NSViewController, MouseInfoProtocol
     
     var LocationManager: Locations? = nil
     
+    /// "Sets" the location.
+    /// - Parameter Latitude: String representation of the latitude.
+    /// - Parameter Longitude: String representation of the longitude.
     func SetLocation(Latitude: String, Longitude: String)
     {
         LatitudeValue.stringValue = Latitude
         LongitudeValue.stringValue = Longitude
     }
     
+    /// Sets the location. If the proper user setting is enabled, nearby locations will be searched for.
+    /// - Parameter Latitude: The latitude of the location.
+    /// - Parameter Longitude: The longitude of the location.
     func SetLocation(Latitude: Double, Longitude: Double)
     {
         LatitudeValue.stringValue = Utility.PrettyLatitude(Latitude, Precision: 3)
         LongitudeValue.stringValue = Utility.PrettyLongitude(Longitude, Precision: 3)
-        let LookForTypes: [LocationTypes] = [.City, .Home, .UNESCO, .UserPOI]
-        if var NearBy = LocationManager?.WhatIsCloseTo(Latitude: Latitude, Longitude: Longitude,
-                                                       CloseIs: 100.0, ForLocations: LookForTypes)
+        if Settings.GetBool(.SearchForLocation)
         {
-            if NearBy.count > 0
+            let LookForTypes: [LocationTypes] = [.City, .Home, .UNESCO, .UserPOI]
+            if var NearBy = LocationManager?.WhatIsCloseTo(Latitude: Latitude, Longitude: Longitude,
+                                                           CloseIs: 100.0, ForLocations: LookForTypes)
             {
-                NearBy.sort(by: {$0.Distance < $1.Distance})
-                let DisplayCount = min(NearBy.count, 3)
-                var CloseBy = ""
-                for Index in 0 ..< DisplayCount
+                if NearBy.count > 0
                 {
-                    CloseBy.append(NearBy[Index].Name)
-                    if Index < DisplayCount - 1
+                    NearBy.sort(by: {$0.Distance < $1.Distance})
+                    let DisplayCount = min(NearBy.count, 3)
+                    var CloseBy = ""
+                    for Index in 0 ..< DisplayCount
                     {
-                        CloseBy.append("\n")
+                        CloseBy.append(NearBy[Index].Name)
+                        if Index < DisplayCount - 1
+                        {
+                            CloseBy.append("\n")
+                        }
                     }
+                    LocationLabel.stringValue = CloseBy
                 }
-                LocationLabel.stringValue = CloseBy
+                else
+                {
+                    LocationLabel.stringValue = ""
+                }
             }
             else
             {
                 LocationLabel.stringValue = ""
             }
-        }
-        else
-        {
-            LocationLabel.stringValue = ""
         }
     }
     
