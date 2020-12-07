@@ -207,6 +207,8 @@ enum SettingKeys: String, CaseIterable
     case EnableJittering = "EnableJittering"
     /// Antialias value.
     case AntialiasLevel = "AntialiasLevel"
+    /// Boolean: If true, Flatland will search for what is close to the mouse pointer.
+    case SearchForLocation = "SearchForLocation"
     
     // MARK: - Performance and optimization settings.
     /// Boolean: If true, hours have a chamfer value set.
