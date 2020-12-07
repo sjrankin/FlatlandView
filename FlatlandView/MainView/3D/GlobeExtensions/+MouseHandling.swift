@@ -259,7 +259,8 @@ extension GlobeView
             MouseIndicator = MakeMouseIndicator()
             EarthNode?.addChildNode(MouseIndicator!)
         }
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue + 0.9))
+        let (X, Y, Z) = ToECEF(Latitude, Longitude,
+                               Radius: Double(GlobeRadius.Primary.rawValue) + Double(MouseShape.RadialOffset.rawValue))
         MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude)
         MouseIndicator?.position = SCNVector3(X, Y, Z)
         MouseIndicator?.eulerAngles = SCNVector3(CGFloat(Latitude + 90.0).Radians,
@@ -329,6 +330,9 @@ extension GlobeView
         }
     }
     
+    /// Create a pop-over view to display information.
+    /// - Parameter At: Where to create the pop-over window.
+    /// - Parameter For: Information to display.
     func MakePopOver(At: CGPoint, For: DisplayItem)
     {
         if let PopController = NSStoryboard(name: "Popovers", bundle: nil).instantiateController(withIdentifier: "POIPopover") as? POIPopover
@@ -348,18 +352,28 @@ extension GlobeView
     /// - Returns: A shape to use for the indicator.
     func MakeMouseIndicator() -> SCNNode2
     {
-        let top = SCNCone(topRadius: 0.0, bottomRadius: 0.25, height: 0.5)
-        let bottom = SCNCone(topRadius: 0.25, bottomRadius: 0.0, height: 0.5)
+        let top = SCNCone(topRadius: CGFloat(MouseShape.PointRadius.rawValue),
+                          bottomRadius: CGFloat(MouseShape.BottomRadius.rawValue),
+                          height: CGFloat(MouseShape.Height.rawValue))
+        let bottom = SCNCone(topRadius: CGFloat(MouseShape.BottomRadius.rawValue),
+                             bottomRadius: CGFloat(MouseShape.PointRadius.rawValue),
+                             height: CGFloat(MouseShape.Height.rawValue))
         let topnode = SCNNode2(geometry: top)
         let bottomnode = SCNNode2(geometry: bottom)
         topnode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         bottomnode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        topnode.position = SCNVector3(0.0, 0.5, 0.0)
+        topnode.position = SCNVector3(0.0, CGFloat(MouseShape.Height.rawValue), 0.0)
         topnode.geometry?.firstMaterial?.diffuse.contents = NSColor.black
         topnode.geometry?.firstMaterial?.emission.contents = NSColor.systemOrange
         bottomnode.geometry?.firstMaterial?.diffuse.contents = NSColor.black
         bottomnode.geometry?.firstMaterial?.emission.contents = NSColor.systemYellow
-        let SwapDuration: Double = 1.1
+        let SwapDuration: Double = MouseShape.ColorSwapDuration.rawValue
+        #if true
+        let BottomGradient = MakeGradient(NSColor.yellow, NSColor.blue, 0.5)
+        bottomnode.geometry?.firstMaterial?.emission.contents = BottomGradient
+        let TopGradient = MakeGradient(NSColor.blue, NSColor.black, 0.0, 0.5)
+        topnode.geometry?.firstMaterial?.emission.contents = TopGradient
+        #else
         let TopColorSwap = SCNAction.customAction(duration: SwapDuration)
         {
             Node, Elapsed in
@@ -398,12 +412,29 @@ extension GlobeView
                 }
             }
         }
+        let Test = MakeGradient(NSColor.red, NSColor.TeaGreen)
         let SwapBottomForever = SCNAction.repeatForever(BottomColorSwap)
         bottomnode.runAction(SwapBottomForever)
+        #endif
         let FinalIndicator = SCNNode2()
         FinalIndicator.addChildNode(topnode)
         FinalIndicator.addChildNode(bottomnode)
         
         return FinalIndicator
+    }
+    
+    /// Create a gradient layer with the passed colors.
+    /// - Parameter Color1: Initial color.
+    /// - Parameter Color2: Second color.
+    /// - Parameter Pos1: Position of first color. Defaults to `0.0`.
+    /// - Parameter Pos2: Position of second color. Defaults to `1.0`.
+    /// - Returns: `CAGradientLayer` with the specified gradient.
+    func MakeGradient(_ Color1: NSColor, _ Color2: NSColor, _ Pos1: Double = 0.0, _ Pos2: Double = 1.0) -> CAGradientLayer
+    {
+        let GLayer = CAGradientLayer()
+        GLayer.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: 100.0, height: 100.0))
+        GLayer.colors = [Color1.cgColor as Any, Color2.cgColor as Any]
+        GLayer.locations = [NSNumber(value: Pos1), NSNumber(value: Pos2)]
+        return GLayer
     }
 }
