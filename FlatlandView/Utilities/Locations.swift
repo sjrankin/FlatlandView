@@ -175,13 +175,10 @@ class Locations
             {
                 print("No main delegate")
             }
-            if let QuakeManager = Main?.GetEarthquakeController()
+            else
             {
-                QuakeList = QuakeManager.GetCurrentEarthquakes()
-                if QuakeList.count < 1
-                {
-                    print("No quakes to look for")
-                }
+                QuakeList = Main!.GetCurrentEarthquakes()
+                QuakeList = QuakeList.filter({$0.Magnitude >= 5.0})
             }
         }
         
