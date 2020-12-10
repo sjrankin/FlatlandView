@@ -176,6 +176,21 @@ extension MainController: MainProtocol
         ShowStatusText("")
     }
     
+    /// Push a message to the status bar. It will show up for `PeristFor` seconds when no other
+    /// messages are being shown.
+    /// - Parameter Text: The text to show.
+    /// - Parameter PersistFor: How long to persist the message.
+    func PushStatusMessage(_ Text: String, PersistFor: Double)
+    {
+        PushMessage(Text, Duration: PersistFor, ID: UUID())
+    }
+    
+    /// Remove any pushed messages.
+    func RemovePushStatusMessage()
+    {
+        RemovePushedMessage()
+    }
+    
     /// Force an exit of Flatland.
     /// - Notes: [Terminal application](https://developer.apple.com/forums/thread/106825)
     func ExitProgram()
