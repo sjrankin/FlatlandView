@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class PreferencePanelController: NSViewController, WindowManagement
+class PreferencePanelController: NSViewController, WindowManagement, PreferencePanelControllerProtocol
 {
     public weak var MainDelegate: MainProtocol? = nil
     
@@ -49,6 +49,11 @@ class PreferencePanelController: NSViewController, WindowManagement
     {
         if let Controller = NSStoryboard(name: "PreferencePanel", bundle: nil).instantiateController(withIdentifier: IDName) as? NSViewController
         {
+            guard let AController = Controller as? PreferencePanelProtocol else
+            {
+                Debug.FatalError("Error casting preference panel to PreferencePanelProtocol")
+            }
+            AController.Parent = self
             return Controller
         }
         fatalError("Error creating \(IDName)")
@@ -137,7 +142,28 @@ class PreferencePanelController: NSViewController, WindowManagement
     func MainClosing()
     {
         self.view.window?.close()
+        Pop?.close()
     }
+    
+    func ShowHelp(For: PreferenceHelp, Where: NSRect)
+    {
+        if let PopController = NSStoryboard(name: "PreferencePanel", bundle: nil).instantiateController(withIdentifier: "PreferenceHelpViewer") as? PreferenceHelpPopover
+        {
+            guard let HelpController = PopController as? PreferenceHelpProtocol else
+            {
+                return
+            }
+            Pop = NSPopover()
+            Pop?.contentSize = NSSize(width: 460, height: 185)
+            Pop?.behavior = .semitransient
+            Pop?.animates = true
+            Pop?.contentViewController = PopController
+            HelpController.SetHelpText("This is a test")
+            Pop?.show(relativeTo: Where, of: self.view, preferredEdge: .maxX)
+        }
+    }
+    
+    var Pop: NSPopover? = nil
     
     @IBOutlet weak var PreferenceContainer: PreferencePanelView!
 }
@@ -151,4 +177,9 @@ enum PreferencePanelTypes: String, CaseIterable
     case Satellites
     case LiveData
     case MapAttributes
+}
+
+enum PreferenceHelp: String, CaseIterable
+{
+    case InterfaceStyle = "InterfaceStyle"
 }
