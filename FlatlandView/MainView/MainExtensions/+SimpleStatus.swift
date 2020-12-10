@@ -16,6 +16,7 @@ extension MainController
     /// Initialize the simple status bar.
     func InitializeSimpleStatus()
     {
+        CurrentMessageID = UUID.Empty
         StatusTextField.wantsLayer = true
         StatusTextField.layer?.zPosition = CGFloat(StatusBarConstants.TextZ.rawValue)
         StatusTextField.stringValue = ""
@@ -59,6 +60,7 @@ extension MainController
     func HideAndClear()
     {
         ClearMessageQueue()
+        CurrentMessageID = UUID.Empty
         StatusTextField.stringValue = ""
         RemoveTextTimer?.invalidate()
         RemoveTextTimer = nil
@@ -93,8 +95,19 @@ extension MainController
     /// Show text in the status bar. See also `ShowStatusText(Text, For)`.
     /// - Note: If the status bar is not visible, it is made visible. The insignificance timer is reset.
     /// - Parameter Text: The text to display.
+    /// - Parameter ID: The ID of the message.
     func ShowStatusText(_ Text: String, ID: UUID = UUID())
     {
+        if Text.isEmpty
+        {
+            CurrentMessageID = UUID.Empty
+            RemoveTextTimer?.invalidate()
+            RemoveTextTimer = nil
+            StatusTextField.stringValue = ""
+            ShowPushedText(Pushed: PushedMessage)
+            return
+        }
+        SuspendPushMessage()
         CurrentMessageID = ID
         RemoveTextTimer?.invalidate()
         RemoveTextTimer = nil
@@ -126,6 +139,50 @@ extension MainController
                                                repeats: false)
     }
     
+    func ShowPushedText(Pushed: QueuedMessage?)
+    {
+        if let Message = Pushed
+        {
+                Message.PushStartTime = CACurrentMediaTime()
+                Message.PushTimer = Timer.scheduledTimer(timeInterval: Message.ExpiresIn,
+                                                         target: self,
+                                                         selector: #selector(RemovePushedMessage),
+                                                         userInfo: nil, repeats: false)
+            CurrentMessageID = Message.ID
+            RemoveTextTimer?.invalidate()
+            RemoveTextTimer = nil
+            StatusTextContainer.isHidden = false
+            StatusTextContainer.alphaValue = 1.0
+            StatusTextField.isHidden = false
+            StatusTextField.stringValue = Message.Message
+            ResetInsignificance()
+        }
+    }
+    
+    func SuspendPushMessage()
+    {
+        if let Message = PushedMessage
+        {
+            Message.PushTimer?.invalidate()
+            Message.PushTimer = nil
+            Message.ShownFor = CACurrentMediaTime() - Message.PushStartTime + Message.ShownFor
+        }
+    }
+    
+    @objc func RemovePushedMessage()
+    {
+        OperationQueue.main.addOperation
+        {
+            if let Message = self.PushedMessage
+            {
+                Message.PushTimer?.invalidate()
+                Message.PushTimer = nil
+            }
+            self.PushedMessage = nil
+            self.HideAndClear()
+        }
+    }
+    
     /// Function that actually removes text after an amount of time has elapsed. Removal consists of setting
     /// the text field to empty.
     @objc func RemoveTextLater()
@@ -140,9 +197,11 @@ extension MainController
             else
             {
                 //No messages left - make the status bar insignificant.
+                self.CurrentMessageID = UUID.Empty
                 self.InsignificanceTimer?.invalidate()
                 self.InsignificanceTimer = nil
                 self.StartInsignificance(Duration: 2.0)
+                self.ShowPushedText(Pushed: self.PushedMessage)
             }
         }
     }
@@ -227,6 +286,27 @@ extension MainController
     {
         StatusMessageQueue.Clear()
     }
+    
+    /// Push a message to the status bar. A "pushed" message will appear when no other messages are
+    /// available but only for the specified duration.
+    /// - Note: Only one pushed message may exist at a time. Calling this function will delete any existing
+    ///         pushed messages.
+    /// - Parameter Text: The text of the message.
+    /// - Parameter Duration: The duration of the message (in seconds).
+    /// - Parameter ID: The ID of the message
+    func PushMessage(_ Text: String, Duration: Double, ID: UUID)
+    {
+        if let Current = PushedMessage
+        {
+            if CurrentMessageID == Current.ID
+            {
+                ShowStatusText("", ID: UUID.Empty)
+            }
+            Current.PushTimer?.invalidate()
+            Current.PushTimer = nil
+        }
+        PushedMessage = QueuedMessage(Text, Expiry: Duration, ID: ID)
+    }
 }
 
 /// Holds one enqueued message.
@@ -251,4 +331,13 @@ class QueuedMessage
     
     /// ID of the message.
     var ID: UUID = UUID()
+    
+    /// Timer used for push messages.
+    var PushTimer: Timer? = nil
+    
+    /// The time the pushed message first appeared.
+    var PushStartTime: Double = 0
+    
+    /// Time the message has been visible.
+    var ShownFor: Double = 0
 }
