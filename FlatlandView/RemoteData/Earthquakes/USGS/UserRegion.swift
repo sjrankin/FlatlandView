@@ -1,5 +1,5 @@
 //
-//  EarthquakeRegion.swift
+//  UserRegion.swift
 //  Flatland
 //
 //  Created by Stuart Rankin on 8/1/20.
@@ -9,11 +9,11 @@
 import Foundation
 import AppKit
 
-/// Contains one earthquake region. This is a region defined by the user to have different, user-specified
-/// local parameters for displaying earthquakes.
-class EarthquakeRegion: CustomStringConvertible
+/// Contains one user region. This is a region defined by the user to have different, user-specified
+/// local parameters for displaying earthquakes or other regions the user wants to define.
+class UserRegion: CustomStringConvertible
 {
-    /// Create an empty earthquake region.
+    /// Create an empty user region.
     init()
     {
         IsFallback = false
@@ -22,7 +22,7 @@ class EarthquakeRegion: CustomStringConvertible
         _ID = UUID()
     }
     
-    /// Create the fallback earthquake region.
+    /// Create the fallback user region.
     init(FallBack: Bool)
     {
         IsFallback = true
@@ -118,17 +118,17 @@ class EarthquakeRegion: CustomStringConvertible
     /// Radius of the circular region.
     var Radius: Double = 0.0
     
-    /// Decode a serialized earthquake region.
-    /// - Parameter Raw: The raw, serialized earthquake region.
-    /// - Returns: A populated `EarthquakeRegion` class on success, nil on error.
-    public static func Decode(Raw: String) -> EarthquakeRegion?
+    /// Decode a serialized user region.
+    /// - Parameter Raw: The raw, user earthquake region.
+    /// - Returns: A populated `UserRegion` class on success, nil on error.
+    public static func Decode(Raw: String) -> UserRegion?
     {
         let Parts = Raw.split(separator: "\t", omittingEmptySubsequences: true)
         if Parts.count != 16
         {
             return nil
         }
-        let Region = EarthquakeRegion()
+        let Region = UserRegion()
         for Index in 0 ..< Parts.count
         {
             let Part = String(Parts[Index])
