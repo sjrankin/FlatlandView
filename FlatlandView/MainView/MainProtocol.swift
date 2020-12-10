@@ -65,6 +65,15 @@ protocol MainProtocol: class
     /// Clear text from the status bar.
     func ClearStatusText()
     
+    /// Push a message to the status bar. It will show up for `PeristFor` seconds when no other
+    /// messages are being shown.
+    /// - Parameter Text: The text to show.
+    /// - Parameter PersistFor: How long to persist the message.
+    func PushStatusMessage(_ Text: String, PersistFor: Double)
+    
+    /// Remove any pushed messages.
+    func RemovePushStatusMessage()
+    
     /// Stop program execution.
     func ExitProgram()
     
