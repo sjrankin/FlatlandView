@@ -36,7 +36,7 @@ class EarthquakeRegionController2: NSViewController, NSTextFieldDelegate,
         
     }
     
-    var Regions = [EarthquakeRegion]()
+    var Regions = [UserRegion]()
     
     var DialogIsModal = false
     
