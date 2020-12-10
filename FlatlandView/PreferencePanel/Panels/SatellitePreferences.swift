@@ -9,8 +9,10 @@
 import Foundation
 import AppKit
 
-class SatellitePreferences: NSViewController
+class SatellitePreferences: NSViewController, PreferencePanelProtocol
 {
+    weak var Parent: PreferencePanelControllerProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
