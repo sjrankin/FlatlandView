@@ -14,16 +14,16 @@ extension Settings
     // MARK: - Earthquake-related setting handling.
     
     /// Load earthquake regions.
-    /// - Returns: Array of previously stored earthquake regions. Empty if no regions available.
-    public static func GetEarthquakeRegions() -> [EarthquakeRegion]
+    /// - Returns: Array of previously stored user regions. Empty if no regions available.
+    public static func GetEarthquakeRegions() -> [UserRegion]
     {
-        var Regions = [EarthquakeRegion]()
+        var Regions = [UserRegion]()
         let Raw = UserDefaults.standard.string(forKey: SettingKeys.EarthquakeRegions.rawValue)
         if let Parts = Raw?.split(separator: "∫", omittingEmptySubsequences: true)
         {
             for Part in Parts
             {
-                if let Region = EarthquakeRegion.Decode(Raw: String(Part))
+                if let Region = UserRegion.Decode(Raw: String(Part))
                 {
                     Regions.append(Region)
                 }
@@ -34,7 +34,7 @@ extension Settings
     
     /// Save earthquake regions.
     /// - Parameter Regions: Array of earthquake regions to save.
-    public static func SetEarthquakeRegions(_ Regions: [EarthquakeRegion])
+    public static func SetEarthquakeRegions(_ Regions: [UserRegion])
     {
         var Final: String = ""
         for Region in Regions
