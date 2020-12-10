@@ -9,8 +9,11 @@
 import Foundation
 import AppKit
 
-class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate
+class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate,
+                      PreferencePanelProtocol
 {
+    weak var Parent: PreferencePanelControllerProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
