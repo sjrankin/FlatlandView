@@ -838,3 +838,14 @@ enum InputUnits: String, CaseIterable
     /// Units are miles.
     case Miles = "Miles"
 }
+
+/// Interface style levels.
+enum InterfaceStyles: String, CaseIterable
+{
+    /// Minimal for low-powered systems.
+    case Minimal = "Minimal"
+    /// Normal for most systems.
+    case Normal = "Normal"
+    /// Maximum for over-powered systems.
+    case Maximum = "Maximum"
+}
