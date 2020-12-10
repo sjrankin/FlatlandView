@@ -26,8 +26,8 @@ extension GlobeView
                 {
                     print("Called from \(FromWhere)")
                 }
-                let StackFrames = Debug.StackFrameContents(6)
-                Debug.Print(Debug.PrettyStackTrace(StackFrames))
+                //let StackFrames = Debug.StackFrameContents(6)
+                //Debug.Print(Debug.PrettyStackTrace(StackFrames))
                 if let AlreadyDone = InitialStenciledMap
                 {
                     ApplyEarthquakeStencils(InitialMap: AlreadyDone, Caller: #function)
@@ -61,12 +61,22 @@ extension GlobeView
         PlottedEarthquakes.removeAll()
     }
     
+    func GetDeltas(_ List1: [Earthquake], _ List2: [Earthquake]) -> [Earthquake]
+    {
+        let Set1 = Set<Earthquake>(List1.map{$0})
+        let Set2 = Set<Earthquake>(List2.map{$0})
+        let Difference = Array(Set1.subtracting(Set2))
+        return Difference
+    }
+    
     /// Determines if two lists of earthquakes have the same contents. This function works regardless
     /// of the order of the contents.
     /// - Parameter List1: First earthquake list.
     /// - Parameter List2: Second earthquake list.
+    /// - Parameter Delta: The difference between `List1` and `List2`.
     /// - Returns: True if the lists have equal contents, false if not.
-    func SameEarthquakes(_ List1: [Earthquake], _ List2: [Earthquake]) -> Bool
+    func SameEarthquakes(_ List1: [Earthquake], _ List2: [Earthquake],
+                         Delta: inout [Earthquake]) -> Bool
     {
         if List1.count != List2.count
         {
@@ -85,6 +95,7 @@ extension GlobeView
         
         let SList1 = List1.sorted(by: {$0.Code < $1.Code})
         let SList2 = List2.sorted(by: {$0.Code < $1.Code})
+        Delta = GetDeltas(SList1, SList2)
         for Index in 0 ..< SList1.count
         {
             if SList1[Index].Code != SList2[Index].Code
@@ -112,12 +123,18 @@ extension GlobeView
         {
             return
         }
-        if SameEarthquakes(FilteredList, EarthquakeList)
+        var NewQuakes = [Earthquake]()
+        if SameEarthquakes(FilteredList, EarthquakeList, Delta: &NewQuakes)
         {
             #if DEBUG
-            //print("No new earthquakes")
+            //Debug.Print("No new earthquakes")
             #endif
             return
+        }
+        NewQuakes.sort(by: {$0.Magnitude > $1.Magnitude})
+        if let Biggest = NewQuakes.max(by: {$0.Magnitude > $1.Magnitude})
+        {
+            MainDelegate?.PushStatusMessage("New quake: \(Biggest.Title)", PersistFor: 600.0)
         }
         ClearEarthquakes()
         EarthquakeList.removeAll()
