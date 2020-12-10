@@ -20,7 +20,7 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         Regions = Settings.GetEarthquakeRegions()
         if Regions.count == 0
         {
-            Regions.append(EarthquakeRegion(FallBack: true))
+            Regions.append(UserRegion(FallBack: true))
             Settings.SetEarthquakeRegions(Regions)
         }
         RegionTable.reloadData()
@@ -38,7 +38,7 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
     
     var IsDirty = false
     var CurrentRegionIndex: Int = 0
-    var Regions = [EarthquakeRegion]()
+    var Regions = [UserRegion]()
     
     @IBAction func HandleClosePressed(_ sender: Any)
     {
@@ -97,7 +97,7 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
     
     @IBAction func HandleAddButton(_ sender: Any)
     {
-        let NewRegion = EarthquakeRegion()
+        let NewRegion = UserRegion()
         NewRegion.RegionName = "New Region"
         Regions.append(NewRegion)
         RegionTable.reloadData()
@@ -321,7 +321,7 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
                 if Result == .OK
                 {
                     self.Regions.removeAll()
-                    self.Regions.append(EarthquakeRegion(FallBack: true))
+                    self.Regions.append(UserRegion(FallBack: true))
                     Settings.SetEarthquakeRegions(self.Regions)
                     self.ReloadTable()
                     self.Populate(Row: 0)
