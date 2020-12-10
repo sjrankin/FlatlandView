@@ -9,8 +9,10 @@
 import Foundation
 import AppKit
 
-class GeneralPreferences: NSViewController
+class GeneralPreferences: NSViewController, PreferencePanelProtocol
 {
+    weak var Parent: PreferencePanelControllerProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -33,6 +35,19 @@ class GeneralPreferences: NSViewController
                 
             case .Miles:
                 InputUnitSegment.selectedSegment = 1
+        }
+        let IFStyle = Settings.GetEnum(ForKey: .InterfaceStyle, EnumType: InterfaceStyles.self,
+                                       Default: .Normal)
+        switch IFStyle
+        {
+            case .Minimal:
+                InterfaceSegement.selectedSegment = 0
+                
+            case .Normal:
+                InterfaceSegement.selectedSegment = 1
+                
+            case .Maximum:
+                InterfaceSegement.selectedSegment = 2
         }
     }
     
@@ -70,6 +85,36 @@ class GeneralPreferences: NSViewController
         }
     }
     
+    @IBAction func HandleInterfaceSegmentChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            if Segment.selectedSegment < 0 || Segment.selectedSegment > InterfaceStyles.allCases.count - 1
+            {
+                return
+            }
+            let NewValue = InterfaceStyles.allCases[Segment.selectedSegment]
+            Settings.SetEnum(NewValue, EnumType: InterfaceStyles.self, ForKey: .InterfaceStyle)
+        }
+    }
+    
+    @IBAction func HandleHelpButton(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            switch Button
+            {
+                case IFStyleHelpButton:
+                    Parent?.ShowHelp(For: .InterfaceStyle, Where: Button.bounds)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBOutlet weak var IFStyleHelpButton: NSButton!
+    @IBOutlet weak var InterfaceSegement: NSSegmentedControl!
     @IBOutlet weak var TimeFormatSegment: NSSegmentedControl!
     @IBOutlet weak var ShowSecondsSwitch: NSSwitch!
     @IBOutlet weak var InputUnitSegment: NSSegmentedControl!
