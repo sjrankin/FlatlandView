@@ -450,9 +450,12 @@ enum SettingKeys: String, CaseIterable
     case Debug_ClockActionClockMultiplier = "Debug_ClockActionClockMultiplier"
     
     // MARK: - Input/local settings.
-    
     /// Determines the default input unit.
     case InputUnit = "InputUnit"
+    
+    // MARK: - Interface settings.
+    /// Determines how fancy the interface is.
+    case InterfaceStyle = "InterfaceStyle"
     
     // MARK: - Settings used in areas outside of the Settings system.
     /// Live data viewer.
