@@ -9,8 +9,10 @@
 import Foundation
 import AppKit
 
-class POIPreferences: NSViewController
+class POIPreferences: NSViewController, PreferencePanelProtocol
 {
+    weak var Parent: PreferencePanelControllerProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
