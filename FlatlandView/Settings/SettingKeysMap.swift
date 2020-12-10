@@ -201,6 +201,7 @@ extension Settings
             .AntialiasLevel: SceneJitters.self,
             .SearchForLocation: Bool.self,
             .InputUnit: InputUnits.self,
+            .InterfaceStyle: InterfaceStyles.self,
             // MARK: - Debugging settings
             .Debug_EnableClockControl: Bool.self,
             .Debug_ClockDebugMap: Debug_MapTypes.self,
