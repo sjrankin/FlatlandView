@@ -9,8 +9,10 @@
 import Foundation
 import AppKit
 
-class MapAttributesPreferences: NSViewController
+class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
 {
+    weak var Parent: PreferencePanelControllerProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
