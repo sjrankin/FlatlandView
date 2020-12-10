@@ -720,7 +720,7 @@ class Stenciler
     /// - Parameter Ratio: A ratio between the actual image size and the expected image size.
     /// - Parameter Kernel: Metal kernel wrapper to do the actual drawing.
     /// - Returns: New image with regions drawn.
-    private static func DrawRegions(Image: NSImage, Regions: [EarthquakeRegion], Ratio: Double,
+    private static func DrawRegions(Image: NSImage, Regions: [UserRegion], Ratio: Double,
                                     Kernel: ImageBlender) -> NSImage
     {
         var Final = Image
@@ -1025,7 +1025,7 @@ class Stenciler
     /// - Parameter Regions: List of earthquake regions to plot.
     /// - Returns: Image of the earthquake regions.
     public static func ApplyRectangles(Size: NSSize = NSSize(width: 3600, height: 1800),
-                                       Regions: [EarthquakeRegion]) -> NSImage
+                                       Regions: [UserRegion]) -> NSImage
     {
         objc_sync_enter(DrawRectangleLock)
         defer{objc_sync_exit(DrawRectangleLock)}
