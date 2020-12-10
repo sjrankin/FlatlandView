@@ -419,6 +419,37 @@ extension GlobeView
         let FinalIndicator = SCNNode2()
         FinalIndicator.addChildNode(topnode)
         FinalIndicator.addChildNode(bottomnode)
+        var Angles = [Double]()
+        var Previous = 0.0
+        let GenericAngle = 360.0 * (1.0 / MouseShape.AngleCount.rawValue)
+        for _ in 0 ..< Int(MouseShape.AngleCount.rawValue)
+        {
+            let NewAngle = Previous + GenericAngle
+            Previous = NewAngle
+            Angles.append(NewAngle)
+        }
+        for Angle in Angles
+        {
+            let Radius = MouseShape.BottomRadius.rawValue
+            let Sphere = SCNSphere(radius: CGFloat(MouseShape.SuperfluousSphereRadius.rawValue))
+            let SNode = SCNNode2(geometry: Sphere)
+            SNode.geometry?.firstMaterial?.emission.contents = NSColor.cyan
+            let X = Radius * cos(Angle.Radians)
+            let Y = Radius * sin(Angle.Radians)
+            SNode.position = SCNVector3(X, MouseShape.Height.rawValue / 2.0, Y)
+            FinalIndicator.addChildNode(SNode)
+            let RotateDuration = MouseShape.SuperfluousSphereRotationDuration.rawValue
+            let RotateSphere = SCNAction.customAction(duration: RotateDuration)
+            {
+                Node, Elapsed in
+                let NewAngle = Angle + 360.0 * (Double(Elapsed) / RotateDuration)
+                let NewX = Radius * cos(NewAngle.Radians)
+                let NewY = Radius * sin(NewAngle.Radians)
+                Node.position = SCNVector3(NewX, MouseShape.Height.rawValue / 2.0, NewY)
+            }
+            let Forever = SCNAction.repeatForever(RotateSphere)
+            SNode.runAction(Forever)
+        }
         
         return FinalIndicator
     }
