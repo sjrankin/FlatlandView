@@ -634,6 +634,12 @@ enum MouseShape: Double, CaseIterable
     case ColorSwapDuration = 2.2
     /// Offset for radial placement.
     case RadialOffset = 0.7
+    /// Number of superfluous spheres
+    case AngleCount = 5.0
+    /// Radius of the superfluous spheres.
+    case SuperfluousSphereRadius = 0.06
+    /// Number of seconds to rotate each superfluous sphere.
+    case SuperfluousSphereRotationDuration = 3.6
 }
 
 #if DEBUG
