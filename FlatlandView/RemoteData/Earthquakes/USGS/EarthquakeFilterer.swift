@@ -16,7 +16,7 @@ class EarthquakeFilterer
     /// - Parameter Quake: The quake to check against the passed region.
     /// - Parameter Region: The region to test the passed earhquake against.
     /// - Returns: True if the location of `Quake` is in `Region`, false if not.
-    private static func QuakeInRegion(_ Quake: Earthquake, _ Region: EarthquakeRegion) -> Bool
+    private static func QuakeInRegion(_ Quake: Earthquake, _ Region: UserRegion) -> Bool
     {
         if Quake.Longitude < Region.UpperLeft.Longitude
         {
@@ -50,7 +50,7 @@ class EarthquakeFilterer
     /// - Parameter Quake: The earthquake to determine whether it can be shown or not.
     /// - Parameter Filters: List of filters against which the quake is compared.
     /// - Returns: True if the earthquake can be displayed (meets the filter criteria), false if not.
-    private static func ApplyEarthquakeFilters(_ Quake: Earthquake, _ Filters: [EarthquakeRegion]) -> Bool
+    private static func ApplyEarthquakeFilters(_ Quake: Earthquake, _ Filters: [UserRegion]) -> Bool
     {
         for Filter in Filters
         {
@@ -90,7 +90,7 @@ class EarthquakeFilterer
     /// - Parameter From: The array of earthquake filters to search for the fallback filter.
     /// - Returns: The fallback region in the passed list. If one does not exist, a default fallback
     ///            filter is generated and returned.
-    private static func GetFallback(From: [EarthquakeRegion]) -> EarthquakeRegion
+    private static func GetFallback(From: [UserRegion]) -> UserRegion
     {
         for Filter in From
         {
@@ -99,17 +99,17 @@ class EarthquakeFilterer
                 return Filter
             }
         }
-        return EarthquakeRegion(FallBack: true)
+        return UserRegion(FallBack: true)
     }
     
     /// Returns the current set of earthquake regions set by the user.
     /// - Returns: Array of earthquake regions.
-    private static func GetCurrentFilters() -> [EarthquakeRegion]
+    private static func GetCurrentFilters() -> [UserRegion]
     {
         var Regions = Settings.GetEarthquakeRegions()
         if Regions.count < 1
         {
-            Regions.append(EarthquakeRegion(FallBack: true))
+            Regions.append(UserRegion(FallBack: true))
         }
         return Regions
     }
