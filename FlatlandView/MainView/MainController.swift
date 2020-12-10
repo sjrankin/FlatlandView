@@ -777,7 +777,10 @@ class MainController: NSViewController
     var StatusMessageQueue = Queue<QueuedMessage>()
     /// ID of the current message in the simple status bar.
     var CurrentMessageID: UUID = UUID()
+    /// Lock to prevent races on the status bar.
     var StatusBarLock: NSObject = NSObject()
+    /// Pushed message.
+    var PushedMessage: QueuedMessage? = nil
     
     // MARK: - Storyboard outlets
     
