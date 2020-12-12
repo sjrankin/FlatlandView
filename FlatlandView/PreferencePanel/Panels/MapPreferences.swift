@@ -167,6 +167,22 @@ class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
         }
     }
     
+    @IBAction func HandleHelpButton(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            switch Button
+            {
+                case MapSampleHelpButton:
+                    Parent?.ShowHelp(For: .MapSample, Where: Button.bounds, What: MapSampleHelpButton)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBOutlet weak var MapSampleHelpButton: NSButton!
     @IBOutlet weak var MapNameLabel: NSTextField!
     @IBOutlet weak var MapViewTypeSegment: NSSegmentedControl!
     @IBOutlet weak var MapTable: NSOutlineView!
