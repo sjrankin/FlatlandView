@@ -11,5 +11,5 @@ import AppKit
 
 protocol PreferencePanelControllerProtocol: class
 {
-    func ShowHelp(For: PreferenceHelp, Where: NSRect)
+    func ShowHelp(For: PreferenceHelp, Where: NSRect, What: NSView)
 }
