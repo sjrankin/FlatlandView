@@ -105,7 +105,16 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
             switch Button
             {
                 case IFStyleHelpButton:
-                    Parent?.ShowHelp(For: .InterfaceStyle, Where: Button.bounds)
+                    Parent?.ShowHelp(For: .InterfaceStyle, Where: Button.bounds, What: IFStyleHelpButton)
+                    
+                case InputUnitHelpButton:
+                    Parent?.ShowHelp(For: .InputUnits, Where: Button.bounds, What: InputUnitHelpButton)
+                    
+                case DateStyleHelpButton:
+                    Parent?.ShowHelp(For: .MainDateFormat, Where: Button.bounds, What: DateStyleHelpButton)
+                    
+                case ShowSecondsHelpButton:
+                    Parent?.ShowHelp(For: .ShowSeconds, Where: Button.bounds, What: ShowSecondsHelpButton)
                     
                 default:
                     return
@@ -113,6 +122,9 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
+    @IBOutlet weak var InputUnitHelpButton: NSButton!
+    @IBOutlet weak var ShowSecondsHelpButton: NSButton!
+    @IBOutlet weak var DateStyleHelpButton: NSButton!
     @IBOutlet weak var IFStyleHelpButton: NSButton!
     @IBOutlet weak var InterfaceSegement: NSSegmentedControl!
     @IBOutlet weak var TimeFormatSegment: NSSegmentedControl!
