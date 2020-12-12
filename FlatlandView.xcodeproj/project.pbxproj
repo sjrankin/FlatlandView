@@ -15,6 +15,7 @@
 		1704D3F4256A4DA100DE0F85 /* StencilPipelineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1704D3F3256A4DA100DE0F85 /* StencilPipelineProtocol.swift */; };
 		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
 		1707A7AF249CACAB00A90FCA /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1707A7AE249CACAB00A90FCA /* Earthquake.swift */; };
+		170D42A32583137D00FD7AD2 /* PreferenceHelpViewer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 170D42A22583137D00FD7AD2 /* PreferenceHelpViewer.storyboard */; };
 		170E7BE92559165F00EA3AD3 /* +DynamicInfoDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BE82559165F00EA3AD3 /* +DynamicInfoDisplay.swift */; };
 		170E7BF12559284300EA3AD3 /* FloatingViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */; };
 		170E7BF52559290900EA3AD3 /* MouseInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BF42559290900EA3AD3 /* MouseInfoController.swift */; };
@@ -137,7 +138,6 @@
 		175DCC622580A3A900EB6D69 /* PreferenceHelpPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175DCC612580A3A900EB6D69 /* PreferenceHelpPopover.swift */; };
 		175DCC652580A4EA00EB6D69 /* PreferenceHelpProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175DCC642580A4EA00EB6D69 /* PreferenceHelpProtocol.swift */; };
 		175DCC692580BCF000EB6D69 /* StaticTextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175DCC682580BCF000EB6D69 /* StaticTextManager.swift */; };
-		175DCC6C2580C4C100EB6D69 /* UniqueID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175DCC6B2580C4C100EB6D69 /* UniqueID.swift */; };
 		175F661424DE7416007B3A60 /* LineDrawParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175F661324DE7416007B3A60 /* LineDrawParameters.swift */; };
 		1760023424D2BEF800D5EA1A /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760023324D2BEF800D5EA1A /* Double.swift */; };
 		1760023624D2BF1800D5EA1A /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1760023524D2BF1800D5EA1A /* CGFloat.swift */; };
@@ -352,6 +352,7 @@
 		17F1E5CF2549155500E6F6CF /* SmokeParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5CE2549155500E6F6CF /* SmokeParticleTest.sks */; };
 		17F1E5D22549158000E6F6CF /* SnowParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5D12549158000E6F6CF /* SnowParticleTest.sks */; };
 		17F1E5D5254915AD00E6F6CF /* RainParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5D4254915AD00E6F6CF /* RainParticleTest.sks */; };
+		17F2D7122583257D00DD8023 /* AttributedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F2D7112583257D00DD8023 /* AttributedText.swift */; };
 		17F44AA824CEF67700A02B19 /* SatelliteMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F44AA724CEF67700A02B19 /* SatelliteMap.swift */; };
 		17F6C4F1257BA019003FFDA2 /* MapDebugPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */; };
 		17F6C4F5257BA24F003FFDA2 /* +Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C4F4257BA24F003FFDA2 /* +Debug.swift */; };
@@ -397,6 +398,7 @@
 		1704D3F3256A4DA100DE0F85 /* StencilPipelineProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilPipelineProtocol.swift; sourceTree = "<group>"; };
 		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
 		1707A7AE249CACAB00A90FCA /* Earthquake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
+		170D42A22583137D00FD7AD2 /* PreferenceHelpViewer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PreferenceHelpViewer.storyboard; sourceTree = "<group>"; };
 		170E7BE82559165F00EA3AD3 /* +DynamicInfoDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+DynamicInfoDisplay.swift"; sourceTree = "<group>"; };
 		170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FloatingViews.storyboard; sourceTree = "<group>"; };
 		170E7BF42559290900EA3AD3 /* MouseInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseInfoController.swift; sourceTree = "<group>"; };
@@ -521,7 +523,6 @@
 		175DCC612580A3A900EB6D69 /* PreferenceHelpPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceHelpPopover.swift; sourceTree = "<group>"; };
 		175DCC642580A4EA00EB6D69 /* PreferenceHelpProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceHelpProtocol.swift; sourceTree = "<group>"; };
 		175DCC682580BCF000EB6D69 /* StaticTextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticTextManager.swift; sourceTree = "<group>"; };
-		175DCC6B2580C4C100EB6D69 /* UniqueID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniqueID.swift; sourceTree = "<group>"; };
 		175F661324DE7416007B3A60 /* LineDrawParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineDrawParameters.swift; sourceTree = "<group>"; };
 		1760023324D2BEF800D5EA1A /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		1760023524D2BF1800D5EA1A /* CGFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
@@ -744,6 +745,7 @@
 		17F1E5CE2549155500E6F6CF /* SmokeParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SmokeParticleTest.sks; sourceTree = "<group>"; };
 		17F1E5D12549158000E6F6CF /* SnowParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SnowParticleTest.sks; sourceTree = "<group>"; };
 		17F1E5D4254915AD00E6F6CF /* RainParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RainParticleTest.sks; sourceTree = "<group>"; };
+		17F2D7112583257D00DD8023 /* AttributedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedText.swift; sourceTree = "<group>"; };
 		17F44AA724CEF67700A02B19 /* SatelliteMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SatelliteMap.swift; sourceTree = "<group>"; };
 		17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDebugPanel.swift; sourceTree = "<group>"; };
 		17F6C4F4257BA24F003FFDA2 /* +Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Debug.swift"; sourceTree = "<group>"; };
@@ -798,6 +800,16 @@
 				1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */,
 			);
 			path = CityPopulations;
+			sourceTree = "<group>";
+		};
+		170D429C2583125500FD7AD2 /* PreferenceHelp */ = {
+			isa = PBXGroup;
+			children = (
+				175DCC642580A4EA00EB6D69 /* PreferenceHelpProtocol.swift */,
+				175DCC612580A3A900EB6D69 /* PreferenceHelpPopover.swift */,
+				170D42A22583137D00FD7AD2 /* PreferenceHelpViewer.storyboard */,
+			);
+			path = PreferenceHelp;
 			sourceTree = "<group>";
 		};
 		170E7BEE2559281C00EA3AD3 /* Floating */ = {
@@ -1434,12 +1446,11 @@
 		179EB771254F925400AADAAD /* PreferencePanel */ = {
 			isa = PBXGroup;
 			children = (
+				170D429C2583125500FD7AD2 /* PreferenceHelp */,
 				172F0601255129A300BEA156 /* Panels */,
 				179EB77C254FE3EF00AADAAD /* PreferencePanelWindow.swift */,
 				179EB77F254FE40D00AADAAD /* PreferencePanelController.swift */,
 				179EB782254FE43500AADAAD /* PreferencePanel.storyboard */,
-				175DCC612580A3A900EB6D69 /* PreferenceHelpPopover.swift */,
-				175DCC642580A4EA00EB6D69 /* PreferenceHelpProtocol.swift */,
 				172F05FA255108F300BEA156 /* PreferencePanelView.swift */,
 				172F05FE255128FB00BEA156 /* PreferencePanelBase.swift */,
 				175DCC5B258095F500EB6D69 /* PreferencePaneControllerlProtocol.swift */,
@@ -1795,7 +1806,7 @@
 				175BA56725712A1A001ED3A2 /* SolarToday.swift */,
 				1700852A25773183002FD62F /* Geometry.swift */,
 				1723E697257E4870003CC24C /* InputValidation.swift */,
-				175DCC6B2580C4C100EB6D69 /* UniqueID.swift */,
+				17F2D7112583257D00DD8023 /* AttributedText.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2010,6 +2021,7 @@
 				17CB248D253C5BCB00BAABDC /* POI.db in Resources */,
 				1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */,
 				172F061625514E4800BEA156 /* Popovers.storyboard in Resources */,
+				170D42A32583137D00FD7AD2 /* PreferenceHelpViewer.storyboard in Resources */,
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
 				17F1E5D22549158000E6F6CF /* SnowParticleTest.sks in Resources */,
 				17F79069252D57FF00FA2F23 /* Mappable.db in Resources */,
@@ -2222,7 +2234,6 @@
 				17B7D7B724CED0F7000C077B /* ImageResizer.swift in Sources */,
 				172F4A1F24F9F3850014A65E /* EnumEditor.swift in Sources */,
 				176A89802530278900489C22 /* MainWindow.swift in Sources */,
-				175DCC6C2580C4C100EB6D69 /* UniqueID.swift in Sources */,
 				17DD615B24EE622B008C332A /* StatusUIView.swift in Sources */,
 				1727EA5824B15CD10051EA3B /* +UserCamera.swift in Sources */,
 				17F9AFDF252033DF00DE0219 /* +Double.swift in Sources */,
@@ -2249,6 +2260,7 @@
 				177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */,
 				1762BD6B2560BD1C009C6965 /* +FlatViewMouseHandling.swift in Sources */,
 				177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */,
+				17F2D7122583257D00DD8023 /* AttributedText.swift in Sources */,
 				178E1CA625186E1300FDC75B /* +Initialize.swift in Sources */,
 				17EF3393247A66D200A5B55D /* MapManager.swift in Sources */,
 				17B8B4132536F52F00CF8760 /* SCNSatellite.swift in Sources */,
