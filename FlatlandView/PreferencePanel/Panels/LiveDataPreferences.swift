@@ -17,4 +17,21 @@ class LiveDataPreferences: NSViewController, PreferencePanelProtocol
     {
         super.viewDidLoad()
     }
+    
+    @IBAction func HandleHelpButtonPressed(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            switch Button
+            {
+                case LiveDataHelpButton:
+                    Parent?.ShowHelp(For: .LiveDataHelp, Where: Button.bounds, What: LiveDataHelpButton)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBOutlet weak var LiveDataHelpButton: NSButton!
 }
