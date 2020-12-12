@@ -9,7 +9,9 @@
 import Foundation
 import AppKit
 
+/// Protocol for communicating with the preference help display.
 protocol PreferenceHelpProtocol: class
 {
+    /// Display the passed help text.
     func SetHelpText(_ Text: String)
 }

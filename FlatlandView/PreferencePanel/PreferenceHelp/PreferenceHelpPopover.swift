@@ -19,7 +19,15 @@ class PreferenceHelpPopover: NSViewController, NSPopoverDelegate, PreferenceHelp
     
     override func viewWillLayout()
     {
-        HelpTextControl.stringValue = AssignLater
+        HelpTextControl.isEditable = false
+        HelpTextControl.isSelectable = true
+        DoSetText(AssignLater)
+    }
+    
+    func DoSetText(_ Raw: String)
+    {
+        let AText = AttributedText.ConvertText(Raw)
+        HelpTextControl.textStorage?.setAttributedString(AText)
     }
     
     var This: NSPopover? = nil
@@ -31,14 +39,14 @@ class PreferenceHelpPopover: NSViewController, NSPopoverDelegate, PreferenceHelp
     
     func Initialize()
     {
-        HelpTextControl.stringValue = ""
+        DoSetText("")
     }
     
     func SetHelpText(_ Text: String)
     {
         if HelpTextControl != nil
         {
-        HelpTextControl.stringValue = Text
+           DoSetText(Text)
         }
         AssignLater = Text
     }
@@ -50,5 +58,5 @@ class PreferenceHelpPopover: NSViewController, NSPopoverDelegate, PreferenceHelp
         self.view.window?.close()
     }
     
-    @IBOutlet weak var HelpTextControl: NSTextField!
+    @IBOutlet weak var HelpTextControl: NSTextView!
 }
