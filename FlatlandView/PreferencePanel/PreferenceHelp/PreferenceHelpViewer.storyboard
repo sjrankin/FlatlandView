@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Preference Help Popover-->
+        <scene sceneID="in4-7c-loA">
+            <objects>
+                <viewController storyboardIdentifier="PreferenceHelpViewer" id="i8l-Sj-l3V" customClass="PreferenceHelpPopover" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="urz-yf-kXQ">
+                        <rect key="frame" x="0.0" y="0.0" width="427" height="237"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="dlk-v8-WjL">
+                                <rect key="frame" x="9" y="11" width="410" height="216"/>
+                                <rows>
+                                    <gridRow id="hcX-Cx-jv1"/>
+                                    <gridRow id="QeR-h4-YDS"/>
+                                    <gridRow id="Zhp-jK-A44"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn id="SDH-8k-Vhv"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="hcX-Cx-jv1" column="SDH-8k-Vhv" id="T47-VI-8Fe">
+                                        <gridView key="contentView" horizontalCompressionResistancePriority="751" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="jr2-xx-Kkm">
+                                            <rect key="frame" x="0.0" y="192" width="410" height="24"/>
+                                            <rows>
+                                                <gridRow id="D3g-Cq-vzG"/>
+                                            </rows>
+                                            <columns>
+                                                <gridColumn id="Xih-tM-RcR"/>
+                                                <gridColumn id="Lle-Ez-ke2"/>
+                                            </columns>
+                                            <gridCells>
+                                                <gridCell row="D3g-Cq-vzG" column="Xih-tM-RcR" id="XbY-I2-rGE">
+                                                    <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="dlM-d8-NSg">
+                                                        <rect key="frame" x="0.0" y="-3" width="24" height="30"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="24" id="JRW-LR-SXD"/>
+                                                            <constraint firstAttribute="height" constant="24" id="XUC-lx-MBV"/>
+                                                        </constraints>
+                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="xmark.circle.fill" catalog="system" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="6h8-l6-G83">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="HandleClosePressed:" target="i8l-Sj-l3V" id="Fi7-9W-nbq"/>
+                                                        </connections>
+                                                    </button>
+                                                </gridCell>
+                                                <gridCell row="D3g-Cq-vzG" column="Lle-Ez-ke2" id="Jhq-yr-avP"/>
+                                            </gridCells>
+                                        </gridView>
+                                    </gridCell>
+                                    <gridCell row="QeR-h4-YDS" column="SDH-8k-Vhv" id="r2w-zB-xiD">
+                                        <scrollView key="contentView" appearanceType="aqua" borderType="line" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6gl-wf-lHc">
+                                            <rect key="frame" x="0.0" y="26" width="410" height="160"/>
+                                            <clipView key="contentView" drawsBackground="NO" id="T3I-oN-WAn">
+                                                <rect key="frame" x="1" y="1" width="408" height="158"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" id="7VR-N5-OcT">
+                                                        <rect key="frame" x="0.0" y="0.0" width="408" height="158"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <size key="minSize" width="408" height="158"/>
+                                                        <size key="maxSize" width="410" height="10000000"/>
+                                                        <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                    </textView>
+                                                </subviews>
+                                            </clipView>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="160" id="0Xr-yg-gzO"/>
+                                                <constraint firstAttribute="height" constant="160" id="GEi-DC-UDB"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="410" id="hVB-W2-OYA"/>
+                                                <constraint firstAttribute="width" constant="410" id="sp3-GB-zfE"/>
+                                            </constraints>
+                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="1sT-5G-o54">
+                                                <rect key="frame" x="-100" y="-100" width="225" height="15"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="oZ8-3l-oSR">
+                                                <rect key="frame" x="224" y="1" width="15" height="133"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                        </scrollView>
+                                    </gridCell>
+                                    <gridCell row="Zhp-jK-A44" column="SDH-8k-Vhv" id="HGw-N0-RAF">
+                                        <gridView key="contentView" ambiguous="YES" xPlacement="trailing" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="AcO-PS-Zeq">
+                                            <rect key="frame" x="0.0" y="0.0" width="161" height="20"/>
+                                            <rows>
+                                                <gridRow id="Kit-rC-agR"/>
+                                            </rows>
+                                            <columns>
+                                                <gridColumn id="bLG-T6-MWp"/>
+                                                <gridColumn id="0u8-CL-Atv"/>
+                                            </columns>
+                                            <gridCells>
+                                                <gridCell row="Kit-rC-agR" column="bLG-T6-MWp" id="b65-J9-bir"/>
+                                                <gridCell row="Kit-rC-agR" column="0u8-CL-Atv" id="KfK-fi-oaU">
+                                                    <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P7H-z7-ah5">
+                                                        <rect key="frame" x="99" y="-7" width="69" height="32"/>
+                                                        <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PN1-Ts-b2w">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="HandleClosePressed:" target="i8l-Sj-l3V" id="KFd-ls-C92"/>
+                                                        </connections>
+                                                    </button>
+                                                </gridCell>
+                                            </gridCells>
+                                        </gridView>
+                                    </gridCell>
+                                </gridCells>
+                            </gridView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="dlk-v8-WjL" firstAttribute="centerY" secondItem="urz-yf-kXQ" secondAttribute="centerY" id="Kc6-SV-axo"/>
+                            <constraint firstItem="dlk-v8-WjL" firstAttribute="centerX" secondItem="urz-yf-kXQ" secondAttribute="centerX" id="ipK-Ib-Ej3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="HelpTextControl" destination="7VR-N5-OcT" id="ZJq-MX-T3A"/>
+                    </connections>
+                </viewController>
+                <customObject id="mj6-gO-Uf0" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="262.5" y="140.5"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="xmark.circle.fill" catalog="system" width="15" height="15"/>
+    </resources>
+</document>
