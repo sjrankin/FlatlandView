@@ -282,7 +282,7 @@
 		17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BB82491C8E400CACED5 /* SCNRegular.swift */; };
 		17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BBC2491EAA200CACED5 /* SCNPin.swift */; };
 		17CFEC582522BDAE005C3E49 /* NSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CFEC572522BDAE005C3E49 /* NSView.swift */; };
-		17CFEC6025232A4B005C3E49 /* WorldHeritageSite2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CFEC5F25232A4B005C3E49 /* WorldHeritageSite2.swift */; };
+		17CFEC6025232A4B005C3E49 /* WorldHeritageSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CFEC5F25232A4B005C3E49 /* WorldHeritageSite.swift */; };
 		17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */; };
 		17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */; };
 		17D570A324F8FDFD00EB5C08 /* GeneralEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D570A224F8FDFD00EB5C08 /* GeneralEditor.swift */; };
@@ -673,7 +673,7 @@
 		17CC8BB82491C8E400CACED5 /* SCNRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNRegular.swift; sourceTree = "<group>"; };
 		17CC8BBC2491EAA200CACED5 /* SCNPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPin.swift; sourceTree = "<group>"; };
 		17CFEC572522BDAE005C3E49 /* NSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSView.swift; sourceTree = "<group>"; };
-		17CFEC5F25232A4B005C3E49 /* WorldHeritageSite2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSite2.swift; sourceTree = "<group>"; };
+		17CFEC5F25232A4B005C3E49 /* WorldHeritageSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSite.swift; sourceTree = "<group>"; };
 		17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorWindow.swift; sourceTree = "<group>"; };
 		17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsWindow.swift; sourceTree = "<group>"; };
 		17D570A224F8FDFD00EB5C08 /* GeneralEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralEditor.swift; sourceTree = "<group>"; };
@@ -1049,7 +1049,7 @@
 				174D0358252C929D00692B89 /* +MainDatabase.swift */,
 				1792486D251A21C700AF4D4B /* +MainWorldHeritageSites.swift */,
 				17C34556252C977F00D01143 /* +MainCityDatabase.swift */,
-				17CFEC5F25232A4B005C3E49 /* WorldHeritageSite2.swift */,
+				17CFEC5F25232A4B005C3E49 /* WorldHeritageSite.swift */,
 				17CB2486253C108300BAABDC /* +POIDatabase.swift */,
 			);
 			path = "+MainDatabase";
@@ -2273,7 +2273,7 @@
 				172D20662521BEC000FA8687 /* +FlatViewWorldHeritageSites.swift in Sources */,
 				17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */,
 				17EB790824AEEE6B00BB0473 /* EarthquakeDebugWindow.swift in Sources */,
-				17CFEC6025232A4B005C3E49 /* WorldHeritageSite2.swift in Sources */,
+				17CFEC6025232A4B005C3E49 /* WorldHeritageSite.swift in Sources */,
 				17897C932514AB6E00544DE1 /* +MainTimeAndSun.swift in Sources */,
 				178A86A22489127C00BE8D46 /* +Hours.swift in Sources */,
 				171A583E24BED5A700F9CA76 /* SCNTriangleRing.swift in Sources */,
