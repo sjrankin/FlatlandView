@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -64,49 +64,6 @@
                                         <action selector="Reset3DView:" target="gS1-iC-1Lf" id="H6P-l7-NnY"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="46302FE2-E66E-47DD-B258-020795B771FA" label="Hours" paletteLabel="Hours" sizingBehavior="auto" id="y1a-2M-gUr">
-                                    <nil key="toolTip"/>
-                                    <segmentedControl key="view" verticalHuggingPriority="750" id="bPC-zz-fFT">
-                                        <rect key="frame" x="0.0" y="14" width="149" height="23"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="dD0-AG-Y6N">
-                                            <font key="font" metaFont="system"/>
-                                            <segments>
-                                                <segment image="CircleIcon" width="32"/>
-                                                <segment image="ClockIcon" width="32" selected="YES" tag="1"/>
-                                                <segment image="DeltaIcon" width="32">
-                                                    <nil key="label"/>
-                                                </segment>
-                                                <segment image="PinIcon" width="32">
-                                                    <nil key="label"/>
-                                                </segment>
-                                            </segments>
-                                        </segmentedCell>
-                                    </segmentedControl>
-                                    <connections>
-                                        <action selector="HandleHourTypeChange:" target="gS1-iC-1Lf" id="6Mf-7T-6sD"/>
-                                    </connections>
-                                </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="A83762AA-C5FF-4038-AE1E-26FA2FA5BD81" label="Map Type" paletteLabel="Map Type" sizingBehavior="auto" id="FW5-HH-uvu">
-                                    <nil key="toolTip"/>
-                                    <segmentedControl key="view" verticalHuggingPriority="750" id="zlI-db-Myb">
-                                        <rect key="frame" x="0.0" y="14" width="186" height="23"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="wYc-Ey-nle">
-                                            <font key="font" metaFont="system"/>
-                                            <segments>
-                                                <segment image="NorthCenterIcon" width="32"/>
-                                                <segment image="SouthCenterIcon" width="32" selected="YES" tag="1"/>
-                                                <segment image="GlobeIcon" width="32"/>
-                                                <segment image="RectangleIcon" width="32"/>
-                                                <segment image="CubeIcon" width="32"/>
-                                            </segments>
-                                        </segmentedCell>
-                                    </segmentedControl>
-                                    <connections>
-                                        <action selector="HandleViewTypeChange:" target="gS1-iC-1Lf" id="uO2-5J-Abp"/>
-                                    </connections>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="458F6142-08F3-4DE8-8D82-69A64701DC1C" label="Lock/Unlock Camera" paletteLabel="Lock/Unlock Camera" image="UnlockWorldIcon" sizingBehavior="auto" id="Twt-2m-O8i">
                                     <nil key="toolTip"/>
                                     <button key="view" id="mul-Uu-lPY">
@@ -139,16 +96,13 @@
                             <defaultToolbarItems>
                                 <toolbarItem reference="Mks-dR-lsJ"/>
                                 <toolbarItem reference="b5h-QO-yWS"/>
-                                <toolbarItem reference="Fk7-Vk-xXx"/>
-                                <toolbarItem reference="jiT-fH-cP8"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
-                                <toolbarItem reference="y1a-2M-gUr"/>
-                                <toolbarItem reference="FW5-HH-uvu"/>
+                                <toolbarItem reference="jiT-fH-cP8"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="4KN-d7-uhV"/>
                                 <toolbarItem reference="Twt-2m-O8i"/>
                                 <toolbarItem reference="Y99-uv-LZz"/>
-                                <toolbarItem reference="Fk7-Vk-xXx"/>
+                                <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="MOf-3f-WGP"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -158,9 +112,7 @@
                     </window>
                     <connections>
                         <outlet property="DebuggerButton" destination="4KN-d7-uhV" id="GCW-fC-5eP"/>
-                        <outlet property="HourSegment" destination="bPC-zz-fFT" id="6Q9-yt-Pms"/>
                         <outlet property="MainToolBar" destination="Olf-7r-jti" id="mOd-dQ-sAa"/>
-                        <outlet property="ViewSegment" destination="zlI-db-Myb" id="Zcj-ft-Zy5"/>
                         <outlet property="WorldLockBarButton" destination="Twt-2m-O8i" id="okR-Uu-VZm"/>
                         <outlet property="WorldLockButton" destination="mul-Uu-lPY" id="SU6-RU-fYc"/>
                         <segue destination="BrD-hm-rhT" kind="relationship" relationship="window.shadowedContentViewController" id="w6z-7E-nbl"/>
@@ -259,25 +211,25 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Hours" id="9N4-3w-orb">
                                                 <items>
-                                                    <menuItem title="Hide Hours" id="b6m-s1-43P">
+                                                    <menuItem title="Hide Hours" image="CircleIcon" id="b6m-s1-43P">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="ViewHoursHideAll:" target="vAH-R8-aOX" id="v3s-lY-iUC"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Noon-Centered" id="QGe-QQ-Nhv">
+                                                    <menuItem title="Noon-Centered" image="ClockIcon" id="QGe-QQ-Nhv">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="ViewHoursNoonCentered:" target="vAH-R8-aOX" id="VRZ-AL-fBp"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Noon Delta" id="XjG-vq-SXD">
+                                                    <menuItem title="Noon Delta" image="DeltaIcon" id="XjG-vq-SXD">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="ViewHoursNoonDelta:" target="vAH-R8-aOX" id="9NG-Kl-dBU"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Hours from Location" id="qxw-Wl-G1W">
+                                                    <menuItem title="Hours from Location" image="PinIcon" id="qxw-Wl-G1W">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="ViewHoursLocationRelative:" target="vAH-R8-aOX" id="3xW-gk-ATx"/>
@@ -290,32 +242,32 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="View Type" id="gry-FC-bdR">
                                                 <items>
-                                                    <menuItem title="North-Centered" id="ei0-kB-Qdh">
+                                                    <menuItem title="North-Centered" image="NorthCenterIcon" id="ei0-kB-Qdh">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="ViewTypeNorthCentered:" target="vAH-R8-aOX" id="8Iy-24-2jr"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="South-Centered" id="che-sL-uR8">
+                                                    <menuItem title="South-Centered" image="SouthCenterIcon" id="che-sL-uR8">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="ViewTypeSouthCentered:" target="vAH-R8-aOX" id="fbr-Yu-osQ"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="3D Globe" id="oyp-Ng-8Mn">
+                                                    <menuItem title="3D Globe" image="GlobeIcon" id="oyp-Ng-8Mn">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="ViewTypeGlobal:" target="vAH-R8-aOX" id="9P9-Sg-log"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Rectangular" id="HB6-mA-twY">
+                                                    <menuItem title="Rectangular" image="RectangleIcon" id="HB6-mA-twY">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="ViewTypeRectangular:" target="vAH-R8-aOX" id="onf-c2-smw"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="eLC-fe-5yU"/>
-                                                    <menuItem title="Cubic" id="rQq-Fx-Rwv">
+                                                    <menuItem title="Cubic" image="CubeIcon" id="rQq-Fx-Rwv">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="ViewTypeCubic:" target="vAH-R8-aOX" id="620-bc-hRI"/>
