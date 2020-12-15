@@ -55,7 +55,6 @@ class MouseInfoController: NSViewController, MouseInfoProtocol
     /// - Parameter Caller: The caller of the function.
     func SetLocation(Latitude: Double, Longitude: Double, Caller: String = "")
     {
-        print("SetLocation[\(Caller)]=\(Latitude.RoundedTo(3)),\(Longitude.RoundedTo(3))")
         LatitudeValue.stringValue = Utility.PrettyLatitude(Latitude, Precision: 3)
         LongitudeValue.stringValue = Utility.PrettyLongitude(Longitude, Precision: 3)
         if Settings.GetBool(.SearchForLocation)
