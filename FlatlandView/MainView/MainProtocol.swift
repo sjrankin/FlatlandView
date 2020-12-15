@@ -42,7 +42,7 @@ protocol MainProtocol: class
     func ChildWindowClosed(_ ChildWindow: ChildWindows)
     
     /// Called when the mouse moves in follow-mouse mode.
-    func MouseAtLocation(Latitude: Double, Longitude: Double)
+    func MouseAtLocation(Latitude: Double, Longitude: Double, Caller: String)
     
     /// Show or hide the mouse location.
     func ShowMouseLocationView(_ Show: Bool)
