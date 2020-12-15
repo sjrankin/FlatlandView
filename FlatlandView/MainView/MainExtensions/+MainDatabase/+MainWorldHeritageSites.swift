@@ -34,7 +34,7 @@ extension MainController
     
     /// Return all Unesco world heritage site information.
     /// - Returns: Array of world heritage sites.
-    func GetAllWorldHeritageSites() -> [WorldHeritageSite2]
+    func GetAllWorldHeritageSites() -> [WorldHeritageSite]
     {
         return MainController.GetAllSites()
     }
@@ -79,9 +79,9 @@ extension MainController
     
     /// Return all Unesco world heritage site information.
     /// - Returns: Array of world heritage sites.
-    public static func GetAllSites() -> [WorldHeritageSite2]
+    public static func GetAllSites() -> [WorldHeritageSite]
     {
-        var Results = [WorldHeritageSite2]()
+        var Results = [WorldHeritageSite]()
         let GetQuery = "SELECT * FROM \(MappableTableNames.UNESCOSites.rawValue)"
         let QueryHandle = SetupQuery(DB: MappableHandle, Query: GetQuery)
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
@@ -107,7 +107,7 @@ extension MainController
                 RuntimeID = UUID()
             }
             //let RuntimeID = String(cString: sqlite3_column_text(QueryHandle, 10))
-            let Site = WorldHeritageSite2(UID, ID, Name, Year, Latitude, Longitude, Hectares,
+            let Site = WorldHeritageSite(UID, ID, Name, Year, Latitude, Longitude, Hectares,
                                          Category, ShortCategory, Countries, RuntimeID)
             Results.append(Site)
         }
@@ -115,11 +115,11 @@ extension MainController
         return Results
     }
     
-    private static var LastReadList = [WorldHeritageSite2]()
+    private static var LastReadList = [WorldHeritageSite]()
     
     /// Returns the last read set of World Heritage Sites.
     /// - Returns: Array of World Heritage Sites.
-    public static func GetLastReadList() -> [WorldHeritageSite2]
+    public static func GetLastReadList() -> [WorldHeritageSite]
     {
         return LastReadList
     }
@@ -127,7 +127,7 @@ extension MainController
     /// Returns a list of all unique county names in the passed set of world heritage sites.
     /// - Parameter FromSites: List of world heritage sites.
     /// - Returns: Array of unique country names derived from the passed list of sites.
-    public static func WorldHeritageCountryList(_ FromSites: [WorldHeritageSite2]) -> [String]
+    public static func WorldHeritageCountryList(_ FromSites: [WorldHeritageSite]) -> [String]
     {
         var CountrySet = Set<String>()
         for Site in FromSites
@@ -140,7 +140,7 @@ extension MainController
     /// Returns a list of all unique inscription years in the passed set of world heritage sites.
     /// - Parameter FromSites: List of world heritage sites.
     /// - Returns: Array of unique inscription years derived from the passed list of sites.
-    public static func WorldHeritageInscriptionDates(_ FromSites: [WorldHeritageSite2]) -> [Int]
+    public static func WorldHeritageInscriptionDates(_ FromSites: [WorldHeritageSite]) -> [Int]
     {
         var YearSet = Set<Int>()
         for Site in FromSites
@@ -154,13 +154,13 @@ extension MainController
     /// - Parameter Sites: The set of World Heritage Sites to filter.
     /// - Parameter ByCountry: The country to return. Case senstive. If empty, all countries are returned.
     /// - Returns: List of World Heritage Sites filtered by the supplied parameters.
-    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite2], ByCountry: String) -> [WorldHeritageSite2]
+    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite], ByCountry: String) -> [WorldHeritageSite]
     {
         if ByCountry.isEmpty
         {
             return Sites
         }
-        var Results = [WorldHeritageSite2]()
+        var Results = [WorldHeritageSite]()
         for Site in Sites
         {
             if Site.Countries == ByCountry
@@ -176,12 +176,12 @@ extension MainController
     /// - Parameter ByYear: The year to filter by. If nil, all World Heritage Sites are returned.
     /// - Parameter YearFilter: How to use `ByYear` when filtering sites.
     /// - Returns: List of World Heritage Sites filtered by the supplied parameters.
-    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite2], ByYear: Int? = nil,
-                                                YearFilter: YearFilters) -> [WorldHeritageSite2]
+    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite], ByYear: Int? = nil,
+                                                YearFilter: YearFilters) -> [WorldHeritageSite]
     {
         if let Year = ByYear
         {
-            var Results = [WorldHeritageSite2]()
+            var Results = [WorldHeritageSite]()
             for Site in Sites
             {
                 switch YearFilter
@@ -220,9 +220,9 @@ extension MainController
     /// - Parameter Sites: The set of World Heritage Sites to filter.
     /// - Parameter ByType: The type of stie to return.
     /// - Returns: List of World Heritage Sites filtered by the supplied parameters.
-    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite2], ByType: SiteTypeFilters) -> [WorldHeritageSite2]
+    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite], ByType: SiteTypeFilters) -> [WorldHeritageSite]
     {
-        var Results = [WorldHeritageSite2]()
+        var Results = [WorldHeritageSite]()
         for Site in Sites
         {
             switch ByType
@@ -263,13 +263,13 @@ extension MainController
     /// - Parameter ByYear: The year the site was inscribed.
     /// - Parameter WithYearFilter: How to filter the year.
     /// - Returns: List of sites that meet all passed criteria.
-    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite2],
+    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite],
                                                 ByType: SiteTypeFilters,
                                                 ByCountry: String,
                                                 ByYear: Int?,
-                                                WithYearFilter: YearFilters) -> [WorldHeritageSite2]
+                                                WithYearFilter: YearFilters) -> [WorldHeritageSite]
     {
-        var Results = [WorldHeritageSite2]()
+        var Results = [WorldHeritageSite]()
         Results = FilterWorldHeritageSites(Sites, ByType: ByType)
         Results = FilterWorldHeritageSites(Results, ByCountry: ByCountry)
         Results = FilterWorldHeritageSites(Results, ByYear: ByYear, YearFilter: WithYearFilter)
@@ -280,7 +280,7 @@ extension MainController
     /// Sites and returns the result.
     /// - Parameter Sites: The list of World Heritage Sites to filter.
     /// - Returns: Filtered result.
-    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite2]) -> [WorldHeritageSite2]
+    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite]) -> [WorldHeritageSite]
     {
         #if true
         let SiteType = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
