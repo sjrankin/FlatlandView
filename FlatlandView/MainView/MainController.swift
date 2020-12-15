@@ -126,6 +126,7 @@ class MainController: NSViewController
         SetWorldLock(Settings.GetBool(.WorldIsLocked))
         SetMouseLocationVisibility(Visible: Settings.GetBool(.FollowMouse))
         
+        #if false
         //Make sure the proper segments in the toolbar segment controls are highlighted - macOS 11 does not
         //highlight selected segments with sufficient contrast so we have to do it ourself.
         if let WinCtrl = self.view.window?.windowController as? MainWindow
@@ -173,6 +174,7 @@ class MainController: NSViewController
                     WinCtrl.HourSegment.setImage(NSImage(named: "ClockIconSelected"), forSegment: 1)
             }
         }
+        #endif
         
         ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
                        For: StatusBarConstants.InitialMessageDuration.rawValue)
