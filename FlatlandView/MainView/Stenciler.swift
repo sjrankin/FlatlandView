@@ -354,7 +354,7 @@ class Stenciler
         let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
         //MainView.InitializeWorldHeritageSites()
         let Sites = MainController.GetAllSites()
-        var FinalList = [WorldHeritageSite2]()
+        var FinalList = [WorldHeritageSite]()
         for Site in Sites
         {
             switch TypeFilter
