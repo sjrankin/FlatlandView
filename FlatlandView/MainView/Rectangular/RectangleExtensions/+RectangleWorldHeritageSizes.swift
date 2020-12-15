@@ -25,7 +25,7 @@ extension RectangleView
             let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self,
                                               Default: .Either)
             let Sites = MainController.GetAllSites()
-            var FinalList = [WorldHeritageSite2]()
+            var FinalList = [WorldHeritageSite]()
             for Site in Sites
             {
                 switch TypeFilter
