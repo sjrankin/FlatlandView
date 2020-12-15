@@ -207,7 +207,8 @@ extension GlobeView
         let (X, Y, Z) = ToECEF(IndicatorLatitude,
                                IndicatorLongitude,
                                Radius: Double(GlobeRadius.Primary.rawValue + 0.9))
-        MainDelegate?.MouseAtLocation(Latitude: IndicatorLatitude, Longitude: IndicatorLongitude)
+        MainDelegate?.MouseAtLocation(Latitude: IndicatorLatitude, Longitude: IndicatorLongitude,
+                                      Caller: #function)
         MouseIndicator?.position = SCNVector3(X, Y, Z)
         MouseIndicator?.eulerAngles = SCNVector3(CGFloat(IndicatorLatitude + 90.0).Radians,
                                                  CGFloat(IndicatorLongitude + 180.0).Radians,
