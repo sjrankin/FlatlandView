@@ -53,6 +53,40 @@ extension GlobeView
         
     }
     
+    @objc func HandleWhatsHereMenu(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Popovers", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "WhatsHereWindow") as? WhatsHereWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? WhatsHereViewer
+            WindowController.showWindow(nil)
+            let (Latitude, Longitude) = MakeWhereFromTexture(CurrentMouseLocation)
+            Controller?.SetLocation(Latitude, Longitude, Main: MainDelegate)
+            ShowSearchForLocation(Latitude, Longitude)
+        }
+    }
+    
+    func ShowSearchForLocation(_ Latitude: Double, _ Longitude: Double)
+    {
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue + 0.2))
+        let QM = SCNExtrudedLetter(Letter: "?", Font: NSFont.boldSystemFont(ofSize: 20.0), Depth: 4.0, Scale: 0.05)
+        QM.geometry?.firstMaterial?.emission.contents = NSColor.systemYellow
+        QM.geometry?.firstMaterial?.specular.contents = NSColor.black
+        QM.position = SCNVector3(X, Y, Z)
+        QM.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        let Rotation = 90 - Latitude
+        let Rotation2 = 180.0 - Longitude
+        //QM.eulerAngles = SCNVector3(Rotation.Radians, Rotation2.Radians, 0.0)
+        let ex = 90.0 - (90.0 - Latitude)
+        print("Latitude=\(Latitude.RoundedTo(3)), ex=\(ex.RoundedTo(3))")
+        QM.eulerAngles = SCNVector3(ex.Radians, 0.0, 0.0)
+        EarthNode?.addChildNode(QM)
+        let RotateQM = SCNAction.rotateBy(x: 0.0, y: -1.0, z: 0.0, duration: 1.0)
+        let RotateForever = SCNAction.repeatForever(RotateQM)
+        //QM.runAction(RotateForever)
+    }
+    
     /// Return a menu to display provided the passed event is a right mouse down event.
     /// - Parameter for: The event that determines if a menu is returned.
     /// - Returns: An `NSMenu` if `event` is `.rightMouseDown`, nil if not.
@@ -63,6 +97,11 @@ extension GlobeView
             let Menu = NSMenu(title: "Actions")
             Menu.items =
                 [
+                    MakeWhatsHereMenu(),
+                    NSMenuItem.separator(),
+                    MakeMapMenu(),
+                    MakeTimeMenu(),
+                    NSMenuItem.separator(),
                     MakeResetMenu(),
                     MakeLockMenu(),
                     NSMenuItem.separator(),
@@ -74,6 +113,145 @@ extension GlobeView
             return Menu
         }
         return nil
+    }
+    
+    func SmallIconImage(_ Name: String) -> NSImage
+    {
+        var IconImage = NSImage(named: Name)
+        IconImage = Utility.ResizeImage(Image: IconImage!, Longest: 24.0)
+        return IconImage!
+    }
+    
+    func MakeMapMenu() -> NSMenuItem
+    {
+        MapTypeMenu = NSMenuItem()
+        MapTypeMenu?.title = "Map Type"
+        MapTypeMenu?.submenu = NSMenu(title: "Map Types")
+        
+        let CurrentMap = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D)
+        
+        NCenter = NSMenuItem(title: "North-Centered Flat", action: #selector(Context_SetMapType), keyEquivalent: "")
+        NCenter?.image = SmallIconImage("NorthCenterIcon")
+        NCenter?.target = self
+        NCenter?.state = CurrentMap == .FlatNorthCenter ? .on : .off
+        SCenter = NSMenuItem(title: "South-Centered Flat", action: #selector(Context_SetMapType), keyEquivalent: "")
+        SCenter?.image = SmallIconImage("SouthCenterIcon")
+        SCenter?.target = self
+        SCenter?.state = CurrentMap == .FlatSouthCenter ? .on : .off
+        RectMap = NSMenuItem(title: "Rectangular Flat", action: #selector(Context_SetMapType), keyEquivalent: "")
+        RectMap?.image = SmallIconImage("RectangleIcon")
+        RectMap?.target = self
+        RectMap?.state = CurrentMap == .Rectangular ? .on : .off
+        GlobeMapMenu = NSMenuItem(title: "Globe", action: #selector(Context_SetMapType), keyEquivalent: "")
+        GlobeMapMenu?.image = SmallIconImage("GlobeIcon")
+        GlobeMapMenu?.target = self
+        GlobeMapMenu?.state = CurrentMap == .Globe3D ? .on : .off
+        CubicMapMenu = NSMenuItem(title: "Cubic", action: #selector(Context_SetMapType), keyEquivalent: "")
+        CubicMapMenu?.image = SmallIconImage("CubeIcon")
+        CubicMapMenu?.target = self
+        CubicMapMenu?.state = CurrentMap == .CubicWorld ? .on : .off
+
+        MapTypeMenu?.submenu?.items.append(NCenter!)
+        MapTypeMenu?.submenu?.items.append(SCenter!)
+        MapTypeMenu?.submenu?.items.append(RectMap!)
+        MapTypeMenu?.submenu?.items.append(GlobeMapMenu!)
+        MapTypeMenu?.submenu?.items.append(CubicMapMenu!)
+        return MapTypeMenu!
+    }
+    
+    @objc func Context_SetMapType(_ sender: Any)
+    {
+        if let MenuItem = sender as? NSMenuItem
+        {
+            switch MenuItem
+            {
+                case NCenter:
+                    Settings.SetEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    let ActualMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+                    Settings.SetEnum(ActualMap, EnumType: MapTypes.self, ForKey: .MapType)
+                    
+                case SCenter:
+                    Settings.SetEnum(.FlatSouthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    let ActualMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+                    Settings.SetEnum(ActualMap, EnumType: MapTypes.self, ForKey: .MapType)
+                    
+                case RectMap:
+                    Settings.SetEnum(.Rectangular, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    let ActualMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+                    Settings.SetEnum(ActualMap, EnumType: MapTypes.self, ForKey: .MapType)
+                    
+                case CubicMapMenu:
+                    Settings.SetEnum(.CubicWorld, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    
+                case GlobeMapMenu:
+                    Settings.SetEnum(.Globe3D, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    func MakeTimeMenu() -> NSMenuItem
+    {
+        TimeMenu = NSMenuItem()
+        TimeMenu?.title = "Hours"
+        TimeMenu?.submenu = NSMenu(title: "Hours")
+        
+        let HourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: HourValueTypes.Solar)
+        
+        NoTimeMenu = NSMenuItem(title: "No Hours Shown", action: #selector(Context_SetHourType), keyEquivalent: "")
+        NoTimeMenu?.image = SmallIconImage("CircleIcon")
+        NoTimeMenu?.target = self
+        NoTimeMenu?.state = HourType == .None ? .on : .off
+        SolarTimeMenu = NSMenuItem(title: "Solar Hours", action: #selector(Context_SetHourType), keyEquivalent: "")
+        SolarTimeMenu?.image = SmallIconImage("ClockIcon")
+        SolarTimeMenu?.target = self
+        SolarTimeMenu?.state = HourType == .Solar ? .on : .off
+        DeltaTimeMenu = NSMenuItem(title: "Relative to Noon", action: #selector(Context_SetHourType), keyEquivalent: "")
+        DeltaTimeMenu?.image = SmallIconImage("DeltaIcon")
+        DeltaTimeMenu?.target = self
+        DeltaTimeMenu?.state = HourType == .RelativeToNoon ? .on : .off
+        PinnedTimeMenu = NSMenuItem(title: "Relative to Location", action: #selector(Context_SetHourType), keyEquivalent: "")
+        PinnedTimeMenu?.image = SmallIconImage("PinIcon")
+        PinnedTimeMenu?.target = self
+        PinnedTimeMenu?.state = HourType == .RelativeToLocation ? .on : .off
+        
+        TimeMenu?.submenu?.items.append(NoTimeMenu!)
+        TimeMenu?.submenu?.items.append(SolarTimeMenu!)
+        TimeMenu?.submenu?.items.append(DeltaTimeMenu!)
+        TimeMenu?.submenu?.items.append(PinnedTimeMenu!)
+        return TimeMenu!
+    }
+    
+    @objc func Context_SetHourType(_ sender: Any)
+    {
+        if let MenuItem = sender as? NSMenuItem
+        {
+            switch MenuItem
+            {
+                case NoTimeMenu:
+                    Settings.SetEnum(.None, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                case SolarTimeMenu:
+                    Settings.SetEnum(.Solar, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                case DeltaTimeMenu:
+                    Settings.SetEnum(.RelativeToNoon, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                case PinnedTimeMenu:
+                    Settings.SetEnum(.RelativeToLocation, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    func MakeWhatsHereMenu() -> NSMenuItem
+    {
+        UnderMouseMenu = NSMenuItem(title: "What's Here?", action: #selector(HandleWhatsHereMenu), keyEquivalent: "")
+        return UnderMouseMenu!
     }
     
     func MakeResetMenu() -> NSMenuItem
@@ -173,6 +351,10 @@ extension GlobeView
     /// - Parameter Point: The point in the view reported by the main controller.
     func MouseMovedTo(Point: CGPoint)
     {
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.Globe3D) != .Globe3D
+        {
+            return
+        }
         if Settings.GetBool(.FollowMouse)
         {
             let SearchOptions: [SCNHitTestOption: Any] =
@@ -188,8 +370,10 @@ extension GlobeView
                 if HitObject[0].node.self is SCNNode2
                 {
                     let TxWhere = HitObject[0].textureCoordinates(withMappingChannel: 0)
+                    CurrentMouseLocation = TxWhere
                     let (Latitude, Longitude) = MakeWhereFromTexture(TxWhere)
-                    MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude)
+                    //print("Location=\(Latitude.RoundedTo(3)),\(Longitude.RoundedTo(3))")
+                    MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude, Caller: "Globe")
                     PlotMouseIndicator(Latitude: Latitude, Longitude: Longitude)
                 }
             }
@@ -261,7 +445,7 @@ extension GlobeView
         }
         let (X, Y, Z) = ToECEF(Latitude, Longitude,
                                Radius: Double(GlobeRadius.Primary.rawValue) + Double(MouseShape.RadialOffset.rawValue))
-        MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude)
+        MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude, Caller: "Globe")
         MouseIndicator?.position = SCNVector3(X, Y, Z)
         MouseIndicator?.eulerAngles = SCNVector3(CGFloat(Latitude + 90.0).Radians,
                                                  CGFloat(Longitude + 180.0).Radians,
@@ -452,6 +636,22 @@ extension GlobeView
         }
         
         return FinalIndicator
+    }
+    
+    func MakePinnedLocation(Start: Bool, Latitude: Double, Longitude: Double) -> SCNNode2
+    {
+        let KnobColor = Start ? NSColor.green : NSColor.red
+        let Pin = SCNPin(KnobHeight: 2.0, KnobRadius: 1.0, PinHeight: 1.4, PinRadius: 0.15,
+                         KnobColor: KnobColor, PinColor: NSColor.gray)
+        Pin.scale = SCNVector3(0.15, 0.15, 0.15)
+        Pin.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
+        Pin.position = SCNVector3(X, Y, Z)
+        let YRotation = Latitude + 90.0
+        let XRotation = Longitude + 180.0
+        Pin.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        EarthNode?.addChildNode(Pin)
+        return Pin
     }
     
     /// Create a gradient layer with the passed colors.
