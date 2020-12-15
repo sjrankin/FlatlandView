@@ -73,31 +73,6 @@ extension MainController: MainProtocol
     /// Update the view type in the controls.
     func UpdateViewType()
     {
-        if let Window = self.view.window
-        {
-            if let MainWindow = Window.windowController as? MainWindow
-            {
-                var Index = 0
-                switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
-                {
-                    case .CubicWorld:
-                        Index = 4
-                        
-                    case .FlatNorthCenter:
-                        Index = 0
-                        
-                    case .FlatSouthCenter:
-                        Index = 1
-                        
-                    case .Globe3D:
-                        Index = 2
-                        
-                    case .Rectangular:
-                        Index = 3
-                }
-                MainWindow.ViewSegment.selectedSegment = Index
-            }
-        }
     }
     
     /// Obsolete.
@@ -130,9 +105,9 @@ extension MainController: MainProtocol
     }
     
     /// Display the geographic location under the mouse.
-    func MouseAtLocation(Latitude: Double, Longitude: Double)
+    func MouseAtLocation(Latitude: Double, Longitude: Double, Caller: String)
     {
-        ShowMouseLocation(Latitude: Latitude, Longitude: Longitude)
+        ShowMouseLocation(Latitude: Latitude, Longitude: Longitude, Caller: Caller)
     }
     
     /// Show or hide the mouse location.
