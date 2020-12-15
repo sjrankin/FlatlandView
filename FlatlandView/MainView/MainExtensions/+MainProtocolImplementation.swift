@@ -192,7 +192,7 @@ extension MainController: MainProtocol
         return CurrentlyConnected
     }
     
-    func GetWorldHeritageSites() -> [WorldHeritageSite2]
+    func GetWorldHeritageSites() -> [WorldHeritageSite]
     {
         return GetAllWorldHeritageSites()
     }
