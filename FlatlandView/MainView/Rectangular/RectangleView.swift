@@ -245,6 +245,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         }
     }
     
+    #if false
     /// Handle mouse motion reported by the main view controller.
     /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
     ///         the node under the mouse is queried and its associated data may be displayed.
@@ -323,12 +324,13 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
                         let (Lat, Lon) = Geometry.ConvertRectangleToGeo(Point: RawPosition, Width: RectMode.MapWidth.rawValue,
                                                                        Height: RectMode.MapHeight.rawValue)
                         test?.position = RawPosition
-                        MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: Lon)
+                        MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: Lon, Caller: #function)
                     }
                 }
             }
         }
     }
+    #endif
     
     func MakeMousePointer() -> SCNNode2
     {
@@ -349,6 +351,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     
     var test: SCNNode2? = nil
     
+    #if false
     func MakePopOver(At: CGPoint, For: DisplayItem)
     {
         if let PopController = NSStoryboard(name: "Popovers", bundle: nil).instantiateController(withIdentifier: "POIPopover") as? POIPopover
@@ -363,6 +366,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
             PopController.SetSelf(Pop!)
         }
     }
+    #endif
     
     func SetCameraLock(_ IsLocked: Bool)
     {
@@ -390,4 +394,25 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var PrimaryLightMultiplier: Double = 1.0
     var PreviousNightMaskValue: Double? = nil
     var HorizontalShift = 0
+    var MouseIndicator: SCNNode2? = nil
+    
+    var FollowMenu: NSMenuItem? = nil
+    var POIMenu: NSMenuItem? = nil
+    var QuakeMenu: NSMenuItem? = nil
+    var ResetMenu: NSMenuItem? = nil
+    var LockMenu: NSMenuItem? = nil
+    var SunMenu: NSMenuItem? = nil
+    var UnderMouseMenu: NSMenuItem? = nil
+    var MapTypeMenu: NSMenuItem? = nil
+    var NCenter: NSMenuItem? = nil
+    var SCenter: NSMenuItem? = nil
+    var RectMap: NSMenuItem? = nil
+    var CubicMapMenu: NSMenuItem? = nil
+    var GlobeMapMenu: NSMenuItem? = nil
+    var TimeTypeMenu: NSMenuItem? = nil
+    var TimeMenu: NSMenuItem? = nil
+    var NoTimeMenu: NSMenuItem? = nil
+    var SolarTimeMenu: NSMenuItem? = nil
+    var PinnedTimeMenu: NSMenuItem? = nil
+    var DeltaTimeMenu: NSMenuItem? = nil
 }
