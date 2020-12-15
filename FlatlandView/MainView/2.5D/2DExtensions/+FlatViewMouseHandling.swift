@@ -21,6 +21,11 @@ extension FlatView
             let Menu = NSMenu(title: "Actions")
             Menu.items =
             [
+                MakeWhatsHereMenu(),
+                NSMenuItem.separator(),
+                MakeMapMenu(),
+                MakeTimeMenu(),
+                NSMenuItem.separator(),
                 MakeResetMenu(),
                 MakeLockMenu(),
                 MakeSunMenu(),
@@ -33,6 +38,150 @@ extension FlatView
             return Menu
         }
         return nil
+    }
+    
+    func MakeWhatsHereMenu() -> NSMenuItem
+    {
+        UnderMouseMenu = NSMenuItem(title: "What's Here?", action: #selector(HandleWhatsHereMenu), keyEquivalent: "")
+        return UnderMouseMenu!
+    }
+    
+    @objc func HandleWhatsHereMenu(_ sender: Any)
+    {
+        
+    }
+    
+    func SmallIconImage(_ Name: String) -> NSImage
+    {
+        var IconImage = NSImage(named: Name)
+        IconImage = Utility.ResizeImage(Image: IconImage!, Longest: 24.0)
+        return IconImage!
+    }
+    
+    func MakeMapMenu() -> NSMenuItem
+    {
+        MapTypeMenu = NSMenuItem()
+        MapTypeMenu?.title = "Map Type"
+        MapTypeMenu?.submenu = NSMenu(title: "Map Types")
+        
+        let CurrentMap = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D)
+        
+        NCenter = NSMenuItem(title: "North-Centered Flat", action: #selector(Context_SetMapType), keyEquivalent: "")
+        NCenter?.image = SmallIconImage("NorthCenterIcon")
+        NCenter?.target = self
+        NCenter?.state = CurrentMap == .FlatNorthCenter ? .on : .off
+        SCenter = NSMenuItem(title: "South-Centered Flat", action: #selector(Context_SetMapType), keyEquivalent: "")
+        SCenter?.image = SmallIconImage("SouthCenterIcon")
+        SCenter?.target = self
+        SCenter?.state = CurrentMap == .FlatSouthCenter ? .on : .off
+        RectMap = NSMenuItem(title: "Rectangular Flat", action: #selector(Context_SetMapType), keyEquivalent: "")
+        RectMap?.image = SmallIconImage("RectangleIcon")
+        RectMap?.target = self
+        RectMap?.state = CurrentMap == .Rectangular ? .on : .off
+        GlobeMapMenu = NSMenuItem(title: "Globe", action: #selector(Context_SetMapType), keyEquivalent: "")
+        GlobeMapMenu?.image = SmallIconImage("GlobeIcon")
+        GlobeMapMenu?.target = self
+        GlobeMapMenu?.state = CurrentMap == .Globe3D ? .on : .off
+        CubicMapMenu = NSMenuItem(title: "Cubic", action: #selector(Context_SetMapType), keyEquivalent: "")
+        CubicMapMenu?.image = SmallIconImage("CubeIcon")
+        CubicMapMenu?.target = self
+        CubicMapMenu?.state = CurrentMap == .CubicWorld ? .on : .off
+        
+        MapTypeMenu?.submenu?.items.append(NCenter!)
+        MapTypeMenu?.submenu?.items.append(SCenter!)
+        MapTypeMenu?.submenu?.items.append(RectMap!)
+        MapTypeMenu?.submenu?.items.append(GlobeMapMenu!)
+        MapTypeMenu?.submenu?.items.append(CubicMapMenu!)
+        return MapTypeMenu!
+    }
+    
+    @objc func Context_SetMapType(_ sender: Any)
+    {
+        if let MenuItem = sender as? NSMenuItem
+        {
+            switch MenuItem
+            {
+                case NCenter:
+                    Settings.SetEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    let ActualMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+                    Settings.SetEnum(ActualMap, EnumType: MapTypes.self, ForKey: .MapType)
+                    
+                case SCenter:
+                    Settings.SetEnum(.FlatSouthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    let ActualMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+                    Settings.SetEnum(ActualMap, EnumType: MapTypes.self, ForKey: .MapType)
+                    
+                case RectMap:
+                    Settings.SetEnum(.Rectangular, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    let ActualMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+                    Settings.SetEnum(ActualMap, EnumType: MapTypes.self, ForKey: .MapType)
+                    
+                case CubicMapMenu:
+                    Settings.SetEnum(.CubicWorld, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    
+                case GlobeMapMenu:
+                    Settings.SetEnum(.Globe3D, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    func MakeTimeMenu() -> NSMenuItem
+    {
+        TimeMenu = NSMenuItem()
+        TimeMenu?.title = "Hours"
+        TimeMenu?.submenu = NSMenu(title: "Hours")
+        
+        let HourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: HourValueTypes.Solar)
+        
+        NoTimeMenu = NSMenuItem(title: "No Hours Shown", action: #selector(Context_SetHourType), keyEquivalent: "")
+        NoTimeMenu?.image = SmallIconImage("CircleIcon")
+        NoTimeMenu?.target = self
+        NoTimeMenu?.state = HourType == .None ? .on : .off
+        SolarTimeMenu = NSMenuItem(title: "Solar Hours", action: #selector(Context_SetHourType), keyEquivalent: "")
+        SolarTimeMenu?.image = SmallIconImage("ClockIcon")
+        SolarTimeMenu?.target = self
+        SolarTimeMenu?.state = HourType == .Solar ? .on : .off
+        DeltaTimeMenu = NSMenuItem(title: "Relative to Noon", action: #selector(Context_SetHourType), keyEquivalent: "")
+        DeltaTimeMenu?.image = SmallIconImage("DeltaIcon")
+        DeltaTimeMenu?.target = self
+        DeltaTimeMenu?.state = HourType == .RelativeToNoon ? .on : .off
+        PinnedTimeMenu = NSMenuItem(title: "Relative to Location", action: #selector(Context_SetHourType), keyEquivalent: "")
+        PinnedTimeMenu?.image = SmallIconImage("PinIcon")
+        PinnedTimeMenu?.target = self
+        PinnedTimeMenu?.state = HourType == .RelativeToLocation ? .on : .off
+        
+        TimeMenu?.submenu?.items.append(NoTimeMenu!)
+        TimeMenu?.submenu?.items.append(SolarTimeMenu!)
+        TimeMenu?.submenu?.items.append(DeltaTimeMenu!)
+        TimeMenu?.submenu?.items.append(PinnedTimeMenu!)
+        return TimeMenu!
+    }
+    
+    @objc func Context_SetHourType(_ sender: Any)
+    {
+        if let MenuItem = sender as? NSMenuItem
+        {
+            switch MenuItem
+            {
+                case NoTimeMenu:
+                    Settings.SetEnum(.None, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                case SolarTimeMenu:
+                    Settings.SetEnum(.Solar, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                case DeltaTimeMenu:
+                    Settings.SetEnum(.RelativeToNoon, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                case PinnedTimeMenu:
+                    Settings.SetEnum(.RelativeToLocation, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                default:
+                    return
+            }
+        }
     }
     
     @objc func Context_AddPOI(_ sender: Any)
@@ -332,7 +481,7 @@ extension FlatView
                             }
                         }
                     }
-                    MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLon)
+                    MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLon, Caller: "Round")
                 }
             }
         }
