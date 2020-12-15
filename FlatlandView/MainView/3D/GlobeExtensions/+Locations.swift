@@ -297,7 +297,6 @@ extension GlobeView
         {
             HDim = 0.25
         }
-        #if true
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
         let Attributes: ShapeAttributes =
             {
@@ -342,39 +341,6 @@ extension GlobeView
                 return A
             }()
         let CityNode = ShapeManager.Create(.Pyramid, Attributes: Attributes)
-        //let CityNode = ShapeManager.PyramidShape(Width: HDim, Height: CitySize, Length: HDim,
-        //                                        Attributes: Attributes)
-        #else
-        var CityNode = SCNNode2()
-        let CityShape = SCNPyramid(width: HDim, height: CitySize, length: HDim)
-        CityNode = SCNNode2(geometry: CityShape)
-        CityNode.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
-        let SideImage = MakeOutlineCubeTexture(With: WithColor)
-        CityNode.geometry?.materials.removeAll()
-        CityNode.geometry?.materials.append(SideImage)
-        CityNode.geometry?.materials.append(SideImage)
-        CityNode.geometry?.materials.append(SideImage)
-        CityNode.geometry?.materials.append(SideImage)
-        CityNode.geometry?.materials.append(SideImage)
-        CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-        if Settings.GetBool(.CityNodesGlow)
-        {
-            for Material in CityNode.geometry!.materials
-            {
-                Material.selfIllumination.contents = WithColor
-            }
-        }
-        CityNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
-        CityNode.castsShadow = true
-        CityNode.geometry?.firstMaterial?.roughness.contents = NSNumber(value: 0.7)
-        CityNode.geometry?.firstMaterial?.metalness.contents = NSNumber(value: 1.0)
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
-        CityNode.position = SCNVector3(X, Y, Z)
-        CityNode.name = GlobeNodeNames.CityNode.rawValue
-        let YRotation = Latitude + 270.0
-        let XRotation = Longitude + 180.0
-        CityNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        #endif
         ToSurface.addChildNode(CityNode)
         PlottedCities.append(CityNode)
     }
