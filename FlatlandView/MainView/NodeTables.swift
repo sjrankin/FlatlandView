@@ -19,7 +19,7 @@ class NodeTables
     ///            types will be missing.
     /// - Note: City data is loaded here.
     /// - Parameter Unesco: Array of World Heritage Sites.
-    public static func Initialize(Unesco: [WorldHeritageSite2])
+    public static func Initialize(Unesco: [WorldHeritageSite])
     {
         for SomeCity in CityManager.AllCities!
         {
