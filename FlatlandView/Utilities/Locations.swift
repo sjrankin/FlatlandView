@@ -229,17 +229,18 @@ class Locations
                     if Settings.HaveLocalLocation()
                     {
                         let Distance = Geometry.HaversineDistance(Latitude1: Latitude, Longitude1: Longitude,
-                                                              Latitude2: Settings.GetDoubleNil(.LocalLatitude, 0.0)!,
-                                                              Longitude2: Settings.GetDoubleNil(.LocalLongitude, 0.0)!) / 1000.0
+                                                                  Latitude2: Settings.GetDoubleNil(.LocalLatitude, 0.0)!,
+                                                                  Longitude2: Settings.GetDoubleNil(.LocalLongitude, 0.0)!) / 1000.0
                         if Distance <= CloseIs
                         {
-                        let HomeRecord = MetaLocation(ID: nil,
-                                                      Name: Settings.GetString(.LocalName, ""),
-                                                      Latitude: Settings.GetDoubleNil(.LocalLatitude, 0.0)!,
-                                                      Longitude: Settings.GetDoubleNil(.LocalLongitude, 0.0)!,
-                                                      Population: 0,
-                                                      LocationType: .Home,
-                                                      Distance: Distance)
+                            //Use a fake ID because home locations don't have IDs.
+                            let HomeRecord = MetaLocation(ID: UUID(),
+                                                          Name: Settings.GetString(.LocalName, ""),
+                                                          Latitude: Settings.GetDoubleNil(.LocalLatitude, 0.0)!,
+                                                          Longitude: Settings.GetDoubleNil(.LocalLongitude, 0.0)!,
+                                                          Population: 0,
+                                                          LocationType: .Home,
+                                                          Distance: Distance)
                             Results.append(HomeRecord)
                         }
                     }
@@ -302,10 +303,39 @@ class Locations
                             Results.append(POIRecord)
                         }
                     }
+                    
+                case .UserPoint:
+                    break
             }
         }
-        
+        Results = RemoveDuplicates(From: Results)
         return Results
+    }
+    
+    /// Remove duplicats from the passed list of meta locations.
+    /// - Note: Duplicates are defined as locations with the same ID.
+    /// - Parameter From: The list of meta locations.
+    /// - Returns: Array of meta locations with duplicates removed.
+    func RemoveDuplicates(From: [MetaLocation]) -> [MetaLocation]
+    {
+        var LocationMap = [UUID: MetaLocation]()
+        for Location in From
+        {
+            if let ID = Location.ID
+            {
+                LocationMap[ID] = Location
+            }
+            else
+            {
+                print("Location \(Location.Name) has no ID")
+            }
+        }
+        var Final = [MetaLocation]()
+        for (_, Where) in LocationMap
+        {
+            Final.append(Where)
+        }
+        return Final
     }
 }
 
@@ -324,9 +354,11 @@ enum LocationTypes: String, CaseIterable
     case Earthquake = "Earthquake"
     /// User-defined region.
     case Region = "Region"
+    /// User-defined point used for transient purposes.
+    case UserPoint = "UserPoint"
 }
 
-/// Meta locatoin structure.
+/// Meta location structure.
 struct MetaLocation
 {
     /// ID of the location.
