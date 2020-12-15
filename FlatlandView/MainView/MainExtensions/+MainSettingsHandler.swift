@@ -149,8 +149,9 @@ extension MainController: SettingChangedProtocol
                 Earthquakes?.GetEarthquakes(Every: FetchInterval)
                 
             case .LocalLongitude, .LocalLatitude:
-                (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
-                
+//                (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
+  break
+            
             case .BackgroundColor3D:
                 let NewBackgroundColor = Settings.GetColor(.BackgroundColor3D, NSColor.black)
                 BackgroundView.layer?.backgroundColor = NewBackgroundColor.cgColor
