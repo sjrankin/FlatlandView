@@ -758,7 +758,7 @@ class MainController: NSViewController
     /// Handle to the mappable database.
     static var MappableHandle: OpaquePointer? = nil
     /// Array of World Heritage Sites.
-    var WorldHeritageSites: [WorldHeritageSite2]? = nil
+    var WorldHeritageSites: [WorldHeritageSite]? = nil
     /// Location of the POI database.
     var POIURL: URL? = nil
     /// Flag that indicates whether the POI database was initialized or not.
