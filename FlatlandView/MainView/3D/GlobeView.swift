@@ -646,6 +646,20 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var ResetMenu: NSMenuItem? = nil
     var LockMenu: NSMenuItem? = nil
     var FollowMenu: NSMenuItem? = nil
+    var UnderMouseMenu: NSMenuItem? = nil
+    var MapTypeMenu: NSMenuItem? = nil
+    var NCenter: NSMenuItem? = nil
+    var SCenter: NSMenuItem? = nil
+    var RectMap: NSMenuItem? = nil
+    var CubicMapMenu: NSMenuItem? = nil
+    var GlobeMapMenu: NSMenuItem? = nil
+    var TimeTypeMenu: NSMenuItem? = nil
+    var TimeMenu: NSMenuItem? = nil
+    var NoTimeMenu: NSMenuItem? = nil
+    var SolarTimeMenu: NSMenuItem? = nil
+    var PinnedTimeMenu: NSMenuItem? = nil
+    var DeltaTimeMenu: NSMenuItem? = nil
+    var CurrentMouseLocation: CGPoint = CGPoint.zero
     
     func SetCameraLock(_ IsLocked: Bool)
     {
