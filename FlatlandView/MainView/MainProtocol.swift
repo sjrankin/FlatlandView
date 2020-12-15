@@ -85,7 +85,7 @@ protocol MainProtocol: class
     
     /// Returns an array of UNESCO World Heritage Sites.
     /// - Returns: Array of World Heritage Site data.
-    func GetWorldHeritageSites() -> [WorldHeritageSite2]
+    func GetWorldHeritageSites() -> [WorldHeritageSite]
 }
 
 /// Flatland's child windows.
