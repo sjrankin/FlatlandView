@@ -14,7 +14,14 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        NearByTable.tableColumns[0].sortDescriptorPrototype = TypeDescriptor
+        NearByTable.tableColumns[1].sortDescriptorPrototype = DistDescriptor
+        NearByTable.tableColumns[3].sortDescriptorPrototype = NameDescriptor
     }
+    
+    let TypeDescriptor = NSSortDescriptor(key: LocationDescriptors.LocationType.rawValue, ascending: true)
+    let NameDescriptor = NSSortDescriptor(key: LocationDescriptors.TypeName.rawValue, ascending: true)
+    let DistDescriptor = NSSortDescriptor(key: LocationDescriptors.DistanceType.rawValue, ascending: true)
     
     override func viewDidLayout()
     {
@@ -24,6 +31,16 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
     
     func Initialize()
     {
+        if SourceLatitude == nil || SourceLongitude == nil
+        {
+            CurrentLocationLabel.stringValue = ""
+        }
+        else
+        {
+            let NiceLat = Utility.PrettyLatitude(SourceLatitude!)
+            let NiceLon = Utility.PrettyLongitude(SourceLongitude!)
+            CurrentLocationLabel.stringValue = "\(NiceLat)\t\(NiceLon)"
+        }
         let Units = Settings.GetEnum(ForKey: .InputUnit, EnumType: InputUnits.self, Default: .Kilometers)
         if Units == .Miles
         {
@@ -36,10 +53,10 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         }
         DistanceCombo.selectItem(at: 0)
         CurrentDistance = 50.0
-        LatitudeLabel.stringValue = ""
-        LongitudeLabel.stringValue = ""
         FoundSummary.stringValue = ""
         NearByTable.reloadData()
+        let DistanceHeader = Units == .Kilometers ? "Distance km" : "Distance mi"
+        DistanceColumn.title = DistanceHeader
     }
     
     var CurrentDistance: Double = 0
@@ -49,18 +66,13 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
     func SetLocation(_ Latitude: Double, _ Longitude: Double, Main: MainProtocol? = nil)
     {
         self.Main = Main
-        let NiceLat = Utility.PrettyLatitude(Latitude)
-        let NiceLon = Utility.PrettyLongitude(Longitude)
-        LatitudeLabel.stringValue = NiceLat
-        LongitudeLabel.stringValue = NiceLon
         SourceLatitude = Latitude
         SourceLongitude = Longitude
-        print("Looking at \(NiceLat),\(NiceLon)")
         GetNearByItems()
     }
     
-    var SourceLatitude = 0.0
-    var SourceLongitude = 0.0
+    var SourceLatitude: Double? = nil
+    var SourceLongitude: Double? = nil
     
     func GetNearByItems()
     {
@@ -71,7 +83,7 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         }
         NearTable.removeAll()
         NearTable.append((Distance: 0.0,
-                          Location: GeoPoint(SourceLatitude, SourceLongitude),
+                          Location: GeoPoint(SourceLatitude!, SourceLongitude!),
                           Description: "Search location",
                           LocType: .UserPoint))
         let LocationManager = Locations()
@@ -80,8 +92,8 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
             LocationManager.Main = MainDelegate
         }
         let LookFor: [LocationTypes] = [.City, .Earthquake, .Home, .UNESCO, .UserPOI]
-        let CloseBy = LocationManager.WhatIsCloseTo(Latitude: SourceLatitude,
-                                                    Longitude: SourceLongitude,
+        let CloseBy = LocationManager.WhatIsCloseTo(Latitude: SourceLatitude!,
+                                                    Longitude: SourceLongitude!,
                                                     CloseIs: DistanceToUse,
                                                     ForLocations: LookFor)
         for SomethingClose in CloseBy
@@ -132,6 +144,11 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         }
     }
     
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat
+    {
+        return 34.0
+    }
+    
     func numberOfRows(in tableView: NSTableView) -> Int
     {
         return NearTable.count
@@ -176,7 +193,7 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
                     IconName = "UnknownTypeIcon"
                     ToolTipText = "Location is an unknown type"
             }
-            let IView = NSImageView(frame: NSRect(origin: CGPoint.zero, size: CGSize(width: 24, height: 24)))
+            let IView = NSImageView(frame: NSRect(origin: CGPoint.zero, size: CGSize(width: 32, height: 32)))
             IView.image = NSImage(named: IconName)
             IView.toolTip = ToolTipText
             return IView
@@ -187,14 +204,14 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
             let Units = Settings.GetEnum(ForKey: .InputUnit, EnumType: InputUnits.self, Default: .Kilometers)
             let UnitName = Units == .Kilometers ? "km" : "mi"
             let Distance = Int(NearTable[row].Distance.RoundedTo(0))
-            CellContents = "\(Distance) \(UnitName)"
+            CellContents = "\(Distance)"//"\(Distance) \(UnitName)"
             CellIdentifier = "DistanceColumn"
         }
         if tableColumn == tableView.tableColumns[2]
         {
-            let LocalLat = NearTable[row].Location.Latitude
-            let LocalLon = NearTable[row].Location.Longitude
-            let PrettyLocation = Utility.PrettyCoordinates(LocalLat, LocalLon, Precision: 3)
+            let LocalLat = Utility.PrettyLatitude(NearTable[row].Location.Latitude, Precision: 3)
+            let LocalLon = Utility.PrettyLongitude(NearTable[row].Location.Longitude, Precision: 3)
+            let PrettyLocation = "\(LocalLat)\t\t\(LocalLon)"
             CellContents = PrettyLocation
             CellIdentifier = "LocationColumn"
         }
@@ -209,9 +226,61 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         return Cell
     }
     
+    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor])
+    {
+        guard let SortDescriptor = tableView.sortDescriptors.first else
+        {
+            return
+        }
+        let SortBy = LocationDescriptors(rawValue: SortDescriptor.key!)
+        switch SortBy
+        {
+            case .DistanceType:
+                if SortDescriptor.ascending
+                {
+                    NearTable.sort{$0.Distance < $1.Distance}
+                }
+                else
+                {
+                    NearTable.sort{$0.Distance > $1.Distance}
+                }
+                
+            case .LocationType:
+                if SortDescriptor.ascending
+                {
+                    NearTable.sort{$0.LocType.rawValue < $1.LocType.rawValue}
+                }
+                else
+                {
+                    NearTable.sort{$0.LocType.rawValue > $1.LocType.rawValue}
+                }
+                
+            case .TypeName:
+                if SortDescriptor.ascending
+                {
+                    NearTable.sort{$0.Description < $1.Description}
+                }
+                else
+                {
+                    NearTable.sort{$0.Description > $1.Description}
+                }
+                
+            case .none:
+                return
+        }
+        NearByTable.reloadData()
+    }
+    
+    @IBOutlet weak var DistanceColumn: NSTableColumn!
+    @IBOutlet weak var CurrentLocationLabel: NSTextField!
     @IBOutlet weak var FoundSummary: NSTextField!
     @IBOutlet weak var DistanceCombo: NSComboBox!
-    @IBOutlet weak var LatitudeLabel: NSTextField!
-    @IBOutlet weak var LongitudeLabel: NSTextField!
     @IBOutlet weak var NearByTable: NSTableView!
+    
+    enum LocationDescriptors: String
+    {
+        case LocationType = "LocationType"
+        case DistanceType = "Distance"
+        case TypeName = "Name"
+    }
 }
