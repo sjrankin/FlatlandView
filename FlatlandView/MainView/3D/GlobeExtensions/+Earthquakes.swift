@@ -405,7 +405,10 @@ extension GlobeView
                 Arrow.SetState(ForDay: false, Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red),
                                Emission: Settings.GetColor(.BaseEarthquakeColor, NSColor.red),
                                Model: .physicallyBased, Metalness: nil, Roughness: nil)
-                Arrow.IsInDaylight = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)!
+                if let InDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
+                {
+                    Arrow.IsInDaylight = InDay
+                }
                 
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
@@ -432,7 +435,10 @@ extension GlobeView
                 FinalNode = Encapsulate
                 FinalNode.CanSwitchState = true
                 FinalNode.SetLocation(Quake.Latitude, Quake.Longitude)
-                FinalNode.IsInDaylight = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)!
+                if let IsInDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
+                {
+                    FinalNode.IsInDaylight = IsInDay
+                }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)
                 FinalNode.NodeID = Quake.ID
                 
