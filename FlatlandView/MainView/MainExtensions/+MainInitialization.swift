@@ -246,6 +246,7 @@ extension MainController
             #if DEBUG
             UptimeValue.stringValue = "0"
             #endif
+            #if false
             switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .Solar)
             {
                 case .None:
@@ -281,6 +282,7 @@ extension MainController
             
             let HaveLocalLocation = Settings.HaveLocalLocation()
             (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(HaveLocalLocation, forSegment: 3)
+            #endif
         }
         
         MainTimeLabelBottom.wantsLayer = true
