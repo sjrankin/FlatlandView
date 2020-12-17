@@ -172,7 +172,6 @@ extension GlobeView
         {
             CitySize = 0.15
         }
-        #if true
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(10 - (CitySize / 2)))
         let Attributes: ShapeAttributes =
             {
@@ -214,31 +213,9 @@ extension GlobeView
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 return A
             }()
-        //let CityNode = ShapeManager.SphereShape(Radius: CitySize, Attributes: Attributes)
         let CityNode = ShapeManager.Create(.Sphere, Attributes: Attributes)
-        #else
-        let CityShape = SCNSphere(radius: CitySize)
-        let CityNode = SCNNode2(geometry: CityShape)
-        CityNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
-        #if false
-        if Settings.GetBool(.CityNodesGlow)
-        {
-            CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
-            //        CityNode.geometry?.firstMaterial?.emission.contents = NSImage(named: "CitySphereTexture")
-        }
-        #endif
+        CityNode.Name = Plot.Name
         CityNode.SetLocation(Latitude, Longitude)
-        CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
-        CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
-        CityNode.CanSwitchState = true
-        CityNode.IsInDaylight = Solar.IsInDaylight(Latitude, Longitude)!
-        CityNode.castsShadow = true
-        SunLight.intensity = 800
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(10 - (CitySize / 2)))
-        CityNode.position = SCNVector3(X, Y, Z)
-        CityNode.name = GlobeNodeNames.CityNode.rawValue
-        #endif
         ToSurface.addChildNode(CityNode)
         PlottedCities.append(CityNode)
     }
@@ -341,6 +318,8 @@ extension GlobeView
                 return A
             }()
         let CityNode = ShapeManager.Create(.Pyramid, Attributes: Attributes)
+        CityNode.Name = Plot.Name
+        CityNode.SetLocation(Latitude, Longitude)
         ToSurface.addChildNode(CityNode)
         PlottedCities.append(CityNode)
     }
@@ -382,12 +361,6 @@ extension GlobeView
             CityNode = SCNNode2(geometry: Sphere)
             CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
             CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-            #if false
-            if Settings.GetBool(.CityNodesGlow)
-            {
-                CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
-            }
-            #endif
             CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
             CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
         }
@@ -405,20 +378,12 @@ extension GlobeView
             CityNode.geometry?.materials.append(SideImage)
             CityNode.geometry?.materials.append(SideImage)
             CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-            #if false
-            if Settings.GetBool(.CityNodesGlow)
-            {
-                for Material in CityNode.geometry!.materials
-                {
-                    Material.selfIllumination.contents = WithColor
-                }
-            }
-            #endif
             CityNode.HasImageTextures = true
             CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
             CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
         }
         CityNode.SetLocation(Latitude, Longitude)
+        CityNode.Name = Plot.Name
         CityNode.CanSwitchState = true
         CityNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         CityNode.NodeID = Plot.CityID
@@ -454,6 +419,8 @@ extension GlobeView
         CityNode.position = SCNVector3(0.0, -(CylinderLength - CitySize), 0.0)
         
         let FinalNode = SCNNode2()
+        FinalNode.Name = Plot.Name
+        FinalNode.SetLocation(Latitude, Longitude)
         FinalNode.NodeID = Plot.CityID
         FinalNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
         FinalNode.addChildNode(CityNode)
@@ -497,6 +464,8 @@ extension GlobeView
             HDim = 0.25
         }
         var CityNode = SCNNode2()
+        CityNode.SetLocation(Latitude, Longitude)
+        CityNode.Name = Plot.Name
         if IsBox
         {
             let CityShape = SCNBox(width: HDim, height: CitySize, length: HDim, chamferRadius: 0.02)
@@ -522,12 +491,6 @@ extension GlobeView
             let CityShape = SCNCylinder(radius: HDim / 2.0, height: CitySize)
             CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
             CityNode = SCNNode2(geometry: CityShape)
-            #if false
-            if Settings.GetBool(.CityNodesGlow)
-            {
-                //CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
-            }
-            #endif
             CityNode.SetLocation(Latitude, Longitude)
             CityNode.CanSwitchState = true
             CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
@@ -536,10 +499,7 @@ extension GlobeView
         }
         CityNode.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
         CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-//        CityNode.geometry?.firstMaterial?.lightingModel = .physicallyBased
         CityNode.castsShadow = true
-//        CityNode.geometry?.firstMaterial?.roughness.contents = NSNumber(value: 0.7)
-//        CityNode.geometry?.firstMaterial?.metalness.contents = NSNumber(value: 1.0)
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + Double(CitySize / 2.0))
         CityNode.position = SCNVector3(X, Y, Z)
         CityNode.name = GlobeNodeNames.CityNode.rawValue
@@ -1000,7 +960,9 @@ extension GlobeView
                     A.NightState = Night
                     return A
                 }()
-                let SiteNode = ShapeManager.Create(.Polygon, Attributes: Attributes)
+                let SiteNode = ShapeManager.Create(.Polygon, Attributes: Attributes,
+                                                   Latitude: Site.Latitude, Longitude: Site.Longitude)
+                SiteNode.Name = Site.Name
                 EarthNode!.addChildNode(SiteNode)
             }
         }
