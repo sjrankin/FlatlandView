@@ -17,6 +17,7 @@ class SCNNode2: SCNNode
     override init()
     {
         super.init()
+        Initialize()
     }
     
     /// Initializer.
@@ -25,6 +26,7 @@ class SCNNode2: SCNNode
     {
         super.init()
         self.Tag = Tag
+        Initialize()
     }
     
     /// Initializer.
@@ -39,6 +41,7 @@ class SCNNode2: SCNNode
         self.NodeID = NodeID
         self.NodeClass = NodeClass
         self.NodeUsage = Usage
+        Initialize()
     }
     
     /// Initializer.
@@ -47,6 +50,7 @@ class SCNNode2: SCNNode
     {
         super.init()
         self.geometry = geometry
+        Initialize()
     }
     
     /// Initializer.
@@ -58,6 +62,7 @@ class SCNNode2: SCNNode
         super.init()
         self.geometry = geometry
         self.Tag = Tag
+        Initialize()
     }
     
     /// Initializer.
@@ -74,6 +79,7 @@ class SCNNode2: SCNNode
         self.NodeID = NodeID
         self.NodeClass = NodeClass
         self.NodeUsage = Usage
+        Initialize()
     }
     
     /// Initializer.
@@ -85,6 +91,7 @@ class SCNNode2: SCNNode
         super.init()
         CanSwitchState = CanChange
         SetLocation(Latitude, Longitude)
+        Initialize()
     }
     
     /// Initializer.
@@ -92,6 +99,7 @@ class SCNNode2: SCNNode
     required init?(coder: NSCoder)
     {
         super.init(coder: coder)
+        Initialize()
     }
     
     /// Initializer.
@@ -105,6 +113,7 @@ class SCNNode2: SCNNode
         self.position = From.position
         self.eulerAngles = From.eulerAngles
         self.categoryBitMask = From.categoryBitMask
+        Initialize()
     }
     
     /// Initializer.
@@ -114,10 +123,19 @@ class SCNNode2: SCNNode
     {
         super.init()
         self.addChildNode(AsChild)
+        Initialize()
+    }
+    
+    private func Initialize()
+    {
+        StartDynamicUpdates()
     }
     
     /// Tag value. Defaults to nil.
     var Tag: Any? = nil
+    
+    /// Name of the node.
+    var Name: String = ""
     
     /// Sub-component ID.
     var SubComponent: UUID? = nil
@@ -663,6 +681,7 @@ class SCNNode2: SCNNode
         }
         set
         {
+            #if false
             if PreviousDayState == nil
             {
                 PreviousDayState = newValue
@@ -678,6 +697,7 @@ class SCNNode2: SCNNode
                     PreviousDayState = newValue
                 }
             }
+            #endif
             _IsInDaylight = newValue
         }
     }
@@ -790,6 +810,45 @@ class SCNNode2: SCNNode
     public var Latitude: Double? = nil
     /// If provided, the longitude of the node.
     public var Longitude: Double? = nil
+    
+    // MARK: - Dynamic updating.
+    
+    func StartDynamicUpdates()
+    {
+        DynamicTimer = Timer.scheduledTimer(timeInterval: 60.0,
+                                            target: self,
+                                            selector: #selector(TestDaylight),
+                                            userInfo: nil, repeats: true)
+    }
+    
+    var DynamicTimer: Timer? = nil
+    
+    func StopDynamicUpdates()
+    {
+        DynamicTimer?.invalidate()
+        DynamicTimer = nil
+    }
+    
+    @objc func TestDaylight()
+    {
+        if HasLocation()
+        {
+            if let IsInDay = Solar.IsInDaylight(Latitude!, Longitude!)
+            {
+                var Title = ""
+                if Name.isEmpty
+                {
+                    Title = NodeUsage?.rawValue ?? "unknown node"
+                }
+                else
+                {
+                    Title = Name
+                }
+                print("Setting \(Title) to daylight=\(IsInDay) at \(Latitude!.RoundedTo(1)),\(Longitude!.RoundedTo(1))")
+                _IsInDaylight = IsInDay
+            }
+        }
+    }
 }
 
 // MARK: - Bounding shapes.
