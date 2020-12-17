@@ -20,8 +20,10 @@ class ShapeManager
     /// - Warning: A fatal error is thrown if the diffuse material type is image but no image name is specified.
     /// - Parameter Shape: The shape to create.
     /// - Parameter Attributes: The attributes to use to create the shape.
+    /// - Parameter Latitude: The latitude of the shape.
+    /// - Parameter Longitude: The longitude of the shape.
     /// - Returns: The shape.
-    public static func Create(_ Shape: Shapes, Attributes: ShapeAttributes) -> SCNNode2
+    public static func Create(_ Shape: Shapes, Attributes: ShapeAttributes, Latitude: Double? = nil, Longitude: Double? = nil) -> SCNNode2
     {
         if IsComposite(Shape)
         {
@@ -63,6 +65,8 @@ class ShapeManager
             default:
                 fatalError("Unexpected shape \(Shape) encountered in \(#function)")
         }
+        BaseNode.Latitude = Latitude
+        BaseNode.Longitude = Longitude
         BaseNode.NodeClass = Attributes.Class
         BaseNode.NodeID = Attributes.ID
         BaseNode.CanShowBoundingShape = Attributes.ShowBoundingShapes
@@ -92,15 +96,17 @@ class ShapeManager
             BaseNode.CanSwitchState = true
             BaseNode.NightState = Attributes.NightState!.EmitNodeState()
             BaseNode.DayState = Attributes.DayState!.EmitNodeState()
-            let IsDay = Solar.IsInDaylight(BaseNode.Latitude!, BaseNode.Longitude!)!
-            BaseNode.IsInDaylight = IsDay
-            if IsDay
+            if let IsDay = Solar.IsInDaylight(BaseNode.Latitude!, BaseNode.Longitude!)
             {
-                BaseNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DayState!.Color
-            }
-            else
-            {
-                BaseNode.geometry?.firstMaterial?.diffuse.contents = Attributes.NightState!.Color
+                BaseNode.IsInDaylight = IsDay
+                if IsDay
+                {
+                    BaseNode.geometry?.firstMaterial?.diffuse.contents = Attributes.DayState!.Color
+                }
+                else
+                {
+                    BaseNode.geometry?.firstMaterial?.diffuse.contents = Attributes.NightState!.Color
+                }
             }
         }
         else
@@ -327,16 +333,27 @@ enum DiffuseMaterialTypes: String, CaseIterable
     case Image = "Image"
 }
 
+/// Holds the time state for nodes. Enables changing some attributes based on whether the node is in the day
+/// or in the night.
 class TimeState
 {
+    /// Determines if the nodes if for daylight or nighttime.
     var IsDayState: Bool = true
+    /// Color of the node.
     var Color: NSColor = NSColor.white
+    /// Emission color of the node.
     var Emission: NSColor? = nil
+    /// Specular color of the node.
     var Specular: NSColor = NSColor.white
+    /// Lighting mode for the node.
     var LightingModel: SCNMaterial.LightingModel = .phong
+    /// Metalness value of the node (for physically-based rendering).
     var Metalness: Double? = nil
+    /// Roughness value of the node (for physically-based rendering).
     var Roughness: Double? = nil
     
+    /// Returns a node state based on current conditions.
+    /// - Returns: Node state.
     func EmitNodeState() -> NodeState
     {
         let EmitMe = NodeState(Color: Color, Emission: Emission, Specular: Specular,
