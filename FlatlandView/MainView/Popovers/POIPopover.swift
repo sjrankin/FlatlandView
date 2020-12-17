@@ -71,10 +71,12 @@ class POIPopover: NSViewController, NSPopoverDelegate
         LocationLabel.stringValue = "Location"
         SetValueTextColor(To: NSColor.black)
         TypeValue.stringValue = ItemToDisplay.ItemType.rawValue
+        var Lat: Double = 0.0
+        var Lon: Double = 0.0
         if let Where = ItemToDisplay.Location
         {
-            let Lat = Where.Latitude.RoundedTo(3)
-            let Lon = Where.Longitude.RoundedTo(3)
+            Lat = Where.Latitude.RoundedTo(3)
+            Lon = Where.Longitude.RoundedTo(3)
             LocationLabel.isHidden = false
             let LatHemi = Lat >= 0.0 ? "N" : "S"
             let LonHemi = Lon < 0.0 ? "W" : "E"
@@ -98,6 +100,14 @@ class POIPopover: NSViewController, NSPopoverDelegate
                 NameValue.font = NSFont.boldSystemFont(ofSize: 13.0)
                 NumericValue.font = NSFont.boldSystemFont(ofSize: 13.0)
                 LocationValue.font = NSFont.boldSystemFont(ofSize: 13.0)
+                if let IsInDay = Solar.IsInDaylight(Lat, Lon)
+                {
+                    DescriptionLabel.stringValue = "Is in daylight: \(IsInDay)"
+                }
+                else
+                {
+                    DescriptionLabel.stringValue = "Cannot determine daylight."
+                }
                 
             case .Earthquake:
                 NumericLabel.stringValue = "Magnitude"
