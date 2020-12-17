@@ -134,6 +134,10 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     /// Start the rotational clock.
     func StartClock()
     {
+//        VisualUpdateClock = Timer.scheduledTimer(timeInterval: 60.0,
+//                                                 target: self,
+//                                                 selector: #selector(UpdateVisualsForTime),
+//                                                 userInfo: nil, repeats: true)
         EarthClock = Timer.scheduledTimer(timeInterval: Defaults.EarthClockTick.rawValue,
                                           target: self, selector: #selector(UpdateEarthView),
                                           userInfo: nil, repeats: true)
@@ -141,7 +145,42 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         RunLoop.current.add(EarthClock!, forMode: .common)
     }
     
+    var VisualUpdateClock: Timer? = nil
     var EarthClock: Timer? = nil
+    
+    /// Update `SCNNode2` items on the `EarthNode` to take into account local day light.
+    @objc func UpdateVisualsForTime()
+    {
+        for Node in EarthNode!.childNodes
+        {
+            if let ActualNode = Node as? SCNNode2
+            {
+                if let Latitude = ActualNode.Latitude
+                {
+                    if let Longitude = ActualNode.Longitude
+                    {
+                        if let IsInDay = Solar.IsInDaylight(Latitude, Longitude)
+                        {
+                            ActualNode.IsInDaylight = IsInDay
+//                            if IsInDay != ActualNode.IsInDaylight
+//                            {
+//                                Debug.Print("Updated node at \(Latitude),\(Longitude)")
+//                                ActualNode.IsInDaylight = IsInDay
+//                            }
+                        }
+                    }
+                    else
+                    {
+                        print("No longitude found")
+                    }
+                }
+                else
+                {
+                    print("No latitude found")
+                }
+            }
+        }
+    }
     
     /// Returns the local time zone abbreviation (a three-letter indicator, not a set of words).
     /// - Returns: The local time zone identifier if found, nil if not found.
