@@ -784,8 +784,13 @@ class MainController: NSViewController
     /// Pushed message.
     var PushedMessage: QueuedMessage? = nil
     
-    // MARK: - Storyboard outlets
+    // MARK: - World clock variables.
+    var WorldClockTimer: Timer? = nil
+    var WorldClockTimeMultiplier: Double = 1.0
+    var CurrentWorldTime: Double = 0.0
+    var WorldClockStartTime: Date? = nil
     
+    // MARK: - Storyboard outlets
     @IBOutlet weak var StatusTextField: NSTextField!
     @IBOutlet weak var StatusTextContainerRightConstraint: NSLayoutConstraint!
     @IBOutlet weak var StatusTextContainerLeftConstraint: NSLayoutConstraint!
@@ -798,8 +803,10 @@ class MainController: NSViewController
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var BackgroundView: NSView!
 
-    //Debug elements
+    //MARK: - Debug UI elements
     
+    @IBOutlet weak var WorldClockLabel: NSTextField!
+    @IBOutlet weak var WorldClockTickCount: NSTextField!
     @IBOutlet weak var VersionLabel: NSTextField!
     @IBOutlet weak var VersionValue: NSTextField!
     @IBOutlet weak var BuildLabel: NSTextField!
