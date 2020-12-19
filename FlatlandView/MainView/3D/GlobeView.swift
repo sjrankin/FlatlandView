@@ -31,6 +31,12 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         InitializeView()
     }
     
+    /// Handle new time from the world clock.
+    /// - Parameter WorldDate: Contains the new date and time.
+    func NewWorldClockTime(WorldDate: Date)
+    {
+    }
+    
     /// Hide the globe view.
     public func Hide()
     {
