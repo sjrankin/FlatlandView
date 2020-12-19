@@ -220,9 +220,9 @@ class SCNNode2: SCNNode
     ///                            `SCNNode2` will affect the visual thickness of the bounding box lines.
     ///                            Defaults to `0.005`.
     private func ShowBoundingBox(LineColor: NSColor = NSColor.red,
-                         RotateBox: Bool = true,
-                         RotationDuration: Double = 3.0,
-                         LineThickness: CGFloat = 0.005)
+                                 RotateBox: Bool = true,
+                                 RotationDuration: Double = 3.0,
+                                 LineThickness: CGFloat = 0.005)
     {
         if !CanShowBoundingShape
         {
@@ -404,8 +404,8 @@ class SCNNode2: SCNNode
     /// - Parameter RotateZ: How to rotate the line on the Z axis. In degrees. Defaults to 0.0.
     /// - Parameter LineThickness: The thickness of the line. Defaults to 0.005.
     private func BoundingBoxLine(Start: SCNVector3, End: SCNVector3, Color: NSColor, RotateX: Double = 0.0,
-                         RotateY: Double = 0.0, RotateZ: Double = 0.0,
-                         LineThickness: CGFloat = 0.005) -> SCNNode
+                                 RotateY: Double = 0.0, RotateZ: Double = 0.0,
+                                 LineThickness: CGFloat = 0.005) -> SCNNode
     {
         let Vector = SCNVector3(Start.x - End.x, Start.y - End.y, Start.z - End.z)
         let Distance = sqrt(Vector.x * Vector.x + Vector.y * Vector.y + Vector.z * Vector.z)
@@ -553,19 +553,10 @@ class SCNNode2: SCNNode
         if DayTime
         {
             self.geometry?.firstMaterial?.lightingModel = DayState!.LightModel
-            if DayState?.Emission != nil
+            let EmissionColor = DayState?.Emission ?? NSColor.clear
+            for Material in self.geometry!.materials
             {
-                for Material in self.geometry!.materials
-                {
-                    Material.emission.contents = DayState!.Emission!
-                }
-            }
-            else
-            {
-                for Material in self.geometry!.materials
-                {
-                    Material.emission.contents = nil
-                }
+                Material.emission.contents = EmissionColor
             }
             if DayState?.Metalness != nil
             {
@@ -585,19 +576,10 @@ class SCNNode2: SCNNode
         else
         {
             self.geometry?.firstMaterial?.lightingModel = NightState!.LightModel
-            if NightState?.Emission != nil
+            let EmissionColor = NightState?.Emission ?? NSColor.clear
+            for Material in self.geometry!.materials
             {
-                for Material in self.geometry!.materials
-                {
-                    Material.emission.contents = NightState!.Emission!
-                }
-            }
-            else
-            {
-                for Material in self.geometry!.materials
-                {
-                    Material.emission.contents = nil
-                }
+                Material.emission.contents = EmissionColor
             }
             if NightState?.Metalness != nil
             {
@@ -625,7 +607,7 @@ class SCNNode2: SCNNode
             if let PNode = self as? ShapeAttribute
             {
                 PNode.SetMaterialColor(State.Color)
-                PNode.SetEmissionColor(State.Emission)
+                PNode.SetEmissionColor(State.Emission ?? NSColor.clear)
                 PNode.SetLightingModel(State.LightModel)
                 PNode.SetMetalness(State.Metalness)
                 PNode.SetRoughness(State.Roughness)
@@ -634,7 +616,7 @@ class SCNNode2: SCNNode
         else
         {
             self.geometry?.firstMaterial?.lightingModel = State.LightModel
-            self.geometry?.firstMaterial?.emission.contents = State.Emission
+            self.geometry?.firstMaterial?.emission.contents = State.Emission ?? NSColor.clear
             self.geometry?.firstMaterial?.lightingModel = State.LightModel
             self.geometry?.firstMaterial?.metalness.contents = State.Metalness
             self.geometry?.firstMaterial?.roughness.contents = State.Roughness
@@ -648,14 +630,30 @@ class SCNNode2: SCNNode
     {
         if DayState == nil || NightState == nil
         {
+            for Child in self.childNodes
+            {
+                if let ActualChild = Child as? SCNNode2
+                {
+                    ActualChild.SetState(For: DayTime)
+                }
+            }
             return
         }
         if HasImageTextures
         {
+            print("Has images")
             SetStateWithImages(For: DayTime)
             return
         }
-        SetVisualAttributes(DayTime ? DayState! : NightState!)
+        let NodeState = DayTime ? DayState! : NightState!
+        SetVisualAttributes(NodeState)
+        for Child in self.childNodes
+        {
+            if let ActualChild = Child as? SCNNode2
+            {
+                ActualChild.SetState(For: DayTime)
+            }
+        }
     }
     
     /// Set to true if the contents of the diffuse material is made up of one or more images.
@@ -734,7 +732,7 @@ class SCNNode2: SCNNode
     
     public var DayState: NodeState? = nil
     public var NightState: NodeState? = nil
- 
+    
     /// Convenience function to set the state attributes.
     /// - Parameter ForDay: If true, day time attributes are set. If false, night time attributes are set.
     /// - Parameter Color: The color for the state.
@@ -751,12 +749,12 @@ class SCNNode2: SCNNode
     {
         if ForDay
         {
-            DayState = NodeState(Color: Color, Emission: Emission, Specular: NSColor.white,
+            DayState = NodeState(State: .Day, Color: Color, Emission: Emission, Specular: NSColor.white,
                                  LightModel: Model, Metalness: Metalness, Roughness: Roughness)
         }
         else
         {
-            NightState = NodeState(Color: Color, Emission: Emission, Specular: NSColor.white,
+            NightState = NodeState(State: .Night, Color: Color, Emission: Emission, Specular: NSColor.white,
                                    LightModel: Model, Metalness: Metalness, Roughness: Roughness)
         }
     }
@@ -815,7 +813,7 @@ class SCNNode2: SCNNode
     
     func StartDynamicUpdates()
     {
-        DynamicTimer = Timer.scheduledTimer(timeInterval: 60.0,
+        DynamicTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                             target: self,
                                             selector: #selector(TestDaylight),
                                             userInfo: nil, repeats: true)
@@ -831,24 +829,44 @@ class SCNNode2: SCNNode
     
     @objc func TestDaylight()
     {
+        if DayState == nil || NightState == nil
+        {
+            return
+        }
         if HasLocation()
         {
             if let IsInDay = Solar.IsInDaylight(Latitude!, Longitude!)
             {
-                var Title = ""
-                if Name.isEmpty
-                {
-                    Title = NodeUsage?.rawValue ?? "unknown node"
-                }
-                else
-                {
-                    Title = Name
-                }
-                print("Setting \(Title) to daylight=\(IsInDay) at \(Latitude!.RoundedTo(1)),\(Longitude!.RoundedTo(1))")
                 _IsInDaylight = IsInDay
+                let SomeEvent = IsInDay ? NodeEvents.SwitchToDay : NodeEvents.SwitchToNight
+                TriggerEvent(SomeEvent)
             }
+//            TriggerEvent([NodeEvents.SwitchToDay, NodeEvents.SwitchToNight].randomElement()!)
+            /*
+             #if true
+             let DoShowDay = Bool.random()
+             _IsInDaylight = DoShowDay
+             #else
+             if let IsInDay = Solar.IsInDaylight(Latitude!, Longitude!)
+             {
+             var Title = ""
+             if Name.isEmpty
+             {
+             Title = NodeUsage?.rawValue ?? "unknown node"
+             }
+             else
+             {
+             Title = Name
+             }
+             print("Setting \(Title) to daylight=\(IsInDay) at \(Latitude!.RoundedTo(1)),\(Longitude!.RoundedTo(1))")
+             _IsInDaylight = IsInDay
+             }
+             #endif
+             */
         }
     }
+    
+    var EventMap = [NodeEvents: EventAttributes]()
 }
 
 // MARK: - Bounding shapes.
@@ -865,6 +883,8 @@ enum NodeBoundingShapes: String, CaseIterable
 /// Visual state for the node.
 struct NodeState
 {
+    /// Node state.
+    let State: NodeStates
     /// Diffuse color.
     let Color: NSColor
     /// Emission color.
@@ -879,4 +899,65 @@ struct NodeState
     let Roughness: Double?
 }
 
+enum NodeStates: String
+{
+    case Day = "Day"
+    case Night = "Night"
+}
 
+
+extension SCNNode2
+{
+    func AddEventAttributes(Event: NodeEvents, Attributes: EventAttributes)
+    {
+        EventMap[Event] = Attributes
+    }
+    
+    func TriggerEvent(_ Event: NodeEvents)
+    {
+        if let Attributes = EventMap[Event]
+        {
+            print("Setting \(Event.rawValue) attributes")
+            self.geometry?.firstMaterial?.diffuse.contents = Attributes.Diffuse
+            self.geometry?.firstMaterial?.specular.contents = Attributes.Specular
+            let EmissionColor = Attributes.Emission ?? NSColor.clear
+            self.geometry?.firstMaterial?.emission.contents = EmissionColor//Attributes.Emission
+            self.geometry?.firstMaterial?.lightingModel = Attributes.LightModel
+            self.geometry?.firstMaterial?.metalness.contents = Attributes.Metalness
+            self.geometry?.firstMaterial?.roughness.contents = Attributes.Roughness
+            if let ScaleValue = Attributes.Scale
+            {
+                self.scale = SCNVector3(ScaleValue, ScaleValue, ScaleValue)
+            }
+            for Child in self.childNodes
+            {
+                if let ActualChild = Child as? SCNNode2
+                {
+                    ActualChild.TriggerEvent(Event)
+                }
+            }
+        }
+    }
+}
+
+class EventAttributes
+{
+    var ForEvent: NodeEvents? = nil
+    var Diffuse: NSColor? = nil
+    var Specular: NSColor? = nil
+    var Emission: NSColor? = nil
+    var LightModel: SCNMaterial.LightingModel = .phong
+    var Metalness: Double? = nil
+    var Roughness: Double? = nil
+    var Scale: Double? = nil
+}
+
+enum NodeEvents: String
+{
+    case NoEvent = "Nothing Happened"
+    case SwitchToDay = "SwitchToDay"
+    case SwitchToNight = "SwitchToNight"
+    case Appear = "Appeared"
+    case Disappeared = "Disappeared"
+    case MagnitudeChanged = "MagnitudeChanged"
+}
