@@ -35,10 +35,10 @@ extension GlobeView
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
         let Attributes: ShapeAttributes =
             {
-               let A = ShapeAttributes()
+                let A = ShapeAttributes()
                 let TheSize: Sizes =
                     {
-                       let S = Sizes()
+                        let S = Sizes()
                         S.TopRadius = 0.15
                         S.BottomRadius = 0.0
                         S.Height = 0.45
@@ -57,6 +57,7 @@ extension GlobeView
                 let Day: TimeState =
                     {
                         let D = TimeState()
+                        D.State = .Day
                         D.Color = WithColor
                         D.Emission = nil
                         D.IsDayState = true
@@ -65,7 +66,8 @@ extension GlobeView
                 A.DayState = Day
                 let Night: TimeState =
                     {
-                       let N = TimeState()
+                        let N = TimeState()
+                        N.State = .Night
                         N.Color = WithColor
                         N.Emission = WithColor
                         N.IsDayState = false
@@ -110,6 +112,7 @@ extension GlobeView
                 let Day: TimeState =
                     {
                         let D = TimeState()
+                        D.State = .Day
                         D.Color = WithColor
                         D.Emission = nil
                         D.IsDayState = true
@@ -119,6 +122,7 @@ extension GlobeView
                 let Night: TimeState =
                     {
                         let N = TimeState()
+                        N.State = .Night
                         N.Color = WithColor
                         N.Emission = WithColor
                         N.IsDayState = false
@@ -155,7 +159,7 @@ extension GlobeView
         PlottedCities.append(UserNode)
     }
     #endif
-
+    
     /// Plot a city on the 3D sphere. A sphere is set on the surface of the Earth.
     /// - Parameter Plot: The city to plot.
     /// - Parameter Latitude: The latitude of the city.
@@ -178,7 +182,7 @@ extension GlobeView
                 let A = ShapeAttributes()
                 let Size: Sizes =
                     {
-                       let S = Sizes()
+                        let S = Sizes()
                         S.Radius = CitySize
                         return S
                     }()
@@ -195,6 +199,7 @@ extension GlobeView
                 let Day: TimeState =
                     {
                         let D = TimeState()
+                        D.State = .Day
                         D.Color = WithColor
                         D.Emission = nil
                         D.IsDayState = true
@@ -204,6 +209,7 @@ extension GlobeView
                 let Night: TimeState =
                     {
                         let N = TimeState()
+                        N.State = .Night
                         N.Color = WithColor
                         N.Emission = WithColor
                         N.IsDayState = false
@@ -280,7 +286,7 @@ extension GlobeView
                 let A = ShapeAttributes()
                 let Size: Sizes =
                     {
-                       let S = Sizes()
+                        let S = Sizes()
                         S.Width = HDim
                         S.Height = CitySize
                         S.Length = HDim
@@ -299,6 +305,7 @@ extension GlobeView
                 let Day: TimeState =
                     {
                         let D = TimeState()
+                        D.State = .Day
                         D.Color = WithColor
                         D.Emission = nil
                         D.IsDayState = true
@@ -308,6 +315,7 @@ extension GlobeView
                 let Night: TimeState =
                     {
                         let N = TimeState()
+                        N.State = .Night
                         N.Color = WithColor
                         N.Emission = WithColor
                         N.IsDayState = false
@@ -724,7 +732,7 @@ extension GlobeView
     {
         let Globe: ShapeAttributes =
             {
-               let A = ShapeAttributes()
+                let A = ShapeAttributes()
                 A.AttributesChange = false
                 A.CastsShadow = true
                 A.Class = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
@@ -741,7 +749,7 @@ extension GlobeView
                 A.Position = SCNVector3(0.0, NorthPole ? 2.1 : -2.1, 0.0)
                 let Size: Sizes =
                     {
-                       let S = Sizes()
+                        let S = Sizes()
                         S.Radius = 0.5
                         return S
                     }()
@@ -777,7 +785,7 @@ extension GlobeView
         Comp.Attributes[.Sphere] = Globe
         let BaseAttributes: ShapeAttributes =
             {
-               let A = ShapeAttributes()
+                let A = ShapeAttributes()
                 A.CastsShadow = true
                 A.Class = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
                 A.ID = NorthPole ? NodeTables.NorthPoleID : NodeTables.SouthPoleID
@@ -915,54 +923,79 @@ extension GlobeView
                         NodeColor = NSColor.white
                 }
                 let Attributes: ShapeAttributes =
-                {
-                    let A = ShapeAttributes()
-                    let PolySize: Sizes =
-                        {
-                            let S = Sizes()
-                            S.VertexCount = 3
-                            S.Radius = 0.2
-                            S.Depth = 0.1 + Double(DepthOffset)
-                            return S
-                        }()
-                    A.ShapeSize = PolySize
-                    A.AttributesChange = false
-                    A.CastsShadow = true
-                    A.Class = UUID(uuidString: NodeClasses.WorldHeritageSite.rawValue)!
-                    A.ID = Site.RuntimeID
-                    A.ShowBoundingShapes = true
-                    A.ShowBoundingShape = .Sphere
-                    A.DiffuseColor = NodeColor
-                    A.Latitude = Site.Latitude
-                    A.Longitude = Site.Longitude
-                    A.Position = SCNVector3(X, Y, Z)
-                    A.Scale = Double(NodeScales3D.UnescoScale.rawValue)
-                    A.EulerX = Site.Latitude.Radians
-                    A.EulerY = (Site.Longitude + 180.0).Radians
-                    A.AttributesChange = true
-                    let Day: TimeState =
-                        {
-                            let D = TimeState()
-                            D.Color = NodeColor
-                            D.Emission = nil
-                            D.IsDayState = true
-                            return D
-                        }()
-                    A.DayState = Day
-                    let Night: TimeState =
-                        {
-                           let N = TimeState()
-                            N.Color = NodeColor
-                            N.Emission = NodeColor
-                            N.IsDayState = false
-                            return N
-                        }()
-                    A.NightState = Night
-                    return A
-                }()
+                    {
+                        let A = ShapeAttributes()
+                        let PolySize: Sizes =
+                            {
+                                let S = Sizes()
+                                S.VertexCount = 3
+                                S.Radius = 0.2
+                                S.Depth = 0.1 + Double(DepthOffset)
+                                return S
+                            }()
+                        A.ShapeSize = PolySize
+                        A.AttributesChange = true
+                        A.CastsShadow = true
+                        A.Class = UUID(uuidString: NodeClasses.WorldHeritageSite.rawValue)!
+                        A.ID = Site.RuntimeID
+                        A.ShowBoundingShapes = true
+                        A.ShowBoundingShape = .Sphere
+                        A.DiffuseColor = NodeColor
+                        A.Latitude = Site.Latitude
+                        A.Longitude = Site.Longitude
+                        A.Position = SCNVector3(X, Y, Z)
+                        A.Scale = Double(NodeScales3D.UnescoScale.rawValue)
+                        A.EulerX = Site.Latitude.Radians
+                        A.EulerY = (Site.Longitude + 180.0).Radians
+                        let Day: TimeState =
+                            {
+                                let D = TimeState()
+                                D.State = .Day
+                                D.Color = NodeColor
+                                D.Emission = nil
+                                D.IsDayState = true
+                                return D
+                            }()
+                        A.DayState = Day
+                        let Night: TimeState =
+                            {
+                                let N = TimeState()
+                                N.State = .Night
+                                N.Color = NodeColor
+                                N.Emission = NodeColor
+                                N.IsDayState = false
+                                return N
+                            }()
+                        A.NightState = Night
+                        return A
+                    }()
                 let SiteNode = ShapeManager.Create(.Polygon, Attributes: Attributes,
                                                    Latitude: Site.Latitude, Longitude: Site.Longitude)
+
+                let Day: EventAttributes =
+                    {
+                        let D = EventAttributes()
+                        D.ForEvent = .SwitchToDay
+                        D.Diffuse = NodeColor
+                        D.Specular = NSColor.white
+                        D.Emission = nil
+                        return D
+                    }()
+                SiteNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+                let Night: EventAttributes =
+                    {
+                        let N = EventAttributes()
+                        N.ForEvent = .SwitchToNight
+                        N.Diffuse = NodeColor
+                        N.Specular = NSColor.white
+                        N.Emission = NodeColor
+                        return N
+                    }()
+                SiteNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+
+                SiteNode.NodeUsage = .UNESCOSite
                 SiteNode.Name = Site.Name
+                SiteNode.UseProtocolToSetState = true
                 EarthNode!.addChildNode(SiteNode)
             }
         }
