@@ -94,8 +94,8 @@ class ShapeManager
         if Attributes.AttributesChange && Attributes.DayState != nil && Attributes.NightState != nil
         {
             BaseNode.CanSwitchState = true
-            BaseNode.NightState = Attributes.NightState!.EmitNodeState()
-            BaseNode.DayState = Attributes.DayState!.EmitNodeState()
+            BaseNode.NightState = Attributes.NightState!.EmitNodeState(For: .Night)
+            BaseNode.DayState = Attributes.DayState!.EmitNodeState(For: .Day)
             if let IsDay = Solar.IsInDaylight(BaseNode.Latitude!, BaseNode.Longitude!)
             {
                 BaseNode.IsInDaylight = IsDay
@@ -337,6 +337,8 @@ enum DiffuseMaterialTypes: String, CaseIterable
 /// or in the night.
 class TimeState
 {
+    /// Day/night state.
+    var State: NodeStates? = nil
     /// Determines if the nodes if for daylight or nighttime.
     var IsDayState: Bool = true
     /// Color of the node.
@@ -353,10 +355,11 @@ class TimeState
     var Roughness: Double? = nil
     
     /// Returns a node state based on current conditions.
+    /// - Parameter For: The node state type.
     /// - Returns: Node state.
-    func EmitNodeState() -> NodeState
+    func EmitNodeState(For State: NodeStates) -> NodeState
     {
-        let EmitMe = NodeState(Color: Color, Emission: Emission, Specular: Specular,
+        let EmitMe = NodeState(State: State, Color: Color, Emission: Emission, Specular: Specular,
                                LightModel: LightingModel, Metalness: Metalness, Roughness: Roughness)
         return EmitMe
     }
