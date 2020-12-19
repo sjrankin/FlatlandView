@@ -462,12 +462,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                                 <subviews>
                                     <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="8bV-LF-Aru">
-                                        <rect key="frame" x="16" y="40" width="115" height="82"/>
+                                        <rect key="frame" x="16" y="40" width="174" height="104"/>
                                         <rows>
                                             <gridRow id="rd2-2S-9be"/>
                                             <gridRow id="hUu-6V-Wv1"/>
                                             <gridRow id="nSj-c3-yWL"/>
                                             <gridRow id="v5C-OW-VV3"/>
+                                            <gridRow id="R7N-Rl-jgu"/>
                                         </rows>
                                         <columns>
                                             <gridColumn id="Ufb-zH-uwb"/>
@@ -476,7 +477,7 @@
                                         <gridCells>
                                             <gridCell row="rd2-2S-9be" column="Ufb-zH-uwb" id="pHg-AM-hMk">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QkX-vn-KDb">
-                                                    <rect key="frame" x="-2" y="66" width="50" height="16"/>
+                                                    <rect key="frame" x="-2" y="88" width="50" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Version" id="yVg-4n-tE7">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -486,7 +487,7 @@
                                             </gridCell>
                                             <gridCell row="rd2-2S-9be" column="uXg-z6-FRB" id="HTy-hQ-XfP">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dYd-FD-q21">
-                                                    <rect key="frame" x="80" y="66" width="37" height="16"/>
+                                                    <rect key="frame" x="90" y="88" width="37" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Eaf-E6-7Sv">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -496,7 +497,7 @@
                                             </gridCell>
                                             <gridCell row="hUu-6V-Wv1" column="Ufb-zH-uwb" id="G2I-Bu-JSg">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6kC-9D-PAk">
-                                                    <rect key="frame" x="-2" y="44" width="35" height="16"/>
+                                                    <rect key="frame" x="-2" y="66" width="35" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Build" id="bZ8-u3-Y3i">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -506,7 +507,7 @@
                                             </gridCell>
                                             <gridCell row="hUu-6V-Wv1" column="uXg-z6-FRB" id="Yig-2Y-1L3">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y44-LR-5jK">
-                                                    <rect key="frame" x="80" y="44" width="37" height="16"/>
+                                                    <rect key="frame" x="90" y="66" width="37" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="bhu-H5-ka1">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -516,7 +517,7 @@
                                             </gridCell>
                                             <gridCell row="nSj-c3-yWL" column="Ufb-zH-uwb" id="8if-QY-QLs">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xyy-Q5-wOK">
-                                                    <rect key="frame" x="-2" y="22" width="65" height="16"/>
+                                                    <rect key="frame" x="-2" y="44" width="65" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Build date" id="GKi-qz-bB0">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -526,7 +527,7 @@
                                             </gridCell>
                                             <gridCell row="nSj-c3-yWL" column="uXg-z6-FRB" id="zRd-tH-iUx">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YGQ-2K-P1W">
-                                                    <rect key="frame" x="80" y="22" width="37" height="16"/>
+                                                    <rect key="frame" x="90" y="44" width="37" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="9zY-vt-F5u">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -536,7 +537,7 @@
                                             </gridCell>
                                             <gridCell row="v5C-OW-VV3" column="Ufb-zH-uwb" id="Z1Q-Ay-dXL">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EHB-cf-el0">
-                                                    <rect key="frame" x="-2" y="0.0" width="48" height="16"/>
+                                                    <rect key="frame" x="-2" y="22" width="48" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Uptime" id="hB7-Jd-LMG">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -546,8 +547,28 @@
                                             </gridCell>
                                             <gridCell row="v5C-OW-VV3" column="uXg-z6-FRB" id="uiG-GB-Qtq">
                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nJR-aJ-l3k">
-                                                    <rect key="frame" x="80" y="0.0" width="37" height="16"/>
+                                                    <rect key="frame" x="90" y="22" width="37" height="16"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Krk-oU-ZRd">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                            <gridCell row="R7N-Rl-jgu" column="Ufb-zH-uwb" id="Ebg-wM-dPj">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rlV-yu-2EY">
+                                                    <rect key="frame" x="-2" y="0.0" width="75" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="World Ticks" id="hB4-bm-a4o">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </gridCell>
+                                            <gridCell row="R7N-Rl-jgu" column="uXg-z6-FRB" id="aES-ir-lFC">
+                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oyg-sR-Tzn">
+                                                    <rect key="frame" x="90" y="0.0" width="86" height="16"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="0000000000" id="peh-65-rbf">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -635,6 +656,8 @@
                         <outlet property="UptimeValue" destination="nJR-aJ-l3k" id="bxn-h0-y3z"/>
                         <outlet property="VersionLabel" destination="QkX-vn-KDb" id="7Jt-Th-gp2"/>
                         <outlet property="VersionValue" destination="dYd-FD-q21" id="BkE-3i-AVi"/>
+                        <outlet property="WorldClockLabel" destination="rlV-yu-2EY" id="gu7-b7-pWt"/>
+                        <outlet property="WorldClockTickCount" destination="oyg-sR-Tzn" id="53Z-8f-6RS"/>
                     </connections>
                 </viewController>
                 <customObject id="Qhx-E0-N3F" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
