@@ -441,6 +441,7 @@ extension GlobeView
                 }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)
                 FinalNode.NodeID = Quake.ID
+                FinalNode.NodeUsage = .Earthquake
                 
             case .StaticArrow:
                 RadialOffset = 0.7
@@ -530,6 +531,8 @@ extension GlobeView
 
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
         FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
+        FinalNode.SetLocation(Quake.Latitude, Quake.Longitude)
+        FinalNode.NodeUsage = .Earthquake
         FinalNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FinalNode.position = SCNVector3(X, Y, Z)
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
