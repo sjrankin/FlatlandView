@@ -29,6 +29,12 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         InitializeView()
     }
     
+    /// Handle new time from the world clock.
+    /// - Parameter WorldDate: Contains the new date and time.
+    func NewWorldClockTime(WorldDate: Date)
+    {
+    }
+    
     #if DEBUG
     /// Set debug options for the visual debugging of the 3D globe.
     /// - Note: See [SCNDebugOptions](https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12)
