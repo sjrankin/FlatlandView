@@ -11,5 +11,6 @@ import AppKit
 
 protocol FlatlandEventProtocol: class
 {
+    func NewWorldClockTime(WorldDate: Date)
     func MouseAt(Point: CGPoint)
 }
