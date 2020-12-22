@@ -30,7 +30,7 @@ class Hours
             InitialOffset = 6
         }
         HourList = HourList.Shift(By: InitialOffset)
-        if let LocalLongitude = Settings.GetDoubleNil(.LocalLongitude)
+        if let LocalLongitude = Settings.GetDoubleNil(.UserHomeLongitude)
         {
             var DeskOffset = 0
             var Long = Int(LocalLongitude / 15.0)
@@ -70,7 +70,7 @@ class Hours
                 
                 case .RelativeToLocation:
                     //Only valid if the user has entered local coordinates.
-                    if let _ = Settings.GetDoubleNil(.LocalLongitude)
+                    if let _ = Settings.GetDoubleNil(.UserHomeLongitude)
                     {
                         DisplayHour = HourList[Hour]
                         if ViewType == .FlatNorthCenter
