@@ -23,7 +23,7 @@ extension NSColor
     /// - Parameter RGBA: Determines the expected order of the channels. If this parameter is `true`, channels
     ///                   are expected in RGBA order. If this parameter is false, channels are expected in
     ///                   ARGB order.
-    /// - Returns: Nil on error, UIColor on success.
+    /// - Returns: Nil on error, NSColor on success.
     convenience init?(HexString: String, RGBA: Bool = true)
     {
         if RGBA
@@ -48,6 +48,38 @@ extension NSColor
                 return nil
             }
         }
+    }
+    
+    /// Create an NSColor using a value interpreted as a hex color value. Interpretation of the
+    /// channels is dependent on the value of `RGBA`.
+    /// - Parameter HexValue: Value to convert to a color.
+    /// - Parameter RGBA: If true, the value in `HexValue` is interpreted as `rrggbbaa`. If false
+    ///                   the value is interpreted as `rrggbb`. Defaults to true.
+    /// - Returns: Nil on error, NSColor on success.
+    convenience init?(HexValue: UInt, RGBA: Bool = true)
+    {
+        var Red: UInt = 0
+        var Green: UInt = 0
+        var Blue: UInt = 0
+        var Alpha: UInt = 0xff
+        if RGBA
+        {
+             Red = HexValue & 0xff000000 >> 24
+             Green = HexValue & 0x00ff0000 >> 16
+             Blue = HexValue & 0x0000ff00 >> 8
+             Alpha = HexValue & 0x000000ff >> 0
+        }
+        else
+        {
+             Red = HexValue & 0x00ff0000 >> 16
+             Green = HexValue & 0x0000ff00 >> 8
+             Blue = HexValue & 0x000000ff >> 0
+        }
+        let FinalRed: CGFloat = max(CGFloat(Red) / 255.0, 1.0)
+        let FinalGreen: CGFloat = max(CGFloat(Green) / 255.0, 1.0)
+        let FinalBlue: CGFloat = max(CGFloat(Blue) / 255.0, 1.0)
+        let FinalAlpha: CGFloat = max(CGFloat(Alpha) / 255.0, 1.0)
+        self.init(red: FinalRed, green: FinalGreen, blue: FinalBlue, alpha: FinalAlpha)
     }
     
     /// Returns an interpolated color between the two passed colors.
