@@ -148,7 +148,7 @@ extension MainController: SettingChangedProtocol
                 Earthquakes?.StopReceivingEarthquakes()
                 Earthquakes?.GetEarthquakes(Every: FetchInterval)
                 
-            case .LocalLongitude, .LocalLatitude:
+            case .UserHomeLongitude, .UserHomeLatitude:
 //                (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(Settings.HaveLocalLocation(), forSegment: 3)
   break
             
