@@ -351,7 +351,7 @@ class Stenciler
     private static func AddWorldHeritageDecals(To Image: NSImage, Ratio: Double) -> NSImage
     {
         let Working = Image
-        let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
+        let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .AllSites)
         //MainView.InitializeWorldHeritageSites()
         let Sites = MainController.GetAllSites()
         var FinalList = [WorldHeritageSite]()
@@ -359,10 +359,10 @@ class Stenciler
         {
             switch TypeFilter
             {
-                case .Either:
+                case .AllSites:
                     FinalList.append(Site)
                     
-                case .Both:
+                case .Mixed:
                     if Site.Category == "Mixed"
                     {
                         FinalList.append(Site)
@@ -644,8 +644,8 @@ class Stenciler
                                             Color: NSColor.systemYellow)
             LineList.append(NoonLine)
             
-            let HomeLat = Settings.GetDoubleNil(.LocalLatitude, 0.0)
-            let HomeLon = Settings.GetDoubleNil(.LocalLongitude, 0.0)
+            let HomeLat = Settings.GetDoubleNil(.UserHomeLatitude, 0.0)
+            let HomeLon = Settings.GetDoubleNil(.UserHomeLongitude, 0.0)
             let GP = GeoPoint(HomeLat!, HomeLon!)
             let (HX, _) = GP.ToEquirectangular(Width: ImageWidth, Height: ImageHeight)
             let HomeLine: LineDefinition = (IsHorizontal: false,
