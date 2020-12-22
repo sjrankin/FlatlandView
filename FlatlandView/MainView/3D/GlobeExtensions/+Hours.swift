@@ -75,8 +75,8 @@ extension GlobeView
                 return MakeNoonDeltaHours(Radius: Radius)
             
             case .RelativeToLocation:
-                if Settings.GetDoubleNil(.LocalLatitude) == nil ||
-                    Settings.GetDoubleNil(.LocalLongitude) == nil
+                if Settings.GetDoubleNil(.UserHomeLatitude) == nil ||
+                    Settings.GetDoubleNil(.UserHomeLongitude) == nil
                 {
                     return nil
                 }
@@ -175,7 +175,7 @@ extension GlobeView
         
         var HourList = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
         HourList = HourList.Shift(By: -6)
-        let LocalLongitude = Settings.GetDoubleNil(.LocalLongitude)!
+        let LocalLongitude = Settings.GetDoubleNil(.UserHomeLongitude)!
         let Long = Int(LocalLongitude / 15.0)
         HourList = HourList.Shift(By: Long)
         var HourLabelList = [(String, Int)]()
