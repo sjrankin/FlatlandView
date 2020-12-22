@@ -55,7 +55,7 @@ extension RawSettingsController
                 CaseList = Utility.EnumCases(EnumType: PopulationTypes.self)
                 
             case "SiteTypeFilters":
-                CaseList = Utility.EnumCases(EnumType: SiteTypeFilters.self)
+                CaseList = Utility.EnumCases(EnumType: WorldHeritageSiteTypes.self)
                 
             case "EarthquakeColorMethods":
                 CaseList = Utility.EnumCases(EnumType: EarthquakeColorMethods.self)
@@ -151,7 +151,7 @@ extension RawSettingsController
                 return "\(Actual)"
                 
             case "SiteTypeFilters":
-                let Actual = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self,
+                let Actual = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self,
                                               Default: .Natural)
                 return "\(Actual)"
                 
@@ -291,9 +291,9 @@ extension RawSettingsController
                 }
                 
             case .WorldHeritageSiteType:
-                if let Value = SiteTypeFilters(rawValue: AsString)
+                if let Value = WorldHeritageSiteTypes(rawValue: AsString)
                 {
-                    Settings.SetEnum(Value, EnumType: SiteTypeFilters.self, ForKey: .WorldHeritageSiteType)
+                    Settings.SetEnum(Value, EnumType: WorldHeritageSiteTypes.self, ForKey: .WorldHeritageSiteType)
                 }
                 
             case .ColorDetermination:
