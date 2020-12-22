@@ -222,11 +222,11 @@ enum SettingKeys: String, CaseIterable
     /// Boolean: Show user locations.
     case ShowUserLocations = "ShowUserLocations"
     /// Double?: The user's home latitude. If nil, not set.
-    case LocalLatitude = "LocalLatitude"
+    case UserHomeLatitude = "LocalLatitude"
     /// Double?: The user's home longitude. If nil, not set.
-    case LocalLongitude = "LocalLongitude"
+    case UserHomeLongitude = "LocalLongitude"
     /// String: Name of the user's home location.
-    case LocalName = "LocalName"
+    case UserHomeName = "LocalName"
     /// Integer: Time zone offset for the user's home location.
     case LocalTimeZoneOffset = "LocalTimeZoneOffset"
     /// Determines the shape of the object marking the user's home location.
