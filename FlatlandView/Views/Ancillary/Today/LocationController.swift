@@ -45,9 +45,9 @@ class LocationController: NSViewController, NSTextFieldDelegate
                 ExplanatoryText.stringValue = """
 Enter/edit your home location name and coordinates.
 """
-                let Where = Settings.GetString(.LocalName, "")
-                let Lat = Settings.GetDoubleNil(.LocalLatitude)
-                let Lon = Settings.GetDoubleNil(.LocalLongitude)
+                let Where = Settings.GetString(.UserHomeName, "")
+                let Lat = Settings.GetDoubleNil(.UserHomeLatitude)
+                let Lon = Settings.GetDoubleNil(.UserHomeLongitude)
                 if Lat == nil || Lon == nil
                 {
                     return
@@ -148,11 +148,11 @@ Enter the location where you want to see current values.
     {
         if IsForHomeLocation
         {
-            Settings.SetString(.LocalName, LocationNameField.stringValue)
+            Settings.SetString(.UserHomeName, LocationNameField.stringValue)
             let Lat = Double(LatitudeField.stringValue)
-            Settings.SetDoubleNil(.LocalLatitude, Lat)
+            Settings.SetDoubleNil(.UserHomeLatitude, Lat)
             let Lon = Double(LongitudeField.stringValue)
-            Settings.SetDoubleNil(.LocalLongitude, Lon)
+            Settings.SetDoubleNil(.UserHomeLongitude, Lon)
         }
         else
         {
