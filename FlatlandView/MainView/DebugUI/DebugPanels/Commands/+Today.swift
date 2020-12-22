@@ -150,8 +150,8 @@ class TodayCommand: CommandProtocol
             case 0:
                 if Settings.HaveLocalLocation()
                 {
-                    let Latitude = Settings.GetDoubleNil(.LocalLatitude, 0.0)!
-                    let Longitude = Settings.GetDoubleNil(.LocalLatitude, 0.0)!
+                    let Latitude = Settings.GetDoubleNil(.UserHomeLatitude, 0.0)!
+                    let Longitude = Settings.GetDoubleNil(.UserHomeLatitude, 0.0)!
                     Sun = SolarToday(For: DataForDate, Latitude: Latitude, Longitude: Longitude,
                                      ResultsAvailable(_:))
                     return .failure(.LateResults)
