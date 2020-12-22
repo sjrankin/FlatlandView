@@ -31,9 +31,9 @@ extension GlobeView
         HomeNodeHalo?.removeFromParentNode()
         HomeNodeHalo = nil
         
-        if let LocalLongitude = Settings.GetDoubleNil(.LocalLongitude)
+        if let LocalLongitude = Settings.GetDoubleNil(.UserHomeLongitude)
         {
-            if let LocalLatitude = Settings.GetDoubleNil(.LocalLatitude)
+            if let LocalLatitude = Settings.GetDoubleNil(.UserHomeLatitude)
             {
                 let HomeColor = Settings.GetColor(.HomeColor, NSColor.systemTeal)
                 NodeTables.AddHome(ID: NodeTables.HomeID, Name: "Home location",
