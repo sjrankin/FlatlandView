@@ -45,8 +45,8 @@ class UserLocationWindow: NSViewController, NSTableViewDataSource, NSTableViewDe
         }
         if Settings.HaveLocalLocation()
         {
-            let UserLat = Settings.GetDoubleNil(.LocalLatitude, 0.0)!
-            let UserLon = Settings.GetDoubleNil(.LocalLongitude, 0.0)!
+            let UserLat = Settings.GetDoubleNil(.UserHomeLatitude, 0.0)!
+            let UserLon = Settings.GetDoubleNil(.UserHomeLongitude, 0.0)!
             UserLocationLatitudeBox.stringValue = "\(UserLat.RoundedTo(4))"
             UserLocationLongitudeBox.stringValue = "\(UserLon.RoundedTo(4))"
             let ZoneOffset = Int(Settings.GetDoubleNil(.LocalTimeZoneOffset, 0.0)!)
@@ -149,11 +149,11 @@ class UserLocationWindow: NSViewController, NSTableViewDataSource, NSTableViewDe
     
     func HaveNewLocation()
     {
-        if let Lat = Settings.GetDoubleNil(.LocalLatitude)
+        if let Lat = Settings.GetDoubleNil(.UserHomeLatitude)
         {
             UserLocationLatitudeBox.stringValue = "\(Lat)"
         }
-        if let Lon = Settings.GetDoubleNil(.LocalLongitude)
+        if let Lon = Settings.GetDoubleNil(.UserHomeLongitude)
         {
             UserLocationLongitudeBox.stringValue = "\(Lon)"
         }
@@ -200,8 +200,8 @@ class UserLocationWindow: NSViewController, NSTableViewDataSource, NSTableViewDe
         UserLocationLongitudeBox.stringValue = ""
         UserLocationLatitudeBox.stringValue = ""
         UserTimeZoneOffsetCombo.selectItem(withObjectValue: nil)
-        Settings.SetDoubleNil(.LocalLatitude, nil)
-        Settings.SetDoubleNil(.LocalLongitude, nil)
+        Settings.SetDoubleNil(.UserHomeLatitude, nil)
+        Settings.SetDoubleNil(.UserHomeLongitude, nil)
         Settings.SetDoubleNil(.LocalTimeZoneOffset, nil)
     }
     
@@ -318,7 +318,7 @@ class UserLocationWindow: NSViewController, NSTableViewDataSource, NSTableViewDe
                 case UserLocationLongitudeBox:
                     if ValidateText(TextValue, IsLongitude: true, GoodValue: &GoodValue)
                     {
-                        Settings.SetDoubleNil(.LocalLongitude, GoodValue)
+                        Settings.SetDoubleNil(.UserHomeLongitude, GoodValue)
                     }
                     else
                     {
@@ -328,7 +328,7 @@ class UserLocationWindow: NSViewController, NSTableViewDataSource, NSTableViewDe
                 case UserLocationLatitudeBox:
                     if ValidateText(TextValue, IsLongitude: false, GoodValue: &GoodValue)
                     {
-                        Settings.SetDoubleNil(.LocalLatitude, GoodValue)
+                        Settings.SetDoubleNil(.UserHomeLatitude, GoodValue)
                     }
                     else
                     {
