@@ -31,8 +31,8 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
     func SetLocation()
     {
         TimeTable.removeAll()
-        let LocalLat = ShowHomeData ? Settings.GetDoubleNil(.LocalLatitude) : Settings.GetDoubleNil(.DailyLocationLatitude)
-        let LocalLon = ShowHomeData ? Settings.GetDoubleNil(.LocalLongitude) : Settings.GetDoubleNil(.DailyLocationLongitude)
+        let LocalLat = ShowHomeData ? Settings.GetDoubleNil(.UserHomeLatitude) : Settings.GetDoubleNil(.DailyLocationLatitude)
+        let LocalLon = ShowHomeData ? Settings.GetDoubleNil(.UserHomeLongitude) : Settings.GetDoubleNil(.DailyLocationLongitude)
         SolarNow = SolarToday(For: Date(), Latitude: LocalLat!, Longitude: LocalLon!,
                               HaveNewLocationData(_:_:_:_:_:_:_:_:_:_:_:))
     }
@@ -60,7 +60,7 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
             self.TimeZoneSeconds = TimezoneSeconds
             LocationNote.stringValue = ""
             TimeTable.removeAll()
-            let HomeName = ShowHomeData ? Settings.GetString(.LocalName, "") : Settings.GetString(.DailyLocationName, "")
+            let HomeName = ShowHomeData ? Settings.GetString(.UserHomeName, "") : Settings.GetString(.DailyLocationName, "")
             let LatS = Latitude >= 0.0 ? "\(Latitude.RoundedTo(4))N" : "\(abs(Latitude).RoundedTo(4))S"
             let LonS = Longitude >= 0.0 ? "\(Longitude.RoundedTo(4))E" : "\(abs(Longitude).RoundedTo(4))W"
             let LocationString = "\(LatS), \(LonS)"
