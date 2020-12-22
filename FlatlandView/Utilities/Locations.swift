@@ -77,9 +77,9 @@ class Locations
                         if Settings.HaveLocalLocation()
                         {
                             let HomeRecord = MetaLocation(ID: nil,
-                                                          Name: Settings.GetString(.LocalName, ""),
-                                                          Latitude: Settings.GetDoubleNil(.LocalLatitude, 0.0)!,
-                                                          Longitude: Settings.GetDoubleNil(.LocalLongitude, 0.0)!,
+                                                          Name: Settings.GetString(.UserHomeName, ""),
+                                                          Latitude: Settings.GetDoubleNil(.UserHomeLatitude, 0.0)!,
+                                                          Longitude: Settings.GetDoubleNil(.UserHomeLongitude, 0.0)!,
                                                           Population: 0,
                                                           LocationType: .Home)
                             return HomeRecord
@@ -229,15 +229,15 @@ class Locations
                     if Settings.HaveLocalLocation()
                     {
                         let Distance = Geometry.HaversineDistance(Latitude1: Latitude, Longitude1: Longitude,
-                                                                  Latitude2: Settings.GetDoubleNil(.LocalLatitude, 0.0)!,
-                                                                  Longitude2: Settings.GetDoubleNil(.LocalLongitude, 0.0)!) / 1000.0
+                                                                  Latitude2: Settings.GetDoubleNil(.UserHomeLatitude, 0.0)!,
+                                                                  Longitude2: Settings.GetDoubleNil(.UserHomeLongitude, 0.0)!) / 1000.0
                         if Distance <= CloseIs
                         {
                             //Use a fake ID because home locations don't have IDs.
                             let HomeRecord = MetaLocation(ID: UUID(),
-                                                          Name: Settings.GetString(.LocalName, ""),
-                                                          Latitude: Settings.GetDoubleNil(.LocalLatitude, 0.0)!,
-                                                          Longitude: Settings.GetDoubleNil(.LocalLongitude, 0.0)!,
+                                                          Name: Settings.GetString(.UserHomeName, ""),
+                                                          Latitude: Settings.GetDoubleNil(.UserHomeLatitude, 0.0)!,
+                                                          Longitude: Settings.GetDoubleNil(.UserHomeLongitude, 0.0)!,
                                                           Population: 0,
                                                           LocationType: .Home,
                                                           Distance: Distance)
