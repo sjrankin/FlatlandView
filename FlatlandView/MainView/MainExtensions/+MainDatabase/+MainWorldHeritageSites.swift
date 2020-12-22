@@ -220,14 +220,14 @@ extension MainController
     /// - Parameter Sites: The set of World Heritage Sites to filter.
     /// - Parameter ByType: The type of stie to return.
     /// - Returns: List of World Heritage Sites filtered by the supplied parameters.
-    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite], ByType: SiteTypeFilters) -> [WorldHeritageSite]
+    public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite], ByType: WorldHeritageSiteTypes) -> [WorldHeritageSite]
     {
         var Results = [WorldHeritageSite]()
         for Site in Sites
         {
             switch ByType
             {
-                case .Both:
+                case .Mixed:
                     if Site.Category == "Mixed"
                     {
                         Results.append(Site)
@@ -245,7 +245,7 @@ extension MainController
                         Results.append(Site)
                     }
                     
-                case .Either:
+                case .AllSites:
                     Results.append(Site)
             }
         }
@@ -264,7 +264,7 @@ extension MainController
     /// - Parameter WithYearFilter: How to filter the year.
     /// - Returns: List of sites that meet all passed criteria.
     public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite],
-                                                ByType: SiteTypeFilters,
+                                                ByType: WorldHeritageSiteTypes,
                                                 ByCountry: String,
                                                 ByYear: Int?,
                                                 WithYearFilter: YearFilters) -> [WorldHeritageSite]
@@ -283,7 +283,7 @@ extension MainController
     public static func FilterWorldHeritageSites(_ Sites: [WorldHeritageSite]) -> [WorldHeritageSite]
     {
         #if true
-        let SiteType = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
+        let SiteType = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .AllSites)
         let SiteCountry = Settings.GetString(.SiteCountry, "")
         let SiteYear = Settings.GetInt(.SiteYear)
         let SiteYearFilter = Settings.GetEnum(ForKey: .SiteYearFilter, EnumType: YearFilters.self, Default: .All)
