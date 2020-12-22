@@ -22,18 +22,18 @@ extension RectangleView
         WHSNodeList.removeAll()
         if Settings.GetBool(.ShowWorldHeritageSites)
         {
-            let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self,
-                                              Default: .Either)
+            let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self,
+                                              Default: .AllSites)
             let Sites = MainController.GetAllSites()
             var FinalList = [WorldHeritageSite]()
             for Site in Sites
             {
                 switch TypeFilter
                 {
-                    case .Either:
+                    case .AllSites:
                         FinalList.append(Site)
                         
-                    case .Both:
+                    case .Mixed:
                         if Site.Category == "Mixed"
                         {
                             FinalList.append(Site)
