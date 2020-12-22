@@ -41,9 +41,9 @@ class Settings
         InitializeDouble(.NightMaskAlpha, 0.4)
         
         InitializeBool(.ShowUserLocations, false)
-        InitializeDoubleNil(.LocalLatitude, nil)
-        InitializeDoubleNil(.LocalLongitude, nil)
-        InitializeString(.LocalName, "")
+        InitializeDoubleNil(.UserHomeLatitude, nil)
+        InitializeDoubleNil(.UserHomeLongitude, nil)
+        InitializeString(.UserHomeName, "")
         InitializeInt(.LocalTimeZoneOffset, 0)
         InitializeString(.UserLocations, "")
         
