@@ -20,7 +20,7 @@ class GetLocationCode: NSViewController, NSTextFieldDelegate, CLLocationManagerD
     {
         super.viewDidLoad()
         MainLabel.stringValue = "Flatland will attempt to find your current location. Accuracy will vary depending on current internet routing."
-        if let LocalLon = Settings.GetDoubleNil(.LocalLongitude)
+        if let LocalLon = Settings.GetDoubleNil(.UserHomeLongitude)
         {
             LongitudeBox.stringValue = "\(LocalLon)"
         }
@@ -28,7 +28,7 @@ class GetLocationCode: NSViewController, NSTextFieldDelegate, CLLocationManagerD
         {
             LongitudeBox.stringValue = ""
         }
-        if let LocalLat = Settings.GetDoubleNil(.LocalLatitude)
+        if let LocalLat = Settings.GetDoubleNil(.UserHomeLatitude)
         {
             LatitudeBox.stringValue = "\(LocalLat)"
         }
@@ -114,7 +114,7 @@ class GetLocationCode: NSViewController, NSTextFieldDelegate, CLLocationManagerD
         {
             if let LatVal = Double(RawLat)
             {
-                Settings.SetDoubleNil(.LocalLatitude, LatVal)
+                Settings.SetDoubleNil(.UserHomeLatitude, LatVal)
             }
             else
             {
@@ -130,7 +130,7 @@ class GetLocationCode: NSViewController, NSTextFieldDelegate, CLLocationManagerD
         {
             if let LonVal = Double(RawLon)
             {
-                Settings.SetDoubleNil(.LocalLongitude, LonVal)
+                Settings.SetDoubleNil(.UserHomeLongitude, LonVal)
             }
             else
             {
