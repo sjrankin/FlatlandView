@@ -24,6 +24,11 @@ class MainController: NSViewController
         ProgramInitialization()
         AsynchronousInitialization()
         
+        let TestKey = "TEST"
+        let TestValue = "This is a test".data(using: .ascii)
+        let StoreResult = SecureStore.SaveInStore(Key: TestKey, Value: TestValue!)
+        print("StoreResult=\(StoreResult)")
+        
         #if DEBUG
         VersionValue.stringValue = Versioning.VerySimpleVersionString()
         BuildValue.stringValue = "\(Versioning.Build)"
@@ -89,6 +94,17 @@ class MainController: NSViewController
     /// Initialize things that require a fully set-up window.
     override func viewDidLayout()
     {
+        if let RawData = SecureStore.GetFromStore(Key: "TEST")
+        {
+            if let Result = String(data: RawData, encoding: .ascii)
+            {
+                print("Read \(Result) from secure store")
+            }
+        }
+        else
+        {
+            print("Error getting TEST from secure store")
+        }
         InitializeSimpleStatus()
         InterfaceInitialization()
         InitializeFlatland()
