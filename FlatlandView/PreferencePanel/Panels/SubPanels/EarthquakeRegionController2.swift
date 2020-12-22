@@ -62,26 +62,26 @@ class EarthquakeRegionController2: NSViewController, NSTextFieldDelegate,
     {
         if let SelectedIndex = GetSelectedIndex()
         {
-        let Storyboard = NSStoryboard(name: "SubPanels", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "DeleteConfirmationWindow") as? DeleteConfirmationWindow
-        {
-            let Window = WindowController.window
-            if let Controller = Window?.contentViewController as? DeleteConfirmationController
+            let Storyboard = NSStoryboard(name: "SubPanels", bundle: nil)
+            if let WindowController = Storyboard.instantiateController(withIdentifier: "DeleteConfirmationWindow") as? DeleteConfirmationWindow
             {
-                let RegionName = Regions[SelectedIndex].RegionName
-                Controller.SetConfirmationText("Really delete \"\(RegionName)\"? You cannot undo this operation.")
-                self.view.window?.beginSheet(Window!)
+                let Window = WindowController.window
+                if let Controller = Window?.contentViewController as? DeleteConfirmationController
                 {
-                    Result in
-                    if Result == .OK
+                    let RegionName = Regions[SelectedIndex].RegionName
+                    Controller.SetConfirmationText("Really delete \"\(RegionName)\"? You cannot undo this operation.")
+                    self.view.window?.beginSheet(Window!)
                     {
-                        self.Regions.remove(at: SelectedIndex)
-                        self.SaveRegions()
-                        self.RegionTable.reloadData()
+                        Result in
+                        if Result == .OK
+                        {
+                            self.Regions.remove(at: SelectedIndex)
+                            self.SaveRegions()
+                            self.RegionTable.reloadData()
+                        }
                     }
                 }
             }
-        }
         }
     }
     
