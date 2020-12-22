@@ -25,7 +25,7 @@ class EnumList
         "Continents": Continents.allCases.map{"\($0)"},
         "CityGroups": CityGroups.allCases.map{"\($0)"},
         "YearFilters": YearFilters.allCases.map{"\($0)"},
-        "SiteTypeFilters": SiteTypeFilters.allCases.map{"\($0)"},
+        "SiteTypeFilters": WorldHeritageSiteTypes.allCases.map{"\($0)"},
         "PolarShapes": PolarShapes.allCases.map{"\($0)"},
         "Scripts": Scripts.allCases.map{"\($0)"},
         "CityDisplayTypes": CityDisplayTypes.allCases.map{"\($0)"},
