@@ -23,9 +23,9 @@ class OtherLocationsWindow: NSViewController
     {
         ShowHeritageSiteSwitch.state = Settings.GetBool(.ShowWorldHeritageSites) ? .on : .off
         var Index = 0
-        switch Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
+        switch Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .AllSites)
         {
-            case .Either:
+            case .AllSites:
                 Index = 0
             
             case .Natural:
@@ -34,7 +34,7 @@ class OtherLocationsWindow: NSViewController
             case .Cultural:
                 Index = 2
             
-            case .Both:
+            case .Mixed:
                 Index = 3
         }
         HeritageSiteSegment.selectedSegment = Index
@@ -58,9 +58,9 @@ class OtherLocationsWindow: NSViewController
             {
                 Index = 0
             }
-            let SiteType = [SiteTypeFilters.Either, SiteTypeFilters.Natural, SiteTypeFilters.Cultural,
-                            SiteTypeFilters.Both][Index]
-            Settings.SetEnum(SiteType, EnumType: SiteTypeFilters.self, ForKey: .WorldHeritageSiteType)
+            let SiteType = [WorldHeritageSiteTypes.AllSites, WorldHeritageSiteTypes.Natural, WorldHeritageSiteTypes.Cultural,
+                            WorldHeritageSiteTypes.Mixed][Index]
+            Settings.SetEnum(SiteType, EnumType: WorldHeritageSiteTypes.self, ForKey: .WorldHeritageSiteType)
         }
     }
     
