@@ -294,11 +294,15 @@ Show all cities in the city database. This may slow down your computer as there 
                 case .UNESCOSites:
                     Message = """
 Determines the World Heritage Sites to display.
-• |font type=bold|Hide|font type=system| removes all sites from the map.
 • |font type=bold|Cultural|font type=system| shows cultural-related sites.
 • |font type=bold|Natural|font type=system| shows nature-related sites.
 • |font type=bold|Mixed|font type=system| shows sites classified as both Cultural and Natural.
 • |font type=bold|All|font type=system| shows all World Heritage Sites. There are many so this may slow down your computer.
+"""
+                    
+                case .ShowUNESCOSites:
+                    Message = """
+If on, enables the viewing of the location of UNESCO World Heritage Sites. If off, sites will not be shown.
 """
                     
                 case .ShowHome:
@@ -381,6 +385,7 @@ enum PreferenceHelp: String, CaseIterable
     case EditHome = "EditHome"
     case ShowUserPOIs = "ShowUserPOIs"
     case EditUserPOIs = "EditUserPOIs"
+    case ShowUNESCOSites = "ShowUNESCOSites"
     
     case LiveDataHelp = "LiveDataHelp"
 }
