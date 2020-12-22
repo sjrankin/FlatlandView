@@ -17,11 +17,11 @@ extension Settings
     /// - Returns: True if the device location has been set, false if not.
     public static func HaveLocalLocation() -> Bool
     {
-        if GetDoubleNil(.LocalLatitude) == nil
+        if GetDoubleNil(.UserHomeLatitude) == nil
         {
             return false
         }
-        if GetDoubleNil(.LocalLongitude) == nil
+        if GetDoubleNil(.UserHomeLongitude) == nil
         {
             return false
         }
