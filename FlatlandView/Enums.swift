@@ -144,16 +144,16 @@ enum YearFilters: String, CaseIterable
 }
 
 /// World heritage site types.
-enum SiteTypeFilters: String, CaseIterable
+enum WorldHeritageSiteTypes: String, CaseIterable
 {
-    /// Natural site.
-    case Natural = "Natural"
     /// Cultural site.
     case Cultural = "Cultural"
+    /// Natural site.
+    case Natural = "Natural"
     /// Mixed natural/cultural site.
-    case Both = "Both"
+    case Mixed = "Mixed"
     /// Any type of site.
-    case Either = "Either"
+    case AllSites = "All"
 }
 
 /// Shapes used to render the North Pole and South Pole.
