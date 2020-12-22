@@ -54,6 +54,7 @@ extension GlobeView
                 A.Position = SCNVector3(X, Y, Z)
                 A.Latitude = Latitude
                 A.Longitude = Longitude
+                /*
                 let Day: TimeState =
                     {
                         let D = TimeState()
@@ -74,11 +75,32 @@ extension GlobeView
                         return N
                     }()
                 A.NightState = Night
+ */
                 A.ShowBoundingShapes = true
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 return A
             }()
         let ConeNode = ShapeManager.Create(.Cone, Attributes: Attributes)
+        let Day: EventAttributes =
+            {
+                let D = EventAttributes()
+                D.ForEvent = .SwitchToDay
+                D.Diffuse = WithColor
+                D.Specular = NSColor.white
+                D.Emission = nil
+                return D
+            }()
+        ConeNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+        let Night: EventAttributes =
+            {
+                let N = EventAttributes()
+                N.ForEvent = .SwitchToNight
+                N.Diffuse = WithColor
+                N.Specular = NSColor.white
+                N.Emission = WithColor
+                return N
+            }()
+        ConeNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
         ToSurface.addChildNode(ConeNode)
         PlottedCities.append(ConeNode)
     }
@@ -196,6 +218,7 @@ extension GlobeView
                 A.Position = SCNVector3(X, Y, Z)
                 A.Latitude = Latitude
                 A.Longitude = Longitude
+                /*
                 let Day: TimeState =
                     {
                         let D = TimeState()
@@ -216,12 +239,33 @@ extension GlobeView
                         return N
                     }()
                 A.NightState = Night
+ */
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 return A
             }()
         let CityNode = ShapeManager.Create(.Sphere, Attributes: Attributes)
         CityNode.Name = Plot.Name
         CityNode.SetLocation(Latitude, Longitude)
+        let Day: EventAttributes =
+            {
+                let D = EventAttributes()
+                D.ForEvent = .SwitchToDay
+                D.Diffuse = WithColor
+                D.Specular = NSColor.white
+                D.Emission = nil
+                return D
+            }()
+        CityNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+        let Night: EventAttributes =
+            {
+                let N = EventAttributes()
+                N.ForEvent = .SwitchToNight
+                N.Diffuse = WithColor
+                N.Specular = NSColor.white
+                N.Emission = WithColor
+                return N
+            }()
+        CityNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
         ToSurface.addChildNode(CityNode)
         PlottedCities.append(CityNode)
     }
@@ -302,6 +346,7 @@ extension GlobeView
                 A.Position = SCNVector3(X, Y, Z)
                 A.Latitude = Latitude
                 A.Longitude = Longitude
+                /*
                 let Day: TimeState =
                     {
                         let D = TimeState()
@@ -322,10 +367,31 @@ extension GlobeView
                         return N
                     }()
                 A.NightState = Night
+ */
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 return A
             }()
         let CityNode = ShapeManager.Create(.Pyramid, Attributes: Attributes)
+        let Day: EventAttributes =
+            {
+                let D = EventAttributes()
+                D.ForEvent = .SwitchToDay
+                D.Diffuse = WithColor
+                D.Specular = NSColor.white
+                D.Emission = nil
+                return D
+            }()
+        CityNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+        let Night: EventAttributes =
+            {
+                let N = EventAttributes()
+                N.ForEvent = .SwitchToNight
+                N.Diffuse = WithColor
+                N.Specular = NSColor.white
+                N.Emission = WithColor
+                return N
+            }()
+        CityNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
         CityNode.Name = Plot.Name
         CityNode.SetLocation(Latitude, Longitude)
         ToSurface.addChildNode(CityNode)
@@ -371,6 +437,26 @@ extension GlobeView
             CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
             CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
             CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
+            let Day: EventAttributes =
+                {
+                    let D = EventAttributes()
+                    D.ForEvent = .SwitchToDay
+                    D.Diffuse = WithColor
+                    D.Specular = NSColor.white
+                    D.Emission = nil
+                    return D
+                }()
+            CityNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+            let Night: EventAttributes =
+                {
+                    let N = EventAttributes()
+                    N.ForEvent = .SwitchToNight
+                    N.Diffuse = WithColor
+                    N.Specular = NSColor.white
+                    N.Emission = WithColor
+                    return N
+                }()
+            CityNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
         }
         else
         {
@@ -389,6 +475,26 @@ extension GlobeView
             CityNode.HasImageTextures = true
             CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
             CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
+            let Day: EventAttributes =
+                {
+                    let D = EventAttributes()
+                    D.ForEvent = .SwitchToDay
+                    D.Diffuse = WithColor
+                    D.Specular = NSColor.white
+                    D.Emission = nil
+                    return D
+                }()
+            CityNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+            let Night: EventAttributes =
+                {
+                    let N = EventAttributes()
+                    N.ForEvent = .SwitchToNight
+                    N.Diffuse = WithColor
+                    N.Specular = NSColor.white
+                    N.Emission = WithColor
+                    return N
+                }()
+            CityNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
         }
         CityNode.SetLocation(Latitude, Longitude)
         CityNode.Name = Plot.Name
@@ -501,8 +607,28 @@ extension GlobeView
             CityNode = SCNNode2(geometry: CityShape)
             CityNode.SetLocation(Latitude, Longitude)
             CityNode.CanSwitchState = true
-            CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
-            CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
+            let Day: EventAttributes =
+                {
+                    let D = EventAttributes()
+                    D.ForEvent = .SwitchToDay
+                    D.Diffuse = WithColor
+                    D.Specular = NSColor.white
+                    D.Emission = nil
+                    return D
+                }()
+            CityNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+            let Night: EventAttributes =
+                {
+                    let N = EventAttributes()
+                    N.ForEvent = .SwitchToNight
+                    N.Diffuse = WithColor
+                    N.Specular = NSColor.white
+                    N.Emission = WithColor
+                    return N
+                }()
+            CityNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+            //CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
+            //CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
             CityNode.IsInDaylight = Solar.IsInDaylight(Latitude, Longitude)!
         }
         CityNode.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
@@ -858,7 +984,7 @@ extension GlobeView
             {
                 return
             }
-            let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: SiteTypeFilters.self, Default: .Either)
+            let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .AllSites)
             MainController.InitializeMappableDatabase()
             let Sites = MainController.GetAllSites()
             var FinalList = [WorldHeritageSite]()
@@ -866,10 +992,10 @@ extension GlobeView
             {
                 switch TypeFilter
                 {
-                    case .Either:
+                    case .AllSites:
                         FinalList.append(Site)
                         
-                    case .Both:
+                    case .Mixed:
                         if Site.Category == "Mixed"
                         {
                             FinalList.append(Site)
