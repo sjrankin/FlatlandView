@@ -12,22 +12,22 @@ import SQLite3
 
 extension MainController
 {
+    /// Returns the number of items in the specified database.
+    /// - Parameter For: The specified database.
+    /// - Returns: Result with the number of items on success, a database error on failure.
     public static func ItemCount(For: POITableNames) -> Result<Int, DatabaseErrors>
     {
         var TableName = ""
         switch For
         {
             case .Home:
-                TableName = For.rawValue
+                return .failure(.InvalidTable)
                 
             case .POI:
                 TableName = For.rawValue
                 
             case .UserPOI:
                 TableName = For.rawValue
-                
-            default:
-                return .failure(.InvalidTable)
         }
         let GetCount = "SELECT COUNT(*) FROM \(TableName)"
         var CountQuery: OpaquePointer? = nil
