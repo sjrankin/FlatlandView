@@ -92,9 +92,6 @@ extension Settings
             .UseLiveDataChamfer: Bool.self,
             .TextSmoothness: CGFloat.self,
             .ShowUserLocations: Bool.self,
-            .UserHomeLatitude: Double?.self,
-            .UserHomeLongitude: Double?.self,
-            .UserHomeName: String.self,
             .LocalTimeZoneOffset: Double?.self,
             .HomeShape: HomeShapes.self,
             .UserLocations: String.self,
@@ -202,6 +199,7 @@ extension Settings
             .SearchForLocation: Bool.self,
             .InputUnit: InputUnits.self,
             .InterfaceStyle: InterfaceStyles.self,
+            .ShowUserPOIs: Bool.self,
             // MARK: - Debugging settings
             .Debug_EnableClockControl: Bool.self,
             .Debug_ClockDebugMap: Debug_MapTypes.self,
@@ -213,4 +211,12 @@ extension Settings
             .Debug_ClockUseTimeMultiplier: Bool.self,
             .Debug_ClockActionClockMultiplier: Double.self,
         ]
+    
+    /// Contains settings that are stored in secure storage.
+    public static let SecureStringKeyTypes: [SettingKeys] =
+    [
+        .UserHomeLatitude,
+        .UserHomeLongitude,
+        .UserHomeName
+    ]
 }
