@@ -156,9 +156,31 @@ extension GlobeView
         }
         
         HomeNode = SCNNode2()
+        HomeNode?.SetLocation(Latitude, Longitude)
         HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
         HomeNode?.addChildNode(ConeNode)
         HomeNode?.CanShowBoundingShape = true
+        HomeNode?.CanSwitchState = true
+        let Day: EventAttributes =
+            {
+                let D = EventAttributes()
+                D.ForEvent = .SwitchToDay
+                D.Diffuse = WithColor
+                D.Specular = NSColor.white
+                D.Emission = nil
+                return D
+            }()
+        HomeNode?.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+        let Night: EventAttributes =
+            {
+                let N = EventAttributes()
+                N.ForEvent = .SwitchToNight
+                N.Diffuse = WithColor
+                N.Specular = NSColor.white
+                N.Emission = WithColor
+                return N
+            }()
+        HomeNode?.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
         
         if IsCurrentLocation
         {
@@ -213,6 +235,28 @@ extension GlobeView
         HomeNode?.geometry?.firstMaterial?.specular.contents = NSColor.white
         HomeNode?.castsShadow = true
         HomeNode?.position = SCNVector3(X, Y, Z)
+        
+        HomeNode?.CanSwitchState = true
+        let Day: EventAttributes =
+            {
+                let D = EventAttributes()
+                D.ForEvent = .SwitchToDay
+                D.Diffuse = WithColor
+                D.Specular = NSColor.white
+                D.Emission = nil
+                return D
+            }()
+        HomeNode?.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+        let Night: EventAttributes =
+            {
+                let N = EventAttributes()
+                N.ForEvent = .SwitchToNight
+                N.Diffuse = WithColor
+                N.Specular = NSColor.white
+                N.Emission = WithColor
+                return N
+            }()
+        HomeNode?.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
         
         let PulseOut = SCNAction.scale(to: NodeScales3D.PulsatingHomeMaxScale.rawValue, duration: 1.0)
         let PulseIn = SCNAction.scale(to: NodeScales3D.PulsatingHomeMinScale.rawValue, duration: 1.0)
@@ -269,6 +313,28 @@ extension GlobeView
         HomeNode?.addChildNode(Arrow)
         HomeNode?.position = SCNVector3(X, Y, Z)
         HomeNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        
+        HomeNode?.CanSwitchState = true
+        let Day: EventAttributes =
+            {
+                let D = EventAttributes()
+                D.ForEvent = .SwitchToDay
+                D.Diffuse = NSColor.orange
+                D.Specular = NSColor.white
+                D.Emission = nil
+                return D
+            }()
+        HomeNode?.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+        let Night: EventAttributes =
+            {
+                let N = EventAttributes()
+                N.ForEvent = .SwitchToNight
+                N.Diffuse = NSColor.orange
+                N.Specular = NSColor.white
+                N.Emission = NSColor.orange
+                return N
+            }()
+        HomeNode?.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
         
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
@@ -419,6 +485,34 @@ extension GlobeView
         let BaseRotate = SCNAction.rotateBy(x: 0.0, y: 1.0, z: 0.0, duration: 1.0)
         let BaseRotateForever = SCNAction.repeatForever(BaseRotate)
         Base.runAction(BaseRotateForever)
+        Base.CanSwitchState = true
+        let Day: EventAttributes =
+            {
+                let D = EventAttributes()
+                D.ForEvent = .SwitchToDay
+                D.Diffuse = NSColor(HexString: "#d0d0d0")
+                D.Specular = NSColor.white
+                D.Metalness = 1.0
+                D.Roughness = 0.5
+                D.LightModel = .physicallyBased
+                D.Emission = nil
+                return D
+            }()
+        Base.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+        let Night: EventAttributes =
+            {
+                let N = EventAttributes()
+                N.ForEvent = .SwitchToNight
+                N.Diffuse = NSColor(HexString: "#d0d0d0")
+                N.Specular = NSColor.white
+                N.Emission = NSColor(HexString: "#d0d0d0")
+                N.Metalness = 0.0
+                N.Roughness = 0.0
+                N.LightModel = .phong
+                return N
+            }()
+        Base.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+        Base.SetLocation(Latitude, Longitude)
         
         let Pedestal = SCNNode2(geometry: SCNCylinder(radius: 0.07, height: 0.6))
         Pedestal.castsShadow = true
@@ -439,10 +533,39 @@ extension GlobeView
         Sphere.geometry?.firstMaterial?.roughness.contents = 0.5
         Sphere.position = SCNVector3(0.0, -0.4, 0.0)
         Sphere.CanSwitchState = true
+        /*
         Sphere.SetState(ForDay: true, Color: NSColor(HexString: "#ffd700")!, Emission: nil,
                         Model: .physicallyBased, Metalness: nil, Roughness: nil)
         Sphere.SetState(ForDay: false, Color: NSColor(HexString: "#ffd700")!, Emission: NSColor(HexString: "#ffd700")!,
                         Model: .physicallyBased, Metalness: nil, Roughness: nil)
+ */
+        let SphereDay: EventAttributes =
+            {
+                let D = EventAttributes()
+                D.ForEvent = .SwitchToDay
+                D.Diffuse = NSColor(HexString: "#ffd700")
+                D.Specular = NSColor.white
+                D.Emission = nil
+                D.LightModel = .phong
+                D.Metalness = 0.0
+                D.Roughness = 0.0
+                return D
+            }()
+        Sphere.AddEventAttributes(Event: .SwitchToDay, Attributes: SphereDay)
+        let SphereNight: EventAttributes =
+            {
+                let N = EventAttributes()
+                N.ForEvent = .SwitchToNight
+                N.Diffuse = NSColor(HexString: "#ffd700")
+                N.Specular = NSColor.white
+                N.Emission = NSColor(HexString: "#ffd700")
+                N.Metalness = 1.0
+                N.Roughness = 0.5
+                N.LightModel = .physicallyBased
+                return N
+            }()
+        Sphere.AddEventAttributes(Event: .SwitchToNight, Attributes: SphereNight)
+        Sphere.SetLocation(Latitude, Longitude)
 
         HomeNode.CanSwitchState = true
         HomeNode.SetLocation(Latitude, Longitude)
