@@ -22,15 +22,15 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     {
         super.viewDidLayout()
         ShowHomeSwitch.state = Settings.GetState(.ShowHomeLocation)
-//        ShowHomeSwitch.state = Settings.GetBool(.ShowHomeLocation) ? .on : .off
+        ShowUserPOISwitch.state = Settings.GetState(.ShowUserPOIs)
         let WHSSites = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .Natural)
         if let WHSIndex = WorldHeritageSiteTypes.allCases.firstIndex(of: WHSSites)
         {
             UnescoSitesSegment.selectedSegment = WHSIndex
         }
-        ShowUnescoSitesSwitch.state = Settings.GetBool(.ShowWorldHeritageSites) ? .on : .off
+        ShowUnescoSitesSwitch.state = Settings.GetState(.ShowWorldHeritageSites)
         ShowCitiesSwitch.state = Settings.GetBool(.ShowCities) ? .on : .off
-        ShowUnescoSitesSwitch.state = Settings.GetBool(.ShowWorldHeritageSites) ? .on : .off
+        ShowUnescoSitesSwitch.state = Settings.GetState(.ShowWorldHeritageSites)
         CityShapesCombo.removeAllItems()
         let CurrentShape = Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .RelativeEmbedded)
         for CityShape in CityDisplayTypes.allCases
@@ -180,6 +180,10 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     
     @IBAction func HandleShowUserPOIsChanged(_ sender: Any)
     {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.ShowUserPOIs, Switch.state == .on ? true : false)
+        }
     }
     
     @IBAction func HandleEditUserPOIs(_ sender: Any)
