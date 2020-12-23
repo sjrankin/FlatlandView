@@ -161,6 +161,7 @@
 		176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */; };
 		176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */; };
 		1774BD75256E417100D927F3 /* +SimpleStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1774BD74256E417100D927F3 /* +SimpleStatus.swift */; };
+		177709D62592104E0092CDC0 /* +NodeEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177709D52592104E0092CDC0 /* +NodeEvents.swift */; };
 		177D0F5F2547F04700CD5041 /* MTLTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177D0F5E2547F04700CD5041 /* MTLTexture.swift */; };
 		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
 		177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D32480D49200CAD1B9 /* ActualMap.swift */; };
@@ -559,6 +560,7 @@
 		176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow.swift; sourceTree = "<group>"; };
 		176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController.swift; sourceTree = "<group>"; };
 		1774BD74256E417100D927F3 /* +SimpleStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+SimpleStatus.swift"; sourceTree = "<group>"; };
+		177709D52592104E0092CDC0 /* +NodeEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+NodeEvents.swift"; sourceTree = "<group>"; };
 		177D0F5E2547F04700CD5041 /* MTLTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTLTexture.swift; sourceTree = "<group>"; };
 		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
 		177EE5D32480D49200CAD1B9 /* ActualMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMap.swift; sourceTree = "<group>"; };
@@ -1346,6 +1348,15 @@
 			path = GlobeExtensions;
 			sourceTree = "<group>";
 		};
+		177709D8259210A60092CDC0 /* SCNNode2 */ = {
+			isa = PBXGroup;
+			children = (
+				17F9B024252069DE00DE0219 /* SCNNode2.swift */,
+				177709D52592104E0092CDC0 /* +NodeEvents.swift */,
+			);
+			path = SCNNode2;
+			sourceTree = "<group>";
+		};
 		177EE5D72480D4AE00CAD1B9 /* Actual */ = {
 			isa = PBXGroup;
 			children = (
@@ -1376,6 +1387,7 @@
 				17F1C7C72543F8440046AE33 /* Rectangular */,
 				172C315A2510AE9500B7CCFC /* 2.5D */,
 				172F06182551509800BEA156 /* Popovers */,
+				177709D8259210A60092CDC0 /* SCNNode2 */,
 				17DE2BA12569FADE008077C7 /* MapViewer */,
 				17F98DB4251773E9005E248D /* MainExtensions */,
 				178909C4250E0BED0092E3A4 /* MainController.swift */,
@@ -1384,7 +1396,6 @@
 				17EF3388247A4E3D00A5B55D /* MainProtocol.swift */,
 				17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */,
 				17F9AFCD25202DEE00DE0219 /* ParentView.swift */,
-				17F9B024252069DE00DE0219 /* SCNNode2.swift */,
 				1737100F24E2BB7300BC6CF8 /* Stenciler.swift */,
 				1704D3F3256A4DA100DE0F85 /* StencilPipelineProtocol.swift */,
 				172D205F252183C500FA8687 /* NodeTables.swift */,
@@ -2160,6 +2171,7 @@
 				1743FE7A255D275D00AD05A7 /* EnumList.swift in Sources */,
 				177D0F5F2547F04700CD5041 /* MTLTexture.swift in Sources */,
 				17A25CC42505D43600214C45 /* Metal2DShapeGenerator.swift in Sources */,
+				177709D62592104E0092CDC0 /* +NodeEvents.swift in Sources */,
 				17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */,
 				17F17A4D24DE7B1B00568A4E /* LinesDraw.swift in Sources */,
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
