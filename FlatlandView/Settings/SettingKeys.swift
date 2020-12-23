@@ -221,12 +221,6 @@ enum SettingKeys: String, CaseIterable
     // MARK: - Local and home locations.
     /// Boolean: Show user locations.
     case ShowUserLocations = "ShowUserLocations"
-    /// Double?: The user's home latitude. If nil, not set.
-    case UserHomeLatitude = "LocalLatitude"
-    /// Double?: The user's home longitude. If nil, not set.
-    case UserHomeLongitude = "LocalLongitude"
-    /// String: Name of the user's home location.
-    case UserHomeName = "LocalName"
     /// Integer: Time zone offset for the user's home location.
     case LocalTimeZoneOffset = "LocalTimeZoneOffset"
     /// Determines the shape of the object marking the user's home location.
@@ -243,6 +237,14 @@ enum SettingKeys: String, CaseIterable
     case DailyLocationLatitude = "DailyLocationLatitude"
     /// Double?: Longitude of the location for the Today window for non-home locations.
     case DailyLocationLongitude = "DailyLocationLongitude"
+    /// Boolean: Determines if user POIs are shown.
+    case ShowUserPOIs = "ShowUserPOIs"
+    /// Secure string: User's home latitude. Will generate a fatal error if used with normal string functions.
+    case UserHomeLatitude = "UserHomeLatitude"
+    /// Secure string: User's home longitude. Will generate a fatal error if used with normal string functions.
+    case UserHomeLongitude = "UserHomeLongitude"
+    /// Secure string: Name of user's home. Will generate a fatal error if used with normal string functions.
+    case UserHomeName = "UserHomeName"
     
     // MARK: - City-related settings.
     /// Boolean: Show cities on the map. This is a filter boolean meaning if it is false,
