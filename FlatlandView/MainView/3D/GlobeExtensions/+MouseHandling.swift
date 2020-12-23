@@ -110,6 +110,10 @@ extension GlobeView
                     NSMenuItem.separator(),
                     MakeFollowMenu()
                 ]
+            #if DEBUG
+            Menu.items.append(NSMenuItem.separator())
+            Menu.items.append(MakeDebugMenu())
+            #endif
             return Menu
         }
         return nil
@@ -120,6 +124,60 @@ extension GlobeView
         var IconImage = NSImage(named: Name)
         IconImage = Utility.ResizeImage(Image: IconImage!, Longest: 24.0)
         return IconImage!
+    }
+    
+    func MakeDebugMenu() -> NSMenuItem
+    {
+        #if DEBUG
+        DebugMenu = NSMenuItem()
+        DebugMenu?.title = "Debug"
+        DebugMenu?.submenu = NSMenu(title: "Debug")
+        RotateTo0Menu = NSMenuItem(title: "Rotate to 0°", action: #selector(TestRotation), keyEquivalent: "")
+        RotateTo0Menu?.target = self
+        RotateTo90Menu = NSMenuItem(title: "Rotate to 90°", action: #selector(TestRotation), keyEquivalent: "")
+        RotateTo90Menu?.target = self
+        RotateTo180Menu = NSMenuItem(title: "Rotate to 180°", action: #selector(TestRotation), keyEquivalent: "")
+        RotateTo180Menu?.target = self
+        RotateTo270Menu = NSMenuItem(title: "Rotate to 270°", action: #selector(TestRotation), keyEquivalent: "")
+        RotateTo270Menu?.target = self
+        CoupleTimerMenu = NSMenuItem(title: "Couple Earth to Timer", action: #selector(TestRotation), keyEquivalent: "")
+        CoupleTimerMenu?.target = self
+        DebugMenu?.submenu?.items.append(RotateTo0Menu!)
+        DebugMenu?.submenu?.items.append(RotateTo90Menu!)
+        DebugMenu?.submenu?.items.append(RotateTo180Menu!)
+        DebugMenu?.submenu?.items.append(RotateTo270Menu!)
+        DebugMenu?.submenu?.items.append(CoupleTimerMenu!)
+        return DebugMenu!
+        #else
+        return NSMenuItem()
+        #endif
+    }
+    
+    @objc func TestRotation(_ sender: Any)
+    {
+        if let Menu = sender as? NSMenuItem
+        {
+            switch Menu
+            {
+                case RotateTo0Menu:
+                    RotateEarthTo(Latitude: 0.0, Longitude: 0.0)
+                    
+                case RotateTo90Menu:
+                    RotateEarthTo(Latitude: 0.0, Longitude: 90.0)
+                    
+                case RotateTo180Menu:
+                    RotateEarthTo(Latitude: 0.0, Longitude: 180.0)
+                    
+                case RotateTo270Menu:
+                    RotateEarthTo(Latitude: 0.0, Longitude: -90.0)
+                    
+                case CoupleTimerMenu:
+                    ResetEarthRotation()
+                    
+                default:
+                    return
+            }
+        }
     }
     
     func MakeMapMenu() -> NSMenuItem
