@@ -1123,6 +1123,7 @@ extension GlobeView
                 SiteNode.Name = Site.Name
                 SiteNode.UseProtocolToSetState = true
                 EarthNode!.addChildNode(SiteNode)
+                WHSNodeList.append(SiteNode)
             }
         }
     }
