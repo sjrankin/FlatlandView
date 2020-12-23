@@ -140,10 +140,6 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     /// Start the rotational clock.
     func StartClock()
     {
-//        VisualUpdateClock = Timer.scheduledTimer(timeInterval: 60.0,
-//                                                 target: self,
-//                                                 selector: #selector(UpdateVisualsForTime),
-//                                                 userInfo: nil, repeats: true)
         EarthClock = Timer.scheduledTimer(timeInterval: Defaults.EarthClockTick.rawValue,
                                           target: self, selector: #selector(UpdateEarthView),
                                           userInfo: nil, repeats: true)
@@ -151,42 +147,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         RunLoop.current.add(EarthClock!, forMode: .common)
     }
     
-    var VisualUpdateClock: Timer? = nil
     var EarthClock: Timer? = nil
-    
-    /// Update `SCNNode2` items on the `EarthNode` to take into account local day light.
-    @objc func UpdateVisualsForTime()
-    {
-        for Node in EarthNode!.childNodes
-        {
-            if let ActualNode = Node as? SCNNode2
-            {
-                if let Latitude = ActualNode.Latitude
-                {
-                    if let Longitude = ActualNode.Longitude
-                    {
-                        if let IsInDay = Solar.IsInDaylight(Latitude, Longitude)
-                        {
-                            ActualNode.IsInDaylight = IsInDay
-//                            if IsInDay != ActualNode.IsInDaylight
-//                            {
-//                                Debug.Print("Updated node at \(Latitude),\(Longitude)")
-//                                ActualNode.IsInDaylight = IsInDay
-//                            }
-                        }
-                    }
-                    else
-                    {
-                        print("No longitude found")
-                    }
-                }
-                else
-                {
-                    print("No latitude found")
-                }
-            }
-        }
-    }
     
     /// Returns the local time zone abbreviation (a three-letter indicator, not a set of words).
     /// - Returns: The local time zone identifier if found, nil if not found.
@@ -276,7 +237,16 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         }
         #endif
         
+        if !DecoupleClock
+        {
         UpdateEarth(With: PrettyPercent)
+        }
+    }
+    
+    /// Rotate the Earth by one second (time) worth of ratation.
+    @objc func RotateEarthOneSecond()
+    {
+        let OneSecondRotationDegrees: Double = 360.0 / 86400.0
     }
     
     var PreviousPrettyPercent: Double? = nil
@@ -302,6 +272,37 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         StopTime = NewTime
     }
     #endif
+    
+    var DecoupleClock = false
+    
+    func RotateEarthTo(Latitude: Double, Longitude: Double)
+    {
+        DecoupleClock = true
+        let Degrees = Longitude
+        let Radians = Degrees.Radians
+        let Rotate = SCNAction.rotateTo(x: 0.0,
+                                        y: CGFloat(-Radians),
+                                        z: 0.0,
+                                        duration: Defaults.EarthRotationDuration.rawValue,
+                                        usesShortestUnitArc: true)
+        EarthNode?.runAction(Rotate)
+        SeaNode?.runAction(Rotate)
+        LineNode?.runAction(Rotate)
+        for (_, Layer) in StencilLayers
+        {
+            Layer.runAction(Rotate)
+        }
+        if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
+        {
+            HourNode?.runAction(Rotate)
+        }
+    }
+    
+    func ResetEarthRotation()
+    {
+        DecoupleClock = false
+        UpdateEarth(With: PrettyPercent)
+    }
     
     /// Update the rotation of the Earth.
     /// - Note: The rotation must be called with `usesShortestUnitArc` set to `true` or every midnight
@@ -704,6 +705,14 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var SolarTimeMenu: NSMenuItem? = nil
     var PinnedTimeMenu: NSMenuItem? = nil
     var DeltaTimeMenu: NSMenuItem? = nil
+    #if DEBUG
+    var DebugMenu: NSMenuItem? = nil
+    var RotateTo0Menu: NSMenuItem? = nil
+    var RotateTo90Menu: NSMenuItem? = nil
+    var RotateTo180Menu: NSMenuItem? = nil
+    var RotateTo270Menu: NSMenuItem? = nil
+    var CoupleTimerMenu: NSMenuItem? = nil
+    #endif
     var CurrentMouseLocation: CGPoint = CGPoint.zero
     
     func SetCameraLock(_ IsLocked: Bool)
