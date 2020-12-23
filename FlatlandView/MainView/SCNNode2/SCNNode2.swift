@@ -665,8 +665,8 @@ class SCNNode2: SCNNode
     {
         didSet
         {
-            SetState(For: _IsInDaylight)
             PropagateState(InDay: _IsInDaylight)
+            SetState(For: _IsInDaylight)
         }
     }
     /// Get or set the daylight state. Setting the same value two (or more) times in a row will not result
@@ -827,12 +827,9 @@ class SCNNode2: SCNNode
         DynamicTimer = nil
     }
     
+    /// See if the node is in day light or nighttime and change it appropriately.
     @objc func TestDaylight()
     {
-        if DayState == nil || NightState == nil
-        {
-            return
-        }
         if HasLocation()
         {
             if let IsInDay = Solar.IsInDaylight(Latitude!, Longitude!)
@@ -841,28 +838,6 @@ class SCNNode2: SCNNode
                 let SomeEvent = IsInDay ? NodeEvents.SwitchToDay : NodeEvents.SwitchToNight
                 TriggerEvent(SomeEvent)
             }
-//            TriggerEvent([NodeEvents.SwitchToDay, NodeEvents.SwitchToNight].randomElement()!)
-            /*
-             #if true
-             let DoShowDay = Bool.random()
-             _IsInDaylight = DoShowDay
-             #else
-             if let IsInDay = Solar.IsInDaylight(Latitude!, Longitude!)
-             {
-             var Title = ""
-             if Name.isEmpty
-             {
-             Title = NodeUsage?.rawValue ?? "unknown node"
-             }
-             else
-             {
-             Title = Name
-             }
-             print("Setting \(Title) to daylight=\(IsInDay) at \(Latitude!.RoundedTo(1)),\(Longitude!.RoundedTo(1))")
-             _IsInDaylight = IsInDay
-             }
-             #endif
-             */
         }
     }
     
@@ -906,96 +881,3 @@ enum NodeStates: String
 }
 
 
-extension SCNNode2
-{
-    /// Add an event and associated attributes to the node.
-    func AddEventAttributes(Event: NodeEvents, Attributes: EventAttributes)
-    {
-        EventMap[Event] = Attributes
-    }
-    
-    /// Trigger the passed event.
-    /// - Note:
-    ///   - This has the effect of change attributes of the node. Which attributes are defined in the
-    ///     `Attributes` parameter when `AddEventAttributes` is called.
-    ///   - The event is applied to the node and all `SCNNode2` child nodes.
-    ///   - If an event is passed that has no associated attributes, no action is taken.
-    /// - Parameter Event: The event to trigger.
-    func TriggerEvent(_ Event: NodeEvents)
-    {
-        if Event == .NoEvent
-        {
-            return
-        }
-        if let Attributes = EventMap[Event]
-        {
-            self.geometry?.firstMaterial?.diffuse.contents = Attributes.Diffuse
-            self.geometry?.firstMaterial?.specular.contents = Attributes.Specular
-            self.geometry?.firstMaterial?.emission.contents = Attributes.Emission ?? NSColor.clear
-            self.geometry?.firstMaterial?.lightingModel = Attributes.LightModel
-            self.geometry?.firstMaterial?.metalness.contents = Attributes.Metalness
-            self.geometry?.firstMaterial?.roughness.contents = Attributes.Roughness
-            if let ScaleValue = Attributes.Scale
-            {
-                self.scale = SCNVector3(ScaleValue, ScaleValue, ScaleValue)
-            }
-            for Child in self.childNodes
-            {
-                if let ActualChild = Child as? SCNNode2
-                {
-                    ActualChild.TriggerEvent(Event)
-                }
-            }
-        }
-    }
-}
-
-/// Holds Event attributes.
-class EventAttributes
-{
-    /// Get or set the event the attribute is intended for. Used mainly for debugging.
-    var ForEvent: NodeEvents? = nil
-    
-    /// Diffuse material color.
-    var Diffuse: NSColor? = nil
-    
-    /// Specular material color.
-    var Specular: NSColor? = nil
-    
-    /// Emission material color. If nil, a transparent color is applied.
-    var Emission: NSColor? = nil
-    
-    /// Lighting mode.
-    var LightModel: SCNMaterial.LightingModel = .phong
-    
-    /// Metalness material value.
-    var Metalness: Double? = nil
-    
-    /// Roughness material value.
-    var Roughness: Double? = nil
-    
-    /// Scale value.
-    var Scale: Double? = nil
-}
-
-/// Events that can potentially change `SCNNode2` attributes.
-enum NodeEvents: String
-{
-    /// No event. Nothing will be changed.
-    case NoEvent = "Nothing Happened"
-    
-    /// The node moved into day light.
-    case SwitchToDay = "SwitchToDay"
-    
-    /// The node moved into night time.
-    case SwitchToNight = "SwitchToNight"
-    
-    /// The node appeared.
-    case Appear = "Appeared"
-    
-    /// The node disappeared.
-    case Disappeared = "Disappeared"
-    
-    /// A magnitude associated with the node changed.
-    case MagnitudeChanged = "MagnitudeChanged"
-}
