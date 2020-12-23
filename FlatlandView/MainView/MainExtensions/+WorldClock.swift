@@ -8,22 +8,28 @@
 
 import Foundation
 import AppKit
+import SceneKit
 
 extension MainController
 {
+    /// Initialize the world clock.
     func InitializeWorldClock()
     {
         WorldClockStartTime = Date()
-        CurrentWorldTime = CACurrentMediaTime()
+        CurrentWorldTime = 0.0//CACurrentMediaTime()
         Debug.Print("Starting World Time: \(CurrentWorldTime)")
         WorldClockTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                                target: self,
                                                selector: #selector(HandleWorldClockTick),
                                                userInfo: nil,
                                                repeats: true)
+        WorldClockTimer?.tolerance = 0.01
+        //RunLoop.current.add(WorldClockTimer!, forMode: .common)
+        //RunLoop.current.run()
         HandleWorldClockTick()
     }
     
+    /// Update the world clock.
     @objc func HandleWorldClockTick()
     {
         let Adder = 1.0 * WorldClockTimeMultiplier
@@ -34,7 +40,9 @@ extension MainController
         Main3DView.NewWorldClockTime(WorldDate: NewTime)
         OperationQueue.main.addOperation
         {
-            self.WorldClockTickCount.stringValue = "\(Int(self.CurrentWorldTime))"
+            let DateSeconds = Date().timeIntervalSince(self.WorldClockStartTime!)
+            self.WorldClockTickCount.stringValue = "\(DateSeconds)"
+//            self.WorldClockTickCount.stringValue = "\(Int(self.CurrentWorldTime))"
         }
     }
 }
