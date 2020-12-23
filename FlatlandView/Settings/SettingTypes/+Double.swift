@@ -108,6 +108,8 @@ extension Settings
     }
     
     /// Returns a nilable double value from the specified setting.
+    /// - Note: If the setting resolves down to a secure string, different handling will occur
+    ///         but the returned value will follow the semantics of normal processing.
     /// - Parameter Setting: The setting whose double value will be returned.
     /// - Parameter Default: The default value to return if the stored value is nil. Not returned
     ///                      if the contents of `Default` is nil.
@@ -115,6 +117,10 @@ extension Settings
     ///            value is nil, nil if `Default` is nil.
     public static func GetDoubleNil(_ Setting: SettingKeys, _ Default: Double? = nil) -> Double?
     {
+        if SecureStringKeyTypes.contains(Setting)
+        {
+            return SecureStringAsDoubleNil(Setting, Default)
+        }
         if !TypeIsValid(Setting, Type: Double?.self)
         {
             fatalError("\(Setting) is not a Double?")
@@ -132,6 +138,35 @@ extension Settings
             return UseDefault
         }
         return nil
+    }
+    
+    /// Reads a value in the secure store and attempts to return it as a double.
+    /// - Note: This function is not intended to be called by user code.
+    /// - Parameter Setting: The setting key.
+    /// - Parameter Default: Value to return if no value is found. If this value is nil, nil is returned.
+    /// - Returns: A double value based on the stored value in secure storage, nil if not found and
+    ///            no default value passed.
+    public static func SecureStringAsDoubleNil(_ Setting: SettingKeys, _ Default: Double? = nil) -> Double?
+    {
+        if let StoredValue = SecureStore.GetFromStore(Key: Setting.rawValue)
+        {
+            if let StoredString = String(data: StoredValue, encoding: .utf8)
+            {
+                if let ActualValue = Double(StoredString)
+                {
+                    return ActualValue
+                }
+            }
+            return nil
+        }
+        else
+        {
+            if let DefaultValue = Default
+            {
+                return DefaultValue
+            }
+            return nil
+        }
     }
     
     /// Queries a Double? setting value.
@@ -169,6 +204,11 @@ extension Settings
     /// - Parameter Value: The double? value to save.
     public static func SetDoubleNil(_ Setting: SettingKeys, _ Value: Double? = nil)
     {
+        if SecureStringKeyTypes.contains(Setting)
+        {
+            SaveDoubleNilInSecureStorage(Setting, Value)
+            return
+        }
         if !TypeIsValid(Setting, Type: Double?.self)
         {
             fatalError("\(Setting) is not a Double?")
@@ -177,5 +217,24 @@ extension Settings
         let NewValue = Value
         UserDefaults.standard.set(Value, forKey: Setting.rawValue)
         NotifySubscribers(Setting: Setting, OldValue: OldValue, NewValue: NewValue)
+    }
+    
+    /// Save a `Double?` in secure storage as a string.
+    /// - Note: Subscribers are notified of changes but the passed `OldValue` and `NewValue`s are nil.
+    /// - Note: This function is not intended to be called by user code.
+    /// - Parameter Setting: The setting key where to save the value.
+    /// - Parameter Value: The value to store. If this value is nil, the key is erased.
+    public static func SaveDoubleNilInSecureStorage(_ Setting: SettingKeys, _ Value: Double? = nil)
+    {
+        if Value == nil
+        {
+            SecureStore.ClearStoreKey(Key: Setting.rawValue)
+        }
+        else
+        {
+            let StringValue = "\(Value!)"
+            SetSecureString(Setting, StringValue)
+        }
+        NotifySubscribers(Setting: Setting, OldValue: nil, NewValue: nil)
     }
 }
