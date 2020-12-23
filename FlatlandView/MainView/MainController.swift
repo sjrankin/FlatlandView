@@ -180,6 +180,8 @@ class MainController: NSViewController
                        For: StatusBarConstants.InitialMessageDuration.rawValue)
         AddQueuedMessage("Getting earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
                          ID: EQMessageID)
+        
+        InitializeWorldClock()
     }
 
     /// Handle content view size changed events.
