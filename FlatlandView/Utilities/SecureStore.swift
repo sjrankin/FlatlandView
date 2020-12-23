@@ -33,7 +33,7 @@ class SecureStore
     /// Deletes the key in the secure store.
     /// - Parameter Key: The key to delete (along with it's associated value, if any).
     /// - Returns: OSStatus value.
-    static func ClearStoreKey(Key: String) -> OSStatus
+    @discardableResult static func ClearStoreKey(Key: String) -> OSStatus
     {
         let Query =
             [
