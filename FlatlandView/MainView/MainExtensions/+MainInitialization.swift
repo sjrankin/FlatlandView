@@ -56,8 +56,6 @@ extension MainController
         Main2DView.InitializeLocations()
         Rect2DView.InitializeLocations()
         Main3DView.PlotCities()
-        
-        InitializeWorldClock()
     }
     
     /// Load the current view with the initial map.
