@@ -273,15 +273,22 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     }
     #endif
     
+    /// If true, the clock is decoupled from the Earth and no ration occurs.
     var DecoupleClock = false
     
+    /// Rotate the Earth such that the passed latitude, longitude point is closest to the viewer.
+    /// - Note: Calling this function will rotate the Earth (and all ancillary nodes) as appropriate and also
+    ///         decouple the view timer so the Earth will not rotate. To resume normal rotation, call
+    ///         `ResetEarthRotation`.
+    /// - Parameter Latitude: The latitude to rotate the earth to.
+    /// - Parameter Longitude: The longitude to rotate the earth to.
     func RotateEarthTo(Latitude: Double, Longitude: Double)
     {
         DecoupleClock = true
-        let Degrees = Longitude
-        let Radians = Degrees.Radians
+        let LongitudeRadians = Longitude.Radians
+        let LatitudeRadians = Latitude.Radians
         let Rotate = SCNAction.rotateTo(x: 0.0,
-                                        y: CGFloat(-Radians),
+                                        y: CGFloat(-LongitudeRadians),
                                         z: 0.0,
                                         duration: Defaults.EarthRotationDuration.rawValue,
                                         usesShortestUnitArc: true)
@@ -296,8 +303,16 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         {
             HourNode?.runAction(Rotate)
         }
+        let SysRotate = SCNAction.rotateTo(x: CGFloat(LatitudeRadians),
+                                           y: 0.0,
+                                           z: 0.0,
+                                           duration: Defaults.EarthRotationDuration.rawValue,
+                                           usesShortestUnitArc: true)
+        SystemNode?.runAction(SysRotate)
     }
     
+    /// Reset Earth rotation. Re-engages the clock with the Earth. Rotates the Earth to the position indicated
+    /// by the current time and solar inclination.
     func ResetEarthRotation()
     {
         DecoupleClock = false
@@ -329,6 +344,13 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         {
             HourNode?.runAction(Rotate)
         }
+        let Declination = Sun.Declination(For: Date())
+        let SysRotate = SCNAction.rotateTo(x: CGFloat(Declination.Radians),
+                                           y: 0.0,
+                                           z: 0.0,
+                                           duration: Defaults.EarthRotationDuration.rawValue,
+                                           usesShortestUnitArc: true)
+        SystemNode?.runAction(SysRotate)
     }
     
     /// Return maps to be used as textures for the 3D Earth.
