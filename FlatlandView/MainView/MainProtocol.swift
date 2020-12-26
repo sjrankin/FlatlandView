@@ -86,6 +86,15 @@ protocol MainProtocol: class
     /// Returns an array of UNESCO World Heritage Sites.
     /// - Returns: Array of World Heritage Site data.
     func GetWorldHeritageSites() -> [WorldHeritageSite]
+    
+    /// Move the 3D globe (only valid for 3D globes) to the specified location.
+    /// - Parameter Latitude: The latitude of the location.
+    /// - Parameter Longiutde: The longitude of the location.
+    /// - Parameter UpdateOpacity: Flag that determines whether opacity on the nodes on the Earth are updated.
+    func MoveMapTo(Latitude: Double, Longitude: Double, UpdateOpacity: Bool)
+    
+    /// Lock the 3D globe to the time and reset its position.
+    func LockMapToTimer()
 }
 
 /// Flatland's child windows.
