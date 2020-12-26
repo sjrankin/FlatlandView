@@ -16,4 +16,13 @@ protocol GlobeProtocol: class
     /// - Parameter Satellite: The satellite to plot.
     /// - Parameter At: Where to plot the satellite.
     func PlotSatellite(Satellite: Satellites, At: GeoPoint)
+    
+    /// Move the globe to the specified location.
+    /// - Parameter Latitude: Latitude of the location.
+    /// - Parameter Longitude: Longitude of the location.
+    /// - Parameter UpdateOpacity: Determines whether the opacity of Earth nodes is changed.
+    func MoveMapTo(Latitude: Double, Longitude: Double, UpdateOpacity: Bool)
+    
+    /// Reset the globe to the timer.
+    func LockMapToTimer()
 }
