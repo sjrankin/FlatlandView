@@ -282,8 +282,15 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     ///         `ResetEarthRotation`.
     /// - Parameter Latitude: The latitude to rotate the earth to.
     /// - Parameter Longitude: The longitude to rotate the earth to.
-    func RotateEarthTo(Latitude: Double, Longitude: Double)
+    /// - Parameter ChangeNodeOpacity: If true, the opacity of Earth nodes is reduced. If true, opacity is
+    ///                                reset.
+    func RotateEarthTo(Latitude: Double, Longitude: Double, ChangeNodeOpacity: Bool = false)
     {
+        ResetCamera()
+        if ChangeNodeOpacity
+        {
+            PushNodeOpacities(To: 0.5)
+        }
         DecoupleClock = true
         let LongitudeRadians = Longitude.Radians
         let LatitudeRadians = Latitude.Radians
@@ -299,23 +306,39 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         {
             Layer.runAction(Rotate)
         }
-        if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
-        {
-            HourNode?.runAction(Rotate)
-        }
+        let HourRotate = SCNAction.rotateTo(x: CGFloat(-LongitudeRadians),
+                                            y: 0.0,
+                                            z: 0.0,
+                                            duration: Defaults.EarthRotationDuration.rawValue,
+                                            usesShortestUnitArc: true)
+        //HourNode?.runAction(HourRotate)
+        
         let SysRotate = SCNAction.rotateTo(x: CGFloat(LatitudeRadians),
                                            y: 0.0,
                                            z: 0.0,
                                            duration: Defaults.EarthRotationDuration.rawValue,
                                            usesShortestUnitArc: true)
+        HourNode?.runAction(SysRotate)
         SystemNode?.runAction(SysRotate)
+    }
+    
+    func RotateCameraTo(Latitude: Double, Longitude: Double)
+    {
     }
     
     /// Reset Earth rotation. Re-engages the clock with the Earth. Rotates the Earth to the position indicated
     /// by the current time and solar inclination.
     func ResetEarthRotation()
     {
+        PopNodeOpacities()
         DecoupleClock = false
+        let Declination = Sun.Declination(For: Date())
+        let RotateSystem = SCNAction.rotateTo(x: CGFloat(Declination.Radians),
+                                             y: 0.0,
+                                             z: 0.0,
+                                             duration: Defaults.EarthRotationDuration.rawValue,
+                                             usesShortestUnitArc: true)
+        HourNode?.runAction(RotateSystem)
         UpdateEarth(With: PrettyPercent)
     }
     
@@ -351,6 +374,62 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
                                            duration: Defaults.EarthRotationDuration.rawValue,
                                            usesShortestUnitArc: true)
         SystemNode?.runAction(SysRotate)
+    }
+    
+    func PushNodeOpacities(To NewValue: Double)
+    {
+        if let Children = EarthNode?.childNodes
+        {
+            for Child in Children
+            {
+                if let ActualChild = Child as? SCNNode2
+                {
+                    if let ChildName = ActualChild.name
+                    {
+                        let SkipList = [GlobeNodeNames.HomeNode.rawValue, GlobeNodeNames.MouseIndicator.rawValue]
+                        if SkipList.contains(ChildName)
+                        {
+                            continue
+                        }
+                    }
+                    ActualChild.PushOpacity(0.5, Animate: true)
+                }
+            }
+        }
+        if let HourChildren = HourNode?.childNodes
+        {
+            for HChild in HourChildren
+            {
+                if let ActualHChild = HChild as? SCNNode2
+                {
+                    ActualHChild.PushOpacity(0.5, Animate: true)
+                }
+            }
+        }
+    }
+    
+    func PopNodeOpacities(_ IfEmpty: Double = 1.0)
+    {
+        if let Children = EarthNode?.childNodes
+        {
+            for Child in Children
+            {
+                if let ActualChild = Child as? SCNNode2
+                {
+                    ActualChild.PopOpacity(1.0, Animate: true)
+                }
+            }
+        }
+        if let HourChildren = HourNode?.childNodes
+        {
+            for HChild in HourChildren
+            {
+                if let ActualHChild = HChild as? SCNNode2
+                {
+                    ActualHChild.PopOpacity(1.0, Animate: true)
+                }
+            }
+        }
     }
     
     /// Return maps to be used as textures for the 3D Earth.
@@ -734,6 +813,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var RotateTo180Menu: NSMenuItem? = nil
     var RotateTo270Menu: NSMenuItem? = nil
     var CoupleTimerMenu: NSMenuItem? = nil
+    var MoveCameraTestMenu: NSMenuItem? = nil
     #endif
     var CurrentMouseLocation: CGPoint = CGPoint.zero
     
@@ -759,6 +839,21 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         let SatelliteAltitude = 10.5 * (At.Altitude / 6378.1)
         let (X, Y, Z) = ToECEF(At.Latitude, At.Longitude, Radius: SatelliteAltitude)
         #endif
+    }
+    
+    /// Move the globe to the specified location.
+    /// - Parameter Latitude: The latitude of the location to view.
+    /// - Parameter Longitude: The longitude of the location to view.
+    /// - Parameter UpdateOpacity: Determines how opacity of Earth nodes is calculated.
+    func MoveMapTo(Latitude: Double, Longitude: Double, UpdateOpacity: Bool)
+    {
+        RotateEarthTo(Latitude: Latitude, Longitude: Longitude, ChangeNodeOpacity: UpdateOpacity)
+    }
+    
+    /// Move the globe back to the normal location.
+    func LockMapToTimer()
+    {
+        ResetEarthRotation()
     }
     
     // MARK: - Stencil pipeline protocol functions
