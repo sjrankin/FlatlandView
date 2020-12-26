@@ -12,4 +12,5 @@ import AppKit
 protocol PreferencePanelProtocol: class
 {
     var Parent: PreferencePanelControllerProtocol? {get set}
+    var MainDelegate: MainProtocol? {get set}
 }
