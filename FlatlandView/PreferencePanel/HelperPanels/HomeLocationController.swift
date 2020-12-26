@@ -11,6 +11,8 @@ import AppKit
 
 class HomeLocationController: NSViewController, NSTextFieldDelegate
 {
+    public weak var MainDelegate: MainProtocol? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -37,6 +39,8 @@ class HomeLocationController: NSViewController, NSTextFieldDelegate
         }
         LongitudeErrorButton.isHidden = true
         LatitudeErrorButton.isHidden = true
+        ViewLocationErrorButton.isHidden = true
+        ShowLocationButton.toolTip = "Click to see your home location on the map."
     }
     
     func controlTextDidEndEditing(_ obj: Notification)
@@ -54,6 +58,7 @@ class HomeLocationController: NSViewController, NSTextFieldDelegate
                 {
                     case .success(let Value):
                         LatitudeErrorButton.isHidden = true
+                        ViewLocationErrorButton.isHidden = true
                         
                     case .failure(let ErrorResult):
                         LatitudeBox.stringValue = ""
@@ -67,6 +72,7 @@ class HomeLocationController: NSViewController, NSTextFieldDelegate
                 {
                     case .success(let Value):
                         LongitudeErrorButton.isHidden = true
+                        ViewLocationErrorButton.isHidden = true
                         
                     case .failure(let ErrorResult):
                         LongitudeBox.stringValue = ""
@@ -105,6 +111,7 @@ class HomeLocationController: NSViewController, NSTextFieldDelegate
         }
         Settings.SetSecureString(.UserHomeLongitude, "\(ActualLongitude)")
         
+        MainDelegate?.LockMapToTimer()
         let Window = self.view.window
         let Parent = Window?.sheetParent
         Parent!.endSheet(Window!, returnCode: .cancel)
@@ -114,6 +121,7 @@ class HomeLocationController: NSViewController, NSTextFieldDelegate
     
     @IBAction func HandleCancelButton(_ sender: Any)
     {
+        MainDelegate?.LockMapToTimer()
         let Window = self.view.window
         let Parent = Window?.sheetParent
         Parent!.endSheet(Window!, returnCode: .cancel)
@@ -163,6 +171,41 @@ Enter the name of your home location here. This value is stored in your system's
         }
     }
     
+    @IBAction func HandleShowLocationPressed(_ sender: Any)
+    {
+        let FinalLatitude = InputValidation.LatitudeValidation(LatitudeBox.stringValue)
+        var ActualLatitude: Double = 0.0
+        switch FinalLatitude
+        {
+            case .success(let Value):
+                ActualLatitude = Value
+                
+            case .failure(let Reason):
+                ViewLocationErrorButton.isHidden = false
+                ValidationErrorMessage = "Cannot move globe to location - please make sure your coordinates are correct."
+                return
+        }
+        let FinalLongitude = InputValidation.LongitudeValidation(LongitudeBox.stringValue)
+        var ActualLongitude: Double = 0.0
+        switch FinalLongitude
+        {
+            case .success(let Value):
+                ActualLongitude = Value
+                
+            case .failure(let Reason):
+                ViewLocationErrorButton.isHidden = false
+                ValidationErrorMessage = "Cannot move globe to location - please make sure your coordinates are correct."
+                return
+        }
+        MainDelegate?.MoveMapTo(Latitude: ActualLatitude,
+                                Longitude: ActualLongitude,
+                                UpdateOpacity: !ShowPressed)
+        ShowPressed = true
+    }
+    
+    var ShowPressed = false
+    
+    @IBOutlet weak var ShowLocationButton: NSButton!
     @IBOutlet weak var LongitudeBox: NSTextField!
     @IBOutlet weak var LatitudeBox: NSTextField!
     @IBOutlet weak var NameBox: NSTextField!
@@ -171,4 +214,5 @@ Enter the name of your home location here. This value is stored in your system's
     @IBOutlet weak var HomeNameHelpButton: NSButton!
     @IBOutlet weak var LatitudeErrorButton: NSButton!
     @IBOutlet weak var LongitudeErrorButton: NSButton!
+    @IBOutlet weak var ViewLocationErrorButton: NSButton!
 }
