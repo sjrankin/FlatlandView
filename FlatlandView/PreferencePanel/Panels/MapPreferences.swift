@@ -13,6 +13,7 @@ class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
                       PreferencePanelProtocol
 {
     weak var Parent: PreferencePanelControllerProtocol? = nil
+    weak var MainDelegate: MainProtocol? = nil
     
     override func viewDidLoad()
     {
