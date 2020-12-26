@@ -227,6 +227,7 @@ extension GlobeView
         let Sphere = SCNSphere(radius: 0.4)
         
         HomeNode = SCNNode2(geometry: Sphere)
+        HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
         HomeNode?.NodeID = NodeTables.HomeID
         HomeNode?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         HomeNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
@@ -309,6 +310,7 @@ extension GlobeView
         Arrow.runAction(MoveForever)
         
         HomeNode = SCNNode2()
+        HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
         HomeNode?.castsShadow = true
         HomeNode?.addChildNode(Arrow)
         HomeNode?.position = SCNVector3(X, Y, Z)
@@ -450,6 +452,7 @@ extension GlobeView
         Composite.Attributes[.InnerStar] = InnerStar
         let Star = ShapeManager.Create(.EmbeddedStar, Composite: Composite, BaseAttributes: Base)
         self.HomeNode = Star
+        self.HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
         ToSurface.addChildNode(Star)
     }
     
@@ -594,6 +597,7 @@ extension GlobeView
         Pin.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         
         HomeNode = SCNNode2()
+        HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
         HomeNode?.NodeClass = UUID(uuidString: NodeClasses.HomeLocation.rawValue)!
         HomeNode?.NodeID = NodeTables.HomeID
         HomeNode?.castsShadow = true
@@ -652,6 +656,7 @@ extension GlobeView
         FlagFaceNode.eulerAngles = SCNVector3(180.0.Radians, 90.0.Radians, 0.0)
         
         HomeNode = SCNNode2()
+        HomeNode?.name = GlobeNodeNames.HomeNode.rawValue
         HomeNode?.castsShadow = true
         HomeNode?.addChildNode(PoleNode)
         HomeNode?.addChildNode(FlagFaceNode)
