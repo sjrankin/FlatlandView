@@ -219,6 +219,32 @@ Gw
                                     <action selector="HandleHomeHelp:" target="vRw-XG-BF3" id="xVv-ni-XEx"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bNd-jt-why">
+                                <rect key="frame" x="179" y="13" width="52" height="32"/>
+                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="eye" catalog="system" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jQU-Sx-TOr">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleShowLocationPressed:" target="vRw-XG-BF3" id="KhJ-Pj-Bcb"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="Z9N-NV-tiv">
+                                <rect key="frame" x="241" y="19" width="25.5" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="J4g-qS-nVT"/>
+                                    <constraint firstAttribute="height" constant="20" id="XuQ-wz-p4E"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="KeO-Gd-Xod">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <imageReference key="image" image="exclamationmark.triangle.fill" catalog="system" symbolScale="small"/>
+                                </buttonCell>
+                                <color key="contentTintColor" name="systemPinkColor" catalog="System" colorSpace="catalog"/>
+                                <connections>
+                                    <action selector="HandleHomeHelp:" target="vRw-XG-BF3" id="B3v-ZY-cna"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="f0E-Y6-IfW" firstAttribute="top" secondItem="LeM-Hd-RLe" secondAttribute="bottom" constant="14" id="1YY-Yw-OOK"/>
@@ -240,6 +266,7 @@ Gw
                             <constraint firstItem="bsS-RA-PDL" firstAttribute="leading" secondItem="P0e-Kp-R3W" secondAttribute="leading" id="LEk-t7-E96"/>
                             <constraint firstItem="f0E-Y6-IfW" firstAttribute="centerY" secondItem="TOZ-hW-OhT" secondAttribute="centerY" id="LaT-c6-f5h"/>
                             <constraint firstItem="XIi-bY-WkO" firstAttribute="top" secondItem="k4v-zz-5c0" secondAttribute="bottom" constant="15" id="NPB-Q9-NyL"/>
+                            <constraint firstItem="bNd-jt-why" firstAttribute="baseline" secondItem="AHG-nl-9fj" secondAttribute="baseline" id="Pwi-Ta-rQk"/>
                             <constraint firstItem="sq5-vx-b1r" firstAttribute="top" secondItem="XIi-bY-WkO" secondAttribute="bottom" constant="31" id="QJI-NV-g9m"/>
                             <constraint firstItem="MTM-rJ-D8Q" firstAttribute="leading" secondItem="bsS-RA-PDL" secondAttribute="leading" id="QZc-3N-TXP"/>
                             <constraint firstItem="P0e-Kp-R3W" firstAttribute="leading" secondItem="AHG-nl-9fj" secondAttribute="leading" id="RtK-ez-fnT"/>
@@ -249,14 +276,18 @@ Gw
                             <constraint firstItem="tB7-do-lxG" firstAttribute="top" secondItem="bu4-B9-Aat" secondAttribute="top" id="Xgi-Fb-OZU"/>
                             <constraint firstItem="f0E-Y6-IfW" firstAttribute="leading" secondItem="hao-T5-qXo" secondAttribute="leading" constant="21" id="YAu-H2-X70"/>
                             <constraint firstItem="LeM-Hd-RLe" firstAttribute="leading" secondItem="hao-T5-qXo" secondAttribute="leading" constant="20" symbolic="YES" id="Z9y-S4-S8d"/>
+                            <constraint firstItem="Z9N-NV-tiv" firstAttribute="leading" secondItem="lvU-2P-Tvk" secondAttribute="leading" id="ZYm-6N-dmM"/>
                             <constraint firstItem="AHG-nl-9fj" firstAttribute="top" secondItem="P0e-Kp-R3W" secondAttribute="bottom" constant="29.5" id="cCI-oz-POV"/>
                             <constraint firstItem="bu4-B9-Aat" firstAttribute="leading" secondItem="lvU-2P-Tvk" secondAttribute="leading" id="drA-Z6-YNV"/>
                             <constraint firstAttribute="bottom" secondItem="sq5-vx-b1r" secondAttribute="bottom" constant="20" symbolic="YES" id="eEf-jX-Cac"/>
                             <constraint firstAttribute="trailing" secondItem="AHG-nl-9fj" secondAttribute="trailing" constant="20" id="fuq-G5-ObQ"/>
+                            <constraint firstItem="bNd-jt-why" firstAttribute="centerX" secondItem="hao-T5-qXo" secondAttribute="centerX" id="hOu-aj-svd"/>
                             <constraint firstItem="AHG-nl-9fj" firstAttribute="baseline" secondItem="sq5-vx-b1r" secondAttribute="firstBaseline" id="qoX-GG-h2k"/>
+                            <constraint firstItem="Z9N-NV-tiv" firstAttribute="leading" secondItem="bNd-jt-why" secondAttribute="trailing" constant="17" id="sHH-WS-fVh"/>
                             <constraint firstItem="TOZ-hW-OhT" firstAttribute="top" secondItem="LeM-Hd-RLe" secondAttribute="bottom" constant="12" id="sOr-ZE-CSO"/>
                             <constraint firstItem="k4v-zz-5c0" firstAttribute="leading" secondItem="XIi-bY-WkO" secondAttribute="leading" id="sUe-bt-xwz"/>
                             <constraint firstItem="sq5-vx-b1r" firstAttribute="baseline" secondItem="AHG-nl-9fj" secondAttribute="baseline" id="smV-pm-T9J"/>
+                            <constraint firstItem="Z9N-NV-tiv" firstAttribute="top" secondItem="bNd-jt-why" secondAttribute="top" id="xv3-3b-r84"/>
                         </constraints>
                     </view>
                     <connections>
@@ -268,6 +299,8 @@ Gw
                         <outlet property="LongitudeBox" destination="4VX-NG-Ihh" id="dSa-hQ-ArU"/>
                         <outlet property="LongitudeErrorButton" destination="lvU-2P-Tvk" id="bKl-ia-s7P"/>
                         <outlet property="NameBox" destination="TOZ-hW-OhT" id="hvi-qu-uZu"/>
+                        <outlet property="ShowLocationButton" destination="bNd-jt-why" id="Wm6-GV-dnD"/>
+                        <outlet property="ViewLocationErrorButton" destination="Z9N-NV-tiv" id="Zt0-dJ-kY5"/>
                     </connections>
                 </viewController>
                 <customObject id="5DY-As-dW0" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -277,6 +310,7 @@ Gw
     </scenes>
     <resources>
         <image name="exclamationmark.triangle.fill" catalog="system" width="14" height="12"/>
+        <image name="eye" catalog="system" width="21" height="13"/>
         <image name="questionmark.circle.fill" catalog="system" width="13" height="13"/>
     </resources>
 </document>
