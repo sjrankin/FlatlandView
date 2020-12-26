@@ -54,6 +54,7 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
                 Debug.FatalError("Error casting preference panel to PreferencePanelProtocol")
             }
             AController.Parent = self
+            AController.MainDelegate = MainDelegate
             return Controller
         }
         fatalError("Error creating \(IDName)")
