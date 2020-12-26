@@ -40,7 +40,7 @@ class HomeLocationController: NSViewController, NSTextFieldDelegate
         LongitudeErrorButton.isHidden = true
         LatitudeErrorButton.isHidden = true
         ViewLocationErrorButton.isHidden = true
-        ShowLocationButton.toolTip = "Click to see your home location on the map."
+        ShowLocationButton.toolTip = "Click to see your home location on the map. Click again to reset."
     }
     
     func controlTextDidEndEditing(_ obj: Notification)
@@ -162,6 +162,12 @@ This value is stored in your system's keychain and is not visible to anyone else
                         Message = """
 Enter the name of your home location here. This value is stored in your system's keychain and is not visible to anyone else.
 """
+                        
+                    case ViewLocationHelp:
+                        Message = """
+Click the view button to move the globe to see the location for your home you entered. Click again to reset the globe. Closing this window also resets the globe.
+"""
+                        
                     default:
                         return
                 }
@@ -173,6 +179,18 @@ Enter the name of your home location here. This value is stored in your system's
     
     @IBAction func HandleShowLocationPressed(_ sender: Any)
     {
+        var ToggleState = false
+        if let Button = sender as? NSButton
+        {
+            ToggleState = Button.state == .on
+            Button.highlight(ToggleState)
+        }
+        if !ToggleState
+        {
+            ShowPressed = false
+            MainDelegate?.LockMapToTimer()
+            return
+        }
         let FinalLatitude = InputValidation.LatitudeValidation(LatitudeBox.stringValue)
         var ActualLatitude: Double = 0.0
         switch FinalLatitude
@@ -205,6 +223,7 @@ Enter the name of your home location here. This value is stored in your system's
     
     var ShowPressed = false
     
+    @IBOutlet weak var ViewLocationHelp: NSButton!
     @IBOutlet weak var ShowLocationButton: NSButton!
     @IBOutlet weak var LongitudeBox: NSTextField!
     @IBOutlet weak var LatitudeBox: NSTextField!
