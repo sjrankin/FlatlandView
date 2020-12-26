@@ -135,7 +135,7 @@ extension MainController: MainProtocol
     {
         ShowStatusText(Text)
     }
-
+    
     /// Sends the passed text to the simple status display.
     /// - Parameter Text: The text to display.
     /// - Parameter HideAfter: The duration in seconds for the amount of time to hide the text after
@@ -195,5 +195,26 @@ extension MainController: MainProtocol
     func GetWorldHeritageSites() -> [WorldHeritageSite]
     {
         return GetAllWorldHeritageSites()
+    }
+    
+    /// Move the 3D globe (only valid for 3D globes) to the specified location.
+    /// - Parameter Latitude: The latitude of the location.
+    /// - Parameter Longiutde: The longitude of the location.
+    /// - Parameter UdpateOpacity: If true, opacity is updated. If false, no changes are made.
+    func MoveMapTo(Latitude: Double, Longitude: Double, UpdateOpacity: Bool)
+    {
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+        {
+            Main3DView.MoveMapTo(Latitude: Latitude, Longitude: Longitude, UpdateOpacity: UpdateOpacity)
+        }
+    }
+    
+    /// Lock the 3D globe to the time and reset its position.
+    func LockMapToTimer()
+    {
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+        {
+            Main3DView.LockMapToTimer()
+        }
     }
 }
