@@ -611,6 +611,8 @@ enum GlobeNodeNames: String, CaseIterable
     case CityNode = "CityNode"
     /// Known location nodes.
     case KnownLocation = "KnownLocation"
+    /// Mouse indicator node.
+    case MouseIndicator = "MouseIndicator"
 }
 
 /// 2D view node names.
