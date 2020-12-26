@@ -12,6 +12,7 @@ import AppKit
 class POIPreferences: NSViewController, PreferencePanelProtocol
 {
     weak var Parent: PreferencePanelControllerProtocol? = nil
+    weak var MainDelegate: MainProtocol? = nil
     
     override func viewDidLoad()
     {
@@ -171,6 +172,8 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
             HomeLocationWindow
         {
             let Window = WindowController.window
+            let VController = WindowController.window?.contentViewController as? HomeLocationController
+            VController?.MainDelegate = MainDelegate
             self.view.window?.beginSheet(Window!)
             {
                 Result in
