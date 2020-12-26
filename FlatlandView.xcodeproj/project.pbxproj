@@ -235,6 +235,7 @@
 		17A3788424DC25F300EE2B45 /* ImageBlender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788324DC25F300EE2B45 /* ImageBlender.swift */; };
 		17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */; };
 		17A59CB825872124005B0C07 /* SCNExtrudedLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A59CB725872124005B0C07 /* SCNExtrudedLetter.swift */; };
+		17A59E652595AB7800EEC7C6 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A59E642595AB7800EEC7C6 /* Stack.swift */; };
 		17ABAFFC24E8FB02009DDC35 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ABAFFB24E8FB02009DDC35 /* Dictionary.swift */; };
 		17ABAFFE24E9209E009DDC35 /* EarthquakeHistory.db in Resources */ = {isa = PBXBuildFile; fileRef = 17ABAFFD24E9209E009DDC35 /* EarthquakeHistory.db */; };
 		17B062D7253D27A000C4BAEE /* ShapeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B062D6253D27A000C4BAEE /* ShapeManager.swift */; };
@@ -634,6 +635,7 @@
 		17A3788324DC25F300EE2B45 /* ImageBlender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBlender.swift; sourceTree = "<group>"; };
 		17A3788D24DD7E0100EE2B45 /* AlphaColorWell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphaColorWell.swift; sourceTree = "<group>"; };
 		17A59CB725872124005B0C07 /* SCNExtrudedLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNExtrudedLetter.swift; sourceTree = "<group>"; };
+		17A59E642595AB7800EEC7C6 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		17ABAFFB24E8FB02009DDC35 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		17ABAFFD24E9209E009DDC35 /* EarthquakeHistory.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = EarthquakeHistory.db; sourceTree = "<group>"; };
 		17B062D6253D27A000C4BAEE /* ShapeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeManager.swift; sourceTree = "<group>"; };
@@ -906,6 +908,7 @@
 			children = (
 				1727EA5924B170730051EA3B /* Queue.swift */,
 				1727EA5C24B184230051EA3B /* Tree.swift */,
+				17A59E642595AB7800EEC7C6 /* Stack.swift */,
 			);
 			path = DataStructures;
 			sourceTree = "<group>";
@@ -2393,6 +2396,7 @@
 				178A869E2489101E00BE8D46 /* StarField.swift in Sources */,
 				1760024024D2BFDC00D5EA1A /* String.swift in Sources */,
 				17F1C7C92543F8650046AE33 /* RectangleView.swift in Sources */,
+				17A59E652595AB7800EEC7C6 /* Stack.swift in Sources */,
 				17F9AFD92520338500DE0219 /* +String.swift in Sources */,
 				1762BD682560BB2E009C6965 /* +MouseHandling.swift in Sources */,
 				17A1810E257356AE002C6611 /* +Show.swift in Sources */,
