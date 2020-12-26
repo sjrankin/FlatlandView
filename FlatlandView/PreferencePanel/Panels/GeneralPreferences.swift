@@ -12,6 +12,7 @@ import AppKit
 class GeneralPreferences: NSViewController, PreferencePanelProtocol
 {
     weak var Parent: PreferencePanelControllerProtocol? = nil
+    weak var MainDelegate: MainProtocol? = nil
     
     override func viewDidLoad()
     {
