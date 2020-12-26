@@ -160,6 +160,8 @@
 		176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */; };
 		176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */; };
 		176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */; };
+		177389382596D511002698E8 /* +Rotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177389372596D511002698E8 /* +Rotations.swift */; };
+		1773893C25971771002698E8 /* +Menus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1773893B25971771002698E8 /* +Menus.swift */; };
 		1774BD75256E417100D927F3 /* +SimpleStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1774BD74256E417100D927F3 /* +SimpleStatus.swift */; };
 		177709D62592104E0092CDC0 /* +NodeEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177709D52592104E0092CDC0 /* +NodeEvents.swift */; };
 		177D0F5F2547F04700CD5041 /* MTLTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177D0F5E2547F04700CD5041 /* MTLTexture.swift */; };
@@ -560,6 +562,8 @@
 		176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewSuns.swift"; sourceTree = "<group>"; };
 		176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow.swift; sourceTree = "<group>"; };
 		176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController.swift; sourceTree = "<group>"; };
+		177389372596D511002698E8 /* +Rotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Rotations.swift"; sourceTree = "<group>"; };
+		1773893B25971771002698E8 /* +Menus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Menus.swift"; sourceTree = "<group>"; };
 		1774BD74256E417100D927F3 /* +SimpleStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+SimpleStatus.swift"; sourceTree = "<group>"; };
 		177709D52592104E0092CDC0 /* +NodeEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+NodeEvents.swift"; sourceTree = "<group>"; };
 		177D0F5E2547F04700CD5041 /* MTLTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTLTexture.swift; sourceTree = "<group>"; };
@@ -1339,6 +1343,7 @@
 				17F6C4F4257BA24F003FFDA2 /* +Debug.swift */,
 				17F782C424979218000A568E /* +Earthquakes.swift */,
 				1762BD672560BB2E009C6965 /* +MouseHandling.swift */,
+				1773893B25971771002698E8 /* +Menus.swift */,
 				178A86A12489127C00BE8D46 /* +Hours.swift */,
 				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
 				178A869F2489108C00BE8D46 /* +CubicEarth.swift */,
@@ -1347,6 +1352,7 @@
 				178E1CA225186DE900FDC75B /* +Attract.swift */,
 				173056BF2553E7C700B1D4C9 /* +FollowMode.swift */,
 				178A869D2489101E00BE8D46 /* StarField.swift */,
+				177389372596D511002698E8 /* +Rotations.swift */,
 			);
 			path = GlobeExtensions;
 			sourceTree = "<group>";
@@ -2139,6 +2145,7 @@
 				17DE2BA32569FB04008077C7 /* MapScene.swift in Sources */,
 				17E901E62552C3650097A89A /* EarthquakeRegionController2.swift in Sources */,
 				17A1810B25733891002C6611 /* +Set.swift in Sources */,
+				1773893C25971771002698E8 /* +Menus.swift in Sources */,
 				178A869A2488C3B600BE8D46 /* AboutDetailsController.swift in Sources */,
 				17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */,
 				17D570A324F8FDFD00EB5C08 /* GeneralEditor.swift in Sources */,
@@ -2379,6 +2386,7 @@
 				17C87B81251780160065BE6D /* +FlatViewCities.swift in Sources */,
 				178E1CA0251829C700FDC75B /* +Lights.swift in Sources */,
 				174A6A342557D24B00488274 /* ClockControlPanel.swift in Sources */,
+				177389382596D511002698E8 /* +Rotations.swift in Sources */,
 				17F9AFE82520344F00DE0219 /* +CGPoint.swift in Sources */,
 				17897C872514AA1100544DE1 /* +MainEventHandling.swift in Sources */,
 				1792486B251A1E3100AF4D4B /* +FlatViewEarthquakes.swift in Sources */,
