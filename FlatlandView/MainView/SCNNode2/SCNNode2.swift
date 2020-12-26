@@ -841,7 +841,146 @@ class SCNNode2: SCNNode
         }
     }
     
+    /// Holds events and associated attributes.
     var EventMap = [NodeEvents: EventAttributes]()
+    
+    /// Sets the opacity of the node to the passed value.
+    /// - Note: All child nodes have their opacity set to the same level.
+    /// - Note: The opacity stack is cleared when this function is called.
+    /// - Parameter To: New opacity value.
+    func SetOpacity(To NewValue: Double)
+    {
+        OpacityStack.Clear()
+        self.opacity = CGFloat(NewValue)
+        for Child in self.childNodes
+        {
+            if let ActualChild = Child as? SCNNode2
+            {
+                ActualChild.SetOpacity(To: NewValue)
+            }
+            else
+            {
+                Child.opacity = CGFloat(NewValue)
+            }
+        }
+    }
+    
+    /// Push the current opacity value of the node onto a stack then set the opacity to the passed value.
+    /// - Note: This function is provided as a way to retain opacity levels over the course of changing
+    ///         opacity levels on a temporary basis. Each node has its own opacity stack and by using this
+    ///         function and `PopOpacity` opacity levels are restored correctly.
+    /// - Note: All child nodes have their opacities pushed. If a child node is of type `SCNNode`, the opacity
+    ///         level is assigned but no pushing operation takes place since `SCNNode` does not support it.
+    /// - Parameter NewValue: The new opacity level.
+    /// - Parameter Animate: If true, the opacity level change is animated. Otherwise, it happens immediately.
+    ///                      Defaults to true.
+    func PushOpacity(_ NewValue: Double, Animate: Bool = true)
+    {
+        OpacityStack.Push(self.opacity)
+        if Animate
+        {
+            let OpacityAnimation = SCNAction.fadeOpacity(to: CGFloat(NewValue), duration: 0.5)
+            self.runAction(OpacityAnimation)
+        }
+        else
+        {
+            self.opacity = CGFloat(NewValue)
+        }
+        for Child in self.childNodes
+        {
+            if let ActualChild = Child as? SCNNode2
+            {
+                ActualChild.PushOpacity(NewValue)
+            }
+            else
+            {
+                if Animate
+                {
+                    let OpacityAnimation = SCNAction.fadeOpacity(to: CGFloat(NewValue), duration: 0.5)
+                    self.runAction(OpacityAnimation)
+                }
+                else
+                {
+                    Child.opacity = CGFloat(NewValue)
+                }
+            }
+        }
+    }
+    
+    /// Pop the opacity from the stack and set the node's opacity to that value.
+    /// - Note: All child nodes have their opacity popped as well. If a child node is of type `SCNNode`,
+    ///         its opacity value is set to `IsEmpty`.
+    /// - Parameter IfEmpty: Value to use for the opacity if the opacity stack is empty.
+    /// - Parameter Animate: If true, the opacity level change is animated. Otherwise, it happens immediately.
+    ///                      Defaults to true.
+    func PopOpacity(_ IfEmpty: Double = 1.0, Animate: Bool = true)
+    {
+        if OpacityStack.IsEmpty
+        {
+            if Animate
+            {
+                let OpacityAnimation = SCNAction.fadeOpacity(to: CGFloat(IfEmpty), duration: 0.5)
+                self.runAction(OpacityAnimation)
+            }
+            else
+            {
+                self.opacity = CGFloat(IfEmpty)
+            }
+        }
+        else
+        {
+            if let OldValue = OpacityStack.Pop()
+            {
+                if Animate
+                {
+                    let OpacityAnimation = SCNAction.fadeOpacity(to: CGFloat(OldValue), duration: 0.5)
+                    self.runAction(OpacityAnimation)
+                }
+                else
+                {
+                    self.opacity = OldValue
+                }
+            }
+            else
+            {
+                if Animate
+                {
+                    let OpacityAnimation = SCNAction.fadeOpacity(to: CGFloat(IfEmpty), duration: 0.5)
+                    self.runAction(OpacityAnimation)
+                }
+                else
+                {
+                    self.opacity = CGFloat(IfEmpty)
+                }
+            }
+        }
+        for Child in self.childNodes
+        {
+            if let ActualChild = Child as? SCNNode2
+            {
+                ActualChild.PopOpacity(IfEmpty, Animate: Animate)
+            }
+            else
+            {
+                if Animate
+                {
+                    let OpacityAnimation = SCNAction.fadeOpacity(to: CGFloat(IfEmpty), duration: 0.5)
+                    Child.runAction(OpacityAnimation)
+                }
+                else
+                {
+                    Child.opacity = CGFloat(IfEmpty)
+                }
+            }
+        }
+    }
+    
+    func ClearOpacityStack()
+    {
+        OpacityStack = Stack<CGFloat>()
+    }
+    
+    var OpacityStack = Stack<CGFloat>()
 }
 
 // MARK: - Bounding shapes.
