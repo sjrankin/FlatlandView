@@ -142,11 +142,15 @@ extension GlobeView
         RotateTo270Menu?.target = self
         CoupleTimerMenu = NSMenuItem(title: "Couple Earth to Timer", action: #selector(TestRotation), keyEquivalent: "")
         CoupleTimerMenu?.target = self
+        MoveCameraTestMenu = NSMenuItem(title: "Move camera", action: #selector(TestRotation), keyEquivalent: "")
+        MoveCameraTestMenu?.target = self
         DebugMenu?.submenu?.items.append(RotateTo0Menu!)
         DebugMenu?.submenu?.items.append(RotateTo90Menu!)
         DebugMenu?.submenu?.items.append(RotateTo180Menu!)
         DebugMenu?.submenu?.items.append(RotateTo270Menu!)
         DebugMenu?.submenu?.items.append(CoupleTimerMenu!)
+        DebugMenu?.submenu?.items.append(NSMenuItem.separator())
+        DebugMenu?.submenu?.items.append(MoveCameraTestMenu!)
         return DebugMenu!
         #else
         return NSMenuItem()
@@ -173,6 +177,9 @@ extension GlobeView
                     
                 case CoupleTimerMenu:
                     ResetEarthRotation()
+                    
+                case MoveCameraTestMenu:
+                    RotateCameraTo(Latitude: 0.0, Longitude: 180.0)
                     
                 default:
                     return
@@ -659,6 +666,7 @@ extension GlobeView
         bottomnode.runAction(SwapBottomForever)
         #endif
         let FinalIndicator = SCNNode2()
+        FinalIndicator.name = GlobeNodeNames.MouseIndicator.rawValue
         FinalIndicator.addChildNode(topnode)
         FinalIndicator.addChildNode(bottomnode)
         var Angles = [Double]()
