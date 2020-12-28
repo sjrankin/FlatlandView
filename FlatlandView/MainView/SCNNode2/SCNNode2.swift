@@ -606,7 +606,14 @@ class SCNNode2: SCNNode
         {
             if let PNode = self as? ShapeAttribute
             {
-                PNode.SetMaterialColor(State.Color)
+                if let DiffuseTexture = State.Diffuse
+                {
+                    PNode.SetDiffuseTexture(DiffuseTexture)
+                }
+                else
+                {
+                    PNode.SetMaterialColor(State.Color)
+                }
                 PNode.SetEmissionColor(State.Emission ?? NSColor.clear)
                 PNode.SetLightingModel(State.LightModel)
                 PNode.SetMetalness(State.Metalness)
@@ -615,6 +622,15 @@ class SCNNode2: SCNNode
         }
         else
         {
+            if let DiffuseTexture = State.Diffuse
+            {
+                self.geometry?.firstMaterial?.diffuse.contents = DiffuseTexture
+            }
+            else
+            {
+                self.geometry?.firstMaterial?.diffuse.contents = State.Color
+            }
+            self.geometry?.firstMaterial?.specular.contents = State.Specular ?? NSColor.white
             self.geometry?.firstMaterial?.lightingModel = State.LightModel
             self.geometry?.firstMaterial?.emission.contents = State.Emission ?? NSColor.clear
             self.geometry?.firstMaterial?.lightingModel = State.LightModel
@@ -749,13 +765,43 @@ class SCNNode2: SCNNode
     {
         if ForDay
         {
-            DayState = NodeState(State: .Day, Color: Color, Emission: Emission, Specular: NSColor.white,
-                                 LightModel: Model, Metalness: Metalness, Roughness: Roughness)
+            DayState = NodeState(State: .Day, Color: Color, Diffuse: nil, Emission: Emission,
+                                 Specular: NSColor.white, LightModel: Model, Metalness: Metalness,
+                                 Roughness: Roughness)
         }
         else
         {
-            NightState = NodeState(State: .Night, Color: Color, Emission: Emission, Specular: NSColor.white,
-                                   LightModel: Model, Metalness: Metalness, Roughness: Roughness)
+            NightState = NodeState(State: .Night, Color: Color, Diffuse: nil, Emission: Emission,
+                                   Specular: NSColor.white, LightModel: Model, Metalness: Metalness,
+                                   Roughness: Roughness)
+        }
+    }
+    
+    /// Convenience function to set the state attributes.
+    /// - Parameter ForDay: If true, day time attributes are set. If false, night time attributes are set.
+    /// - Parameter Diffuse: The image to use as the diffuse surface texture.
+    /// - Parameter Emission: The color for the emmission material (eg, glowing). Defaults to nil.
+    /// - Parameter Model: The lighting model for the state. Defaults to `.phong`.
+    /// - Parameter Metalness: The metalness value of the state. If nil, not used. Defaults to nil.
+    /// - Parameter Roughness: The roughness value of the state. If nil, not used. Defaults to nil.
+    public func SetState(ForDay: Bool,
+                         Diffuse: NSImage,
+                         Emission: NSColor? = nil,
+                         Model: SCNMaterial.LightingModel = .phong,
+                         Metalness: Double? = nil,
+                         Roughness: Double? = nil)
+    {
+        if ForDay
+        {
+            DayState = NodeState(State: .Day, Color: NSColor.white, Diffuse: Diffuse, Emission: Emission,
+                                 Specular: NSColor.white, LightModel: Model, Metalness: Metalness,
+                                 Roughness: Roughness)
+        }
+        else
+        {
+            NightState = NodeState(State: .Night, Color: NSColor.black, Diffuse: Diffuse, Emission: Emission,
+                                   Specular: NSColor.white, LightModel: Model, Metalness: Metalness,
+                                   Roughness: Roughness)
         }
     }
     
@@ -1001,6 +1047,8 @@ struct NodeState
     let State: NodeStates
     /// Diffuse color.
     let Color: NSColor
+    /// Diffuse surface image.
+    let Diffuse: NSImage?
     /// Emission color.
     let Emission: NSColor?
     /// Specular color.
