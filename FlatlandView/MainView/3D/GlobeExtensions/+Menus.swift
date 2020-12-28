@@ -25,9 +25,8 @@ extension GlobeView
         var MouseOverEarth = true
         if event.type == .rightMouseDown
         {
-            if let MouseLocation = CurrentMouseLocation
+            if CurrentMouseLocation != nil
             {
-                let (Latitude, Longitude) = MakeWhereFromTexture(MouseLocation)
                 MouseOverEarth = true
             }
             else
@@ -101,7 +100,11 @@ extension GlobeView
     
     @objc func SetHomeAtLocation(_ sender: Any)
     {
+        if let MouseLocation = CurrentMouseLocation
+        {
+        let (Latitude, Longitude) = MakeWhereFromTexture(MouseLocation)
         print("Add/move home to here")
+        }
     }
     
     @objc func Context_AddQuakeRegion(_ sender: Any)
