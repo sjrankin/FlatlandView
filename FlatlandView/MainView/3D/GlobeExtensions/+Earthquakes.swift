@@ -216,7 +216,7 @@ extension GlobeView
         }
         for Quake in List
         {
-            let (QShape, MagShape, InfoNode) = MakeEarthquakeNode(Quake)
+            let (QShape, MagShape, InfoNode) = MakeEarthquakeNode(Quake, IsCached: IsCached)
             if let INode = InfoNode
             {
                 Surface.addChildNode(INode)
@@ -344,11 +344,12 @@ extension GlobeView
     /// - Note: If extruded magnitude values are specified as the node, node shapes are not drawn - just the
     ///         extruded number.
     /// - Parameter Quake: The earthquake whose shape will be created.
+    /// - Parameter IsCached: If true, the earthquake is from the cache.
     /// - Returns: Tuple of three `SCNNode2`s. The first is a shape to be used to indicate an earthquake and the
     ///            second (which may not be present, depending on the value of `.EarthquakeMagnitudeViews`)
     ///            is extruded text with the value of the magntiude of the earthquake. The third node is an
     ///            invisible info node to interact with the mouse.
-    func MakeEarthquakeNode(_ Quake: Earthquake) -> (Shape: SCNNode2?, Magnitude: SCNNode2?, InfoNode: SCNNode2?)
+    func MakeEarthquakeNode(_ Quake: Earthquake, IsCached: Bool = false) -> (Shape: SCNNode2?, Magnitude: SCNNode2?, InfoNode: SCNNode2?)
     {
         let FinalRadius = GlobeRadius.Primary.rawValue
         let Percent = 1.0
@@ -455,6 +456,10 @@ extension GlobeView
                                            Width: CGFloat(Quake3D.StaticArrowWidth.rawValue),
                                            Extrusion: CGFloat(Quake3D.StaticArrowExtrusion.rawValue),
                                            Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
+                if IsCached
+                {
+                    Arrow.DiffuseTexture = NSImage(named: "DotPattern1024")
+                }
                 Arrow.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 Arrow.NodeID = Quake.ID
                 Arrow.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
@@ -473,6 +478,10 @@ extension GlobeView
                 FinalNode = SCNNode2(geometry: SCNPyramid(width: CGFloat(Quake3D.PyramidWidth.rawValue),
                                                           height: CGFloat(Quake3D.PyramidHeightMultiplier.rawValue * Percent),
                                                           length: CGFloat(Quake3D.PyramidLength.rawValue)))
+                if IsCached
+                {
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0 + 180.0
@@ -482,6 +491,10 @@ extension GlobeView
                 FinalNode = SCNNode2(geometry: SCNCone(topRadius: CGFloat(Quake3D.ConeTopRadius.rawValue),
                                                        bottomRadius: CGFloat(Quake3D.ConeBottomRadius.rawValue),
                                                        height: CGFloat(Quake3D.ConeHeightMultiplier.rawValue * Percent)))
+                if IsCached
+                {
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0 + 180.0
@@ -492,6 +505,10 @@ extension GlobeView
                                                       height: CGFloat(Quake3D.QuakeBoxHeight.rawValue * Percent),
                                                       length: CGFloat(Quake3D.QuakeBoxLength.rawValue),
                                                       chamferRadius: CGFloat(Quake3D.QuakeBoxChamfer.rawValue)))
+                if IsCached
+                {
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0
@@ -500,6 +517,10 @@ extension GlobeView
             case .Cylinder:
                 FinalNode = SCNNode2(geometry: SCNCylinder(radius: CGFloat(Percent * Quake3D.QuakeCapsuleRadius.rawValue),
                                                            height: CGFloat(Quake3D.QuakeCapsuleHeight.rawValue * Percent)))
+                if IsCached
+                {
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0
@@ -508,6 +529,10 @@ extension GlobeView
             case .Capsule:
                 FinalNode = SCNNode2(geometry: SCNCapsule(capRadius: CGFloat(Percent * Quake3D.QuakeCapsuleRadius.rawValue),
                                                           height: CGFloat(Quake3D.QuakeCapsuleHeight.rawValue * Percent)))
+                if IsCached
+                {
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0
@@ -517,6 +542,10 @@ extension GlobeView
                 let ERadius = (Quake.GreatestMagnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.SphereConstant.rawValue
                 let QSphere = SCNSphere(radius: CGFloat(ERadius))
                 FinalNode = SCNNode2(geometry: QSphere)
+                if IsCached
+                {
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 
@@ -530,6 +559,10 @@ extension GlobeView
                 let ScaleGroup = SCNAction.sequence([ScaleUp, ScaleDown])
                 let ScaleForever = SCNAction.repeatForever(ScaleGroup)
                 FinalNode = SCNNode2(geometry: QSphere)
+                if IsCached
+                {
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 FinalNode.runAction(ScaleForever)
