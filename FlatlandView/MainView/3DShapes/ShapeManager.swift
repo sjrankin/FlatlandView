@@ -353,14 +353,17 @@ class TimeState
     var Metalness: Double? = nil
     /// Roughness value of the node (for physically-based rendering).
     var Roughness: Double? = nil
+    /// The texture for the diffuse surface.
+    var DiffuseTexture: NSImage? = nil
     
     /// Returns a node state based on current conditions.
     /// - Parameter For: The node state type.
     /// - Returns: Node state.
     func EmitNodeState(For State: NodeStates) -> NodeState
     {
-        let EmitMe = NodeState(State: State, Color: Color, Emission: Emission, Specular: Specular,
-                               LightModel: LightingModel, Metalness: Metalness, Roughness: Roughness)
+        let EmitMe = NodeState(State: State, Color: Color, Diffuse: DiffuseTexture, Emission: Emission, 
+                               Specular: Specular, LightModel: LightingModel, Metalness: Metalness,
+                               Roughness: Roughness)
         return EmitMe
     }
 }
