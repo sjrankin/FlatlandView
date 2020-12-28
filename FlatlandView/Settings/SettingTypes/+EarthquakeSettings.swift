@@ -134,4 +134,39 @@ extension Settings
             NotifySubscribers(Setting: .EarthquakeMagnitudeColors, OldValue: nil, NewValue: MagColors)
         }
     }
+    
+    /// Cache the list of earthquakes in settings.
+    /// - Note: Cached earthquakes are used at start-up to show the user something rather than
+    ///         have no earthquakes show up at all until the USGS sends data.
+    /// - Parameter QuakeList: List of earthquakes to cache.
+    public static func CacheEarthquakes(_ QuakeList: [Earthquake])
+    {
+        var Working = ""
+        for Quake in QuakeList
+        {
+            Working.append(Quake.Serialize())
+            Working.append("\n")
+        }
+        SetString(.CachedEarthquakes, Working)
+    }
+    
+    /// Returns an array of earthquakes from the set of cached earthquakes in settings.
+    /// - Returns: Array of earthquakes from cached data.
+    public static func GetCachedEarthquakes() -> [Earthquake]
+    {
+        var DeCached = [Earthquake]()
+        if let Raw = GetString(.CachedEarthquakes)
+        {
+            let Parts = Raw.split(separator: "\n", omittingEmptySubsequences: true)
+            for Part in Parts
+            {
+                let Serialized = String(Part)
+                if let Quake = Earthquake.Deserialize(Serialized)
+                {
+                    DeCached.append(Quake)
+                }
+            }
+        }
+        return DeCached
+    }
 }
