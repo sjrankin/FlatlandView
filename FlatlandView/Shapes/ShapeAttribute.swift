@@ -17,6 +17,10 @@ protocol ShapeAttribute: class
     /// - Parameter Color: The color to use to set the first diffuse material.
     func SetMaterialColor(_ Color: NSColor)
     
+    /// Sets the first diffuse material to the specified texture.
+    /// - Parameter Image: The image to use as the texture.
+    func SetDiffuseTexture(_ Image: NSImage)
+    
     /// Sets the first material's emission color.
     /// - Parameter Color: The color to use to set the first material's emission
     ///                    color. If nil, the color is removed.
