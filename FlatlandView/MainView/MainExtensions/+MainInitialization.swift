@@ -149,6 +149,8 @@ extension MainController
             Debug.Print("Calling GetEarthquakes")
             let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
             Earthquakes?.GetEarthquakes(Every: FetchInterval)
+            let Cached = Settings.GetCachedEarthquakes()
+            PlotCachedQuakes(Cached)
         }
         
         if Settings.GetBool(.PreloadNASATiles) && Settings.GetBool(.EnableNASATiles)
@@ -161,6 +163,20 @@ extension MainController
             Debug.Print("Calling LoadMap")
             Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
         }
+    }
+    
+    /// Plot cached quakes from the last run. This is used to show the user something rather than
+    /// nothing when Flatland first starts.
+    /// - Parameter Quakes: Set of earthquakes to plot.
+    func PlotCachedQuakes(_ Quakes: [Earthquake])
+    {
+        if Quakes.count < 1
+        {
+            return
+        }
+        Main3DView.NewEarthquakeList(Quakes)
+        Main2DView.PlotEarthquakes(Quakes, Replot: true)
+        Rect2DView.PlotEarthquakes(Quakes, Replot: true)
     }
     
     /// Initialize the user interface.
