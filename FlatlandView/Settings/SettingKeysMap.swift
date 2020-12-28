@@ -154,6 +154,7 @@ extension Settings
             .EarthquakeListAge: EarthquakeAges.self,
             .GroupEarthquakeListAge: EarthquakeAges.self,
             .EarthquakeDisplayMagnitude: Int.self,
+            .CachedEarthquakes: String.self,
             .GroupEarthquakeDisplayMagnitude: Int.self,
             .EarthquakeMagnitudeViews: EarthquakeMagnitudeViews.self,
             .CombinedEarthquakeColor: NSColor.self,
