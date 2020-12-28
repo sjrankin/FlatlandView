@@ -365,6 +365,8 @@ enum SettingKeys: String, CaseIterable
     /// Integer: Minimum magnitude earthquake to display in the earthquake list dialog. Intended
     /// for the group view.
     case GroupEarthquakeDisplayMagnitude = "GroupEarthquakeDisplayMagnitude"
+    /// String: List of cached earthquakes.
+    case CachedEarthquakes = "CachedEarthquakes"
     #if false
     /// Maximum distance (in kilometers) that earthquakes must be to be combined.
     case CombineDistance = "CombineDistance"
