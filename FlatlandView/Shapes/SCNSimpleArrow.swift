@@ -42,6 +42,20 @@ class SCNSimpleArrow: SCNNode2, ShapeAttribute
         self.LightMask = LightMask
     }
     
+    init(Length: CGFloat, Width: CGFloat, Extrusion: CGFloat, DiffuseTexture: NSImage,
+         Specular: NSColor = NSColor.white, LightMask: Int = 0)
+    {
+        super.init()
+        self.UseProtocolToSetState = true
+        self.Length = Length
+        self.Width = Width
+        self.Extrusion = Extrusion
+        self.Color = NSColor.white
+        self.DiffuseTexture = DiffuseTexture
+        self.Specular = Specular
+        self.LightMask = LightMask
+    }
+    
     /// Initializers. Creates a default shape.
     /// - Parameter coder: See Apple documentation.
     required init?(coder: NSCoder)
@@ -153,6 +167,26 @@ class SCNSimpleArrow: SCNNode2, ShapeAttribute
         set
         {
             _Color = newValue
+        }
+    }
+    
+    private var _DiffuseTexture: NSImage? = nil
+    {
+        didSet
+        {
+            MakeGeometry()
+        }
+    }
+    /// Get or set the diffuse surface texture image.
+    public var DiffuseTexture: NSImage?
+    {
+        get
+        {
+            return _DiffuseTexture
+        }
+        set
+        {
+            _DiffuseTexture = newValue
         }
     }
     
@@ -269,14 +303,28 @@ class SCNSimpleArrow: SCNNode2, ShapeAttribute
             Child.removeFromParentNode()
         }
         Triangle = SCNTriangle(Base: _Width, Height: _Length / 3.0, Extrusion: _Extrusion)
-        Triangle.Color = _Color
+        if let Texture = DiffuseTexture
+        {
+            Triangle.DiffuseTexture = Texture
+        }
+        else
+        {
+            Triangle.Color = _Color
+        }
         Triangle.Emission = _Emission
         Triangle.Specular = _Specular
         Triangle.LightMask = _LightMask
         Triangle.Metalness = _Metalness
         Triangle.Roughness = _Roughness
         let Box = SCNBox(width: _Width * 0.25, height: _Length * 0.5, length: _Extrusion, chamferRadius: 0.0)
-        Box.firstMaterial?.diffuse.contents = _Color
+        if let Texture = DiffuseTexture
+        {
+            Box.firstMaterial?.diffuse.contents = Texture
+        }
+        else
+        {
+            Box.firstMaterial?.diffuse.contents = _Color
+        }
         Box.firstMaterial?.emission.contents = _Emission
         Box.firstMaterial?.specular.contents = _Specular
         Box.firstMaterial?.metalness.contents = _Metalness
@@ -323,6 +371,11 @@ class SCNSimpleArrow: SCNNode2, ShapeAttribute
     func SetEmissionColor(_ Color: NSColor?)
     {
         self.Emission = Color
+    }
+    
+    func SetDiffuseTexture(_ Image: NSImage)
+    {
+        self.DiffuseTexture = Image
     }
     
     func SetLightingModel(_ Model: SCNMaterial.LightingModel)
