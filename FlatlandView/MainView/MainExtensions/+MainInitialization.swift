@@ -174,7 +174,7 @@ extension MainController
         {
             return
         }
-        Main3DView.NewEarthquakeList(Quakes)
+        Main3DView.NewEarthquakeList(Quakes, FromCache: true)
         Main2DView.PlotEarthquakes(Quakes, Replot: true)
         Rect2DView.PlotEarthquakes(Quakes, Replot: true)
     }
