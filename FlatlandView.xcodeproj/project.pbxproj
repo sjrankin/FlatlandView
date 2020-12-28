@@ -12,6 +12,7 @@
 		1701BF7A24FCE0D700686C3A /* CityPopulationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */; };
 		1701BF7C24FCE0FD00686C3A /* CityPopulationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */; };
 		1701CFC52535646C00544F05 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701CFC42535646C00544F05 /* Snapshot.swift */; };
+		170245D025986E0100DF9457 /* +Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170245CF25986E0100DF9457 /* +Serialization.swift */; };
 		1704D3F4256A4DA100DE0F85 /* StencilPipelineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1704D3F3256A4DA100DE0F85 /* StencilPipelineProtocol.swift */; };
 		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
 		1707A7AF249CACAB00A90FCA /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1707A7AE249CACAB00A90FCA /* Earthquake.swift */; };
@@ -410,6 +411,7 @@
 		1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationWindow.swift; sourceTree = "<group>"; };
 		1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationController.swift; sourceTree = "<group>"; };
 		1701CFC42535646C00544F05 /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
+		170245CF25986E0100DF9457 /* +Serialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Serialization.swift"; sourceTree = "<group>"; };
 		1704D3F3256A4DA100DE0F85 /* StencilPipelineProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilPipelineProtocol.swift; sourceTree = "<group>"; };
 		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
 		1707A7AE249CACAB00A90FCA /* Earthquake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
@@ -832,6 +834,15 @@
 			path = CityPopulations;
 			sourceTree = "<group>";
 		};
+		170245D225986E3100DF9457 /* Earthquake */ = {
+			isa = PBXGroup;
+			children = (
+				1707A7AE249CACAB00A90FCA /* Earthquake.swift */,
+				170245CF25986E0100DF9457 /* +Serialization.swift */,
+			);
+			path = Earthquake;
+			sourceTree = "<group>";
+		};
 		170D429C2583125500FD7AD2 /* PreferenceHelp */ = {
 			isa = PBXGroup;
 			children = (
@@ -879,8 +890,8 @@
 		1713766924960E2000EF715E /* USGS */ = {
 			isa = PBXGroup;
 			children = (
+				170245D225986E3100DF9457 /* Earthquake */,
 				17F782C0249742A1000A568E /* USGS.swift */,
-				1707A7AE249CACAB00A90FCA /* Earthquake.swift */,
 				1723C80224D54C4C00C41EEE /* UserRegion.swift */,
 				17BCCC3E24D7F15600030E37 /* EarthquakeFilterer.swift */,
 			);
@@ -2354,6 +2365,7 @@
 				17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */,
 				17DE2DD7259093BF00214204 /* HomeLocationWindow.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
+				170245D025986E0100DF9457 /* +Serialization.swift in Sources */,
 				170E7BF52559290900EA3AD3 /* MouseInfoController.swift in Sources */,
 				172F4A2924FA4B300014A65E /* +EnumHandling.swift in Sources */,
 				17F9AFD52520334B00DE0219 /* +Boolean.swift in Sources */,
