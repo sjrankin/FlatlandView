@@ -14,8 +14,9 @@ extension GlobeView
 {
     /// Plot earthquakes on the globe.
     /// - Parameter From: Name of the caller. Defaults to nil.
+    /// - Parameter FromCache: If true, earthquakes are from the cache.
     /// - Parameter Final: Completion block called after plot functions have been called. Defaults to nil.
-    func PlotEarthquakes(_ From: String? = nil, _ Final: (() -> ())? = nil)
+    func PlotEarthquakes(_ From: String? = nil, FromCache: Bool = false, _ Final: (() -> ())? = nil)
     {
         if let Earth = EarthNode
         {
@@ -37,7 +38,7 @@ extension GlobeView
                     ApplyAllStencils(Caller: #function)
                 }
             }
-            PlotEarthquakes(EarthquakeList, On: Earth)
+            PlotEarthquakes(EarthquakeList, IsCached: FromCache, On: Earth)
             Final?()
         }
     }
@@ -115,7 +116,9 @@ extension GlobeView
     /// Called when a new list of earthquakes was obtained from the remote source.
     /// - Parameter NewList: New list of earthquakes. If the new list has the same contents as the
     ///                      previous list, no action is taken.
-    func NewEarthquakeList(_ NewList: [Earthquake], Final: (() -> ())? = nil)
+    /// - Parameter FromCache: If true, the set of earthquakes is from the cache.
+    /// - Parameter Final: Completion handler.
+    func NewEarthquakeList(_ NewList: [Earthquake], FromCache: Bool = false, Final: (() -> ())? = nil)
     {
         RemoveExpiredIndicators(NewList)
         let FilteredList = EarthquakeFilterer.FilterList(NewList)
@@ -140,8 +143,9 @@ extension GlobeView
         EarthquakeList.removeAll()
         EarthquakeList = FilteredList
         PlottedEarthquakes.removeAll()
-        PlotEarthquakes(#function, Final)
+        PlotEarthquakes(#function, FromCache: FromCache, Final)
         
+        Settings.CacheEarthquakes(EarthquakeList) 
         NodeTables.RemoveEarthquakes()
         for Quake in EarthquakeList
         {
@@ -190,9 +194,11 @@ extension GlobeView
     
     /// Plot a passed list of earthquakes on the passed surface.
     /// - Parameter List: The list of earthquakes to plot.
+    /// - Parameter IsCached: Flag that determines if the earthquakes are from the cache.
     /// - Parameter On: The 3D surface upon which to plot the earthquakes.
-    func PlotEarthquakes(_ List: [Earthquake], On Surface: SCNNode2)
+    func PlotEarthquakes(_ List: [Earthquake], IsCached: Bool = false, On Surface: SCNNode2)
     {
+        print("Plotting cached earthquakes: \(IsCached)")
         if !Settings.GetBool(.EnableEarthquakes)
         {
             return
@@ -391,7 +397,7 @@ extension GlobeView
                 let Arrow = SCNSimpleArrow(Length: CGFloat(Quake3D.ArrowLength.rawValue),
                                            Width: CGFloat(Quake3D.ArrowWidth.rawValue),
                                            Extrusion: CGFloat(Quake3D.ArrowExtrusion.rawValue),
-                                           Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
+                                           Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.systemYellow))
                 Arrow.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 Arrow.NodeID = Quake.ID
                 Arrow.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
@@ -402,8 +408,8 @@ extension GlobeView
                 Arrow.SetLocation(Quake.Latitude, Quake.Longitude)
                 Arrow.SetState(ForDay: true, Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red),
                                Emission: nil, Model: .physicallyBased, Metalness: nil, Roughness: nil)
-                Arrow.SetState(ForDay: false, Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red),
-                               Emission: Settings.GetColor(.BaseEarthquakeColor, NSColor.red),
+                Arrow.SetState(ForDay: false, Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.systemYellow),
+                               Emission: Settings.GetColor(.BaseEarthquakeColor, NSColor.orange),
                                Model: .physicallyBased, Metalness: nil, Roughness: nil)
                 if let InDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
                 {
