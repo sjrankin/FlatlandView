@@ -135,6 +135,26 @@ class SCNTriangle: SCNNode2, ShapeAttribute
         }
     }
     
+    private var _DiffuseTexture: NSImage? = nil
+    {
+        didSet
+        {
+            MakeGeometry()
+        }
+    }
+    /// Get or set the texture to use for the diffuse surface.
+    public var DiffuseTexture: NSImage?
+    {
+        get
+        {
+            return _DiffuseTexture
+        }
+        set
+        {
+            _DiffuseTexture = newValue
+        }
+    }
+    
     /// Holds the emission color.
     private var _Emission: NSColor? = nil
     {
@@ -279,7 +299,14 @@ class SCNTriangle: SCNNode2, ShapeAttribute
         let Geo = SCNShape(path: Path, extrusionDepth: _Extrusion)
         GeoNode = SCNNode2(geometry: Geo)
         GeoNode.categoryBitMask = _LightMask
-        GeoNode.geometry?.firstMaterial?.diffuse.contents = Color
+        if let Texture = DiffuseTexture
+        {
+            GeoNode.geometry?.firstMaterial?.diffuse.contents = Texture
+        }
+        else
+        {
+            GeoNode.geometry?.firstMaterial?.diffuse.contents = Color
+        }
         GeoNode.geometry?.firstMaterial?.specular.contents = Specular
         GeoNode.geometry?.firstMaterial?.emission.contents = Emission
         GeoNode.geometry?.firstMaterial?.metalness.contents = Metalness
@@ -306,6 +333,11 @@ class SCNTriangle: SCNNode2, ShapeAttribute
         {
             GeoNode.geometry?.firstMaterial?.emission.contents = nil
         }
+    }
+    
+    func SetDiffuseTexture(_ Image: NSImage)
+    {
+        self.DiffuseTexture = Image
     }
     
     func SetLightingModel(_ Model: SCNMaterial.LightingModel)
