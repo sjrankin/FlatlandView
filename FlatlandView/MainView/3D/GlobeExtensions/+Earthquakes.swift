@@ -407,11 +407,22 @@ extension GlobeView
                                          NodeScales3D.ArrowScale.rawValue)
                 Arrow.CanSwitchState = true
                 Arrow.SetLocation(Quake.Latitude, Quake.Longitude)
-                Arrow.SetState(ForDay: true, Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red),
-                               Emission: nil, Model: .physicallyBased, Metalness: nil, Roughness: nil)
-                Arrow.SetState(ForDay: false, Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.systemYellow),
-                               Emission: Settings.GetColor(.BaseEarthquakeColor, NSColor.orange),
-                               Model: .physicallyBased, Metalness: nil, Roughness: nil)
+                if IsCached
+                {
+                    Arrow.SetState(ForDay: true, Color: NSColor.lightGray,
+                                   Emission: nil, Model: .physicallyBased, Metalness: nil, Roughness: nil)
+                    Arrow.SetState(ForDay: false, Color: NSColor.darkGray,
+                                   Emission: NSColor.darkGray,
+                                   Model: .physicallyBased, Metalness: nil, Roughness: nil)
+                }
+                else
+                {
+                    Arrow.SetState(ForDay: true, Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red),
+                                   Emission: nil, Model: .physicallyBased, Metalness: nil, Roughness: nil)
+                    Arrow.SetState(ForDay: false, Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.systemYellow),
+                                   Emission: Settings.GetColor(.BaseEarthquakeColor, NSColor.orange),
+                                   Model: .physicallyBased, Metalness: nil, Roughness: nil)
+                }
                 if let InDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
                 {
                     Arrow.IsInDaylight = InDay
@@ -458,7 +469,7 @@ extension GlobeView
                                            Color: Settings.GetColor(.BaseEarthquakeColor, NSColor.red))
                 if IsCached
                 {
-                    Arrow.DiffuseTexture = NSImage(named: "DotPattern1024")
+                    Arrow.Color = NSColor.lightGray
                 }
                 Arrow.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 Arrow.NodeID = Quake.ID
@@ -480,7 +491,7 @@ extension GlobeView
                                                           length: CGFloat(Quake3D.PyramidLength.rawValue)))
                 if IsCached
                 {
-                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
@@ -493,7 +504,7 @@ extension GlobeView
                                                        height: CGFloat(Quake3D.ConeHeightMultiplier.rawValue * Percent)))
                 if IsCached
                 {
-                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
@@ -507,7 +518,7 @@ extension GlobeView
                                                       chamferRadius: CGFloat(Quake3D.QuakeBoxChamfer.rawValue)))
                 if IsCached
                 {
-                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
@@ -519,7 +530,7 @@ extension GlobeView
                                                            height: CGFloat(Quake3D.QuakeCapsuleHeight.rawValue * Percent)))
                 if IsCached
                 {
-                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
@@ -531,7 +542,7 @@ extension GlobeView
                                                           height: CGFloat(Quake3D.QuakeCapsuleHeight.rawValue * Percent)))
                 if IsCached
                 {
-                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
@@ -544,7 +555,7 @@ extension GlobeView
                 FinalNode = SCNNode2(geometry: QSphere)
                 if IsCached
                 {
-                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
@@ -561,13 +572,13 @@ extension GlobeView
                 FinalNode = SCNNode2(geometry: QSphere)
                 if IsCached
                 {
-                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "DotPattern1024")
+                    FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 FinalNode.runAction(ScaleForever)
         }
-
+        
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
         FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
         FinalNode.SetLocation(Quake.Latitude, Quake.Longitude)
@@ -716,8 +727,8 @@ extension GlobeView
         let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * NodeScales3D.EarthquakeText.rawValue -
             (MagNode.boundingBox.min.y * NodeScales3D.EarthquakeText.rawValue)
         let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude,
-                                       LatitudeOffset: Double(-YOffset), LongitudeOffset: Double(XOffset),
-                                       Radius: Radius)
+                                        LatitudeOffset: Double(-YOffset), LongitudeOffset: Double(XOffset),
+                                        Radius: Radius)
         MagNode.position = SCNVector3(X, Y, Z)
         #endif
         
