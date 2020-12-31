@@ -291,7 +291,27 @@ extension GlobeView
                 HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
-                let HourTextNode = SCNNode(geometry: HourText)
+                let HourTextNode = SCNNode2(geometry: HourText)
+                let Day: EventAttributes =
+                    {
+                       let D = EventAttributes()
+                        D.ForEvent = .SwitchToDay
+                        D.Diffuse = FinalLetterColor
+                        D.Specular = NSColor.white
+                        D.Emission = nil
+                        return D
+                    }()
+                HourTextNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+                let Night: EventAttributes =
+                    {
+                       let N = EventAttributes()
+                        N.ForEvent = .SwitchToNight
+                        N.Diffuse = NSColor.Maroon
+                        N.Specular = NSColor.white
+                        N.Emission = FinalLetterColor
+                        return N
+                    }()
+                HourTextNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
                 HourTextNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 HourTextNode.scale = SCNVector3(NodeScales3D.HourText.rawValue,
                                                 NodeScales3D.HourText.rawValue,
@@ -301,6 +321,8 @@ extension GlobeView
                 HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
                 HourTextNode.castsShadow = true
                 LabelNode.addChildNode(HourTextNode)
+                LabelNode.CanSwitchState = true
+                LabelNode.SetLocation(0.0, Double(WorkingAngle + ((360.0 / 24.0) * 1.0)))
                 TotalLabelWidth = TotalLabelWidth + (CGFloat(CharWidth) + PreviousEnding)
             }
             let LastAngle = CGFloat(Angle).Radians
@@ -309,6 +331,7 @@ extension GlobeView
             let YOffset = -(LabelHeight * 0.07) / 8.0
             LabelNode.position = SCNVector3(FinalX, YOffset, FinalZ)
             PhraseNode.addChildNode(LabelNode)
+            PhraseNode.CanSwitchState = true
             
             //Adjust the angle by one hour.
             Angle = Angle + 15
