@@ -171,6 +171,7 @@ extension GlobeView
             StartClock()
         }
         UpdateEarthView()
+        UpdateHourLongitudes(PreviousPrettyPercent ?? 0.0)
         StartDarknessClock()
         #if DEBUG
         //TestMouseIndicator()
