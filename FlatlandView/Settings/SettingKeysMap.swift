@@ -52,6 +52,7 @@ extension Settings
             .ShowPOIEmission: Bool.self,
             .UseHDRCamera: Bool.self,
             .HourColor: NSColor.self,
+            .HourEmissionColor: NSColor.self,
             .HourFontName: String.self,
             .GridLineColor: NSColor.self,
             .MinorGridLineColor: NSColor.self,
