@@ -192,6 +192,7 @@ extension GlobeView
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
             HourNode?.runAction(Rotate)
+            UpdateHourLongitudes(Percent)
         }
         let Declination = Sun.Declination(For: Date())
         let SysRotate = SCNAction.rotateTo(x: CGFloat(Declination.Radians),
@@ -261,5 +262,20 @@ extension GlobeView
                 }
             }
         }
+    }
+    
+    /// Move the globe to the specified location.
+    /// - Parameter Latitude: The latitude of the location to view.
+    /// - Parameter Longitude: The longitude of the location to view.
+    /// - Parameter UpdateOpacity: Determines how opacity of Earth nodes is calculated.
+    func MoveMapTo(Latitude: Double, Longitude: Double, UpdateOpacity: Bool)
+    {
+        RotateEarthTo(Latitude: Latitude, Longitude: Longitude, ChangeNodeOpacity: UpdateOpacity)
+    }
+    
+    /// Move the globe back to the normal location.
+    func LockMapToTimer()
+    {
+        ResetEarthRotation()
     }
 }
