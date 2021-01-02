@@ -110,6 +110,8 @@ enum SettingKeys: String, CaseIterable
     case UseHDRCamera = "UseHDRCamera"
     /// NSColor: Color of the hours.
     case HourColor = "HourColor"
+    /// NSColor: Color of the emission of hours in the night.
+    case HourEmissionColor = "HourEmissionColor"
     /// String: Name of the hour font.
     case HourFontName = "HourFontName"
     /// NSColor: Color of major grid lines.
