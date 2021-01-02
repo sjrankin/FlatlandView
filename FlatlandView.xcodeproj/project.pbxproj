@@ -269,6 +269,9 @@
 		17C0FD732531648D008F3D05 /* TLE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C0FD722531648D008F3D05 /* TLE.swift */; };
 		17C22C2324EA1CD9006BB3AB /* NASAMapConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C22C2224EA1CD9006BB3AB /* NASAMapConfirmation.swift */; };
 		17C22C2524EA1F94006BB3AB /* NASAMapConfirmWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C22C2424EA1F94006BB3AB /* NASAMapConfirmWindow.swift */; };
+		17C2F8EB259EBF2A00BCA628 /* +Maps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C2F8EA259EBF2A00BCA628 /* +Maps.swift */; };
+		17C2F8EE259EE26400BCA628 /* +NodeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C2F8ED259EE26400BCA628 /* +NodeState.swift */; };
+		17C2F8F125A03D4300BCA628 /* EnumColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C2F8F025A03D4300BCA628 /* EnumColors.swift */; };
 		17C34557252C977F00D01143 /* +MainCityDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C34556252C977F00D01143 /* +MainCityDatabase.swift */; };
 		17C3455A252C9AB100D01143 /* City2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C34559252C9AB100D01143 /* City2.swift */; };
 		17C3455E252C9AC700D01143 /* POI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C3455D252C9AC700D01143 /* POI.swift */; };
@@ -672,6 +675,9 @@
 		17C0FD722531648D008F3D05 /* TLE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLE.swift; sourceTree = "<group>"; };
 		17C22C2224EA1CD9006BB3AB /* NASAMapConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NASAMapConfirmation.swift; sourceTree = "<group>"; };
 		17C22C2424EA1F94006BB3AB /* NASAMapConfirmWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NASAMapConfirmWindow.swift; sourceTree = "<group>"; };
+		17C2F8EA259EBF2A00BCA628 /* +Maps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Maps.swift"; sourceTree = "<group>"; };
+		17C2F8ED259EE26400BCA628 /* +NodeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+NodeState.swift"; sourceTree = "<group>"; };
+		17C2F8F025A03D4300BCA628 /* EnumColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumColors.swift; sourceTree = "<group>"; };
 		17C34556252C977F00D01143 /* +MainCityDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainCityDatabase.swift"; sourceTree = "<group>"; };
 		17C34559252C9AB100D01143 /* City2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City2.swift; sourceTree = "<group>"; };
 		17C3455D252C9AC700D01143 /* POI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POI.swift; sourceTree = "<group>"; };
@@ -1313,6 +1319,7 @@
 				17EF33BE247A958B00A5B55D /* Versioning.swift */,
 				17EF339B247A68C600A5B55D /* Enums.swift */,
 				17000B4B251ADF22009CF3B7 /* EnumConstants.swift */,
+				17C2F8F025A03D4300BCA628 /* EnumColors.swift */,
 				1743FE79255D275D00AD05A7 /* EnumList.swift */,
 				1767A8E724794A0300C434B5 /* Assets.xcassets */,
 				17F1E5C22549126600E6F6CF /* SparkParticleTest.sks */,
@@ -1364,6 +1371,7 @@
 				173056BF2553E7C700B1D4C9 /* +FollowMode.swift */,
 				178A869D2489101E00BE8D46 /* StarField.swift */,
 				177389372596D511002698E8 /* +Rotations.swift */,
+				17C2F8EA259EBF2A00BCA628 /* +Maps.swift */,
 			);
 			path = GlobeExtensions;
 			sourceTree = "<group>";
@@ -1373,6 +1381,7 @@
 			children = (
 				17F9B024252069DE00DE0219 /* SCNNode2.swift */,
 				177709D52592104E0092CDC0 /* +NodeEvents.swift */,
+				17C2F8ED259EE26400BCA628 /* +NodeState.swift */,
 			);
 			path = SCNNode2;
 			sourceTree = "<group>";
@@ -2180,6 +2189,7 @@
 				178E6F792540546E00DA0F76 /* RoundTextTestController.swift in Sources */,
 				178E6F6F25404C9300DA0F76 /* RoundTextIndicator.swift in Sources */,
 				17A3788224DC250200EE2B45 /* ImageBlendParameters.swift in Sources */,
+				17C2F8F125A03D4300BCA628 /* EnumColors.swift in Sources */,
 				175DCC692580BCF000EB6D69 /* StaticTextManager.swift in Sources */,
 				17CA6459254E7D8800B6DFCC /* RegionalQuakeWindow.swift in Sources */,
 				17EF33B0247A93DC00A5B55D /* Miscellaneous.swift in Sources */,
@@ -2277,6 +2287,7 @@
 				175BA55B2570D5B7001ED3A2 /* ErrorReporter.swift in Sources */,
 				170181C12504A467000F91B6 /* TransparencyParameters.swift in Sources */,
 				1714DDB42538342A001A3002 /* LowLevel.swift in Sources */,
+				17C2F8EB259EBF2A00BCA628 /* +Maps.swift in Sources */,
 				1781BCBF256B5297007BACA8 /* PanelController.swift in Sources */,
 				174A6A292557CD0B00488274 /* DebuggerController.swift in Sources */,
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
@@ -2449,6 +2460,7 @@
 				172F0606255129DF00BEA156 /* POIPreferences.swift in Sources */,
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
 				17C0FD7025316402008F3D05 /* GroundTrack.swift in Sources */,
+				17C2F8EE259EE26400BCA628 /* +NodeState.swift in Sources */,
 				17DE2DD125907B3800214204 /* HomeLocationController.swift in Sources */,
 				1714DDBE25399401001A3002 /* +Home.swift in Sources */,
 				17A180FE257274C4002C6611 /* +Program.swift in Sources */,
