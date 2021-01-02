@@ -149,6 +149,9 @@ class SCNNode2: SCNNode
     /// Intended node usage.
     var NodeUsage: NodeUsages? = nil
     
+    /// Initial angle of the node. Usage is context sensitive.
+    var InitialAngle: Double? = nil
+    
     /// Propagate the parent's `NodeUsage` value to its children.
     func PropagateUsage()
     {
@@ -873,8 +876,13 @@ class SCNNode2: SCNNode
         DynamicTimer = nil
     }
     
-    /// See if the node is in day light or nighttime and change it appropriately.
     @objc func TestDaylight()
+    {
+        DoTestDaylight()
+    }
+    
+    /// See if the node is in day light or nighttime and change it appropriately.
+    func DoTestDaylight(_ Caller: String? = nil)
     {
         if HasLocation()
         {
@@ -1040,31 +1048,5 @@ enum NodeBoundingShapes: String, CaseIterable
     case Sphere = "Sphere"
 }
 
-/// Visual state for the node.
-struct NodeState
-{
-    /// Node state.
-    let State: NodeStates
-    /// Diffuse color.
-    let Color: NSColor
-    /// Diffuse surface image.
-    let Diffuse: NSImage?
-    /// Emission color.
-    let Emission: NSColor?
-    /// Specular color.
-    let Specular: NSColor?
-    /// Lighting model.
-    let LightModel: SCNMaterial.LightingModel
-    /// Metalness value. If nil, not used.
-    let Metalness: Double?
-    /// Roughness value. If nil, not used.
-    let Roughness: Double?
-}
-
-enum NodeStates: String
-{
-    case Day = "Day"
-    case Night = "Night"
-}
 
 
