@@ -192,7 +192,7 @@ extension GlobeView
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
             HourNode?.runAction(Rotate)
-            UpdateHourLongitudes(Degrees)//Percent)
+            UpdateHourLongitudes(Percent)
         }
         let Declination = Sun.Declination(For: Date())
         let SysRotate = SCNAction.rotateTo(x: CGFloat(Declination.Radians),
