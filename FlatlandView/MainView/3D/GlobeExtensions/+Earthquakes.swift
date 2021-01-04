@@ -198,7 +198,6 @@ extension GlobeView
     /// - Parameter On: The 3D surface upon which to plot the earthquakes.
     func PlotEarthquakes(_ List: [Earthquake], IsCached: Bool = false, On Surface: SCNNode2)
     {
-        print("Plotting cached earthquakes: \(IsCached)")
         if !Settings.GetBool(.EnableEarthquakes)
         {
             return
@@ -687,36 +686,18 @@ extension GlobeView
         #if false
         let Magnitude = "M\(Quake.GreatestMagnitude.RoundedTo(2))"
         #else
-        let Magnitude = "• M\(Quake.GreatestMagnitude.RoundedTo(2))"
+        let Magnitude = "• M\(Quake.GreatestMagnitude.RoundedTo(1))"
         #endif
         
-        #if false
-        //var YOffset = (MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) * NodeScales.EarthquakeText.rawValue
-        //YOffset = MagNode.boundingBox.max.y * NodeScales.EarthquakeText.rawValue * 3.5
-        //let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * NodeScales.EarthquakeText.rawValue -
-        //    (MagNode.boundingBox.min.y * NodeScales.EarthquakeText.rawValue)
-        let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
-        let FontSize = CGFloat(15.0 + Quake.GreatestMagnitude)
-        let MagFont = NSFont(name: EqFont.PostscriptName, size: FontSize)
-        let MagNodes = Utility.MakeFloatingWord2(Radius: Radius, Word: Magnitude, Scale: NodeScales3D.EarthquakeText.rawValue,
-                                                 Latitude: Quake.Latitude, Longitude: Quake.Longitude, //LatitudeOffset: -YOffset,
-                                                 /*LongitudeOffset: XOffset,*/ Extrusion: CGFloat(Quake.GreatestMagnitude),
-                                                 Mask: MetalSunMask | MetalMoonMask, TextFont: MagFont, TextColor: NSColor.black,
-                                                 TextSpecular: NSColor.white, IsMetallic: true)
-        let MagNode = SCNNode()
-        MagNode.position = SCNVector3(0.0, 0.0, 0.0)
-        MagNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
-        MagNodes.forEach({MagNode.addChildNode($0)})
-        #else
         let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.GreatestMagnitude))
-        let FontSize = CGFloat(15.0 + Quake.GreatestMagnitude)
-        let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 15.0, NSColor.black))
+        let FontSize = CGFloat(18.0 + Quake.GreatestMagnitude)
+        let EqFont = Settings.GetFont(.EarthquakeFontName, StoredFont("Avenir-Heavy", 18.0, NSColor.black))
         MagText.font = NSFont(name: EqFont.PostscriptName, size: FontSize)
-        
-        MagText.firstMaterial?.specular.contents = NSColor.black
+        MagText.flatness = 0.1
         MagText.firstMaterial?.specular.contents = NSColor.white
         MagText.firstMaterial?.lightingModel = .physicallyBased
         let MagNode = SCNNode2(geometry: MagText)
+        MagNode.SetLocation(Quake.Latitude, Quake.Longitude)
         MagNode.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
         MagNode.scale = SCNVector3(NodeScales3D.EarthquakeText.rawValue,
                                    NodeScales3D.EarthquakeText.rawValue,
@@ -730,7 +711,37 @@ extension GlobeView
                                         LatitudeOffset: Double(-YOffset), LongitudeOffset: Double(XOffset),
                                         Radius: Radius)
         MagNode.position = SCNVector3(X, Y, Z)
-        #endif
+        
+        var QuakeColor: NSColor = NSColor.red
+        let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
+        let Colors = Settings.GetMagnitudeColors()
+        for (Magnitude, Color) in Colors
+        {
+            if Magnitude == MagRange
+            {
+                QuakeColor = Color
+            }
+        }
+        let Day: EventAttributes =
+        { 
+            let D = EventAttributes()
+            D.ForEvent = .SwitchToDay
+            D.Diffuse = QuakeColor
+            D.Specular = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+            D.Emission = nil
+            return D
+        }()
+        let Night: EventAttributes =
+            {
+                let N = EventAttributes()
+                N.ForEvent = .SwitchToNight
+                N.Diffuse = QuakeColor
+                N.Specular = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+                N.Emission = QuakeColor.Darker()
+                return N
+            }()
+        MagNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+        MagNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
         
         if Quake.IsCluster
         {
@@ -758,10 +769,9 @@ extension GlobeView
         var ZRotation = 0.0
         if Vertically
         {
-            YRotation = Quake.Latitude //+ 90.0
+            YRotation = Quake.Latitude
             XRotation = Quake.Longitude + 270.0
             YRotation = 0.0
-            //XRotation = 0.0
             ZRotation = 0.0
         }
         MagNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
