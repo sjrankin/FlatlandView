@@ -12,7 +12,8 @@ typealias EnumCases = [String]
 
 class EnumList
 {
-    static var Enums: [String: EnumCases] =
+    /// Map between enum names and their cases.
+    private static var _Enums: [String: EnumCases] =
     [
         "SettingKeys": SettingKeys.allCases.map{"\($0)"},
         "ViewTypes": ViewTypes.allCases.map{"\($0)"},
@@ -83,10 +84,37 @@ class EnumList
         "FileIONames": FileIONames.allCases.map{"\($0) = \($0.rawValue)"},
         "MappableTableNames": MappableTableNames.allCases.map{"\($0)"},
         "POITableNames": POITableNames.allCases.map{"\($0)"},
-        "DebugOptions3D": DebugOptions3D.allCases.map{"\($0) = \($0.rawValue)"},
+        //"DebugOptions3D": DebugOptions3D.allCases.map{"\($0) = \($0.rawValue)"},
         "StencilStages": StencilStages.allCases.map{"\($0) = \($0.rawValue)"},
         "NodeUsages": NodeUsages.allCases.map{"\($0) = \($0.rawValue)"},
         "DebugAxes": DebugAxes.allCases.map{"\($0) = \($0.rawValue)"},
         "SceneJitters": SceneJitters.allCases.map{"\($0) = \($0.rawValue)"},
     ]
+    
+    #if DEBUG
+    /// Map between debug enums and their cases.
+    private static var _DebugEnums: [String: EnumCases] =
+    [
+        "DebugOptions3D": DebugOptions3D.allCases.map{"\($0) = \($0.rawValue)"}
+    ]
+    #endif
+    
+    /// Returns a map of enum names and their cases.
+    /// - Note: If compiled such that `#DEBUG` is true, more values may be returned.
+    public static var Enums: [String: EnumCases]
+    {
+        get
+        {
+            #if DEBUG
+            var Scratch = _Enums
+            for (Name, Values) in _DebugEnums
+            {
+                Scratch[Name] = Values
+            }
+            return Scratch
+            #else
+            return _Enums
+            #endif
+        }
+    }
 }
