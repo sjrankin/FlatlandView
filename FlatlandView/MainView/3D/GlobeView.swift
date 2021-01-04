@@ -437,4 +437,5 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var PreviousPrettyPercent: Double? = nil
     var PrettyPercent = 0.0
     var EarthClock: Timer? = nil
+    var PreviousLongitudePercent: Double? = nil
 }
