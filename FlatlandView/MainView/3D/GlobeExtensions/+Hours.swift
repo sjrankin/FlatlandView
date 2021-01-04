@@ -222,7 +222,6 @@ extension GlobeView
         PhraseNode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         PhraseNode.geometry?.firstMaterial?.specular.contents = NSColor.clear
         PhraseNode.name = GlobeNodeNames.HourNode.rawValue
-        //let EmissionColor = Settings.GetColor(.HourEmissionColor, NSColor(HexString: "#a00000")!)
         
         let VisualScript = Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English)
         
@@ -236,7 +235,6 @@ extension GlobeView
             var LabelHeight: CGFloat = 0.0
             let LabelNode = SCNNode2()
             let VerticalOffset: CGFloat = 0.8
-            //let SpecularColor = NSColor.white
             for (_, Letter) in Label.HourLabel.enumerated()
             {
                 let Radians = WorkingAngle.Radians
@@ -272,26 +270,8 @@ extension GlobeView
                     LabelHeight = CGFloat(DeltaHeight)
                 }
                 WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
-                #if false
-                var FinalLetterColor = LetterColor
-                if VisualScript != .English
-                {
-                    if Actual < 0
-                    {
-                        FinalLetterColor = NSColor.red
-                    }
-                    if Actual > 0
-                    {
-                        FinalLetterColor = NSColor.green
-                    }
-                    if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .Solar
-                    {
-                        FinalLetterColor = LetterColor
-                    }
-                }
-                #endif
-                HourText.firstMaterial?.diffuse.contents =  NSColor(RGB: Colors3D.HourColor.rawValue) //FinalLetterColor
-                HourText.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue) //SpecularColor
+                HourText.firstMaterial?.diffuse.contents =  NSColor(RGB: Colors3D.HourColor.rawValue)
+                HourText.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
                 HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
@@ -303,15 +283,15 @@ extension GlobeView
                         if Label.HourValue <= 6 || Label.HourValue >= 18
                         {
                             HourTextNode.IsInDaylight = false
-                            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue) //FinalLetterColor
-                            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue) //NSColor.black
-                            HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor(RGB: Colors3D.GlowingHourColor.rawValue) //EmissionColor
+                            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
+                            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+                            HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor(RGB: Colors3D.GlowingHourColor.rawValue)
                         }
                         else
                         {
                             HourTextNode.IsInDaylight = true
-                            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue) //FinalLetterColor
-                            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue) //NSColor.white
+                            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
+                            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
                             HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor.clear
                         }
                         
@@ -319,25 +299,25 @@ extension GlobeView
                         if [6, 7, 8, 9, 10, 11, -12, -11, -10, -9, -8, -7, -6].contains(Label.HourValue)
                         {
                             HourTextNode.IsInDaylight = false
-                            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue) //FinalLetterColor
-                            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue) //NSColor.black
-                            HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor(RGB: Colors3D.GlowingHourColor.rawValue) //EmissionColor
+                            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
+                            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+                            HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor(RGB: Colors3D.GlowingHourColor.rawValue)
                         }
                         else
                         {
                             HourTextNode.IsInDaylight = true
-                            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue) //FinalLetterColor
-                            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue) //NSColor.white
+                            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
+                            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
                             HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor.clear
                         }
                         
-                    default:
+                    case .RelativeToLocation:
                         let Day: EventAttributes =
                             {
                                 let D = EventAttributes()
                                 D.ForEvent = .SwitchToDay
-                                D.Diffuse = NSColor(RGB: Colors3D.HourColor.rawValue) //FinalLetterColor
-                                D.Specular = NSColor(RGB: Colors3D.HourSpecular.rawValue) //NSColor.white
+                                D.Diffuse = NSColor(RGB: Colors3D.HourColor.rawValue)
+                                D.Specular = NSColor(RGB: Colors3D.HourSpecular.rawValue)
                                 D.Emission = nil
                                 return D
                             }()
@@ -346,13 +326,21 @@ extension GlobeView
                             {
                                 let N = EventAttributes()
                                 N.ForEvent = .SwitchToNight
-                                N.Diffuse = NSColor(RGB: Colors3D.HourColor.rawValue) //NSColor.systemPink
-                                N.Specular = NSColor(RGB: Colors3D.HourSpecular.rawValue) //NSColor.white
-                                N.Emission = NSColor(RGB: Colors3D.GlowingHourColor.rawValue) //FinalLetterColor
+                                N.Diffuse = NSColor(RGB: Colors3D.HourColor.rawValue)
+                                N.Specular = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+                                N.Emission = NSColor(RGB: Colors3D.GlowingHourColor.rawValue)
                                 return N
                             }()
                         HourTextNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+                        LabelNode.DoTestDaylight(#function)
+                        
+                    default:
+                        //We shouldn't get here, but just in case...
+                        let Trace = Debug.PrettyStackTrace(Debug.StackFrameContents(8))
+                        Debug.Print("Trace: \(Trace)")
+                        Debug.FatalError("Dropped to end of case unexpectedly.")
                 }
+                
                 HourTextNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 HourTextNode.scale = SCNVector3(NodeScales3D.HourText.rawValue,
                                                 NodeScales3D.HourText.rawValue,
@@ -363,29 +351,33 @@ extension GlobeView
                 HourTextNode.castsShadow = true
                 LabelNode.addChildNode(HourTextNode)
                 LabelNode.CanSwitchState = true
-                #if true
-                LabelNode.SetLocation(0.0, Double(WorkingAngle))
-                #else
-                LabelNode.SetLocation(0.0, Double(WorkingAngle + ((360.0 / 24.0) * 2.0)))
-                #endif
+
                 TotalLabelWidth = TotalLabelWidth + (CGFloat(CharWidth) + PreviousEnding)
-                LabelNode.DoTestDaylight(#function)
             }
             let LastAngle = CGFloat(Angle).Radians
             let FinalX = CGFloat(0) * cos(LastAngle)
             let FinalZ = CGFloat(0) * sin(LastAngle)
             let YOffset = -(LabelHeight * 0.07) / 8.0
             LabelNode.position = SCNVector3(FinalX, YOffset, FinalZ)
-            if LabelNode.InitialAngle == nil
-            {
-                LabelNode.InitialAngle = Double(WorkingAngle)
-            }
             LabelNode.Tag = Label.HourLabel
+            if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
+            {
+                if let HomeLonS = Settings.GetSecureString(.UserHomeLongitude)
+                {
+                    if let HomeLon = Double(HomeLonS)
+                    {
+                        let Offset = Double(Label.HourLabel)!
+                        let FinalLongitude = HomeLon + (15.0 * Offset)
+                        LabelNode.InitialAngle = FinalLongitude
+                        LabelNode.SetLocation(0.0, FinalLongitude)
+                    }
+                }
+            }
             PhraseNode.addChildNode(LabelNode)
             PhraseNode.CanSwitchState = true
             
             //Adjust the angle by one hour.
-            Angle = Angle + 15
+            Angle = Angle + 15.0
         }
         
         return PhraseNode
@@ -397,26 +389,25 @@ extension GlobeView
     /// - Parameter Percent: Percent of the day.
     func UpdateHourLongitudes(_ Percent: Double)
     {
-        let RotatedAngle = 360.0 * Percent
+        if PreviousLongitudePercent == nil
+        {
+            PreviousLongitudePercent = Percent
+        }
+        else
+        {
+            if Percent == PreviousLongitudePercent!
+            {
+                return
+            }
+        }
+        PreviousLongitudePercent = Percent
         if let HourLabels = HourNode?.childNodes
         {
             for Hour in HourLabels
             {
                 if let HourNode = Hour as? SCNNode2
                 {
-                    if let StartingAngle = HourNode.InitialAngle
-                    {
-                        var FinalAngle = RotatedAngle + StartingAngle
-                        if FinalAngle > 360.0
-                        {
-                            FinalAngle = fmod(FinalAngle, 360.0)
-                        }
-                        if FinalAngle < 0.0
-                        {
-                            FinalAngle = 360.0 + FinalAngle
-                        }
-                        HourNode.SetLocation(0.0, FinalAngle)
-                    }
+                    HourNode.TestDaylight()
                 }
             }
         }
