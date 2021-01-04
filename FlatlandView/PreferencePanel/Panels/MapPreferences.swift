@@ -21,13 +21,6 @@ class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
         AllMaps = [MapNode]()
         for Category in MapManager.GetMapCategories()
         {
-            #if DEBUG
-            #else
-            if Category == .Debug
-            {
-                Continue
-            }
-            #endif
             let CategoryMaps = MapManager.GetMapsInCategory(Category)
             let MapNames = CategoryMaps.map{$0.rawValue}
             let NewNode = MapNode(Category: Category.rawValue, Maps: MapNames)
