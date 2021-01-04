@@ -200,6 +200,8 @@ extension GlobeView
     }
     
     /// Given an array of words, place a set of words in the hour ring over the Earth.
+    /// - Warning: A fatal error is generated if the hour type is `.None`. This should be caught before
+    ///            calling this function.
     /// - Note: Pay attention to the word order - it must be reversed in `Words` in order for
     ///         words to appear correctly as people would expect.
     /// - Parameter Radius: The radius of the word.
