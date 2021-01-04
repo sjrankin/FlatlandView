@@ -204,6 +204,7 @@ extension GlobeView
     
     func MakeCameraDebugMenu() -> NSMenuItem
     {
+        #if DEBUG
         CameraDebugMenu = NSMenuItem()
         CameraDebugMenu?.title = "Camera Debug"
         CameraDebugMenu?.submenu = NSMenu(title: "Camera Debug")
@@ -215,10 +216,14 @@ extension GlobeView
         CameraDebugMenu?.submenu?.items.append(SpinCameraTestMenu!)
         
         return CameraDebugMenu!
+        #else
+        return NSMenuItem()
+        #endif
     }
     
     @objc func DebugTestCamera(_ sender: Any)
     {
+        #if DEBUG
         if let Menu = sender as? NSMenuItem
         {
             switch Menu
@@ -233,10 +238,12 @@ extension GlobeView
                     return
             }
         }
+        #endif
     }
     
     @objc func TestRotation(_ sender: Any)
     {
+        #if DEBUG
         if let Menu = sender as? NSMenuItem
         {
             switch Menu
@@ -263,6 +270,7 @@ extension GlobeView
                     return
             }
         }
+        #endif
     }
     
     func MakeMapMenu() -> NSMenuItem
