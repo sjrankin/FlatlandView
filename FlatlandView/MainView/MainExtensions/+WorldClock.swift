@@ -38,11 +38,16 @@ extension MainController
         Rect2DView.NewWorldClockTime(WorldDate: NewTime)
         Main2DView.NewWorldClockTime(WorldDate: NewTime)
         Main3DView.NewWorldClockTime(WorldDate: NewTime)
+        #if DEBUG
         OperationQueue.main.addOperation
         {
-            let DateSeconds = Date().timeIntervalSince(self.WorldClockStartTime!)
+            if let StartTime = self.WorldClockStartTime
+            {
+            let DateSeconds = Date().timeIntervalSince(StartTime)
             self.WorldClockTickCount.stringValue = "\(DateSeconds)"
 //            self.WorldClockTickCount.stringValue = "\(Int(self.CurrentWorldTime))"
+            }
         }
+        #endif
     }
 }
