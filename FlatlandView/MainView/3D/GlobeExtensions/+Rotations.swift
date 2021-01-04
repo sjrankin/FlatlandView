@@ -175,7 +175,7 @@ extension GlobeView
     ///                   and supporting 3D nodes.
     func UpdateEarth(With Percent: Double)
     {
-        let Degrees = 180.0 - (360.0) * Percent
+        let Degrees = 180.0 - (360.0 * Percent)
         let Radians = Degrees.Radians
         let Rotate = SCNAction.rotateTo(x: 0.0,
                                         y: CGFloat(-Radians),
@@ -192,7 +192,7 @@ extension GlobeView
         if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
         {
             HourNode?.runAction(Rotate)
-            UpdateHourLongitudes(Percent)
+            UpdateHourLongitudes(Degrees)//Percent)
         }
         let Declination = Sun.Declination(For: Date())
         let SysRotate = SCNAction.rotateTo(x: CGFloat(Declination.Radians),
