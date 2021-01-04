@@ -22,4 +22,7 @@ enum Colors3D: Int, CaseIterable
     
     /// Specular color for floating hours.
     case HourSpecular = 0xffffff
+    
+    /// Color for specular surface contents in general.
+    case GeneralSpecular = 0xfffffe
 }
