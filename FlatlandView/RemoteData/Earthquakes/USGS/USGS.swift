@@ -36,6 +36,25 @@ class USGS
     /// Total number of time-out errors.
     public static var TimeOutCount: Int = 0
     
+    /// Total number of earthquakes retrieved.
+    public static var TotalRetrieved: Int = 0
+    
+    /// Cumulative distribution of earthquake magnitudes.
+    public static var MagDistribution: [Int: Int] =
+    [
+        0: 0,
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        10: 0
+    ]
+    
     /// The delegate of who receives asynchronous data.
     public weak var Delegate: AsynchronousDataProtocol? = nil
     
@@ -129,9 +148,26 @@ class USGS
         DispatchQueue.main.async
         {
             let FinalList = self.MakeEarthquakeList()
-            self.CurrentList = FinalList
+            self.GenerateMagDistribution(FinalList)
+            USGS.TotalRetrieved = USGS.TotalRetrieved + FinalList.count
+            self.CurrentList = FinalList.filter({$0.Magnitude >= 4.0})
             self.Delegate?.AsynchronousDataAvailable(CategoryType: .Earthquakes, Actual: FinalList as Any,
                                                      StartTime: self.EarthquakeStartTime)
+        }
+    }
+    
+    /// Accumulate the magnitude distribution for earthquakes.
+    /// - Parameter Quakes: The list of earthquakes used to create the distribution.
+    private func GenerateMagDistribution(_ Quakes: [Earthquake])
+    {
+        for Quake in Quakes
+        {
+            let Mag = Int(Quake.Magnitude)
+            if var Current = USGS.MagDistribution[Mag]
+            {
+                Current = Current + 1
+                USGS.MagDistribution[Mag] = Current
+            }
         }
     }
     
@@ -588,12 +624,18 @@ class USGS
                             continue
                     }
                 }
+                
+                
+                #if true
+                AddEarthquakeToList(NewEarthquake)
+                #else
                 /// To prevent too many earthquakes from slowing things down, if an earthquake is less than
                 /// a general minimum magnitude, it won't be included.
                 if NewEarthquake.Magnitude >= Settings.GetDouble(.GeneralMinimumMagnitude, 4.0)
                 {
                     AddEarthquakeToList(NewEarthquake)
                 }
+                #endif
             }
         }
     }
