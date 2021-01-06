@@ -43,6 +43,8 @@
 		1727EA5A24B170730051EA3B /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5924B170730051EA3B /* Queue.swift */; };
 		1727EA5D24B184230051EA3B /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5C24B184230051EA3B /* Tree.swift */; };
 		1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */; };
+		172BCAD625A4225400E0BEC5 /* LiveDataStatusWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172BCAD525A4225400E0BEC5 /* LiveDataStatusWindow.swift */; };
+		172BCAD925A4228D00E0BEC5 /* LiveDataStatusController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172BCAD825A4228D00E0BEC5 /* LiveDataStatusController.swift */; };
 		172C315C2510AED100B7CCFC /* FlatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172C315B2510AED100B7CCFC /* FlatView.swift */; };
 		172D2060252183C500FA8687 /* NodeTables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172D205F252183C500FA8687 /* NodeTables.swift */; };
 		172D20632521AD1F00FA8687 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172D20622521AD1F00FA8687 /* Int.swift */; };
@@ -373,6 +375,7 @@
 		17F1E5D5254915AD00E6F6CF /* RainParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5D4254915AD00E6F6CF /* RainParticleTest.sks */; };
 		17F2D7122583257D00DD8023 /* AttributedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F2D7112583257D00DD8023 /* AttributedText.swift */; };
 		17F44AA824CEF67700A02B19 /* SatelliteMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F44AA724CEF67700A02B19 /* SatelliteMap.swift */; };
+		17F4FFE825A407D7004A2EFA /* LiveDataStatus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17F4FFE725A407D7004A2EFA /* LiveDataStatus.storyboard */; };
 		17F6C4F1257BA019003FFDA2 /* MapDebugPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */; };
 		17F6C4F5257BA24F003FFDA2 /* +Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C4F4257BA24F003FFDA2 /* +Debug.swift */; };
 		17F782C1249742A1000A568E /* USGS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C0249742A1000A568E /* USGS.swift */; };
@@ -446,6 +449,8 @@
 		1727EA5924B170730051EA3B /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		1727EA5C24B184230051EA3B /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMDataPoint.swift; sourceTree = "<group>"; };
+		172BCAD525A4225400E0BEC5 /* LiveDataStatusWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataStatusWindow.swift; sourceTree = "<group>"; };
+		172BCAD825A4228D00E0BEC5 /* LiveDataStatusController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDataStatusController.swift; sourceTree = "<group>"; };
 		172C315B2510AED100B7CCFC /* FlatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatView.swift; sourceTree = "<group>"; };
 		172D205F252183C500FA8687 /* NodeTables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTables.swift; sourceTree = "<group>"; };
 		172D20622521AD1F00FA8687 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
@@ -785,6 +790,7 @@
 		17F1E5D4254915AD00E6F6CF /* RainParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RainParticleTest.sks; sourceTree = "<group>"; };
 		17F2D7112583257D00DD8023 /* AttributedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedText.swift; sourceTree = "<group>"; };
 		17F44AA724CEF67700A02B19 /* SatelliteMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SatelliteMap.swift; sourceTree = "<group>"; };
+		17F4FFE725A407D7004A2EFA /* LiveDataStatus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LiveDataStatus.storyboard; sourceTree = "<group>"; };
 		17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDebugPanel.swift; sourceTree = "<group>"; };
 		17F6C4F4257BA24F003FFDA2 /* +Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Debug.swift"; sourceTree = "<group>"; };
 		17F782C0249742A1000A568E /* USGS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGS.swift; sourceTree = "<group>"; };
@@ -1217,13 +1223,6 @@
 			path = Errors;
 			sourceTree = "<group>";
 		};
-		175BA5602570F57C001ED3A2 /* ThirdParty */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ThirdParty;
-			sourceTree = "<group>";
-		};
 		175DCC672580BCDB00EB6D69 /* StaticText */ = {
 			isa = PBXGroup;
 			children = (
@@ -1297,7 +1296,6 @@
 			isa = PBXGroup;
 			children = (
 				175DCC672580BCDB00EB6D69 /* StaticText */,
-				175BA5602570F57C001ED3A2 /* ThirdParty */,
 				173F3D3B24EB6C2D008B9870 /* ObjectiveC */,
 				17B7D7A524CECFB5000C077B /* Metal */,
 				1792108024960DDD00626FD9 /* RemoteData */,
@@ -1964,6 +1962,16 @@
 			path = RectangleExtensions;
 			sourceTree = "<group>";
 		};
+		17F4FFE625A407BB004A2EFA /* LiveDataStatus */ = {
+			isa = PBXGroup;
+			children = (
+				17F4FFE725A407D7004A2EFA /* LiveDataStatus.storyboard */,
+				172BCAD525A4225400E0BEC5 /* LiveDataStatusWindow.swift */,
+				172BCAD825A4228D00E0BEC5 /* LiveDataStatusController.swift */,
+			);
+			path = LiveDataStatus;
+			sourceTree = "<group>";
+		};
 		17F98DB4251773E9005E248D /* MainExtensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -2015,6 +2023,7 @@
 		17FC2210249878F8005A0929 /* Ancillary */ = {
 			isa = PBXGroup;
 			children = (
+				17F4FFE625A407BB004A2EFA /* LiveDataStatus */,
 				175BA5562570D54F001ED3A2 /* Errors */,
 				17176C07254CFC220051960D /* EarthquakeViewer */,
 				179BE7C124ED02E40025B349 /* Today */,
@@ -2099,6 +2108,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */,
+				17F4FFE825A407D7004A2EFA /* LiveDataStatus.storyboard in Resources */,
 				178E6F732540533600DA0F76 /* RoundTextTest.storyboard in Resources */,
 				174A6A202557BD5E00488274 /* Debug.storyboard in Resources */,
 				17E901EA2552C38C0097A89A /* SubPanels.storyboard in Resources */,
@@ -2441,6 +2451,7 @@
 				17B062D7253D27A000C4BAEE /* ShapeManager.swift in Sources */,
 				173056BD2553BAFE00B1D4C9 /* DeleteConfirmationController.swift in Sources */,
 				174A6A302557D22500488274 /* LogPanel.swift in Sources */,
+				172BCAD625A4225400E0BEC5 /* LiveDataStatusWindow.swift in Sources */,
 				1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */,
 				17A3788424DC25F300EE2B45 /* ImageBlender.swift in Sources */,
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
@@ -2470,6 +2481,7 @@
 				17EB5C1325159AB1007A75EF /* +MainAsynchronous.swift in Sources */,
 				172F060C25512A1800BEA156 /* SatellitePreferences.swift in Sources */,
 				17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */,
+				172BCAD925A4228D00E0BEC5 /* LiveDataStatusController.swift in Sources */,
 				17B0B7382546AE3400DC0F03 /* UInt8.swift in Sources */,
 				1727EA5D24B184230051EA3B /* Tree.swift in Sources */,
 				17F1C7DE2543FA1D0046AE33 /* +RectangleEarthquakes.swift in Sources */,
