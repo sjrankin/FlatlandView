@@ -392,6 +392,7 @@ class MainController: NSViewController
     
     var QuakeController: EarthquakeViewerController? = nil
     var QuakeDelegate: WindowManagement? = nil
+    var LiveStatusController: WindowManagement? = nil
     
     @IBAction func ShowEarthquakeList(_ sender: Any)
     {
@@ -569,6 +570,21 @@ class MainController: NSViewController
         if Settings.HaveLocalLocation()
         {
             Settings.SetEnum(.RelativeToLocation, EnumType: HourValueTypes.self, ForKey: .HourType)
+        }
+    }
+    
+    /// Respond to the user command to show live data status.
+    /// - Parameter sender: Not used.
+    @IBAction func HandleLiveStatusButton(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "LiveDataStatus", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "LiveDataStatusWindow") as? LiveDataStatusWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? LiveDataStatusController
+            LiveStatusController = Window?.contentView as? WindowManagement
+            Controller?.MainDelegate = self
+            WindowController.showWindow(nil)
         }
     }
     
