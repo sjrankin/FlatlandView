@@ -92,6 +92,20 @@
                                         <action selector="RunDebugger:" target="gS1-iC-1Lf" id="taA-Vm-oeS"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="12ED7485-AAA7-4ED4-9C79-2BC438746598" label="Live Data" paletteLabel="Live Data Status" image="LiveStatus" sizingBehavior="auto" id="PYu-eM-nYL">
+                                    <nil key="toolTip"/>
+                                    <button key="view" id="BDQ-2e-ofj">
+                                        <rect key="frame" x="23" y="14" width="48" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="LiveStatus" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="AhF-oM-lMy">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="HandleLiveStatusButton:" target="gS1-iC-1Lf" id="Ljw-e1-u0v"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="Mks-dR-lsJ"/>
@@ -103,6 +117,7 @@
                                 <toolbarItem reference="Twt-2m-O8i"/>
                                 <toolbarItem reference="Y99-uv-LZz"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
+                                <toolbarItem reference="PYu-eM-nYL"/>
                                 <toolbarItem reference="MOf-3f-WGP"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -318,6 +333,12 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="ShowTodaysTimes:" target="vAH-R8-aOX" id="gcH-bR-csA"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Live Data Status" id="IJe-qI-s41">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="HandleLiveStatusButton:" target="vAH-R8-aOX" id="CSM-Yu-EiD"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zA3-f6-9h2"/>
@@ -675,6 +696,7 @@
         <image name="GearIcon" width="24" height="24"/>
         <image name="GlobeIcon" width="24" height="24"/>
         <image name="InfoIcon" width="24" height="24"/>
+        <image name="LiveStatus" width="24" height="24"/>
         <image name="NorthCenterIcon" width="24" height="24"/>
         <image name="PinIcon" width="24" height="24"/>
         <image name="Preferences" width="24" height="24"/>
