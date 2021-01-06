@@ -21,6 +21,7 @@ extension MainController
         TodayDelegate?.MainClosing()
         QuakeDelegate?.MainClosing()
         DebugDelegate?.MainClosing()
+        LiveStatusController?.MainClosing()
         
         Debug.Print("Flatland closing.")
     }
