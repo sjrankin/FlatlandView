@@ -40,23 +40,49 @@ class LiveDataStatusController: NSViewController, NSTableViewDelegate, NSTableVi
                 {
                     Enabled = "False"
                 }
-                TableData.append(("Earthquakes Enabled", Enabled))
-                TableData.append(("Source", "USGS"))
-                TableData.append(("URL", "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"))
+                AddData("Earthquakes Enabled", Enabled)
+                AddData("Source", "United States Geologic Service")
+                AddData("URL", "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson")
                 let Seconds = Settings.GetDouble(.EarthquakeFetchInterval, 0.0)
                 if Seconds > 0.0
                 {
-                    TableData.append(("Retrieval Frequency", "\(Seconds) seconds"))
+                    AddData("Retrieval Frequency", "\(Seconds) seconds")
                 }
-                TableData.append(("Call Count", "\(USGS.CallCount)"))
-                TableData.append(("Total Duration", "\(USGS.TotalDuration) seconds"))
+                AddData("Call Count", "\(USGS.CallCount)")
+                AddData("Total Duration", "\(USGS.TotalDuration.RoundedTo(2)) seconds")
                 if USGS.CallCount > 0
                 {
-                    TableData.append(("Mean Duration", "\(USGS.TotalDuration / Double(USGS.CallCount)) seconds"))
+                    var MeanDuration = USGS.TotalDuration / Double(USGS.CallCount)
+                    MeanDuration = MeanDuration.RoundedTo(1)
+                    AddData("Mean Duration", "\(MeanDuration) seconds")
                 }
-                TableData.append(("Parse Error Count", "\(USGS.ParseErrorCount)"))
-                TableData.append(("Response Error Count", "\(USGS.ResponseErrorCount)"))
-                TableData.append(("Time-Out Count", "\(USGS.TimeOutCount)"))
+                AddData("Total Quakes Retrieved", "\(USGS.TotalRetrieved)")
+                if USGS.CallCount > 0
+                {
+                    var Mean: Double = Double(USGS.TotalRetrieved) / Double(USGS.CallCount)
+                    Mean = Mean.RoundedTo(1)
+                    AddData("Mean Quakes per Call", "\(Mean)")
+                }
+                AddData("Parse Error Count", "\(USGS.ParseErrorCount)")
+                AddData("Response Error Count", "\(USGS.ResponseErrorCount)")
+                AddData("Time-Out Count", "\(USGS.TimeOutCount)")
+                let Cached = Settings.GetCachedEarthquakes()
+                AddData("Cached Quake Count", "\(Cached.count)")
+                if USGS.CallCount > 0 && USGS.TotalRetrieved > 0
+                {
+                    for Mag in 0 ... 10
+                    {
+                        let MagTitle = ["0 - 1", "1 - 2", "2 - 3", "3 - 4", "4 - 5", "5 - 6", "6 - 7", "7 - 8", "8 - 9", "9 - 10", "10+"][Mag]
+                        if let MagTotal = USGS.MagDistribution[Mag]
+                        {
+                            var MagMean = Double(MagTotal) / Double(USGS.CallCount)
+                            MagMean = MagMean.RoundedTo(2)
+                            var MagPercent = (MagMean / Double(USGS.TotalRetrieved) * 100.0)
+                            MagPercent = MagPercent.RoundedTo(2)
+                            AddData("Range \(MagTitle)", "\(MagMean) (\(MagPercent)%)")
+                        }
+                    }
+                }
                 
             case 1:
                 break
@@ -67,34 +93,15 @@ class LiveDataStatusController: NSViewController, NSTableViewDelegate, NSTableVi
         StatusView.reloadData()
     }
     
-    var TableData = [(Key: String, Value: String)]()
-    
-    func numberOfRows(in tableView: NSTableView) -> Int
+    func AddData(_ Key: String, _ Value: String)
     {
-        return TableData.count
+        let NewRow = KVPType()
+        NewRow.KeyName = Key
+        NewRow.ValueContents = Value
+        TableData.append(NewRow)
     }
     
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any?
-    {
-        var CellContents = ""
-        var CellIdentifier = ""
-        
-        if tableColumn == tableView.tableColumns[0]
-        {
-            CellIdentifier = "IndicatorColumn"
-            CellContents = TableData[row].Key
-        }
-        if tableColumn == tableView.tableColumns[1]
-        {
-            CellIdentifier = "ValueColumn"
-            CellContents = TableData[row].Value
-        }
-        
-        let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier),
-                                      owner: self) as? NSTableCellView
-        Cell?.textField?.stringValue = CellContents
-        return Cell
-    }
+    @objc dynamic var TableData = [KVPType]()
     
     func MainClosing()
     {
@@ -106,10 +113,22 @@ class LiveDataStatusController: NSViewController, NSTableViewDelegate, NSTableVi
         self.view.window?.close()
     }
     
+    @IBAction func HandleRefreshButtonPressed(_ sender: Any)
+    {
+        LoadData()
+    }
+    
     @IBAction func HandleDataSelectionChanged(_ sender: Any)
     {
+        LoadData()
     }
     
     @IBOutlet weak var StatusView: NSTableView!
     @IBOutlet weak var DataSelectionSegment: NSSegmentedControl!
+}
+
+@objcMembers class KVPType: NSObject
+{
+    dynamic var KeyName: String = ""
+    dynamic var ValueContents: String = ""
 }
