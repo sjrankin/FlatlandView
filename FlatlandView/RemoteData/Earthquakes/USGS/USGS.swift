@@ -18,6 +18,24 @@ import AppKit
 ///   - See [USGS Web Services](https://earthquake.usgs.gov/ws/)
 class USGS
 {
+    /// Number of times earthquakes were retrieved.
+    public static var CallCount: Int = 0
+    
+    /// Total number of seconds needed to retrieve seconds from the USGS.
+    public static var TotalDuration: Double = 0.0
+    
+    /// Total number of errors returned when attempting to retrieve data.
+    public static var CommErrorCount: Int = 0
+    
+    /// Total number of parse errors.
+    public static var ParseErrorCount: Int = 0
+    
+    /// Total number of response errors.
+    public static var ResponseErrorCount: Int = 0
+    
+    /// Total number of time-out errors.
+    public static var TimeOutCount: Int = 0
+    
     /// The delegate of who receives asynchronous data.
     public weak var Delegate: AsynchronousDataProtocol? = nil
     
@@ -47,6 +65,7 @@ class USGS
     {
         _IsBusy = true
         defer{_IsBusy = false}
+        USGS.CallCount = USGS.CallCount + 1
         EarthquakeStartTime = CACurrentMediaTime()
         let Queue = OperationQueue()
         Queue.name = "Earthquake Retrieval Queue"
@@ -77,6 +96,7 @@ class USGS
                             }
                     catch
                     {
+                        USGS.ParseErrorCount = USGS.ParseErrorCount + 1
                         print("JSON error \(error)")
                     }
                     self.HaveAllEarthquakes()
@@ -333,16 +353,19 @@ class USGS
                 if let HTTPResponse = Response as? HTTPURLResponse
                 {
                     print("Response error: \(HTTPResponse)")
+                    USGS.ResponseErrorCount = USGS.ResponseErrorCount + 1
                     completion(nil)
                     return
                 }
                 else
                 {
                     print("HTTP error but no response. Probably timed-out.")
+                    USGS.TimeOutCount = USGS.TimeOutCount + 1
                     completion(nil)
                     return
                 }
             }
+            USGS.CommErrorCount = USGS.CommErrorCount + 1
             if let LocalURL = Local
             {
                 if let Results = try? String(contentsOf: LocalURL)
