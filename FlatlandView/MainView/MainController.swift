@@ -280,9 +280,12 @@ class MainController: NSViewController
     {
         if let WindowController = self.view.window?.windowController as? MainWindow
         {
-            WindowController.WorldLockButton.toolTip = Locked ? "Currently locked: Click to unlock world scenes" :
+            WindowController.WorldLockBarButton2.toolTip = Locked ? "Currently locked: Click to unlock world scenes" :
                                                                 "Currently unlocked: Click to reset then lock world scenes"
-            WindowController.WorldLockButton.image = Locked ? NSImage(named: "LockWorldIcon") : NSImage(named: "UnlockWorldIcon")
+            let NewImage = Locked ? NSImage(systemSymbolName: "lock.rotation", accessibilityDescription: nil) :
+                                    NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: nil)
+            WindowController.WorldLockBarButton2.image = NewImage
+            WindowController.WorldLockBarButton2.label = Locked ? "Locked" : "Unlocked"
             let LockMenu = GetAppDelegate().LockUnlockMenuItem
             LockMenu?.state = Locked ? .off : .on
             Main3DView.SetCameraLock(Locked)
@@ -577,6 +580,10 @@ class MainController: NSViewController
     /// - Parameter sender: Not used.
     @IBAction func HandleLiveStatusButton(_ sender: Any)
     {
+        if LiveStatusWindowOpen
+        {
+            return
+        }
         let Storyboard = NSStoryboard(name: "LiveDataStatus", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "LiveDataStatusWindow") as? LiveDataStatusWindow
         {
@@ -585,8 +592,11 @@ class MainController: NSViewController
             LiveStatusController = Window?.contentView as? WindowManagement
             Controller?.MainDelegate = self
             WindowController.showWindow(nil)
+            LiveStatusWindowOpen = true
         }
     }
+    
+    var LiveStatusWindowOpen = false
     
     /// Respond to the user command to change how hours are displayed.
     /// - Parameter sender: Not used.
