@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,124 +14,164 @@
                     <window key="window" title="Flatland Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" toolbarStyle="preference" id="0ua-H1-pcJ">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="2932" y="555" width="668" height="270"/>
+                        <rect key="contentRect" x="2932" y="555" width="811" height="270"/>
                         <rect key="screenRect" x="2560" y="144" width="2304" height="1296"/>
                         <view key="contentView" id="icS-Ik-l69">
-                            <rect key="frame" x="0.0" y="0.0" width="668" height="270"/>
+                            <rect key="frame" x="0.0" y="0.0" width="811" height="270"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </view>
                         <toolbar key="toolbar" implicitIdentifier="DDD6A8F2-F9C7-4176-A025-81A37B197678" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="vhp-FS-Vas">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="xXa-Va-xc2"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="sYS-xp-8pI"/>
-                                <toolbarItem implicitItemIdentifier="08836FF8-8107-47BE-B0CE-7B588F1BD6C4" label="General" paletteLabel="General" image="Preference_General" sizingBehavior="auto" id="u4F-PN-MDH">
+                                <toolbarItem implicitItemIdentifier="6555D3DB-4076-4BED-A897-372B0D307910" label="General 2" paletteLabel="General 2" id="R6F-tE-Bns">
                                     <nil key="toolTip"/>
-                                    <button key="view" id="HdO-ZJ-Tn4">
-                                        <rect key="frame" x="0.0" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Preference_General" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="wJB-oW-VrV">
+                                    <imageReference key="image" image="ellipsis.circle" catalog="system" symbolScale="large"/>
+                                    <size key="minSize" width="36" height="35.5"/>
+                                    <size key="maxSize" width="36" height="35.5"/>
+                                    <button key="view" id="PTa-eE-OZ9">
+                                        <rect key="frame" x="11" y="14" width="36" height="35.5"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="iPA-yQ-opX">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="systemBold" size="18"/>
+                                            <imageReference key="image" image="ellipsis.circle" catalog="system" symbolScale="large"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
                                         <connections>
-                                            <action selector="HandleGeneralButton:" target="VHg-z7-ETj" id="nln-hQ-xZo"/>
+                                            <action selector="HandleGeneralButton:" target="VHg-z7-ETj" id="I24-Ao-4cg"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="83FB6EDA-A545-435B-B5F4-FB807D3293DF" label="Live Data" paletteLabel="Live Data" image="Preference_LiveData" sizingBehavior="auto" id="Re6-yi-Jvl">
+                                <toolbarItem implicitItemIdentifier="731016DF-0C72-4D29-9016-AD7A6D16F3AF" label="Live Data" paletteLabel="Live Data" id="8V9-cZ-NeF">
                                     <nil key="toolTip"/>
-                                    <button key="view" id="F21-2p-PGy">
-                                        <rect key="frame" x="4" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Preference_LiveData" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="v0u-YX-mo3">
+                                    <imageReference key="image" image="network" catalog="system" symbolScale="large"/>
+                                    <size key="minSize" width="36" height="35.5"/>
+                                    <size key="maxSize" width="36" height="35.5"/>
+                                    <button key="view" id="CGa-Ob-NaI">
+                                        <rect key="frame" x="10" y="14" width="36" height="35.5"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="5tD-6l-b0t">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="systemBold" size="18"/>
+                                            <imageReference key="image" image="network" catalog="system" symbolScale="large"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
                                         <connections>
-                                            <action selector="HandleLiveDataButton:" target="VHg-z7-ETj" id="diJ-4R-sEz"/>
+                                            <action selector="HandleLiveDataButton:" target="VHg-z7-ETj" id="aM1-G2-qlF"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="650158B2-8838-4923-ADB4-C450B00A7AA4" label="Maps" paletteLabel="Maps" image="Preference_Map" sizingBehavior="auto" id="d0B-QV-Xwp">
+                                <toolbarItem implicitItemIdentifier="0FCF7B08-D2FB-4406-8D89-398B12492F56" label="Maps" paletteLabel="Maps" id="Z5N-9c-8yn">
                                     <nil key="toolTip"/>
-                                    <button key="view" id="iZk-gI-MdB">
-                                        <rect key="frame" x="0.0" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Preference_Map" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="u80-ZY-lP4">
+                                    <imageReference key="image" image="map" catalog="system" symbolScale="large"/>
+                                    <size key="minSize" width="36" height="35.5"/>
+                                    <size key="maxSize" width="36" height="35.5"/>
+                                    <button key="view" id="8cm-IE-TQm">
+                                        <rect key="frame" x="0.0" y="14" width="36" height="35.5"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="JDQ-e4-UF4">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="systemBold" size="18"/>
+                                            <imageReference key="image" image="map" catalog="system" symbolScale="large"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
                                         <connections>
-                                            <action selector="HandleMapButton:" target="VHg-z7-ETj" id="3UL-Gc-ipm"/>
+                                            <action selector="HandleMapButton:" target="VHg-z7-ETj" id="Psq-di-rG4"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="FD677C81-FC6C-4D50-BA8A-7CA941B94944" label="Map Items" paletteLabel="Map items" image="Preference_POI" sizingBehavior="auto" id="HYS-gv-uVb">
+                                <toolbarItem implicitItemIdentifier="A6AE90F3-CBD2-4848-869C-CCE55BA0F595" label="Map Attributes" paletteLabel="Map Attributes" id="2J4-6y-jLK">
                                     <nil key="toolTip"/>
-                                    <button key="view" id="LxW-n8-w32">
-                                        <rect key="frame" x="7" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Preference_POI" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="wan-eh-UN8">
+                                    <imageReference key="image" image="skew" catalog="system" symbolScale="large"/>
+                                    <size key="minSize" width="36" height="35.5"/>
+                                    <size key="maxSize" width="36" height="35.5"/>
+                                    <button key="view" id="rWa-bV-FXr">
+                                        <rect key="frame" x="25" y="14" width="36" height="35.5"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="O1n-1L-qDy">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="systemBold" size="18"/>
+                                            <imageReference key="image" image="skew" catalog="system" symbolScale="large"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
                                         <connections>
-                                            <action selector="HandlePOIButton:" target="VHg-z7-ETj" id="KwP-Bi-Nr5"/>
+                                            <action selector="HandleMapAttributesButton:" target="VHg-z7-ETj" id="Scg-Hk-xLb"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="71565D88-87DF-40A4-9887-8AE5D8240AA7" label="Earthquakes" paletteLabel="Earthquakes" image="Preference_Earthquake" sizingBehavior="auto" id="igU-UO-OR1">
+                                <toolbarItem implicitItemIdentifier="83B7A0D8-31B9-40F8-BDC6-BAE737601ECA" label="Map Items" paletteLabel="Map Items" id="cOf-6w-ux2">
                                     <nil key="toolTip"/>
-                                    <button key="view" id="rnk-LK-yjI">
-                                        <rect key="frame" x="13" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Preference_Earthquake" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="DVU-Sx-fNK">
+                                    <imageReference key="image" image="pin.fill" catalog="system" symbolScale="small"/>
+                                    <size key="minSize" width="37.5" height="35"/>
+                                    <size key="maxSize" width="34" height="34"/>
+                                    <button key="view" id="aLv-b0-1Hw">
+                                        <rect key="frame" x="12" y="14" width="38.5" height="35.5"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mWF-lX-GWF">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="systemBold" size="18"/>
+                                            <imageReference key="image" image="pin.fill" catalog="system" symbolScale="small"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
                                         <connections>
-                                            <action selector="HandleEarthquakeButton:" target="VHg-z7-ETj" id="wj2-Fa-gZn"/>
+                                            <action selector="HandlePOIButton:" target="VHg-z7-ETj" id="YQ3-Z5-Yjr"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="7B9A0FA4-5516-4F66-BA0B-F026795F20DB" label="Satellites" paletteLabel="Satellites" image="Preference_Satellite" sizingBehavior="auto" id="zpJ-4H-gn1">
+                                <toolbarItem implicitItemIdentifier="78DFCE68-001A-4066-BCFA-E207261E3E12" label="Satellites" paletteLabel="Satellites" id="2Vm-QE-Yqj">
                                     <nil key="toolTip"/>
-                                    <button key="view" id="4zV-MW-zkj">
-                                        <rect key="frame" x="4" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Preference_Satellite" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="bpg-gH-r3a">
+                                    <imageReference key="image" image="circle.dashed.inset.fill" catalog="system" symbolScale="small"/>
+                                    <size key="minSize" width="37" height="35.5"/>
+                                    <size key="maxSize" width="34" height="34"/>
+                                    <button key="view" id="pwG-yV-e97">
+                                        <rect key="frame" x="10" y="14" width="37" height="35.5"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="u6V-wf-gyj">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="systemBold" size="18"/>
+                                            <imageReference key="image" image="circle.dashed.inset.fill" catalog="system" symbolScale="small"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
                                         <connections>
-                                            <action selector="HandleSatelliteButton:" target="VHg-z7-ETj" id="wWb-Bk-aLI"/>
+                                            <action selector="HandleSatelliteButton:" target="VHg-z7-ETj" id="Qc6-Oz-oJt"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="6BA3AB9D-66FB-4BDF-811C-77C9F7713A40" label="Map Attributes" paletteLabel="Map Attributes" image="Preference_MapAttributes" sizingBehavior="auto" id="zxD-vc-ZiL">
+                                <toolbarItem implicitItemIdentifier="1005BC38-6F0B-4C26-A233-4E4837C2E3F3" label="Earthquakes" paletteLabel="Earthquakes" id="P4W-kP-dgO">
                                     <nil key="toolTip"/>
-                                    <button key="view" id="TkP-pA-o6s">
-                                        <rect key="frame" x="19" y="14" width="48" height="48"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Preference_MapAttributes" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="qS8-FZ-SzJ">
+                                    <imageReference key="image" image="house" catalog="system" symbolScale="large"/>
+                                    <size key="minSize" width="37" height="35.5"/>
+                                    <size key="maxSize" width="37.5" height="35.5"/>
+                                    <button key="view" id="29m-z4-P1A">
+                                        <rect key="frame" x="18" y="14" width="37.5" height="35.5"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="18E-Pm-I6J">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="systemBold" size="18"/>
+                                            <imageReference key="image" image="house" catalog="system" symbolScale="large"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.transform.rotation.z">
+                                                <real key="value" value="0.60999999999999999"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="HandleMapAttributesButton:" target="VHg-z7-ETj" id="DQg-y3-jXw"/>
+                                            <action selector="HandleEarthquakeButton:" target="VHg-z7-ETj" id="X8u-DG-8Sy"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
-                                <toolbarItem reference="u4F-PN-MDH"/>
+                                <toolbarItem reference="R6F-tE-Bns"/>
                                 <toolbarItem reference="xXa-Va-xc2"/>
-                                <toolbarItem reference="d0B-QV-Xwp"/>
-                                <toolbarItem reference="zxD-vc-ZiL"/>
-                                <toolbarItem reference="HYS-gv-uVb"/>
-                                <toolbarItem reference="igU-UO-OR1"/>
-                                <toolbarItem reference="zpJ-4H-gn1"/>
-                                <toolbarItem reference="Re6-yi-Jvl"/>
+                                <toolbarItem reference="Z5N-9c-8yn"/>
+                                <toolbarItem reference="2J4-6y-jLK"/>
+                                <toolbarItem reference="cOf-6w-ux2"/>
+                                <toolbarItem reference="2Vm-QE-Yqj"/>
+                                <toolbarItem reference="P4W-kP-dgO"/>
+                                <toolbarItem reference="8V9-cZ-NeF"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -138,26 +179,26 @@
                         </connections>
                     </window>
                     <connections>
-                        <outlet property="GeneralButton" destination="HdO-ZJ-Tn4" id="KKY-n3-sMY"/>
-                        <outlet property="GeneralItem" destination="u4F-PN-MDH" id="wtI-ah-bsg"/>
-                        <outlet property="LiveDataButton" destination="F21-2p-PGy" id="Qb1-Mj-yMZ"/>
-                        <outlet property="LiveDataItem" destination="Re6-yi-Jvl" id="Z7k-vn-Aub"/>
-                        <outlet property="MapAttributesButton" destination="TkP-pA-o6s" id="WYt-XQ-NaE"/>
-                        <outlet property="MapAttributesItem" destination="zxD-vc-ZiL" id="59P-p6-Cus"/>
-                        <outlet property="MapButton" destination="iZk-gI-MdB" id="avO-AP-zsi"/>
-                        <outlet property="MapsItem" destination="d0B-QV-Xwp" id="vvC-N6-wy2"/>
-                        <outlet property="POIButton" destination="LxW-n8-w32" id="EDj-ar-68L"/>
-                        <outlet property="POIItem" destination="HYS-gv-uVb" id="BiG-sf-9eh"/>
-                        <outlet property="QuakeButton" destination="rnk-LK-yjI" id="hDn-ev-Phs"/>
-                        <outlet property="QuakeItem" destination="igU-UO-OR1" id="X6C-5D-tSc"/>
-                        <outlet property="SatelliteButton" destination="4zV-MW-zkj" id="6nN-3n-Pg3"/>
-                        <outlet property="SatelliteItem" destination="zpJ-4H-gn1" id="lT0-oj-Y9d"/>
+                        <outlet property="GeneralButton2" destination="PTa-eE-OZ9" id="v6u-bJ-aoP"/>
+                        <outlet property="GeneralItem2" destination="R6F-tE-Bns" id="ovV-QX-tfl"/>
+                        <outlet property="LiveDataButton" destination="CGa-Ob-NaI" id="pQZ-0k-1os"/>
+                        <outlet property="LiveDataItem" destination="8V9-cZ-NeF" id="LKp-6O-SdT"/>
+                        <outlet property="MapAttributesButton" destination="rWa-bV-FXr" id="0B0-re-Ije"/>
+                        <outlet property="MapAttributesItem" destination="2J4-6y-jLK" id="gdJ-wR-g3B"/>
+                        <outlet property="MapButton" destination="8cm-IE-TQm" id="bGy-Mo-fgd"/>
+                        <outlet property="MapsItem" destination="Z5N-9c-8yn" id="EaJ-Rg-kkZ"/>
+                        <outlet property="POIButton" destination="aLv-b0-1Hw" id="8fg-Iq-c1I"/>
+                        <outlet property="POIItem" destination="cOf-6w-ux2" id="nCo-Vk-wlI"/>
+                        <outlet property="QuakeButton" destination="29m-z4-P1A" id="BiZ-PR-jek"/>
+                        <outlet property="QuakeItem" destination="P4W-kP-dgO" id="CJA-OG-TyE"/>
+                        <outlet property="SatelliteButton" destination="pwG-yV-e97" id="Sp3-Eh-xwf"/>
+                        <outlet property="SatelliteItem" destination="2Vm-QE-Yqj" id="N6C-nJ-7Ku"/>
                         <segue destination="IOO-bn-zN6" kind="relationship" relationship="window.shadowedContentViewController" id="i9t-pP-jZA"/>
                     </connections>
                 </windowController>
                 <customObject id="VHg-z7-ETj" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-259" y="129"/>
+            <point key="canvasLocation" x="-187.5" y="129"/>
         </scene>
         <!--Preference Panel Controller-->
         <scene sceneID="2na-v7-7NE">
@@ -971,7 +1012,7 @@
                                             </columns>
                                             <gridCells>
                                                 <gridCell row="Sb7-Ke-y3z" column="Ni5-LY-XhF" id="Qmn-b6-FO6">
-                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="0Df-NI-bLg">
+                                                    <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="0Df-NI-bLg">
                                                         <rect key="frame" x="0.0" y="54" width="310" height="22"/>
                                                         <rows>
                                                             <gridRow id="5II-Tn-gbq"/>
@@ -2135,15 +2176,18 @@
     <resources>
         <image name="GlobeIcon" width="24" height="24"/>
         <image name="NorthCenterIcon" width="24" height="24"/>
-        <image name="Preference_Earthquake" width="24" height="24"/>
-        <image name="Preference_General" width="24" height="24"/>
-        <image name="Preference_LiveData" width="24" height="24"/>
-        <image name="Preference_Map" width="24" height="24"/>
-        <image name="Preference_MapAttributes" width="24" height="24"/>
-        <image name="Preference_POI" width="24" height="24"/>
-        <image name="Preference_Satellite" width="24" height="24"/>
         <image name="RectangleIcon" width="24" height="24"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
+        <image name="circle.dashed.inset.fill" catalog="system" width="13" height="13"/>
+        <image name="ellipsis.circle" catalog="system" width="19" height="19"/>
+        <image name="house" catalog="system" width="23" height="20"/>
+        <image name="map" catalog="system" width="20" height="18"/>
+        <image name="network" catalog="system" width="19" height="19"/>
+        <image name="pin.fill" catalog="system" width="13" height="14"/>
         <image name="questionmark.circle.fill" catalog="system" width="13" height="13"/>
+        <image name="skew" catalog="system" width="23" height="20"/>
+        <namedColor name="ControlBlack">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
