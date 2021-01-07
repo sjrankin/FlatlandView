@@ -36,4 +36,3 @@ import Cocoa
     @IBOutlet weak var EarthquakeMenu: NSMenuItem!
     @IBOutlet weak var MainMenu: NSMenu!
 }
-
