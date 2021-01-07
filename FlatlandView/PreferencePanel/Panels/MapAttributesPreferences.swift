@@ -49,6 +49,11 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
+    func SetDarkMode(To: Bool)
+    {
+        
+    }
+    
     @IBOutlet weak var ShowGridLineHelpButton: NSButton!
     @IBOutlet weak var GridLineColorHelpButton: NSButton!
     @IBOutlet weak var BackgroundColorHelpButton: NSButton!
