@@ -9,6 +9,7 @@
 import Foundation
 import AppKit
 
+// https://stackoverflow.com/questions/51672124/how-can-dark-mode-be-detected-on-macos-10-14
 class PreferencePanelController: NSViewController, WindowManagement, PreferencePanelControllerProtocol
 {
     public weak var MainDelegate: MainProtocol? = nil
@@ -18,14 +19,40 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        let CurrentAppearance = self.view.effectiveAppearance
+        print("CurrentAppearance=\(CurrentAppearance.name.rawValue)")
     }
     
     override func viewDidLayout()
     {
-        ParentWindow = self.view.window?.windowController as? PreferencePanelWindow
-        CreatePreferencePanels()
-        LoadPanel(.General)
+        if !HandledInitial
+        {
+            ParentWindow = self.view.window?.windowController as? PreferencePanelWindow
+            CreatePreferencePanels()
+            LoadPanel(.General)
+            HandledInitial = true
+        }
+        let CurrentAppearance = self.view.effectiveAppearance
+        let IsDark = DarkThemes.contains(CurrentAppearance.name)
+        ParentWindow?.HandleThemeChanged(IsDark)
+        for (_, Panel) in Panels
+        {
+            if let Controller = Panel.Controller as? PreferencePanelProtocol
+            {
+                Controller.SetDarkMode(To: IsDark)
+            }
+        }
     }
+    
+    var DarkThemes: [NSAppearance.Name] =
+    [
+        .accessibilityHighContrastDarkAqua,
+        .accessibilityHighContrastVibrantDark,
+        .darkAqua,
+        .vibrantDark
+    ]
+    
+    var HandledInitial = false
     
     override func viewWillDisappear()
     {
@@ -142,6 +169,7 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     
     func MainClosing()
     {
+        DistributedNotificationCenter.default().removeObserver(self)
         self.view.window?.close()
         Pop?.close()
     }
