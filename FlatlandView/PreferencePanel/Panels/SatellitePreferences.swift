@@ -18,4 +18,9 @@ class SatellitePreferences: NSViewController, PreferencePanelProtocol
     {
         super.viewDidLoad()
     }
+    
+    func SetDarkMode(To: Bool)
+    {
+        
+    }
 }
