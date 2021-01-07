@@ -106,4 +106,6 @@ enum ChildWindows: String, CaseIterable
     case SettingsWindow = "SettingsWindow"
     /// Debugger window.
     case DebuggerWindow = "DebuggerWindow"
+    /// Live status window.
+    case LiveStatusWindow = "LiveStatusWindow"
 }
