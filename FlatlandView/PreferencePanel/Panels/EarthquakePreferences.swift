@@ -52,6 +52,11 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
+    func SetDarkMode(To: Bool)
+    {
+        
+    }
+    
     @IBOutlet weak var AnimateEarthquakeShapeHelpButton: NSButton!
     @IBOutlet weak var QuakeRegionsHelpButton: NSButton!
     @IBOutlet weak var DisplayQuakesHelpButton: NSButton!
