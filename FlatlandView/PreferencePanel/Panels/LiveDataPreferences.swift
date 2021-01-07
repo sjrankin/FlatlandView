@@ -34,5 +34,10 @@ class LiveDataPreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
+    func SetDarkMode(To: Bool)
+    {
+        
+    }
+    
     @IBOutlet weak var LiveDataHelpButton: NSButton!
 }
