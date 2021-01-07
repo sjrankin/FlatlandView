@@ -73,11 +73,26 @@ class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
         if let SomeMap = item as? MapNode
         {
             Text = SomeMap.Category
+            if InDarkMode
+            {
+                TextColor = NSColor.white
+            }
+            else
+            {
             TextColor = NSColor.PrussianBlue
+        }
             TextFont = NSFont.boldSystemFont(ofSize: 15.0)
         }
         else
         {
+            if InDarkMode
+            {
+                TextColor = NSColor.lightGray
+            }
+            else
+            {
+                TextColor = NSColor.black
+            }
             Text = item as! String
             TextFont = NSFont.systemFont(ofSize: 14.0)
         }
@@ -175,6 +190,17 @@ class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
             }
         }
     }
+    
+    func SetDarkMode(To DarkMode: Bool)
+    {
+        InDarkMode = DarkMode
+        if MapTable != nil
+        {
+        MapTable.reloadData()
+        }
+    }
+    
+    var InDarkMode = false
     
     @IBOutlet weak var MapSampleHelpButton: NSButton!
     @IBOutlet weak var MapNameLabel: NSTextField!
