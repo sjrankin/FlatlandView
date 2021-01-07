@@ -101,6 +101,9 @@ extension MainController: MainProtocol
                 
             case .SettingsWindow:
                 SettingsWindowOpen = false
+                
+            case .LiveStatusWindow:
+                LiveStatusWindowOpen = false
         }
     }
     
