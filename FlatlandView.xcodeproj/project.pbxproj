@@ -316,6 +316,7 @@
 		17DFAF4F2545A53C00374344 /* ImageShifter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DFAF4E2545A53C00374344 /* ImageShifter.swift */; };
 		17DFAF532545A56300374344 /* ImageShiftParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DFAF522545A56300374344 /* ImageShiftParameters.swift */; };
 		17DFAF562545A5BE00374344 /* ImageShifter.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17DFAF552545A5BE00374344 /* ImageShifter.metal */; };
+		17DFE42F25A6D42300F88564 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DFE42E25A6D42300F88564 /* Notification.swift */; };
 		17E3D4F124FE2091004712BB /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3D4F024FE2091004712BB /* NSWindow.swift */; };
 		17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3EDC524B5B222007C1D72 /* FontHelper.swift */; };
 		17E5EF5124F0DE2C00665167 /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E5EF5024F0DBC600665167 /* libc++abi.tbd */; };
@@ -725,6 +726,7 @@
 		17DFAF4E2545A53C00374344 /* ImageShifter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageShifter.swift; sourceTree = "<group>"; };
 		17DFAF522545A56300374344 /* ImageShiftParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageShiftParameters.swift; sourceTree = "<group>"; };
 		17DFAF552545A5BE00374344 /* ImageShifter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageShifter.metal; sourceTree = "<group>"; };
+		17DFE42E25A6D42300F88564 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		17E3D4F024FE2091004712BB /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
 		17E3EDC524B5B222007C1D72 /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
 		17E5EF5024F0DBC600665167 /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
@@ -1267,6 +1269,7 @@
 				17B0B7372546AE3400DC0F03 /* UInt8.swift */,
 				177D0F5E2547F04700CD5041 /* MTLTexture.swift */,
 				1743FE7C255D5AD300AD05A7 /* NSRegularExpression.swift */,
+				17DFE42E25A6D42300F88564 /* Notification.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2444,6 +2447,7 @@
 				175F661424DE7416007B3A60 /* LineDrawParameters.swift in Sources */,
 				17EF33AC247A93A300A5B55D /* GeoPoint.swift in Sources */,
 				1759AE64249F81D3003F79F5 /* View2DSettingsWindow.swift in Sources */,
+				17DFE42F25A6D42300F88564 /* Notification.swift in Sources */,
 				172C315C2510AED100B7CCFC /* FlatView.swift in Sources */,
 				175DCC652580A4EA00EB6D69 /* PreferenceHelpProtocol.swift in Sources */,
 				173AC19E2506109900C929BB /* Metal2DBorderedCircle.metal in Sources */,
