@@ -85,7 +85,15 @@ class LiveDataStatusController: NSViewController, NSTableViewDelegate, NSTableVi
                 }
                 
             case 1:
-                break
+                AddData("NASA Imagery Enabled", "False")
+                AddData("Source", "NASA")
+                AddData("Generalized URL", "https://gibs.earthquakedata.nasa.gov/")
+                AddData("Retrieval Frequency", "\(24 * 60 * 60) seconds")
+                AddData("Call Count", "0")
+                AddData("Total Duration", "0 seconds")
+                AddData("Mean Duration", "0 seconds")
+                AddData("Total Tiles Retrieved", "0")
+                AddData("Total Bytes Retrieved", "0")
                 
             default:
                 break
@@ -101,6 +109,8 @@ class LiveDataStatusController: NSViewController, NSTableViewDelegate, NSTableVi
         TableData.append(NewRow)
     }
     
+    /// Holds the data to display. Must be declared as `@objc dynamic` in order for it to participate in
+    /// the binding system.
     @objc dynamic var TableData = [KVPType]()
     
     func MainClosing()
@@ -123,12 +133,22 @@ class LiveDataStatusController: NSViewController, NSTableViewDelegate, NSTableVi
         LoadData()
     }
     
+    override func viewWillDisappear()
+    {
+        MainDelegate?.ChildWindowClosed(.LiveStatusWindow) 
+    }
+    
     @IBOutlet weak var StatusView: NSTableView!
     @IBOutlet weak var DataSelectionSegment: NSSegmentedControl!
 }
 
+/// Class that holds one row's worth of data to display.
+/// - Note: Must be decorated with the `@objcMembers` attribute to enable this to participate in the
+///         binding system.
 @objcMembers class KVPType: NSObject
 {
+    /// Key name (eg, the "Indicate" column value). Must be `dynamic`.
     dynamic var KeyName: String = ""
+    /// Value contents (eg, the "Value" column value). Must be `dynamic`.
     dynamic var ValueContents: String = ""
 }
