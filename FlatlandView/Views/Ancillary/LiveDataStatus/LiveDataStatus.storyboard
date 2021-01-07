@@ -134,7 +134,7 @@
                                     <font key="font" metaFont="system"/>
                                     <segments>
                                         <segment label="Earthquakes" width="96" selected="YES"/>
-                                        <segment label="Image Tiles" width="96" enabled="NO" tag="1"/>
+                                        <segment label="Image Tiles" width="96" tag="1"/>
                                     </segments>
                                 </segmentedCell>
                                 <connections>
