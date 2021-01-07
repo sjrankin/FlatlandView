@@ -147,7 +147,7 @@ extension MainController
         if Settings.GetBool(.EnableEarthquakes)
         {
             Debug.Print("Calling GetEarthquakes")
-            let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
+            let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0 * 5.0)
             Earthquakes?.GetEarthquakes(Every: FetchInterval)
             let Cached = Settings.GetCachedEarthquakes()
             PlotCachedQuakes(Cached)
