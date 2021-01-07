@@ -193,6 +193,11 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     {
     }
     
+    func SetDarkMode(To: Bool)
+    {
+        
+    }
+    
     // MARK: - Interface builder outlets
     @IBOutlet weak var ShowCitiesSwitch: NSSwitch!
     @IBOutlet weak var CityShapesCombo: NSComboBox!
