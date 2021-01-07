@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,7 +25,7 @@
                                 </columns>
                                 <gridCells>
                                     <gridCell row="hcX-Cx-jv1" column="SDH-8k-Vhv" id="T47-VI-8Fe">
-                                        <gridView key="contentView" horizontalCompressionResistancePriority="751" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="jr2-xx-Kkm">
+                                        <gridView key="contentView" horizontalCompressionResistancePriority="751" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="jr2-xx-Kkm">
                                             <rect key="frame" x="0.0" y="192" width="410" height="24"/>
                                             <rows>
                                                 <gridRow id="D3g-Cq-vzG"/>
@@ -90,7 +90,7 @@
                                         </scrollView>
                                     </gridCell>
                                     <gridCell row="Zhp-jK-A44" column="SDH-8k-Vhv" id="HGw-N0-RAF">
-                                        <gridView key="contentView" ambiguous="YES" xPlacement="trailing" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="AcO-PS-Zeq">
+                                        <gridView key="contentView" xPlacement="trailing" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="AcO-PS-Zeq">
                                             <rect key="frame" x="0.0" y="0.0" width="161" height="20"/>
                                             <rows>
                                                 <gridRow id="Kit-rC-agR"/>
@@ -102,7 +102,7 @@
                                             <gridCells>
                                                 <gridCell row="Kit-rC-agR" column="bLG-T6-MWp" id="b65-J9-bir"/>
                                                 <gridCell row="Kit-rC-agR" column="0u8-CL-Atv" id="KfK-fi-oaU">
-                                                    <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P7H-z7-ah5">
+                                                    <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="P7H-z7-ah5">
                                                         <rect key="frame" x="99" y="-7" width="69" height="32"/>
                                                         <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PN1-Ts-b2w">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
