@@ -41,10 +41,10 @@ class Settings
         InitializeDouble(.NightMaskAlpha, 0.4)
         
         InitializeBool(.ShowUserLocations, false)
-        InitializeDoubleNil(.UserHomeLatitude, nil)
-        InitializeDoubleNil(.UserHomeLongitude, nil)
-        InitializeString(.UserHomeName, "")
-        InitializeInt(.LocalTimeZoneOffset, 0)
+        //InitializeDoubleNil(.UserHomeLatitude, nil)
+        //InitializeDoubleNil(.UserHomeLongitude, nil)
+        //InitializeString(.UserHomeName, "")
+        //InitializeInt(.LocalTimeZoneOffset, 0)
         InitializeString(.UserLocations, "")
         
         InitializeBool(.Show2DEquator, true) 
@@ -65,6 +65,9 @@ class Settings
         InitializeDouble(.FieldOfView, 90.0)
         InitializeDouble(.OrthographicScale, 14.0)
         InitializeBool(.UseHDRCamera, false)
+        
+        InitializeBool(.EnableEarthquakes, false)
+        InitializeDouble(.EarthquakeFetchInterval, 60.0 * 5.0)
     }
     
     /// Determines if settings were initialized.
