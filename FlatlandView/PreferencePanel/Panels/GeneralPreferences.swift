@@ -123,6 +123,11 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
+    func SetDarkMode(To: Bool)
+    {
+        
+    }
+    
     @IBOutlet weak var InputUnitHelpButton: NSButton!
     @IBOutlet weak var ShowSecondsHelpButton: NSButton!
     @IBOutlet weak var DateStyleHelpButton: NSButton!
