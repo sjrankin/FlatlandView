@@ -113,7 +113,7 @@ extension MainController: SettingChangedProtocol
             case .EnableEarthquakes:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
-                    let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
+                    let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0 * 5.0)
                     Earthquakes?.GetEarthquakes(Every: FetchInterval)
                     switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D)
                     {
@@ -144,7 +144,7 @@ extension MainController: SettingChangedProtocol
                 }
                 
             case .EarthquakeFetchInterval:
-                let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
+                let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0 * 5.0)
                 Earthquakes?.StopReceivingEarthquakes()
                 Earthquakes?.GetEarthquakes(Every: FetchInterval)
                 
