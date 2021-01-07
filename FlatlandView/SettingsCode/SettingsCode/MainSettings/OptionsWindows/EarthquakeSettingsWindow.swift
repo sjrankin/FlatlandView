@@ -34,10 +34,11 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         InitializeMagnitudeColors()
         let EnableEarthquakes = Settings.GetBool(.EnableEarthquakes)
         EarthquakeSwitch.state = EnableEarthquakes ? .on : .off
-        let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0)
+        let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0 * 5.0)
         FrequencyCombo.removeAllItems()
         FrequencyCombo.addItem(withObjectValue: "30 seconds")
         FrequencyCombo.addItem(withObjectValue: "1 minute")
+        FrequencyCombo.addItem(withObjectValue: "5 minutes")
         FrequencyCombo.addItem(withObjectValue: "10 minutes")
         FrequencyCombo.addItem(withObjectValue: "30 minute")
         FrequencyCombo.addItem(withObjectValue: "1 hour")
@@ -49,17 +50,20 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
             case 60.0:
                 FrequencyCombo.selectItem(at: 1)
                 
-            case 600:
+            case 300.0:
                 FrequencyCombo.selectItem(at: 2)
                 
-            case 1800:
+            case 600:
                 FrequencyCombo.selectItem(at: 3)
                 
-            case 3600:
+            case 1800:
                 FrequencyCombo.selectItem(at: 4)
                 
+            case 3600:
+                FrequencyCombo.selectItem(at: 5)
+                
             default:
-                FrequencyCombo.selectItem(at: 1)
+                FrequencyCombo.selectItem(at: 3)
         }
         
         let ColDet = Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
@@ -142,12 +146,15 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
                     Settings.SetDouble(.EarthquakeFetchInterval, 60.0)
                     
                 case 2:
-                    Settings.SetDouble(.EarthquakeFetchInterval, 600.0)
+                    Settings.SetDouble(.EarthquakeFetchInterval, 300.0)
                     
                 case 3:
-                    Settings.SetDouble(.EarthquakeFetchInterval, 1800.0)
+                    Settings.SetDouble(.EarthquakeFetchInterval, 600.0)
                     
                 case 4:
+                    Settings.SetDouble(.EarthquakeFetchInterval, 1800.0)
+                    
+                case 5:
                     Settings.SetDouble(.EarthquakeFetchInterval, 3600.0)
                     
                 default:
