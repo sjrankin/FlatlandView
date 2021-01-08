@@ -92,7 +92,8 @@ class EarthquakeViewerWindow: NSWindowController
     
     func UpdateRegionalQuakeIcon(Enabled: Bool)
     {
-        RegionQuakeButton.image = Enabled ? NSImage(named: "TargetIconOn") : NSImage(named: "TargetIcon")
+        RegionQuakeButton.isEnabled = Enabled
+//        RegionQuakeButton.image = Enabled ? NSImage(named: "TargetIconOn") : NSImage(named: "TargetIcon")
     }
     
     @IBOutlet weak var RegionQuakeButton: NSButton!
