@@ -20,7 +20,6 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     {
         super.viewDidLoad()
         let CurrentAppearance = self.view.effectiveAppearance
-        print("CurrentAppearance=\(CurrentAppearance.name.rawValue)")
     }
     
     override func viewDidLayout()
