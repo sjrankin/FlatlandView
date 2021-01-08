@@ -50,12 +50,15 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
         ButtonMap[SatelliteButton] = SatelliteItem
         ButtonMap[MapButton] = MapsItem
         ButtonMap[MapAttributesButton] = MapAttributesItem
+        
+        Highlight(GeneralButton2)
     }
     
     /// A theme change was detected by the view controller. Update any highlighted buttons.
     /// - Parameter IsDark: Is in dark mode flag.
     func HandleThemeChanged(_ IsDark: Bool)
     {
+        #if false
         if IsDark
         {
             CurrentHighlightColor = NSColor(RGB: 0x101010)
@@ -71,6 +74,7 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
             Item.view?.layer?.backgroundColor = CurrentHighlightColor.cgColor
             Item.view?.layer?.borderColor = BorderColor.cgColor
         }
+        #endif
     }
 
     func windowWillClose(_ notification: Notification)
@@ -85,8 +89,12 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
     {
         if let Item = ButtonMap[Button]
         {
+            #if true
+            Button.contentTintColor = NSColor(named: "ControlBlack")
+            #else
             Item.view?.layer?.backgroundColor = NSColor.clear.cgColor
             Item.view?.layer?.borderColor = NSColor.clear.cgColor
+            #endif
         }
     }
     
@@ -100,8 +108,12 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
         if let Item = ButtonMap[Button]
         {
             CurrentlyHighlightedItem = Item
+            #if true
+            Button.contentTintColor = NSColor.controlAccentColor
+            #else
             Item.view?.layer?.backgroundColor = CurrentHighlightColor.cgColor
             Item.view?.layer?.borderColor = BorderColor.cgColor
+            #endif
         }
     }
     
