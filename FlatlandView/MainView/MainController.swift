@@ -280,12 +280,13 @@ class MainController: NSViewController
     {
         if let WindowController = self.view.window?.windowController as? MainWindow
         {
-            WindowController.WorldLockBarButton2.toolTip = Locked ? "Currently locked: Click to unlock world scenes" :
-                                                                "Currently unlocked: Click to reset then lock world scenes"
+            let TooltipText = Locked ? "Currently locked: Click to unlock world scenes" :
+                                       "Currently unlocked: Click to reset then lock world scenes"
+            WindowController.WorldLockButton.toolTip = TooltipText
             let NewImage = Locked ? NSImage(systemSymbolName: "lock.rotation", accessibilityDescription: nil) :
                                     NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: nil)
-            WindowController.WorldLockBarButton2.image = NewImage
-            WindowController.WorldLockBarButton2.label = Locked ? "Locked" : "Unlocked"
+            WindowController.WorldLockToolbarItem.image = NewImage
+            WindowController.WorldLockToolbarItem.label = Locked ? "Locked" : "Unlocked"
             let LockMenu = GetAppDelegate().LockUnlockMenuItem
             LockMenu?.state = Locked ? .off : .on
             Main3DView.SetCameraLock(Locked)
