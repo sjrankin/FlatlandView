@@ -24,16 +24,18 @@
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="AwX-nU-XIN"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Fk7-Vk-xXx"/>
-                                <toolbarItem implicitItemIdentifier="2B37AB72-2533-4D41-B8C6-0B6A549A85D9" label="About" paletteLabel="About" image="info.circle.fill" catalog="system" id="KCB-ms-iiR">
+                                <toolbarItem implicitItemIdentifier="2B37AB72-2533-4D41-B8C6-0B6A549A85D9" label="About" paletteLabel="About" id="KCB-ms-iiR">
                                     <nil key="toolTip"/>
+                                    <imageReference key="image" image="info.circle.fill" catalog="system" symbolScale="large"/>
                                     <size key="minSize" width="36" height="35.5"/>
                                     <size key="maxSize" width="36" height="36"/>
                                     <button key="view" id="dmO-6s-0b4">
                                         <rect key="frame" x="2" y="14" width="36" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="info.circle.fill" catalog="system" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="kWd-rg-pTh">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="kWd-rg-pTh">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
+                                            <imageReference key="image" image="info.circle.fill" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlue"/>
                                     </button>
@@ -83,13 +85,13 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="wrench.and.screwdriver" catalog="system" symbolScale="large"/>
                                     <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="36.5" height="39.5"/>
+                                    <size key="maxSize" width="37" height="39.5"/>
                                     <button key="view" id="dhm-VL-7bI">
-                                        <rect key="frame" x="17" y="14" width="36.5" height="39.5"/>
+                                        <rect key="frame" x="17" y="14" width="37" height="39.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Umi-R7-IqS">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="systemBold" size="18"/>
+                                            <font key="font" metaFont="systemHeavy" size="18"/>
                                             <imageReference key="image" image="wrench.and.screwdriver" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlack"/>
@@ -102,13 +104,13 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="lock.rotation" catalog="system" symbolScale="large"/>
                                     <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="36.5" height="37.5"/>
+                                    <size key="maxSize" width="37" height="37.5"/>
                                     <button key="view" id="tRj-rh-9AP">
-                                        <rect key="frame" x="4" y="14" width="36.5" height="37.5"/>
+                                        <rect key="frame" x="4" y="14" width="37" height="37.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="a9O-Kq-djn">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="systemBold" size="18"/>
+                                            <font key="font" metaFont="systemHeavy" size="18"/>
                                             <imageReference key="image" image="lock.rotation" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlack"/>
@@ -121,13 +123,13 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="sun.max" catalog="system" symbolScale="large"/>
                                     <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="37.5" height="36.5"/>
+                                    <size key="maxSize" width="38" height="36.5"/>
                                     <button key="view" id="Eeb-q1-HEd">
-                                        <rect key="frame" x="13" y="14" width="37.5" height="36.5"/>
+                                        <rect key="frame" x="13" y="14" width="38" height="36.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="HFz-wi-CS9">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="systemBold" size="18"/>
+                                            <font key="font" metaFont="systemHeavy" size="18"/>
                                             <imageReference key="image" image="sun.max" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlack"/>
@@ -165,7 +167,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="rov-9L-mab">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="systemBold" size="18"/>
+                                            <font key="font" metaFont="systemHeavy" size="18"/>
                                             <imageReference key="image" image="camera" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlack"/>
@@ -185,7 +187,7 @@
                                 <toolbarItem reference="43P-br-LdQ"/>
                                 <toolbarItem reference="nkA-Au-qYY"/>
                                 <toolbarItem reference="MQr-un-bBt"/>
-                                <toolbarItem reference="AwX-nU-XIN"/>
+                                <toolbarItem reference="Fk7-Vk-xXx"/>
                                 <toolbarItem reference="KCB-ms-iiR"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -195,7 +197,8 @@
                     </window>
                     <connections>
                         <outlet property="MainToolBar" destination="Olf-7r-jti" id="mOd-dQ-sAa"/>
-                        <outlet property="WorldLockBarButton2" destination="43P-br-LdQ" id="79U-f8-c8I"/>
+                        <outlet property="WorldLockButton" destination="tRj-rh-9AP" id="Fhz-2X-M5h"/>
+                        <outlet property="WorldLockToolbarItem" destination="43P-br-LdQ" id="79U-f8-c8I"/>
                         <segue destination="BrD-hm-rhT" kind="relationship" relationship="window.shadowedContentViewController" id="w6z-7E-nbl"/>
                     </connections>
                 </windowController>
@@ -765,7 +768,7 @@
         <image name="ant.circle.fill" catalog="system" width="19" height="19"/>
         <image name="camera" catalog="system" width="23" height="18"/>
         <image name="gearshape.fill" catalog="system" width="20" height="20"/>
-        <image name="info.circle.fill" catalog="system" width="15" height="15"/>
+        <image name="info.circle.fill" catalog="system" width="19" height="19"/>
         <image name="lock.rotation" catalog="system" width="21" height="19"/>
         <image name="sun.max" catalog="system" width="20" height="20"/>
         <image name="wifi" catalog="system" width="21" height="16"/>
