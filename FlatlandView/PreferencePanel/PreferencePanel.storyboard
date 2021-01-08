@@ -24,13 +24,13 @@
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="xXa-Va-xc2"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="sYS-xp-8pI"/>
-                                <toolbarItem implicitItemIdentifier="6555D3DB-4076-4BED-A897-372B0D307910" label="General 2" paletteLabel="General 2" id="R6F-tE-Bns">
+                                <toolbarItem implicitItemIdentifier="6555D3DB-4076-4BED-A897-372B0D307910" label="General" paletteLabel="General" id="R6F-tE-Bns">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="ellipsis.circle" catalog="system" symbolScale="large"/>
                                     <size key="minSize" width="36" height="35.5"/>
                                     <size key="maxSize" width="36" height="35.5"/>
                                     <button key="view" id="PTa-eE-OZ9">
-                                        <rect key="frame" x="11" y="14" width="36" height="35.5"/>
+                                        <rect key="frame" x="6" y="14" width="36" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="iPA-yQ-opX">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -104,7 +104,7 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="pin.fill" catalog="system" symbolScale="small"/>
                                     <size key="minSize" width="37.5" height="35"/>
-                                    <size key="maxSize" width="34" height="34"/>
+                                    <size key="maxSize" width="38.5" height="35.5"/>
                                     <button key="view" id="aLv-b0-1Hw">
                                         <rect key="frame" x="12" y="14" width="38.5" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -123,7 +123,7 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="circle.dashed.inset.fill" catalog="system" symbolScale="small"/>
                                     <size key="minSize" width="37" height="35.5"/>
-                                    <size key="maxSize" width="34" height="34"/>
+                                    <size key="maxSize" width="37" height="35.5"/>
                                     <button key="view" id="pwG-yV-e97">
                                         <rect key="frame" x="10" y="14" width="37" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -140,23 +140,18 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="1005BC38-6F0B-4C26-A233-4E4837C2E3F3" label="Earthquakes" paletteLabel="Earthquakes" id="P4W-kP-dgO">
                                     <nil key="toolTip"/>
-                                    <imageReference key="image" image="house" catalog="system" symbolScale="large"/>
+                                    <imageReference key="image" image="bolt.circle" catalog="system" symbolScale="large"/>
                                     <size key="minSize" width="37" height="35.5"/>
-                                    <size key="maxSize" width="37.5" height="35.5"/>
+                                    <size key="maxSize" width="38" height="35.5"/>
                                     <button key="view" id="29m-z4-P1A">
-                                        <rect key="frame" x="18" y="14" width="37.5" height="35.5"/>
+                                        <rect key="frame" x="18" y="14" width="38" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="18E-Pm-I6J">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
-                                            <imageReference key="image" image="house" catalog="system" symbolScale="large"/>
+                                            <imageReference key="image" image="bolt.circle" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlack"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.transform.rotation.z">
-                                                <real key="value" value="0.60999999999999999"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="HandleEarthquakeButton:" target="VHg-z7-ETj" id="X8u-DG-8Sy"/>
                                         </connections>
@@ -1034,7 +1029,7 @@
                                                             </gridCell>
                                                             <gridCell row="5II-Tn-gbq" column="9m6-3G-QrO" id="aeA-LP-MhQ">
                                                                 <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="8cg-U0-Brg">
-                                                                    <rect key="frame" x="166" y="-2" width="42" height="25"/>
+                                                                    <rect key="frame" x="270" y="-2" width="42" height="25"/>
                                                                     <connections>
                                                                         <action selector="HandleViewUnescoSitesChanged:" target="y0W-XC-slf" id="8qj-xg-QUD"/>
                                                                     </connections>
@@ -1280,7 +1275,7 @@
                                                                     </columns>
                                                                     <gridCells>
                                                                         <gridCell row="hId-BF-JG9" column="wPg-YT-FIV" id="Xnw-96-gHn">
-                                                                            <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="gBK-cy-Kl9">
+                                                                            <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="gBK-cy-Kl9">
                                                                                 <rect key="frame" x="0.0" y="38" width="221" height="58"/>
                                                                                 <rows>
                                                                                     <gridRow id="6eD-05-od3"/>
@@ -1307,7 +1302,7 @@
                                                                                         </textField>
                                                                                     </gridCell>
                                                                                     <gridCell row="6eD-05-od3" column="v43-Rx-rRY" id="BEq-E0-Hp3">
-                                                                                        <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="E0i-OK-LQO">
+                                                                                        <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="E0i-OK-LQO">
                                                                                             <rect key="frame" x="144" y="29" width="42" height="25"/>
                                                                                             <connections>
                                                                                                 <action selector="HandleShowUserPOIsChanged:" target="y0W-XC-slf" id="GSx-BB-WRk"/>
@@ -1315,7 +1310,7 @@
                                                                                         </switch>
                                                                                     </gridCell>
                                                                                     <gridCell row="6eD-05-od3" column="hLz-Ub-gxj" id="5GZ-S3-2t1">
-                                                                                        <button key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Zf-7a-QDr">
+                                                                                        <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="1Zf-7a-QDr">
                                                                                             <rect key="frame" x="196" y="30.5" width="25.5" height="24"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="width" constant="25" id="QAG-N4-tMO"/>
@@ -1342,7 +1337,7 @@
                                                                                         </textField>
                                                                                     </gridCell>
                                                                                     <gridCell row="uOU-Ro-faA" column="v43-Rx-rRY" id="294-WE-Jws">
-                                                                                        <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Leo-Zh-z7g">
+                                                                                        <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Leo-Zh-z7g">
                                                                                             <rect key="frame" x="139" y="-7" width="58" height="32"/>
                                                                                             <buttonCell key="cell" type="push" title="Edit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fM5-vU-2k8">
                                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1354,7 +1349,7 @@
                                                                                         </button>
                                                                                     </gridCell>
                                                                                     <gridCell row="uOU-Ro-faA" column="hLz-Ub-gxj" id="7v5-6s-hFI">
-                                                                                        <button key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AEn-4n-EQg">
+                                                                                        <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="AEn-4n-EQg">
                                                                                             <rect key="frame" x="196" y="-1.5" width="25.5" height="24"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="width" constant="25" id="6aq-oJ-Ulg"/>
@@ -2178,9 +2173,9 @@
         <image name="NorthCenterIcon" width="24" height="24"/>
         <image name="RectangleIcon" width="24" height="24"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
+        <image name="bolt.circle" catalog="system" width="19" height="19"/>
         <image name="circle.dashed.inset.fill" catalog="system" width="13" height="13"/>
         <image name="ellipsis.circle" catalog="system" width="19" height="19"/>
-        <image name="house" catalog="system" width="23" height="20"/>
         <image name="map" catalog="system" width="20" height="18"/>
         <image name="network" catalog="system" width="19" height="19"/>
         <image name="pin.fill" catalog="system" width="13" height="14"/>
