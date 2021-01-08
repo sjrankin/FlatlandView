@@ -15,7 +15,7 @@ class MainWindow: NSWindowController, NSWindowDelegate
     override func windowDidLoad()
     {
         window?.acceptsMouseMovedEvents = true
-        WorldLockBarButton2.toolTip = "Locks or unlocks camera motion for views."
+        WorldLockButton.toolTip = "Locks or unlocks camera motion for views."
     }
     
     /// Handle resize window events.
@@ -76,6 +76,7 @@ class MainWindow: NSWindowController, NSWindowDelegate
         Item.image = Image
     }
     
-    @IBOutlet weak var WorldLockBarButton2: NSToolbarItem!
+    @IBOutlet weak var WorldLockButton: NSButton!
+    @IBOutlet weak var WorldLockToolbarItem: NSToolbarItem!
     @IBOutlet weak var MainToolBar: NSToolbar!
 }
