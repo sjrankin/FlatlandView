@@ -323,7 +323,7 @@ enum SettingKeys: String, CaseIterable
     /// Boolean: If true, sites are plotted on the stencil layer. If false, sites are plotted as 3D objects.
     case PlotSitesAs2D = "PlotSitesAs2D"
     
-    // MARK: - Asynchronous settings.
+    // MARK: - Earthquake settings.
     //Earthquake asynchronous settings.
     /// Double: How often, in seconds, to fetch earthquake data.
     case EarthquakeFetchInterval = "EarthquakeFetchInterval"
@@ -404,6 +404,8 @@ enum SettingKeys: String, CaseIterable
     case NotifiedEarthquakes = "NotifiedEarthquakes"
     /// Where notifications appear.
     case NotifyLocation = "NotifyLocation"
+    
+    // MARK: - NASA tiles settings.
     /// Boolean: Set according to the environment variable "enable_nasa_tiles". Not user
     ///          accessible. If "enable_nasa_tiles" is not present, true is put into this
     ///          settings.
