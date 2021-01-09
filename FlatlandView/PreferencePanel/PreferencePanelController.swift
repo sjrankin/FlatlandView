@@ -226,10 +226,6 @@ Lets you change the sample view of the map you are looking at.
 """
                     
                 //MARK: - Earthquake help.
-                case .AnimateQuakes: Message = """
-Lets you show earthquakes with animated indicators. |bgcolor yellow|On low-powered systems, will take more battery power.|bgcolor clear|
-"""
-                    
                 case .QuakeRegions:
                     Message = """
 Click the Set Regions button to edit regions. Ignored if regions are disabled.
@@ -254,12 +250,18 @@ You can select the shape of the earthquake indicator here.
                 case .QuakeFetchFrequency:
                     Message = """
 How often to fetch new earthquakes from the USGS. Each time data is fetched, an average of about 1000 earthquakes is returned for about 10k of data. Increase the frequency to save data.
+
 If you do not have an active internet connection, this value is ignored.
 """
                     
                 case .QuakeHighlight:
                     Message = """
 If enabled, "new" earthquakes (24 hours old or less) are highlighted visually.
+"""
+                    
+                case .QuakeCheckNow:
+                    Message = """
+Check for new earthquakes. Result availability is determined by how busy the remote server is and your internet connection speed.
 """
                     
                 // MARK: - Map attributes help.
@@ -388,13 +390,13 @@ enum PreferenceHelp: String, CaseIterable
     
     case MapSample = "MapSample"
     
-    case AnimateQuakes = "AnimateQuakes"
     case QuakeRegions = "QuakeRegions"
     case DisplayQuakes = "DisplayQuakes"
     case QuakeHighlight = "QuakeHighlight"
     case QuakeShape = "QuakeShape"
     case EnableQuakeRegions = "EnableQuakeRegions"
     case QuakeFetchFrequency = "QuakeFetchFrequency"
+    case QuakeCheckNow = "QuakeCheckNow"
     
     case ShowGridLines = "ShowGridLines"
     case GridLineColor = "GridLineColor"
