@@ -243,6 +243,7 @@ class EarthquakeRegionController2: NSViewController, NSTextFieldDelegate,
     {
     }
     
+    @IBOutlet weak var RegionAgeCombo: NSComboBox!
     @IBOutlet weak var NewButton: NSButton!
     @IBOutlet weak var UpdateButton: NSButton!
     @IBOutlet weak var RegionTable: NSTableView!
