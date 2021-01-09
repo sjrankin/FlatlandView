@@ -26,10 +26,10 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
         LiveDataItem.view?.layer?.cornerRadius = 3.0
         LiveDataItem.view?.layer?.borderWidth = 1.0
         LiveDataItem.view?.layer?.borderColor = NSColor.clear.cgColor
-        GeneralItem2.view?.wantsLayer = true
-        GeneralItem2.view?.layer?.cornerRadius = 3.0
-        GeneralItem2.view?.layer?.borderWidth = 1.0
-        GeneralItem2.view?.layer?.borderColor = NSColor.clear.cgColor
+        GeneralItem.view?.wantsLayer = true
+        GeneralItem.view?.layer?.cornerRadius = 3.0
+        GeneralItem.view?.layer?.borderWidth = 1.0
+        GeneralItem.view?.layer?.borderColor = NSColor.clear.cgColor
         SatelliteItem.view?.wantsLayer = true
         SatelliteItem.view?.layer?.cornerRadius = 3.0
         SatelliteItem.view?.layer?.borderWidth = 1.0
@@ -43,7 +43,7 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
         MapAttributesItem.view?.layer?.borderWidth = 1.0
         MapAttributesItem.view?.layer?.borderColor = NSColor.clear.cgColor
         
-        ButtonMap[GeneralButton2] = GeneralItem2
+        ButtonMap[GeneralButton2] = GeneralItem
         ButtonMap[LiveDataButton] = LiveDataItem
         ButtonMap[QuakeButton] = QuakeItem
         ButtonMap[POIButton] = POIItem
@@ -58,25 +58,8 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
     /// - Parameter IsDark: Is in dark mode flag.
     func HandleThemeChanged(_ IsDark: Bool)
     {
-        #if false
-        if IsDark
-        {
-            CurrentHighlightColor = NSColor(RGB: 0x101010)
-            BorderColor = NSColor.lightGray
-        }
-        else
-        {
-            CurrentHighlightColor = NSColor.controlAccentColor
-            BorderColor = NSColor.black
-        }
-        if let Item = CurrentlyHighlightedItem
-        {
-            Item.view?.layer?.backgroundColor = CurrentHighlightColor.cgColor
-            Item.view?.layer?.borderColor = BorderColor.cgColor
-        }
-        #endif
     }
-
+    
     func windowWillClose(_ notification: Notification)
     {
     }
@@ -87,15 +70,7 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
     
     func DeHighlight(_ Button: NSButton)
     {
-        if let Item = ButtonMap[Button]
-        {
-            #if true
-            Button.contentTintColor = NSColor(named: "ControlBlack")
-            #else
-            Item.view?.layer?.backgroundColor = NSColor.clear.cgColor
-            Item.view?.layer?.borderColor = NSColor.clear.cgColor
-            #endif
-        }
+        Button.contentTintColor = NSColor(named: "ControlBlack")
     }
     
     func Highlight(_ Button: NSButton)
@@ -108,12 +83,7 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
         if let Item = ButtonMap[Button]
         {
             CurrentlyHighlightedItem = Item
-            #if true
             Button.contentTintColor = NSColor.controlAccentColor
-            #else
-            Item.view?.layer?.backgroundColor = CurrentHighlightColor.cgColor
-            Item.view?.layer?.borderColor = BorderColor.cgColor
-            #endif
         }
     }
     
@@ -121,7 +91,7 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
     var CurrentHighlightColor: NSColor = NSColor.controlAccentColor
     var BorderColor = NSColor.black
     
-    @IBOutlet weak var GeneralItem2: NSToolbarItem!
+    @IBOutlet weak var GeneralItem: NSToolbarItem!
     @IBOutlet weak var LiveDataItem: NSToolbarItem!
     @IBOutlet weak var MapsItem: NSToolbarItem!
     @IBOutlet weak var POIItem: NSToolbarItem!
