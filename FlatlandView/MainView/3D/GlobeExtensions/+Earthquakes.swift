@@ -22,13 +22,10 @@ extension GlobeView
         {
             if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
             {
-                //print("EarthquakeList.count=\(EarthquakeList.count)")
                 if let FromWhere = From
                 {
                     print("Called from \(FromWhere)")
                 }
-                //let StackFrames = Debug.StackFrameContents(6)
-                //Debug.Print(Debug.PrettyStackTrace(StackFrames))
                 if let AlreadyDone = InitialStenciledMap
                 {
                     ApplyEarthquakeStencils(InitialMap: AlreadyDone, Caller: #function)
@@ -87,12 +84,6 @@ extension GlobeView
         let Set1 = Set<String>(List1.map{$0.Code})
         let Set2 = Set<String>(List2.map{$0.Code})
         let DeltaSet = Set1.subtracting(Set2)
-        #if false
-        if DeltaSet.count > 0
-        {
-            print("DeltaSet.count=\(DeltaSet.count)")
-        }
-        #endif
         
         let SList1 = List1.sorted(by: {$0.Code < $1.Code})
         let SList2 = List2.sorted(by: {$0.Code < $1.Code})
@@ -485,6 +476,7 @@ extension GlobeView
                 FinalNode.NodeID = Quake.ID
                 
             case .Pyramid:
+                RadialOffset = 0.0
                 FinalNode = SCNNode2(geometry: SCNPyramid(width: CGFloat(Quake3D.PyramidWidth.rawValue),
                                                           height: CGFloat(Quake3D.PyramidHeightMultiplier.rawValue * Percent),
                                                           length: CGFloat(Quake3D.PyramidLength.rawValue)))
@@ -801,6 +793,9 @@ extension GlobeView
                 let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
                 let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.1)
                 let Indicator = SCNNode2(geometry: IndicatorShape)
+                #if true
+                Indicator.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: 0xffa080)
+                #else
                 let TextureType = Settings.GetEnum(ForKey: .EarthquakeTextures, EnumType: EarthquakeTextures.self, Default: .Gradient1)
                 guard let TextureName = TextureMap[TextureType] else
                 {
@@ -816,6 +811,7 @@ extension GlobeView
                     Indicator.geometry?.firstMaterial?.diffuse.contents = NSImage(named: TextureName)
                 }
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
+                #endif
                 Indicator.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
                 
                 let Rotate = SCNAction.rotateBy(x: CGFloat(0.0.Radians),
