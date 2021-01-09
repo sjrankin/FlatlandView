@@ -284,7 +284,7 @@ class MainController: NSViewController
                                        "Currently unlocked: Click to reset then lock world scenes"
             WindowController.WorldLockButton.toolTip = TooltipText
             let NewImage = Locked ? NSImage(systemSymbolName: "lock.rotation", accessibilityDescription: nil) :
-                                    NSImage(systemSymbolName: "arrow.triangle.2.circlepath", accessibilityDescription: nil)
+                                    NSImage(systemSymbolName: "lock.rotation.open", accessibilityDescription: nil)
             WindowController.WorldLockToolbarItem.image = NewImage
             WindowController.WorldLockToolbarItem.label = Locked ? "Locked" : "Unlocked"
             let LockMenu = GetAppDelegate().LockUnlockMenuItem
