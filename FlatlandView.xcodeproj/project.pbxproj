@@ -16,6 +16,8 @@
 		1704D3F4256A4DA100DE0F85 /* StencilPipelineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1704D3F3256A4DA100DE0F85 /* StencilPipelineProtocol.swift */; };
 		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
 		1707A7AF249CACAB00A90FCA /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1707A7AE249CACAB00A90FCA /* Earthquake.swift */; };
+		1709A0C025A94869008B89DD /* EarthquakeRegionWindow3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1709A0BF25A94869008B89DD /* EarthquakeRegionWindow3.swift */; };
+		1709A0C325A9488D008B89DD /* EarthquakeRegionController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1709A0C225A9488D008B89DD /* EarthquakeRegionController3.swift */; };
 		170D42A32583137D00FD7AD2 /* PreferenceHelpViewer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 170D42A22583137D00FD7AD2 /* PreferenceHelpViewer.storyboard */; };
 		170E7BE92559165F00EA3AD3 /* +DynamicInfoDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BE82559165F00EA3AD3 /* +DynamicInfoDisplay.swift */; };
 		170E7BF12559284300EA3AD3 /* FloatingViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */; };
@@ -422,6 +424,8 @@
 		1704D3F3256A4DA100DE0F85 /* StencilPipelineProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilPipelineProtocol.swift; sourceTree = "<group>"; };
 		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
 		1707A7AE249CACAB00A90FCA /* Earthquake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
+		1709A0BF25A94869008B89DD /* EarthquakeRegionWindow3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow3.swift; sourceTree = "<group>"; };
+		1709A0C225A9488D008B89DD /* EarthquakeRegionController3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController3.swift; sourceTree = "<group>"; };
 		170D42A22583137D00FD7AD2 /* PreferenceHelpViewer.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PreferenceHelpViewer.storyboard; sourceTree = "<group>"; };
 		170E7BE82559165F00EA3AD3 /* +DynamicInfoDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+DynamicInfoDisplay.swift"; sourceTree = "<group>"; };
 		170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FloatingViews.storyboard; sourceTree = "<group>"; };
@@ -1818,6 +1822,8 @@
 				17E901E92552C38B0097A89A /* SubPanels.storyboard */,
 				173056B92553BAD700B1D4C9 /* DeleteConfirmationWindow.swift */,
 				173056BC2553BAFE00B1D4C9 /* DeleteConfirmationController.swift */,
+				1709A0BF25A94869008B89DD /* EarthquakeRegionWindow3.swift */,
+				1709A0C225A9488D008B89DD /* EarthquakeRegionController3.swift */,
 			);
 			path = SubPanels;
 			sourceTree = "<group>";
@@ -2348,6 +2354,7 @@
 				17F9AFDF252033DF00DE0219 /* +Double.swift in Sources */,
 				1748913124C5747C00B5F6AF /* EarthData.swift in Sources */,
 				1759AE6A249F823A003F79F5 /* EarthquakeSettingsWindow.swift in Sources */,
+				1709A0C025A94869008B89DD /* EarthquakeRegionWindow3.swift in Sources */,
 				179BE7C724ED07020025B349 /* TodayCode.swift in Sources */,
 				17FE3BE4256F74F300451F9F /* LocationWindow.swift in Sources */,
 				17F782C524979218000A568E /* +Earthquakes.swift in Sources */,
@@ -2424,6 +2431,7 @@
 				174A6A342557D24B00488274 /* ClockControlPanel.swift in Sources */,
 				177389382596D511002698E8 /* +Rotations.swift in Sources */,
 				17F9AFE82520344F00DE0219 /* +CGPoint.swift in Sources */,
+				1709A0C325A9488D008B89DD /* EarthquakeRegionController3.swift in Sources */,
 				17897C872514AA1100544DE1 /* +MainEventHandling.swift in Sources */,
 				1792486B251A1E3100AF4D4B /* +FlatViewEarthquakes.swift in Sources */,
 				173056C02553E7C700B1D4C9 /* +FollowMode.swift in Sources */,
