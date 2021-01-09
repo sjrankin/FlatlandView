@@ -60,7 +60,15 @@ class TodayCode: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
             self.TimeZoneSeconds = TimezoneSeconds
             LocationNote.stringValue = ""
             TimeTable.removeAll()
-            let HomeName = ShowHomeData ? Settings.GetString(.UserHomeName, "") : Settings.GetString(.DailyLocationName, "")
+            var HomeName = ""
+            if ShowHomeData
+            {
+                HomeName = Settings.GetSecureString(.UserHomeName) ?? ""
+            }
+            else
+            {
+                HomeName = Settings.GetString(.DailyLocationName, "")
+            }
             let LatS = Latitude >= 0.0 ? "\(Latitude.RoundedTo(4))N" : "\(abs(Latitude).RoundedTo(4))S"
             let LonS = Longitude >= 0.0 ? "\(Longitude.RoundedTo(4))E" : "\(abs(Longitude).RoundedTo(4))W"
             let LocationString = "\(LatS), \(LonS)"
