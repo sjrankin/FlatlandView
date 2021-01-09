@@ -2,6 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,29 +24,39 @@
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="MgA-tJ-w9S"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Oyk-6M-edr"/>
-                                <toolbarItem implicitItemIdentifier="C934AECA-BE6B-4537-BE78-F85453720BE8" label="Set Home" paletteLabel="Set Home Location" image="HomeIcon" sizingBehavior="auto" id="mu7-je-xbc">
+                                <toolbarItem implicitItemIdentifier="C934AECA-BE6B-4537-BE78-F85453720BE8" label="Set Home" paletteLabel="Set Home Location" id="mu7-je-xbc">
                                     <nil key="toolTip"/>
+                                    <imageReference key="image" image="house.fill" catalog="system" symbolScale="large"/>
+                                    <size key="minSize" width="23.5" height="20"/>
+                                    <size key="maxSize" width="36" height="36"/>
                                     <button key="view" id="g8t-A0-k21">
-                                        <rect key="frame" x="30" y="14" width="48" height="48"/>
+                                        <rect key="frame" x="42" y="14" width="23.5" height="20"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="HomeIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="F3K-uw-obN">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="F3K-uw-obN">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <imageReference key="image" image="house.fill" catalog="system" symbolScale="large"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
                                     </button>
                                     <connections>
                                         <action selector="HandleSetHomeLocationButton:" target="HCg-N9-of7" id="rMr-J8-ShA"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="CF3947B2-0CEE-4510-95AA-AFAB8707ABE0" label="Set Other" paletteLabel="Set Other Location" image="SearchIcon" sizingBehavior="auto" id="afa-CR-XES">
+                                <toolbarItem implicitItemIdentifier="CF3947B2-0CEE-4510-95AA-AFAB8707ABE0" label="Set Other" paletteLabel="Set Other Location" id="afa-CR-XES">
                                     <nil key="toolTip"/>
+                                    <imageReference key="image" image="magnifyingglass.circle.fill" catalog="system" symbolScale="large"/>
+                                    <size key="minSize" width="24" height="24"/>
+                                    <size key="maxSize" width="36" height="36"/>
                                     <button key="view" id="hnn-Zg-gvC">
-                                        <rect key="frame" x="29" y="14" width="48" height="48"/>
+                                        <rect key="frame" x="41" y="14" width="24" height="24"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SearchIcon" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Dpx-WD-lc9">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Dpx-WD-lc9">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <imageReference key="image" image="magnifyingglass.circle.fill" catalog="system" symbolScale="large"/>
                                         </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
                                     </button>
                                     <connections>
                                         <action selector="HandleUseOtherLocationButton:" target="HCg-N9-of7" id="Y7W-Rc-p77"/>
@@ -53,7 +65,7 @@
                                 <toolbarItem implicitItemIdentifier="BBA3429E-AD05-49B4-BD31-5E13E1945F1C" label="Location" paletteLabel="Location" sizingBehavior="auto" id="hRv-8s-fgg">
                                     <nil key="toolTip"/>
                                     <segmentedControl key="view" verticalHuggingPriority="750" id="866-Lc-Wth">
-                                        <rect key="frame" x="0.0" y="14" width="120" height="24"/>
+                                        <rect key="frame" x="0.0" y="14" width="120" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="mKt-Xc-6ru">
                                             <font key="font" metaFont="system"/>
@@ -437,7 +449,10 @@ Gw
         </scene>
     </scenes>
     <resources>
-        <image name="HomeIcon" width="24" height="24"/>
-        <image name="SearchIcon" width="24" height="24"/>
+        <image name="house.fill" catalog="system" width="23" height="20"/>
+        <image name="magnifyingglass.circle.fill" catalog="system" width="19" height="19"/>
+        <namedColor name="ControlBlack">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
