@@ -40,7 +40,7 @@ class EarthquakeSettingsWindow: NSViewController, FontProtocol
         FrequencyCombo.addItem(withObjectValue: "1 minute")
         FrequencyCombo.addItem(withObjectValue: "5 minutes")
         FrequencyCombo.addItem(withObjectValue: "10 minutes")
-        FrequencyCombo.addItem(withObjectValue: "30 minute")
+        FrequencyCombo.addItem(withObjectValue: "30 minutes")
         FrequencyCombo.addItem(withObjectValue: "1 hour")
         switch FetchInterval
         {
