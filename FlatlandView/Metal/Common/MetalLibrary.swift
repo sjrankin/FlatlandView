@@ -75,6 +75,8 @@ class MetalLibrary
     
     static var TextureBlock: NSObject = NSObject()
     
+
+    
     /// Convert an `NSImage` to a `MTLTexture` for use with Metal compute shaders.
     /// - Parameter From: The image to convert.
     /// - Parameter ForWriting: If true, the returned Metal texture will allow writing. Otherwise, it will
@@ -87,6 +89,18 @@ class MetalLibrary
     {
         objc_sync_enter(TextureBlock)
         defer{objc_sync_exit(TextureBlock)}
+        #if true
+            guard let MDevice = MTLCreateSystemDefaultDevice() else
+            {
+                Debug.Print("Error creating system device.")
+                return nil
+            }
+        if let Texture = From.MakeTexture(ForWriting: true, ImageDevice: MDevice, AsCG: &AsCG)
+        {
+            return Texture
+        }
+        print("Error returned from MakeTextureZ")
+        #else
         let ImageSize = From.size
         if let Adjusted = MetalLibrary.AdjustColorSpace(For: From, ForceSize: ImageSize)
         {
@@ -112,9 +126,12 @@ class MetalLibrary
                                     bitmapInfo: BitmapInfo.rawValue)
             if Context == nil
             {
-                fatalError("Error creating CGContext in \(#function)")
+                Debug.FatalError("Error creating CGContext in \(#function)")
             }
-            Context!.draw(Adjusted, in: CGRect(x: 0, y: 0, width: ImageWidth, height: ImageHeight))
+            let Trace = Debug.StackFrameContents(12)
+            Debug.Print("MakeTexture: \(Debug.PrettyStackTrace(Trace))")
+            let TargetRect = CGRect(x: 0, y: 0, width: ImageWidth, height: ImageHeight)
+            Context!.draw(Adjusted, in: TargetRect)
             let TextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba8Unorm,
                                                                              width: Int(ImageWidth),
                                                                              height: Int(ImageHeight),
@@ -131,9 +148,10 @@ class MetalLibrary
             let Region = MTLRegionMake2D(0, 0, Int(ImageWidth), Int(ImageHeight))
             TileTexture.replace(region: Region, mipmapLevel: 0, withBytes: &RawData,
                                 bytesPerRow: BytesPerRow)
-//            RawData.removeAll()
+            //            RawData.removeAll()
             return TileTexture
-            }
+        }
+        #endif
         return nil
     }
     
@@ -166,5 +184,32 @@ class MetalLibrary
                             bytesPerRow: BytesPerRow)
         RawData.removeAll()
         return TileTexture
+    }
+}
+
+extension CGImage
+{
+    var PNG: Data?
+    {
+        guard let MutableData = CFDataCreateMutable(nil, 0) else
+        {
+            print("Error from CFDataCreateMutable")
+            return nil
+        }
+             guard let Destination = CGImageDestinationCreateWithData(MutableData,
+                                                                 "public.png" as CFString,
+                                                                 1,
+                                                                 nil) else
+        {
+            print("Error from CGImageDestinationCreatWithData")
+            return nil
+        }
+        CGImageDestinationAddImage(Destination, self, nil)
+        guard CGImageDestinationFinalize(Destination) else
+        {
+            print("Error from CGImageDestinationFinalized")
+            return nil
+        }
+        return MutableData as Data
     }
 }
