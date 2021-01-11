@@ -723,7 +723,7 @@
                                             </columns>
                                             <gridCells>
                                                 <gridCell row="Lal-OV-ZfL" column="UmP-3q-98d" id="2kf-I2-glA">
-                                                    <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="d8I-iV-is0">
+                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="d8I-iV-is0">
                                                         <rect key="frame" x="0.0" y="146" width="266" height="58"/>
                                                         <rows>
                                                             <gridRow id="pQC-5s-rEN"/>
@@ -746,7 +746,7 @@
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="pQC-5s-rEN" column="3Cz-Lb-4Qr" id="SOw-sU-2NM">
-                                                                <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="SS9-LH-vXY">
+                                                                <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="SS9-LH-vXY">
                                                                     <rect key="frame" x="73" y="34" width="42" height="25"/>
                                                                     <connections>
                                                                         <action selector="HandleShowCitiesChanged:" target="y0W-XC-slf" id="QG2-ye-O8G"/>
@@ -754,7 +754,7 @@
                                                                 </switch>
                                                             </gridCell>
                                                             <gridCell row="pQC-5s-rEN" column="DQQ-qS-Ogb" id="0XC-Nk-Lax">
-                                                                <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="OSd-Ww-nff">
+                                                                <button key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OSd-Ww-nff">
                                                                     <rect key="frame" x="241" y="35.5" width="25.5" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="25" id="uXn-lS-SpS"/>
@@ -781,7 +781,7 @@
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="pW9-Oc-FLx" column="3Cz-Lb-4Qr" id="cac-cR-BJ1">
-                                                                <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4VA-IY-bsk">
+                                                                <comboBox key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4VA-IY-bsk">
                                                                     <rect key="frame" x="75" y="-3" width="163" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="19" id="MYf-n0-KRU"/>
@@ -804,7 +804,7 @@
                                                                 </comboBox>
                                                             </gridCell>
                                                             <gridCell row="pW9-Oc-FLx" column="DQQ-qS-Ogb" id="O7q-B7-qdG">
-                                                                <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="YgN-ok-3bI">
+                                                                <button key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YgN-ok-3bI">
                                                                     <rect key="frame" x="241" y="-1.5" width="25.5" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="25" id="EF8-Ie-XqS"/>
@@ -1007,7 +1007,7 @@
                                             </columns>
                                             <gridCells>
                                                 <gridCell row="Sb7-Ke-y3z" column="Ni5-LY-XhF" id="Qmn-b6-FO6">
-                                                    <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="0Df-NI-bLg">
+                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="0Df-NI-bLg">
                                                         <rect key="frame" x="0.0" y="54" width="310" height="22"/>
                                                         <rows>
                                                             <gridRow id="5II-Tn-gbq"/>
@@ -1029,7 +1029,7 @@
                                                             </gridCell>
                                                             <gridCell row="5II-Tn-gbq" column="9m6-3G-QrO" id="aeA-LP-MhQ">
                                                                 <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="8cg-U0-Brg">
-                                                                    <rect key="frame" x="270" y="-2" width="42" height="25"/>
+                                                                    <rect key="frame" x="166" y="-2" width="42" height="25"/>
                                                                     <connections>
                                                                         <action selector="HandleViewUnescoSitesChanged:" target="y0W-XC-slf" id="8qj-xg-QUD"/>
                                                                     </connections>
@@ -1145,7 +1145,7 @@
                                                                     <gridCells>
                                                                         <gridCell row="DFx-Z1-EQo" column="UW8-hp-Esb" id="jj6-rM-2zm">
                                                                             <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="x62-QB-PcX">
-                                                                                <rect key="frame" x="0.0" y="38" width="267" height="48"/>
+                                                                                <rect key="frame" x="0.0" y="38" width="214" height="48"/>
                                                                                 <rows>
                                                                                     <gridRow id="IFg-Gc-ymR"/>
                                                                                     <gridRow id="qfh-ws-Fyz"/>
@@ -1168,7 +1168,7 @@
                                                                                     </gridCell>
                                                                                     <gridCell row="IFg-Gc-ymR" column="vk4-bN-J8o" id="grV-rS-ibc">
                                                                                         <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="lzZ-vS-iXi">
-                                                                                            <rect key="frame" x="190" y="24" width="42" height="25"/>
+                                                                                            <rect key="frame" x="137" y="24" width="42" height="25"/>
                                                                                             <connections>
                                                                                                 <action selector="HandleShowHomeChanged:" target="y0W-XC-slf" id="AfZ-Ue-nXU"/>
                                                                                             </connections>
@@ -1176,7 +1176,7 @@
                                                                                     </gridCell>
                                                                                     <gridCell row="IFg-Gc-ymR" column="zO1-9d-DdC" id="IvZ-0S-AiD">
                                                                                         <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="dXZ-9b-sjO">
-                                                                                            <rect key="frame" x="242" y="25.5" width="25.5" height="24"/>
+                                                                                            <rect key="frame" x="189" y="25.5" width="25.5" height="24"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="height" constant="20" id="P2A-nw-J13"/>
                                                                                                 <constraint firstAttribute="width" constant="25" id="qwD-i9-D4f"/>
@@ -1203,7 +1203,7 @@
                                                                                     </gridCell>
                                                                                     <gridCell row="qfh-ws-Fyz" column="vk4-bN-J8o" id="h2E-Ms-SRe">
                                                                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="noq-aD-Uan">
-                                                                                            <rect key="frame" x="185" y="-7" width="58" height="32"/>
+                                                                                            <rect key="frame" x="132" y="-7" width="58" height="32"/>
                                                                                             <buttonCell key="cell" type="push" title="Edit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ynk-9r-IRa">
                                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                 <font key="font" metaFont="system"/>
@@ -1215,7 +1215,7 @@
                                                                                     </gridCell>
                                                                                     <gridCell row="qfh-ws-Fyz" column="zO1-9d-DdC" id="Uht-Jh-gqb">
                                                                                         <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="9IG-ZP-JLm">
-                                                                                            <rect key="frame" x="242" y="-1.5" width="25.5" height="24"/>
+                                                                                            <rect key="frame" x="189" y="-1.5" width="25.5" height="24"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="width" constant="25" id="5Zw-as-nMz"/>
                                                                                                 <constraint firstAttribute="height" constant="20" id="Ei1-Zx-XU8"/>
@@ -1847,7 +1847,7 @@
                                     <constraint firstAttribute="height" constant="375" id="hp5-JS-vFY"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="wZf-v0-XfK">
-                                    <rect key="frame" x="1" y="388" width="178" height="15"/>
+                                    <rect key="frame" x="1" y="359" width="178" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Hst-Rj-evo">
