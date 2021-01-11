@@ -378,6 +378,10 @@
 		17F1E5D5254915AD00E6F6CF /* RainParticleTest.sks in Resources */ = {isa = PBXBuildFile; fileRef = 17F1E5D4254915AD00E6F6CF /* RainParticleTest.sks */; };
 		17F2D7122583257D00DD8023 /* AttributedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F2D7112583257D00DD8023 /* AttributedText.swift */; };
 		17F44AA824CEF67700A02B19 /* SatelliteMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F44AA724CEF67700A02B19 /* SatelliteMap.swift */; };
+		17F47B5825AA94CB00A3A281 /* ImageMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F47B5725AA94CB00A3A281 /* ImageMerger.swift */; };
+		17F47B5B25AAC4EE00A3A281 /* +Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F47B5A25AAC4EE00A3A281 /* +Regions.swift */; };
+		17F47B6125AAEBA600A3A281 /* NodeRotationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F47B6025AAEBA600A3A281 /* NodeRotationWindow.swift */; };
+		17F47B6425AAEBD200A3A281 /* NodeRotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F47B6325AAEBD200A3A281 /* NodeRotationController.swift */; };
 		17F4FFE825A407D7004A2EFA /* LiveDataStatus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17F4FFE725A407D7004A2EFA /* LiveDataStatus.storyboard */; };
 		17F6C4F1257BA019003FFDA2 /* MapDebugPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */; };
 		17F6C4F5257BA24F003FFDA2 /* +Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C4F4257BA24F003FFDA2 /* +Debug.swift */; };
@@ -796,6 +800,10 @@
 		17F1E5D4254915AD00E6F6CF /* RainParticleTest.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RainParticleTest.sks; sourceTree = "<group>"; };
 		17F2D7112583257D00DD8023 /* AttributedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedText.swift; sourceTree = "<group>"; };
 		17F44AA724CEF67700A02B19 /* SatelliteMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SatelliteMap.swift; sourceTree = "<group>"; };
+		17F47B5725AA94CB00A3A281 /* ImageMerger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMerger.swift; sourceTree = "<group>"; };
+		17F47B5A25AAC4EE00A3A281 /* +Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Regions.swift"; sourceTree = "<group>"; };
+		17F47B6025AAEBA600A3A281 /* NodeRotationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeRotationWindow.swift; sourceTree = "<group>"; };
+		17F47B6325AAEBD200A3A281 /* NodeRotationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeRotationController.swift; sourceTree = "<group>"; };
 		17F4FFE725A407D7004A2EFA /* LiveDataStatus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LiveDataStatus.storyboard; sourceTree = "<group>"; };
 		17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDebugPanel.swift; sourceTree = "<group>"; };
 		17F6C4F4257BA24F003FFDA2 /* +Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Debug.swift"; sourceTree = "<group>"; };
@@ -1084,6 +1092,7 @@
 		174A6A2E2557D21A00488274 /* DebugPanels */ = {
 			isa = PBXGroup;
 			children = (
+				17F47B5E25AAEB8F00A3A281 /* SubPanels */,
 				174A6A2F2557D22500488274 /* LogPanel.swift */,
 				174A6A332557D24B00488274 /* ClockControlPanel.swift */,
 				17561A8C25678BE700FD0506 /* Debug3DPanel.swift */,
@@ -1302,6 +1311,7 @@
 		1767A8E224794A0100C434B5 /* FlatlandView */ = {
 			isa = PBXGroup;
 			children = (
+				17F47B5625AA94B200A3A281 /* ImageProcessing */,
 				175DCC672580BCDB00EB6D69 /* StaticText */,
 				173F3D3B24EB6C2D008B9870 /* ObjectiveC */,
 				17B7D7A524CECFB5000C077B /* Metal */,
@@ -1355,28 +1365,29 @@
 			isa = PBXGroup;
 			children = (
 				178E1CA525186E1300FDC75B /* +Initialize.swift */,
-				178E1CAB25186EB000FDC75B /* +ChangedSettingsHandler.swift */,
+				178E1CA225186DE900FDC75B /* +Attract.swift */,
 				17FFF8CB2567ED04008B50AD /* +Axes.swift */,
-				178E1C9F251829C700FDC75B /* +Lights.swift */,
 				178E1C9C2518288500FDC75B /* +Camera.swift */,
-				17854C662503649800D099A7 /* +Layers.swift */,
-				178A86A82489134300BE8D46 /* +GridLines.swift */,
-				178A86A3248912FA00BE8D46 /* +Locations.swift */,
-				1714DDBD25399401001A3002 /* +Home.swift */,
+				178E1CAB25186EB000FDC75B /* +ChangedSettingsHandler.swift */,
+				178A869F2489108C00BE8D46 /* +CubicEarth.swift */,
 				17F6C4F4257BA24F003FFDA2 /* +Debug.swift */,
 				17F782C424979218000A568E /* +Earthquakes.swift */,
-				1762BD672560BB2E009C6965 /* +MouseHandling.swift */,
-				1773893B25971771002698E8 /* +Menus.swift */,
-				178A86A12489127C00BE8D46 /* +Hours.swift */,
-				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
-				178A869F2489108C00BE8D46 /* +CubicEarth.swift */,
-				1727EA5724B15CD10051EA3B /* +UserCamera.swift */,
-				173EB18A2490D1B7006CDB86 /* +Orbits.swift */,
-				178E1CA225186DE900FDC75B /* +Attract.swift */,
 				173056BF2553E7C700B1D4C9 /* +FollowMode.swift */,
-				178A869D2489101E00BE8D46 /* StarField.swift */,
-				177389372596D511002698E8 /* +Rotations.swift */,
+				178A86A82489134300BE8D46 /* +GridLines.swift */,
+				1714DDBD25399401001A3002 /* +Home.swift */,
+				178A86A12489127C00BE8D46 /* +Hours.swift */,
+				17854C662503649800D099A7 /* +Layers.swift */,
+				178E1C9F251829C700FDC75B /* +Lights.swift */,
+				178A86A3248912FA00BE8D46 /* +Locations.swift */,
 				17C2F8EA259EBF2A00BCA628 /* +Maps.swift */,
+				1773893B25971771002698E8 /* +Menus.swift */,
+				1762BD672560BB2E009C6965 /* +MouseHandling.swift */,
+				173EB18A2490D1B7006CDB86 /* +Orbits.swift */,
+				17F47B5A25AAC4EE00A3A281 /* +Regions.swift */,
+				177389372596D511002698E8 /* +Rotations.swift */,
+				178A869D2489101E00BE8D46 /* StarField.swift */,
+				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
+				1727EA5724B15CD10051EA3B /* +UserCamera.swift */,
 			);
 			path = GlobeExtensions;
 			sourceTree = "<group>";
@@ -1971,6 +1982,31 @@
 			path = RectangleExtensions;
 			sourceTree = "<group>";
 		};
+		17F47B5625AA94B200A3A281 /* ImageProcessing */ = {
+			isa = PBXGroup;
+			children = (
+				17F47B5725AA94CB00A3A281 /* ImageMerger.swift */,
+			);
+			path = ImageProcessing;
+			sourceTree = "<group>";
+		};
+		17F47B5E25AAEB8F00A3A281 /* SubPanels */ = {
+			isa = PBXGroup;
+			children = (
+				17F47B5F25AAEB9800A3A281 /* NodeRotation */,
+			);
+			path = SubPanels;
+			sourceTree = "<group>";
+		};
+		17F47B5F25AAEB9800A3A281 /* NodeRotation */ = {
+			isa = PBXGroup;
+			children = (
+				17F47B6025AAEBA600A3A281 /* NodeRotationWindow.swift */,
+				17F47B6325AAEBD200A3A281 /* NodeRotationController.swift */,
+			);
+			path = NodeRotation;
+			sourceTree = "<group>";
+		};
 		17F4FFE625A407BB004A2EFA /* LiveDataStatus */ = {
 			isa = PBXGroup;
 			children = (
@@ -1985,15 +2021,15 @@
 			isa = PBXGroup;
 			children = (
 				174D035B252C952900692B89 /* +MainDatabase */,
-				17897C802514A93200544DE1 /* +MainInitialization.swift */,
-				17897C7D2514A72100544DE1 /* +MainSettingsHandler.swift */,
-				17897C832514A9BA00544DE1 /* +MainProtocolImplementation.swift */,
+				170E7BE82559165F00EA3AD3 /* +DynamicInfoDisplay.swift */,
 				17EB5C1225159AB1007A75EF /* +MainAsynchronous.swift */,
 				17897C862514AA1100544DE1 /* +MainEventHandling.swift */,
+				17897C802514A93200544DE1 /* +MainInitialization.swift */,
+				17897C832514A9BA00544DE1 /* +MainProtocolImplementation.swift */,
+				17897C7D2514A72100544DE1 /* +MainSettingsHandler.swift */,
+				17897C922514AB6E00544DE1 /* +MainTimeAndSun.swift */,
 				17897C8C2514AAB300544DE1 /* +MainTimers.swift */,
 				17897C892514AA6C00544DE1 /* +MainWindowing.swift */,
-				17897C922514AB6E00544DE1 /* +MainTimeAndSun.swift */,
-				170E7BE82559165F00EA3AD3 /* +DynamicInfoDisplay.swift */,
 				1774BD74256E417100D927F3 /* +SimpleStatus.swift */,
 				1720013C258C7F9A00EF2A72 /* +WorldClock.swift */,
 			);
@@ -2203,6 +2239,7 @@
 				17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */,
 				177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */,
 				17B7D7B424CED0C4000C077B /* SolidColorImage.swift in Sources */,
+				17F47B6125AAEBA600A3A281 /* NodeRotationWindow.swift in Sources */,
 				178A86A72489132800BE8D46 /* GlobeProtocol.swift in Sources */,
 				1747BDC5251353AF002B51D9 /* MetalGradientKernel.metal in Sources */,
 				178E6F792540546E00DA0F76 /* RoundTextTestController.swift in Sources */,
@@ -2296,6 +2333,7 @@
 				17A1811125737FCA002C6611 /* +Status.swift in Sources */,
 				17F9AFE52520342D00DE0219 /* +NSSize.swift in Sources */,
 				1736A4E5252EDCFC0070EE7F /* POIManager.swift in Sources */,
+				17F47B5B25AAC4EE00A3A281 /* +Regions.swift in Sources */,
 				175BA56525711F76001ED3A2 /* Locations.swift in Sources */,
 				1757CACF24949C6300ECA8C1 /* 3DDebugController.swift in Sources */,
 				17176C09254CFC3C0051960D /* EarthquakeViewerWindow.swift in Sources */,
@@ -2396,6 +2434,7 @@
 				17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */,
 				17DE2DD7259093BF00214204 /* HomeLocationWindow.swift in Sources */,
 				17EF339C247A68C600A5B55D /* Enums.swift in Sources */,
+				17F47B5825AA94CB00A3A281 /* ImageMerger.swift in Sources */,
 				170245D025986E0100DF9457 /* +Serialization.swift in Sources */,
 				170E7BF52559290900EA3AD3 /* MouseInfoController.swift in Sources */,
 				172F4A2924FA4B300014A65E /* +EnumHandling.swift in Sources */,
@@ -2479,6 +2518,7 @@
 				17EF3395247A66F000A5B55D /* MapList.swift in Sources */,
 				17A180F82572261A002C6611 /* CommandProtocol.swift in Sources */,
 				17A180FB25727188002C6611 /* +Help.swift in Sources */,
+				17F47B6425AAEBD200A3A281 /* NodeRotationController.swift in Sources */,
 				174A6A2C2557CD6600488274 /* DebugPanelBase.swift in Sources */,
 				172F0606255129DF00BEA156 /* POIPreferences.swift in Sources */,
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
