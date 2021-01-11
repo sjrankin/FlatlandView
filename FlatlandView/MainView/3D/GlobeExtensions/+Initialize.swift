@@ -187,6 +187,10 @@ extension GlobeView
         }
         #endif
         ApplyInitialStencils()
+        if Settings.GetBool(.ShowEarthquakeRegions)
+        {
+            PlotRegions()
+        }
     }
     
     #if DEBUG
