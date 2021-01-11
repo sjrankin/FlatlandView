@@ -126,56 +126,6 @@ class MainController: NSViewController
         SetWorldLock(Settings.GetBool(.WorldIsLocked))
         SetMouseLocationVisibility(Visible: Settings.GetBool(.FollowMouse))
         
-        #if false
-        //Make sure the proper segments in the toolbar segment controls are highlighted - macOS 11 does not
-        //highlight selected segments with sufficient contrast so we have to do it ourself.
-        if let WinCtrl = self.view.window?.windowController as? MainWindow
-        {
-            WinCtrl.ViewSegment.setImage(NSImage(named: "NorthCenterIcon"), forSegment: 0)
-            WinCtrl.ViewSegment.setImage(NSImage(named: "SouthCenterIcon"), forSegment: 1)
-            WinCtrl.ViewSegment.setImage(NSImage(named: "GlobeIcon"), forSegment: 2)
-            WinCtrl.ViewSegment.setImage(NSImage(named: "RectangleIcon"), forSegment: 3)
-            WinCtrl.ViewSegment.setImage(NSImage(named: "CubeIcon"), forSegment: 4)
-            switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D)
-            {
-                case .CubicWorld:
-                    WinCtrl.ViewSegment.setImage(NSImage(named: "CubeIconSelected"), forSegment: 4)
-                    
-                case .FlatNorthCenter:
-                    WinCtrl.ViewSegment.setImage(NSImage(named: "NorthCenterIconSelected"), forSegment: 0)
-                    
-                case .FlatSouthCenter:
-                    WinCtrl.ViewSegment.setImage(NSImage(named: "SouthCenterIconSelected"), forSegment: 1)
-                    
-                case .Globe3D:
-                    WinCtrl.ViewSegment.setImage(NSImage(named: "GlobeIconSelected"), forSegment: 2)
-                    
-                case .Rectangular:
-                    WinCtrl.ViewSegment.setImage(NSImage(named: "RectangleIconSelected"), forSegment: 3)
-                    
-            }
-            
-            WinCtrl.HourSegment.setImage(NSImage(named: "CircleIcon"), forSegment: 0)
-            WinCtrl.HourSegment.setImage(NSImage(named: "ClockIcon"), forSegment: 1)
-            WinCtrl.HourSegment.setImage(NSImage(named: "DeltaIcon"), forSegment: 2)
-            WinCtrl.HourSegment.setImage(NSImage(named: "PinIcon"), forSegment: 3)
-            switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .Solar)
-            {
-                case .None:
-                    WinCtrl.HourSegment.setImage(NSImage(named: "CircleIconSelected"), forSegment: 0)
-                    
-                case .RelativeToLocation:
-                    WinCtrl.HourSegment.setImage(NSImage(named: "PinIconSelected"), forSegment: 3)
-                    
-                case .RelativeToNoon:
-                    WinCtrl.HourSegment.setImage(NSImage(named: "DeltaIconSelected"), forSegment: 2)
-                    
-                case .Solar:
-                    WinCtrl.HourSegment.setImage(NSImage(named: "ClockIconSelected"), forSegment: 1)
-            }
-        }
-        #endif
-        
         ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
                        For: StatusBarConstants.InitialMessageDuration.rawValue)
         AddQueuedMessage("Getting earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
@@ -287,6 +237,7 @@ class MainController: NSViewController
                                     NSImage(systemSymbolName: "lock.rotation.open", accessibilityDescription: nil)
             WindowController.WorldLockToolbarItem.image = NewImage
             WindowController.WorldLockToolbarItem.label = Locked ? "Locked" : "Unlocked"
+            WindowController.WorldLockButton.contentTintColor = Locked ? NSColor(named: "ControlRed") : NSColor(named: "ControlGreen")
             let LockMenu = GetAppDelegate().LockUnlockMenuItem
             LockMenu?.state = Locked ? .off : .on
             Main3DView.SetCameraLock(Locked)
