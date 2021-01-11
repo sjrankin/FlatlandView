@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 class CommandLinePanel: PanelController, CommandLineProtocol, NSTextFieldDelegate, NSTextViewDelegate
-{
+{  
     /// Initialize the UI.
     /// - Note: [NSTextView with smart quotes disabled still replaces quotes](https://stackoverflow.com/questions/19801601/nstextview-with-smart-quotes-disabled-still-replaces-quotes)
     override func viewDidLoad()
