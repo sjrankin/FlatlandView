@@ -80,6 +80,7 @@ class Stenciler
         {
             Caller.StencilPipelineStarted(Time: CACurrentMediaTime())
             var Working = Image
+            #if true
             if Stages.contains(.EarthquakeRegions)
             {
                 let Regions = Settings.GetEarthquakeRegions()
@@ -91,6 +92,7 @@ class Stenciler
                     Caller.StageCompleted(Working, .EarthquakeRegions, CACurrentMediaTime())
                 }
             }
+            #endif
             if Stages.contains(.GridLines)
             {
                 Working = AddGridLines(To: Working, Ratio: MapRatio)
@@ -724,12 +726,15 @@ class Stenciler
                                     Kernel: ImageBlender) -> NSImage
     {
         var Final = Image
+        print("Drawing \(Regions.count) regions")
         for Region in Regions
         {
             if Region.IsFallback
             {
                 continue
             }
+            autoreleasepool
+            {
             let ImageWidth = Int(Image.size.width)
             let ImageHeight = Int(Image.size.height)
             var RegionWidth = GeoPoint.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
@@ -752,9 +757,20 @@ class Stenciler
                                                                         YPercent: &YPercent)
             FinalX = Int(Double(FinalX) * Ratio)
             FinalY = Int(Double(FinalY) * Ratio)
+            #if false
+            let SolidColor = SolidColorImage()
+            let Block = SolidColor.FillWithBorder(Width: Int(RegionWidth),
+                                                  Height: Int(RegionHeight),
+                                                  With: Region.RegionColor.withAlphaComponent(0.5),
+                                                  BorderThickness: 2,
+                                                  BorderColor: NSColor.black)
+            Final = ImageMerger.MergeImages(Background: Final, Sprite: Block!, At: CGPoint(x: FinalX, y: FinalY))
+            #else
             Final = Kernel.MergeImages(Background: Final, Sprite: Region.RegionColor.withAlphaComponent(0.5),
                                        SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
-                                       SpriteX: FinalX, SpriteY: FinalY)  
+                                       SpriteX: FinalX, SpriteY: FinalY)
+            #endif
+            }
         }
         return Final
     }
