@@ -214,6 +214,18 @@ class Debug3DPanel: PanelController, NSTableViewDelegate, NSTableViewDataSource
         }
     }
     
+    @IBAction func RotateNodeHandler(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "Debug", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "NodeRotationWindow") as? NodeRotationWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? NodeRotationController
+            Controller?.MainDelegate = self.Main
+            WindowController.showWindow(nil)
+        }
+    }
+    
     @IBOutlet weak var JitteringSwitch: NSSwitch!
     @IBOutlet weak var AntialiasCombo: NSComboBox!
     @IBOutlet weak var ShowAxesSwitch: NSSwitch!
