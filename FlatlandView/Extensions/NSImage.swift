@@ -412,6 +412,12 @@ extension NSImage
         return nil
     }
     
+    /// Create a Metal texture from the instance image.
+    /// - Parameter ForWriting: If true, the resultant texture can be written to, if false, the texture is
+    ///                         read-only.
+    /// - Paramater ImageDevice: The device where Metal runs.
+    /// - Paramater AsCG: On success, contains the instance image as a `CGImage`.
+    /// - Returns: A `MTLTexture` on success, nil on failure.
     public func MakeTexture(ForWriting: Bool = false, ImageDevice: MTLDevice,
                              AsCG: inout CGImage?) -> MTLTexture?
     {
