@@ -146,6 +146,9 @@ class SCNNode2: SCNNode
     /// Node ID. Defaults to nil.
     var NodeID: UUID? = nil
     
+    /// ID to use for editing the edit. Defaults to nil.
+    var EditID: UUID? = nil
+    
     /// Intended node usage.
     var NodeUsage: NodeUsages? = nil
     
