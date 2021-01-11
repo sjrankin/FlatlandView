@@ -613,6 +613,8 @@ enum GlobeNodeNames: String, CaseIterable
     case KnownLocation = "KnownLocation"
     /// Mouse indicator node.
     case MouseIndicator = "MouseIndicator"
+    /// Node use to show a region.
+    case RegionNode = "RegionNode"
 }
 
 /// 2D view node names.
