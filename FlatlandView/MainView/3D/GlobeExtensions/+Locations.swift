@@ -346,28 +346,6 @@ extension GlobeView
                 A.Position = SCNVector3(X, Y, Z)
                 A.Latitude = Latitude
                 A.Longitude = Longitude
-                /*
-                let Day: TimeState =
-                    {
-                        let D = TimeState()
-                        D.State = .Day
-                        D.Color = WithColor
-                        D.Emission = nil
-                        D.IsDayState = true
-                        return D
-                    }()
-                A.DayState = Day
-                let Night: TimeState =
-                    {
-                        let N = TimeState()
-                        N.State = .Night
-                        N.Color = WithColor
-                        N.Emission = WithColor
-                        N.IsDayState = false
-                        return N
-                    }()
-                A.NightState = Night
- */
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 return A
             }()
