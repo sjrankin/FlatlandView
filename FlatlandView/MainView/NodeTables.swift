@@ -150,6 +150,44 @@ class NodeTables
         MiscTable.removeAll()
     }
     
+    /// Add a rectangular region.
+    /// - Parameter ID: ID of the item.
+    /// - Parameter Name: Name of the item.
+    /// - Parameter UpperLeft: Upper-left (northwest) coordinate of the region.
+    /// - Parameter LowerRight: Lower-right (southeast) coordinate of the region.
+    /// - Parameter Description: Description of the region.
+    public static func AddRegion(ID: UUID, Name: String,
+                                 UpperLeft: GeoPoint?, LowerRight: GeoPoint?,
+                                 Description: String)
+    {
+        let Rgn = DisplayItem(ID: ID, ItemType: .Region, Name: Name,
+                              Numeric: 0.0, Location: UpperLeft,
+                              Description: Description)
+        Rgn.Location2 = LowerRight
+        RegionTable[Rgn.ID] = Rgn
+    }
+    
+    /// Add a circular region.
+    /// - Parameter ID: ID of the item.
+    /// - Parameter Name: Name of the item.
+    /// - Parameter Radius: Radius of the region.
+    /// - Parameter Center: Center location of the region.
+    /// - Paraemter Description: Descripiton of the region.
+    public static func AddRegion(ID: UUID, Name: String, Radius: Double,
+                                 Center: GeoPoint?, Description: String)
+    {
+        let Rgn = DisplayItem(ID: ID, ItemType: .Region, Name: Name,
+                              Numeric: Radius, Location: Center,
+                              Description: Description)
+        RegionTable[Rgn.ID] = Rgn
+    }
+    
+    /// Deletes all regions.
+    public static func RemoveRegion()
+    {
+        RegionTable.removeAll()
+    }
+    
     /// Return the associated data for the passed ID.
     /// - Parameter For: The ID of the item whose data will be returned.
     /// - Returns: The associated data on success, nil if not found.
@@ -204,6 +242,13 @@ class NodeTables
                 return ItemData
             }
         }
+        for (ItemID, ItemData) in RegionTable
+        {
+            if ItemID == ID
+            {
+                return ItemData
+            }
+        }
         return nil
     }
     
@@ -235,6 +280,9 @@ class NodeTables
             case .KnownLocation:
                 return KnownTable.count
                 
+            case .Region:
+                return RegionTable.count
+                
             default:
                 return nil
         }
@@ -247,6 +295,7 @@ class NodeTables
     private static var UNESCOTable = [UUID: DisplayItem]()
     private static var MiscTable = [UUID: DisplayItem]()
     private static var KnownTable = [UUID: DisplayItem]()
+    private static var RegionTable = [UUID: DisplayItem]()
     
     #if DEBUG
     public static func DumpTableKeys(For Class: NodeClasses)
@@ -302,6 +351,13 @@ class NodeTables
                     Debug.Print("  \(Key.uuidString)")
                 }
                 
+            case .Region:
+                Debug.Print("Region Keys:")
+                for (Key, _) in RegionTable
+                {
+                    Debug.Print("  \(Key.uuidString)")
+                }
+                
             default:
                 Debug.Print("Unknown class \"\(Class)\" specified")
         }
@@ -319,6 +375,7 @@ class NodeTables
         UUID(uuidString: NodeClasses.WorldHeritageSite.rawValue)!: ItemTypes.WorldHeritageSite,
         UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!: ItemTypes.Miscellaneous,
         UUID(uuidString: NodeClasses.KnownLocation.rawValue)!: ItemTypes.KnownLocation,
+        UUID(uuidString: NodeClasses.Region.rawValue)!: ItemTypes.Region,
     ]
     
     /// The home ID.
@@ -361,6 +418,7 @@ class DisplayItem
     var Name: String = ""
     var Numeric: Double = 0.0
     var Location: GeoPoint? = nil
+    var Location2: GeoPoint? = nil
     var Description: String = ""
     var HasNumber: Bool = true
 }
@@ -375,6 +433,7 @@ enum ItemTypes: String, CaseIterable
     case WorldHeritageSite = "World Heritage Site"
     case Miscellaneous = "Miscellaneous"
     case KnownLocation = "Known Location"
+    case Region = "Region"
 }
 
 enum NodeClasses: String, CaseIterable
@@ -387,5 +446,6 @@ enum NodeClasses: String, CaseIterable
     case WorldHeritageSite = "f0b85fc5-c761-4b74-91fc-5b79b3d7d606"
     case Miscellaneous = "736aec23-506e-4eb5-bda6-03af23c85126"
     case KnownLocation = "1727d4c5-a660-42bb-ab39-ceaed478fb59"
+    case Region = "9159f963-b6e0-4f07-95c9-4c1b59159fcb"
 }
 
