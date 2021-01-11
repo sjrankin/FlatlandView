@@ -244,13 +244,15 @@ extension GlobeView: SettingChangedProtocol
                 UpdateHours()
                 
             case .GridLinesDrawnOnMap, .MagnitudeValuesDrawnOnMap,
-                 .EarthquakeRegions, .ShowEarthquakeRegions,
                  .CityNamesDrawnOnMap:
                 if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld) == .Globe3D
                 {
                     ClearEarthquakes()
                     ApplyAllStencils(Caller: "SettingChanged(.{Multiple})")
                 }
+                
+            case .ShowEarthquakeRegions, .EarthquakeRegions:
+                PlotRegions()
                 
             case .UseSystemCameraControl:
                 InitializeSceneCamera(!Settings.GetBool(.UseSystemCameraControl))
