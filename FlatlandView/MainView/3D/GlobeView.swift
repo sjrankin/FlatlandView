@@ -285,6 +285,83 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         #endif
     }
     
+    func SetNodeEulerAngles(EditID: UUID, _ Angles: SCNVector3)
+    {
+        for Node in EarthNode!.childNodes
+        {
+            if let ActualNode = Node as? SCNNode2
+            {
+                if let ActualNodeEditID = ActualNode.EditID
+                {
+                    if ActualNodeEditID == EditID
+                    {
+                        ActualNode.eulerAngles = Angles
+                    }
+                }
+            }
+        }
+    }
+    
+    func GetNodeEulerAngles(EditID: UUID) -> SCNVector3?
+    {
+        for Node in EarthNode!.childNodes
+        {
+            if let ActualNode = Node as? SCNNode2
+            {
+                if let ActualNodeEditID = ActualNode.EditID
+                {
+                    if ActualNodeEditID == EditID
+                    {
+                    return ActualNode.eulerAngles
+                    }
+                }
+            }
+        }
+        return nil
+    }
+    
+    func SetNodeLocation(EditID: UUID, _ Latitude: Double, _ Longitude: Double)
+    {
+        for Node in EarthNode!.childNodes
+        {
+            if let ActualNode = Node as? SCNNode2
+            {
+                if let ActualNodeEditID = ActualNode.EditID
+                {
+                    if ActualNodeEditID == EditID
+                    {
+                        ActualNode.Latitude = Latitude
+                        ActualNode.Longitude = Longitude
+                        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
+                        ActualNode.position = SCNVector3(X, Y, Z)
+                    }
+                }
+            }
+        }
+    }
+    
+    func GetNodeLocation(EditID: UUID) -> (Latitude: Double, Longitude: Double)?
+    {
+        for Node in EarthNode!.childNodes
+        {
+            if let ActualNode = Node as? SCNNode2
+            {
+                if let ActualNodeEditID = ActualNode.EditID
+                {
+                    if ActualNodeEditID == EditID
+                    {
+                    if ActualNode.Latitude == nil && ActualNode.Longitude == nil
+                    {
+                        return nil
+                    }
+                    return (ActualNode.Latitude!, ActualNode.Longitude!)
+                    }
+                }
+            }
+        }
+        return nil
+    }
+    
     // MARK: - Stencil pipeline protocol functions
     
     /// Used to prevent stenciled maps from fighting to be displayed. Helps to enforce serialization.
