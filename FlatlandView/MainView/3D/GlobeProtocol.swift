@@ -8,6 +8,7 @@
 
 import Foundation
 import AppKit
+import SceneKit
 
 /// Protocol for the 3D Globe Node.
 protocol GlobeProtocol: class
@@ -25,4 +26,25 @@ protocol GlobeProtocol: class
     
     /// Reset the globe to the timer.
     func LockMapToTimer()
+    
+    /// Set the euler angles for the node whose edit ID is passed.
+    /// - Parameter EditID: The edit ID of the node to change.
+    /// - Parameter Angles: New euler angles.
+    func SetNodeEulerAngles(EditID: UUID, _ Angles: SCNVector3)
+    
+    /// Get the euler angles for the node whose edit ID is passed.
+    /// - Parameter EditID: The edit ID of the node whose euler angles are returned.
+    /// - Returns: Euler angles for the node whose edit ID is `EditID`, nil if not found.
+    func GetNodeEulerAngles(EditID: UUID) -> SCNVector3?
+    
+    /// Set the location of the node whose edit ID is passed. The node is moved by this call.
+    /// - Parameter EditID: The edit ID of the node to change.
+    /// - Parameter Latitude: The new latitude value for the node.
+    /// - Parameter Longitude: The new longitude value for the node.
+    func SetNodeLocation(EditID: UUID, _ Latitude: Double, _ Longitude: Double)
+    
+    /// Get the location of the node whose edit ID is passed.
+    /// - Parameter EditID: The edit ID of the node whose location is returned.
+    /// - Returns: Tuple of the latitude and longitude of the node. Nil if not found.
+    func GetNodeLocation(EditID: UUID) -> (Latitude: Double, Longitude: Double)?
 }
