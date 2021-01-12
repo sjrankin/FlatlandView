@@ -153,24 +153,50 @@ extension GlobeView
         }
     }
     
+    //https://metalbyexample.com/modelio-materials/
     func ShowSearchForLocation(_ Latitude: Double, _ Longitude: Double)
     {
         let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue + 0.2))
-        let QM = SCNExtrudedLetter(Letter: "?", Font: NSFont.boldSystemFont(ofSize: 20.0), Depth: 4.0, Scale: 0.05)
-        QM.geometry?.firstMaterial?.emission.contents = NSColor.systemYellow
-        QM.geometry?.firstMaterial?.specular.contents = NSColor.black
+        let QMark = SCNText(string: "?", extrusionDepth: 4.0)
+        QMark.font = NSFont.boldSystemFont(ofSize: 20.0)
+        QMark.flatness = 0.1
+        let QM = SCNNode2(geometry: QMark)
+        QM.scale = SCNVector3(0.05, 0.05, 0.05)
+        QM.SetLocation(Latitude, Longitude)
+        QM.geometry?.firstMaterial?.diffuse.contents = NSColor.Gold
+        QM.geometry?.firstMaterial?.specular.contents = NSColor.yellow
         QM.position = SCNVector3(X, Y, Z)
+        QM.geometry?.firstMaterial?.lightingModel = .physicallyBased
         QM.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        let Rotation = 90 - Latitude
-        let Rotation2 = 180.0 - Longitude
-        //QM.eulerAngles = SCNVector3(Rotation.Radians, Rotation2.Radians, 0.0)
-        let ex = 90.0 - (90.0 - Latitude)
-        print("Latitude=\(Latitude.RoundedTo(3)), ex=\(ex.RoundedTo(3))")
-        QM.eulerAngles = SCNVector3(ex.Radians, 0.0, 0.0)
+        
+        let XRotation = (90.0 - Latitude).Radians
+        let YRotation = Longitude.Radians
+        let ZRotation = 0.0.Radians
+        QM.eulerAngles = SCNVector3(XRotation, YRotation, ZRotation)
+        
+        let Day: EventAttributes =
+            {
+               let D = EventAttributes()
+                D.ForEvent = .SwitchToDay
+                D.Diffuse = NSColor.Gold
+                D.Specular = NSColor.yellow
+                D.Emission = nil
+                return D
+            }()
+        let Night: EventAttributes =
+            {
+                let N = EventAttributes()
+                N.ForEvent = .SwitchToDay
+                N.Diffuse = NSColor.Gold
+                N.Specular = NSColor.white
+                N.Emission = NSColor.Gold
+                return N
+            }()
+        QM.CanSwitchState = true
+        QM.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+        QM.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+        QM.IsInDaylight = Solar.IsInDaylight(Latitude, Longitude) ?? true
         EarthNode?.addChildNode(QM)
-        let RotateQM = SCNAction.rotateBy(x: 0.0, y: -1.0, z: 0.0, duration: 1.0)
-        let RotateForever = SCNAction.repeatForever(RotateQM)
-        //QM.runAction(RotateForever)
     }
     
     func MakeDebugMenu() -> NSMenuItem
