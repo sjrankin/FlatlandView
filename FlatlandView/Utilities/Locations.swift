@@ -234,14 +234,27 @@ class Locations
                         if Distance <= CloseIs
                         {
                             //Use a fake ID because home locations don't have IDs.
-                            let HomeRecord = MetaLocation(ID: UUID(),
-                                                          Name: Settings.GetString(.UserHomeName, ""),
-                                                          Latitude: Settings.GetDoubleNil(.UserHomeLatitude, 0.0)!,
-                                                          Longitude: Settings.GetDoubleNil(.UserHomeLongitude, 0.0)!,
-                                                          Population: 0,
-                                                          LocationType: .Home,
-                                                          Distance: Distance)
-                            Results.append(HomeRecord)
+                            if Settings.GetBool(.ShowHomeLocation)
+                            {
+                                if Settings.HomeLocationSet()
+                                {
+                                    if let HomeName = Settings.GetSecureString(.UserHomeName)
+                                    {
+                                        let HomeLatitudeS = Settings.GetSecureString(.UserHomeLatitude)
+                                        let HomeLongitudeS = Settings.GetSecureString(.UserHomeLongitude)
+                                        let HomeLatitude = Double(HomeLatitudeS!)
+                                        let HomeLongitude = Double(HomeLongitudeS!)
+                                        let HomeRecord = MetaLocation(ID: UUID(),
+                                                                      Name: HomeName,
+                                                                      Latitude: HomeLatitude!,
+                                                                      Longitude: HomeLongitude!,
+                                                                      Population: 0,
+                                                                      LocationType: .Home,
+                                                                      Distance: Distance)
+                                        Results.append(HomeRecord)
+                                    }
+                                }
+                            }
                         }
                     }
                     
