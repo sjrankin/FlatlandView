@@ -84,7 +84,7 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         NearTable.removeAll()
         NearTable.append((Distance: 0.0,
                           Location: GeoPoint(SourceLatitude!, SourceLongitude!),
-                          Description: "Search location",
+                          Description: "Search origin",
                           LocType: .UserPoint))
         let LocationManager = Locations()
         if let MainDelegate = Main
