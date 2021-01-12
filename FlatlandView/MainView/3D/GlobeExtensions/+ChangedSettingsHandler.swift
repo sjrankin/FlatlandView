@@ -252,7 +252,7 @@ extension GlobeView: SettingChangedProtocol
                 }
                 
             case .ShowEarthquakeRegions, .EarthquakeRegions:
-                PlotRegions()
+                ApplyAllStencils(Caller: "SettingChanged(.ShowEarthquakeRegions/.EarthquakeRegions)")
                 
             case .UseSystemCameraControl:
                 InitializeSceneCamera(!Settings.GetBool(.UseSystemCameraControl))
