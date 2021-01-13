@@ -102,14 +102,31 @@ extension GlobeView
     {
         if let MouseLocation = CurrentMouseLocation
         {
-        let (Latitude, Longitude) = MakeWhereFromTexture(MouseLocation)
-        print("Add/move home to here")
+            let (Latitude, Longitude) = MakeWhereFromTexture(MouseLocation)
+            print("Add/move home to here")
         }
     }
     
     @objc func Context_AddQuakeRegion(_ sender: Any)
     {
-        print("Add earthquake region")
+        if RegionEditorOpen
+        {
+            return
+        }
+        RegionEditorOpen = true
+        let Storyboard = NSStoryboard(name: "RegionEntryUI", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "RegionEntryWindow") as? RegionEntryWindow
+        {
+            let Window = WindowController.window
+            if let Controller = Window?.contentViewController as? RegionEntryController
+            {
+                InRegionCreationMode = true
+                OldLockState = Settings.GetBool(.WorldIsLocked)
+                Settings.SetBool(.WorldIsLocked, true)
+                Controller.ParentDelegate = self
+                WindowController.showWindow(nil)
+            }
+        }
     }
     
     @objc func Context_EditQuakeRegion(_ sender: Any)
@@ -527,4 +544,19 @@ extension GlobeView
         return FollowMenu!
     }
     
+}
+
+extension GlobeView: RegionEntryProtocol
+{
+    func RegionEntryCompleted(Name: String, Color: NSColor, Corner1: GeoPoint, Corner2: GeoPoint)
+    {
+        Settings.SetBool(.WorldIsLocked, OldLockState)
+        RegionEditorOpen = false
+    }
+    
+    func RegionEntryCanceled()
+    {
+        Settings.SetBool(.WorldIsLocked, OldLockState)
+        RegionEditorOpen = false
+    }
 }
