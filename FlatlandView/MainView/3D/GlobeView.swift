@@ -213,53 +213,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         LineNode?.opacity = CGFloat(Alpha)
     }
     
-    var RotationAccumulator: CGFloat = 0.0
-    /// Holds most nodes.
-    var SystemNode: SCNNode? = nil
-    /// Holds nodes used to draw 3D lines.
-    var LineNode: SCNNode? = nil
-    /// Holds the main Earth node.
-    var EarthNode: SCNNode2? = nil
-    /// Holds the main sea node.
-    var SeaNode: SCNNode2? = nil
-    /// Holds all of the hour nodes.
-    var HourNode: SCNNode2? = nil
-    var PlottedEarthquakes = Set<String>()
-    var POIMenu: NSMenuItem? = nil
-    var AddEditHomeMenu: NSMenuItem? = nil
-    var RunAddEditDialogMenu: NSMenuItem? = nil
-    var SetHomeAtMouseMenu: NSMenuItem? = nil
-    var QuakeMenu: NSMenuItem? = nil
-    var ResetMenu: NSMenuItem? = nil
-    var LockMenu: NSMenuItem? = nil
-    var FollowMenu: NSMenuItem? = nil
-    var UnderMouseMenu: NSMenuItem? = nil
-    var MapTypeMenu: NSMenuItem? = nil
-    var NCenter: NSMenuItem? = nil
-    var SCenter: NSMenuItem? = nil
-    var RectMap: NSMenuItem? = nil
-    var CubicMapMenu: NSMenuItem? = nil
-    var GlobeMapMenu: NSMenuItem? = nil
-    var TimeTypeMenu: NSMenuItem? = nil
-    var TimeMenu: NSMenuItem? = nil
-    var NoTimeMenu: NSMenuItem? = nil
-    var SolarTimeMenu: NSMenuItem? = nil
-    var PinnedTimeMenu: NSMenuItem? = nil
-    var DeltaTimeMenu: NSMenuItem? = nil
-    #if DEBUG
-    var DebugMenu: NSMenuItem? = nil
-    var RotateTo0Menu: NSMenuItem? = nil
-    var RotateTo90Menu: NSMenuItem? = nil
-    var RotateTo180Menu: NSMenuItem? = nil
-    var RotateTo270Menu: NSMenuItem? = nil
-    var CoupleTimerMenu: NSMenuItem? = nil
-    var MoveCameraTestMenu: NSMenuItem? = nil
-    var CameraDebugMenu: NSMenuItem? = nil
-    var SpinCameraTestMenu: NSMenuItem? = nil
-    #endif
-    // The current mouse location over the Earth. If the mouse is not over the Earth, this value is set
-    // to nil.
-    var CurrentMouseLocation: CGPoint? = nil
+  
     
     func SetCameraLock(_ IsLocked: Bool)
     {
@@ -515,4 +469,57 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var PrettyPercent = 0.0
     var EarthClock: Timer? = nil
     var PreviousLongitudePercent: Double? = nil
+    
+    var RotationAccumulator: CGFloat = 0.0
+    /// Holds most nodes.
+    var SystemNode: SCNNode? = nil
+    /// Holds nodes used to draw 3D lines.
+    var LineNode: SCNNode? = nil
+    /// Holds the main Earth node.
+    var EarthNode: SCNNode2? = nil
+    /// Holds the main sea node.
+    var SeaNode: SCNNode2? = nil
+    /// Holds all of the hour nodes.
+    var HourNode: SCNNode2? = nil
+    var PlottedEarthquakes = Set<String>()
+    var POIMenu: NSMenuItem? = nil
+    var AddEditHomeMenu: NSMenuItem? = nil
+    var RunAddEditDialogMenu: NSMenuItem? = nil
+    var SetHomeAtMouseMenu: NSMenuItem? = nil
+    var QuakeMenu: NSMenuItem? = nil
+    var ResetMenu: NSMenuItem? = nil
+    var LockMenu: NSMenuItem? = nil
+    var FollowMenu: NSMenuItem? = nil
+    var UnderMouseMenu: NSMenuItem? = nil
+    var MapTypeMenu: NSMenuItem? = nil
+    var NCenter: NSMenuItem? = nil
+    var SCenter: NSMenuItem? = nil
+    var RectMap: NSMenuItem? = nil
+    var CubicMapMenu: NSMenuItem? = nil
+    var GlobeMapMenu: NSMenuItem? = nil
+    var TimeTypeMenu: NSMenuItem? = nil
+    var TimeMenu: NSMenuItem? = nil
+    var NoTimeMenu: NSMenuItem? = nil
+    var SolarTimeMenu: NSMenuItem? = nil
+    var PinnedTimeMenu: NSMenuItem? = nil
+    var DeltaTimeMenu: NSMenuItem? = nil
+    #if DEBUG
+    var DebugMenu: NSMenuItem? = nil
+    var RotateTo0Menu: NSMenuItem? = nil
+    var RotateTo90Menu: NSMenuItem? = nil
+    var RotateTo180Menu: NSMenuItem? = nil
+    var RotateTo270Menu: NSMenuItem? = nil
+    var CoupleTimerMenu: NSMenuItem? = nil
+    var MoveCameraTestMenu: NSMenuItem? = nil
+    var CameraDebugMenu: NSMenuItem? = nil
+    var SpinCameraTestMenu: NSMenuItem? = nil
+    #endif
+    // The current mouse location over the Earth. If the mouse is not over the Earth, this value is set
+    // to nil.
+    var CurrentMouseLocation: CGPoint? = nil
+    
+    // MARK: - Region editing variables.
+    var RegionEditorOpen: Bool = false
+    var InRegionCreationMode: Bool = false
+    var OldLockState: Bool = false
 }
