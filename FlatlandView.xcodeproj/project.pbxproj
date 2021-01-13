@@ -383,6 +383,11 @@
 		17F47B6125AAEBA600A3A281 /* NodeRotationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F47B6025AAEBA600A3A281 /* NodeRotationWindow.swift */; };
 		17F47B6425AAEBD200A3A281 /* NodeRotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F47B6325AAEBD200A3A281 /* NodeRotationController.swift */; };
 		17F4FFE825A407D7004A2EFA /* LiveDataStatus.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17F4FFE725A407D7004A2EFA /* LiveDataStatus.storyboard */; };
+		17F5598825AD7DC700053314 /* RegionEntryUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17F5598725AD7DC700053314 /* RegionEntryUI.storyboard */; };
+		17F5598B25AD835900053314 /* RegionEntryWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5598A25AD835900053314 /* RegionEntryWindow.swift */; };
+		17F5598E25AD837D00053314 /* RegionEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5598D25AD837D00053314 /* RegionEntryController.swift */; };
+		17F5599125AD83B400053314 /* RegionEntryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5599025AD83B400053314 /* RegionEntryProtocol.swift */; };
+		17F5599425AD87A700053314 /* RegionMouseClickProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F5599325AD87A700053314 /* RegionMouseClickProtocol.swift */; };
 		17F6C4F1257BA019003FFDA2 /* MapDebugPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */; };
 		17F6C4F5257BA24F003FFDA2 /* +Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6C4F4257BA24F003FFDA2 /* +Debug.swift */; };
 		17F782C1249742A1000A568E /* USGS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C0249742A1000A568E /* USGS.swift */; };
@@ -805,6 +810,11 @@
 		17F47B6025AAEBA600A3A281 /* NodeRotationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeRotationWindow.swift; sourceTree = "<group>"; };
 		17F47B6325AAEBD200A3A281 /* NodeRotationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeRotationController.swift; sourceTree = "<group>"; };
 		17F4FFE725A407D7004A2EFA /* LiveDataStatus.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LiveDataStatus.storyboard; sourceTree = "<group>"; };
+		17F5598725AD7DC700053314 /* RegionEntryUI.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RegionEntryUI.storyboard; sourceTree = "<group>"; };
+		17F5598A25AD835900053314 /* RegionEntryWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionEntryWindow.swift; sourceTree = "<group>"; };
+		17F5598D25AD837D00053314 /* RegionEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionEntryController.swift; sourceTree = "<group>"; };
+		17F5599025AD83B400053314 /* RegionEntryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionEntryProtocol.swift; sourceTree = "<group>"; };
+		17F5599325AD87A700053314 /* RegionMouseClickProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionMouseClickProtocol.swift; sourceTree = "<group>"; };
 		17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDebugPanel.swift; sourceTree = "<group>"; };
 		17F6C4F4257BA24F003FFDA2 /* +Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Debug.swift"; sourceTree = "<group>"; };
 		17F782C0249742A1000A568E /* USGS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGS.swift; sourceTree = "<group>"; };
@@ -1164,6 +1174,7 @@
 		17523CD7247B9716005209FC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				17F5598625AD7DA600053314 /* RegionEntry */,
 				170E7BEE2559281C00EA3AD3 /* Floating */,
 				178E6F712540531600DA0F76 /* Test */,
 				1740F49A2493173A00F6FAAE /* Hours.swift */,
@@ -2017,6 +2028,18 @@
 			path = LiveDataStatus;
 			sourceTree = "<group>";
 		};
+		17F5598625AD7DA600053314 /* RegionEntry */ = {
+			isa = PBXGroup;
+			children = (
+				17F5598725AD7DC700053314 /* RegionEntryUI.storyboard */,
+				17F5598A25AD835900053314 /* RegionEntryWindow.swift */,
+				17F5598D25AD837D00053314 /* RegionEntryController.swift */,
+				17F5599025AD83B400053314 /* RegionEntryProtocol.swift */,
+				17F5599325AD87A700053314 /* RegionMouseClickProtocol.swift */,
+			);
+			path = RegionEntry;
+			sourceTree = "<group>";
+		};
 		17F98DB4251773E9005E248D /* MainExtensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -2155,6 +2178,7 @@
 				174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */,
 				17F4FFE825A407D7004A2EFA /* LiveDataStatus.storyboard in Resources */,
 				178E6F732540533600DA0F76 /* RoundTextTest.storyboard in Resources */,
+				17F5598825AD7DC700053314 /* RegionEntryUI.storyboard in Resources */,
 				174A6A202557BD5E00488274 /* Debug.storyboard in Resources */,
 				17E901EA2552C38C0097A89A /* SubPanels.storyboard in Resources */,
 				17ABAFFE24E9209E009DDC35 /* EarthquakeHistory.db in Resources */,
@@ -2301,6 +2325,7 @@
 				17A3788024DC24D300EE2B45 /* ImageBlender.metal in Sources */,
 				1723C80324D54C4C00C41EEE /* UserRegion.swift in Sources */,
 				17B7D7AD24CED053000C077B /* ImageFlipper.swift in Sources */,
+				17F5598E25AD837D00053314 /* RegionEntryController.swift in Sources */,
 				172F061225512A4500BEA156 /* LiveDataPreferences.swift in Sources */,
 				1748913324C6A53D00B5F6AF /* Imaging.swift in Sources */,
 				175BA5542570CEBA001ED3A2 /* Internet.swift in Sources */,
@@ -2430,6 +2455,7 @@
 				1759AE66249F81F6003F79F5 /* View3DSettingsWindow.swift in Sources */,
 				1743FE7D255D5AD300AD05A7 /* NSRegularExpression.swift in Sources */,
 				17F6C4F1257BA019003FFDA2 /* MapDebugPanel.swift in Sources */,
+				17F5599425AD87A700053314 /* RegionMouseClickProtocol.swift in Sources */,
 				1727EA5A24B170730051EA3B /* Queue.swift in Sources */,
 				17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */,
 				17DE2DD7259093BF00214204 /* HomeLocationWindow.swift in Sources */,
@@ -2487,6 +2513,7 @@
 				178A869E2489101E00BE8D46 /* StarField.swift in Sources */,
 				1760024024D2BFDC00D5EA1A /* String.swift in Sources */,
 				17F1C7C92543F8650046AE33 /* RectangleView.swift in Sources */,
+				17F5599125AD83B400053314 /* RegionEntryProtocol.swift in Sources */,
 				17A59E652595AB7800EEC7C6 /* Stack.swift in Sources */,
 				17F9AFD92520338500DE0219 /* +String.swift in Sources */,
 				1762BD682560BB2E009C6965 /* +MouseHandling.swift in Sources */,
@@ -2534,6 +2561,7 @@
 				172F060C25512A1800BEA156 /* SatellitePreferences.swift in Sources */,
 				17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */,
 				172BCAD925A4228D00E0BEC5 /* LiveDataStatusController.swift in Sources */,
+				17F5598B25AD835900053314 /* RegionEntryWindow.swift in Sources */,
 				17B0B7382546AE3400DC0F03 /* UInt8.swift in Sources */,
 				1727EA5D24B184230051EA3B /* Tree.swift in Sources */,
 				17F1C7DE2543FA1D0046AE33 /* +RectangleEarthquakes.swift in Sources */,
