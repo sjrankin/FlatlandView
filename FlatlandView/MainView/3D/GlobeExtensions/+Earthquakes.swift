@@ -876,6 +876,9 @@ extension GlobeView
                 let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.15)
                 let Indicator = SCNNode2(geometry: IndicatorShape)
                 let InitialAlpha: CGFloat = 0.8
+                #if true
+                Indicator.geometry?.firstMaterial?.diffuse.contents = NSColor.Maroon
+                #else
                 let TextureType = Settings.GetEnum(ForKey: .EarthquakeTextures, EnumType: EarthquakeTextures.self, Default: .Gradient1)
                 guard let TextureName = TextureMap[TextureType] else
                 {
@@ -890,9 +893,15 @@ extension GlobeView
                 {
                     Indicator.geometry?.firstMaterial?.diffuse.contents = NSImage(named: TextureName)
                 }
+                #endif
                 Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
+                #if true
+                Indicator.geometry?.firstMaterial?.lightingModel = .lambert
+                Indicator.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+                #else
                 Indicator.geometry?.firstMaterial?.lightingModel = .physicallyBased
                 Indicator.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
+                #endif
                 Indicator.scale = SCNVector3(NodeScales3D.RadiatingRings.rawValue,
                                              NodeScales3D.RadiatingRings.rawValue,
                                              NodeScales3D.RadiatingRings.rawValue)
