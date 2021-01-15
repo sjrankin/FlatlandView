@@ -27,6 +27,7 @@ import Cocoa
     
     func applicationWillTerminate(_ aNotification: Notification)
     {
+        Debug.Print("At applicationWillTerminate")
     }
     
     @IBOutlet weak var LockUnlockMenuItem: NSMenuItem!
