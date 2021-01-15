@@ -348,6 +348,19 @@ extension GlobeView
         var XRotation: Double = 0.0
         var RadialOffset: Double = 0.5
         
+        var ScaleMultiplier = 1.0
+        switch Settings.GetEnum(ForKey: .QuakeScales, EnumType: MapNodeScales.self, Default: .Normal)
+        {
+            case .Small:
+                ScaleMultiplier = 0.5
+                
+            case .Normal:
+                ScaleMultiplier = 1.0
+                
+            case .Large:
+                ScaleMultiplier = 1.5
+        }
+        
         var MagNode: SCNNode2? = nil
         switch Settings.GetEnum(ForKey: .EarthquakeMagnitudeViews, EnumType: EarthquakeMagnitudeViews.self, Default: .No)
         {
@@ -392,9 +405,8 @@ extension GlobeView
                 Arrow.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 Arrow.NodeID = Quake.ID
                 Arrow.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-                Arrow.scale = SCNVector3(NodeScales3D.ArrowScale.rawValue,
-                                         NodeScales3D.ArrowScale.rawValue,
-                                         NodeScales3D.ArrowScale.rawValue)
+                let FinalScale = NodeScales3D.ArrowScale.rawValue * CGFloat(ScaleMultiplier)
+                Arrow.scale = SCNVector3(FinalScale, FinalScale, FinalScale)
                 Arrow.CanSwitchState = true
                 Arrow.SetLocation(Quake.Latitude, Quake.Longitude)
                 if IsCached
@@ -464,9 +476,10 @@ extension GlobeView
                 Arrow.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 Arrow.NodeID = Quake.ID
                 Arrow.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-                Arrow.scale = SCNVector3(NodeScales3D.StaticArrow.rawValue,
-                                         NodeScales3D.StaticArrow.rawValue,
-                                         NodeScales3D.StaticArrow.rawValue)
+                let FinalScale = NodeScales3D.StaticArrow.rawValue * CGFloat(ScaleMultiplier)
+                Arrow.scale = SCNVector3(FinalScale,
+                                         FinalScale,
+                                         FinalScale)
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
                 let Encapsulate = SCNNode2()
@@ -484,6 +497,8 @@ extension GlobeView
                 {
                     FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
+                let FinalScale = NodeScales3D.PyramidEarthquake.rawValue * CGFloat(ScaleMultiplier)
+                FinalNode.scale = SCNVector3(FinalScale, FinalScale, FinalScale)
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0 + 180.0
@@ -497,6 +512,8 @@ extension GlobeView
                 {
                     FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
+                let FinalScale = NodeScales3D.ConeEarthquake.rawValue * CGFloat(ScaleMultiplier)
+                FinalNode.scale = SCNVector3(FinalScale, FinalScale, FinalScale)
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0 + 180.0
@@ -511,6 +528,8 @@ extension GlobeView
                 {
                     FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
+                let FinalScale = NodeScales3D.BoxEarthquake.rawValue * CGFloat(ScaleMultiplier)
+                FinalNode.scale = SCNVector3(FinalScale, FinalScale, FinalScale)
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0
@@ -523,6 +542,8 @@ extension GlobeView
                 {
                     FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
+                let FinalScale = NodeScales3D.CylinderEarthquake.rawValue * CGFloat(ScaleMultiplier)
+                FinalNode.scale = SCNVector3(FinalScale, FinalScale, FinalScale)
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0
@@ -535,6 +556,8 @@ extension GlobeView
                 {
                     FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
+                let FinalScale = NodeScales3D.CapsuleEarthquake.rawValue * CGFloat(ScaleMultiplier)
+                FinalNode.scale = SCNVector3(FinalScale, FinalScale, FinalScale)
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 YRotation = Quake.Latitude + 90.0
@@ -548,6 +571,8 @@ extension GlobeView
                 {
                     FinalNode.geometry?.firstMaterial?.diffuse.contents = NSColor.lightGray
                 }
+                let FinalScale = NodeScales3D.SphereEarthquake.rawValue * CGFloat(ScaleMultiplier)
+                FinalNode.scale = SCNVector3(FinalScale, FinalScale, FinalScale)
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.ID
                 
