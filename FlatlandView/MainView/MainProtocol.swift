@@ -117,6 +117,12 @@ protocol MainProtocol: class
     /// - Parameter EditID: The edit ID of the node whose location is returned.
     /// - Returns: Tuple of the latitude and longitude of the node. Nil if not found.
     func GetNodeLocation(EditID: UUID) -> (Latitude: Double, Longitude: Double)?
+    
+    /// Lock or unlock the camera watching the world.
+    /// - Parameter Locked: Sets the lock value of the camera.
+    /// - Parameter ResetPosition: If true, the camera is reset to its default position. Otherwise,
+    ///                            the camera is not moved.
+    func SetWorldLock(_ Locked: Bool, ResetPosition: Bool)
 }
 
 /// Flatland's child windows.
