@@ -36,21 +36,41 @@ extension GlobeView
             let Menu = NSMenu(title: "Actions")
             if MouseOverEarth
             {
-                Menu.items =
-                    [
-                        MakeWhatsHereMenu(),
-                        NSMenuItem.separator(),
-                        MakeMapMenu(),
-                        MakeTimeMenu(),
-                        NSMenuItem.separator(),
-                        MakeResetMenu(),
-                        MakeLockMenu(),
-                        NSMenuItem.separator(),
-                        MakePOIMenu(),
-                        MakeEarthquakeMenu(),
-                        NSMenuItem.separator(),
-                        MakeFollowMenu()
-                    ]
+                if InRegionCreationMode
+                {
+                    Menu.items =
+                        [
+                            MakeWhatsHereMenu(),
+                            NSMenuItem.separator(),
+                            MakeMapMenu(),
+                            MakeTimeMenu(),
+                            NSMenuItem.separator(),
+                            MakeResetMenu(),
+                            MakeLockMenu(),
+                            NSMenuItem.separator(),
+                            MakePOIMenu(),
+                            NSMenuItem.separator(),
+                            MakeFollowMenu()
+                        ]
+                }
+                else
+                {
+                    Menu.items =
+                        [
+                            MakeWhatsHereMenu(),
+                            NSMenuItem.separator(),
+                            MakeMapMenu(),
+                            MakeTimeMenu(),
+                            NSMenuItem.separator(),
+                            MakeResetMenu(),
+                            MakeLockMenu(),
+                            NSMenuItem.separator(),
+                            MakePOIMenu(),
+                            MakeEarthquakeMenu(),
+                            NSMenuItem.separator(),
+                            MakeFollowMenu()
+                        ]
+                }
             }
             else
             {
@@ -103,7 +123,7 @@ extension GlobeView
         if let MouseLocation = CurrentMouseLocation
         {
             let (Latitude, Longitude) = MakeWhereFromTexture(MouseLocation)
-            print("Add/move home to here")
+            print("Add/move home to \(Latitude),\(Longitude)")
         }
     }
     
@@ -124,6 +144,7 @@ extension GlobeView
                 OldLockState = Settings.GetBool(.WorldIsLocked)
                 Settings.SetBool(.WorldIsLocked, true)
                 Controller.ParentDelegate = self
+                MouseClickReceiver = Controller
                 WindowController.showWindow(nil)
             }
         }
@@ -193,7 +214,7 @@ extension GlobeView
         
         let Day: EventAttributes =
             {
-               let D = EventAttributes()
+                let D = EventAttributes()
                 D.ForEvent = .SwitchToDay
                 D.Diffuse = NSColor.Gold
                 D.Specular = NSColor.yellow
@@ -550,13 +571,110 @@ extension GlobeView: RegionEntryProtocol
 {
     func RegionEntryCompleted(Name: String, Color: NSColor, Corner1: GeoPoint, Corner2: GeoPoint)
     {
-        Settings.SetBool(.WorldIsLocked, OldLockState)
-        RegionEditorOpen = false
+        ResetFromRegionEntry()
+        let NewRegion = UserRegion()
+        NewRegion.Age = 30
+        NewRegion.MinimumMagnitude = 5.0
+        NewRegion.MaximumMagnitude = 9.9
+        NewRegion.RegionName = Name
+        NewRegion.IsFallback = false
+        NewRegion.IsEnabled = true
+        NewRegion.IsRectangular = true
+        NewRegion.Notification = .None
+        NewRegion.NotifyOnNewEarthquakes = false
+        NewRegion.RegionColor = Color
+        NewRegion.UpperLeft = Corner1
+        NewRegion.LowerRight = Corner2
+        var OldRegions = Settings.GetEarthquakeRegions()
+        OldRegions.append(NewRegion)
+        //This will trigger an event that will cause the regions to be redrawn.
+        Settings.SetEarthquakeRegions(OldRegions)
     }
     
     func RegionEntryCanceled()
     {
+        ResetFromRegionEntry()
+    }
+    
+    func ResetFromRegionEntry()
+    {
         Settings.SetBool(.WorldIsLocked, OldLockState)
         RegionEditorOpen = false
+        InRegionCreationMode = false
+        MouseClickReceiver = nil
+        RemoveUpperLeftCorner()
+        RemoveLowerRightCorner()
+    }
+    
+    func MakePlottedPin(_ Latitude: Double, _ Longitude: Double, Color: NSColor) -> SCNNode2
+    {
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue) + 0.9)
+        let PinNode = SCNPin(KnobHeight: 2.0, KnobRadius: 1.0, PinHeight: 1.4, PinRadius: 0.15,
+                         KnobColor: Color, PinColor: NSColor.gray)
+        PinNode.scale = SCNVector3(NodeScales3D.PinScale.rawValue,
+                               NodeScales3D.PinScale.rawValue,
+                               NodeScales3D.PinScale.rawValue)
+        PinNode.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        
+        PinNode.name = GlobeNodeNames.PinnedLocationNode.rawValue
+        PinNode.castsShadow = true
+        PinNode.SetLocation(Latitude, Longitude)
+        PinNode.position = SCNVector3(X, Y, Z)
+        
+        let Day: EventAttributes =
+            {
+               let D = EventAttributes()
+                D.ForEvent = .SwitchToDay
+                D.Diffuse = Color
+                D.Specular = NSColor.white
+                D.Emission = nil
+                return D
+            }()
+        let Night: EventAttributes =
+            {
+                let N = EventAttributes()
+                N.ForEvent = .SwitchToNight
+                N.Diffuse = Color
+                N.Specular = NSColor.white
+                N.Emission = Color
+                return N
+            }()
+        PinNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+        PinNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+        PinNode.CanSwitchState = true
+        if let InDay = Solar.IsInDaylight(Latitude, Longitude)
+        {
+            PinNode.IsInDaylight = InDay
+        }
+        
+        let YRotation = Latitude + 90.0
+        let XRotation = Longitude + 180.0
+        PinNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        
+        return PinNode
+    }
+    
+    func PlotUpperLeftCorner(Latitude: Double, Longitude: Double)
+    {
+        UpperLeftNode = MakePlottedPin(Latitude, Longitude, Color: NSColor.green)
+        EarthNode?.addChildNode(UpperLeftNode!)
+    }
+    
+    func PlotLowerRightCorner(Latitude: Double, Longitude: Double)
+    {
+        LowerRightNode = MakePlottedPin(Latitude, Longitude, Color: NSColor.red)
+        EarthNode?.addChildNode(LowerRightNode!)
+    }
+    
+    func RemoveUpperLeftCorner()
+    {
+        UpperLeftNode?.removeFromParentNode()
+        UpperLeftNode = nil
+    }
+    
+    func RemoveLowerRightCorner()
+    {
+        LowerRightNode?.removeFromParentNode()
+        LowerRightNode = nil
     }
 }
