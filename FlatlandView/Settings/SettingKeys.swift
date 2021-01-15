@@ -68,6 +68,8 @@ enum SettingKeys: String, CaseIterable
     case EarthquakeShape2D = "EarthquakeShape2D"
     
     // MARK: - 3D view settings.
+    /// Scale to use for POI 3D objects.
+    case POIScale = "POIScale"
     /// Boolean: Display grid lines in 3D mode.
     case Show3DGridLines = "Show3DGridLines"
     /// Boolean: Display the equator in 3D mode.
@@ -369,6 +371,8 @@ enum SettingKeys: String, CaseIterable
     case GroupEarthquakeDisplayMagnitude = "GroupEarthquakeDisplayMagnitude"
     /// String: List of cached earthquakes.
     case CachedEarthquakes = "CachedEarthquakes"
+    /// Determines the scale of 3D nodes used as earthquake indicators.
+    case QuakeScales = "QuakeScales"
     #if false
     /// Maximum distance (in kilometers) that earthquakes must be to be combined.
     case CombineDistance = "CombineDistance"
