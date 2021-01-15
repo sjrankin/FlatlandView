@@ -54,28 +54,6 @@ extension GlobeView
                 A.Position = SCNVector3(X, Y, Z)
                 A.Latitude = Latitude
                 A.Longitude = Longitude
-                /*
-                let Day: TimeState =
-                    {
-                        let D = TimeState()
-                        D.State = .Day
-                        D.Color = WithColor
-                        D.Emission = nil
-                        D.IsDayState = true
-                        return D
-                    }()
-                A.DayState = Day
-                let Night: TimeState =
-                    {
-                        let N = TimeState()
-                        N.State = .Night
-                        N.Color = WithColor
-                        N.Emission = WithColor
-                        N.IsDayState = false
-                        return N
-                    }()
-                A.NightState = Night
- */
                 A.ShowBoundingShapes = true
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 return A
@@ -101,6 +79,7 @@ extension GlobeView
                 return N
             }()
         ConeNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+        ConeNode.scale = SCNVector3(GetScaleMultiplier())
         ToSurface.addChildNode(ConeNode)
         PlottedCities.append(ConeNode)
     }
@@ -218,28 +197,6 @@ extension GlobeView
                 A.Position = SCNVector3(X, Y, Z)
                 A.Latitude = Latitude
                 A.Longitude = Longitude
-                /*
-                let Day: TimeState =
-                    {
-                        let D = TimeState()
-                        D.State = .Day
-                        D.Color = WithColor
-                        D.Emission = nil
-                        D.IsDayState = true
-                        return D
-                    }()
-                A.DayState = Day
-                let Night: TimeState =
-                    {
-                        let N = TimeState()
-                        N.State = .Night
-                        N.Color = WithColor
-                        N.Emission = WithColor
-                        N.IsDayState = false
-                        return N
-                    }()
-                A.NightState = Night
- */
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 return A
             }()
@@ -266,6 +223,7 @@ extension GlobeView
                 return N
             }()
         CityNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+        CityNode.scale = SCNVector3(GetScaleMultiplier())
         ToSurface.addChildNode(CityNode)
         PlottedCities.append(CityNode)
     }
@@ -372,6 +330,7 @@ extension GlobeView
         CityNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
         CityNode.Name = Plot.Name
         CityNode.SetLocation(Latitude, Longitude)
+        CityNode.scale = SCNVector3(GetScaleMultiplier())
         ToSurface.addChildNode(CityNode)
         PlottedCities.append(CityNode)
     }
@@ -517,6 +476,7 @@ extension GlobeView
         FinalNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
         FinalNode.addChildNode(CityNode)
         FinalNode.addChildNode(CylinderNode)
+        FinalNode.scale = SCNVector3(GetScaleMultiplier())
         
         FinalNode.position = SCNVector3(X, Y, Z)
         
@@ -605,13 +565,12 @@ extension GlobeView
                     return N
                 }()
             CityNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
-            //CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
-            //CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .physicallyBased, Metalness: 1.0, Roughness: 0.7)
             CityNode.IsInDaylight = Solar.IsInDaylight(Latitude, Longitude)!
         }
         CityNode.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
         CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         CityNode.castsShadow = true
+        CityNode.scale = SCNVector3(GetScaleMultiplier())
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + Double(CitySize / 2.0))
         CityNode.position = SCNVector3(X, Y, Z)
         CityNode.name = GlobeNodeNames.CityNode.rawValue
@@ -944,6 +903,25 @@ extension GlobeView
         return FlagNode
     }
     
+    /// Returns the proper scale multiplier for points of interest.
+    /// - Returns: Multiplier value for the POI node.
+    func GetScaleMultiplier() -> Double
+    {
+        var ScaleMultiplier = 1.0
+        switch Settings.GetEnum(ForKey: .POIScale, EnumType: MapNodeScales.self, Default: .Normal)
+        {
+            case .Small:
+                ScaleMultiplier = 0.5
+                
+            case .Normal:
+                ScaleMultiplier = 1.0
+                
+            case .Large:
+                ScaleMultiplier = 1.5
+        }
+        return ScaleMultiplier
+    }
+    
     /// Plot World Heritage Sites. Which sites (and whether they are plotted or not) are determined
     /// by user settings.
     /// - Note: There are a lot of World Heritage Sites so plotting all of them can adversely affect
@@ -962,6 +940,7 @@ extension GlobeView
             {
                 return
             }
+            let ScaleMultiplier = GetScaleMultiplier()
             let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .AllSites)
             MainController.InitializeMappableDatabase()
             let Sites = MainController.GetAllSites()
@@ -1048,7 +1027,8 @@ extension GlobeView
                         A.Latitude = Site.Latitude
                         A.Longitude = Site.Longitude
                         A.Position = SCNVector3(X, Y, Z)
-                        A.Scale = Double(NodeScales3D.UnescoScale.rawValue)
+                        let FinalScale = ScaleMultiplier * Double(NodeScales3D.UnescoScale.rawValue)
+                        A.Scale = FinalScale
                         A.EulerX = Site.Latitude.Radians
                         A.EulerY = (Site.Longitude + 180.0).Radians
                         let Day: TimeState =
