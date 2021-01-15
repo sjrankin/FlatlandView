@@ -13,4 +13,8 @@ protocol RegionEntryProtocol: class
 {
     func RegionEntryCompleted(Name: String, Color: NSColor, Corner1: GeoPoint, Corner2: GeoPoint)
     func RegionEntryCanceled()
+    func PlotUpperLeftCorner(Latitude: Double, Longitude: Double)
+    func PlotLowerRightCorner(Latitude: Double, Longitude: Double)
+    func RemoveUpperLeftCorner()
+    func RemoveLowerRightCorner()
 }
