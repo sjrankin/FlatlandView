@@ -54,6 +54,8 @@ extension GlobeView
                 let TxWhere = HitObject[0].textureCoordinates(withMappingChannel: 0)
                 CurrentMouseLocation = TxWhere
                 let (Latitude, Longitude) = MakeWhereFromTexture(TxWhere)
+                CurrentMouseLatitude = Latitude
+                CurrentMouseLongitude = Longitude
                 if Settings.GetBool(.FollowMouse)
                 {
                     MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude, Caller: "Globe")
@@ -121,6 +123,7 @@ extension GlobeView
     }
     
     /// Draw the mouse indicator on the surface of the globe.
+    /// - Note: This has the potential to be distracting to the user...
     /// - Parameter Latitude: The latitude of where to draw the indicator.
     /// - Parameter Longitude: The longitude of where to draw the indicator.
     func PlotMouseIndicator(Latitude: Double, Longitude: Double)
@@ -144,7 +147,7 @@ extension GlobeView
     ///         the node under the mouse is queried and its associated data may be displayed.
     /// - Note: The implementation for mouse over node is slightly different between the 2D and 3D displays...
     /// - Parameter Point: The point in the view reported by the main controller.
-    func MouseAt(Point: CGPoint)
+    func MouseClickedAt(Point: CGPoint)
     {
         let MapView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if MapView == .Globe3D
@@ -161,6 +164,12 @@ extension GlobeView
             {
                 if let Node = HitObject[0].node as? SCNNode2
                 {
+                    if InRegionCreationMode
+                    {
+                        let Geo = GeoPoint(CurrentMouseLatitude, CurrentMouseLongitude)
+                        MouseClickReceiver?.MouseClicked(At: Geo)
+                        return
+                    }
                     if let NodeID = Node.NodeID
                     {
                         if PreviousNodeID != nil
@@ -326,6 +335,11 @@ extension GlobeView
         return FinalIndicator
     }
     
+    /// Place a pin on the map to indicate a location desired by the user.
+    /// - Parameter Start: If true, the pin is assumed to be the start of a region.
+    /// - Parameter Latitude: Latitude of the location.
+    /// - Parameter Longitude: Longitude of the location.
+    /// - Returns: `SCNNode2` of a pin to plot on the Earth.
     func MakePinnedLocation(Start: Bool, Latitude: Double, Longitude: Double) -> SCNNode2
     {
         let KnobColor = Start ? NSColor.green : NSColor.red
