@@ -213,13 +213,14 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         LineNode?.opacity = CGFloat(Alpha)
     }
     
-  
-    
-    func SetCameraLock(_ IsLocked: Bool)
+    func SetCameraLock(_ IsLocked: Bool, ResetPosition: Bool = false)
     {
         if IsLocked
         {
+            if ResetPosition
+            {
             ResetCamera()
+            }
         }
         self.allowsCameraControl = !IsLocked
     }
@@ -518,8 +519,14 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     // to nil.
     var CurrentMouseLocation: CGPoint? = nil
     
+    var CurrentMouseLatitude: Double = 0.0
+    var CurrentMouseLongitude: Double = 0.0
+    
     // MARK: - Region editing variables.
     var RegionEditorOpen: Bool = false
     var InRegionCreationMode: Bool = false
     var OldLockState: Bool = false
+    var MouseClickReceiver: RegionMouseClickProtocol? = nil
+    var UpperLeftNode: SCNNode2? = nil
+    var LowerRightNode: SCNNode2? = nil
 }
