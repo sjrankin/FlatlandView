@@ -22,6 +22,18 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     override func viewDidLayout()
     {
         super.viewDidLayout()
+        let PreviousScale = Settings.GetEnum(ForKey: .POIScale, EnumType: MapNodeScales.self, Default: .Normal)
+        switch PreviousScale
+        {
+            case .Small:
+                POIScaleSegment.selectedSegment = 0
+                
+            case .Normal:
+                POIScaleSegment.selectedSegment = 1
+                
+            case .Large:
+                POIScaleSegment.selectedSegment = 2
+        }
         ShowHomeSwitch.state = Settings.GetState(.ShowHomeLocation)
         ShowUserPOISwitch.state = Settings.GetState(.ShowUserPOIs)
         let WHSSites = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .Natural)
@@ -83,6 +95,9 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
                 case EditUserPOIHelpButton:
                     Parent?.ShowHelp(For: .EditUserPOIs, Where: Button.bounds, What: EditUserPOIHelpButton)
             
+                case POIScaleHelpButton:
+                    Parent?.ShowHelp(For: .POIScale, Where: Button.bounds, What: POIScaleHelpButton)
+                    
                 default:
                     return
             }
@@ -193,6 +208,19 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     {
     }
     
+    @IBAction func POIScaleChangedHandler(_ sender: Any)
+    {
+            if let Segment = sender as? NSSegmentedControl
+            {
+                let Index = Segment.selectedSegment
+                if Index <= MapNodeScales.allCases.count - 1
+                {
+                    let NewScale = MapNodeScales.allCases[Index]
+                    Settings.SetEnum(NewScale, EnumType: MapNodeScales.self, ForKey: .POIScale)
+                }
+            }
+    }
+    
     func SetDarkMode(To: Bool)
     {
         
@@ -208,6 +236,7 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     @IBOutlet weak var ShowHomeSwitch: NSSwitch!
     @IBOutlet weak var ShowUserPOISwitch: NSSwitch!
     @IBOutlet weak var ShowUnescoSitesSwitch: NSSwitch!
+    @IBOutlet weak var POIScaleSegment: NSSegmentedControl!
     
     // MARK: - Help buttons
     @IBOutlet weak var ShowWorldHeritageSiteHelpButton: NSButton!
@@ -221,4 +250,5 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     @IBOutlet weak var EditHomeLocationHelpButton: NSButton!
     @IBOutlet weak var ShowHomeHelpButton: NSButton!
     @IBOutlet weak var UNESCOHelpButton: NSButton!
+    @IBOutlet weak var POIScaleHelpButton: NSButton!
 }
