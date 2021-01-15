@@ -21,6 +21,13 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
         RegionColorWell.color = NSColor.TeaGreen
     }
     
+    /// Make sure the window stays in front of the main window.
+    /// - Note: See [How to Keep Window Always on the Top With Swift](https://stackoverflow.com/questions/38711406/how-to-keep-window-always-on-the-top-with-swift)
+    override func viewDidAppear()
+    {
+        view.window?.level = .floating
+    }
+    
     var ClickForFirst = true
     
     @IBAction func RegionColorChangedHandler(_ sender: Any)
@@ -108,7 +115,7 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
     
     func MouseClicked(At: GeoPoint)
     {
-        if !ClickForFirst
+        if ClickForFirst
         {
             let LatS = Utility.PrettyLatitude(At.Latitude)
             let LonS = Utility.PrettyLongitude(At.Longitude)
@@ -117,14 +124,43 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
             Message1.isHidden = true
             Message2.isHidden = false
             ClickForFirst = false
+            ParentDelegate?.PlotUpperLeftCorner(Latitude: At.Latitude, Longitude: At.Longitude)
             return
         }
         let LatS = Utility.PrettyLatitude(At.Latitude)
         let LonS = Utility.PrettyLongitude(At.Longitude)
         Latitude2Field.stringValue = LatS
         Longitude2Field.stringValue = LonS
+        ParentDelegate?.PlotLowerRightCorner(Latitude: At.Latitude, Longitude: At.Longitude)
     }
-
+    
+    @IBAction func ResetCoordinatesHandler(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            switch Button
+            {
+                case ResetUpperLeft:
+                    ClickForFirst = true
+                    Latitude1Field.stringValue = ""
+                    Longitude1Field.stringValue = ""
+                    Message1.isHidden = false
+                    Message2.isHidden = true
+                    ParentDelegate?.RemoveUpperLeftCorner()
+                    
+                case ResetLowerRight:
+                    Latitude2Field.stringValue = ""
+                    Longitude2Field.stringValue = ""
+                    ParentDelegate?.RemoveLowerRightCorner()
+                    
+                default:
+                    break
+            }
+        }
+    }
+    
+    @IBOutlet weak var ResetLowerRight: NSButton!
+    @IBOutlet weak var ResetUpperLeft: NSButton!
     @IBOutlet weak var Message2: NSTextField!
     @IBOutlet weak var Message1: NSTextField!
     @IBOutlet weak var Longitude2Field: NSTextField!
