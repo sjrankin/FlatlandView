@@ -56,9 +56,9 @@ class MainController: NSViewController
                 if self.Location.y >= 0 && self.Location.y < self.view.window!.frame.size.height
                 {
                     let Point = CGPoint(x: self.Location.x, y: self.Location.y)
-                    self.Rect2DView.MouseAt(Point: Point)
-                    self.Main2DView.MouseAt(Point: Point)
-                    self.Main3DView.MouseAt(Point: Point)
+                    self.Rect2DView.MouseClickedAt(Point: Point)
+                    self.Main2DView.MouseClickedAt(Point: Point)
+                    self.Main3DView.MouseClickedAt(Point: Point)
                 }
             }
             return $0
@@ -223,10 +223,13 @@ class MainController: NSViewController
     var DebuggerOpen = false
     
     /// Set the world lock status. This stops the user from moving the camera in all scenes.
-    /// - Note: Prior to locking the scene, the camera is moved back to its default position.
+    /// - Note: Prior to locking the scene, the camera is moved back to its default position. This behavior
+    ///         can be overridden by setting `ResetPosition` to false.
     /// - Parameter Locked: If true, all scenes in 3D views are reset then locked. If false, the camera
     ///                     is allowed to be moved and no other action is taken.
-    func SetWorldLock(_ Locked: Bool)
+    /// - Parameter ResetPosition: If true, the position of the world will be reset. Otherwise, it will not
+    ///                            change.
+    func SetWorldLock(_ Locked: Bool, ResetPosition: Bool = false)
     {
         if let WindowController = self.view.window?.windowController as? MainWindow
         {
@@ -240,7 +243,7 @@ class MainController: NSViewController
             WindowController.WorldLockButton.contentTintColor = Locked ? NSColor(named: "ControlRed") : NSColor(named: "ControlGreen")
             let LockMenu = GetAppDelegate().LockUnlockMenuItem
             LockMenu?.state = Locked ? .off : .on
-            Main3DView.SetCameraLock(Locked)
+            Main3DView.SetCameraLock(Locked, ResetPosition: ResetPosition)
             Main2DView.SetCameraLock(Locked)
             Rect2DView.SetCameraLock(Locked)
         }
@@ -250,7 +253,7 @@ class MainController: NSViewController
     /// - Parameter sender: Not used.
     @IBAction func HandleLockUnlockWorldButton(_ sender: Any)
     {
-        SetWorldLock(Settings.InvertBool(.WorldIsLocked))
+        SetWorldLock(Settings.InvertBool(.WorldIsLocked), ResetPosition: true)
     }
     
     /// Respond to the user command to take a snapshot of the current view.
