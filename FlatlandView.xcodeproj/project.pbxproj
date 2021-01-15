@@ -33,6 +33,7 @@
 		1716DB1A24E5575B00C4F8BD /* ClockIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1716DB1924E5575B00C4F8BD /* ClockIndicator.swift */; };
 		17176C09254CFC3C0051960D /* EarthquakeViewerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17176C08254CFC3C0051960D /* EarthquakeViewerWindow.swift */; };
 		17176C0D254CFE210051960D /* EarthquakeViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17176C0C254CFE210051960D /* EarthquakeViewerController.swift */; };
+		1718271725B15F3E00041826 /* +Threading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718271625B15F3E00041826 /* +Threading.swift */; };
 		1718812924B85B9D00EE1E71 /* PerformanceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718812824B85B9D00EE1E71 /* PerformanceOptions.swift */; };
 		171A583E24BED5A700F9CA76 /* SCNTriangleRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171A583D24BED5A700F9CA76 /* SCNTriangleRing.swift */; };
 		1720013D258C7F9A00EF2A72 /* +WorldClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720013C258C7F9A00EF2A72 /* +WorldClock.swift */; };
@@ -450,6 +451,7 @@
 		1716DB1924E5575B00C4F8BD /* ClockIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockIndicator.swift; sourceTree = "<group>"; };
 		17176C08254CFC3C0051960D /* EarthquakeViewerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeViewerWindow.swift; sourceTree = "<group>"; };
 		17176C0C254CFE210051960D /* EarthquakeViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeViewerController.swift; sourceTree = "<group>"; };
+		1718271625B15F3E00041826 /* +Threading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Threading.swift"; sourceTree = "<group>"; };
 		1718812824B85B9D00EE1E71 /* PerformanceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceOptions.swift; sourceTree = "<group>"; };
 		171A583D24BED5A700F9CA76 /* SCNTriangleRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangleRing.swift; sourceTree = "<group>"; };
 		1720013C258C7F9A00EF2A72 /* +WorldClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+WorldClock.swift"; sourceTree = "<group>"; };
@@ -2054,6 +2056,7 @@
 				17897C8C2514AAB300544DE1 /* +MainTimers.swift */,
 				17897C892514AA6C00544DE1 /* +MainWindowing.swift */,
 				1774BD74256E417100D927F3 /* +SimpleStatus.swift */,
+				1718271625B15F3E00041826 /* +Threading.swift */,
 				1720013C258C7F9A00EF2A72 /* +WorldClock.swift */,
 			);
 			path = MainExtensions;
@@ -2409,6 +2412,7 @@
 				17F9AFDC252033AE00DE0219 /* +Int.swift in Sources */,
 				174623D624A83FF0007F5D4C /* StarField3DWindow.swift in Sources */,
 				172F0609255129FE00BEA156 /* MapPreferences.swift in Sources */,
+				1718271725B15F3E00041826 /* +Threading.swift in Sources */,
 				17B7D7B724CED0F7000C077B /* ImageResizer.swift in Sources */,
 				172F4A1F24F9F3850014A65E /* EnumEditor.swift in Sources */,
 				176A89802530278900489C22 /* MainWindow.swift in Sources */,
