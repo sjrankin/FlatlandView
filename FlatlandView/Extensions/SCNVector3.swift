@@ -12,21 +12,33 @@ import SceneKit
 
 extension SCNVector3
 {
+    /// Create an `SCNVector3` value with `x`, `y`, and `z` initialized to the passed
+    /// value.
+    /// - Parameter Value: Initial value for all three components.
     init(_ Value: Double)
     {
         self = SCNVector3(Value, Value, Value)
     }
     
+    /// Create an `SCNVector3` value with `x`, `y`, and `z` initialized to the passed
+    /// value.
+    /// - Parameter Value: Initial value for all three components.
     init(_ Value: CGFloat)
     {
         self = SCNVector3(Value, Value, Value)
     }
     
+    /// Create an `SCNVector3` value with `x`, `y`, and `z` initialized to the passed
+    /// value.
+    /// - Parameter Value: Initial value for all three components.
     init(_ Value: Float)
     {
         self = SCNVector3(Value, Value, Value)
     }
     
+    /// Create an `SCNVector3` value with `x`, `y`, and `z` initialized to the passed
+    /// value.
+    /// - Parameter Value: Initial value for all three components.
     init(_ Value: Int)
     {
         self = SCNVector3(Value, Value, Value)
