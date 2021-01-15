@@ -256,7 +256,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
     ///         the node under the mouse is queried and its associated data may be displayed.
     /// - Parameter Point: The point in the view reported by the main controller.
-    func MouseAt(Point: CGPoint)
+    func MouseClickedAt(Point: CGPoint)
     {
         let HitObject = self.hitTest(Point, options: [.boundingBoxOnly: true])
         if HitObject.count > 0
