@@ -16,14 +16,15 @@ extension MainController
     /// Handle closing events.
     func WillClose()
     {
+        Debug.Print("Flatland closing.")
         MainSettingsDelegate?.MainClosing()
         AboutDelegate?.MainClosing()
         TodayDelegate?.MainClosing()
         QuakeDelegate?.MainClosing()
         DebugDelegate?.MainClosing()
         LiveStatusController?.MainClosing()
-        
-        Debug.Print("Flatland closing.")
+        ForceKillThreads()
+        Debug.Print("  Flatland cleaned up.")
     }
     
     /// Handle new window size.
