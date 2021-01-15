@@ -475,6 +475,18 @@ enum NodeScales3D: CGFloat, CaseIterable
     case HomeArrowScale = 2.02
     /// Scale of triangle rings.
     case TriangleRing = 0.41
+    /// Scale of pyramids used for earthquakes.
+    case PyramidEarthquake = 1.001
+    /// Scale of cones used for earthquakes.
+    case ConeEarthquake = 1.002
+    /// Scale of boxes used for earthquakes.
+    case BoxEarthquake = 0.99999
+    /// Scale of cylinders used for earthquakes.
+    case CylinderEarthquake = 0.9998
+    /// Scale of capsules used for earthquakes.
+    case CapsuleEarthquake = 1.0003
+    /// Scale of spheres used for earthquakes.
+    case SphereEarthquake = 0.9993
 }
 
 // MARK: - Scale values for 2D nodes.
