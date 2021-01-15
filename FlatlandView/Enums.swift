@@ -615,6 +615,8 @@ enum GlobeNodeNames: String, CaseIterable
     case MouseIndicator = "MouseIndicator"
     /// Node use to show a region.
     case RegionNode = "RegionNode"
+    /// Node used to show a pinned location.
+    case PinnedLocationNode = "PinnedLocationNode"
 }
 
 /// 2D view node names.
@@ -852,4 +854,15 @@ enum InterfaceStyles: String, CaseIterable
     case Normal = "Normal"
     /// Maximum for over-powered systems.
     case Maximum = "Maximum"
+}
+
+/// Relative sizes for 3D map nodes.
+enum MapNodeScales: String, CaseIterable
+{
+    /// Small-sized nodes.
+    case Small = "Small"
+    /// Normal-sized nodes.
+    case Normal = "Normal"
+    /// Large-sized nodes.
+    case Large = "Large"
 }
