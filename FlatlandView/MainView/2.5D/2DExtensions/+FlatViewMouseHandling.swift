@@ -338,7 +338,7 @@ extension FlatView
     ///         the node under the mouse is queried and its associated data may be displayed.
     ///    - In order to work, the options for the hit test must be `.boundingBoxOnly: true`.
     /// - Parameter Point: The point in the view reported by the main controller.
-    func MouseAt(Point: CGPoint)
+    func MouseClickedAt(Point: CGPoint)
     {
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if MapCenter == .FlatSouthCenter || MapCenter == .FlatNorthCenter
