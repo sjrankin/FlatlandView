@@ -80,6 +80,7 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
     {
         let Window = self.view.window
         let Parent = Window?.sheetParent
+        print("Saving changed region list.")
         Settings.SetEarthquakeRegions(RegionList)
         Parent?.endSheet(Window!, returnCode: .OK)
     }
@@ -196,7 +197,15 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
         RegionNameField.stringValue = Item.RegionName
         MinMagField.stringValue = "\(Item.MinimumMagnitude.RoundedTo(1))"
         MaxMagField.stringValue = "\(Item.MaximumMagnitude.RoundedTo(1))"
-        AgeCombo.selectItem(at: Item.Age)
+        let Age = Item.Age
+        if Age > AgeCombo.numberOfItems - 1
+        {
+            AgeCombo.selectItem(at: AgeCombo.numberOfItems - 1)
+        }
+        else
+        {
+            AgeCombo.selectItem(at: Age)
+        }
         RegionColorWell.color = Item.RegionColor
         ShowNotificationSwitch.state = Item.NotifyOnNewEarthquakes ? .on : .off
         EnableRegionSwitch.state = Item.IsEnabled ? .on : .off
@@ -205,18 +214,18 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
             RegionTypeSegment.selectedSegment = 0
             RectangleBox.isHidden = false
             CircleBox.isHidden = true
-            UpperLeftLat.stringValue = "\(Item.UpperLeft.Latitude.RoundedTo(2))"
-            UpperLeftLon.stringValue = "\(Item.UpperLeft.Longitude.RoundedTo(2))"
-            LowerRightLat.stringValue = "\(Item.LowerRight.Latitude.RoundedTo(2))"
-            LowerRightLon.stringValue = "\(Item.LowerRight.Longitude.RoundedTo(2))"
+            UpperLeftLat.stringValue = Utility.PrettyLatitude(Item.UpperLeft.Latitude)
+            UpperLeftLon.stringValue = Utility.PrettyLongitude(Item.UpperLeft.Longitude)
+            LowerRightLat.stringValue = Utility.PrettyLatitude(Item.LowerRight.Latitude)
+            LowerRightLon.stringValue = Utility.PrettyLongitude(Item.LowerRight.Longitude)
         }
         else
         {
             RegionTypeSegment.selectedSegment = 1
             RectangleBox.isHidden = true
             CircleBox.isHidden = false
-            CenterLat.stringValue = "\(Item.Center.Latitude.RoundedTo(2))"
-            CenterLon.stringValue = "\(Item.Center.Longitude.RoundedTo(2))"
+            CenterLat.stringValue = Utility.PrettyLatitude(Item.Center.Latitude)
+            CenterLon.stringValue = Utility.PrettyLongitude(Item.Center.Longitude)
             CircularRadius.stringValue = "\(Item.Radius.RoundedTo(1))"
         }
     }
