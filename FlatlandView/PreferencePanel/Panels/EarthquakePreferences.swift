@@ -18,6 +18,18 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
     {
         super.viewDidLoad()
         
+        let PreviousScale = Settings.GetEnum(ForKey: .QuakeScales, EnumType: MapNodeScales.self, Default: .Normal)
+        switch PreviousScale
+        {
+            case .Small:
+                QuakeScaleSegment.selectedSegment = 0
+                
+            case .Normal:
+                QuakeScaleSegment.selectedSegment = 1
+                
+            case .Large:
+                QuakeScaleSegment.selectedSegment = 2
+        }
         FetchFrequencyCombo.removeAllItems()
         FetchFrequencyCombo.addItem(withObjectValue: "30 seconds")
         FetchFrequencyCombo.addItem(withObjectValue: "1 minute")
@@ -71,8 +83,11 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
                 case QuakeHighlightHelpButton:
                     Parent?.ShowHelp(For: .QuakeHighlight, Where: Button.bounds, What: QuakeHighlightHelpButton)
                     
-                case CheckEarthquakesNowHelpbutton:
-                    Parent?.ShowHelp(For: .QuakeCheckNow, Where: Button.bounds, What: CheckEarthquakesNowHelpbutton)
+                case CheckEarthquakesNowHelpButton:
+                    Parent?.ShowHelp(For: .QuakeCheckNow, Where: Button.bounds, What: CheckEarthquakesNowHelpButton)
+                    
+                case QuakeScaleHelpButton:
+                    Parent?.ShowHelp(For: .QuakeScale, Where: Button.bounds, What: QuakeScaleHelpButton)
                     
                 default:
                     return
@@ -149,16 +164,31 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
+    @IBAction func HandleQuakeScaleChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            let Index = Segment.selectedSegment
+            if Index <= MapNodeScales.allCases.count - 1
+            {
+                let NewScale = MapNodeScales.allCases[Index]
+                Settings.SetEnum(NewScale, EnumType: MapNodeScales.self, ForKey: .QuakeScales)
+            }
+        }
+    }
+    
     func SetDarkMode(To: Bool)
     {
     }
     
+    @IBOutlet weak var QuakeScaleSegment: NSSegmentedControl!
+    @IBOutlet weak var QuakeScaleHelpButton: NSButton!
     @IBOutlet weak var QuakeShapeCombo: NSComboBox!
     @IBOutlet weak var FetchFrequencyCombo: NSComboBox!
     @IBOutlet weak var HighlightNewQuakesSwitch: NSSwitch!
     @IBOutlet weak var EnableRegionsSwitch: NSSwitch!
     @IBOutlet weak var DisplayQuakesSwitch: NSSwitch!
-    @IBOutlet weak var CheckEarthquakesNowHelpbutton: NSButton!
+    @IBOutlet weak var CheckEarthquakesNowHelpButton: NSButton!
     @IBOutlet weak var QuakeRegionsHelpButton: NSButton!
     @IBOutlet weak var DisplayQuakesHelpButton: NSButton!
     @IBOutlet weak var EnableRegionsHelpButton: NSButton!
