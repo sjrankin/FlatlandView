@@ -264,6 +264,11 @@ If enabled, "new" earthquakes (24 hours old or less) are highlighted visually.
 Check for new earthquakes. Result availability is determined by how busy the remote server is and your internet connection speed.
 """
                     
+                case .QuakeScale:
+                    Message = """
+Sets the scale (size) of the 3D shapes that indicate where an earthquake has occurred. Does not affect stenciled text drawn on the map.
+"""
+                    
                 // MARK: - Map attributes help.
                 case .ShowGridLines:
                     Message = """
@@ -354,6 +359,12 @@ Show your points-of-interest you have defined.
                     Message = """
 Enter/edit your points-of-interest. You can also use the map directly to do with with by selecting the proper menu item when right-clicking the mouse button on a map.
 """
+                    
+                case .POIScale:
+                    Message = """
+Sets the scale for POI items on the map. Does not affect stenciled text drawn on the map itself.
+"""
+                    
                 // MARK: - Live data help.
                 case .LiveDataHelp:
                     Message = """
@@ -397,6 +408,7 @@ enum PreferenceHelp: String, CaseIterable
     case EnableQuakeRegions = "EnableQuakeRegions"
     case QuakeFetchFrequency = "QuakeFetchFrequency"
     case QuakeCheckNow = "QuakeCheckNow"
+    case QuakeScale = "QuakeScale"
     
     case ShowGridLines = "ShowGridLines"
     case GridLineColor = "GridLineColor"
@@ -416,6 +428,7 @@ enum PreferenceHelp: String, CaseIterable
     case ShowUserPOIs = "ShowUserPOIs"
     case EditUserPOIs = "EditUserPOIs"
     case ShowUNESCOSites = "ShowUNESCOSites"
+    case POIScale = "POIScale"
     
     case LiveDataHelp = "LiveDataHelp"
 }
