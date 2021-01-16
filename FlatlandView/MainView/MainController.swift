@@ -719,6 +719,8 @@ class MainController: NSViewController
     /// Previous second count.
     var OldSeconds: Double = 0.0
     
+    var MouseLocationController: MouseInfoController? = nil
+    
     // MARK: - Extension variables
     
     /// ID used for settings subscriptions.
