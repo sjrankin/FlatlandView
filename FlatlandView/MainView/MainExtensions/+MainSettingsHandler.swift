@@ -50,8 +50,6 @@ extension MainController: SettingChangedProtocol
                             Main3DView.ClearEarthquakes()
                             Main3DView.PlotEarthquakes()
                         }
-                        MainTimeLabelTop.isHidden = false
-                        MainTimeLabelBottom.isHidden = true
                         
                     case .FlatNorthCenter, .FlatSouthCenter:
                         Main3DView.pause(self)
@@ -105,6 +103,8 @@ extension MainController: SettingChangedProtocol
                             {
                                 Main3DView.PlotEarthquakes()
                             }
+                            MainTimeLabelTop.isHidden = false
+                            MainTimeLabelBottom.isHidden = true
                     }
                     SetFlatMode(IsFlat)
                 }
