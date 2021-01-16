@@ -17,6 +17,51 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        let CurrentMapView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.FlatNorthCenter)
+        switch CurrentMapView
+        {
+            case .CubicWorld:
+                MapTypeSegment.selectedSegment = 3
+                
+            case .FlatNorthCenter:
+                MapTypeSegment.selectedSegment = 1
+                
+            case .FlatSouthCenter:
+                MapTypeSegment.selectedSegment = 0
+                
+            case .Rectangular:
+                MapTypeSegment.selectedSegment = 2
+                
+            case .Globe3D:
+                MapTypeSegment.selectedSegment = 3
+        }
+        let CurrentHourView = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
+        switch CurrentHourView
+        {
+            case .None:
+                HourTypeSegment.selectedSegment = 0
+                
+            case .Solar:
+                HourTypeSegment.selectedSegment = 1
+                
+            case .RelativeToNoon:
+                HourTypeSegment.selectedSegment = 2
+                
+            case .RelativeToLocation:
+                HourTypeSegment.selectedSegment = 3
+        }
+        let PreviousScale = Settings.GetEnum(ForKey: .HourScale, EnumType: MapNodeScales.self, Default: .Normal)
+        switch PreviousScale
+        {
+            case .Small:
+                HourScaleSegment.selectedSegment = 0
+                
+            case .Normal:
+                HourScaleSegment.selectedSegment = 1
+                
+            case .Large:
+                HourScaleSegment.selectedSegment = 2
+        }
         switch Settings.GetEnum(ForKey: .TimeLabel, EnumType: TimeLabels.self, Default: TimeLabels.UTC)
         {
             case .Local:
@@ -117,6 +162,15 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
                 case ShowSecondsHelpButton:
                     Parent?.ShowHelp(For: .ShowSeconds, Where: Button.bounds, What: ShowSecondsHelpButton)
                     
+                case HourTypeHelpButton:
+                    Parent?.ShowHelp(For: .HourTypes, Where: Button.bounds, What: HourTypeHelpButton)
+                    
+                case MapTypeHelpButton:
+                    Parent?.ShowHelp(For: .MapTypes, Where: Button.bounds, What: MapTypeHelpButton)
+                    
+                case HourScaleHelpButton:
+                    Parent?.ShowHelp(For: .HourScale, Where: Button.bounds, What: HourScaleHelpButton)
+                    
                 default:
                     return
             }
@@ -128,6 +182,73 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
         
     }
     
+    @IBAction func MapTypeChangedHandler(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    Settings.SetEnum(.FlatSouthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    
+                case 1:
+                    Settings.SetEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    
+                case 2:
+                    Settings.SetEnum(.Rectangular, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    
+                case 3:
+                    Settings.SetEnum(.Globe3D, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBAction func HourTypeChangedHandler(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    Settings.SetEnum(.None, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                case 1:
+                    Settings.SetEnum(.Solar, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                case 2:
+                    Settings.SetEnum(.RelativeToNoon, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                case 3:
+                    Settings.SetEnum(.RelativeToLocation, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBAction func HourScaleChangedHandler(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            let Index = Segment.selectedSegment
+            if Index <= MapNodeScales.allCases.count - 1
+            {
+                let NewScale = MapNodeScales.allCases[Index]
+                Settings.SetEnum(NewScale, EnumType: MapNodeScales.self, ForKey: .HourScale)
+            }
+        }
+    }
+    
+    @IBOutlet weak var HourTypeSegment: NSSegmentedControl!
+    @IBOutlet weak var MapTypeSegment: NSSegmentedControl!
+    @IBOutlet weak var HourScaleHelpButton: NSButton!
+    @IBOutlet weak var HourScaleSegment: NSSegmentedControl!
+    @IBOutlet weak var HourTypeHelpButton: NSButton!
+    @IBOutlet weak var MapTypeHelpButton: NSButton!
     @IBOutlet weak var InputUnitHelpButton: NSButton!
     @IBOutlet weak var ShowSecondsHelpButton: NSButton!
     @IBOutlet weak var DateStyleHelpButton: NSButton!
