@@ -50,6 +50,8 @@ extension MainController: SettingChangedProtocol
                             Main3DView.ClearEarthquakes()
                             Main3DView.PlotEarthquakes()
                         }
+                        MainTimeLabelTop.isHidden = false
+                        MainTimeLabelBottom.isHidden = true
                         
                     case .FlatNorthCenter, .FlatSouthCenter:
                         Main3DView.pause(self)
@@ -163,7 +165,15 @@ extension MainController: SettingChangedProtocol
                 SetWorldLock(Settings.GetBool(.WorldIsLocked))
                 
             case .FollowMouse:
-                SetMouseLocationVisibility(Visible: Settings.GetBool(.FollowMouse))
+                let FollowMouse = Settings.GetBool(.FollowMouse)
+                if FollowMouse
+                {
+                    SetMouseLocationVisibility(Visible: Settings.GetBool(.FollowMouse))
+                }
+                else
+                {
+                    MouseLocationController = nil
+                }
                 
             default:
                 return
