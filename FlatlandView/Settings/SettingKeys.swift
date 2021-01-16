@@ -116,6 +116,8 @@ enum SettingKeys: String, CaseIterable
     case HourEmissionColor = "HourEmissionColor"
     /// String: Name of the hour font.
     case HourFontName = "HourFontName"
+    /// Scale of the extruded 3D hour labels.
+    case HourScale = "HourScale"
     /// NSColor: Color of major grid lines.
     case GridLineColor = "GridLineColor"
     /// NSColor: Color of minor grid lines.
