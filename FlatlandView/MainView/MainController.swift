@@ -649,6 +649,7 @@ class MainController: NSViewController
             switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
             {
                 case .FlatSouthCenter:
+                    print("Setting FlatSouthCenter")
                     MainTimeLabelTop.isHidden = true
                     MainTimeLabelBottom.isHidden = false
                     Main2DView.isHidden = false
@@ -657,6 +658,7 @@ class MainController: NSViewController
                     Main2DView.SunVisibility(IsShowing: true)
                     
                 case .FlatNorthCenter:
+                    print("Setting FlatNorthCenter")
                     MainTimeLabelTop.isHidden = false
                     MainTimeLabelBottom.isHidden = true
                     Main2DView.isHidden = false
