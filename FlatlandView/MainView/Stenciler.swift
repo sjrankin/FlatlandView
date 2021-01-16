@@ -127,115 +127,6 @@ class Stenciler
     /// Provides a lock from too many callers at once.
     private static let StencilLock = NSObject()
     
-    #if false
-    /// Add stencils to the passed image.
-    /// - Notes:
-    ///   1. Most of the drawing is done in a background thread. Control is returned to the caller almost
-    ///      immediately.
-    ///   2. This function controls access such that only one caller at a time can execute this function.
-    ///   3. The order of drawing of stencils is:
-    ///      - Earthquake regions.
-    ///      - Grid lines.
-    ///      - City names.
-    ///      - Earthquake magnitude values.
-    /// - Parameter To: The base image upon which stencils will be added.
-    /// - Parameter Quakes: List of earthquakes whose magnitudes will be plotted. If this parameter is nil,
-    ///                     no magnitudes will be plotted. Defaults to `nil`.
-    /// - Parameter ShowRegions: Determines if earthquake regions are shown or not drawn. Defaults to `false`.
-    ///                          If true is passed, the regions in user settings are used.
-    /// - Parameter PlotCities: Determines if city names are drawn or not drawn. Defaults to `false`. If true
-    ///                         is passed, city names in the global city name database are used.
-    /// - Parameter GridLines: Determines if grid lines are drawn or not drawn. Defaults to `false`. If true,
-    ///                        which lines are drawn depend on user settings.
-    /// - Parameter UNESCOSites: Plot UNESCO World Heritage Sites.
-    /// - Parameter CalledBy: The name of the caller.
-    /// - Parameter Status: Closure for handling status updates for drawing stencils. First parameter is a string
-    ///                     describing the status and the second parameter is the number of seconds since the
-    ///                     function was called.
-    /// - Parameter FinalNotify: Closure passed to the completion handler.
-    /// - Parameter Completed: Closure to accept the resultant image (`NSImage`) after all stencils have been
-    ///                        drawn. If no stencils have been drawn (due to the values of parameters), the
-    ///                        original image, unchanged, will be passed to this closure. The second parameter
-    ///                        passed to the closure is the duration of execution for this function, in seconds.
-    ///                        The third parameter is the name of the caller, passed directly and unchanged.
-    ///                        The closure may be called from a background thread or the UI thread.
-    public static func AddStencils(To Image: NSImage,
-                                   Quakes: [Earthquake]? = nil,
-                                   ShowRegions: Bool = false,
-                                   PlotCities: Bool = false,
-                                   GridLines: Bool = false,
-                                   UNESCOSites: Bool = false,
-                                   CalledBy: String? = nil,
-                                   Status: ((String, Double) -> ())? = nil,
-                                   FinalNotify: (() -> ())? = nil,
-                                   Completed: ((NSImage, Double, String?, (() -> ())?) -> ())? = nil)
-    {
-        objc_sync_enter(StencilLock)
-        defer{objc_sync_exit(StencilLock)}
-        let MapRatio: Double = Double(Image.size.width) / 3600.0
-        let StartTime = CACurrentMediaTime()
-        if Quakes == nil && !ShowRegions && !PlotCities && !GridLines && !UNESCOSites
-        {
-            //Nothing to do - return the image unaltered.
-            Completed?(Image, 0.0, CalledBy, FinalNotify)
-            return
-        }
-        let LocalQuakes = Quakes
-        let Queue = OperationQueue()
-        Queue.qualityOfService = .background
-        Queue.name = "Stencil Queue"
-        Queue.addOperation
-        {
-            var Working = Image
-            
-            if ShowRegions
-            {
-                Status?("Creating regions", CACurrentMediaTime() - StartTime)
-                let Regions = Settings.GetEarthquakeRegions()
-                if Regions.count > 0
-                {
-                    let Blender = ImageBlender()
-                    Working = DrawRegions(Image: Working, Regions: Regions, Ratio: MapRatio,
-                                          Kernel: Blender)
-                    //let test = ApplyRectangles(Regions: Regions)
-                }
-            }
-            if GridLines
-            {
-                Status?("Adding grid lines", CACurrentMediaTime() - StartTime)
-                Working = AddGridLines(To: Working, Ratio: MapRatio)
-                //let test = ApplyGridLines()
-            }
-            if UNESCOSites
-            {
-                Status?("Plotting UNESCO sites", CACurrentMediaTime() - StartTime)
-                Working = AddWorldHeritageDecals(To: Working, Ratio: MapRatio)
-            }
-            
-            var Rep = GetImageRep(From: Working)
-            if PlotCities
-            {
-                Status?("Plotting cities", CACurrentMediaTime() - StartTime)
-                Rep = AddCityNames(To: Rep, Ratio: MapRatio)
-            }
-            if let QuakeList = LocalQuakes
-            {
-                Status?("Plotting earthquakes", CACurrentMediaTime() - StartTime)
-                Rep = AddMagnitudeValues(To: Rep, With: QuakeList, Ratio: MapRatio)
-                //let test = ApplyMagnitudes(Earthquakes: QuakeList)
-            }
-            let Final = GetImage(From: Rep)
-            let Duration = CACurrentMediaTime() - StartTime
-            Status?("Finished", CACurrentMediaTime() - StartTime)
-            for (_, Function) in Subscribers
-            {
-                Function?(Final, nil)
-            }
-            Completed?(Final, Duration, CalledBy, FinalNotify)
-        }
-    }
-    #endif
-    
     /// Create a stencil layer.
     /// - Parameter Layer: Determines the contents of the image of the stencil layer.
     /// - Parameter LayerData: Data a given layer may need.
@@ -284,6 +175,8 @@ class Stenciler
         }
     }
     
+    /// Create an array of random circles.
+    /// - Returns: Attay of circle records.
     private static func MakeRandomCircles() -> [CircleRecord]
     {
         var CircleList = [CircleRecord]()
@@ -354,7 +247,6 @@ class Stenciler
     {
         let Working = Image
         let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .AllSites)
-        //MainView.InitializeWorldHeritageSites()
         let Sites = MainController.GetAllSites()
         var FinalList = [WorldHeritageSite]()
         for Site in Sites
@@ -537,6 +429,10 @@ class Stenciler
         return Rep
     }
     
+    /// Draw text strings on a surface.
+    /// - Parameter Messages: List of strings to draw.
+    /// - ImageSize: Size of the target surface to draw on
+    /// - Returns: Image with text drawn on it.
     private static func DrawText(Messages: [TextRecord],
                                  ImageSize: NSSize = NSSize(width: 3600, height: 1800)) -> NSImage
     {
@@ -547,6 +443,7 @@ class Stenciler
         return Final
     }
     
+    /// Defines a line definition.
     typealias LineDefinition = (IsHorizontal: Bool, At: Int, Thickness: Int, Color: NSColor)
     
     /// Add grid lines to the passed image.
@@ -627,36 +524,6 @@ class Stenciler
                 }
             }
             
-            #if false
-            let Now = Date()
-            let TZ = TimeZone(abbreviation: "UTC")
-            var Cal = Calendar(identifier: .gregorian)
-            Cal.timeZone = TZ!
-            let Hour = Cal.component(.hour, from: Now)
-            let Minute = Cal.component(.minute, from: Now)
-            let Second = Cal.component(.second, from: Now)
-            let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
-            let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
-            let NoonPercent = 0.5 - Percent
-            print("UTC percent: \(Percent), Noon percent: \(NoonPercent)")
-            let XVal = Int(Double(ImageWidth / 2) + (NoonPercent * Double(ImageWidth)))
-            let NoonLine: LineDefinition = (IsHorizontal: false,
-                                            At: XVal,
-                                            Thickness: 8,
-                                            Color: NSColor.systemYellow)
-            LineList.append(NoonLine)
-            
-            let HomeLat = Settings.GetDoubleNil(.UserHomeLatitude, 0.0)
-            let HomeLon = Settings.GetDoubleNil(.UserHomeLongitude, 0.0)
-            let GP = GeoPoint(HomeLat!, HomeLon!)
-            let (HX, _) = GP.ToEquirectangular(Width: ImageWidth, Height: ImageHeight)
-            let HomeLine: LineDefinition = (IsHorizontal: false,
-                                            At: HX,
-                                            Thickness: 8,
-                                            Color: NSColor.systemGreen)
-            LineList.append(HomeLine)
-            #endif
-            
             let Final = Image
             Final.lockFocus()
             for Line in LineList
@@ -735,41 +602,41 @@ class Stenciler
             }
             autoreleasepool
             {
-            let ImageWidth = Int(Image.size.width)
-            let ImageHeight = Int(Image.size.height)
-            var RegionWidth = GeoPoint.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
-                                                          Longitude2: Region.LowerRight.Longitude,
-                                                          Latitude: Region.UpperLeft.Latitude,
-                                                          Width: ImageWidth, Height: ImageHeight)
-            RegionWidth = RegionWidth * Ratio
-            var RegionHeight = GeoPoint.VerticalDistance(Latitude1: Region.UpperLeft.Latitude,
-                                                         Latitude2: Region.LowerRight.Latitude,
-                                                         Longitude: Region.UpperLeft.Longitude,
-                                                         Width: ImageWidth, Height: ImageHeight)
-            RegionHeight = RegionHeight * Ratio
-            var XPercent: Double = 0.0
-            var YPercent: Double = 0.0
-            var (FinalX, FinalY) = GeoPoint.TransformToImageCoordinates(Latitude: Region.UpperLeft.Latitude,
-                                                                        Longitude: Region.UpperLeft.Longitude,
-                                                                        Width: ImageWidth,
-                                                                        Height: ImageHeight,
-                                                                        XPercent: &XPercent,
-                                                                        YPercent: &YPercent)
-            FinalX = Int(Double(FinalX) * Ratio)
-            FinalY = Int(Double(FinalY) * Ratio)
-            #if false
-            let SolidColor = SolidColorImage()
-            let Block = SolidColor.FillWithBorder(Width: Int(RegionWidth),
-                                                  Height: Int(RegionHeight),
-                                                  With: Region.RegionColor.withAlphaComponent(0.5),
-                                                  BorderThickness: 2,
-                                                  BorderColor: NSColor.black)
-            Final = ImageMerger.MergeImages(Background: Final, Sprite: Block!, At: CGPoint(x: FinalX, y: FinalY))
-            #else
-            Final = Kernel.MergeImages(Background: Final, Sprite: Region.RegionColor.withAlphaComponent(0.5),
-                                       SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
-                                       SpriteX: FinalX, SpriteY: FinalY)
-            #endif
+                let ImageWidth = Int(Image.size.width)
+                let ImageHeight = Int(Image.size.height)
+                var RegionWidth = GeoPoint.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
+                                                              Longitude2: Region.LowerRight.Longitude,
+                                                              Latitude: Region.UpperLeft.Latitude,
+                                                              Width: ImageWidth, Height: ImageHeight)
+                RegionWidth = RegionWidth * Ratio
+                var RegionHeight = GeoPoint.VerticalDistance(Latitude1: Region.UpperLeft.Latitude,
+                                                             Latitude2: Region.LowerRight.Latitude,
+                                                             Longitude: Region.UpperLeft.Longitude,
+                                                             Width: ImageWidth, Height: ImageHeight)
+                RegionHeight = RegionHeight * Ratio
+                var XPercent: Double = 0.0
+                var YPercent: Double = 0.0
+                var (FinalX, FinalY) = GeoPoint.TransformToImageCoordinates(Latitude: Region.UpperLeft.Latitude,
+                                                                            Longitude: Region.UpperLeft.Longitude,
+                                                                            Width: ImageWidth,
+                                                                            Height: ImageHeight,
+                                                                            XPercent: &XPercent,
+                                                                            YPercent: &YPercent)
+                FinalX = Int(Double(FinalX) * Ratio)
+                FinalY = Int(Double(FinalY) * Ratio)
+                #if false
+                let SolidColor = SolidColorImage()
+                let Block = SolidColor.FillWithBorder(Width: Int(RegionWidth),
+                                                      Height: Int(RegionHeight),
+                                                      With: Region.RegionColor.withAlphaComponent(0.5),
+                                                      BorderThickness: 2,
+                                                      BorderColor: NSColor.black)
+                Final = ImageMerger.MergeImages(Background: Final, Sprite: Block!, At: CGPoint(x: FinalX, y: FinalY))
+                #else
+                Final = Kernel.MergeImages(Background: Final, Sprite: Region.RegionColor.withAlphaComponent(0.5),
+                                           SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
+                                           SpriteX: FinalX, SpriteY: FinalY)
+                #endif
             }
         }
         return Final
@@ -818,6 +685,10 @@ class Stenciler
     static var DrawLinesLock = NSObject()
     static var DrawTextLock = NSObject()
     
+    /// Apply decals (in the form of text) to a blank image.
+    /// - Parameter Size: Size of the target image. Defaults to 3600 by 1800.
+    /// - Parameter Decals: Array of text to draw.
+    /// - Returns: Image with text drawn on it. If no text supplied, nil is returned.
     public static func ApplyDecal(Size: NSSize = NSSize(width: 3600, height: 1800),
                                   Decals: [TextRecord]) -> NSImage?
     {
@@ -831,6 +702,10 @@ class Stenciler
         return DrawText(Messages: Decals, ImageSize: Size)
     }
     
+    /// Draw earthquake magnitudes to the map.
+    /// - Parameter Earthquakes: Array of earthquakes whose magnitudes will be drawn.
+    /// - Parameter Size: Size of the target surface. Defaults to 3600 x 1800.
+    /// - Returns: Image with earthquake magnitudes drawn on it. Nil if no earthquakes supplied.
     public static func ApplyMagnitudes(Earthquakes: [Earthquake],
                                        Size: NSSize = NSSize(width: 3600, height: 1800)) -> NSImage?
     {
@@ -850,7 +725,20 @@ class Stenciler
             FontMultiplier = 2.0
         }
         FontMultiplier = 1.0
-        let FontSize = BaseFontSize * CGFloat(Ratio) * ScaleFactor * FontMultiplier
+        let QuakeSize = Settings.GetEnum(ForKey: .QuakeScales, EnumType: MapNodeScales.self, Default: .Normal)
+        var UserScale: CGFloat = 1.0
+        switch QuakeSize
+        {
+            case .Small:
+                UserScale = 0.5
+                
+            case .Normal:
+                UserScale = 1.0
+                
+            case .Large:
+                UserScale = 1.3
+        }
+        let FontSize = BaseFontSize * CGFloat(Ratio) * ScaleFactor * FontMultiplier * UserScale
         for Quake in Earthquakes
         {
             let Location = Quake.LocationAsGeoPoint().ToEquirectangular(Width: Int(Size.width),
@@ -894,6 +782,9 @@ class Stenciler
         return Final
     }
     
+    /// Draw grid lines on the map.
+    /// - Parameter Size: Size of the surface on which to draw the grid lines. Defaults to 3600 x 1800.
+    /// - Returns: Image with grid lines applied.
     public static func ApplyGridLines(Size: NSSize = NSSize(width: 3600, height: 1800)) -> NSImage
     {
         objc_sync_enter(DrawLinesLock)
@@ -1001,6 +892,11 @@ class Stenciler
         return Final
     }
     
+    /// Draw circles on the map.
+    /// - Note: Since the map is rectangular, circles will appear distorted if the map is applied to a globe.
+    /// - Parameter Size: Size of the map on which to draw circles. Defaults to 3600 x 1800.
+    /// - Parameter Circles: Array of circles to draw.
+    /// - Returns: Image with circles drawn on it.
     public static func ApplyCircles(Size: NSSize = NSSize(width: 3600, height: 1800),
                                     Circles: [CircleRecord]) -> NSImage
     {
@@ -1139,12 +1035,17 @@ struct TextRecord
     let OutlineColor: NSColor?
 }
 
-
+/// Used to define a circle.
 struct CircleRecord
 {
+    /// Location of the center of the circle.
     let Location: NSPoint
+    /// Radius of the circle.
     let Radius: CGFloat
+    /// Fill color of the circle.
     let Color: NSColor
+    /// Color of the outline. If nil, no outline is drawn.
     let OutlineColor: NSColor?
+    /// Width of the outline. If nil, no outline is drawn.
     let OutlineWidth: CGFloat?
 }
