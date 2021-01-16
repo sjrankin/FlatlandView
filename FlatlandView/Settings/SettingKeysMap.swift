@@ -55,6 +55,7 @@ extension Settings
             .HourColor: NSColor.self,
             .HourEmissionColor: NSColor.self,
             .HourFontName: String.self,
+            .HourScale: MapNodeScales.self,
             .GridLineColor: NSColor.self,
             .MinorGridLineColor: NSColor.self,
             .FieldOfView: CGFloat.self,
