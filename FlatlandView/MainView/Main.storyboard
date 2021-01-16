@@ -121,7 +121,7 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="8565F3F4-0A4B-4FC7-B461-E28A9CA6B743" label="Reset Map" paletteLabel="Reset Map" id="nkA-Au-qYY">
                                     <nil key="toolTip"/>
-                                    <imageReference key="image" image="sun.max" catalog="system" symbolScale="large"/>
+                                    <imageReference key="image" image="house.circle" catalog="system" symbolScale="large"/>
                                     <size key="minSize" width="36" height="36"/>
                                     <size key="maxSize" width="38" height="36.5"/>
                                     <button key="view" id="Eeb-q1-HEd">
@@ -130,31 +130,12 @@
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="HFz-wi-CS9">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemHeavy" size="18"/>
-                                            <imageReference key="image" image="sun.max" catalog="system" symbolScale="large"/>
+                                            <imageReference key="image" image="house.circle" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlack"/>
                                     </button>
                                     <connections>
                                         <action selector="Reset3DView:" target="gS1-iC-1Lf" id="RE9-4C-zOa"/>
-                                    </connections>
-                                </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="994E4F02-051D-4FE2-A6BB-1A657E2E9857" label="Settings" paletteLabel="Settings" id="rKc-fx-vO7">
-                                    <nil key="toolTip"/>
-                                    <imageReference key="image" image="gearshape.fill" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="35.5"/>
-                                    <size key="maxSize" width="36" height="36"/>
-                                    <button key="view" id="vkR-WM-228">
-                                        <rect key="frame" x="8" y="14" width="36" height="35.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="P2W-A7-nNc">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="systemBold" size="18"/>
-                                            <imageReference key="image" image="gearshape.fill" catalog="system" symbolScale="large"/>
-                                        </buttonCell>
-                                        <color key="contentTintColor" name="ControlBlack"/>
-                                    </button>
-                                    <connections>
-                                        <action selector="RunSettings:" target="gS1-iC-1Lf" id="8NL-vM-T4V"/>
                                     </connections>
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="B8B57144-D395-49DF-BDF1-9C6AAF02DFC0" label="Snapshot" paletteLabel="Snapshot" id="qP8-7E-Gyk">
@@ -178,7 +159,6 @@
                                 </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
-                                <toolbarItem reference="rKc-fx-vO7"/>
                                 <toolbarItem reference="emU-F6-qZj"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="qP8-7E-Gyk"/>
@@ -767,10 +747,9 @@
         <image name="SouthCenterIcon" width="24" height="24"/>
         <image name="ant.circle.fill" catalog="system" width="19" height="19"/>
         <image name="camera" catalog="system" width="23" height="18"/>
-        <image name="gearshape.fill" catalog="system" width="20" height="20"/>
+        <image name="house.circle" catalog="system" width="19" height="19"/>
         <image name="info.circle.fill" catalog="system" width="19" height="19"/>
         <image name="lock.rotation" catalog="system" width="21" height="19"/>
-        <image name="sun.max" catalog="system" width="20" height="20"/>
         <image name="wifi" catalog="system" width="21" height="16"/>
         <image name="wrench.and.screwdriver" catalog="system" width="23" height="22"/>
         <namedColor name="ControlBlack">
