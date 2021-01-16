@@ -17,6 +17,10 @@ extension MainController
     func WillClose()
     {
         Debug.Print("Flatland closing.")
+        if NSColorPanel.shared.isVisible
+        {
+            NSColorPanel.shared.close()
+        }
         MainSettingsDelegate?.MainClosing()
         AboutDelegate?.MainClosing()
         TodayDelegate?.MainClosing()
