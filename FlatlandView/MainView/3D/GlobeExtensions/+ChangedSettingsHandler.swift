@@ -261,6 +261,7 @@ extension GlobeView: SettingChangedProtocol
             case .POIScale:
                 PlotWorldHeritageSites()
                 PlotCities()
+                PlotPolarShape()
                 
             case .UseSystemCameraControl:
                 InitializeSceneCamera(!Settings.GetBool(.UseSystemCameraControl))
@@ -421,6 +422,9 @@ extension GlobeView: SettingChangedProtocol
             case .EnableJittering:
                 self.isJitteringEnabled = Settings.GetBool(.EnableJittering)
             
+            case .HourScale:
+                UpdateHours()
+                
             default:
                 return
         }
