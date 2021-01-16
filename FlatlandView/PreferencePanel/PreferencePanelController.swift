@@ -219,6 +219,21 @@ Lets you set the main time format.
 Show or hide seconds in the main time display. Ignored if the clock format is None.
 """
                     
+                case .HourTypes:
+                    Message = """
+Determines the type of hours to show. Can be none, relative to the sun (eg, the sun is always over the noon location), relative to a location, or relative to current noon.
+"""
+                    
+                case .MapTypes:
+                    Message = """
+The basic map type to use - can be rectangular, circular north-centered, circular south-centered, or 3D globe.
+"""
+                    
+                case .HourScale:
+                    Message = """
+Determines the scale of the floating hours over the globe.
+"""
+                    
                 //MARK: - Map help.
                 case .MapSample:
                     Message = """
@@ -398,6 +413,9 @@ enum PreferenceHelp: String, CaseIterable
     case MainDateFormat = "MainDateFormat"
     case ShowSeconds = "ShowSeconds"
     case InputUnits = "InputUnits"
+    case HourTypes = "HourTypes"
+    case MapTypes = "MapTypes"
+    case HourScale = "HourScale"
     
     case MapSample = "MapSample"
     
