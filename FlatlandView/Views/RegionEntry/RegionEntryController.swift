@@ -102,6 +102,10 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
             ShowAlertMessage(Message: "Unable to read points - please verify for correctness.")
             return
         }
+        if NSColorPanel.shared.isVisible
+        {
+            NSColorPanel.shared.close()
+        }
         ParentDelegate?.RegionEntryCompleted(Name: RegionNameField.stringValue, Color: RegionColor,
                                              Corner1: Point1, Corner2: Point2)
         self.view.window?.close()
@@ -109,12 +113,17 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
     
     @IBAction func HandleCancelButton(_ sender: Any)
     {
+        if NSColorPanel.shared.isVisible
+        {
+            NSColorPanel.shared.close()
+        }
         ParentDelegate?.RegionEntryCanceled()
         self.view.window?.close()
     }
     
     func MouseClicked(At: GeoPoint)
     {
+        print("Mouse clicked at \(At)")
         if ClickForFirst
         {
             let LatS = Utility.PrettyLatitude(At.Latitude)
