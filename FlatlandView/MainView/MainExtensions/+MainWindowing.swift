@@ -35,6 +35,7 @@ extension MainController
             return
         }
         Settings.SetNSSize(.WindowSize, To)
+        UpdateMouseWindowLocation()
     }
     
     func WindowMovedTo(_ Origin: CGPoint)
