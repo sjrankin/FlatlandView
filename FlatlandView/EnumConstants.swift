@@ -654,6 +654,55 @@ enum MouseShape: Double, CaseIterable
     case SuperfluousSphereRotationDuration = 3.6
 }
 
+/// Constants used for drawing 3D hours.
+enum HourConstants: Double, CaseIterable
+{
+    /// Scale multiplier for small hours.
+    case SmallScaleMultiplier = 0.5
+    /// Scale multiplier for normal hours.
+    case NormalScaleMultiplier = 1.0
+    /// Scale multiplier for big hours.
+    case BigScaleMultiplier = 1.5
+    /// Vertical offset for small hours.
+    case SmallVerticalOffset = 0.201
+    /// Vertical offset for normal hours.
+    case NormalVerticalOffset = 0.7
+    /// Vertical offset for big hours.
+    case BigVerticalOffset = 1.04
+    /// Small character width for small hours.
+    case SmallSmallCharWidth = 3.0
+    /// Small character width for normal hours.
+    case NormalSmallCharWidth = 6.0
+    /// Small character width for big hours.
+    case BigSmallCharWidth = 10.0
+    /// Big character width for small hours.
+    case SmallBigCharWidth = 5.09
+    /// Big character width for normal hours.
+    case NormalBigCharWidth = 10.001
+    /// Big character width for big hours.
+    case BigBigCharWidth = 18.0
+    /// Font size for English fonts.
+    case EnglishFontSize = 20.0
+    /// Font size for non-English fonts.
+    case OtherFontSize = 14.0
+    /// Hour extrustion depth.
+    case HourExtrusion = 5.03
+    /// Hour chamfer radius.
+    case HourChamfer = 0.2
+    /// Multiplier used in label node positioning.
+    case LabelHeightMultiplier = 0.07
+    /// Divisor used in label node positioning.
+    case LabelHeightDivisor = 8.0002
+    /// Distance of one our in degrees.
+    case HourDistance = 15.0
+    /// Normal performance character flatness value.
+    case NormalFlatness = 0.01
+    /// Low performance (eg, low-end systems) character flatness value.
+    case LowPerformanceFlatness = 0.1
+    /// High performance (eg, high-end systems) character flatness value.
+    case HighPerformanceFlatness = 0.001
+}
+
 #if DEBUG
 // MARK: - 3D scene debug constants.
 
