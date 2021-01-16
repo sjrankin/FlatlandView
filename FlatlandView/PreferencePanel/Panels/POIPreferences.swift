@@ -210,15 +210,15 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     
     @IBAction func POIScaleChangedHandler(_ sender: Any)
     {
-            if let Segment = sender as? NSSegmentedControl
+        if let Segment = sender as? NSSegmentedControl
+        {
+            let Index = Segment.selectedSegment
+            if Index <= MapNodeScales.allCases.count - 1
             {
-                let Index = Segment.selectedSegment
-                if Index <= MapNodeScales.allCases.count - 1
-                {
-                    let NewScale = MapNodeScales.allCases[Index]
-                    Settings.SetEnum(NewScale, EnumType: MapNodeScales.self, ForKey: .POIScale)
-                }
+                let NewScale = MapNodeScales.allCases[Index]
+                Settings.SetEnum(NewScale, EnumType: MapNodeScales.self, ForKey: .POIScale)
             }
+        }
     }
     
     func SetDarkMode(To: Bool)
