@@ -859,6 +859,7 @@ extension GlobeView
             }()
         let Base = BaseAttributes
         let FinalNode = ShapeManager.Create(.Pole, Composite: Comp, BaseAttributes: Base)
+        FinalNode.scale = SCNVector3(GetScaleMultiplier())
         return FinalNode
     }
     
@@ -900,6 +901,7 @@ extension GlobeView
         FlagNode.castsShadow = true
         FlagNode.addChildNode(PoleNode)
         FlagNode.addChildNode(FlagFaceNode)
+        FlagNode.scale = SCNVector3(GetScaleMultiplier())
         return FlagNode
     }
     
