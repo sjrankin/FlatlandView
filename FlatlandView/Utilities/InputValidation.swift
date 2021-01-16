@@ -71,7 +71,7 @@ class InputValidation
         }
         if var ActualValue = Double(Stripped)
         {
-            if ActualValue < 0.0 || Multiplier == -1.0
+            if ActualValue < 0.0 && Multiplier == -1.0
             {
                 Multiplier = 1.0
             }
@@ -122,7 +122,7 @@ class InputValidation
         }
         if var ActualValue = Double(Stripped)
         {
-            if ActualValue < 0.0 || Multiplier == -1.0
+            if ActualValue < 0.0 && Multiplier == -1.0
             {
                 Multiplier = 1.0
             }
