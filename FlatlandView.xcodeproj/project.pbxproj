@@ -34,6 +34,7 @@
 		17176C09254CFC3C0051960D /* EarthquakeViewerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17176C08254CFC3C0051960D /* EarthquakeViewerWindow.swift */; };
 		17176C0D254CFE210051960D /* EarthquakeViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17176C0C254CFE210051960D /* EarthquakeViewerController.swift */; };
 		1718271725B15F3E00041826 /* +Threading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718271625B15F3E00041826 /* +Threading.swift */; };
+		1718271B25B1850200041826 /* +RegionEntryProtocolImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718271A25B1850200041826 /* +RegionEntryProtocolImplementation.swift */; };
 		1718812924B85B9D00EE1E71 /* PerformanceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1718812824B85B9D00EE1E71 /* PerformanceOptions.swift */; };
 		171A583E24BED5A700F9CA76 /* SCNTriangleRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171A583D24BED5A700F9CA76 /* SCNTriangleRing.swift */; };
 		1720013D258C7F9A00EF2A72 /* +WorldClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720013C258C7F9A00EF2A72 /* +WorldClock.swift */; };
@@ -452,6 +453,7 @@
 		17176C08254CFC3C0051960D /* EarthquakeViewerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeViewerWindow.swift; sourceTree = "<group>"; };
 		17176C0C254CFE210051960D /* EarthquakeViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeViewerController.swift; sourceTree = "<group>"; };
 		1718271625B15F3E00041826 /* +Threading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Threading.swift"; sourceTree = "<group>"; };
+		1718271A25B1850200041826 /* +RegionEntryProtocolImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+RegionEntryProtocolImplementation.swift"; sourceTree = "<group>"; };
 		1718812824B85B9D00EE1E71 /* PerformanceOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceOptions.swift; sourceTree = "<group>"; };
 		171A583D24BED5A700F9CA76 /* SCNTriangleRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangleRing.swift; sourceTree = "<group>"; };
 		1720013C258C7F9A00EF2A72 /* +WorldClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+WorldClock.swift"; sourceTree = "<group>"; };
@@ -1396,6 +1398,7 @@
 				1773893B25971771002698E8 /* +Menus.swift */,
 				1762BD672560BB2E009C6965 /* +MouseHandling.swift */,
 				173EB18A2490D1B7006CDB86 /* +Orbits.swift */,
+				1718271A25B1850200041826 /* +RegionEntryProtocolImplementation.swift */,
 				17F47B5A25AAC4EE00A3A281 /* +Regions.swift */,
 				177389372596D511002698E8 /* +Rotations.swift */,
 				178A869D2489101E00BE8D46 /* StarField.swift */,
@@ -2290,6 +2293,7 @@
 				17F17A4D24DE7B1B00568A4E /* LinesDraw.swift in Sources */,
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
 				1704D3F4256A4DA100DE0F85 /* StencilPipelineProtocol.swift in Sources */,
+				1718271B25B1850200041826 /* +RegionEntryProtocolImplementation.swift in Sources */,
 				17CB2484253BD9B100BAABDC /* ShapeAttribute.swift in Sources */,
 				1760023C24D2BF8000D5EA1A /* NSColor.swift in Sources */,
 				1701BF7C24FCE0FD00686C3A /* CityPopulationController.swift in Sources */,
