@@ -226,6 +226,45 @@ extension GlobeView
         PhraseNode.name = GlobeNodeNames.HourNode.rawValue
         
         let VisualScript = Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English)
+        let HourScale = Settings.GetEnum(ForKey: .HourScale, EnumType: MapNodeScales.self, Default: .Normal)
+        var ScaleMultiplier = HourConstants.NormalScaleMultiplier.rawValue
+        var VerticalOffset: CGFloat = CGFloat(HourConstants.NormalVerticalOffset.rawValue)
+        var BigCharWidth: CGFloat = CGFloat(HourConstants.NormalBigCharWidth.rawValue)
+        var SmallCharWidth: CGFloat = CGFloat(HourConstants.NormalSmallCharWidth.rawValue)
+        switch HourScale
+        {
+            case .Small:
+                ScaleMultiplier = HourConstants.SmallScaleMultiplier.rawValue
+                VerticalOffset = CGFloat(HourConstants.SmallVerticalOffset.rawValue)
+                BigCharWidth = CGFloat(HourConstants.SmallBigCharWidth.rawValue)
+                SmallCharWidth = CGFloat(HourConstants.SmallSmallCharWidth.rawValue)
+                
+            case .Normal:
+                ScaleMultiplier = HourConstants.NormalScaleMultiplier.rawValue
+                VerticalOffset = CGFloat(HourConstants.NormalVerticalOffset.rawValue)
+                BigCharWidth = CGFloat(HourConstants.NormalBigCharWidth.rawValue)
+                SmallCharWidth = CGFloat(HourConstants.NormalSmallCharWidth.rawValue)
+                
+            case .Large:
+                ScaleMultiplier = HourConstants.BigScaleMultiplier.rawValue
+                VerticalOffset = CGFloat(HourConstants.BigVerticalOffset.rawValue)
+                BigCharWidth = CGFloat(HourConstants.BigBigCharWidth.rawValue)
+                SmallCharWidth = CGFloat(HourConstants.BigSmallCharWidth.rawValue)
+        }
+        let IFStyle = Settings.GetEnum(ForKey: .InterfaceStyle, EnumType: InterfaceStyles.self,
+                                       Default: .Normal)
+        var FlatnessValue: CGFloat = CGFloat(HourConstants.NormalFlatness.rawValue)
+        switch IFStyle
+        {
+            case .Maximum:
+                FlatnessValue = CGFloat(HourConstants.HighPerformanceFlatness.rawValue)
+                
+            case .Minimal:
+                FlatnessValue = CGFloat(HourConstants.LowPerformanceFlatness.rawValue)
+                
+            case .Normal:
+                FlatnessValue = CGFloat(HourConstants.NormalFlatness.rawValue)
+        }
         
         var Angle = StartAngle
         for Label in Labels
@@ -236,17 +275,17 @@ extension GlobeView
             var TotalLabelWidth: CGFloat = 0.0
             var LabelHeight: CGFloat = 0.0
             let LabelNode = SCNNode2()
-            let VerticalOffset: CGFloat = 0.8
             for (_, Letter) in Label.HourLabel.enumerated()
             {
                 let Radians = WorkingAngle.Radians
-                let HourText = SCNText(string: String(Letter), extrusionDepth: 5.0)
-                let FontSize: CGFloat = VisualScript == .English ? 20.0 : 14.0
+                let HourText = SCNText(string: String(Letter), extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
+                let FontSize: CGFloat = VisualScript == .English ? CGFloat(HourConstants.EnglishFontSize.rawValue) :
+                    CGFloat(HourConstants.OtherFontSize.rawValue)
                 if Settings.GetBool(.UseHourChamfer)
                 {
-                    HourText.chamferRadius = 0.2
+                    HourText.chamferRadius = CGFloat(HourConstants.HourChamfer.rawValue)
                 }
-                let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium", 20.0, NSColor.yellow))
+                let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium", CGFloat(HourConstants.EnglishFontSize.rawValue), NSColor.yellow))
                 HourText.font = NSFont(name: FontData.PostscriptName, size: FontSize)
                 var CharWidth: Float = 0
                 if Letter == " "
@@ -260,11 +299,11 @@ extension GlobeView
                 PreviousEnding = CGFloat(CharWidth)
                 if ["0", "2", "3", "4", "5", "6", "7", "8", "9"].contains(Letter)
                 {
-                    PreviousEnding = CGFloat(10.0)
+                    PreviousEnding = BigCharWidth
                 }
                 if Letter == "1"
                 {
-                    PreviousEnding = CGFloat(6.0)
+                    PreviousEnding = SmallCharWidth
                 }
                 let DeltaHeight = abs(HourText.boundingBox.max.y - HourText.boundingBox.min.y)
                 if CGFloat(DeltaHeight) > LabelHeight
@@ -274,7 +313,8 @@ extension GlobeView
                 WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
                 HourText.firstMaterial?.diffuse.contents =  NSColor(RGB: Colors3D.HourColor.rawValue)
                 HourText.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
-                HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
+//                HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
+                HourText.flatness = FlatnessValue
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
                 let HourTextNode = SCNNode2(geometry: HourText)
@@ -344,9 +384,8 @@ extension GlobeView
                 }
                 
                 HourTextNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-                HourTextNode.scale = SCNVector3(NodeScales3D.HourText.rawValue,
-                                                NodeScales3D.HourText.rawValue,
-                                                NodeScales3D.HourText.rawValue)
+                let FinalScale = CGFloat(ScaleMultiplier) * NodeScales3D.HourText.rawValue
+                HourTextNode.scale = SCNVector3(FinalScale)
                 HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
                 let HourRotation = (90.0 - Double(WorkingAngle)).Radians
                 HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
@@ -359,7 +398,7 @@ extension GlobeView
             let LastAngle = CGFloat(Angle).Radians
             let FinalX = CGFloat(0) * cos(LastAngle)
             let FinalZ = CGFloat(0) * sin(LastAngle)
-            let YOffset = -(LabelHeight * 0.07) / 8.0
+            let YOffset = -(LabelHeight * CGFloat(HourConstants.LabelHeightMultiplier.rawValue)) / CGFloat(HourConstants.LabelHeightDivisor.rawValue)
             LabelNode.position = SCNVector3(FinalX, YOffset, FinalZ)
             LabelNode.Tag = Label.HourLabel
             if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
@@ -369,7 +408,7 @@ extension GlobeView
                     if let HomeLon = Double(HomeLonS)
                     {
                         let Offset = Double(Label.HourLabel)!
-                        let FinalLongitude = HomeLon + (15.0 * Offset)
+                        let FinalLongitude = HomeLon + (HourConstants.HourDistance.rawValue * Offset)
                         LabelNode.InitialAngle = FinalLongitude
                         LabelNode.SetLocation(0.0, FinalLongitude)
                     }
@@ -378,8 +417,8 @@ extension GlobeView
             PhraseNode.addChildNode(LabelNode)
             PhraseNode.CanSwitchState = true
             
-            //Adjust the angle by one hour.
-            Angle = Angle + 15.0
+            //Adjust the angle by one hour in distance.
+            Angle = Angle + HourConstants.HourDistance.rawValue
         }
         
         return PhraseNode
