@@ -99,10 +99,10 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
     
     @IBAction func HandleShowSecondsChanged(_ sender: Any)
     {
-     if let Switch = sender as? NSSwitch
-     {
-        Settings.SetBool(.TimeLabelSeconds, Switch.state == .on ? true : false)
-     }
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.TimeLabelSeconds, Switch.state == .on ? true : false)
+        }
     }
     
     @IBAction func HandleTimeFormatChanged(_ sender: Any)
