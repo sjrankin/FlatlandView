@@ -14,41 +14,70 @@ extension GlobeView
 {
     // MARK: - Hour plotting and handling
     
-    /// Convience function to update the hours by those callers who do not want to worry about
+    /// Convenience function to update the hours by those callers who do not want to worry about
     /// the internals of doing so.
     func UpdateHours()
     {
         UpdateHourLabels(With: Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None))
     }
     
-    /// Update the globe display with the specified hour types.
-    /// - Note: If `InVersionDisplayMode` is true, a special case is executed and control returned
-    ///         before any other cases are executed. Also, the current declination is ignored if
-    ///         `InVersionDisplayMode` is true.
-    /// - Parameter With: The hour type to display.
-    func UpdateHourLabels(With: HourValueTypes)
+    /// Remove the hour container node.
+    private func RemoveHours()
     {
         HourNode?.removeAllActions()
         HourNode?.removeFromParentNode()
         HourNode = nil
+    }
+    
+    /// Update the globe display with the specified hour types.
+    /// - Parameter With: The hour type to display.
+    func UpdateHourLabels(With: HourValueTypes)
+    {
         switch With
         {
             case .None:
-                break
+                if let Container = HourNode
+                {
+                    let Shrink = SCNAction.scale(to: 0.001, duration: HourConstants.RemoveDuration.rawValue)
+                    let NodeCount = Container.childNodes.count
+                    var Count = 0
+                    for HourChild in Container.childNodes
+                    {
+                        if let Child = HourChild as? SCNNode2
+                        {
+                            if Count < NodeCount - 1
+                            {
+                                Child.runAction(Shrink)
+                            }
+                            else
+                            {
+                                //Remove the hour container node after the last action has run.
+                                Child.runAction(Shrink)
+                                {
+                                    self.RemoveHours()
+                                }
+                            }
+                        }
+                        Count = Count + 1
+                    }
+                }
                 
             case .Solar:
+                RemoveHours()
                 HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
                 let Declination = Sun.Declination(For: Date())
                 HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
                 self.scene?.rootNode.addChildNode(HourNode!)
                 
             case .RelativeToNoon:
+                RemoveHours()
                 HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
                 let Declination = Sun.Declination(For: Date())
                 HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
                 self.scene?.rootNode.addChildNode(HourNode!)
                 
             case .RelativeToLocation:
+                RemoveHours()
                 HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
                 SystemNode?.addChildNode(HourNode!)
         }
@@ -313,7 +342,6 @@ extension GlobeView
                 WorkingAngle = WorkingAngle - (PreviousEnding * 0.5)
                 HourText.firstMaterial?.diffuse.contents =  NSColor(RGB: Colors3D.HourColor.rawValue)
                 HourText.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
-//                HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
                 HourText.flatness = FlatnessValue
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
