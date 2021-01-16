@@ -701,6 +701,8 @@ enum HourConstants: Double, CaseIterable
     case LowPerformanceFlatness = 0.1
     /// High performance (eg, high-end systems) character flatness value.
     case HighPerformanceFlatness = 0.001
+    /// Number of seconds for the animation of hour removal.
+    case RemoveDuration = 0.65
 }
 
 #if DEBUG
