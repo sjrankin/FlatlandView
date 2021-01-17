@@ -35,6 +35,12 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     {
     }
     
+    /// Kill any running timers. Called when the application is closing.
+    func KillTimers()
+    {
+        EarthClock?.invalidate()
+    }
+    
     #if DEBUG
     /// Set debug options for the visual debugging of the 3D globe.
     /// - Note: See [SCNDebugOptions](https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12)
