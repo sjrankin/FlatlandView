@@ -123,9 +123,9 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="house.circle" catalog="system" symbolScale="large"/>
                                     <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="38" height="36.5"/>
+                                    <size key="maxSize" width="38.5" height="36.5"/>
                                     <button key="view" id="Eeb-q1-HEd">
-                                        <rect key="frame" x="13" y="14" width="38" height="36.5"/>
+                                        <rect key="frame" x="12" y="14" width="38.5" height="36.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="HFz-wi-CS9">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
