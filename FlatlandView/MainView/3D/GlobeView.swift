@@ -317,6 +317,13 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         return nil
     }
     
+    /// Kill all available timers. Called when the program is shutting down.
+    func KillTimers()
+    {
+        EarthClock?.invalidate()
+        DarkClock?.invalidate()
+    }
+    
     // MARK: - Stencil pipeline protocol functions
     
     /// Used to prevent stenciled maps from fighting to be displayed. Helps to enforce serialization.
@@ -366,6 +373,34 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     /// - Parameter Time: The starting time of the execution.
     func StencilPipelineStarted(Time: Double)
     {
+    }
+    
+    func StencilPipelineCompleted2(_ Context: StencilContext)
+    {
+        if self.InitialStenciledMap == nil
+        {
+            if let Final = Context.CompletedImage
+            {
+                self.InitialStenciledMap = Final
+            }
+        }
+    }
+    
+    func StencilStageCompleted2(_ Context: StencilContext, _ Stage: StencilStages?)
+    {
+        objc_sync_enter(StageSynchronization)
+        defer{objc_sync_exit(StageSynchronization)}
+        if Stage == nil
+        {
+            return
+        }
+        if let Working = Context.WorkingImage
+        {
+            OperationQueue.main.addOperation
+            {
+                self.EarthNode?.geometry?.firstMaterial?.diffuse.contents = Working
+            }
+        }
     }
     
     // MARK: - Variables for extensions.
@@ -482,6 +517,9 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var SeaNode: SCNNode2? = nil
     /// Holds all of the hour nodes.
     var HourNode: SCNNode2? = nil
+    /// Holds all of the regions.
+    var RegionNode: SCNNode2? = nil
+    var RegionLayer: CAShapeLayer? = nil
     var PlottedEarthquakes = Set<String>()
     var POIMenu: NSMenuItem? = nil
     var AddEditHomeMenu: NSMenuItem? = nil
