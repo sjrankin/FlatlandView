@@ -27,6 +27,9 @@ extension MainController
         QuakeDelegate?.MainClosing()
         DebugDelegate?.MainClosing()
         LiveStatusController?.MainClosing()
+        Main2DView.KillTimers()
+        Rect2DView.KillTimers() 
+        Main3DView.KillTimers()
         ForceKillThreads()
         Debug.Print("  Flatland cleaned up.")
     }
