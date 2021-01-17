@@ -145,7 +145,7 @@ extension GlobeView
             case .Jitter16X:
                 self.antialiasingMode = .multisampling16X
         }
-        self.antialiasingMode = .multisampling16X
+        //self.antialiasingMode = .multisampling16X
         self.isJitteringEnabled = Settings.GetBool(.EnableJittering)
         #if DEBUG
         self.showsStatistics = Settings.GetBool(.ShowStatistics)
@@ -189,7 +189,8 @@ extension GlobeView
         ApplyInitialStencils()
         if Settings.GetBool(.ShowEarthquakeRegions)
         {
-            PlotRegions()
+            PlotRegions2()
+//            PlotRegions()
         }
     }
     
