@@ -11,7 +11,24 @@ import AppKit
 
 extension MainController
 {
+    /// Try to kill any background threads that may be running.
     func ForceKillThreads()
     {
+        if let StencilQueue = Stenciler.StencilingQueue
+        {
+            if !StencilQueue.isSuspended
+            {
+                Debug.Print("Canceling stencil queue.")
+                StencilQueue.cancelAllOperations()
+            }
+        }
+        if let QuakeQueue = Earthquakes?.RetrievalQueue
+        {
+            if !QuakeQueue.isSuspended
+            {
+                Debug.Print("Canceling earthquake queue.")
+                QuakeQueue.cancelAllOperations()
+            }
+        }
     }
 }
