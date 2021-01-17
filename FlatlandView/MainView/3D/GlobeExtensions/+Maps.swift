@@ -13,6 +13,8 @@ import SceneKit
 extension GlobeView
 {
     /// Return maps to be used as textures for the 3D Earth.
+    /// - Important: The `blendMode` **must** be set to `.replace` (and the `blendMode` of the region node
+    ///              set to `.alpha`) in order for the blending to work correctly.
     /// - Parameter Map: The map type whose image (or images) will be returned.
     /// - Returns: Tuple with the standard Earth map and, if the map type supports it, the sea map as well.
     func MakeMaps(_ Map: MapTypes) -> (Earth: NSImage, Sea: NSImage?)
@@ -139,6 +141,9 @@ extension GlobeView
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
+        //The blend mode must be .replace if there are nodes over the Earth with alpha levels. Those nodes
+        //must have a blend mode of .alpha.
+        EarthNode?.geometry?.firstMaterial?.blendMode = .replace
         
         //Precondition the surfaces.
         switch MapType
