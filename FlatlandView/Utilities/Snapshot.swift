@@ -75,7 +75,10 @@ class Snapshot
         SavePanel.title = "Save Image"
         SavePanel.allowedFileTypes = ["png"]
         SavePanel.canCreateDirectories = true
-        SavePanel.nameFieldStringValue = "Flatland Snapshot.png"
+        let Now = Date()
+        let PrettyDate = Now.PrettyDate()
+        let PrettyTime = Now.PrettyTime(ForFileName: true)
+        SavePanel.nameFieldStringValue = "Flatland Snapshot \(PrettyDate), \(PrettyTime).png"
         SavePanel.level = .modalPanel
         if SavePanel.runModal() == .OK
         {
