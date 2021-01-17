@@ -219,8 +219,9 @@ extension Date
     
     /// Converts the passed date's time components into a pretty string.
     /// - Parameter From: The date whose time components will be used to generate a pretty string.
+    /// - Parameter ForFileName: If true, colons will be replaced by dashes.
     /// - Returns: String value of the time components of `From`.
-    static func PrettyTime(From: Date) -> String
+    static func PrettyTime(From: Date, ForFileName: Bool = false) -> String
     {
         let Cal = Calendar.current
         let Hour = Cal.component(.hour, from: From)
@@ -241,7 +242,16 @@ extension Date
         {
             SecondS = "0" + SecondS
         }
-        return "\(HourS):\(MinuteS):\(SecondS)"
+        var Final = ""
+        if ForFileName
+        {
+            Final = "\(HourS)-\(MinuteS)-\(SecondS)"
+        }
+        else
+        {
+            Final = "\(HourS):\(MinuteS):\(SecondS)"
+        }
+        return Final
     }
     
     /// Converts the passed date's date components into a pretty string.
@@ -307,10 +317,11 @@ extension Date
     }
     
     /// Converts the instance date's time components into a pretty string.
+    /// - Parameter ForFileName: If true, colons (`:`) will be replaced with dashes (`-`).
     /// - Returns: String value of the time components of the instance date.
-    func PrettyTime() -> String
+    func PrettyTime(ForFileName: Bool = false) -> String
     {
-        return Date.PrettyTime(From: self)
+        return Date.PrettyTime(From: self, ForFileName: ForFileName)
     }
     
     /// Converts the instance date's date components into a pretty string.
