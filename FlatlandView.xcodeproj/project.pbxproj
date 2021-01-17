@@ -107,6 +107,7 @@
 		174A6A2C2557CD6600488274 /* DebugPanelBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174A6A2B2557CD6600488274 /* DebugPanelBase.swift */; };
 		174A6A302557D22500488274 /* LogPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174A6A2F2557D22500488274 /* LogPanel.swift */; };
 		174A6A342557D24B00488274 /* ClockControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174A6A332557D24B00488274 /* ClockControlPanel.swift */; };
+		174B1CF125B42662003B33FE /* +Regions2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174B1CF025B42662003B33FE /* +Regions2.swift */; };
 		174D0359252C929D00692B89 /* +MainDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174D0358252C929D00692B89 /* +MainDatabase.swift */; };
 		174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 174F0106248CCD6C00F610DD /* MapManager.storyboard */; };
 		174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174F0109248CD03200F610DD /* MapManagerWindow.swift */; };
@@ -301,6 +302,7 @@
 		17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */; };
 		17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */; };
 		17D570A324F8FDFD00EB5C08 /* GeneralEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D570A224F8FDFD00EB5C08 /* GeneralEditor.swift */; };
+		17DAE38B25B3BC1E00C18522 /* StencilContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DAE38A25B3BC1E00C18522 /* StencilContext.swift */; };
 		17DD615B24EE622B008C332A /* StatusUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD615A24EE622B008C332A /* StatusUIView.swift */; };
 		17DD791A24DA7A500046EB25 /* ResetConfirmWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD791924DA7A500046EB25 /* ResetConfirmWindow.swift */; };
 		17DD791C24DA7A8E0046EB25 /* ResetConfirmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD791B24DA7A8E0046EB25 /* ResetConfirmController.swift */; };
@@ -528,6 +530,7 @@
 		174A6A2B2557CD6600488274 /* DebugPanelBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPanelBase.swift; sourceTree = "<group>"; };
 		174A6A2F2557D22500488274 /* LogPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogPanel.swift; sourceTree = "<group>"; };
 		174A6A332557D24B00488274 /* ClockControlPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockControlPanel.swift; sourceTree = "<group>"; };
+		174B1CF025B42662003B33FE /* +Regions2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Regions2.swift"; sourceTree = "<group>"; };
 		174D0358252C929D00692B89 /* +MainDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainDatabase.swift"; sourceTree = "<group>"; };
 		174F0106248CCD6C00F610DD /* MapManager.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapManager.storyboard; sourceTree = "<group>"; };
 		174F0109248CD03200F610DD /* MapManagerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManagerWindow.swift; sourceTree = "<group>"; };
@@ -724,6 +727,7 @@
 		17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorWindow.swift; sourceTree = "<group>"; };
 		17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsWindow.swift; sourceTree = "<group>"; };
 		17D570A224F8FDFD00EB5C08 /* GeneralEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralEditor.swift; sourceTree = "<group>"; };
+		17DAE38A25B3BC1E00C18522 /* StencilContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilContext.swift; sourceTree = "<group>"; };
 		17DD615A24EE622B008C332A /* StatusUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusUIView.swift; sourceTree = "<group>"; };
 		17DD791924DA7A500046EB25 /* ResetConfirmWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetConfirmWindow.swift; sourceTree = "<group>"; };
 		17DD791B24DA7A8E0046EB25 /* ResetConfirmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetConfirmController.swift; sourceTree = "<group>"; };
@@ -1400,6 +1404,7 @@
 				173EB18A2490D1B7006CDB86 /* +Orbits.swift */,
 				1718271A25B1850200041826 /* +RegionEntryProtocolImplementation.swift */,
 				17F47B5A25AAC4EE00A3A281 /* +Regions.swift */,
+				174B1CF025B42662003B33FE /* +Regions2.swift */,
 				177389372596D511002698E8 /* +Rotations.swift */,
 				178A869D2489101E00BE8D46 /* StarField.swift */,
 				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
@@ -1457,8 +1462,7 @@
 				17EF3388247A4E3D00A5B55D /* MainProtocol.swift */,
 				17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */,
 				17F9AFCD25202DEE00DE0219 /* ParentView.swift */,
-				1737100F24E2BB7300BC6CF8 /* Stenciler.swift */,
-				1704D3F3256A4DA100DE0F85 /* StencilPipelineProtocol.swift */,
+				17DAE38925B3BC0C00C18522 /* Stenciling */,
 				172D205F252183C500FA8687 /* NodeTables.swift */,
 				17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */,
 				17DDEAD2251C3A8500B0ADE7 /* MainRunProtocol.swift */,
@@ -1748,6 +1752,16 @@
 			path = Editors;
 			sourceTree = "<group>";
 		};
+		17DAE38925B3BC0C00C18522 /* Stenciling */ = {
+			isa = PBXGroup;
+			children = (
+				1737100F24E2BB7300BC6CF8 /* Stenciler.swift */,
+				1704D3F3256A4DA100DE0F85 /* StencilPipelineProtocol.swift */,
+				17DAE38A25B3BC1E00C18522 /* StencilContext.swift */,
+			);
+			path = Stenciling;
+			sourceTree = "<group>";
+		};
 		17DDA0432484E91F0090E1EB /* SettingsCode */ = {
 			isa = PBXGroup;
 			children = (
@@ -1984,16 +1998,16 @@
 		17F1C7CC2543F88B0046AE33 /* RectangleExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				17F1C7CD2543F8A50046AE33 /* +RectangleViewInitialization.swift */,
-				17F1C7D42543F9460046AE33 /* +RectangleLights.swift */,
-				17F1C7D72543F99D0046AE33 /* +RectangleNodeHandling.swift */,
-				17F1C7DA2543F9FA0046AE33 /* +RectangleHours.swift */,
-				17F1C7DD2543FA1D0046AE33 /* +RectangleEarthquakes.swift */,
 				17F1C7E02543FA470046AE33 /* +RectangleCities.swift */,
-				17F1C7E32543FA840046AE33 /* +RectangleWorldHeritageSizes.swift */,
-				17F1C7E62543FAC70046AE33 /* +RectangleSettingsHandler.swift */,
-				173056C22553F06900B1D4C9 /* +FollowModeRect.swift */,
+				17F1C7DD2543FA1D0046AE33 /* +RectangleEarthquakes.swift */,
+				17F1C7DA2543F9FA0046AE33 /* +RectangleHours.swift */,
+				17F1C7D42543F9460046AE33 /* +RectangleLights.swift */,
 				178D7C6C258894C00030C0AB /* +RectangleMouseHandling.swift */,
+				17F1C7D72543F99D0046AE33 /* +RectangleNodeHandling.swift */,
+				173056C22553F06900B1D4C9 /* +FollowModeRect.swift */,
+				17F1C7E62543FAC70046AE33 /* +RectangleSettingsHandler.swift */,
+				17F1C7CD2543F8A50046AE33 /* +RectangleViewInitialization.swift */,
+				17F1C7E32543FA840046AE33 /* +RectangleWorldHeritageSizes.swift */,
 			);
 			path = RectangleExtensions;
 			sourceTree = "<group>";
@@ -2401,6 +2415,7 @@
 				17F9B004252036AD00DE0219 /* +Generic.swift in Sources */,
 				179EB780254FE40D00AADAAD /* PreferencePanelController.swift in Sources */,
 				179EB77D254FE3EF00AADAAD /* PreferencePanelWindow.swift in Sources */,
+				174B1CF125B42662003B33FE /* +Regions2.swift in Sources */,
 				175DCC5F2580970A00EB6D69 /* PreferencePanelProtocol.swift in Sources */,
 				17B7D7B224CED0A3000C077B /* SolidColorParameters.swift in Sources */,
 				174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */,
@@ -2548,6 +2563,7 @@
 				1737101024E2BB7300BC6CF8 /* Stenciler.swift in Sources */,
 				17DE2BAD2569FC75008077C7 /* Rectangle.swift in Sources */,
 				1797ED3D24E7B976005C74A0 /* FlatlandNotification.swift in Sources */,
+				17DAE38B25B3BC1E00C18522 /* StencilContext.swift in Sources */,
 				1716DB1624E5011E00C4F8BD /* CustomCityWindow.swift in Sources */,
 				1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */,
 				17EF3395247A66F000A5B55D /* MapList.swift in Sources */,
