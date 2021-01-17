@@ -84,6 +84,11 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var QuakePlane = SCNNode()
     var UNESCOPlane = SCNNode()
     
+    func KillTimers()
+    {
+        EarthClock?.invalidate()
+    }
+    
     /// Set the 2D, rectangular earth map.
     /// - Parameter NewImage: The image to use for the view.
     func SetEarthMap(_ NewImage: NSImage)
