@@ -248,6 +248,17 @@ enum LayerZLevels: Int, CaseIterable
     /// Debug layer.
     case DebugLayer = 19000
     #endif
+    /// Captive dialog layer.
+    case CaptiveDialogLayer = 199999
+}
+
+/// Constants used by the captive dialog.
+enum CaptiveDialogConstants: Int, CaseIterable
+{
+    /// Margin when the captive dialog is visible.
+    case VisibleMargin = 100
+    /// Margin when the captive dialog is invisible.
+    case InvisibleMargin = 0
 }
 
 // MARK: - Light mask values for 3D mode.
