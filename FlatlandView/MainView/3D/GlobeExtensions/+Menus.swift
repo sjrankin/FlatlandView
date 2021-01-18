@@ -144,6 +144,7 @@ extension GlobeView
                 OldLockState = Settings.GetBool(.WorldIsLocked)
                 Settings.SetBool(.WorldIsLocked, true)
                 Controller.ParentDelegate = self
+                Controller.MainDelegate = MainDelegate
                 MouseClickReceiver = Controller
                 WindowController.showWindow(nil)
             }
