@@ -325,6 +325,12 @@
 		17DFE42F25A6D42300F88564 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DFE42E25A6D42300F88564 /* Notification.swift */; };
 		17E3D4F124FE2091004712BB /* NSWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3D4F024FE2091004712BB /* NSWindow.swift */; };
 		17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3EDC524B5B222007C1D72 /* FontHelper.swift */; };
+		17E5556625B5495500E3CE9E /* +CaptiveDialogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E5556525B5495500E3CE9E /* +CaptiveDialogManager.swift */; };
+		17E5556925B54A5400E3CE9E /* CaptiveDialogs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17E5556825B54A5400E3CE9E /* CaptiveDialogs.storyboard */; };
+		17E5556D25B54A9400E3CE9E /* UserRegionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E5556C25B54A9400E3CE9E /* UserRegionController.swift */; };
+		17E5557125B54D7900E3CE9E /* NSTextField2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E5557025B54D7900E3CE9E /* NSTextField2.swift */; };
+		17E5557525B5514E00E3CE9E /* CaptiveDialogManagementProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E5557425B5514E00E3CE9E /* CaptiveDialogManagementProtocol.swift */; };
+		17E5557825B5541E00E3CE9E /* CaptiveDialogPanelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E5557725B5541E00E3CE9E /* CaptiveDialogPanelProtocol.swift */; };
 		17E5EF5124F0DE2C00665167 /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E5EF5024F0DBC600665167 /* libc++abi.tbd */; };
 		17E5EF5F24F1051400665167 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E5EF5E24F1051400665167 /* Debug.swift */; };
 		17E779CF2585EDE9008E804F /* WhatsHereViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E779CE2585EDE9008E804F /* WhatsHereViewer.swift */; };
@@ -749,6 +755,12 @@
 		17DFE42E25A6D42300F88564 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		17E3D4F024FE2091004712BB /* NSWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSWindow.swift; sourceTree = "<group>"; };
 		17E3EDC524B5B222007C1D72 /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
+		17E5556525B5495500E3CE9E /* +CaptiveDialogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+CaptiveDialogManager.swift"; sourceTree = "<group>"; };
+		17E5556825B54A5400E3CE9E /* CaptiveDialogs.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CaptiveDialogs.storyboard; sourceTree = "<group>"; };
+		17E5556C25B54A9400E3CE9E /* UserRegionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegionController.swift; sourceTree = "<group>"; };
+		17E5557025B54D7900E3CE9E /* NSTextField2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSTextField2.swift; sourceTree = "<group>"; };
+		17E5557425B5514E00E3CE9E /* CaptiveDialogManagementProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptiveDialogManagementProtocol.swift; sourceTree = "<group>"; };
+		17E5557725B5541E00E3CE9E /* CaptiveDialogPanelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptiveDialogPanelProtocol.swift; sourceTree = "<group>"; };
 		17E5EF5024F0DBC600665167 /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
 		17E5EF5224F0DF1800665167 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
 		17E5EF5424F0DFB300665167 /* libsystem_info.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsystem_info.tbd; path = usr/lib/system/libsystem_info.tbd; sourceTree = SDKROOT; };
@@ -1299,6 +1311,7 @@
 				177D0F5E2547F04700CD5041 /* MTLTexture.swift */,
 				1743FE7C255D5AD300AD05A7 /* NSRegularExpression.swift */,
 				17DFE42E25A6D42300F88564 /* Notification.swift */,
+				17E5557025B54D7900E3CE9E /* NSTextField2.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1828,6 +1841,26 @@
 			path = ImageShift;
 			sourceTree = "<group>";
 		};
+		17E5556425B5493D00E3CE9E /* CaptiveDialog */ = {
+			isa = PBXGroup;
+			children = (
+				17E5556B25B54A8000E3CE9E /* DialogControllers */,
+				17E5556525B5495500E3CE9E /* +CaptiveDialogManager.swift */,
+				17E5556825B54A5400E3CE9E /* CaptiveDialogs.storyboard */,
+				17E5557425B5514E00E3CE9E /* CaptiveDialogManagementProtocol.swift */,
+				17E5557725B5541E00E3CE9E /* CaptiveDialogPanelProtocol.swift */,
+			);
+			path = CaptiveDialog;
+			sourceTree = "<group>";
+		};
+		17E5556B25B54A8000E3CE9E /* DialogControllers */ = {
+			isa = PBXGroup;
+			children = (
+				17E5556C25B54A9400E3CE9E /* UserRegionController.swift */,
+			);
+			path = DialogControllers;
+			sourceTree = "<group>";
+		};
 		17E5EF4F24F0DBC500665167 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -2059,6 +2092,7 @@
 		17F98DB4251773E9005E248D /* MainExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				17E5556425B5493D00E3CE9E /* CaptiveDialog */,
 				174D035B252C952900692B89 /* +MainDatabase */,
 				170E7BE82559165F00EA3AD3 /* +DynamicInfoDisplay.swift */,
 				17EB5C1225159AB1007A75EF /* +MainAsynchronous.swift */,
@@ -2201,6 +2235,7 @@
 				17ABAFFE24E9209E009DDC35 /* EarthquakeHistory.db in Resources */,
 				17F1E5C32549126600E6F6CF /* SparkParticleTest.sks in Resources */,
 				1750043924B46110006528A4 /* FontPickerUI.storyboard in Resources */,
+				17E5556925B54A5400E3CE9E /* CaptiveDialogs.storyboard in Resources */,
 				175BA5582570D565001ED3A2 /* ErrorDialogs.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
 				17CB248D253C5BCB00BAABDC /* POI.db in Resources */,
@@ -2400,6 +2435,7 @@
 				17EF33A8247A936900A5B55D /* Solar.swift in Sources */,
 				17EF339A247A673900A5B55D /* FileIO.swift in Sources */,
 				17CA6463254EA29100B6DFCC /* DetailQuakeController.swift in Sources */,
+				17E5557825B5541E00E3CE9E /* CaptiveDialogPanelProtocol.swift in Sources */,
 				17DFAF532545A56300374344 /* ImageShiftParameters.swift in Sources */,
 				178E1C9D2518288500FDC75B /* +Camera.swift in Sources */,
 				1720B388248B68A1001202E5 /* AutoLocationProtocol.swift in Sources */,
@@ -2570,6 +2606,7 @@
 				172F0606255129DF00BEA156 /* POIPreferences.swift in Sources */,
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
 				17C0FD7025316402008F3D05 /* GroundTrack.swift in Sources */,
+				17E5556D25B54A9400E3CE9E /* UserRegionController.swift in Sources */,
 				17C2F8EE259EE26400BCA628 /* +NodeState.swift in Sources */,
 				17DE2DD125907B3800214204 /* HomeLocationController.swift in Sources */,
 				1714DDBE25399401001A3002 /* +Home.swift in Sources */,
@@ -2624,12 +2661,15 @@
 				17DE2DC725906D3200214204 /* SecureStore.swift in Sources */,
 				172D2060252183C500FA8687 /* NodeTables.swift in Sources */,
 				17A1810525733524002C6611 /* +Inject.swift in Sources */,
+				17E5557525B5514E00E3CE9E /* CaptiveDialogManagementProtocol.swift in Sources */,
 				17F782C1249742A1000A568E /* USGS.swift in Sources */,
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
+				17E5557125B54D7900E3CE9E /* NSTextField2.swift in Sources */,
 				172F05FB255108F300BEA156 /* PreferencePanelView.swift in Sources */,
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
 				1701CFC52535646C00544F05 /* Snapshot.swift in Sources */,
 				17DF115E2512F3B400F04EAF /* AnimatedGradientLayer.swift in Sources */,
+				17E5556625B5495500E3CE9E /* +CaptiveDialogManager.swift in Sources */,
 				178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */,
 				176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */,
 				17CA645C254E7DB100B6DFCC /* RegionalQuakeController.swift in Sources */,
