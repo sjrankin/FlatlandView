@@ -2588,14 +2588,14 @@
                                                 </gridCell>
                                             </gridCells>
                                         </gridView>
-                                        <box title="Rectangular Region" translatesAutoresizingMaskIntoConstraints="NO" id="TGt-OG-07w">
-                                            <rect key="frame" x="9" y="36" width="268" height="120"/>
+                                        <box misplaced="YES" title="Rectangular Region" translatesAutoresizingMaskIntoConstraints="NO" id="TGt-OG-07w">
+                                            <rect key="frame" x="9" y="36" width="292" height="120"/>
                                             <view key="contentView" id="Ah5-qu-9JH">
-                                                <rect key="frame" x="3" y="3" width="262" height="102"/>
+                                                <rect key="frame" x="3" y="3" width="286" height="102"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="cQH-oX-vEe">
-                                                        <rect key="frame" x="6" y="16" width="220" height="74"/>
+                                                        <rect key="frame" x="6" y="16" width="255" height="74"/>
                                                         <rows>
                                                             <gridRow id="eQy-jR-ESr"/>
                                                             <gridRow id="zBQ-sl-Tkp"/>
@@ -2636,7 +2636,7 @@
                                                             </gridCell>
                                                             <gridCell row="eQy-jR-ESr" column="F6V-yk-yhE" id="Frh-zi-TQt">
                                                                 <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T6p-pY-nXR">
-                                                                    <rect key="frame" x="148" y="56" width="65" height="16"/>
+                                                                    <rect key="frame" x="178" y="56" width="65" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Longitude" id="ESX-fb-B7W">
                                                                         <font key="font" usesAppearanceFont="YES"/>
                                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2656,9 +2656,9 @@
                                                             </gridCell>
                                                             <gridCell row="zBQ-sl-Tkp" column="GyA-BN-0Le" id="0HX-un-Pu9">
                                                                 <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f7y-e8-kOR">
-                                                                    <rect key="frame" x="74" y="27" width="70" height="21"/>
+                                                                    <rect key="frame" x="74" y="27" width="100" height="21"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="70" id="8ND-i7-g7V"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="75" id="b8I-R5-U11"/>
                                                                         <constraint firstAttribute="height" constant="21" id="rx0-vx-5uk"/>
                                                                     </constraints>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="9KI-X1-5py">
@@ -2673,10 +2673,11 @@
                                                             </gridCell>
                                                             <gridCell row="zBQ-sl-Tkp" column="F6V-yk-yhE" id="Brv-LU-GBz">
                                                                 <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nkj-5E-OaE">
-                                                                    <rect key="frame" x="150" y="27" width="70" height="21"/>
+                                                                    <rect key="frame" x="180" y="27" width="75" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="Kpf-jE-Yh0"/>
-                                                                        <constraint firstAttribute="width" constant="70" id="ev2-nF-NV6"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="75" id="NjA-Fc-7tp"/>
+                                                                        <constraint firstAttribute="width" constant="75" id="ev2-nF-NV6"/>
                                                                     </constraints>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="97n-Cd-DWc">
                                                                         <font key="font" metaFont="system"/>
@@ -2700,10 +2701,10 @@
                                                             </gridCell>
                                                             <gridCell row="M8Y-vh-BmX" column="GyA-BN-0Le" id="TJC-8a-lIV">
                                                                 <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6EY-If-4l7">
-                                                                    <rect key="frame" x="74" y="0.0" width="70" height="21"/>
+                                                                    <rect key="frame" x="74" y="0.0" width="75" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="CaP-xi-S9W"/>
-                                                                        <constraint firstAttribute="width" constant="70" id="Vkg-cF-bba"/>
+                                                                        <constraint firstAttribute="width" constant="75" id="Vkg-cF-bba"/>
                                                                     </constraints>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="xNw-iZ-rMr">
                                                                         <font key="font" metaFont="system"/>
@@ -2717,9 +2718,9 @@
                                                             </gridCell>
                                                             <gridCell row="M8Y-vh-BmX" column="F6V-yk-yhE" id="sx1-hc-vfR">
                                                                 <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="edI-bg-WlN">
-                                                                    <rect key="frame" x="150" y="0.0" width="70" height="21"/>
+                                                                    <rect key="frame" x="180" y="0.0" width="75" height="21"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="70" id="Dna-WC-sfa"/>
+                                                                        <constraint firstAttribute="width" constant="75" id="Dna-WC-sfa"/>
                                                                         <constraint firstAttribute="height" constant="21" id="P6n-Ag-DkJ"/>
                                                                     </constraints>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="vPo-o9-c85">
@@ -2741,10 +2742,10 @@
                                                 <constraint firstAttribute="width" constant="262" id="dBz-n1-wmH"/>
                                             </constraints>
                                         </box>
-                                        <box hidden="YES" title="Circular Region" translatesAutoresizingMaskIntoConstraints="NO" id="4fH-xb-ySQ">
-                                            <rect key="frame" x="288" y="36" width="268" height="120"/>
+                                        <box hidden="YES" misplaced="YES" title="Circular Region" translatesAutoresizingMaskIntoConstraints="NO" id="4fH-xb-ySQ">
+                                            <rect key="frame" x="303" y="36" width="253" height="120"/>
                                             <view key="contentView" id="e45-fx-Bm1">
-                                                <rect key="frame" x="3" y="3" width="262" height="102"/>
+                                                <rect key="frame" x="3" y="3" width="247" height="102"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="UeO-K4-FL9">
