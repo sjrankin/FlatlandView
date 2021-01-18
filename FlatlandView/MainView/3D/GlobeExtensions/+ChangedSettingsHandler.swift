@@ -253,7 +253,6 @@ extension GlobeView: SettingChangedProtocol
                 
             case .ShowEarthquakeRegions, .EarthquakeRegions:
                 PlotRegions()
-//                ApplyAllStencils(Caller: "SettingChanged(.ShowEarthquakeRegions/.EarthquakeRegions)")
                 
             case .QuakeScales:
                 ClearEarthquakes()
