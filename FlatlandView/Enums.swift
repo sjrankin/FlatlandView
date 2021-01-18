@@ -783,7 +783,7 @@ enum StencilStages: String, CaseIterable
     /// Earthquake magnitude stencils.
     case Earthquakes = "Earthquakes"
     /// Earthquake region stencils.
-    case EarthquakeRegions = "EarthquakeRegions"
+    //case EarthquakeRegions = "EarthquakeRegions"
     /// City name stencils.
     case CityNames = "CityNames"
     /// Grid line stencils.
