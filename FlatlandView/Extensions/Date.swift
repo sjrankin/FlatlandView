@@ -219,7 +219,7 @@ extension Date
     
     /// Converts the passed date's time components into a pretty string.
     /// - Parameter From: The date whose time components will be used to generate a pretty string.
-    /// - Parameter ForFileName: If true, colons will be replaced by dashes.
+    /// - Parameter ForFileName: If true, colons will be replaced by periods.
     /// - Returns: String value of the time components of `From`.
     static func PrettyTime(From: Date, ForFileName: Bool = false) -> String
     {
@@ -245,7 +245,7 @@ extension Date
         var Final = ""
         if ForFileName
         {
-            Final = "\(HourS)-\(MinuteS)-\(SecondS)"
+            Final = "\(HourS).\(MinuteS).\(SecondS)"
         }
         else
         {
@@ -317,7 +317,7 @@ extension Date
     }
     
     /// Converts the instance date's time components into a pretty string.
-    /// - Parameter ForFileName: If true, colons (`:`) will be replaced with dashes (`-`).
+    /// - Parameter ForFileName: If true, colons (`:`) will be replaced with periods (`.`).
     /// - Returns: String value of the time components of the instance date.
     func PrettyTime(ForFileName: Bool = false) -> String
     {
