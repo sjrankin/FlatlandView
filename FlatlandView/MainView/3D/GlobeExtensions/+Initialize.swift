@@ -189,8 +189,7 @@ extension GlobeView
         ApplyInitialStencils()
         if Settings.GetBool(.ShowEarthquakeRegions)
         {
-            PlotRegions2()
-//            PlotRegions()
+            PlotRegions()
         }
     }
     
