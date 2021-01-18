@@ -46,6 +46,8 @@ extension MainController
         PrimaryMapList = ActualMapIO.LoadMapList()
         FontHelper.Initialize()
 
+        InitializeCaptiveDialog()
+        
         MainController.InitializeMappableDatabase()
         MainController.InitializePOIDatabase()
         WorldHeritageSites = MainController.GetAllSites()
@@ -56,6 +58,17 @@ extension MainController
         Main2DView.InitializeLocations()
         Rect2DView.InitializeLocations()
         Main3DView.PlotCities()
+    }
+    
+    /// Initialize the captive dialog UI.
+    func InitializeCaptiveDialog()
+    {
+        CaptiveDialogPanel.wantsLayer = true
+        CaptiveDialogPanel.layer?.zPosition = CGFloat(-LayerZLevels.CaptiveDialogLayer.rawValue)
+        CaptiveDialogPanel.layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
+        CaptiveDialogPanel.isHidden = true
+        CaptiveDialogContainer.wantsLayer = true
+        CaptiveDialogContainer.layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
     }
     
     /// Load the current view with the initial map.
