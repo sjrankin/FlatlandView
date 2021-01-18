@@ -9,6 +9,6 @@
 import Foundation
 import AppKit
 
-class RegionEntryWindow: NSWindowController
+class RegionEntryWindow: NSWindowController, NSWindowDelegate
 {
 }
