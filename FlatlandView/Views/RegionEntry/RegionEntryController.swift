@@ -12,6 +12,7 @@ import AppKit
 class RegionEntryController: NSViewController, RegionMouseClickProtocol
 {
     public weak var ParentDelegate: RegionEntryProtocol? = nil
+    public weak var MainDelegate: MainProtocol? = nil
     
     override func viewDidLoad()
     {
@@ -19,6 +20,7 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
         Message1.isHidden = false
         Message2.isHidden = true
         RegionColorWell.color = NSColor.TeaGreen
+        RegionNameField.stringValue = "New Field Name"
     }
     
     /// Make sure the window stays in front of the main window.
@@ -26,6 +28,7 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
     override func viewDidAppear()
     {
         view.window?.level = .floating
+        MainDelegate?.FocusWindow()
     }
     
     var ClickForFirst = true
@@ -121,8 +124,15 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
         self.view.window?.close()
     }
     
+    var ClickCount = 0
+    
     func MouseClicked(At: GeoPoint)
     {
+        if ClickCount > 2
+        {
+            print("Ignoring spurious click.")
+            return
+        }
         print("Mouse clicked at \(At)")
         if ClickForFirst
         {
@@ -134,6 +144,7 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
             Message2.isHidden = false
             ClickForFirst = false
             ParentDelegate?.PlotUpperLeftCorner(Latitude: At.Latitude, Longitude: At.Longitude)
+            ClickCount = 1
             return
         }
         let LatS = Utility.PrettyLatitude(At.Latitude)
@@ -141,6 +152,7 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
         Latitude2Field.stringValue = LatS
         Longitude2Field.stringValue = LonS
         ParentDelegate?.PlotLowerRightCorner(Latitude: At.Latitude, Longitude: At.Longitude)
+        ClickCount = 2
     }
     
     @IBAction func ResetCoordinatesHandler(_ sender: Any)
@@ -156,11 +168,13 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
                     Message1.isHidden = false
                     Message2.isHidden = true
                     ParentDelegate?.RemoveUpperLeftCorner()
+                    ClickCount = 0
                     
                 case ResetLowerRight:
                     Latitude2Field.stringValue = ""
                     Longitude2Field.stringValue = ""
                     ParentDelegate?.RemoveLowerRightCorner()
+                    ClickCount = 1
                     
                 default:
                     break
