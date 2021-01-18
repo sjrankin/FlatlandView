@@ -36,10 +36,12 @@ extension GlobeView
             {
                 Stages.append(.UNESCOSites)
             }
+            #if false
             if Settings.GetBool(.ShowEarthquakeRegions)
             {
                 Stages.append(.EarthquakeRegions)
             }
+            #endif
             if Settings.GetBool(.CityNamesDrawnOnMap)
             {
                 Stages.append(.CityNames)
@@ -79,10 +81,12 @@ extension GlobeView
             {
                 Stages.append(.UNESCOSites)
             }
+            #if false
             if Settings.GetBool(.ShowEarthquakeRegions)
             {
                 Stages.append(.EarthquakeRegions)
             }
+            #endif
             if Settings.GetBool(.CityNamesDrawnOnMap)
             {
                 Stages.append(.CityNames)
