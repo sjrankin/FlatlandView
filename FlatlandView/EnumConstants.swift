@@ -541,7 +541,7 @@ enum GlobeRadius: CGFloat, CaseIterable
     /// World Heritage Site layer.
     case UnescoLayer = 10.011
     /// Rectangular region layer.
-    case RegionLayer = 10.25
+    case RegionLayer = 10.031
     /// General purpose line layer.
     case LineLayer = 10.015
     #if true
