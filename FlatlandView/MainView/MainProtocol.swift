@@ -123,6 +123,9 @@ protocol MainProtocol: class
     /// - Parameter ResetPosition: If true, the camera is reset to its default position. Otherwise,
     ///                            the camera is not moved.
     func SetWorldLock(_ Locked: Bool, ResetPosition: Bool)
+    
+    /// Make the main window focused ("key" in Apple terminology).
+    func FocusWindow()
 }
 
 /// Flatland's child windows.
