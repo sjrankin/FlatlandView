@@ -42,6 +42,13 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
     
     @IBAction func HandleClosePressed(_ sender: Any)
     {
+        if ColorWellUsed
+        {
+            if NSColorPanel.shared.isVisible
+            {
+                NSColorPanel.shared.close()
+            }
+        }
         if IsDirty
         {
             GetLastMinuteChanges()
@@ -133,10 +140,13 @@ class EarthquakeRegionController: NSViewController, NSTableViewDelegate, NSTable
         }
     }
     
+    var ColorWellUsed = false
+    
     @IBAction func HandleRegionBorderWellChanged(_ sender: Any)
     {
         if let Well = sender as? NSColorWell
         {
+            ColorWellUsed = true
             IsDirty = true
             Regions[CurrentRegionIndex].RegionColor = Well.color
         }
