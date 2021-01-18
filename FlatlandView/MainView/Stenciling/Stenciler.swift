@@ -86,6 +86,7 @@ class Stenciler
         {
             Caller.StencilPipelineStarted(Time: CACurrentMediaTime())
             var Working = Image
+            #if false
             if Stages.contains(.EarthquakeRegions)
             {
                 let Regions = Settings.GetEarthquakeRegions()
@@ -97,6 +98,7 @@ class Stenciler
                     Caller.StageCompleted(Working, .EarthquakeRegions, CACurrentMediaTime())
                 }
             }
+            #endif
             if Stages.contains(.GridLines)
             {
                 Working = AddGridLines(To: Working, Ratio: MapRatio)
@@ -162,9 +164,11 @@ class Stenciler
                         LayerImage = ApplyMagnitudes(Earthquakes: Quakes)
                     }
                     
+                    #if false
                 case .Regions:
                     let Regions = Settings.GetEarthquakeRegions()
                     LayerImage = ApplyRectangles(Regions: Regions)
+                    #endif
                     
                 case .WorldHeritageSites:
                     break
@@ -174,6 +178,9 @@ class Stenciler
                     let RandomCircles = MakeRandomCircles()
                     LayerImage = ApplyCircles(Circles: RandomCircles)
                 #endif
+                
+                default:
+                    break
             }
             Completion?(LayerImage, Layer)
         }
