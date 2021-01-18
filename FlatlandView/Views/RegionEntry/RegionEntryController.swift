@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class RegionEntryController: NSViewController, RegionMouseClickProtocol
+class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClickProtocol
 {
     public weak var ParentDelegate: RegionEntryProtocol? = nil
     public weak var MainDelegate: MainProtocol? = nil
@@ -23,11 +23,32 @@ class RegionEntryController: NSViewController, RegionMouseClickProtocol
         RegionNameField.stringValue = "New Field Name"
     }
     
+    override func viewWillAppear()
+    {
+        super.viewWillAppear()
+        ParentWindow = self.view.window
+        ParentWindow?.delegate = self
+    }
+    
+    var ParentWindow: NSWindow? = nil
+    
+    func windowDidMove(_ notification: Notification)
+    {
+        WindowMoved()
+    }
+    
     /// Make sure the window stays in front of the main window.
     /// - Note: See [How to Keep Window Always on the Top With Swift](https://stackoverflow.com/questions/38711406/how-to-keep-window-always-on-the-top-with-swift)
     override func viewDidAppear()
     {
         view.window?.level = .floating
+        MainDelegate?.FocusWindow()
+    }
+    
+    /// If the window was moved, make sure the main window still has the focus.
+    func WindowMoved()
+    {
+        print("Region entry controller window moved.")
         MainDelegate?.FocusWindow()
     }
     
