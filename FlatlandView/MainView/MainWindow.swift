@@ -14,6 +14,8 @@ class MainWindow: NSWindowController, NSWindowDelegate
 {
     override func windowDidLoad()
     {
+        super.windowDidLoad()
+        window?.delegate = self
         window?.acceptsMouseMovedEvents = true
         WorldLockButton.toolTip = "Locks or unlocks camera motion for views."
     }
