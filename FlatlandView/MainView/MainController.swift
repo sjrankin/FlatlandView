@@ -44,38 +44,51 @@ class MainController: NSViewController
     
     /// Set up event handling so we can monitor the mouse. This is used to notify the user when the mouse
     /// is over a location that has data.
-    /// - Note: Mouse location handling is done in the 2D and 3D view controllers (see `Main2DView`,
-    ///         `Main3DView` and `Rect2DView`).
-    /// - Note: See [Getting Mouse Coordinates in Swift](https://stackoverflow.com/questions/31931403/getting-mouse-coordinates-in-swift)
+    /// - Important:
+    ///   Should be called only once.
+    /// - Note:
+    ///   - Mouse location handling is done in the 2D and 3D view controllers (see `Main2DView`,
+    ///     `Main3DView` and `Rect2DView`).
+    ///   - Mouse events are only processed for the main view. If the mouse is not over the main view, the various
+    ///     map views are not informed of mouse activity.
+    ///   - See [Getting Mouse Coordinates in Swift](https://stackoverflow.com/questions/31931403/getting-mouse-coordinates-in-swift)
     func MonitorMouse()
     {
         NSEvent.addLocalMonitorForEvents(matching: [.leftMouseUp])
         {
-            if self.Location.x >= 0 && self.Location.x < self.view.window!.frame.size.width
+            event in
+            if event.window == self.view.window
             {
-                if self.Location.y >= 0 && self.Location.y < self.view.window!.frame.size.height
+                if self.Location.x >= 0 && self.Location.x < self.view.window!.frame.size.width
                 {
-                    let Point = CGPoint(x: self.Location.x, y: self.Location.y)
-                    self.Rect2DView.MouseClickedAt(Point: Point)
-                    self.Main2DView.MouseClickedAt(Point: Point)
-                    self.Main3DView.MouseClickedAt(Point: Point)
+                    if self.Location.y >= 0 && self.Location.y < self.view.window!.frame.size.height
+                    {
+                        let Point = CGPoint(x: self.Location.x, y: self.Location.y)
+                        self.Rect2DView.MouseClickedAt(Point: Point)
+                        self.Main2DView.MouseClickedAt(Point: Point)
+                        self.Main3DView.MouseClickedAt(Point: Point)
+                    }
                 }
             }
-            return $0
+            return event
         }
         NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved])
         {
-            if self.Location.x >= 0 && self.Location.x < self.view.window!.frame.size.width
+            event in
+            if event.window == self.view.window
             {
-                if self.Location.y >= 0 && self.Location.y < self.view.window!.frame.size.height
+                if self.Location.x >= 0 && self.Location.x < self.view.window!.frame.size.width
                 {
-                    let Point = CGPoint(x: self.Location.x, y: self.Location.y)
-                    self.Main3DView.MouseMovedTo(Point: Point)
-                    self.Main2DView.MouseMovedTo(Point: Point)
-                    self.Rect2DView.MouseMovedTo(Point: Point)
+                    if self.Location.y >= 0 && self.Location.y < self.view.window!.frame.size.height
+                    {
+                        let Point = CGPoint(x: self.Location.x, y: self.Location.y)
+                        self.Main3DView.MouseMovedTo(Point: Point)
+                        self.Main2DView.MouseMovedTo(Point: Point)
+                        self.Rect2DView.MouseMovedTo(Point: Point)
+                    }
                 }
             }
-            return $0
+            return event
         }
     }
     
@@ -384,7 +397,41 @@ class MainController: NSViewController
         }
     }
     
-    /// Array of previous earthquakes (used in a cache-like fasion).
+    @IBAction func TestCaptiveDialog(_ sender: Any)
+    {
+        if ShowingCaptiveDialog
+        {
+            #if true
+            HideCaptiveDialog()
+            #else
+            print("Hiding captive dialog")
+            ShowingCaptiveDialog = false
+            CaptiveDialogPanel.wantsLayer = true
+            CaptiveDialogPanel.layer?.zPosition = CGFloat(-LayerZLevels.CaptiveDialogLayer.rawValue)
+            CaptiveDialogPanel.isHidden = true
+            ContentTop.constant = CGFloat(0.0)
+            #endif
+        }
+        else
+        {
+            #if true
+            ShowCaptiveDialog(.RegionCreation)
+            #else
+            print("Showing captive dialog")
+            ShowingCaptiveDialog = true
+            CaptiveDialogPanel.wantsLayer = true
+            CaptiveDialogPanel.layer?.zPosition = CGFloat(LayerZLevels.CaptiveDialogLayer.rawValue)
+            CaptiveDialogPanel.isHidden = false
+            ContentTop.constant = CGFloat(100.0)
+            #endif
+        }
+    }
+    
+    var CaptiveDialogList = [CaptiveDialogTypes: CaptiveDialogPanelProtocol]()
+    var ShowingCaptiveDialog = false
+    var CurrentCaptiveDialog: CaptiveDialogPanelProtocol? = nil
+    
+    /// Array of previous earthquakes (used in a cache-like fashion).
     var PreviousEarthquakes = [Earthquake]()
     
     /// Respond to the user command to reset the view. Works with both 2D and 3D views.
@@ -789,8 +836,9 @@ class MainController: NSViewController
     @IBOutlet weak var MainTimeLabelTop: NSTextField!
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var BackgroundView: NSView!
-
-    //MARK: - Debug UI elements
+    @IBOutlet weak var ContentView: NSView!
+    
+    // MARK: - Debug UI elements
     
     @IBOutlet weak var WorldClockLabel: NSTextField!
     @IBOutlet weak var WorldClockTickCount: NSTextField!
@@ -803,4 +851,10 @@ class MainController: NSViewController
     @IBOutlet weak var DebugTextGrid: NSGridView!
     @IBOutlet weak var UptimeLabel: NSTextFieldCell!
     @IBOutlet weak var UptimeValue: NSTextField!
+    
+    // MARK: - Captive dialog elements
+    
+    @IBOutlet weak var ContentTop: NSLayoutConstraint!
+    @IBOutlet weak var CaptiveDialogContainer: NSView!
+    @IBOutlet weak var CaptiveDialogPanel: NSView!
 }
