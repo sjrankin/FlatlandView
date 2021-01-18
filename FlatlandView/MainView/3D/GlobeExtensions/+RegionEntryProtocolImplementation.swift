@@ -32,7 +32,7 @@ extension GlobeView: RegionEntryProtocol
     func RegionEntryCompleted(Name: String, Color: NSColor, Corner1: GeoPoint, Corner2: GeoPoint)
     {
         ResetFromRegionEntry()
-        print("New Region: \(Corner1)x\(Corner2)")
+        print("New Region: (\(Corner1))x(\(Corner2))")
         let NewRegion = UserRegion()
         NewRegion.Age = 30
         NewRegion.MinimumMagnitude = 5.0
