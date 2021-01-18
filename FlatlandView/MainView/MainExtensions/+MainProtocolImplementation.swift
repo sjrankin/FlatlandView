@@ -254,4 +254,10 @@ extension MainController: MainProtocol
     {
         return Main3DView.GetNodeLocation(EditID: EditID)
     }
+    
+    /// Given the main window the focus.
+    func FocusWindow()
+    {
+        self.view.window?.makeKey()
+    }
 }
