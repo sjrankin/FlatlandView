@@ -51,21 +51,26 @@ class StatusBar3D: SCNView
         //Initialize the 3D view.
         let Scene = SCNScene()
         self.scene = Scene
+        self.showsStatistics = false
         #if DEBUG
-        self.scene?.background.contents = NSColor.orange
+        self.scene?.background.contents = NSColor.systemBlue
         #else
         self.scene?.background.contents = NSColor.black
         #endif
         self.allowsCameraControl = false
         let Camera = SCNCamera()
         Camera.usesOrthographicProjection = true
-        Camera.orthographicScale = 1.5
+        Camera.orthographicScale = 1.6
         CameraNode = SCNNode2()
         CameraNode.camera = Camera
         CameraNode.position = SCNVector3(0.0, 0.0, 25.0)
         self.scene?.rootNode.addChildNode(CameraNode)
 
         self.isHidden = false
+        
+        let BaseWidth = Settings.GetBool(.ShowStatistics) ? 640.0 : 800.0
+        Ratio = self.frame.width / CGFloat(BaseWidth)
+        print("Initial ratio=\(Ratio), BaseWidth=\(BaseWidth)")
     }
     
     func CommonInitialization()
@@ -73,6 +78,20 @@ class StatusBar3D: SCNView
         InitializeView()
         CurrentMessageID = UUID.Empty
         StartInsignificance(Duration: StatusBarConstants.Insignificance.rawValue)
+    }
+    
+    func SetConstraints(Left: NSLayoutConstraint, Right: NSLayoutConstraint)
+    {
+        if Settings.GetBool(.ShowStatistics)
+        {
+            Left.constant = CGFloat(StatusBarConstants.DebugMargin.rawValue)
+            Right.constant = CGFloat(StatusBarConstants.DebugMargin.rawValue)
+        }
+        else
+        {
+            Left.constant = CGFloat(StatusBarConstants.StandardMargin.rawValue)
+            Right.constant = CGFloat(StatusBarConstants.StandardMargin.rawValue)
+        }
     }
     
     func ShowSimpleStatus()
@@ -149,9 +168,42 @@ class StatusBar3D: SCNView
                                                repeats: false)
     }
     
+    func ParentWindowSizeChanged(NewSize: NSSize)
+    {
+        if Settings.GetBool(.ShowStatistics)
+        {
+            Ratio = 640.0 / NewSize.width
+        }
+        else
+        {
+            Ratio = 800.0 / NewSize.width
+        }
+        UpdateTextWithNewPosition()
+    }
+    
+    private func UpdateTextWithNewPosition()
+    {
+        let X = (-33 * Ratio) + 0.5
+        CurrentText?.position = SCNVector3(X, -1.2, 0.0)
+    }
+    
+    var Ratio: CGFloat = 1.0
+    
     private func DrawText(_ Text: String)
     {
-        
+        print("status width = \(self.frame.width)")
+        CurrentText?.removeFromParentNode()
+        let TextShape = SCNText(string: Text, extrusionDepth: 0.5)
+        TextShape.font = NSFont.systemFont(ofSize: 20.0)
+        CurrentText = SCNNode2()
+        CurrentText?.geometry = TextShape
+        CurrentText?.scale = SCNVector3(0.09)
+        //CurrentText?.opacity = 0.0
+        //let FadeIn = SCNAction.fadeIn(duration: 0.1)
+        //CurrentText?.runAction(FadeIn)
+        let X = (-33 * Ratio) + 0.5
+        CurrentText?.position = SCNVector3(X, -1.15, 0.0)
+        self.scene?.rootNode.addChildNode(CurrentText!)
     }
     
     func ShowPushedText(Pushed: QueuedMessage?)
