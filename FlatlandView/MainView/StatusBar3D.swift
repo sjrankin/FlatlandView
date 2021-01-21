@@ -10,14 +10,19 @@ import Foundation
 import AppKit
 import SceneKit
 
+/// Small 3D view that presents text status.
 class StatusBar3D: SCNView
 {
+    /// Initializer.
+    /// - Parameter frame: The frame for the view.
     override init(frame frameRect: NSRect)
     {
         super.init(frame: frameRect)
         CommonInitialization()
     }
     
+    /// Initializer.
+    /// - Parameter coder: See Apple documentation.
     required init?(coder: NSCoder)
     {
         super.init(coder: coder)
@@ -34,45 +39,39 @@ class StatusBar3D: SCNView
     var CurrentText: SCNNode2? = nil
     var CameraNode: SCNNode2 = SCNNode2()
     
+    /// Initialize the view, both 2D and 3D aspects.
     func InitializeView()
     {
         //Initialize the layer.
         self.wantsLayer = true
-        self.layer?.zPosition = 1000000
-        self.layer?.borderWidth = 4
-        self.layer?.cornerRadius = 5
-        #if DEBUG
-        self.layer?.borderColor = NSColor.systemYellow.cgColor
-        #else
-        self.layer?.borderColor = NSColor.Jet.cgColor
-        #endif
+        self.layer?.zPosition = CGFloat(StatusBarConstants.ContainerZ.rawValue)
+        self.layer?.borderWidth = CGFloat(StatusBarConstants.BorderWidth.rawValue)
+        self.layer?.cornerRadius = CGFloat(StatusBarConstants.CornerRadius.rawValue)
+        self.layer?.borderColor = NSColor(RGB: Colors3D.StatusBorder.rawValue).cgColor
         self.layer?.backgroundColor = NSColor.clear.cgColor
         
         //Initialize the 3D view.
         let Scene = SCNScene()
         self.scene = Scene
         self.showsStatistics = false
-        #if DEBUG
-        self.scene?.background.contents = NSColor.systemBlue
-        #else
-        self.scene?.background.contents = NSColor.black
-        #endif
+        self.scene?.background.contents = NSColor(RGB: Colors3D.StatusBackground.rawValue)
         self.allowsCameraControl = false
         let Camera = SCNCamera()
         Camera.usesOrthographicProjection = true
-        Camera.orthographicScale = 1.6
+        Camera.orthographicScale = StatusBarConstants.OrthographicScale.rawValue
         CameraNode = SCNNode2()
         CameraNode.camera = Camera
-        CameraNode.position = SCNVector3(0.0, 0.0, 25.0)
+        CameraNode.position = SCNVector3(0.0, 0.0, StatusBarConstants.CameraZPosition.rawValue)
         self.scene?.rootNode.addChildNode(CameraNode)
-
+        
         self.isHidden = false
         
-        let BaseWidth = Settings.GetBool(.ShowStatistics) ? 640.0 : 800.0
+        let BaseWidth = Settings.GetBool(.ShowStatistics) ? CGFloat(StatusBarConstants.DebugWidth.rawValue) :
+            CGFloat(StatusBarConstants.NormalWidth.rawValue)
         Ratio = self.frame.width / CGFloat(BaseWidth)
-        print("Initial ratio=\(Ratio), BaseWidth=\(BaseWidth)")
     }
     
+    /// Initialization common to all initializers.
     func CommonInitialization()
     {
         InitializeView()
@@ -80,6 +79,10 @@ class StatusBar3D: SCNView
         StartInsignificance(Duration: StatusBarConstants.Insignificance.rawValue)
     }
     
+    /// Set contraints for the left and right side. The actual constraints depend on whether statistics are
+    /// showing or not.
+    /// - Parameter Left: The left-side ("leading") constraint to set.
+    /// - Parameter Right: The right-side ("trailing") constraint to set.
     func SetConstraints(Left: NSLayoutConstraint, Right: NSLayoutConstraint)
     {
         if Settings.GetBool(.ShowStatistics)
@@ -94,18 +97,32 @@ class StatusBar3D: SCNView
         }
     }
     
+    /// Shows the simple status bar.
+    /// - Note: Starts the insignificance timer as well.
     func ShowSimpleStatus()
     {
+        if !IsVisible
+        {
+            return
+        }
         self.isHidden = false
         StartInsignificance(Duration: StatusBarConstants.Insignificance.rawValue)
     }
     
+    /// Hide the simple status bar.
+    /// - Note: The insignificance timer is canceled. It will be turned back on when `ShowSimpleStatus`
+    ///         is called.
     func HideSimpleStatus()
     {
+        if !IsVisible
+        {
+            return
+        }
         self.isHidden = true
         CancelInsignificanceFade()
     }
     
+    /// Hide the current text and clear the message queue.
     func HideAndClear()
     {
         ClearMessageQueue()
@@ -115,6 +132,7 @@ class StatusBar3D: SCNView
         RemoveTextTimer = nil
     }
     
+    /// Hide the status text. If there are more messages in the queue, they will be displayed in turn.
     func HideStatusText()
     {
         CurrentText?.removeFromParentNode()
@@ -127,18 +145,27 @@ class StatusBar3D: SCNView
         RemoveTextLater()
     }
     
+    /// If the current status message has the specified ID, it is removed and any messages in the message
+    /// queue will be shown in order.
+    /// - Parameter ForID: If the current message has the same value as this ID, it will be removed. Otherwise,
+    ///                    no action is taken.
+    /// - Parameter ClearQueue: If true, the message queue is cleared as long as the IDs match. Defaults to false.
     func HideStatusText(ForID: UUID, ClearQueue: Bool = false)
     {
         if CurrentMessageID == ForID
         {
             if ClearQueue
             {
-            ClearMessageQueue()
+                ClearMessageQueue()
             }
             HideStatusText()
         }
     }
     
+    /// Show text in the status bar. See also `ShowStatusText(Text, For)`.
+    /// - Note: If the status bar is not visible, it is made visible. The insignificance timer is reset.
+    /// - Parameter Text: The text to display.
+    /// - Parameter ID: The ID of the message.
     func ShowStatusText(_ Text: String, ID: UUID = UUID())
     {
         if Text.isEmpty
@@ -153,11 +180,25 @@ class StatusBar3D: SCNView
         CurrentMessageID = ID
         RemoveTextTimer?.invalidate()
         RemoveTextTimer = nil
-        self.isHidden = false
+        if IsVisible
+        {
+            self.isHidden = false
+        }
         DrawText(Text)
         ResetInsignificance()
     }
     
+    /// Show text in the status bar. See also `ShowStatusText(Text)`. The text shown will be removed after
+    /// a caller-specified amount of time.
+    /// - Notes:
+    ///    - Shows text in the status bar using the polymorphic `ShowStatusText`, which in turn resets the
+    ///      insignificance timer.
+    ///    - If this function is called prior to the previous text's duration expiration, the previous text
+    ///      will be replaced with the new text and the remove text timer will be started with the duration
+    ///      specified in the second call.
+    /// - Parameter Text: The text to display.
+    /// - Parameter For: Number of seconds to display the text.
+    /// - Parameter ID: The ID of the message.
     func ShowStatusText(_ Text: String, For Duration: Double, ID: UUID = UUID())
     {
         ShowStatusText(Text, ID: ID)
@@ -168,44 +209,75 @@ class StatusBar3D: SCNView
                                                repeats: false)
     }
     
+    /// Handle parent window size changed events. This drives a new ratio used to set the location of the
+    /// text display.
+    /// - Parameter NewSize: The new size of the parent window.
     func ParentWindowSizeChanged(NewSize: NSSize)
     {
         if Settings.GetBool(.ShowStatistics)
         {
-            Ratio = 640.0 / NewSize.width
+            Ratio = CGFloat(StatusBarConstants.DebugWidth.rawValue) / NewSize.width
         }
         else
         {
-            Ratio = 800.0 / NewSize.width
+            Ratio = CGFloat(StatusBarConstants.NormalWidth.rawValue) / NewSize.width
         }
         UpdateTextWithNewPosition()
     }
     
+    /// Update the text based on the new window size.
     private func UpdateTextWithNewPosition()
     {
-        let X = (-33 * Ratio) + 0.5
-        CurrentText?.position = SCNVector3(X, -1.2, 0.0)
+        let K = Settings.GetBool(.ShowStatistics) ? StatusBarConstants.SmallBarOffset.rawValue :
+            StatusBarConstants.BigBarOffset.rawValue
+        let X = (CGFloat(K) * Ratio) + CGFloat(StatusBarConstants.HorizontalOffset.rawValue)
+        CurrentText?.position = SCNVector3(X, CGFloat(StatusBarConstants.VerticalTextOffset.rawValue), 0.0)
     }
     
+    /// Ratio between the base status width and the current status width.
     var Ratio: CGFloat = 1.0
     
-    private func DrawText(_ Text: String)
+    /// Create a text node with the passed text. The node is faded in and displayed.
+    /// - Parameter Text: The text to display.
+    private func MakeTextNode(_ Text: String)
     {
-        print("status width = \(self.frame.width)")
-        CurrentText?.removeFromParentNode()
-        let TextShape = SCNText(string: Text, extrusionDepth: 0.5)
-        TextShape.font = NSFont.systemFont(ofSize: 20.0)
+        let TextShape = SCNText(string: Text, extrusionDepth: CGFloat(StatusBarConstants.TextExtrusion.rawValue))
+        TextShape.font = NSFont.systemFont(ofSize: CGFloat(StatusBarConstants.FontSize.rawValue))
         CurrentText = SCNNode2()
         CurrentText?.geometry = TextShape
-        CurrentText?.scale = SCNVector3(0.09)
-        //CurrentText?.opacity = 0.0
-        //let FadeIn = SCNAction.fadeIn(duration: 0.1)
-        //CurrentText?.runAction(FadeIn)
-        let X = (-33 * Ratio) + 0.5
-        CurrentText?.position = SCNVector3(X, -1.15, 0.0)
+        CurrentText?.scale = SCNVector3(StatusBarConstants.StatusTextScale.rawValue)
+        CurrentText?.opacity = 0.0
+        let FadeIn = SCNAction.fadeIn(duration: 0.1)
+        CurrentText?.runAction(FadeIn)
+        let K = Settings.GetBool(.ShowStatistics) ? StatusBarConstants.SmallBarOffset.rawValue :
+            StatusBarConstants.BigBarOffset.rawValue
+        let X = (CGFloat(K) * Ratio) + CGFloat(StatusBarConstants.HorizontalOffset.rawValue)
+        CurrentText?.position = SCNVector3(X, CGFloat(StatusBarConstants.VerticalTextOffset.rawValue), 0.0)
         self.scene?.rootNode.addChildNode(CurrentText!)
     }
     
+    /// Draw the text. Manages old text to new text transitions.
+    /// - Parameter Text: The text to draw.
+    private func DrawText(_ Text: String)
+    {
+        if let OldText = CurrentText
+        {
+            let FadeAway = SCNAction.fadeOut(duration: 0.1)
+            OldText.runAction(FadeAway)
+            {
+                self.CurrentText?.removeFromParentNode()
+                self.MakeTextNode(Text)
+            }
+        }
+        else
+        {
+            CurrentText?.removeFromParentNode()
+            MakeTextNode(Text)
+        }
+    }
+    
+    /// Push a message to the message queue.
+    /// - Parameter Pushed: The message to display when it is at the top of the queue.
     func ShowPushedText(Pushed: QueuedMessage?)
     {
         if let Message = Pushed
@@ -218,12 +290,16 @@ class StatusBar3D: SCNView
             CurrentMessageID = Message.ID
             RemoveTextTimer?.invalidate()
             RemoveTextTimer = nil
-            self.isHidden = false
+            if IsVisible
+            {
+                self.isHidden = false
+            }
             DrawText(Message.Message)
             ResetInsignificance()
         }
     }
     
+    /// Suspends the timer for a pushed message. Time-elapsed is stored in the message.
     func SuspendPushMessage()
     {
         if let Message = PushedMessage
@@ -234,6 +310,7 @@ class StatusBar3D: SCNView
         }
     }
     
+    /// Called after a pushed message's time limit has expired. The message is removed from the status box.
     @objc func RemovePushedMessage()
     {
         OperationQueue.main.addOperation
@@ -248,6 +325,8 @@ class StatusBar3D: SCNView
         }
     }
     
+    /// Function that actually removes text after an amount of time has elapsed. Removal consists of setting
+    /// the text field to empty.
     @objc func RemoveTextLater()
     {
         OperationQueue.main.addOperation
@@ -270,6 +349,7 @@ class StatusBar3D: SCNView
         }
     }
     
+    /// Reset the insignificance timer. Should be called everytime the text of the status bar is changed.
     func ResetInsignificance()
     {
         InsignificanceTimer?.invalidate()
@@ -277,29 +357,42 @@ class StatusBar3D: SCNView
         StartInsignificance(Duration: LastInsignificanceDuration)
     }
     
+    /// Cancel the insignificance timer. Should be called when the status bar is hidden.
     func CancelInsignificanceFade()
     {
         InsignificanceTimer?.invalidate()
         InsignificanceTimer = nil
     }
     
+    /// Start the insignificance timer. After a certain amount of time, the status bar will have its alpha
+    /// value changed to lessen its significance.
+    /// - Parameter Duration: The duration of the time before the status bar becomes insignificant.
     func StartInsignificance(Duration: Double)
     {
         LastInsignificanceDuration = Duration
         InsignificanceTimer = Timer.scheduledTimer(timeInterval: Duration,
-                                                    target: self,
-                                                    selector: #selector(DoChangeAlpha),
-                                                    userInfo: nil,
-                                                    repeats: false)
+                                                   target: self,
+                                                   selector: #selector(DoChangeAlpha),
+                                                   userInfo: nil,
+                                                   repeats: false)
     }
     
+    /// Updates the alpha value of the status bar to make it look less significant.
     @objc func DoChangeAlpha()
     {
-        self.alphaValue = CGFloat(StatusBarConstants.AlphaInsignificance.rawValue)
+        let Alpha = GetAppropriateAlpha(CGFloat(StatusBarConstants.AlphaInsignificance.rawValue))
+        self.alphaValue = Alpha
         InsignificanceTimer?.invalidate()
         InsignificanceTimer = nil
     }
     
+    /// Add a message to the message queue.
+    /// - Note: The message is displayed according to the following rules:
+    ///   - **1**: If the timer is running, enqueue the message to be displayed in turn.
+    ///   - **2**: Display the message.
+    /// - Parameter Text: The message to enqueue.
+    /// - Parameter ExpiresIn: How long to show the message.
+    /// - Parameter ID: The ID of the message.
     func AddQueuedMessage(_ Text: String, ExpiresIn: Double, ID: UUID)
     {
         objc_sync_enter(StatusBarLock)
@@ -315,21 +408,36 @@ class StatusBar3D: SCNView
         }
     }
     
+    /// Inserts a message into the status bar in place of the current message and ahead of the messages in
+    /// the message queue. Queued messages are shown in order once this message expires.
+    /// - Parameter Text: The message to display.
+    /// - Parameter ExpiresIn: How long to show the message.
+    /// - Parameter ID: The ID of the message.
     func InsertMessageAheadOfQueue(_ Text: String, ExpiresIn: Double, ID: UUID)
     {
         ShowStatusText(Text, For: ExpiresIn, ID: ID)
     }
     
+    /// Remove the message in the message queue whose ID is passed to this function.
+    /// - Parameter With: The ID of the message to delete.
     func RemoveQueuedMessage(With ID: UUID)
     {
         StatusMessageQueue.Remove(Where: {Element in Element.ID == ID})
     }
     
+    /// Clear the message queue.
     func ClearMessageQueue()
     {
         StatusMessageQueue.Clear()
     }
     
+    /// Push a message to the status bar. A "pushed" message will appear when no other messages are
+    /// available but only for the specified duration.
+    /// - Note: Only one pushed message may exist at a time. Calling this function will delete any existing
+    ///         pushed messages.
+    /// - Parameter Text: The text of the message.
+    /// - Parameter Duration: The duration of the message (in seconds).
+    /// - Parameter ID: The ID of the message.
     func PushMessage(_ Text: String, Duration: Double, ID: UUID)
     {
         if let Current = PushedMessage
@@ -343,4 +451,73 @@ class StatusBar3D: SCNView
         }
         PushedMessage = QueuedMessage(Text, Expiry: Duration, ID: ID)
     }
+    
+    /// Determines whether the status bar is visible or not.
+    /// - Note: Regardless of the visibility, the status bar will still function - if not visible, it will
+    ///         function invisibly.
+    /// - Parameter Show: If true, the status bar is visible. If false, the status bar is invisible.
+    func SetVisibility(_ Show: Bool)
+    {
+        _IsVisible = Show
+        if Show
+        {
+            self.isHidden = false
+        }
+        else
+        {
+            self.isHidden = true
+        }
+    }
+    
+    /// Returns an alpha level appropriate to the state of overall visibility.
+    /// - Parameter Potential: The alpha level to return (unless `IsVisible` is `false`).
+    /// - Returns: A level to use for alpha. If `IsVisible` is true, `Potential` is returned. If `IsVisible`
+    ///            is false, `0.0` is returned.
+    private func GetAppropriateAlpha(_ Potential: CGFloat) -> CGFloat
+    {
+        return _IsVisible ? Potential : 0.0
+    }
+    
+    private var _IsVisible: Bool = true
+    var IsVisible: Bool
+    {
+        get
+        {
+            return _IsVisible
+        }
+    }
+}
+
+
+/// Holds one enqueued message.
+class QueuedMessage
+{
+    /// Initializer.
+    /// - Parameter Message: The message to display.
+    /// - Parameter Expiry: How long to display the message in seconds.
+    /// - Parameter ID: The ID of the message.
+    init(_ Message: String, Expiry: Double, ID: UUID)
+    {
+        self.Message = Message
+        ExpiresIn = Expiry
+        self.ID = ID
+    }
+    
+    /// The message to display.
+    var Message: String = ""
+    
+    /// How long to display the text.
+    var ExpiresIn: Double = 60.0
+    
+    /// ID of the message.
+    var ID: UUID = UUID()
+    
+    /// Timer used for push messages.
+    var PushTimer: Timer? = nil
+    
+    /// The time the pushed message first appeared.
+    var PushStartTime: Double = 0
+    
+    /// Time the message has been visible.
+    var ShownFor: Double = 0
 }
