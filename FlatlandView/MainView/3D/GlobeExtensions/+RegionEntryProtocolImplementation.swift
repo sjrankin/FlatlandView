@@ -154,4 +154,60 @@ extension GlobeView: RegionEntryProtocol
         LowerRightNode?.removeFromParentNode()
         LowerRightNode = nil
     }
+    
+    /// Handle completion of polar region creation.
+    /// - Parameter Name: The name of the polar region.
+    /// - Parameter Color: The color of the polar region.
+    /// - Parameter Radius: The radial size of the polar region.
+    func PolarRegionEntryCompleted(Name: String, Color: NSColor, Radius: Double)
+    {
+    }
+    
+    /// Turn the mouse pointer into the start pin.
+    func SetStartPin()
+    {
+        MouseIndicator = nil
+        MousePointerType = .StartPin
+        PlotMouseIndicator()
+    }
+    
+    /// Turn the mouse pointer into the end pin.
+    func SetEndPin()
+    {
+        MouseIndicator = nil
+        MousePointerType = .EndPin
+        PlotMouseIndicator()
+    }
+    
+    /// Reset the mouse pointer to its normal state.
+    func ResetMousePointer()
+    {
+        MouseIndicator = nil
+        MousePointerType = .Normal
+        PlotMouseIndicator()
+    }
+    
+    /// Plot a transient region.
+    func PlotTransient(ID: UUID, Point1: GeoPoint, Point2: GeoPoint, Color: NSColor)
+    {
+        PlotTransientRegion(Point1: Point1, Point2: Point2, Color: Color, ID: ID)
+    }
+    
+    /// Update a transient region.
+    func UpdateTransient(ID: UUID, Point1: GeoPoint, Point2: GeoPoint, Color: NSColor)
+    {
+        UpdateTransientRegion(ID: ID, Point1: Point1, Point2: Point2, Color: Color)
+    }
+    
+    /// Remove transient regions.
+    func RemoveTransientRegions()
+    {
+        ClearTransientRegions()
+    }
+    
+    /// Remove the specified transient region.
+    func RemoveTransientRegion(ID: UUID)
+    {
+        ClearTransientRegion(ID: ID)
+    }
 }
