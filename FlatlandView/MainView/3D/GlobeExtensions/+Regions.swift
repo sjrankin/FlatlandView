@@ -18,6 +18,7 @@ extension GlobeView
     /// Remove all regions from the region layer.
     func RemoveRegions()
     {
+        ClearTransientRegions()
         if let Node = RegionNode
         {
             RegionLayer = nil
@@ -32,6 +33,7 @@ extension GlobeView
     /// - Parameter Node: The node to initialize.
     func InitializeRegionNode(_ Node: SCNNode2)
     {
+        ClearTransientRegions()
         RegionLayer = CAShapeLayer()
         RegionLayer?.name = GlobeNodeNames.RegionNode.rawValue
         RegionLayer?.isGeometryFlipped = true
@@ -68,6 +70,66 @@ extension GlobeView
                 continue
             }
             PlotRegion(Region)
+        }
+        for Region in TransientRegions
+        {
+            PlotRegion(Region)
+        }
+    }
+    
+    /// Remove all transient regions.
+    func ClearTransientRegions()
+    {
+        TransientRegions.removeAll()
+    }
+    
+    /// Remove the specified transient region.
+    /// - Parameter ID: The ID of the region to remove.
+    func ClearTransientRegion(ID: UUID)
+    {
+        TransientRegions = TransientRegions.filter({$0.TransientID != ID})
+        PlotRegions()
+    }
+    
+    /// Plot a transient region.
+    /// - Parameter Point1: Upper-left (north west) point of the region.
+    /// - Parameter Point2: Lower-right (south east) point of the region.
+    /// - Parameter Color: The color of the region.
+    /// - Parameter ID: The ID of the region.
+    func PlotTransientRegion(Point1: GeoPoint, Point2: GeoPoint, Color: NSColor, ID: UUID)
+    {
+        let TRegion = UserRegion()
+        TRegion.TransientID = ID
+        TRegion.IsTransient = true
+        TRegion.UpperLeft = Point1
+        TRegion.LowerRight = Point2
+        TRegion.RegionColor = Color
+        TransientRegions.append(TRegion)
+        PlotRegions()
+    }
+    
+    /// Update a transient region.
+    /// - Note: If the transient region is not found, no action is taken.
+    /// - Parameter ID: The ID of the transient region to update. Must match a previously set transient
+    ///                 region (see `PlotTransientRegion`).
+    /// - Parameter Point1: Upper-left (north west) point of the region.
+    /// - Parameter Point2: Lower-right (south east) point of the region.
+    /// - Parameter Color: The color of the transient region. If nil, the color remains unchanged.
+    func UpdateTransientRegion(ID: UUID, Point1: GeoPoint, Point2: GeoPoint, Color: NSColor? = nil)
+    {
+        for TRegion in TransientRegions
+        {
+            if TRegion.TransientID == ID
+            {
+                if let NewColor = Color
+                {
+                    TRegion.RegionColor = NewColor
+                    TRegion.UpperLeft = Point1
+                    TRegion.LowerRight = Point2
+                    PlotRegions()
+                }
+                return
+            }
         }
     }
     
