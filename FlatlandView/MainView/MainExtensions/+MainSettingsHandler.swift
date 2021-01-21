@@ -175,6 +175,9 @@ extension MainController: SettingChangedProtocol
                     MouseLocationController = nil
                 }
                 
+            case .ShowStatusBar:
+                StatusBar2.SetVisibility(Settings.GetBool(.ShowStatusBar)) 
+                
             default:
                 return
         }
