@@ -103,7 +103,7 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="BE2379F7-C93C-4B52-916C-82D12405591F" label="Locked" paletteLabel="Locked" id="43P-br-LdQ">
                                     <nil key="toolTip"/>
-                                    <imageReference key="image" image="lock.rotation" catalog="system" symbolScale="large"/>
+                                    <imageReference key="image" image="rotate.3d" catalog="system" symbolScale="large"/>
                                     <size key="minSize" width="36" height="36"/>
                                     <size key="maxSize" width="37" height="37.5"/>
                                     <button key="view" id="tRj-rh-9AP">
@@ -112,7 +112,7 @@
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="a9O-Kq-djn">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemHeavy" size="18"/>
-                                            <imageReference key="image" image="lock.rotation" catalog="system" symbolScale="large"/>
+                                            <imageReference key="image" image="rotate.3d" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlGreen"/>
                                     </button>
@@ -804,7 +804,7 @@
         <image name="camera" catalog="system" width="23" height="18"/>
         <image name="house.circle" catalog="system" width="19" height="19"/>
         <image name="info.circle.fill" catalog="system" width="19" height="19"/>
-        <image name="lock.rotation" catalog="system" width="21" height="19"/>
+        <image name="rotate.3d" catalog="system" width="19" height="19"/>
         <image name="wifi" catalog="system" width="21" height="16"/>
         <image name="wrench.and.screwdriver" catalog="system" width="23" height="22"/>
         <namedColor name="ControlBlack">
