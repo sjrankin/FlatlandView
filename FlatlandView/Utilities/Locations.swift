@@ -265,13 +265,27 @@ class Locations
                     {
                         if SomeRegion.InRegion(Latitude: Latitude, Longitude: Longitude)
                         {
-                            let RgnRecord = MetaLocation(ID: SomeRegion.ID,
+                            var RgnRecord: MetaLocation!
+                            if SomeRegion.IsRectangular
+                            {
+                                RgnRecord = MetaLocation(ID: SomeRegion.ID,
+                                                         Name: SomeRegion.RegionName,
+                                                         Latitude: SomeRegion.UpperLeft.Latitude,
+                                                         Longitude: SomeRegion.UpperLeft.Longitude,
+                                                         Population: 0,
+                                                         LocationType: .Region,
+                                                         Distance: 0)
+                            }
+                            else
+                            {
+                                RgnRecord = MetaLocation(ID: SomeRegion.ID,
                                                          Name: SomeRegion.RegionName,
                                                          Latitude: SomeRegion.Center.Latitude,
                                                          Longitude: SomeRegion.Center.Longitude,
                                                          Population: 0,
                                                          LocationType: .Region,
                                                          Distance: 0)
+                            }
                             Results.append(RgnRecord)
                         }
                     }
