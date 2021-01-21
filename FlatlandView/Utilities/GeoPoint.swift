@@ -411,7 +411,35 @@ public class GeoPoint: CustomStringConvertible
         }
     }
     
-    /// Converts the current latitude and longitude values into absolute coordintes on an equirectangular
+    /// Returns a normalized latitude, longitude coordinate based on the passed the current coordinate values.
+    /// - Note: Normalized means all values are positive and:
+    ///   - **Latitude** ranges from 0.0° (south pole) to 180° (north pole).
+    ///   - **Longitude** ranges from 0.0° (prime meridian) to 360° (approaching the prime meridian from the west).
+    /// - Returns: Tuple with the instance latitude and longitude in their normalized forms.
+    public func Normalize() -> (Latitude: Double, Longitude: Double)
+    {
+        var NLat: Double = 0.0
+        if Latitude < 0.0
+        {
+            NLat = 90.0 - abs(Latitude)
+        }
+        else
+        {
+            NLat = Latitude + 90.0
+        }
+        var NLon = 0.0
+        if Longitude < 0.0
+        {
+            NLon = abs(Longitude) + 180.0
+        }
+        else
+        {
+            NLon = Longitude
+        }
+        return (NLat, NLon)
+    }
+    
+    /// Converts the current latitude and longitude values into absolute coordinates on an equirectangular
     /// plain. Intended for use for plotting earthquake regions.
     /// - Parameter Width: Width of the target equirectanglular plain.
     /// - Parameter Height: Height of the target equirectangular plain.
