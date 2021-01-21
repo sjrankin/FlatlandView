@@ -9,6 +9,7 @@
 import Foundation
 import AppKit
 
+/// Note: See [windowShouldClose Never Called](https://stackoverflow.com/questions/44883592/windowshouldclose-never-called)
 class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClickProtocol
 {
     public weak var ParentDelegate: RegionEntryProtocol? = nil
@@ -28,6 +29,7 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
         super.viewWillAppear()
         ParentWindow = self.view.window
         ParentWindow?.delegate = self
+        ParentDelegate?.SetStartPin()
     }
     
     var ParentWindow: NSWindow? = nil
@@ -48,7 +50,6 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
     /// If the window was moved, make sure the main window still has the focus.
     func WindowMoved()
     {
-        print("Region entry controller window moved.")
         MainDelegate?.FocusWindow()
     }
     
@@ -59,6 +60,10 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
         if let ColorWell = sender as? NSColorWell
         {
             RegionColor = ColorWell.color
+            if Point1 != nil && Point2 != nil
+            {
+                UpdateTransient(Point1: Point1!, Point2: Point2!, Color: RegionColor)
+            }
         }
     }
     
@@ -130,6 +135,7 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
         {
             NSColorPanel.shared.close()
         }
+        ParentDelegate?.ResetMousePointer()
         ParentDelegate?.RegionEntryCompleted(Name: RegionNameField.stringValue, Color: RegionColor,
                                              Corner1: Point1, Corner2: Point2)
         self.view.window?.close()
@@ -141,24 +147,23 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
         {
             NSColorPanel.shared.close()
         }
+        ParentDelegate?.ResetMousePointer()
         ParentDelegate?.RegionEntryCanceled()
         self.view.window?.close()
     }
     
     var ClickCount = 0
     
+    var Point1: GeoPoint? = nil
+    var Point2: GeoPoint? = nil
+    
     func MouseClicked(At: GeoPoint)
     {
-        if ClickCount > 2
-        {
-            print("Ignoring spurious click.")
-            return
-        }
-        print("Mouse clicked at \(At)")
-        if ClickForFirst
+        if ClickCount == 0
         {
             let LatS = Utility.PrettyLatitude(At.Latitude)
             let LonS = Utility.PrettyLongitude(At.Longitude)
+            Point1 = GeoPoint(At.Latitude, At.Longitude)
             Latitude1Field.stringValue = LatS
             Longitude1Field.stringValue = LonS
             Message1.isHidden = true
@@ -166,15 +171,42 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
             ClickForFirst = false
             ParentDelegate?.PlotUpperLeftCorner(Latitude: At.Latitude, Longitude: At.Longitude)
             ClickCount = 1
-            return
+            ParentDelegate?.SetEndPin()
+            ParentDelegate?.RemoveTransientRegion(ID: TransientID!)
+            TransientID = nil
         }
-        let LatS = Utility.PrettyLatitude(At.Latitude)
-        let LonS = Utility.PrettyLongitude(At.Longitude)
-        Latitude2Field.stringValue = LatS
-        Longitude2Field.stringValue = LonS
-        ParentDelegate?.PlotLowerRightCorner(Latitude: At.Latitude, Longitude: At.Longitude)
-        ClickCount = 2
+        else
+        {
+            if ClickCount == 1
+            {
+                let LatS = Utility.PrettyLatitude(At.Latitude)
+                let LonS = Utility.PrettyLongitude(At.Longitude)
+                Point2 = GeoPoint(At.Latitude, At.Longitude)
+                Latitude2Field.stringValue = LatS
+                Longitude2Field.stringValue = LonS
+                ParentDelegate?.PlotLowerRightCorner(Latitude: At.Latitude, Longitude: At.Longitude)
+                ClickCount = 2
+                ParentDelegate?.ResetMousePointer()
+                UpdateTransient(Point1: Point1!, Point2: Point2!, Color: RegionColor)
+            }
+        }
     }
+    
+    /// Draw a transient region on the globe.
+    func UpdateTransient(Point1: GeoPoint, Point2: GeoPoint, Color: NSColor)
+    {
+        if TransientID == nil
+        {
+            TransientID = UUID()
+            ParentDelegate?.PlotTransient(ID: TransientID!, Point1: Point1, Point2: Point2, Color: Color)
+        }
+        else
+        {
+            ParentDelegate?.UpdateTransient(ID: TransientID!, Point1: Point1, Point2: Point2, Color: Color)
+        }
+    }
+    
+    var TransientID: UUID? = nil
     
     @IBAction func ResetCoordinatesHandler(_ sender: Any)
     {
@@ -190,12 +222,14 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
                     Message2.isHidden = true
                     ParentDelegate?.RemoveUpperLeftCorner()
                     ClickCount = 0
+                    ParentDelegate?.SetStartPin()
                     
                 case ResetLowerRight:
                     Latitude2Field.stringValue = ""
                     Longitude2Field.stringValue = ""
                     ParentDelegate?.RemoveLowerRightCorner()
                     ClickCount = 1
+                    ParentDelegate?.SetEndPin()
                     
                 default:
                     break
