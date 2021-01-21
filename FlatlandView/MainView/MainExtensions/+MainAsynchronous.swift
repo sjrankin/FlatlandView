@@ -24,14 +24,14 @@ extension MainController: AsynchronousDataProtocol
             case .Earthquakes:
                 if let NewEarthquakes = Actual as? [Earthquake]
                 {
-                    HideStatusText(ForID: EQMessageID, ClearQueue: false)
+                    StatusBar2.HideStatusText(ForID: EQMessageID, ClearQueue: false)
                     if StartTime > 0.0
                     {
                         let Duration = CACurrentMediaTime() - StartTime
                         USGS.TotalDuration = USGS.TotalDuration + Duration
                         let PrettyDuration = Utility.MakePrettyElapsedTime(Int(Duration), AppendSeconds: true)
                         Debug.Print("Earthquake retrieval duration: \(PrettyDuration)")
-                        InsertMessageAheadOfQueue("Earthquake retrieval duration: \(PrettyDuration)", ExpiresIn: 10.0, ID: UUID())
+                        StatusBar2.InsertMessageAheadOfQueue("Earthquake retrieval duration: \(PrettyDuration)", ExpiresIn: 10.0, ID: UUID())
                     }
                     Main3DView.NewEarthquakeList(NewEarthquakes, Final: DoneWithStenciling)
                     Main2DView.PlotEarthquakes(NewEarthquakes, Replot: true)
