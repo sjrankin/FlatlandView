@@ -105,10 +105,11 @@ class MainController: NSViewController
     override func viewDidLayout()
     {
         InterfaceInitialization()
-        #if true
+        #if false
         StatusBar2.isHidden = true
         InitializeSimpleStatus()
         #else
+        StatusBar2.SetConstraints(Left: Status3DLeftConstraint, Right: Status3DRightConstraint)
         StatusBar2.isHidden = false
         StatusTextContainer.isHidden = true
         #endif
