@@ -41,6 +41,7 @@ extension GlobeView
                     Menu.items =
                         [
                             MakeWhatsHereMenu(),
+                            MakeClearSearchMenu(),
                             NSMenuItem.separator(),
                             MakeMapMenu(),
                             MakeTimeMenu(),
@@ -58,6 +59,7 @@ extension GlobeView
                     Menu.items =
                         [
                             MakeWhatsHereMenu(),
+                            MakeClearSearchMenu(),
                             NSMenuItem.separator(),
                             MakeMapMenu(),
                             MakeTimeMenu(),
@@ -175,6 +177,8 @@ extension GlobeView
         
     }
     
+    /// Run the what's here dialog.
+    /// - Parameter sender: Not used.
     @objc func HandleWhatsHereMenu(_ sender: Any)
     {
         if let MouseLocation = CurrentMouseLocation
@@ -192,15 +196,36 @@ extension GlobeView
         }
     }
     
+    /// Remove all icons indicating the position of previous searches.
+    /// - Parameter sender: Not used.
+    @objc func ClearPastSearches(_ sender: Any)
+    {
+        for Index in 0 ..< SearchedNodeIcons.count
+        {
+            let Node = SearchedNodeIcons[Index]
+            let FadeAway = SCNAction.fadeOut(duration: 1.0)
+            Node.runAction(FadeAway)
+            {
+                Node.removeFromParentNode()
+                if Index == self.SearchedNodeIcons.count - 1
+                {
+                    self.SearchedNodeIcons.removeAll()
+                }
+            }
+        }
+    }
+    
     //https://metalbyexample.com/modelio-materials/
     func ShowSearchForLocation(_ Latitude: Double, _ Longitude: Double)
     {
-        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue + 0.2))
+        let Radius = Double(GlobeRadius.Primary.rawValue + GlobeRadius.SearchIconRadialOffset.rawValue)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius)
         let QMark = SCNText(string: "?", extrusionDepth: 4.0)
         QMark.font = NSFont.boldSystemFont(ofSize: 20.0)
         QMark.flatness = 0.1
         let QM = SCNNode2(geometry: QMark)
-        QM.scale = SCNVector3(0.05, 0.05, 0.05)
+        QM.name = GlobeNodeNames.SearchedLocationNode.rawValue
+        QM.scale = SCNVector3(NodeScales3D.SearchLocationScale.rawValue)
         QM.SetLocation(Latitude, Longitude)
         QM.geometry?.firstMaterial?.diffuse.contents = NSColor.Gold
         QM.geometry?.firstMaterial?.specular.contents = NSColor.yellow
@@ -235,6 +260,7 @@ extension GlobeView
         QM.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
         QM.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
         QM.IsInDaylight = Solar.IsInDaylight(Latitude, Longitude) ?? true
+        SearchedNodeIcons.append(QM)
         EarthNode?.addChildNode(QM)
     }
     
@@ -467,7 +493,14 @@ extension GlobeView
     func MakeWhatsHereMenu() -> NSMenuItem
     {
         UnderMouseMenu = NSMenuItem(title: "What's Here?", action: #selector(HandleWhatsHereMenu), keyEquivalent: "")
+        UnderMouseMenu?.target = self
         return UnderMouseMenu!
+    }
+    
+    func MakeClearSearchMenu() -> NSMenuItem
+    {
+        ClearSearchMenu = NSMenuItem(title: "Clear searches", action: #selector(ClearPastSearches), keyEquivalent: "")
+return ClearSearchMenu!
     }
     
     func MakeResetMenu() -> NSMenuItem
