@@ -8,6 +8,7 @@
 
 import Foundation
 import AppKit
+import SceneKit
 
 /// Controller for the view for the main window in Flatland.
 class MainController: NSViewController
@@ -97,13 +98,20 @@ class MainController: NSViewController
     {
         super.viewWillAppear()
         self.view.window!.acceptsMouseMovedEvents = true
+        SetWindowDelegate()
     }
     
     /// Initialize things that require a fully set-up window.
     override func viewDidLayout()
     {
-        InitializeSimpleStatus()
         InterfaceInitialization()
+        #if true
+        StatusBar2.isHidden = true
+        InitializeSimpleStatus()
+        #else
+        StatusBar2.isHidden = false
+        StatusTextContainer.isHidden = true
+        #endif
         InitializeFlatland()
         NotificationCenter.default.addObserver(self, selector: #selector(HandlePrimaryViewContentsSizeChange),
                                                name: NSView.frameDidChangeNotification, object: PrimaryView)
@@ -139,10 +147,17 @@ class MainController: NSViewController
         SetWorldLock(Settings.GetBool(.WorldIsLocked))
         SetMouseLocationVisibility(Visible: Settings.GetBool(.FollowMouse))
         
+        #if true
+        StatusBar2.ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
+                       For: StatusBarConstants.InitialMessageDuration.rawValue)
+        StatusBar2.AddQueuedMessage("Getting earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
+                         ID: EQMessageID)
+        #else
         ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
                        For: StatusBarConstants.InitialMessageDuration.rawValue)
         AddQueuedMessage("Getting earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
                          ID: EQMessageID)
+        #endif
         
         InitializeWorldClock()
     }
@@ -190,6 +205,21 @@ class MainController: NSViewController
             WindowController.showWindow(nil)
             SettingsWindowOpen = true
         }
+    }
+    
+    var DoTrackMouse: Bool = true
+    
+    @IBAction func ToggleMouseTracking(_ sender: Any)
+    {
+        if DoTrackMouse
+        {
+            DoTrackMouse = false
+        }
+        else
+        {
+            DoTrackMouse = true
+        }
+        Settings.SetBool(.FollowMouse, DoTrackMouse)
     }
     
     // Flag used to determine if the settings window is open.
@@ -824,6 +854,9 @@ class MainController: NSViewController
     var CurrentWorldTime: Double = 0.0
     var WorldClockStartTime: Date? = nil
     
+    // MARK: - Windowing variables
+    var ParentWindow: NSWindow? = nil
+    
     // MARK: - Storyboard outlets
     @IBOutlet weak var StatusTextField: NSTextField!
     @IBOutlet weak var StatusTextContainerRightConstraint: NSLayoutConstraint!
@@ -837,9 +870,11 @@ class MainController: NSViewController
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var BackgroundView: NSView!
     @IBOutlet weak var ContentView: NSView!
+    @IBOutlet weak var StatusBar2: StatusBar3D!
+    @IBOutlet weak var Status3DLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var Status3DRightConstraint: NSLayoutConstraint!
     
     // MARK: - Debug UI elements
-    
     @IBOutlet weak var WorldClockLabel: NSTextField!
     @IBOutlet weak var WorldClockTickCount: NSTextField!
     @IBOutlet weak var VersionLabel: NSTextField!
@@ -853,7 +888,6 @@ class MainController: NSViewController
     @IBOutlet weak var UptimeValue: NSTextField!
     
     // MARK: - Captive dialog elements
-    
     @IBOutlet weak var ContentTop: NSLayoutConstraint!
     @IBOutlet weak var CaptiveDialogContainer: NSView!
     @IBOutlet weak var CaptiveDialogPanel: NSView!
