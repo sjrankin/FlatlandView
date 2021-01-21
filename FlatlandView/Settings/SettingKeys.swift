@@ -50,6 +50,8 @@ enum SettingKeys: String, CaseIterable
     case PrimaryViewSize = "PrimaryViewSize"
     /// Boolean: If true, earthquake coordinates are decorated with cardinal directions.
     case DecorateEarthquakeCoordinates = "DecorateEarthquakeCoordinates"
+    /// Boolean: If true, a status bar is shown.
+    case ShowStatusBar = "ShowStatusBar"
     
     // MARK: - 2D view settings.
     /// Boolean: Display the equator in 2D mode.
