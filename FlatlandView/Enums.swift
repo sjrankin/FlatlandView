@@ -617,6 +617,8 @@ enum GlobeNodeNames: String, CaseIterable
     case RegionNode = "RegionNode"
     /// Node used to show a pinned location.
     case PinnedLocationNode = "PinnedLocationNode"
+    /// Node used to indicate a previously searched location.
+    case SearchedLocationNode = "SearchedLocationNode"
 }
 
 /// 2D view node names.
