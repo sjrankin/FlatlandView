@@ -234,6 +234,11 @@ The basic map type to use - can be rectangular, circular north-centered, circula
 Determines the scale of the floating hours over the globe.
 """
                     
+                case .ShowStatusBar:
+                    Message = """
+Hides or shows the status bar. Status messages are always sent so if you show a status bar, the most recent message will be shown.
+"""
+                    
                 //MARK: - Map help.
                 case .MapSample:
                     Message = """
@@ -416,6 +421,7 @@ enum PreferenceHelp: String, CaseIterable
     case HourTypes = "HourTypes"
     case MapTypes = "MapTypes"
     case HourScale = "HourScale"
+    case ShowStatusBar = "ShowStatusBar"
     
     case MapSample = "MapSample"
     
