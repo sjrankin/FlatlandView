@@ -498,6 +498,8 @@ enum NodeScales3D: CGFloat, CaseIterable
     case CapsuleEarthquake = 1.0003
     /// Scale of spheres used for earthquakes.
     case SphereEarthquake = 0.9993
+    /// Scale of the symbol used to denote searched locations.
+    case SearchLocationScale = 0.0501
 }
 
 // MARK: - Scale values for 2D nodes.
@@ -559,6 +561,8 @@ enum GlobeRadius: CGFloat, CaseIterable
     /// Test layer.
     case TestLayer = 10.01999
     #endif
+    /// Radial offset for the location of serached location icons.
+    case SearchIconRadialOffset = 0.2
 }
 
 // MARK: - File names and directories.
