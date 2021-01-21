@@ -17,6 +17,7 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        ShowStatusSwitch.state = Settings.GetBool(.ShowStatusBar) ? .on : .off
         let CurrentMapView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.FlatNorthCenter)
         switch CurrentMapView
         {
@@ -171,6 +172,9 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
                 case HourScaleHelpButton:
                     Parent?.ShowHelp(For: .HourScale, Where: Button.bounds, What: HourScaleHelpButton)
                     
+                case StatusBarHelp:
+                    Parent?.ShowHelp(For: .ShowStatusBar, Where: Button.bounds, What: StatusBarHelp) 
+                    
                 default:
                     return
             }
@@ -243,6 +247,16 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
+    @IBAction func ShowStatusBarChangedHandler(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.ShowStatusBar, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var ShowStatusSwitch: NSSwitch!
+    @IBOutlet weak var StatusBarHelp: NSButton!
     @IBOutlet weak var HourTypeSegment: NSSegmentedControl!
     @IBOutlet weak var MapTypeSegment: NSSegmentedControl!
     @IBOutlet weak var HourScaleHelpButton: NSButton!
