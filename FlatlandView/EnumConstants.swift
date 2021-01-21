@@ -646,6 +646,28 @@ enum StatusBarConstants: Double, CaseIterable
     case InitialMessageDuration = 10.0
     /// Maximum number of seconds to show the "getting earthquake data" message.
     case EarthquakeWaitingDuration = 600.0
+    /// Horizontal text offset for small width status bars.
+    case SmallBarOffset = -27.0
+    /// Horizontal text offset for wide width status bars.
+    case BigBarOffset = -40.0
+    /// Vertical text offset.
+    case VerticalTextOffset = -1.15
+    /// Horizontal keep-out width.
+    case HorizontalOffset = 0.5
+    /// Scale value for status text.
+    case StatusTextScale = 0.09
+    /// Font size of the status bar font.
+    case FontSize = 20.0
+    /// Extrusion depth of the text.
+    case TextExtrusion = 0.49958
+    /// Debug status bar base width.
+    case DebugWidth = 640.0
+    /// Normal status bar base width.
+    case NormalWidth = 800.0
+    /// Orthographic scale value.
+    case OrthographicScale = 1.6
+    /// Position of the camera's Z coordinate.
+    case CameraZPosition = 25.0
 }
 
 /// Constants used for the drawing of the mouse pointer shape.
