@@ -295,6 +295,7 @@
 		17CB2487253C108300BAABDC /* +POIDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2486253C108300BAABDC /* +POIDatabase.swift */; };
 		17CB248A253C122400BAABDC /* POI2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2489253C122400BAABDC /* POI2.swift */; };
 		17CB248D253C5BCB00BAABDC /* POI.db in Resources */ = {isa = PBXBuildFile; fileRef = 17CB248C253C5BCB00BAABDC /* POI.db */; };
+		17CC52CA25B93A16002C7BE0 /* StatusBar3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC52C925B93A16002C7BE0 /* StatusBar3D.swift */; };
 		17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BB82491C8E400CACED5 /* SCNRegular.swift */; };
 		17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BBC2491EAA200CACED5 /* SCNPin.swift */; };
 		17CFEC582522BDAE005C3E49 /* NSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CFEC572522BDAE005C3E49 /* NSView.swift */; };
@@ -725,6 +726,7 @@
 		17CB2486253C108300BAABDC /* +POIDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+POIDatabase.swift"; sourceTree = "<group>"; };
 		17CB2489253C122400BAABDC /* POI2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POI2.swift; sourceTree = "<group>"; };
 		17CB248C253C5BCB00BAABDC /* POI.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = POI.db; sourceTree = "<group>"; };
+		17CC52C925B93A16002C7BE0 /* StatusBar3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBar3D.swift; sourceTree = "<group>"; };
 		17CC8BB82491C8E400CACED5 /* SCNRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNRegular.swift; sourceTree = "<group>"; };
 		17CC8BBC2491EAA200CACED5 /* SCNPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPin.swift; sourceTree = "<group>"; };
 		17CFEC572522BDAE005C3E49 /* NSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSView.swift; sourceTree = "<group>"; };
@@ -1468,6 +1470,7 @@
 				178909C4250E0BED0092E3A4 /* MainController.swift */,
 				176A897F2530278900489C22 /* MainWindow.swift */,
 				178909C2250E09ED0092E3A4 /* Main.storyboard */,
+				17CC52C925B93A16002C7BE0 /* StatusBar3D.swift */,
 				17EF3388247A4E3D00A5B55D /* MainProtocol.swift */,
 				17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */,
 				17F9AFCD25202DEE00DE0219 /* ParentView.swift */,
@@ -1747,6 +1750,13 @@
 			path = Details;
 			sourceTree = "<group>";
 		};
+		17CC52C025B935E2002C7BE0 /* StatusView2 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = StatusView2;
+			sourceTree = "<group>";
+		};
 		17D570A124F8FD4000EB5C08 /* Editors */ = {
 			isa = PBXGroup;
 			children = (
@@ -1950,25 +1960,26 @@
 			isa = PBXGroup;
 			children = (
 				1727EA5B24B184110051EA3B /* DataStructures */,
-				17EF33A2247A699300A5B55D /* Utility.swift */,
-				1723C80224D54C4C00C41EEE /* UserRegion.swift */,
+				17F2D7112583257D00DD8023 /* AttributedText.swift */,
+				17EF33C0247A95E300A5B55D /* ColorList.swift */,
+				17E5EF5E24F1051400665167 /* Debug.swift */,
 				17EF3399247A673900A5B55D /* FileIO.swift */,
+				17E3EDC524B5B222007C1D72 /* FontHelper.swift */,
+				1700852A25773183002FD62F /* Geometry.swift */,
+				17EF33AB247A93A300A5B55D /* GeoPoint.swift */,
+				1748913224C6A53D00B5F6AF /* Imaging.swift */,
+				1723E697257E4870003CC24C /* InputValidation.swift */,
 				175BA5532570CEBA001ED3A2 /* Internet.swift */,
 				1714DDB32538342A001A3002 /* LowLevel.swift */,
-				17E5EF5E24F1051400665167 /* Debug.swift */,
-				17EF33C2247A961C00A5B55D /* SunGenerator.swift */,
-				17EF33C0247A95E300A5B55D /* ColorList.swift */,
 				17EB790424AEC8D100BB0473 /* K-Means.swift */,
 				1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */,
-				17E3EDC524B5B222007C1D72 /* FontHelper.swift */,
-				1748913224C6A53D00B5F6AF /* Imaging.swift */,
-				1701CFC42535646C00544F05 /* Snapshot.swift */,
 				175BA56425711F76001ED3A2 /* Locations.swift */,
-				175BA56725712A1A001ED3A2 /* SolarToday.swift */,
-				1700852A25773183002FD62F /* Geometry.swift */,
-				1723E697257E4870003CC24C /* InputValidation.swift */,
-				17F2D7112583257D00DD8023 /* AttributedText.swift */,
 				17DE2DC625906D3200214204 /* SecureStore.swift */,
+				1701CFC42535646C00544F05 /* Snapshot.swift */,
+				175BA56725712A1A001ED3A2 /* SolarToday.swift */,
+				17EF33C2247A961C00A5B55D /* SunGenerator.swift */,
+				17EF33A2247A699300A5B55D /* Utility.swift */,
+				1723C80224D54C4C00C41EEE /* UserRegion.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1999,7 +2010,6 @@
 				17EF33AF247A93DC00A5B55D /* Miscellaneous.swift */,
 				17EF33B1247A93ED00A5B55D /* Sun.swift */,
 				17EF33B3247A940800A5B55D /* OrbitalElements.swift */,
-				17EF33AB247A93A300A5B55D /* GeoPoint.swift */,
 				17C0FD6F25316402008F3D05 /* GroundTrack.swift */,
 				17C0FD722531648D008F3D05 /* TLE.swift */,
 			);
@@ -2142,15 +2152,16 @@
 		17FC2210249878F8005A0929 /* Ancillary */ = {
 			isa = PBXGroup;
 			children = (
-				17F4FFE625A407BB004A2EFA /* LiveDataStatus */,
-				175BA5562570D54F001ED3A2 /* Errors */,
 				17176C07254CFC220051960D /* EarthquakeViewer */,
-				179BE7C124ED02E40025B349 /* Today */,
-				1710D22324E661FE009B6BB7 /* StatusView */,
-				17A3788C24DD7DEC00EE2B45 /* UIExtensions */,
-				172F35AB24CFFBA900C8FDDC /* Indicators */,
+				175BA5562570D54F001ED3A2 /* Errors */,
 				1750043724B460F6006528A4 /* FontPicker */,
+				172F35AB24CFFBA900C8FDDC /* Indicators */,
+				17F4FFE625A407BB004A2EFA /* LiveDataStatus */,
 				17FC221124987996005A0929 /* LiveDataView */,
+				1710D22324E661FE009B6BB7 /* StatusView */,
+				17CC52C025B935E2002C7BE0 /* StatusView2 */,
+				179BE7C124ED02E40025B349 /* Today */,
+				17A3788C24DD7DEC00EE2B45 /* UIExtensions */,
 			);
 			path = Ancillary;
 			sourceTree = "<group>";
@@ -2448,6 +2459,7 @@
 				179EB780254FE40D00AADAAD /* PreferencePanelController.swift in Sources */,
 				179EB77D254FE3EF00AADAAD /* PreferencePanelWindow.swift in Sources */,
 				174B1CF125B42662003B33FE /* +Regions.swift in Sources */,
+				17CC52CA25B93A16002C7BE0 /* StatusBar3D.swift in Sources */,
 				175DCC5F2580970A00EB6D69 /* PreferencePanelProtocol.swift in Sources */,
 				17B7D7B224CED0A3000C077B /* SolidColorParameters.swift in Sources */,
 				174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */,
