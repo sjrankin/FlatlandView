@@ -19,6 +19,8 @@ class UserRegion: CustomStringConvertible
         IsFallback = false
         AlwaysInvisible = false
         IsEnabled = true
+        UpperLeft = GeoPoint(45.0, 120.0)
+        LowerRight = GeoPoint(40.0, 125.0)
         _ID = UUID()
     }
     
@@ -44,6 +46,7 @@ class UserRegion: CustomStringConvertible
     }
     
     /// Returns the string value of the region. Used for serialization.
+    /// - Note: Transient region data not serialized.
     var description: String
     {
         get
@@ -83,40 +86,179 @@ class UserRegion: CustomStringConvertible
         }
     }
     
+    /// Flag that indicates the region is transient - usually for when regions are created on the fly.
+    var IsTransient: Bool = false
+    
+    /// ID of the transient region. Defaults to `UUID.Empty`.
+    var TransientID: UUID = UUID.Empty
+    
     /// Enabled flag.
     var IsEnabled: Bool = true
+    
     /// If true, this is the fallback region, which is the entire world. Defaults to false.
     var IsFallback: Bool = false
+    
     /// If true, the region never has its area plotted on the map. Defaults to false.
     var AlwaysInvisible: Bool = false
+    
     /// The minimum magnitude to display.
     var MinimumMagnitude: Double = 5.0
+    
     /// The maximum magnitude to display.
     var MaximumMagnitude: Double = 10.0
+    
+    /// Holds the upper left point.
+    private var _UpperLeft: GeoPoint? = nil
+    {
+        didSet
+        {
+            if let UL = _UpperLeft
+            {
+            if let LR = _LowerRight
+            {
+                //Check to see if the region straddles the date line.
+                DoesStraddleDateLine(UL, LR)
+            }
+            }
+        }
+    }
     /// Upper-left corner of the region.
-    var UpperLeft: GeoPoint = GeoPoint(45.0, 120.0)
+    var UpperLeft: GeoPoint
+    {
+        get
+        {
+            if let SomePoint = _UpperLeft
+            {
+                return SomePoint
+            }
+            else
+            {
+                return GeoPoint(0.0, 0.0)
+            }
+        }
+        set
+        {
+            _UpperLeft = newValue
+        }
+    }
+    
+    /// Holds the lower right point.
+    private var _LowerRight: GeoPoint? = nil
+    {
+        didSet
+        {
+            if let LR = _LowerRight
+            {
+            if let UL = _UpperLeft
+            {
+                //Check to see if the region straddles the date line.
+                DoesStraddleDateLine(UL, LR)
+            }
+            }
+        }
+    }
     /// Lower-right corner of the region.
-    var LowerRight: GeoPoint = GeoPoint(40.0, 125.0)
+    var LowerRight: GeoPoint
+    {
+        get
+        {
+            if let SomePoint = _LowerRight
+            {
+                return SomePoint
+            }
+            else
+            {
+                return GeoPoint(0.0, 0.0)
+            }
+        }
+        set
+        {
+            _LowerRight = newValue
+        }
+    }
+    
     /// The name of the region.
     var RegionName: String = ""
+    
     /// The color of the border of the region.
     var RegionColor: NSColor = NSColor.red
+    
     /// The width of the earthquake region.
     var BorderWidth: Double = 0.0
+    
     /// How to display notifications.
     var Notification: EarthquakeNotifications = .None
+    
     /// Sound to play (depending on the value in `Notification`).
     var SoundName: NotificationSounds = .None
+    
     /// How many days in the past to display earthquakes.
     var Age: Int = 5
+    
     /// Notify on new earthquakes.
     var NotifyOnNewEarthquakes: Bool = false
+    
     /// Shape is rectangular. If false, shape is circular.
     var IsRectangular: Bool = true
+    
     /// Center of the circular region.
     var Center: GeoPoint = GeoPoint(0.0, 0.0)
+    
     /// Radius of the circular region.
     var Radius: Double = 0.0
+    
+    /// Holds the straddles date line flag.
+    private var _CrossesDateLine: Bool = false
+    /// Returns a flag indicating whether the region straddles the date line (`true`) or not (`false`).
+    var CrossesDateLine: Bool
+    {
+        get
+        {
+            return _CrossesDateLine
+        }
+    }
+    
+    /// Determines if the region specified in the passed points straddles the date line.
+    /// - Note: The results are stored in `_CrossesDateLine`.
+    /// - Parameter UL: The upper-left (north west) corner of the region.
+    /// - Parameter LR: The lower-right (south east) corner of the region.
+    func DoesStraddleDateLine(_ UL: GeoPoint, _ LR: GeoPoint)
+    {
+        if UL.Longitude >= 0.0 && LR.Longitude < 0.0
+        {
+            _CrossesDateLine = true
+            return
+        }
+        _CrossesDateLine = false
+    }
+    
+    /// Returns the east sub-region for regions that straddle the international date line.
+    /// - Returns: Tuple of the upper-left (north west) corner and lower-right (south east) corner of the
+    ///            eastern sub-region. If the region does *not* straddle the date line, nil is returned.
+    public func EastSubRegion() -> (UpperLeft: GeoPoint, LowerRight: GeoPoint)?
+    {
+        if !CrossesDateLine
+        {
+            return nil
+        }
+        let UL = GeoPoint(UpperLeft.Latitude, UpperLeft.Longitude)
+        let LR = GeoPoint(LowerRight.Latitude, 180.0)
+        return (UL, LR)
+    }
+    
+    /// Returns the west sub-region for regions that straddle the international date line.
+    /// - Returns: Tuple of the upper-left (north west) corner and lower-right (south east) corner of the
+    ///            western sub-region. If the region does *not* straddle the date line, nil is returned.
+    public func WestSubRegion() -> (UpperLeft: GeoPoint, LowerRight: GeoPoint)?
+    {
+        if !CrossesDateLine
+        {
+            return nil
+        }
+        let UL = GeoPoint(UpperLeft.Latitude, -180.0)
+        let LR = GeoPoint(LowerRight.Latitude, LowerRight.Longitude)
+        return (UL, LR)
+    }
     
     /// Decode a serialized user region.
     /// - Parameter Raw: The raw, user earthquake region.
@@ -221,7 +363,37 @@ class UserRegion: CustomStringConvertible
         }
     }
     
+    /// Determines if the passed point is within the passed rectangular region.
+    /// - Parameter Latitude: The latitude of the point to determine whether it is in the region or not.
+    /// - Parameter Longitude: The longitude of the point to determine whether it is in the region or not.
+    /// - Parameter UpperLeft: The upper-left (north east) point of the region.
+    /// - Parameter LowerRight: The lower-right (south west) point of the region.
+    /// - Returns: True if the passed point is in the passed region, false if not.
+    private func PointInBounds(Latitude: Double, Longitude: Double, UpperLeft: GeoPoint, LowerRight: GeoPoint) -> Bool
+    {
+        if Latitude < LowerRight.Latitude
+        {
+            return false
+        }
+        if Latitude > UpperLeft.Latitude
+        {
+            return false
+        }
+        if Longitude < UpperLeft.Longitude
+        {
+            return false
+        }
+        if Longitude > LowerRight.Longitude
+        {
+            return false
+        }
+        return true
+    }
+    
     /// Determines if the passed coordinate is within the defined region.
+    /// - Note: Rectangular regions that straddle the (virtual) international date line will take extra processing
+    ///         as the region must be split into eastern and western sub-regions and each sub-region checked
+    ///         separately.
     /// - Parameter Latitude: The latitude of the point to test.
     /// - Parameter Longitude: The longitude of the point to test.
     /// - Returns: True if the passed point is in the region, false if not.
@@ -229,29 +401,21 @@ class UserRegion: CustomStringConvertible
     {
         if IsRectangular
         {
-            let TestLat = Latitude + 90.0
-            let TestLon = Longitude + 180.0
-            let Lat1 = UpperLeft.Latitude + 90.0
-            let Lon1 = UpperLeft.Longitude + 180.0
-            let Lat2 = LowerRight.Latitude + 90.0
-            let Lon2 = LowerRight.Longitude + 180.0
-            if TestLat < Lat1
+            if CrossesDateLine
             {
+                if let (EastUL, EastLR) = EastSubRegion()
+                {
+                    if let (WestUL, WestLR) = WestSubRegion()
+                    {
+                        let InEasternSubRegion = PointInBounds(Latitude: Latitude, Longitude: Longitude, UpperLeft: EastUL, LowerRight: EastLR)
+                        let InWesternSubRegion = PointInBounds(Latitude: Latitude, Longitude: Longitude, UpperLeft: WestUL, LowerRight: WestLR)
+                        let IsInRegion = InEasternSubRegion || InWesternSubRegion
+                        return IsInRegion
+                    }
+                }
                 return false
             }
-            if TestLat > Lat2
-            {
-                return false
-            }
-            if TestLon < Lon1
-            {
-                return false
-            }
-            if TestLon > Lon2
-            {
-                return false
-            }
-            return true
+            return PointInBounds(Latitude: Latitude, Longitude: Longitude, UpperLeft: UpperLeft, LowerRight: LowerRight)
         }
         else
         {
