@@ -102,7 +102,14 @@ class POIPopover: NSViewController, NSPopoverDelegate
                 LocationValue.font = NSFont.boldSystemFont(ofSize: 13.0)
                 if let IsInDay = Solar.IsInDaylight(Lat, Lon)
                 {
-                    DescriptionLabel.stringValue = "Is in daylight: \(IsInDay)"
+                    if IsInDay
+                    {
+                    DescriptionLabel.stringValue = "Location is in daylight."
+                    }
+                    else
+                    {
+                        DescriptionLabel.stringValue = "Sun below the horizon."
+                    }
                 }
                 else
                 {
