@@ -542,6 +542,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var SolarTimeMenu: NSMenuItem? = nil
     var PinnedTimeMenu: NSMenuItem? = nil
     var DeltaTimeMenu: NSMenuItem? = nil
+    var ClearSearchMenu: NSMenuItem? = nil
     #if DEBUG
     var DebugMenu: NSMenuItem? = nil
     var RotateTo0Menu: NSMenuItem? = nil
@@ -556,6 +557,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     // The current mouse location over the Earth. If the mouse is not over the Earth, this value is set
     // to nil.
     var CurrentMouseLocation: CGPoint? = nil
+    var SearchedNodeIcons: [SCNNode2] = [SCNNode2]()
     
     var CurrentMouseLatitude: Double = 0.0
     var CurrentMouseLongitude: Double = 0.0
@@ -567,4 +569,15 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var MouseClickReceiver: RegionMouseClickProtocol? = nil
     var UpperLeftNode: SCNNode2? = nil
     var LowerRightNode: SCNNode2? = nil
+    var MousePointerType: MousePointerTypes = .Normal
+    var MostRecentMouseLatitude: Double = 0.0
+    var MostRecentMouseLongitude: Double = 0.0
+    var TransientRegions = [UserRegion]()
+}
+
+enum MousePointerTypes: String, CaseIterable
+{
+    case Normal = "Normal"
+    case StartPin = "StartPin"
+    case EndPin = "EndPin"
 }
