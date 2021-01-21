@@ -280,9 +280,11 @@ class MainController: NSViewController
             let TooltipText = Locked ? "Currently locked: Click to unlock world scenes" :
                                        "Currently unlocked: Click to reset then lock world scenes"
             WindowController.WorldLockButton.toolTip = TooltipText
+            #if false
             let NewImage = Locked ? NSImage(systemSymbolName: "lock.rotation", accessibilityDescription: nil) :
                                     NSImage(systemSymbolName: "lock.rotation.open", accessibilityDescription: nil)
             WindowController.WorldLockToolbarItem.image = NewImage
+            #endif
             WindowController.WorldLockToolbarItem.label = Locked ? "Locked" : "Unlocked"
             WindowController.WorldLockButton.contentTintColor = Locked ? NSColor(named: "ControlRed") : NSColor(named: "ControlGreen")
             let LockMenu = GetAppDelegate().LockUnlockMenuItem
