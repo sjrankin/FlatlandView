@@ -21,10 +21,19 @@ extension GlobeView
         Settings.ToggleBool(.FollowMouse)
         if !Settings.GetBool(.FollowMouse)
         {
-            MouseIndicator?.removeAllActions()
-            MouseIndicator?.removeAllAnimations()
-            MouseIndicator?.removeFromParentNode()
-            MouseIndicator = nil
+            RemoveMousePointer()
+        }
+    }
+    
+    func SetMouseTracking(Track: Bool)
+    {
+        if Track
+        {
+            PlotMouseIndicator()
+        }
+        else
+        {
+            RemoveMousePointer()
         }
     }
     
@@ -122,6 +131,12 @@ extension GlobeView
         return (Latitude, Longitude)
     }
     
+    func PlotMouseIndicator()
+    {
+        RemoveMousePointer()
+        PlotMouseIndicator(Latitude: MostRecentMouseLatitude, Longitude: MostRecentMouseLongitude)
+    }
+    
     /// Draw the mouse indicator on the surface of the globe.
     /// - Note: This has the potential to be distracting to the user...
     /// - Parameter Latitude: The latitude of where to draw the indicator.
@@ -133,6 +148,8 @@ extension GlobeView
             MouseIndicator = MakeMouseIndicator()
             EarthNode?.addChildNode(MouseIndicator!)
         }
+        MostRecentMouseLatitude = Latitude
+        MostRecentMouseLongitude = Longitude
         let (X, Y, Z) = ToECEF(Latitude, Longitude,
                                Radius: Double(GlobeRadius.Primary.rawValue) + Double(MouseShape.RadialOffset.rawValue))
         MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude, Caller: "Globe")
@@ -228,9 +245,38 @@ extension GlobeView
         }
     }
     
+    /// Remove the mouse pointe from the Earth.
+    func RemoveMousePointer()
+    {
+        MouseIndicator?.removeAllActions()
+        MouseIndicator?.removeAllAnimations()
+        MouseIndicator?.removeFromParentNode()
+        MouseIndicator = nil
+    }
+    
     /// Make a mouse indicator for the globe.
-    /// - Returns: A shape to use for the indicator.
+    /// - Note: The shape returned is dependent on the value of `MousePointerType`.
+    /// - Returns: A shape to use as a mouse location indicator.
     func MakeMouseIndicator() -> SCNNode2
+    {
+        RemoveMousePointer()
+        switch MousePointerType
+        {
+            case .Normal:
+                return MakeNormalMouseIndicator()
+                
+            case .EndPin:
+                return MakePlottedPin(MostRecentMouseLatitude, MostRecentMouseLongitude, Color: NSColor.red)
+                
+            case .StartPin:
+                return MakePlottedPin(MostRecentMouseLatitude, MostRecentMouseLongitude, Color: NSColor.green)
+        }
+    }
+    
+    /// Make a mouse indicator for the globe. This is the normal type of mouse indicator which merely indicates
+    /// location and not an ongoing function.
+    /// - Returns: A shape to use for the indicator.
+    func MakeNormalMouseIndicator() -> SCNNode2
     {
         let top = SCNCone(topRadius: CGFloat(MouseShape.PointRadius.rawValue),
                           bottomRadius: CGFloat(MouseShape.BottomRadius.rawValue),
