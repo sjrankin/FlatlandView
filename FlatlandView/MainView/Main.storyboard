@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17701"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -414,6 +415,13 @@
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="dyj-iO-Xvv"/>
+                                                    <menuItem title="Toggle Mouse Tracking" id="T1k-pi-RxE">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="ToggleMouseTracking:" target="vAH-R8-aOX" id="lDl-2b-h91"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem isSeparatorItem="YES" id="uwC-T6-lvr"/>
                                                     <menuItem title="Test Captive Dialog" id="TBr-z5-Cyc">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
@@ -550,6 +558,12 @@
                                             <constraint firstItem="ABV-Rw-XMN" firstAttribute="centerY" secondItem="NAV-Li-XZu" secondAttribute="centerY" id="Gru-fw-3vz"/>
                                         </constraints>
                                     </customView>
+                                    <sceneView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G4R-iP-zf5" customClass="StatusBar3D" customModule="Flatland" customModuleProvider="target">
+                                        <rect key="frame" x="100" y="5" width="800" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="Onc-YX-J9y"/>
+                                        </constraints>
+                                    </sceneView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="c9p-QS-cDp">
                                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                                         <subviews>
@@ -702,7 +716,9 @@
                                     </customView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="G4R-iP-zf5" firstAttribute="leading" secondItem="Y2c-Ca-qhF" secondAttribute="leading" constant="100" id="4qr-0V-e74"/>
                                     <constraint firstAttribute="trailing" secondItem="NAV-Li-XZu" secondAttribute="trailing" constant="100" id="5Cs-YE-qow"/>
+                                    <constraint firstAttribute="trailing" secondItem="G4R-iP-zf5" secondAttribute="trailing" constant="100" id="6jj-Lk-V9f"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="leading" secondItem="svV-Ad-1ju" secondAttribute="leading" id="6oW-1c-h6u"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="trailing" secondItem="svV-Ad-1ju" secondAttribute="trailing" id="7ZM-g8-3Bn"/>
                                     <constraint firstAttribute="bottom" secondItem="UlV-IY-Q92" secondAttribute="bottom" constant="40" id="8AM-dF-Czy"/>
@@ -754,6 +770,9 @@
                         <outlet property="MainTimeLabelTop" destination="Iq2-x8-FBV" id="1pC-lg-ZK9"/>
                         <outlet property="PrimaryView" destination="6id-Tb-uKs" id="SgK-oT-a85"/>
                         <outlet property="Rect2DView" destination="qi4-7r-za1" id="P7U-lU-wEE"/>
+                        <outlet property="Status3DLeftConstraint" destination="4qr-0V-e74" id="5aQ-wp-MpB"/>
+                        <outlet property="Status3DRightConstraint" destination="6jj-Lk-V9f" id="vfZ-2y-BuY"/>
+                        <outlet property="StatusBar2" destination="G4R-iP-zf5" id="qgA-xI-eNx"/>
                         <outlet property="StatusTextContainer" destination="NAV-Li-XZu" id="tp6-uD-GUq"/>
                         <outlet property="StatusTextContainerLeftConstraint" destination="S8l-rB-OHs" id="gLf-mY-X1y"/>
                         <outlet property="StatusTextContainerRightConstraint" destination="5Cs-YE-qow" id="7zl-NP-Gmb"/>
