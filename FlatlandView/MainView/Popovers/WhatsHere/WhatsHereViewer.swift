@@ -91,16 +91,21 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         {
             LocationManager.Main = MainDelegate
         }
-        let LookFor: [LocationTypes] = [.City, .Earthquake, .Home, .UNESCO, .UserPOI]
+        let LookFor: [LocationTypes] = [.City, .Earthquake, .Home, .UNESCO, .UserPOI, .Region]
         let CloseBy = LocationManager.WhatIsCloseTo(Latitude: SourceLatitude!,
                                                     Longitude: SourceLongitude!,
                                                     CloseIs: DistanceToUse,
                                                     ForLocations: LookFor)
         for SomethingClose in CloseBy
         {
+            var FinalName = SomethingClose.Name
+            if SomethingClose.LocationType == .Region
+            {
+                FinalName = "\(FinalName) region"
+            }
             NearTable.append((SomethingClose.Distance,
                               GeoPoint(SomethingClose.Latitude, SomethingClose.Longitude),
-                              SomethingClose.Name,
+                              FinalName,
                               SomethingClose.LocationType))
         }
         let Plural = CloseBy.count != 1 ? "s" : ""
@@ -161,43 +166,43 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         
         if tableColumn == tableView.tableColumns[0]
         {
+            let IconBox = NSImageView(frame: NSRect(origin: CGPoint.zero, size: CGSize(width: 24, height: 24)))
             var IconName = ""
             var ToolTipText = ""
             switch NearTable[row].LocType
             {
                 case .City:
-                    IconName = "CityIcon"
                     ToolTipText = "Location is a city"
+                    IconName = "building.2"
                     
                 case .Earthquake:
-                    IconName = "EventIcon"
                     ToolTipText = "Location is an earthquake"
+                    IconName = "waveform.path"
                     
                 case .Home:
-                    IconName = "HomeTypeIcon"
                     ToolTipText = "Location is your home location"
+                    IconName = "house"
                     
                 case .UNESCO:
-                    IconName = "UNESCOTypeIcon"
                     ToolTipText = "Location is a World Heritage Site"
+                    IconName = "globe"
                     
                 case .UserPOI:
-                    IconName = "POITypeIcon"
                     ToolTipText = "Location is a point-of-interest"
+                    IconName = "pin.fill"
                     
                 case .UserPoint:
-                    IconName = "SearchTypeIcon"
                     ToolTipText = "Location is where you started searching"
+                    IconName = "magnifyingglass.circle.fill"
                     
-                default:
-                    IconName = "UnknownTypeIcon"
-                    ToolTipText = "Location is an unknown type"
+                case .Region:
+                    ToolTipText = "Region you defined"
+                    IconName = "rectangle.inset.bottomright.fill"
             }
-            let IView = NSImageView(frame: NSRect(origin: CGPoint.zero, size: CGSize(width: 32, height: 32)))
-            IView.image = NSImage(named: IconName)
-            IView.toolTip = ToolTipText
-            return IView
-            
+            IconBox.toolTip = ToolTipText
+            let Icon = NSImage(systemSymbolName: IconName, accessibilityDescription: nil)
+            IconBox.image = Icon
+            return IconBox
         }
         if tableColumn == tableView.tableColumns[1]
         {
