@@ -425,6 +425,9 @@ extension GlobeView: SettingChangedProtocol
             case .HourScale:
                 UpdateHours()
                 
+            case .FollowMouse:
+                SetMouseTracking(Track: Settings.GetBool(.FollowMouse))
+                
             default:
                 return
         }
