@@ -123,6 +123,22 @@ extension GlobeView: RegionEntryProtocol
         return PinNode
     }
     
+    /// Remove pins plotted on the globe when defining a rectangular region.
+    func RemovePins()
+    {
+        for Node in EarthNode!.childNodes
+        {
+            if Node.name == GlobeNodeNames.PinnedLocationNode.rawValue
+            {
+                Node.removeAllActions()
+                Node.removeAllAnimations()
+                Node.removeFromParentNode()
+            }
+        }
+        UpperLeftNode = nil
+        LowerRightNode = nil
+    }
+    
     /// Called by the region creation dialog to plot the upper-left (northwest) corner of a region.
     /// - Parameter Latitude: The latitude of the corner.
     /// - Parameter Longitude: The longitude of the corner.
@@ -185,6 +201,12 @@ extension GlobeView: RegionEntryProtocol
         MouseIndicator = nil
         MousePointerType = .Normal
         PlotMouseIndicator()
+    }
+    
+    /// Removes the mouse pointer (regardless of shape).
+    func ClearMousePointer()
+    {
+        RemoveMousePointer()
     }
     
     /// Plot a transient region.
