@@ -29,6 +29,7 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
         super.viewWillAppear()
         ParentWindow = self.view.window
         ParentWindow?.delegate = self
+        ParentDelegate?.ClearMousePointer()
         ParentDelegate?.SetStartPin()
     }
     
@@ -135,7 +136,9 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
         {
             NSColorPanel.shared.close()
         }
+        ParentDelegate?.ClearMousePointer()
         ParentDelegate?.ResetMousePointer()
+        ParentDelegate?.RemovePins()
         ParentDelegate?.RegionEntryCompleted(Name: RegionNameField.stringValue, Color: RegionColor,
                                              Corner1: Point1, Corner2: Point2)
         self.view.window?.close()
@@ -147,8 +150,10 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
         {
             NSColorPanel.shared.close()
         }
+        ParentDelegate?.ClearMousePointer()
         ParentDelegate?.ResetMousePointer()
         ParentDelegate?.RegionEntryCanceled()
+        ParentDelegate?.RemovePins()
         self.view.window?.close()
     }
     
@@ -172,7 +177,10 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
             ParentDelegate?.PlotUpperLeftCorner(Latitude: At.Latitude, Longitude: At.Longitude)
             ClickCount = 1
             ParentDelegate?.SetEndPin()
-            ParentDelegate?.RemoveTransientRegion(ID: TransientID!)
+            if let OldTransientID = TransientID
+            {
+                ParentDelegate?.RemoveTransientRegion(ID: OldTransientID)
+            }
             TransientID = nil
         }
         else
