@@ -541,24 +541,7 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Y2c-Ca-qhF">
                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                                 <subviews>
-                                    <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NAV-Li-XZu">
-                                        <rect key="frame" x="100" y="5" width="800" height="30"/>
-                                        <subviews>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ABV-Rw-XMN">
-                                                <rect key="frame" x="8" y="6" width="43" height="19"/>
-                                                <textFieldCell key="cell" lineBreakMode="clipping" allowsUndo="NO" alignment="left" title="Label" id="lwU-nG-sil">
-                                                    <font key="font" metaFont="systemSemibold" size="15"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="AQ2-eT-Vfb"/>
-                                            <constraint firstItem="ABV-Rw-XMN" firstAttribute="centerY" secondItem="NAV-Li-XZu" secondAttribute="centerY" id="Gru-fw-3vz"/>
-                                        </constraints>
-                                    </customView>
-                                    <sceneView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G4R-iP-zf5" customClass="StatusBar3D" customModule="Flatland" customModuleProvider="target">
+                                    <sceneView translatesAutoresizingMaskIntoConstraints="NO" id="G4R-iP-zf5" customClass="StatusBar3D" customModule="Flatland" customModuleProvider="target">
                                         <rect key="frame" x="100" y="5" width="800" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="Onc-YX-J9y"/>
@@ -717,7 +700,6 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="G4R-iP-zf5" firstAttribute="leading" secondItem="Y2c-Ca-qhF" secondAttribute="leading" constant="100" id="4qr-0V-e74"/>
-                                    <constraint firstAttribute="trailing" secondItem="NAV-Li-XZu" secondAttribute="trailing" constant="100" id="5Cs-YE-qow"/>
                                     <constraint firstAttribute="trailing" secondItem="G4R-iP-zf5" secondAttribute="trailing" constant="100" id="6jj-Lk-V9f"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="leading" secondItem="svV-Ad-1ju" secondAttribute="leading" id="6oW-1c-h6u"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="trailing" secondItem="svV-Ad-1ju" secondAttribute="trailing" id="7ZM-g8-3Bn"/>
@@ -727,7 +709,6 @@
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="leading" secondItem="qi4-7r-za1" secondAttribute="leading" id="JfZ-ch-R5b"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="trailing" secondItem="Zfw-8N-1gC" secondAttribute="trailing" id="Jr5-cz-mnC"/>
                                     <constraint firstItem="Iq2-x8-FBV" firstAttribute="top" secondItem="Y2c-Ca-qhF" secondAttribute="top" constant="10" id="L6l-v1-uDJ"/>
-                                    <constraint firstItem="NAV-Li-XZu" firstAttribute="leading" secondItem="Y2c-Ca-qhF" secondAttribute="leading" constant="100" id="S8l-rB-OHs"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="top" secondItem="svV-Ad-1ju" secondAttribute="top" id="Vag-2C-YXT"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="leading" secondItem="Zfw-8N-1gC" secondAttribute="leading" id="W0I-bA-a7E"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="top" secondItem="qi4-7r-za1" secondAttribute="top" id="flr-gr-05I"/>
@@ -735,6 +716,7 @@
                                     <constraint firstAttribute="bottom" secondItem="c9p-QS-cDp" secondAttribute="bottom" id="k6W-wT-uRA"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="trailing" secondItem="qi4-7r-za1" secondAttribute="trailing" id="kuV-lE-isJ"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="centerX" secondItem="Iq2-x8-FBV" secondAttribute="centerX" id="mA4-ny-7TZ"/>
+                                    <constraint firstAttribute="bottom" secondItem="G4R-iP-zf5" secondAttribute="bottom" constant="5" id="mWc-dv-Jxd"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="leading" secondItem="Y2c-Ca-qhF" secondAttribute="leading" id="vzX-kw-LMJ"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="top" secondItem="Zfw-8N-1gC" secondAttribute="top" id="xJI-kW-kdA"/>
                                     <constraint firstItem="c9p-QS-cDp" firstAttribute="bottom" secondItem="Zfw-8N-1gC" secondAttribute="bottom" id="y6e-3i-jhR"/>
@@ -772,11 +754,7 @@
                         <outlet property="Rect2DView" destination="qi4-7r-za1" id="P7U-lU-wEE"/>
                         <outlet property="Status3DLeftConstraint" destination="4qr-0V-e74" id="5aQ-wp-MpB"/>
                         <outlet property="Status3DRightConstraint" destination="6jj-Lk-V9f" id="vfZ-2y-BuY"/>
-                        <outlet property="StatusBar2" destination="G4R-iP-zf5" id="qgA-xI-eNx"/>
-                        <outlet property="StatusTextContainer" destination="NAV-Li-XZu" id="tp6-uD-GUq"/>
-                        <outlet property="StatusTextContainerLeftConstraint" destination="S8l-rB-OHs" id="gLf-mY-X1y"/>
-                        <outlet property="StatusTextContainerRightConstraint" destination="5Cs-YE-qow" id="7zl-NP-Gmb"/>
-                        <outlet property="StatusTextField" destination="ABV-Rw-XMN" id="wV2-KG-E75"/>
+                        <outlet property="StatusBar" destination="G4R-iP-zf5" id="qgA-xI-eNx"/>
                         <outlet property="UptimeLabel" destination="hB7-Jd-LMG" id="egy-bi-1kP"/>
                         <outlet property="UptimeValue" destination="nJR-aJ-l3k" id="bxn-h0-y3z"/>
                         <outlet property="VersionLabel" destination="QkX-vn-KDb" id="7Jt-Th-gp2"/>
