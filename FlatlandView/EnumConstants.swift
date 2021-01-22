@@ -645,7 +645,7 @@ enum StatusBarConstants: Double, CaseIterable
     /// Number of seconds for the initial message (the version number) shows.
     case InitialMessageDuration = 10.0
     /// Maximum number of seconds to show the "getting earthquake data" message.
-    case EarthquakeWaitingDuration = 600.0
+    case EarthquakeWaitingDuration = 60.001
     /// Horizontal text offset for small width status bars.
     case SmallBarOffset = -27.0
     /// Horizontal text offset for wide width status bars.
