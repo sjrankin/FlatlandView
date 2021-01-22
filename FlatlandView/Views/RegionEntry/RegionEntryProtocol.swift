@@ -40,4 +40,8 @@ protocol RegionEntryProtocol: class
     func RemoveTransientRegions()
     /// Remove the specified transient region.
     func RemoveTransientRegion(ID: UUID)
+    /// Clear the mouse pointer.
+    func ClearMousePointer()
+    /// Removes plotted pins.
+    func RemovePins()
 }
