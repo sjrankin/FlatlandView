@@ -137,11 +137,7 @@ extension MainController: MainProtocol
     /// - Parameter Text: The text to display.
     func SetStatusText(_ Text: String)
     {
-        #if true
-        StatusBar2.ShowStatusText(Text)
-        #else
-        ShowStatusText(Text)
-        #endif
+        StatusBar.ShowStatusText(Text)
     }
     
     /// Sends the passed text to the simple status display.
@@ -150,21 +146,13 @@ extension MainController: MainProtocol
     ///                        it is displayed.
     func SetDisappearingStatusText(_ Text: String, HideAfter: Double)
     {
-        #if true
-        StatusBar2.ShowStatusText(Text, For: HideAfter)
-        #else
-        ShowStatusText(Text, For: HideAfter)
-        #endif
+        StatusBar.ShowStatusText(Text, For: HideAfter)
     }
     
     /// Clears the status display of text.
     func ClearStatusText()
     {
-        #if true
-        StatusBar2.ShowStatusText("")
-        #else
-        ShowStatusText("")
-        #endif
+        StatusBar.ShowStatusText("")
     }
     
     /// Push a message to the status bar. It will show up for `PeristFor` seconds when no other
@@ -173,21 +161,13 @@ extension MainController: MainProtocol
     /// - Parameter PersistFor: How long to persist the message.
     func PushStatusMessage(_ Text: String, PersistFor: Double)
     {
-        #if true
-        StatusBar2.PushMessage(Text, Duration: PersistFor, ID: UUID())
-        #else
-        PushMessage(Text, Duration: PersistFor, ID: UUID())
-        #endif
+        StatusBar.PushMessage(Text, Duration: PersistFor, ID: UUID())
     }
     
     /// Remove any pushed messages.
     func RemovePushStatusMessage()
     {
-        #if true
-        StatusBar2.RemovePushedMessage()
-        #else
-        RemovePushedMessage()
-        #endif
+        StatusBar.RemovePushedMessage()
     }
     
     /// Force an exit of Flatland.
