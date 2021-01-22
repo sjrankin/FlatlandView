@@ -461,11 +461,27 @@ class StatusBar3D: SCNView
         _IsVisible = Show
         if Show
         {
-            self.isHidden = false
+            let FadeIn = SCNAction.fadeIn(duration: 0.25)
+            self.scene?.rootNode.runAction(FadeIn)
+            {
+                self.isHidden = false
+                DispatchQueue.main.async
+                {
+                    self.alphaValue = 1.0
+                }
+            }
         }
         else
         {
-            self.isHidden = true
+            let FadeOut = SCNAction.fadeOut(duration: 1.0)
+            self.scene?.rootNode.runAction(FadeOut)
+            {
+                self.isHidden = true
+                DispatchQueue.main.async
+                {
+                    self.alphaValue = 0.0
+                }
+            }
         }
     }
     
