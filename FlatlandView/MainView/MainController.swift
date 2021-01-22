@@ -105,14 +105,8 @@ class MainController: NSViewController
     override func viewDidLayout()
     {
         InterfaceInitialization()
-        #if false
-        StatusBar2.isHidden = true
-        InitializeSimpleStatus()
-        #else
-        StatusBar2.SetConstraints(Left: Status3DLeftConstraint, Right: Status3DRightConstraint)
-        StatusBar2.isHidden = false
-        StatusTextContainer.isHidden = true
-        #endif
+        StatusBar.SetConstraints(Left: Status3DLeftConstraint, Right: Status3DRightConstraint)
+        StatusBar.SetVisibility(Settings.GetBool(.ShowStatusBar))
         InitializeFlatland()
         NotificationCenter.default.addObserver(self, selector: #selector(HandlePrimaryViewContentsSizeChange),
                                                name: NSView.frameDidChangeNotification, object: PrimaryView)
@@ -148,17 +142,10 @@ class MainController: NSViewController
         SetWorldLock(Settings.GetBool(.WorldIsLocked))
         SetMouseLocationVisibility(Visible: Settings.GetBool(.FollowMouse))
         
-        #if true
-        StatusBar2.ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
+        StatusBar.ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
                        For: StatusBarConstants.InitialMessageDuration.rawValue)
-        StatusBar2.AddQueuedMessage("Getting earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
+        StatusBar.AddQueuedMessage("Getting earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
                          ID: EQMessageID)
-        #else
-        ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
-                       For: StatusBarConstants.InitialMessageDuration.rawValue)
-        AddQueuedMessage("Getting earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
-                         ID: EQMessageID)
-        #endif
         
         InitializeWorldClock()
     }
@@ -836,20 +823,6 @@ class MainController: NSViewController
     static var UserPOIs = [POI2]()
     /// User homes from the POI database.
     static var UserHomes = [POI2]()
-    /// Timer for hiding simple status text over time.
-    var RemoveTextTimer: Timer? = nil
-    /// Timer for reducing the alpha of the status text container.
-    var InsignificanceTimer: Timer? = nil
-    /// How long before the status text is reduced in alpha.
-    var LastInsignificanceDuration: Double = 60.0
-    /// Queued messages for the status bar.
-    var StatusMessageQueue = Queue<QueuedMessage>()
-    /// ID of the current message in the simple status bar.
-    var CurrentMessageID: UUID = UUID()
-    /// Lock to prevent races on the status bar.
-    var StatusBarLock: NSObject = NSObject()
-    /// Pushed message.
-    var PushedMessage: QueuedMessage? = nil
     
     // MARK: - World clock variables.
     var WorldClockTimer: Timer? = nil
@@ -861,10 +834,6 @@ class MainController: NSViewController
     var ParentWindow: NSWindow? = nil
     
     // MARK: - Storyboard outlets
-    @IBOutlet weak var StatusTextField: NSTextField!
-    @IBOutlet weak var StatusTextContainerRightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var StatusTextContainerLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var StatusTextContainer: NSView!
     @IBOutlet var PrimaryView: ParentView!
     @IBOutlet weak var Main2DView: FlatView!
     @IBOutlet weak var Rect2DView: RectangleView!
@@ -873,7 +842,7 @@ class MainController: NSViewController
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var BackgroundView: NSView!
     @IBOutlet weak var ContentView: NSView!
-    @IBOutlet weak var StatusBar2: StatusBar3D!
+    @IBOutlet weak var StatusBar: StatusBar3D!
     @IBOutlet weak var Status3DLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var Status3DRightConstraint: NSLayoutConstraint!
     
