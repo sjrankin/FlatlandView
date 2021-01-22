@@ -170,7 +170,6 @@
 		176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */; };
 		177389382596D511002698E8 /* +Rotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177389372596D511002698E8 /* +Rotations.swift */; };
 		1773893C25971771002698E8 /* +Menus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1773893B25971771002698E8 /* +Menus.swift */; };
-		1774BD75256E417100D927F3 /* +SimpleStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1774BD74256E417100D927F3 /* +SimpleStatus.swift */; };
 		177709D62592104E0092CDC0 /* +NodeEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177709D52592104E0092CDC0 /* +NodeEvents.swift */; };
 		177D0F5F2547F04700CD5041 /* MTLTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177D0F5E2547F04700CD5041 /* MTLTexture.swift */; };
 		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
@@ -601,7 +600,6 @@
 		176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController.swift; sourceTree = "<group>"; };
 		177389372596D511002698E8 /* +Rotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Rotations.swift"; sourceTree = "<group>"; };
 		1773893B25971771002698E8 /* +Menus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Menus.swift"; sourceTree = "<group>"; };
-		1774BD74256E417100D927F3 /* +SimpleStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+SimpleStatus.swift"; sourceTree = "<group>"; };
 		177709D52592104E0092CDC0 /* +NodeEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+NodeEvents.swift"; sourceTree = "<group>"; };
 		177D0F5E2547F04700CD5041 /* MTLTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTLTexture.swift; sourceTree = "<group>"; };
 		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
@@ -2113,7 +2111,6 @@
 				17897C922514AB6E00544DE1 /* +MainTimeAndSun.swift */,
 				17897C8C2514AAB300544DE1 /* +MainTimers.swift */,
 				17897C892514AA6C00544DE1 /* +MainWindowing.swift */,
-				1774BD74256E417100D927F3 /* +SimpleStatus.swift */,
 				1718271625B15F3E00041826 /* +Threading.swift */,
 				1720013C258C7F9A00EF2A72 /* +WorldClock.swift */,
 			);
@@ -2569,7 +2566,6 @@
 				173056C02553E7C700B1D4C9 /* +FollowMode.swift in Sources */,
 				17176C0D254CFE210051960D /* EarthquakeViewerController.swift in Sources */,
 				1760023424D2BEF800D5EA1A /* Double.swift in Sources */,
-				1774BD75256E417100D927F3 /* +SimpleStatus.swift in Sources */,
 				17F9B001252035B300DE0219 /* +NotifiedEarthquakeList.swift in Sources */,
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
 				1759AE68249F8215003F79F5 /* OtherLocationsWindow.swift in Sources */,
