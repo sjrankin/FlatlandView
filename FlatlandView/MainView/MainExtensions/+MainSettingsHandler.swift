@@ -176,7 +176,7 @@ extension MainController: SettingChangedProtocol
                 }
                 
             case .ShowStatusBar:
-                StatusBar2.SetVisibility(Settings.GetBool(.ShowStatusBar)) 
+                StatusBar.SetVisibility(Settings.GetBool(.ShowStatusBar)) 
                 
             default:
                 return
