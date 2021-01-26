@@ -17,6 +17,13 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        HelpButtons.append(ShowGridLineHelpButton)
+        HelpButtons.append(GridLineColorHelpButton)
+        HelpButtons.append(BackgroundColorHelpButton)
+        HelpButtons.append(FlatMapNightLevelHelpButton)
+        HelpButtons.append(PoleShapeHelpButton)
+        SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
     }
     
     @IBAction func HandleHelpButton(_ sender: Any)
@@ -54,6 +61,17 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
         
     }
     
+    func SetHelpVisibility(To: Bool)
+    {
+        for HelpButton in HelpButtons
+        {
+            HelpButton.alphaValue = To ? 1.0 : 0.0
+            HelpButton.isEnabled = To ? true : false
+        }
+    }
+    
+    var HelpButtons: [NSButton] = [NSButton]()
+
     @IBOutlet weak var ShowGridLineHelpButton: NSButton!
     @IBOutlet weak var GridLineColorHelpButton: NSButton!
     @IBOutlet weak var BackgroundColorHelpButton: NSButton!
