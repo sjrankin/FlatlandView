@@ -28,6 +28,8 @@ class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
         }
         MapNameLabel.stringValue = ""
         MapTable.reloadData()
+        HelpButtons.append(MapSampleHelpButton)
+        SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
     }
     
     var AllMaps: [MapNode]!
@@ -200,7 +202,18 @@ class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
         }
     }
     
+    func SetHelpVisibility(To: Bool)
+    {
+        for HelpButton in HelpButtons
+        {
+            HelpButton.alphaValue = To ? 1.0 : 0.0
+            HelpButton.isEnabled = To ? true : false
+        }
+    }
+    
     var InDarkMode = false
+    
+    var HelpButtons: [NSButton] = [NSButton]()
     
     @IBOutlet weak var MapSampleHelpButton: NSButton!
     @IBOutlet weak var MapNameLabel: NSTextField!
