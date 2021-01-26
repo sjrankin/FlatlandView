@@ -23,4 +23,8 @@ class SatellitePreferences: NSViewController, PreferencePanelProtocol
     {
         
     }
+    
+    func SetHelpVisibility(To: Bool)
+    {
+    }
 }
