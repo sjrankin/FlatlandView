@@ -201,6 +201,7 @@ extension RectangleView
     
     @objc func Context_EditQuakeRegion(_ sender: Any)
     {
+        #if false
         let Storyboard = NSStoryboard(name: "SubPanels", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeRegionWindow2") as? EarthquakeRegionWindow2
         {
@@ -211,6 +212,7 @@ extension RectangleView
                 WindowController.showWindow(nil)
             }
         }
+        #endif
     }
     
     @objc func Context_MakeCircularRegion(_ sender: Any)
