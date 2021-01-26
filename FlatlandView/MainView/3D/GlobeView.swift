@@ -520,6 +520,8 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     /// Holds all of the regions.
     var RegionNode: SCNNode2? = nil
     var RegionLayer: CAShapeLayer? = nil
+    var TransientRegionNode: SCNNode2? = nil
+    var TransientRegionLayer: CAShapeLayer? = nil
     var PlottedEarthquakes = Set<String>()
     var POIMenu: NSMenuItem? = nil
     var AddEditHomeMenu: NSMenuItem? = nil
