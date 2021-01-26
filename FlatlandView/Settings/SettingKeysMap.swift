@@ -205,7 +205,10 @@ extension Settings
             .SearchForLocation: Bool.self,
             .InputUnit: InputUnits.self,
             .InterfaceStyle: InterfaceStyles.self,
+            .ColorInputType: InputTypes.self,
+            .ColorPickerColorspace: PickerColorspaces.self,
             .ShowUserPOIs: Bool.self,
+            .ShowUIHelp: Bool.self,
             // MARK: - Debugging settings
             .Debug_EnableClockControl: Bool.self,
             .Debug_ClockDebugMap: Debug_MapTypes.self,
