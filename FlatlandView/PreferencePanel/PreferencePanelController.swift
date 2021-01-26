@@ -10,7 +10,8 @@ import Foundation
 import AppKit
 
 // https://stackoverflow.com/questions/51672124/how-can-dark-mode-be-detected-on-macos-10-14
-class PreferencePanelController: NSViewController, WindowManagement, PreferencePanelControllerProtocol
+class PreferencePanelController: NSViewController, WindowManagement, PreferencePanelControllerProtocol,
+                                  SettingChangedProtocol
 {
     public weak var MainDelegate: MainProtocol? = nil
     
@@ -20,6 +21,7 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     {
         super.viewDidLoad()
         let CurrentAppearance = self.view.effectiveAppearance
+        Settings.AddSubscriber(self)
     }
     
     override func viewDidLayout()
@@ -55,6 +57,7 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     
     override func viewWillDisappear()
     {
+        Settings.RemoveSubscriber(self)
         MainDelegate?.ChildWindowClosed(.PreferenceWindow)
     }
     
@@ -239,6 +242,11 @@ Determines the scale of the floating hours over the globe.
 Hides or shows the status bar. Status messages are always sent so if you show a status bar, the most recent message will be shown.
 """
                     
+                case .UIHelp:
+                    Message = """
+Hides or shows the UI help buttons (􀁝) in the interface.
+"""
+                    
                 //MARK: - Map help.
                 case .MapSample:
                     Message = """
@@ -398,6 +406,30 @@ Live data is returned by remote servers that are not affiliated with Flatland. A
     
     var Pop: NSPopover? = nil
     
+    let DialogID: UUID = UUID()
+    func SubscriberID() -> UUID
+    {
+        return DialogID
+    }
+    
+    func SettingChanged(Setting: SettingKeys, OldValue: Any?, NewValue: Any?)
+    {
+        switch Setting
+        {
+            case .ShowUIHelp:
+                for (_, Panel) in Panels
+                {
+                    if let Controller = Panel.Controller as? PreferencePanelProtocol
+                    {
+                        Controller.SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
+                    }
+                }
+                
+            default:
+                return
+        }
+    }
+    
     @IBOutlet weak var PreferenceContainer: PreferencePanelView!
 }
 
@@ -422,6 +454,7 @@ enum PreferenceHelp: String, CaseIterable
     case MapTypes = "MapTypes"
     case HourScale = "HourScale"
     case ShowStatusBar = "ShowStatusBar"
+    case UIHelp = "UIHelp"
     
     case MapSample = "MapSample"
     
