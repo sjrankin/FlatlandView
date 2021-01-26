@@ -9,7 +9,9 @@
 import Foundation
 import AppKit
 
+/// Protocol to tell region editors the mouse was clicked on the map.
 protocol RegionMouseClickProtocol: class
 {
+    /// Mouse click event a geographic point on the map.
     func MouseClicked(At: GeoPoint)
 }
