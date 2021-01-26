@@ -129,6 +129,30 @@ extension GlobeView
         }
     }
     
+    @objc func Context_AddPolarQuakeRegion(_ sender: Any)
+    {
+        if RegionEditorOpen
+        {
+            return
+        }
+        RegionEditorOpen = true
+        let Storyboard = NSStoryboard(name: "RegionEntryUI", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "PolarRegionEntryWindow") as? PolarRegionEntryWindow
+        {
+            let Window = WindowController.window
+            if let Controller = Window?.contentViewController as? PolarRegionEntryController
+            {
+                InRegionCreationMode = true
+                OldLockState = Settings.GetBool(.WorldIsLocked)
+                Settings.SetBool(.WorldIsLocked, true)
+                Controller.ParentDelegate = self
+                Controller.MainDelegate = MainDelegate
+                MouseClickReceiver = Controller
+                WindowController.showWindow(nil)
+            }
+        }
+    }
+    
     @objc func Context_AddQuakeRegion(_ sender: Any)
     {
         if RegionEditorOpen
@@ -155,6 +179,7 @@ extension GlobeView
     
     @objc func Context_EditQuakeRegion(_ sender: Any)
     {
+        #if false
         let Storyboard = NSStoryboard(name: "SubPanels", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeRegionWindow2") as? EarthquakeRegionWindow2
         {
@@ -165,6 +190,7 @@ extension GlobeView
                 WindowController.showWindow(nil)
             }
         }
+        #endif
     }
     
     @objc func Context_MakeCircularRegion(_ sender: Any)
@@ -552,6 +578,18 @@ return ClearSearchMenu!
     
     func MakeEarthquakeMenu() -> NSMenuItem
     {
+        #if true
+        QuakeMenu = NSMenuItem()
+        QuakeMenu?.title = "Earthquakes"
+        QuakeMenu?.submenu = NSMenu(title: "Earthquakes")
+        let AddRegion = NSMenuItem(title: "Add Earthquake Region", action: #selector(Context_AddQuakeRegion), keyEquivalent: "")
+        AddRegion.target = self
+        let AddPolarRegion = NSMenuItem(title: "Add Polar Earthquake Region", action: #selector(Context_AddPolarQuakeRegion), keyEquivalent: "")
+        AddPolarRegion.target = self
+        QuakeMenu?.submenu?.items.append(AddRegion)
+        QuakeMenu?.submenu?.items.append(AddPolarRegion)
+        return QuakeMenu!
+        #else
         QuakeMenu = NSMenuItem()
         QuakeMenu?.title = "Earthquakes"
         QuakeMenu?.submenu = NSMenu(title: "Earthquakes")
@@ -569,6 +607,7 @@ return ClearSearchMenu!
         QuakeMenu?.submenu?.items.append(CircleRegion)
         QuakeMenu?.submenu?.items.append(RectRegion)
         return QuakeMenu!
+        #endif
     }
     
     func MakeLockMenu() -> NSMenuItem
