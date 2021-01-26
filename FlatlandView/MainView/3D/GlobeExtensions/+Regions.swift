@@ -18,7 +18,6 @@ extension GlobeView
     /// Remove all regions from the region layer.
     func RemoveRegions()
     {
-        ClearTransientRegions()
         if let Node = RegionNode
         {
             RegionLayer = nil
@@ -33,7 +32,6 @@ extension GlobeView
     /// - Parameter Node: The node to initialize.
     func InitializeRegionNode(_ Node: SCNNode2)
     {
-        ClearTransientRegions()
         RegionLayer = CAShapeLayer()
         RegionLayer?.name = GlobeNodeNames.RegionNode.rawValue
         RegionLayer?.isGeometryFlipped = true
@@ -69,17 +67,134 @@ extension GlobeView
             {
                 continue
             }
-            PlotRegion(Region)
+            PlotRegion(Region, On: RegionLayer!)
+        }
+    }
+    
+    /// The function that does the actual plotting of regions.
+    /// - Parameter Region: The region to plot.
+    func DoPlotRegion(_ Region: UserRegion, To Layer: CAShapeLayer)
+    {
+        let RegionBox = CAShapeLayer()
+        RegionBox.borderWidth = 1.0
+        RegionBox.borderColor = NSColor.black.withAlphaComponent(0.5).cgColor
+        RegionBox.backgroundColor = Region.RegionColor.withAlphaComponent(0.5).cgColor
+        let UpperLeft = ConvertRegionPoint(Region.UpperLeft)
+        let LowerRight = ConvertRegionPoint(Region.LowerRight)
+        let Size = CGSize(width: abs(LowerRight.x - UpperLeft.x), height: abs(LowerRight.y - UpperLeft.y))
+        RegionBox.frame = CGRect(origin: UpperLeft, size: Size)
+        Layer.addSublayer(RegionBox)
+    }
+    
+    /// Plot a polar region. Polar regions are centered on either the north or south pole.
+    /// - Parameter Region: The region to plot.
+    /// - Parameter Width: Width of the map in pixels. Defaults to `3600`.
+    /// - Parameter Height: Height of the map in pixels. Defaults to `1800`.
+    func DoPlotPolarRegion(_ Region: UserRegion, Width: Int = 3600, Height: Int = 1800)
+    {
+        guard let CenteredOnNorthPole = Region.UseNorthPole else
+        {
+            Debug.FatalError("Polar region \(Region.RegionName) does not specify which pole.")
+        }
+        let MapDistance = ConvertedDistance(Region.Radius)
+        let RegionBox = CAShapeLayer()
+        RegionBox.borderWidth = 1.0
+        RegionBox.borderColor = NSColor.black.withAlphaComponent(0.5).cgColor
+        RegionBox.backgroundColor = Region.RegionColor.withAlphaComponent(0.5).cgColor
+        var Size = CGSize.zero
+        var RegionOrigin = NSPoint.zero
+        if CenteredOnNorthPole
+        {
+            RegionOrigin = NSPoint(x: 0, y: 0)
+            Size = CGSize(width: Double(Width), height: MapDistance)
+        }
+        else
+        {
+            let OriginY = Height - Int(MapDistance)
+            RegionOrigin = NSPoint(x: 0, y: OriginY)
+            Size = CGSize(width: Double(Width), height: MapDistance)
+        }
+        RegionBox.frame = CGRect(origin: RegionOrigin, size: Size)
+        RegionLayer?.addSublayer(RegionBox)
+    }
+    
+    /// Plot a region on the region layer.
+    /// - Note: Depending on where the region is, more than one "region" may be plotted.
+    /// - Parameter Region: The region to plot.
+    func PlotRegion(_ Region: UserRegion, On Layer: CAShapeLayer)
+    {
+        if Region.UseNorthPole != nil
+        {
+            print("Plotting polar node")
+            DoPlotPolarRegion(Region)
+            return
+        }
+        switch GetRegionType(Region)
+        {
+            case .No:
+                DoPlotRegion(Region, To: Layer)
+                
+            case .OverDateLine:
+                let (East, West) = SplitRegionAlongDateLine(Region)
+                DoPlotRegion(East, To: Layer)
+                DoPlotRegion(West, To: Layer)
+                
+            default:
+                return
+        }
+    }
+    
+    // MARK: - Transient regions.
+    
+    /// Initialize the transient region node. This is the spherical node on which earthquake regions (or
+    /// any other region) are rendered.
+    /// - Important: The `blendMode` **must** be set to `.alpha` (and the `blendMode` of the EarthNode
+    ///              set to `.replace`) in order for the blending to work correctly.
+    /// - Note: This layer is intended for use for displaying transient regions when the user is creating new
+    ///         regions via the map.
+    /// - Parameter Node: The node to initialize.
+    func InitializeTransientRegionNode(_ Node: SCNNode2)
+    {
+        TransientRegionLayer = CAShapeLayer()
+        TransientRegionLayer?.name = GlobeNodeNames.RegionNode.rawValue
+        TransientRegionLayer?.isGeometryFlipped = true
+        TransientRegionLayer?.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: 3600, height: 1800))
+        TransientRegionLayer?.backgroundColor = NSColor.clear.cgColor
+        Node.geometry?.firstMaterial?.diffuse.contents = TransientRegionLayer
+        Node.geometry?.firstMaterial?.blendMode = .alpha
+    }
+    
+    /// Plot transient regions.
+    func PlotTransientRegions()
+    {
+        if TransientRegionNode == nil
+        {
+            let RegionNodeShape = SCNSphere(radius: GlobeRadius.RegionLayer.rawValue + 0.01)
+            RegionNodeShape.segmentCount = 500
+            TransientRegionNode = SCNNode2(geometry: RegionNodeShape)
+            TransientRegionNode?.name = GlobeNodeNames.RegionNode.rawValue
+            TransientRegionNode?.position = SCNVector3(0.0, 0.0, 0.0)
+            TransientRegionNode?.castsShadow = false
+            InitializeTransientRegionNode(TransientRegionNode!)
+            EarthNode?.addChildNode(TransientRegionNode!)
+        }
+        else
+        {
+            RemoveTransientRegions()
         }
         for Region in TransientRegions
         {
-            PlotRegion(Region)
+            PlotRegion(Region, On: TransientRegionLayer!)
         }
     }
     
     /// Remove all transient regions.
     func ClearTransientRegions()
     {
+        TransientRegionNode?.removeAllActions()
+        TransientRegionNode?.removeAllAnimations()
+        TransientRegionNode?.removeFromParentNode()
+        TransientRegionNode = nil
         TransientRegions.removeAll()
     }
     
@@ -88,7 +203,7 @@ extension GlobeView
     func ClearTransientRegion(ID: UUID)
     {
         TransientRegions = TransientRegions.filter({$0.TransientID != ID})
-        PlotRegions()
+        PlotTransientRegions()
     }
     
     /// Plot a transient region.
@@ -105,7 +220,25 @@ extension GlobeView
         TRegion.LowerRight = Point2
         TRegion.RegionColor = Color
         TransientRegions.append(TRegion)
-        PlotRegions()
+        PlotTransientRegions()
+    }
+    
+    /// Plot a polar transient region.
+    /// - Parameter NorthPole: If true, the region is centered on the north pole. If false, the region is
+    ///                        centered on the south pole.
+    /// - Parameter Double: Radius of the region.
+    /// - Parameter Color: The color of the region.
+    /// - Parameter ID: The ID of the transient region.
+    func PlotTransientRegion(NorthPole: Bool, Radius: Double, Color: NSColor, ID: UUID)
+    {
+        let TRegion = UserRegion()
+        TRegion.TransientID = ID
+        TRegion.IsTransient = true
+        TRegion.UseNorthPole = NorthPole
+        TRegion.RegionColor = Color
+        TRegion.Radius = Radius
+        TransientRegions.append(TRegion)
+        PlotTransientRegions()
     }
     
     /// Update a transient region.
@@ -126,12 +259,35 @@ extension GlobeView
                     TRegion.RegionColor = NewColor
                     TRegion.UpperLeft = Point1
                     TRegion.LowerRight = Point2
-                    PlotRegions()
+                    PlotTransientRegions()
                 }
                 return
             }
         }
     }
+    
+    /// Update a polar transient region.
+    /// - Note: If the transient region is not found, no action is taken.
+    /// - Parameter ID: The ID of the transient region to update. Must match a previously set transient
+    ///                 region (see `PlotTransientRegion`).
+    /// - Parameter NorthPole: Determines the pole where the region is drawn.
+    /// - Parameter Radius: The radius of the region.
+    /// - Parameter Color: The color of the region.
+    func UpdateTransientRegion(ID: UUID, NorthPole: Bool, Radius: Double, Color: NSColor)
+    {
+        for TRegion in TransientRegions
+        {
+            if TRegion.TransientID == ID
+            {
+                TRegion.RegionColor = Color
+                TRegion.Radius = Radius
+                TRegion.UseNorthPole = NorthPole
+                PlotTransientRegions()
+            }
+        }
+    }
+    
+    // MARK: - Utility functions
     
     /// Convert the passed point to a coordinate in a rectangle whose dimensions are passed.
     /// - Parameter Point: The point to convert.
@@ -161,41 +317,18 @@ extension GlobeView
         return NSPoint(x: FinalX, y: FinalY)
     }
     
-    /// The function that does the actual plotting of regions.
-    /// - Parameter Region: The region to plot.
-    func DoPlotRegion(_ Region: UserRegion)
+    /// Converts the passed distance to map units (eg, pixels) based on the size of the map. Intended for use
+    /// only for distance from a pole.
+    /// - Note: Distances are assumed to be in kilometers.
+    /// - Parameter Distance: Number of kilometers to convert to map units.
+    /// - Parameter Width: Width of the map in pixels. Defaults to `3600`.
+    /// - Parameter Height: Height of the map in pixels. Defaults to `1800`.
+    /// - Returns: Number of map units (pixels) equivalent to the number of kilometers.
+    func ConvertedDistance(_ Distance: Double, Width: Int = 3600, Height: Int = 1800) -> Double
     {
-        let RegionBox = CAShapeLayer()
-        RegionBox.borderWidth = 1.0
-        RegionBox.borderColor = NSColor.black.withAlphaComponent(0.5).cgColor
-        RegionBox.backgroundColor = Region.RegionColor.withAlphaComponent(0.5).cgColor
-        let UpperLeft = ConvertRegionPoint(Region.UpperLeft)
-        let LowerRight = ConvertRegionPoint(Region.LowerRight)
-        let Size = CGSize(width: abs(LowerRight.x - UpperLeft.x), height: abs(LowerRight.y - UpperLeft.y))
-        RegionBox.frame = CGRect(origin: UpperLeft, size: Size)
-        RegionLayer?.addSublayer(RegionBox)
-    }
-    
-    /// Plot a region on the region layer.
-    /// - Note: Depending on where the region is, more than one "region" may be plotted.
-    /// - Parameter Region: The region to plot.
-    func PlotRegion(_ Region: UserRegion)
-    {
-        switch GetRegionType(Region)
-        {
-            case .No:
-                DoPlotRegion(Region)
-                
-            case .OverDateLine:
-                let (East, West) = SplitRegionAlongDateLine(Region)
-                DoPlotRegion(East)
-                DoPlotRegion(West)
-                
-            case .OverNorthPole:
-                return
-            case .OverSouthPole:
-                return
-        }
+        let Circumference = PhysicalConstants.HalfEarthCircumference.rawValue
+        let Ratio = Distance / Circumference
+        return Double(Height) * Ratio
     }
     
     /// Split the passed region into two, separated by the international date line (a simplified
