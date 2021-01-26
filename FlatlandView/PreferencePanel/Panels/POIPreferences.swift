@@ -54,6 +54,21 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
                 CityShapesCombo.selectItem(withObjectValue: CityShape.rawValue)
             }
         }
+        
+        HelpButtons.append(ShowWorldHeritageSiteHelpButton)
+        HelpButtons.append(AllCitiesHelpButton)
+        HelpButtons.append(CapitalCityHelpButton)
+        HelpButtons.append(CityShapeHelpButton)
+        HelpButtons.append(ShowCityHelpButton)
+        HelpButtons.append(EditUserPOIHelpButton)
+        HelpButtons.append(ShowUserPOIHelpButton)
+        HelpButtons.append(EditHomeLocationHelpButton)
+        HelpButtons.append(CityByPopHelpButton)
+        HelpButtons.append(ShowHomeHelpButton)
+        HelpButtons.append(UNESCOHelpButton)
+        HelpButtons.append(POIScaleHelpButton)
+        
+        SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
     }
     
     @IBAction func HandleHelpButton(_ sender: Any)
@@ -225,6 +240,17 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     {
         
     }
+    
+    func SetHelpVisibility(To: Bool)
+    {
+        for HelpButton in HelpButtons
+        {
+            HelpButton.alphaValue = To ? 1.0 : 0.0
+            HelpButton.isEnabled = To ? true : false
+        }
+    }
+    
+    var HelpButtons: [NSButton] = [NSButton]()
     
     // MARK: - Interface builder outlets
     @IBOutlet weak var ShowCitiesSwitch: NSSwitch!
