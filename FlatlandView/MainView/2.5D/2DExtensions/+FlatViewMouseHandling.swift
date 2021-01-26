@@ -196,11 +196,7 @@ extension FlatView
     
     @objc func Context_AddQuakeRegion(_ sender: Any)
     {
-        print("Add earthquake region")
-    }
-    
-    @objc func Context_EditQuakeRegion(_ sender: Any)
-    {
+        #if false
         let Storyboard = NSStoryboard(name: "SubPanels", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeRegionWindow2") as? EarthquakeRegionWindow2
         {
@@ -211,16 +207,23 @@ extension FlatView
                 WindowController.showWindow(nil)
             }
         }
+        #endif
     }
     
-    @objc func Context_MakeCircularRegion(_ sender: Any)
+    @objc func Context_AddPolarQuakeRegion(_ sender: Any)
     {
-        
-    }
-    
-    @objc func Context_MakeRectangularRegion(_ sender: Any)
-    {
-        
+        #if false
+        let Storyboard = NSStoryboard(name: "SubPanels", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeRegionWindow2") as? EarthquakeRegionWindow2
+        {
+            let Window = WindowController.window
+            if let Controller = Window?.contentViewController as? EarthquakeRegionController2
+            {
+                Controller.IsModal(false)
+                WindowController.showWindow(nil)
+            }
+        }
+        #endif
     }
     
     @objc func HandleLockMenu(_ sender: Any)
@@ -316,17 +319,10 @@ extension FlatView
         QuakeMenu?.submenu = NSMenu(title: "Earthquakes")
         let AddRegion = NSMenuItem(title: "Add Earthquake Region", action: #selector(Context_AddQuakeRegion), keyEquivalent: "")
         AddRegion.target = self
-        let EditRegion = NSMenuItem(title: "Edit Earthquake Region", action: #selector(Context_EditQuakeRegion), keyEquivalent: "")
-        EditRegion.target = self
+        let AddPolarRegion = NSMenuItem(title: "Add Polar Earthquake Region", action: #selector(Context_AddPolarQuakeRegion), keyEquivalent: "")
+        AddPolarRegion.target = self
         QuakeMenu?.submenu?.items.append(AddRegion)
-        QuakeMenu?.submenu?.items.append(EditRegion)
-        QuakeMenu?.submenu?.items.append(NSMenuItem.separator())
-        let CircleRegion = NSMenuItem(title: "Create Circular Region", action: #selector(Context_MakeCircularRegion), keyEquivalent: "")
-        CircleRegion.target = self
-        let RectRegion = NSMenuItem(title: "Create Rectangular Region", action: #selector(Context_MakeRectangularRegion), keyEquivalent: "")
-        RectRegion.target = self
-        QuakeMenu?.submenu?.items.append(CircleRegion)
-        QuakeMenu?.submenu?.items.append(RectRegion)
+        QuakeMenu?.submenu?.items.append(AddPolarRegion)
         return QuakeMenu!
     }
     
