@@ -32,7 +32,6 @@ extension GlobeView: RegionEntryProtocol
     func RegionEntryCompleted(Name: String, Color: NSColor, Corner1: GeoPoint, Corner2: GeoPoint)
     {
         ResetFromRegionEntry()
-        print("New Region: (\(Corner1))x(\(Corner2))")
         let NewRegion = UserRegion()
         NewRegion.Age = 30
         NewRegion.MinimumMagnitude = 5.0
@@ -46,6 +45,46 @@ extension GlobeView: RegionEntryProtocol
         NewRegion.RegionColor = Color
         NewRegion.UpperLeft = Corner1
         NewRegion.LowerRight = Corner2
+        var OldRegions = Settings.GetEarthquakeRegions()
+        OldRegions.append(NewRegion)
+        //This will trigger an event that will cause the regions to be redrawn.
+        Settings.SetEarthquakeRegions(OldRegions)
+    }
+    
+    /// Handle completion of polar region creation.
+    /// - Note: This function assigns the following defaults:
+    ///    - Region.Age = 30
+    ///    - Region.MinimumMagnitude = 5.0
+    ///    - Region.MaximumMagnitude = 9.9
+    ///    - Region.IsFallback = false
+    ///    - Region.IsEnabled = true
+    ///    - Region.IsRectangular = false
+    ///    - Region.Notification = .None
+    ///    - Region.NotifyOnNewEarthquakes = false
+    /// - Note: The newly created region will be immediately assigned in the settings, which will trigger an
+    ///         event that will cause regions on the globe to be redrawn.
+    /// - Parameter Name: The name of the polar region.
+    /// - Parameter Color: The color of the polar region.
+    /// - Parameter Radius: The radial size of the polar region.
+    /// - Parameter NorthPole: If true, the region is centered over the north pole. If false, it is
+    ///                        centered over the south pole.
+    func PolarRegionEntryCompleted(Name: String, Color: NSColor, Radius: Double, NorthPole: Bool)
+    {
+        print("\(Name) with radius \(Radius) over north pole \(NorthPole)")
+        ResetFromRegionEntry()
+        let NewRegion = UserRegion()
+        NewRegion.Age = 30
+        NewRegion.MinimumMagnitude = 5.0
+        NewRegion.MaximumMagnitude = 9.9
+        NewRegion.RegionName = Name
+        NewRegion.IsFallback = false
+        NewRegion.IsEnabled = true
+        NewRegion.IsRectangular = false
+        NewRegion.Notification = .None
+        NewRegion.NotifyOnNewEarthquakes = false
+        NewRegion.RegionColor = Color
+        NewRegion.UseNorthPole = NorthPole
+        NewRegion.Radius = Radius
         var OldRegions = Settings.GetEarthquakeRegions()
         OldRegions.append(NewRegion)
         //This will trigger an event that will cause the regions to be redrawn.
@@ -171,14 +210,6 @@ extension GlobeView: RegionEntryProtocol
         LowerRightNode = nil
     }
     
-    /// Handle completion of polar region creation.
-    /// - Parameter Name: The name of the polar region.
-    /// - Parameter Color: The color of the polar region.
-    /// - Parameter Radius: The radial size of the polar region.
-    func PolarRegionEntryCompleted(Name: String, Color: NSColor, Radius: Double)
-    {
-    }
-    
     /// Turn the mouse pointer into the start pin.
     func SetStartPin()
     {
@@ -215,10 +246,22 @@ extension GlobeView: RegionEntryProtocol
         PlotTransientRegion(Point1: Point1, Point2: Point2, Color: Color, ID: ID)
     }
     
+    /// Plot a polar transient region.
+    func PlotTransient(ID: UUID, NorthPole: Bool, Radius: Double, Color: NSColor)
+    {
+       PlotTransientRegion(NorthPole: NorthPole, Radius: Radius, Color: Color, ID: ID)
+    }
+    
     /// Update a transient region.
     func UpdateTransient(ID: UUID, Point1: GeoPoint, Point2: GeoPoint, Color: NSColor)
     {
         UpdateTransientRegion(ID: ID, Point1: Point1, Point2: Point2, Color: Color)
+    }
+    
+    /// Update a polar transient region.
+    func UpdateTransient(ID: UUID, NorthPole: Bool, Radius: Double, Color: NSColor)
+    {
+        UpdateTransientRegion(ID: ID, NorthPole: NorthPole, Radius: Radius, Color: Color)
     }
     
     /// Remove transient regions.
