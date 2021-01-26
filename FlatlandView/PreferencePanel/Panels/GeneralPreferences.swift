@@ -96,6 +96,29 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
             case .Maximum:
                 InterfaceSegement.selectedSegment = 2
         }
+        
+        HelpButtons.append(ShowUIHelpHelp)
+        HelpButtons.append(StatusBarHelp)
+        HelpButtons.append(HourScaleHelpButton)
+        HelpButtons.append(HourTypeHelpButton)
+        HelpButtons.append(MapTypeHelpButton)
+        HelpButtons.append(InputUnitHelpButton)
+        HelpButtons.append(ShowSecondsHelpButton)
+        HelpButtons.append(DateStyleHelpButton)
+        HelpButtons.append(IFStyleHelpButton)
+        ShowUIHelpSwitch.state = Settings.GetBool(.ShowUIHelp) ? .on : .off
+        SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
+    }
+    
+    public var HelpButtons: [NSButton] = [NSButton]()
+    
+    public func SetHelpVisibility(To: Bool)
+    {
+        for HelpButton in HelpButtons
+        {
+            HelpButton.alphaValue = To ? 1.0 : 0.0
+            HelpButton.isEnabled = To ? true : false
+        }
     }
     
     @IBAction func HandleShowSecondsChanged(_ sender: Any)
@@ -151,6 +174,9 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
         {
             switch Button
             {
+                case ShowUIHelpHelp:
+                    Parent?.ShowHelp(For: .UIHelp, Where: Button.bounds, What: ShowUIHelpHelp)
+                
                 case IFStyleHelpButton:
                     Parent?.ShowHelp(For: .InterfaceStyle, Where: Button.bounds, What: IFStyleHelpButton)
                     
@@ -184,6 +210,14 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
     func SetDarkMode(To: Bool)
     {
         
+    }
+    
+    @IBAction func HandleShowHelpChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.ShowUIHelp, Switch.state == .on ? true : false)
+        }
     }
     
     @IBAction func MapTypeChangedHandler(_ sender: Any)
@@ -254,7 +288,9 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
             Settings.SetBool(.ShowStatusBar, Switch.state == .on ? true : false)
         }
     }
-    
+
+    @IBOutlet weak var ShowUIHelpHelp: NSButton!
+    @IBOutlet weak var ShowUIHelpSwitch: NSSwitch!
     @IBOutlet weak var ShowStatusSwitch: NSSwitch!
     @IBOutlet weak var StatusBarHelp: NSButton!
     @IBOutlet weak var HourTypeSegment: NSSegmentedControl!
