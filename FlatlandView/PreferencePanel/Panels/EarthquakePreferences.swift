@@ -55,6 +55,16 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
         QuakeShapeCombo.selectItem(withObjectValue: EShape.rawValue)
         DisplayQuakesSwitch.state = Settings.GetBool(.EnableEarthquakes) ? .on : .off
         HighlightNewQuakesSwitch.state = Settings.GetState(.HighlightRecentEarthquakes)
+        
+        HelpButtons.append(QuakeScaleHelpButton)
+        HelpButtons.append(CheckEarthquakesNowHelpButton)
+        HelpButtons.append(QuakeFetchFrequencyHelpButton)
+        HelpButtons.append(QuakeRegionsHelpButton)
+        HelpButtons.append(DisplayQuakesHelpButton)
+        HelpButtons.append(EnableRegionsHelpButton)
+        HelpButtons.append(SelectQuakeShapeHelpButton)
+        HelpButtons.append(QuakeHighlightHelpButton)
+        SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
     }
     
     let FetchFrequencies: [Double] = [30.0, 60.0, 300.0, 600.0, 1800.0, 3600.0]
@@ -181,6 +191,17 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
     {
     }
     
+    func SetHelpVisibility(To: Bool)
+    {
+        for HelpButton in HelpButtons
+        {
+            HelpButton.alphaValue = To ? 1.0 : 0.0
+            HelpButton.isEnabled = To ? true : false
+        }
+    }
+    
+    var HelpButtons: [NSButton] = [NSButton]()
+
     @IBOutlet weak var QuakeScaleSegment: NSSegmentedControl!
     @IBOutlet weak var QuakeScaleHelpButton: NSButton!
     @IBOutlet weak var QuakeShapeCombo: NSComboBox!
