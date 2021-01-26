@@ -23,6 +23,8 @@
 		170E7BF12559284300EA3AD3 /* FloatingViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */; };
 		170E7BF52559290900EA3AD3 /* MouseInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BF42559290900EA3AD3 /* MouseInfoController.swift */; };
 		170E7BF82559293C00EA3AD3 /* MouseInfoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */; };
+		1710685725BACEE3004AE4B7 /* PolarRegionEntryWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710685625BACEE3004AE4B7 /* PolarRegionEntryWindow.swift */; };
+		1710685C25BACF35004AE4B7 /* PolarRegionEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710685B25BACF35004AE4B7 /* PolarRegionEntryController.swift */; };
 		1714DDB025382EFC001A3002 /* EnvironmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDAF25382EFC001A3002 /* EnvironmentView.swift */; };
 		1714DDB42538342A001A3002 /* LowLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB32538342A001A3002 /* LowLevel.swift */; };
 		1714DDB82539654A001A3002 /* UInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB72539654A001A3002 /* UInt64.swift */; };
@@ -162,6 +164,18 @@
 		1765B59E253EBC6800DD11D8 /* GroupedEarthquakeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1765B59D253EBC6800DD11D8 /* GroupedEarthquakeController.swift */; };
 		1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767A8E324794A0100C434B5 /* AppDelegate.swift */; };
 		1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E724794A0300C434B5 /* Assets.xcassets */; };
+		1767EBF625BE566600A976D2 /* ColorPicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1767EBF525BE566600A976D2 /* ColorPicker.storyboard */; };
+		1767EBF925BE577F00A976D2 /* ColorChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EBF825BE577F00A976D2 /* ColorChip.swift */; };
+		1767EBFD25BE6EF900A976D2 /* RGBEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EBFC25BE6EF900A976D2 /* RGBEntry.swift */; };
+		1767EC0025BE6F4300A976D2 /* PanelSetupProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EBFF25BE6F4300A976D2 /* PanelSetupProtocol.swift */; };
+		1767EC0325BE6FB100A976D2 /* NewColorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC0225BE6FB100A976D2 /* NewColorProtocol.swift */; };
+		1767EC0625BE8F4500A976D2 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC0525BE8F4500A976D2 /* ColorPicker.swift */; };
+		1767EC0925BE8F8B00A976D2 /* ColorPickerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC0825BE8F8B00A976D2 /* ColorPickerWindow.swift */; };
+		1767EC0C25BE90D000A976D2 /* ColorPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC0B25BE90D000A976D2 /* ColorPickerDelegate.swift */; };
+		1767EC1025BE9AD600A976D2 /* ColorChipDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC0F25BE9AD600A976D2 /* ColorChipDebugWindow.swift */; };
+		1767EC1325BE9B0600A976D2 /* ColorChipDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC1225BE9B0600A976D2 /* ColorChipDebugController.swift */; };
+		1767EC1625BEAD6C00A976D2 /* ColorspacePanelBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC1525BEAD6C00A976D2 /* ColorspacePanelBase.swift */; };
+		1767EC1925BEB58900A976D2 /* ManualEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC1825BEB58900A976D2 /* ManualEntry.swift */; };
 		176A89802530278900489C22 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176A897F2530278900489C22 /* MainWindow.swift */; };
 		176A89832530280800489C22 /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176A89822530280800489C22 /* WindowManagement.swift */; };
 		176CBB76251B08E800D6C0AD /* EnumConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17000B4B251ADF22009CF3B7 /* EnumConstants.swift */; };
@@ -335,9 +349,7 @@
 		17E5EF5F24F1051400665167 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E5EF5E24F1051400665167 /* Debug.swift */; };
 		17E779CF2585EDE9008E804F /* WhatsHereViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E779CE2585EDE9008E804F /* WhatsHereViewer.swift */; };
 		17E779D32585FB59008E804F /* WhatsHereWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E779D22585FB59008E804F /* WhatsHereWindow.swift */; };
-		17E901E62552C3650097A89A /* EarthquakeRegionController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E901E52552C3650097A89A /* EarthquakeRegionController2.swift */; };
 		17E901EA2552C38C0097A89A /* SubPanels.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17E901E92552C38B0097A89A /* SubPanels.storyboard */; };
-		17E901ED2552C9190097A89A /* EarthquakeRegionWindow2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E901EC2552C9190097A89A /* EarthquakeRegionWindow2.swift */; };
 		17EB5C1325159AB1007A75EF /* +MainAsynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB5C1225159AB1007A75EF /* +MainAsynchronous.swift */; };
 		17EB790524AEC8D100BB0473 /* K-Means.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790424AEC8D100BB0473 /* K-Means.swift */; };
 		17EB790824AEEE6B00BB0473 /* EarthquakeDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790724AEEE6B00BB0473 /* EarthquakeDebugWindow.swift */; };
@@ -449,6 +461,8 @@
 		170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FloatingViews.storyboard; sourceTree = "<group>"; };
 		170E7BF42559290900EA3AD3 /* MouseInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseInfoController.swift; sourceTree = "<group>"; };
 		170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseInfoProtocol.swift; sourceTree = "<group>"; };
+		1710685625BACEE3004AE4B7 /* PolarRegionEntryWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolarRegionEntryWindow.swift; sourceTree = "<group>"; };
+		1710685B25BACF35004AE4B7 /* PolarRegionEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolarRegionEntryController.swift; sourceTree = "<group>"; };
 		1714DDAF25382EFC001A3002 /* EnvironmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentView.swift; sourceTree = "<group>"; };
 		1714DDB32538342A001A3002 /* LowLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowLevel.swift; sourceTree = "<group>"; };
 		1714DDB72539654A001A3002 /* UInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt64.swift; sourceTree = "<group>"; };
@@ -593,6 +607,18 @@
 		1767A8E724794A0300C434B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1767A8EC24794A0300C434B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandView.entitlements; sourceTree = "<group>"; };
+		1767EBF525BE566600A976D2 /* ColorPicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ColorPicker.storyboard; sourceTree = "<group>"; };
+		1767EBF825BE577F00A976D2 /* ColorChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChip.swift; sourceTree = "<group>"; };
+		1767EBFC25BE6EF900A976D2 /* RGBEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBEntry.swift; sourceTree = "<group>"; };
+		1767EBFF25BE6F4300A976D2 /* PanelSetupProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelSetupProtocol.swift; sourceTree = "<group>"; };
+		1767EC0225BE6FB100A976D2 /* NewColorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewColorProtocol.swift; sourceTree = "<group>"; };
+		1767EC0525BE8F4500A976D2 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
+		1767EC0825BE8F8B00A976D2 /* ColorPickerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerWindow.swift; sourceTree = "<group>"; };
+		1767EC0B25BE90D000A976D2 /* ColorPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerDelegate.swift; sourceTree = "<group>"; };
+		1767EC0F25BE9AD600A976D2 /* ColorChipDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChipDebugWindow.swift; sourceTree = "<group>"; };
+		1767EC1225BE9B0600A976D2 /* ColorChipDebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChipDebugController.swift; sourceTree = "<group>"; };
+		1767EC1525BEAD6C00A976D2 /* ColorspacePanelBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorspacePanelBase.swift; sourceTree = "<group>"; };
+		1767EC1825BEB58900A976D2 /* ManualEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualEntry.swift; sourceTree = "<group>"; };
 		176A897F2530278900489C22 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		176A89822530280800489C22 /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
 		176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewSuns.swift"; sourceTree = "<group>"; };
@@ -771,9 +797,7 @@
 		17E5EF5E24F1051400665167 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		17E779CE2585EDE9008E804F /* WhatsHereViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsHereViewer.swift; sourceTree = "<group>"; };
 		17E779D22585FB59008E804F /* WhatsHereWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsHereWindow.swift; sourceTree = "<group>"; };
-		17E901E52552C3650097A89A /* EarthquakeRegionController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController2.swift; sourceTree = "<group>"; };
 		17E901E92552C38B0097A89A /* SubPanels.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SubPanels.storyboard; sourceTree = "<group>"; };
-		17E901EC2552C9190097A89A /* EarthquakeRegionWindow2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow2.swift; sourceTree = "<group>"; };
 		17EB5C1225159AB1007A75EF /* +MainAsynchronous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainAsynchronous.swift"; sourceTree = "<group>"; };
 		17EB790424AEC8D100BB0473 /* K-Means.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "K-Means.swift"; sourceTree = "<group>"; };
 		17EB790724AEEE6B00BB0473 /* EarthquakeDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDebugWindow.swift; sourceTree = "<group>"; };
@@ -923,6 +947,24 @@
 				170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */,
 			);
 			path = MouseInfo;
+			sourceTree = "<group>";
+		};
+		1710685925BACF0C004AE4B7 /* Rectangular */ = {
+			isa = PBXGroup;
+			children = (
+				17F5598A25AD835900053314 /* RegionEntryWindow.swift */,
+				17F5598D25AD837D00053314 /* RegionEntryController.swift */,
+			);
+			path = Rectangular;
+			sourceTree = "<group>";
+		};
+		1710685A25BACF1D004AE4B7 /* Polar */ = {
+			isa = PBXGroup;
+			children = (
+				1710685625BACEE3004AE4B7 /* PolarRegionEntryWindow.swift */,
+				1710685B25BACF35004AE4B7 /* PolarRegionEntryController.swift */,
+			);
+			path = Polar;
 			sourceTree = "<group>";
 		};
 		1710D22324E661FE009B6BB7 /* StatusView */ = {
@@ -1107,6 +1149,7 @@
 		174A6A222557BD6400488274 /* DebugUI */ = {
 			isa = PBXGroup;
 			children = (
+				1767EC0E25BE9AC200A976D2 /* ColorChipPickerDebug */,
 				174A6A2E2557D21A00488274 /* DebugPanels */,
 				174A6A1F2557BD5E00488274 /* Debug.storyboard */,
 				174A6A242557CCF000488274 /* DebuggerWindow.swift */,
@@ -1340,6 +1383,7 @@
 		1767A8E224794A0100C434B5 /* FlatlandView */ = {
 			isa = PBXGroup;
 			children = (
+				1767EBF425BE564B00A976D2 /* ColorPicker */,
 				17F47B5625AA94B200A3A281 /* ImageProcessing */,
 				175DCC672580BCDB00EB6D69 /* StaticText */,
 				173F3D3B24EB6C2D008B9870 /* ObjectiveC */,
@@ -1377,6 +1421,40 @@
 				1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */,
 			);
 			path = FlatlandView;
+			sourceTree = "<group>";
+		};
+		1767EBF425BE564B00A976D2 /* ColorPicker */ = {
+			isa = PBXGroup;
+			children = (
+				1767EBFB25BE6EDA00A976D2 /* EntryPanels */,
+				1767EBF525BE566600A976D2 /* ColorPicker.storyboard */,
+				1767EC0525BE8F4500A976D2 /* ColorPicker.swift */,
+				1767EC1825BEB58900A976D2 /* ManualEntry.swift */,
+				1767EC0B25BE90D000A976D2 /* ColorPickerDelegate.swift */,
+				1767EC0825BE8F8B00A976D2 /* ColorPickerWindow.swift */,
+				1767EBF825BE577F00A976D2 /* ColorChip.swift */,
+			);
+			path = ColorPicker;
+			sourceTree = "<group>";
+		};
+		1767EBFB25BE6EDA00A976D2 /* EntryPanels */ = {
+			isa = PBXGroup;
+			children = (
+				1767EBFC25BE6EF900A976D2 /* RGBEntry.swift */,
+				1767EBFF25BE6F4300A976D2 /* PanelSetupProtocol.swift */,
+				1767EC0225BE6FB100A976D2 /* NewColorProtocol.swift */,
+				1767EC1525BEAD6C00A976D2 /* ColorspacePanelBase.swift */,
+			);
+			path = EntryPanels;
+			sourceTree = "<group>";
+		};
+		1767EC0E25BE9AC200A976D2 /* ColorChipPickerDebug */ = {
+			isa = PBXGroup;
+			children = (
+				1767EC0F25BE9AD600A976D2 /* ColorChipDebugWindow.swift */,
+				1767EC1225BE9B0600A976D2 /* ColorChipDebugController.swift */,
+			);
+			path = ColorChipPickerDebug;
 			sourceTree = "<group>";
 		};
 		176EE0A724D58C7500131944 /* EarthquakeRegion */ = {
@@ -1895,8 +1973,6 @@
 		17E901E42552C34E0097A89A /* SubPanels */ = {
 			isa = PBXGroup;
 			children = (
-				17E901E52552C3650097A89A /* EarthquakeRegionController2.swift */,
-				17E901EC2552C9190097A89A /* EarthquakeRegionWindow2.swift */,
 				17E901E92552C38B0097A89A /* SubPanels.storyboard */,
 				173056B92553BAD700B1D4C9 /* DeleteConfirmationWindow.swift */,
 				173056BC2553BAFE00B1D4C9 /* DeleteConfirmationController.swift */,
@@ -2088,9 +2164,9 @@
 		17F5598625AD7DA600053314 /* RegionEntry */ = {
 			isa = PBXGroup;
 			children = (
+				1710685A25BACF1D004AE4B7 /* Polar */,
+				1710685925BACF0C004AE4B7 /* Rectangular */,
 				17F5598725AD7DC700053314 /* RegionEntryUI.storyboard */,
-				17F5598A25AD835900053314 /* RegionEntryWindow.swift */,
-				17F5598D25AD837D00053314 /* RegionEntryController.swift */,
 				17F5599025AD83B400053314 /* RegionEntryProtocol.swift */,
 				17F5599325AD87A700053314 /* RegionMouseClickProtocol.swift */,
 			);
@@ -2248,6 +2324,7 @@
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
 				17CB248D253C5BCB00BAABDC /* POI.db in Resources */,
 				1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */,
+				1767EBF625BE566600A976D2 /* ColorPicker.storyboard in Resources */,
 				172F061625514E4800BEA156 /* Popovers.storyboard in Resources */,
 				170D42A32583137D00FD7AD2 /* PreferenceHelpViewer.storyboard in Resources */,
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
@@ -2302,7 +2379,6 @@
 				17B8F5252503892800D71931 /* SplitterParameters.swift in Sources */,
 				1743FE77255D1C1E00AD05A7 /* +Query.swift in Sources */,
 				17DE2BA32569FB04008077C7 /* MapScene.swift in Sources */,
-				17E901E62552C3650097A89A /* EarthquakeRegionController2.swift in Sources */,
 				17A1810B25733891002C6611 /* +Set.swift in Sources */,
 				1773893C25971771002698E8 /* +Menus.swift in Sources */,
 				178A869A2488C3B600BE8D46 /* AboutDetailsController.swift in Sources */,
@@ -2345,6 +2421,7 @@
 				177709D62592104E0092CDC0 /* +NodeEvents.swift in Sources */,
 				17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */,
 				17F17A4D24DE7B1B00568A4E /* LinesDraw.swift in Sources */,
+				1767EC1925BEB58900A976D2 /* ManualEntry.swift in Sources */,
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
 				1704D3F4256A4DA100DE0F85 /* StencilPipelineProtocol.swift in Sources */,
 				1718271B25B1850200041826 /* +RegionEntryProtocolImplementation.swift in Sources */,
@@ -2412,6 +2489,7 @@
 				17F9AFF82520352500DE0219 /* +StoredFont.swift in Sources */,
 				17ABAFFC24E8FB02009DDC35 /* Dictionary.swift in Sources */,
 				17303AFE24F379FB00948127 /* SCNVector3.swift in Sources */,
+				1710685725BACEE3004AE4B7 /* PolarRegionEntryWindow.swift in Sources */,
 				170E7BF82559293C00EA3AD3 /* MouseInfoProtocol.swift in Sources */,
 				17897C7E2514A72100544DE1 /* +MainSettingsHandler.swift in Sources */,
 				172F061B255150BC00BEA156 /* POIPopover.swift in Sources */,
@@ -2425,6 +2503,7 @@
 				178A86A02489108C00BE8D46 /* +CubicEarth.swift in Sources */,
 				1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */,
 				1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */,
+				1767EC1325BE9B0600A976D2 /* ColorChipDebugController.swift in Sources */,
 				17F9B00D2520377F00DE0219 /* +LocationAttributes.swift in Sources */,
 				175BA55B2570D5B7001ED3A2 /* ErrorReporter.swift in Sources */,
 				170181C12504A467000F91B6 /* TransparencyParameters.swift in Sources */,
@@ -2435,6 +2514,7 @@
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
 				172F4A2724FA1A900014A65E /* EditorProtocol.swift in Sources */,
 				17FFF8CC2567ED04008B50AD /* +Axes.swift in Sources */,
+				1767EC0025BE6F4300A976D2 /* PanelSetupProtocol.swift in Sources */,
 				17E5EF5F24F1051400665167 /* Debug.swift in Sources */,
 				17DFAF4F2545A53C00374344 /* ImageShifter.swift in Sources */,
 				17C22C2524EA1F94006BB3AB /* NASAMapConfirmWindow.swift in Sources */,
@@ -2454,7 +2534,9 @@
 				178E1CA325186DE900FDC75B /* +Attract.swift in Sources */,
 				17F9B004252036AD00DE0219 /* +Generic.swift in Sources */,
 				179EB780254FE40D00AADAAD /* PreferencePanelController.swift in Sources */,
+				1767EC0625BE8F4500A976D2 /* ColorPicker.swift in Sources */,
 				179EB77D254FE3EF00AADAAD /* PreferencePanelWindow.swift in Sources */,
+				1767EC0C25BE90D000A976D2 /* ColorPickerDelegate.swift in Sources */,
 				174B1CF125B42662003B33FE /* +Regions.swift in Sources */,
 				17CC52CA25B93A16002C7BE0 /* StatusBar3D.swift in Sources */,
 				175DCC5F2580970A00EB6D69 /* PreferencePanelProtocol.swift in Sources */,
@@ -2489,6 +2571,7 @@
 				17F9AFE22520340400DE0219 /* +CGFloat.swift in Sources */,
 				173F3D3E24EB6C4F008B9870 /* CircularWarp.m in Sources */,
 				17F1C7D52543F9460046AE33 /* +RectangleLights.swift in Sources */,
+				1767EBFD25BE6EF900A976D2 /* RGBEntry.swift in Sources */,
 				1733C81024F8D71A0025D555 /* RawSettingsWindow.swift in Sources */,
 				17CB248A253C122400BAABDC /* POI2.swift in Sources */,
 				178E1CAC25186EB000FDC75B /* +ChangedSettingsHandler.swift in Sources */,
@@ -2536,6 +2619,7 @@
 				17F9B00A2520373A00DE0219 /* +LocationsSettings.swift in Sources */,
 				1716DB1824E5013900C4F8BD /* CustomCityController.swift in Sources */,
 				1759FC6924A615BD001B1D4B /* RecentEarthquakeController.swift in Sources */,
+				1767EC1025BE9AD600A976D2 /* ColorChipDebugWindow.swift in Sources */,
 				172F4A1D24F9F2530014A65E /* ColorEditor.swift in Sources */,
 				1759FC6724A615A2001B1D4B /* RecentEarthquakeWindow.swift in Sources */,
 				17DE2DD425907D0300214204 /* +Secured.swift in Sources */,
@@ -2551,6 +2635,7 @@
 				17C3455A252C9AB100D01143 /* City2.swift in Sources */,
 				17DD791A24DA7A500046EB25 /* ResetConfirmWindow.swift in Sources */,
 				1760023624D2BF1800D5EA1A /* CGFloat.swift in Sources */,
+				1767EC1625BEAD6C00A976D2 /* ColorspacePanelBase.swift in Sources */,
 				1720013D258C7F9A00EF2A72 /* +WorldClock.swift in Sources */,
 				17F17A4724DE78F700568A4E /* LineDrawKernel.metal in Sources */,
 				1760023824D2BF3500D5EA1A /* Date.swift in Sources */,
@@ -2581,6 +2666,7 @@
 				17F9AFD92520338500DE0219 /* +String.swift in Sources */,
 				1762BD682560BB2E009C6965 /* +MouseHandling.swift in Sources */,
 				17A1810E257356AE002C6611 /* +Show.swift in Sources */,
+				1767EC0925BE8F8B00A976D2 /* ColorPickerWindow.swift in Sources */,
 				175F661424DE7416007B3A60 /* LineDrawParameters.swift in Sources */,
 				17EF33AC247A93A300A5B55D /* GeoPoint.swift in Sources */,
 				1759AE64249F81D3003F79F5 /* View2DSettingsWindow.swift in Sources */,
@@ -2598,6 +2684,7 @@
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
 				17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */,
 				17CFEC582522BDAE005C3E49 /* NSView.swift in Sources */,
+				1710685C25BACF35004AE4B7 /* PolarRegionEntryController.swift in Sources */,
 				1750044524B46E73006528A4 /* FontNameWindow.swift in Sources */,
 				1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */,
 				1737101024E2BB7300BC6CF8 /* Stenciler.swift in Sources */,
@@ -2635,7 +2722,6 @@
 				17DD791C24DA7A8E0046EB25 /* ResetConfirmController.swift in Sources */,
 				17F44AA824CEF67700A02B19 /* SatelliteMap.swift in Sources */,
 				178A86A92489134300BE8D46 /* +GridLines.swift in Sources */,
-				17E901ED2552C9190097A89A /* EarthquakeRegionWindow2.swift in Sources */,
 				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
 				17C87B7525177E360065BE6D /* +FlatViewInitialization.swift in Sources */,
 				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
@@ -2655,6 +2741,7 @@
 				1759AE6C249F8264003F79F5 /* CitySettingsWindow.swift in Sources */,
 				17EF33A3247A699300A5B55D /* Utility.swift in Sources */,
 				17F9AFEE2520349600DE0219 /* +NSColor.swift in Sources */,
+				1767EBF925BE577F00A976D2 /* ColorChip.swift in Sources */,
 				172F060F25512A2C00BEA156 /* EarthquakePreferences.swift in Sources */,
 				17A180F5257221A8002C6611 /* +Today.swift in Sources */,
 				17897C8D2514AAB300544DE1 /* +MainTimers.swift in Sources */,
@@ -2674,6 +2761,7 @@
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
 				17E5557125B54D7900E3CE9E /* NSTextField2.swift in Sources */,
 				172F05FB255108F300BEA156 /* PreferencePanelView.swift in Sources */,
+				1767EC0325BE6FB100A976D2 /* NewColorProtocol.swift in Sources */,
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
 				1701CFC52535646C00544F05 /* Snapshot.swift in Sources */,
 				17DF115E2512F3B400F04EAF /* AnimatedGradientLayer.swift in Sources */,
