@@ -767,6 +767,88 @@
             </objects>
             <point key="canvasLocation" x="170" y="974"/>
         </scene>
+        <!--Window Controller-->
+        <scene sceneID="fAM-Lu-epb">
+            <objects>
+                <windowController storyboardIdentifier="ColorChipDebugWindow" id="XNw-mj-p5G" customClass="ColorChipDebugWindow" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="pHl-o0-JjG">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="2932" y="557" width="480" height="270"/>
+                        <rect key="screenRect" x="2560" y="144" width="2304" height="1296"/>
+                        <view key="contentView" id="aIj-zS-jpe">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="XNw-mj-p5G" id="Lbm-v1-pfW"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="LBH-oh-3KO" kind="relationship" relationship="window.shadowedContentViewController" id="bwi-GA-F9U"/>
+                    </connections>
+                </windowController>
+                <customObject id="Tqy-e3-Yk4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1215" y="531"/>
+        </scene>
+        <!--Color Chip Debug Controller-->
+        <scene sceneID="caB-HX-DG1">
+            <objects>
+                <viewController id="LBH-oh-3KO" customClass="ColorChipDebugController" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="FWK-JW-O0s">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WfL-7x-Qyx">
+                                <rect key="frame" x="206" y="13" width="69" height="32"/>
+                                <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fPQ-XV-l4w">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleCloseButton:" target="LBH-oh-3KO" id="YXv-G1-yuI"/>
+                                </connections>
+                            </button>
+                            <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B9T-wo-gci" customClass="ColorChip" customModule="Flatland" customModuleProvider="target">
+                                <rect key="frame" x="159" y="146" width="163" height="96"/>
+                            </customView>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wm8-WM-Aqb">
+                                <rect key="frame" x="87" y="101" width="307" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="1sk-pc-QMB">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="25%" width="73"/>
+                                        <segment label="50%" width="73" tag="1"/>
+                                        <segment label="75%" width="73"/>
+                                        <segment label="100%" width="73" selected="YES"/>
+                                    </segments>
+                                </segmentedCell>
+                                <connections>
+                                    <action selector="HandleAlphaLevelChanged:" target="LBH-oh-3KO" id="c2B-Ih-JVC"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="wm8-WM-Aqb" firstAttribute="centerX" secondItem="WfL-7x-Qyx" secondAttribute="centerX" id="3U0-qS-hah"/>
+                            <constraint firstAttribute="bottom" secondItem="B9T-wo-gci" secondAttribute="bottom" constant="146" id="GD9-vz-8nT"/>
+                            <constraint firstItem="B9T-wo-gci" firstAttribute="leading" secondItem="FWK-JW-O0s" secondAttribute="leading" constant="159" id="IAT-SQ-mLv"/>
+                            <constraint firstItem="B9T-wo-gci" firstAttribute="centerX" secondItem="WfL-7x-Qyx" secondAttribute="centerX" id="QhL-F9-mv1"/>
+                            <constraint firstAttribute="bottom" secondItem="WfL-7x-Qyx" secondAttribute="bottom" constant="20" symbolic="YES" id="XKX-Ww-zIL"/>
+                            <constraint firstItem="B9T-wo-gci" firstAttribute="centerX" secondItem="FWK-JW-O0s" secondAttribute="centerX" id="YsQ-Du-x6m"/>
+                            <constraint firstItem="wm8-WM-Aqb" firstAttribute="top" secondItem="B9T-wo-gci" secondAttribute="bottom" constant="22" id="gjT-G7-R2u"/>
+                            <constraint firstItem="B9T-wo-gci" firstAttribute="top" secondItem="FWK-JW-O0s" secondAttribute="top" constant="28" id="yNK-Dh-jBV"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="AlphaSegment" destination="wm8-WM-Aqb" id="z3E-2N-dec"/>
+                        <outlet property="ColorChipTest" destination="B9T-wo-gci" id="p8z-5T-TaH"/>
+                    </connections>
+                </viewController>
+                <customObject id="z3r-8U-2QP" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1215" y="980"/>
+        </scene>
     </scenes>
     <resources>
         <image name="CircleIcon" width="24" height="24"/>
