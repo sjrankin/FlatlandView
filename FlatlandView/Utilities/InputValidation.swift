@@ -12,6 +12,128 @@ import AppKit
 /// Class that helps with validating user input.
 class InputValidation
 {
+    // MARK: - Number validation
+    
+    /// Validate a number entered by the user. Numbers may be in one of the following formats:
+    /// - Integer - determined if there are no decimal points in the string.
+    /// - Double - determined by the presence of a decimal point in the string.
+    /// - Hex - determined by leading `#` or `0x` strings.
+    /// - Parameter Raw: The raw value to parse.
+    /// - Returns: Results code with the value and type on success, error code on failure.
+    public static func ValidNumber(_ Raw: String) ->Result<(Double, NumericValueTypes), ValidationResult>
+    {
+        var Working = Raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        if Working.isEmpty
+        {
+            return .failure(.MissingInput)
+        }
+        var NumberType = NumericValueTypes.Normal
+        var IsHex = false
+        if Working.starts(with: "#")
+        {
+            NumberType = .HexPound
+            IsHex = true
+            Working.removeFirst()
+        }
+        if Working.starts(with: "0x")
+        {
+            NumberType = .Hex0X
+            IsHex = true
+            Working.removeFirst(2)
+        }
+        if IsHex
+        {
+            if Working.isEmpty
+            {
+                return .failure(.MalFormedHexValue)
+            }
+            if let HexValue = Int(Working, radix: 16)
+            {
+                return .success((Double(HexValue), NumberType))
+            }
+            return .failure(.MalFormedHexValue)
+        }
+        if Working.contains(".")
+        {
+            if let DValue = Double(Working)
+            {
+                return .success((DValue, .Double))
+            }
+            else
+            {
+                return .failure(.CannotParseDouble)
+            }
+        }
+        if let IValue = Int(Working)
+        {
+            return .success((Double(IValue), .Integer))
+        }
+        return .failure(.CannotParse)
+    }
+    
+    // MARK: - Color channel validation
+    
+    /// Validate a color channel entered by the user. Color channel strings may be in one of these forms:
+    /// - `#`hex number ranging from 0 to FF
+    /// - `0x`hex number ranging from 0 to FF
+    /// - Integer ranging from 0 to 255
+    /// - Double value ranging from 0.0 to 1.0. Any double value greater than 1.0 is treated as an integer.
+    ///   Double values are triggered by the presence of a decimal point in the string.
+    /// - Parameter Raw: The raw input string to validate.
+    /// - Returns: Result code with the validated value on success, an error code on failure. The value returned
+    ///            on success is a normal value. The input type is returned as the second item in the tuple.
+    public static func ChannelValidation(_ Raw: String) -> Result<(Double, NumericValueTypes), ValidationResult>
+    {
+        if Raw.isEmpty
+        {
+            return .failure(.MissingInput)
+        }
+        
+        let ConversionResult = ValidNumber(Raw)
+        switch ConversionResult
+        {
+            case .failure(let Why):
+                return .failure(Why)
+                
+            case .success(let (Value, InputType)):
+                if Value < 0.0 || Value > 255.0
+                {
+                    return .failure(.ChannelValueOutOfRange)
+                }
+                if Value >= 0.0 && Value <= 1.0
+                {
+                    return .success((Value, .Normal))
+                }
+                if Value - Double(Int(Value)) == 0.0
+                {
+                    return .success((Value, .Integer))
+                }
+                return .success((Value, InputType))
+        }
+    }
+    
+    /// Validate a color channel entered by the user. Color channel strings must be a normal (double) value.
+    /// - Parameter Raw: The raw input string to validate.
+    /// - Returns: Result code with the validated value on success, an error code on failure.
+    public static func NormalizedChannelValidation(_ Raw: String) -> Result<Double, ValidationResult>
+    {
+        if Raw.isEmpty
+        {
+            return .failure(.MissingInput)
+        }
+        if let Value = Double(Raw)
+        {
+            if Value < 0.0 || Value > 1.0
+            {
+                return .failure(.NotNormalized)
+            }
+            return .success(Value)
+        }
+        return .failure(.NotANumber)
+    }
+    
+    // MARK: - Latitude/longitude validation
+    
     /// Extract alpha (but not "+" or "-" from the passed string.
     /// - Parameter From: The source string to extract alpha characters from.
     /// - Returns: Tuple with a string with alpha characters removed and an array with the removed characters.
@@ -136,6 +258,8 @@ class InputValidation
         return .failure(.CannotParse)
     }
     
+    // MARK: - Distance validation
+    
     /// Array of unit names.
     public static let UnitNames = ["km", "mi"]
     
@@ -146,7 +270,7 @@ class InputValidation
     ///  - Explicit units are shown in `UnitNames` and are specified immediately after the numeric value or
     ///    with a space between the numeric value and the unit. Capitalization is ignored.
     /// - Parameter Raw: The raw value entered by the user.
-    /// - Returns: Result with success having the value and the units as determined by this function, of
+    /// - Returns: Result with success having the value and the units as determined by this function, or
     ///            failure with the reason why.
     public static func DistanceValidation(_ Raw: String) -> Result<(Value: Double, Units: InputUnits), ValidationResult>
     {
@@ -236,4 +360,23 @@ enum ValidationResult: String, CaseIterable, Error
     case LongitudeOutOfRange = "Longitude must be in range of -180.0 to 180.0"
     /// Invalid hemisphere, eg, N for longitude.
     case WrongHemisphere = "Invalid hemisphere for coorindate"
+    /// Value is not normalized - between 0.0 and 1.0.
+    case NotNormalized = "Not a normalized value"
+    /// Value is not a number.
+    case NotANumber = "Input is not a number"
+    /// Channel value is out of range high or low.
+    case ChannelValueOutOfRange = "Channel value is too big or too small"
+    /// Unable to interpret hex value.
+    case MalFormedHexValue = "Hex value is mal-formed"
+    /// Mal-formed double value.
+    case CannotParseDouble = "Error parsing double value"
+}
+
+enum NumericValueTypes: String, CaseIterable
+{
+    case Integer = "Integer"
+    case HexPound = "HexPound"
+    case Hex0X = "Hex0X"
+    case Normal = "Normal"
+    case Double = "Double"
 }
