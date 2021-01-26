@@ -408,11 +408,9 @@ class MainController: NSViewController
     
     @IBAction func RunTestDialog(_ sender: Any)
     {
-        let Storyboard = NSStoryboard(name: "RoundTextTest", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "RoundTextTest") as? RoundTextTestWindow
+        let Storyboard = NSStoryboard(name: "Main", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "ColorChipDebugWindow") as? ColorChipDebugWindow
         {
-            //let Window = WindowController.window
-            //let Controller = Window?.contentViewController as? RoundTextTestController
             WindowController.showWindow(nil)
         }
     }
