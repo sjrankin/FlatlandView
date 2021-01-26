@@ -28,8 +28,6 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
     
     var IsDirty = false
     
-    // MARK: - Initialization.
-    
     var RegionList = [UserRegion]()
     
     // MARK: - UI handling.
@@ -54,7 +52,7 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
     }
     
     //https://stackoverflow.com/questions/29433487/create-an-nsalert-with-swift
-    func RunMessageBoxOK(Message: String, InformationMessage: String) -> Bool
+    @discardableResult func RunMessageBoxOK(Message: String, InformationMessage: String) -> Bool
     {
         let Alert = NSAlert()
         Alert.messageText = Message
@@ -76,17 +74,161 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
         }
     }
     
+    func ValidateRawCoordinate(_ RawLat: String, _ RawLon: String, _ Which: String) -> (Double, Double)?
+    {
+        var WorkingLat: Double = 0.0
+        var WorkingLon: Double = 0.0
+        let LatResults = InputValidation.LatitudeValidation(RawLat)
+        switch LatResults
+        {
+            case .failure(let Why):
+                RunMessageBoxOK(Message: "Invalid latitude for \(Which). Please enter a valid latitude.", InformationMessage: "\(Why)")
+                return nil
+                
+            case .success(let OKLat):
+                WorkingLat = OKLat
+        }
+        let LonResults = InputValidation.LongitudeValidation(RawLon)
+        switch LonResults
+        {
+            case .failure(let Why):
+                RunMessageBoxOK(Message: "Invalid longitude for \(Which). Please enter a valid longitude.", InformationMessage: "\(Why)")
+                return nil
+                
+            case .success(let OKLon):
+                WorkingLon = OKLon
+        }
+        return (WorkingLat, WorkingLon)
+    }
+    
+    func PopulateRegionFromUI() -> Bool
+    {
+        if let Region = CurrentRegion
+        {
+            let RegionName = RegionNameField.stringValue
+            if RegionName.isEmpty
+            {
+                RunMessageBoxOK(Message: "Region name is empty. Please enter a valid name.",
+                                InformationMessage: "Every region must have a name.")
+                return false
+            }
+            Region.RegionName = RegionName
+            let RawRadius = CircularRadius.stringValue
+            let RadiusResult = InputValidation.DistanceValidation(RawRadius)
+            switch RadiusResult
+            {
+                case .failure(let Why):
+                    RunMessageBoxOK(Message: "Invalid radius. Please enter a number greater than 0.0", InformationMessage: "\(Why)")
+                    return false
+                    
+                case .success(let (Value, Units)):
+                    if Units == .Kilometers
+                    {
+                        Region.Radius = Value
+                    }
+                    else
+                    {
+                        Region.Radius = Value * PhysicalConstants.MilesToKilometers.rawValue
+                    }
+            }
+            Region.RegionColor = RegionColorWell.color
+            Region.IsRectangular = RegionTypeSegment.selectedSegment == 0
+            if Region.IsRectangular
+            {
+                Region.UseNorthPole = nil
+            }
+            else
+            {
+                Region.UseNorthPole = PolarSegment.selectedSegment == 0 ? true : false
+            }
+            Region.IsEnabled = EnableRegionSwitch.state == .on ? true : false
+            Region.NotifyOnNewEarthquakes = ShowNotificationSwitch.state == .on ? true : false
+            Region.Age = AgeCombo.indexOfSelectedItem
+            let RawMinMag = MinMagField.stringValue
+            let RawMaxMag = MaxMagField.stringValue
+            if let MinMag = Double(RawMinMag)
+            {
+                if var MaxMag = Double(RawMaxMag)
+                {
+                    if MinMag > MaxMag
+                    {
+                        MaxMag = 9.99
+                    }
+                    Region.MinimumMagnitude = MinMag
+                    Region.MaximumMagnitude = MaxMag
+                }
+                else
+                {
+                    RunMessageBoxOK(Message: "Invalid maximum magnitude value.", InformationMessage: "Please enter a valid number.")
+                }
+            }
+            else
+            {
+                RunMessageBoxOK(Message: "Invalid minimum magnitude value.", InformationMessage: "Please enter a valid number.")
+            }
+            if Region.IsRectangular
+            {
+                if let (ULLat, ULLon) = ValidateRawCoordinate(UpperLeftLat.stringValue, UpperLeftLon.stringValue, "upper-left corner")
+                {
+                    Region.UpperLeft.Latitude = ULLat
+                    Region.UpperLeft.Longitude = ULLon
+                }
+                else
+                {
+                    return false
+                }
+                if let (LRLat, LRLon) = ValidateRawCoordinate(LowerRightLat.stringValue, LowerRightLon.stringValue, "lower-right corner")
+                {
+                    Region.LowerRight.Latitude = LRLat
+                    Region.LowerRight.Longitude = LRLon
+                }
+                else
+                {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    
+    /// Close the color panel if it is visible.
+    func CloseColorPanel()
+    {
+        if NSColorPanel.sharedColorPanelExists
+        {
+            if NSColorPanel.shared.isVisible
+            {
+                NSColorPanel.shared.close()
+            }
+        }
+    }
+    
     @IBAction func OKButtonHandler(_ sender: Any)
     {
-        let Window = self.view.window
-        let Parent = Window?.sheetParent
-        print("Saving changed region list.")
-        Settings.SetEarthquakeRegions(RegionList)
-        Parent?.endSheet(Window!, returnCode: .OK)
+        if RegionTable.selectedRow > -1
+        {
+            if PopulateRegionFromUI()
+            {
+                CloseColorPanel()
+                let Window = self.view.window
+                let Parent = Window?.sheetParent
+                Settings.SetEarthquakeRegions(RegionList)
+                Parent?.endSheet(Window!, returnCode: .OK)
+            }
+        }
+        else
+        {
+            CloseColorPanel()
+            let Window = self.view.window
+            let Parent = Window?.sheetParent
+            Settings.SetEarthquakeRegions(RegionList)
+            Parent?.endSheet(Window!, returnCode: .OK)
+        }
     }
     
     @IBAction func CancelButtonHandler(_ sender: Any)
     {
+        CloseColorPanel()
         let Window = self.view.window
         let Parent = Window?.sheetParent
         Parent?.endSheet(Window!, returnCode: .cancel)
@@ -165,6 +307,7 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
                     CircleBox.isHidden = true
                     if let Region = CurrentRegion
                     {
+                        Region.UseNorthPole = nil
                         Region.IsRectangular = true
                         IsDirty = true
                     }
@@ -224,8 +367,11 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
             RegionTypeSegment.selectedSegment = 1
             RectangleBox.isHidden = true
             CircleBox.isHidden = false
-            CenterLat.stringValue = Utility.PrettyLatitude(Item.Center.Latitude)
-            CenterLon.stringValue = Utility.PrettyLongitude(Item.Center.Longitude)
+            guard let NorthPole = Item.UseNorthPole else
+            {
+                Debug.FatalError("Polar region malformed.")
+            }
+            PolarSegment.selectedSegment = NorthPole ? 0 : 1
             CircularRadius.stringValue = "\(Item.Radius.RoundedTo(1))"
         }
     }
@@ -245,8 +391,7 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
         UpperLeftLon.stringValue = ""
         LowerRightLat.stringValue = ""
         LowerRightLon.stringValue = ""
-        CenterLat.stringValue = ""
-        CenterLon.stringValue = ""
+        PolarSegment.selectedSegment = 0
         CircularRadius.stringValue = ""
         RegionTypeSegment.selectedSegment = 0
         RectangleBox.isHidden = false
@@ -290,6 +435,7 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
             }
             IsDirty = false
             SaveChangesButton.isHidden = true
+            CloseColorPanel()
             PopulateWithRow(NewRow)
         }
     }
@@ -338,93 +484,51 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
                         }
                         
                     case UpperLeftLat:
-                        if let Region = CurrentRegion
+                        let Result = InputValidation.LatitudeValidation(TextValue)
+                        switch Result
                         {
-                            let Result = InputValidation.LatitudeValidation(TextValue)
-                            switch Result
-                            {
-                                case .success(let Final):
-                                    Region.UpperLeft.Latitude = Final
-                                    IsDirty = true
-                                    
-                                default:
-                                    break
-                            }
+                            case .success(let Final):
+                                Region.UpperLeft.Latitude = Final
+                                IsDirty = true
+                                
+                            default:
+                                break
                         }
                         
                     case UpperLeftLon:
-                        if let Region = CurrentRegion
+                        let Result = InputValidation.LongitudeValidation(TextValue)
+                        switch Result
                         {
-                            let Result = InputValidation.LongitudeValidation(TextValue)
-                            switch Result
-                            {
-                                case .success(let Final):
-                                    Region.UpperLeft.Longitude = Final
-                                    IsDirty = true
-                                    
-                                default:
-                                    break
-                            }
+                            case .success(let Final):
+                                Region.UpperLeft.Longitude = Final
+                                IsDirty = true
+                                
+                            default:
+                                break
                         }
                         
                     case LowerRightLat:
-                        if let Region = CurrentRegion
+                        let Result = InputValidation.LatitudeValidation(TextValue)
+                        switch Result
                         {
-                            let Result = InputValidation.LatitudeValidation(TextValue)
-                            switch Result
-                            {
-                                case .success(let Final):
-                                    Region.LowerRight.Latitude = Final
-                                    IsDirty = true
-                                    
-                                default:
-                                    break
-                            }
+                            case .success(let Final):
+                                Region.LowerRight.Latitude = Final
+                                IsDirty = true
+                                
+                            default:
+                                break
                         }
                         
                     case LowerRightLon:
-                        if let Region = CurrentRegion
+                        let Result = InputValidation.LongitudeValidation(TextValue)
+                        switch Result
                         {
-                            let Result = InputValidation.LongitudeValidation(TextValue)
-                            switch Result
-                            {
-                                case .success(let Final):
-                                    Region.LowerRight.Longitude = Final
-                                    IsDirty = true
-                                    
-                                default:
-                                    break
-                            }
-                        }
-                        
-                    case CenterLat:
-                        if let Region = CurrentRegion
-                        {
-                            let Result = InputValidation.LatitudeValidation(TextValue)
-                            switch Result
-                            {
-                                case .success(let Final):
-                                    Region.Center.Latitude = Final
-                                    IsDirty = true
-                                    
-                                default:
-                                    break
-                            }
-                        }
-                        
-                    case CenterLon:
-                        if let Region = CurrentRegion
-                        {
-                            let Result = InputValidation.LongitudeValidation(TextValue)
-                            switch Result
-                            {
-                                case .success(let Final):
-                                    Region.Center.Longitude = Final
-                                    IsDirty = true
-                                    
-                                default:
-                                    break
-                            }
+                            case .success(let Final):
+                                Region.LowerRight.Longitude = Final
+                                IsDirty = true
+                                
+                            default:
+                                break
                         }
                         
                     case CircularRadius:
@@ -432,6 +536,7 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
                         {
                             if Radius > 0.0
                             {
+                                print("Setting new radius: \(Radius)")
                                 Region.Radius = Radius
                                 IsDirty = true
                             }
@@ -439,6 +544,25 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
                         
                     default:
                         break
+                }
+            }
+        }
+    }
+    
+    @IBAction func PolarRegionPoleChangedHandler(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            IsDirty = true
+            if let Region = CurrentRegion
+            {
+                if Segment.selectedSegment == 0
+                {
+                    Region.UseNorthPole = true
+                }
+                else
+                {
+                    Region.UseNorthPole = false
                 }
             }
         }
@@ -493,12 +617,11 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
     
     // MARK: - Interface builder outlets.
     
+    @IBOutlet weak var PolarSegment: NSSegmentedControl!
     @IBOutlet weak var UpperLeftLat: NSTextField!
     @IBOutlet weak var UpperLeftLon: NSTextField!
     @IBOutlet weak var LowerRightLat: NSTextField!
     @IBOutlet weak var LowerRightLon: NSTextField!
-    @IBOutlet weak var CenterLat: NSTextField!
-    @IBOutlet weak var CenterLon: NSTextField!
     @IBOutlet weak var CircularRadius: NSTextField!
     @IBOutlet weak var RegionTypeSegment: NSSegmentedControl!
     @IBOutlet weak var EnableRegionSwitch: NSSwitch!
