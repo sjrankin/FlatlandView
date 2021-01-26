@@ -472,6 +472,12 @@ enum SettingKeys: String, CaseIterable
     // MARK: - Interface settings.
     /// Determines how fancy the interface is.
     case InterfaceStyle = "InterfaceStyle"
+    /// Determines the numeric input type for color channels.
+    case ColorInputType = "ColorInputType"
+    /// The last selected colorspace for the color picker.
+    case ColorPickerColorspace = "ColorPickerColorspace"
+    /// Boolean: Show or hide UI help buttons (􀁝).
+    case ShowUIHelp = "ShowUIHelp"
     
     // MARK: - Settings used in areas outside of the Settings system.
     /// Live data viewer.
