@@ -166,16 +166,12 @@
 		1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1767A8E724794A0300C434B5 /* Assets.xcassets */; };
 		1767EBF625BE566600A976D2 /* ColorPicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1767EBF525BE566600A976D2 /* ColorPicker.storyboard */; };
 		1767EBF925BE577F00A976D2 /* ColorChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EBF825BE577F00A976D2 /* ColorChip.swift */; };
-		1767EBFD25BE6EF900A976D2 /* RGBEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EBFC25BE6EF900A976D2 /* RGBEntry.swift */; };
-		1767EC0025BE6F4300A976D2 /* PanelSetupProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EBFF25BE6F4300A976D2 /* PanelSetupProtocol.swift */; };
-		1767EC0325BE6FB100A976D2 /* NewColorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC0225BE6FB100A976D2 /* NewColorProtocol.swift */; };
 		1767EC0625BE8F4500A976D2 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC0525BE8F4500A976D2 /* ColorPicker.swift */; };
 		1767EC0925BE8F8B00A976D2 /* ColorPickerWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC0825BE8F8B00A976D2 /* ColorPickerWindow.swift */; };
 		1767EC0C25BE90D000A976D2 /* ColorPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC0B25BE90D000A976D2 /* ColorPickerDelegate.swift */; };
 		1767EC1025BE9AD600A976D2 /* ColorChipDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC0F25BE9AD600A976D2 /* ColorChipDebugWindow.swift */; };
 		1767EC1325BE9B0600A976D2 /* ColorChipDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC1225BE9B0600A976D2 /* ColorChipDebugController.swift */; };
-		1767EC1625BEAD6C00A976D2 /* ColorspacePanelBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC1525BEAD6C00A976D2 /* ColorspacePanelBase.swift */; };
-		1767EC1925BEB58900A976D2 /* ManualEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC1825BEB58900A976D2 /* ManualEntry.swift */; };
+		1767EC1625BEAD6C00A976D2 /* ColorPanelBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC1525BEAD6C00A976D2 /* ColorPanelBase.swift */; };
 		176A89802530278900489C22 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176A897F2530278900489C22 /* MainWindow.swift */; };
 		176A89832530280800489C22 /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176A89822530280800489C22 /* WindowManagement.swift */; };
 		176CBB76251B08E800D6C0AD /* EnumConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17000B4B251ADF22009CF3B7 /* EnumConstants.swift */; };
@@ -267,6 +263,11 @@
 		17B0B7322546AD4500DC0F03 /* MetalHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0B7312546AD4500DC0F03 /* MetalHelper.swift */; };
 		17B0B7352546ADF900DC0F03 /* UInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0B7342546ADF900DC0F03 /* UInt.swift */; };
 		17B0B7382546AE3400DC0F03 /* UInt8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0B7372546AE3400DC0F03 /* UInt8.swift */; };
+		17B1BC1725BFEAF10015B9E7 /* ManualEntryPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B1BC1625BFEAF10015B9E7 /* ManualEntryPanel.swift */; };
+		17B1BC1A25BFEB5D0015B9E7 /* ColorPanelParentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B1BC1925BFEB5D0015B9E7 /* ColorPanelParentProtocol.swift */; };
+		17B1BC1D25BFEEA30015B9E7 /* ColorPanelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B1BC1C25BFEEA30015B9E7 /* ColorPanelProtocol.swift */; };
+		17B1BC2025BFF0F30015B9E7 /* ColorListPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B1BC1F25BFF0F30015B9E7 /* ColorListPanel.swift */; };
+		17B1BC2325BFF1BF0015B9E7 /* SavedColorsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B1BC2225BFF1BF0015B9E7 /* SavedColorsPanel.swift */; };
 		17B7D7A824CECFDE000C077B /* MetalLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7A724CECFDE000C077B /* MetalLibrary.swift */; };
 		17B7D7AB24CED02B000C077B /* ImageFlipper.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AA24CED02B000C077B /* ImageFlipper.metal */; };
 		17B7D7AD24CED053000C077B /* ImageFlipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B7D7AC24CED053000C077B /* ImageFlipper.swift */; };
@@ -609,16 +610,12 @@
 		1767A8ED24794A0300C434B5 /* FlatlandView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandView.entitlements; sourceTree = "<group>"; };
 		1767EBF525BE566600A976D2 /* ColorPicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ColorPicker.storyboard; sourceTree = "<group>"; };
 		1767EBF825BE577F00A976D2 /* ColorChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChip.swift; sourceTree = "<group>"; };
-		1767EBFC25BE6EF900A976D2 /* RGBEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBEntry.swift; sourceTree = "<group>"; };
-		1767EBFF25BE6F4300A976D2 /* PanelSetupProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelSetupProtocol.swift; sourceTree = "<group>"; };
-		1767EC0225BE6FB100A976D2 /* NewColorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewColorProtocol.swift; sourceTree = "<group>"; };
 		1767EC0525BE8F4500A976D2 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		1767EC0825BE8F8B00A976D2 /* ColorPickerWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerWindow.swift; sourceTree = "<group>"; };
 		1767EC0B25BE90D000A976D2 /* ColorPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerDelegate.swift; sourceTree = "<group>"; };
 		1767EC0F25BE9AD600A976D2 /* ColorChipDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChipDebugWindow.swift; sourceTree = "<group>"; };
 		1767EC1225BE9B0600A976D2 /* ColorChipDebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChipDebugController.swift; sourceTree = "<group>"; };
-		1767EC1525BEAD6C00A976D2 /* ColorspacePanelBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorspacePanelBase.swift; sourceTree = "<group>"; };
-		1767EC1825BEB58900A976D2 /* ManualEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualEntry.swift; sourceTree = "<group>"; };
+		1767EC1525BEAD6C00A976D2 /* ColorPanelBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPanelBase.swift; sourceTree = "<group>"; };
 		176A897F2530278900489C22 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		176A89822530280800489C22 /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
 		176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewSuns.swift"; sourceTree = "<group>"; };
@@ -709,6 +706,11 @@
 		17B0B7312546AD4500DC0F03 /* MetalHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalHelper.swift; sourceTree = "<group>"; };
 		17B0B7342546ADF900DC0F03 /* UInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt.swift; sourceTree = "<group>"; };
 		17B0B7372546AE3400DC0F03 /* UInt8.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt8.swift; sourceTree = "<group>"; };
+		17B1BC1625BFEAF10015B9E7 /* ManualEntryPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualEntryPanel.swift; sourceTree = "<group>"; };
+		17B1BC1925BFEB5D0015B9E7 /* ColorPanelParentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPanelParentProtocol.swift; sourceTree = "<group>"; };
+		17B1BC1C25BFEEA30015B9E7 /* ColorPanelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPanelProtocol.swift; sourceTree = "<group>"; };
+		17B1BC1F25BFF0F30015B9E7 /* ColorListPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorListPanel.swift; sourceTree = "<group>"; };
+		17B1BC2225BFF1BF0015B9E7 /* SavedColorsPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedColorsPanel.swift; sourceTree = "<group>"; };
 		17B7D7A724CECFDE000C077B /* MetalLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalLibrary.swift; sourceTree = "<group>"; };
 		17B7D7AA24CED02B000C077B /* ImageFlipper.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageFlipper.metal; sourceTree = "<group>"; };
 		17B7D7AC24CED053000C077B /* ImageFlipper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFlipper.swift; sourceTree = "<group>"; };
@@ -1429,7 +1431,6 @@
 				1767EBFB25BE6EDA00A976D2 /* EntryPanels */,
 				1767EBF525BE566600A976D2 /* ColorPicker.storyboard */,
 				1767EC0525BE8F4500A976D2 /* ColorPicker.swift */,
-				1767EC1825BEB58900A976D2 /* ManualEntry.swift */,
 				1767EC0B25BE90D000A976D2 /* ColorPickerDelegate.swift */,
 				1767EC0825BE8F8B00A976D2 /* ColorPickerWindow.swift */,
 				1767EBF825BE577F00A976D2 /* ColorChip.swift */,
@@ -1440,10 +1441,12 @@
 		1767EBFB25BE6EDA00A976D2 /* EntryPanels */ = {
 			isa = PBXGroup;
 			children = (
-				1767EBFC25BE6EF900A976D2 /* RGBEntry.swift */,
-				1767EBFF25BE6F4300A976D2 /* PanelSetupProtocol.swift */,
-				1767EC0225BE6FB100A976D2 /* NewColorProtocol.swift */,
-				1767EC1525BEAD6C00A976D2 /* ColorspacePanelBase.swift */,
+				1767EC1525BEAD6C00A976D2 /* ColorPanelBase.swift */,
+				17B1BC1625BFEAF10015B9E7 /* ManualEntryPanel.swift */,
+				17B1BC1F25BFF0F30015B9E7 /* ColorListPanel.swift */,
+				17B1BC2225BFF1BF0015B9E7 /* SavedColorsPanel.swift */,
+				17B1BC1925BFEB5D0015B9E7 /* ColorPanelParentProtocol.swift */,
+				17B1BC1C25BFEEA30015B9E7 /* ColorPanelProtocol.swift */,
 			);
 			path = EntryPanels;
 			sourceTree = "<group>";
@@ -2413,6 +2416,7 @@
 				176A89832530280800489C22 /* WindowManagement.swift in Sources */,
 				17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */,
 				1760023A24D2BF6100D5EA1A /* NSImage.swift in Sources */,
+				17B1BC1725BFEAF10015B9E7 /* ManualEntryPanel.swift in Sources */,
 				17829D4824B31D0200118DB1 /* EarthquakeDetailWindow.swift in Sources */,
 				1700852B25773183002FD62F /* Geometry.swift in Sources */,
 				1743FE7A255D275D00AD05A7 /* EnumList.swift in Sources */,
@@ -2421,7 +2425,6 @@
 				177709D62592104E0092CDC0 /* +NodeEvents.swift in Sources */,
 				17A3788E24DD7E0100EE2B45 /* AlphaColorWell.swift in Sources */,
 				17F17A4D24DE7B1B00568A4E /* LinesDraw.swift in Sources */,
-				1767EC1925BEB58900A976D2 /* ManualEntry.swift in Sources */,
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
 				1704D3F4256A4DA100DE0F85 /* StencilPipelineProtocol.swift in Sources */,
 				1718271B25B1850200041826 /* +RegionEntryProtocolImplementation.swift in Sources */,
@@ -2477,6 +2480,7 @@
 				17A18108257336C7002C6611 /* +Clear.swift in Sources */,
 				17B8158C24E6802500956471 /* GeneralIndicator.swift in Sources */,
 				17F9AFCE25202DEE00DE0219 /* ParentView.swift in Sources */,
+				17B1BC2025BFF0F30015B9E7 /* ColorListPanel.swift in Sources */,
 				1701BF7A24FCE0D700686C3A /* CityPopulationWindow.swift in Sources */,
 				175623A92500C1D6006C0A60 /* AsynchronousData.swift in Sources */,
 				178E6F762540545000DA0F76 /* RoundTextTestWindow.swift in Sources */,
@@ -2514,7 +2518,6 @@
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
 				172F4A2724FA1A900014A65E /* EditorProtocol.swift in Sources */,
 				17FFF8CC2567ED04008B50AD /* +Axes.swift in Sources */,
-				1767EC0025BE6F4300A976D2 /* PanelSetupProtocol.swift in Sources */,
 				17E5EF5F24F1051400665167 /* Debug.swift in Sources */,
 				17DFAF4F2545A53C00374344 /* ImageShifter.swift in Sources */,
 				17C22C2524EA1F94006BB3AB /* NASAMapConfirmWindow.swift in Sources */,
@@ -2571,7 +2574,6 @@
 				17F9AFE22520340400DE0219 /* +CGFloat.swift in Sources */,
 				173F3D3E24EB6C4F008B9870 /* CircularWarp.m in Sources */,
 				17F1C7D52543F9460046AE33 /* +RectangleLights.swift in Sources */,
-				1767EBFD25BE6EF900A976D2 /* RGBEntry.swift in Sources */,
 				1733C81024F8D71A0025D555 /* RawSettingsWindow.swift in Sources */,
 				17CB248A253C122400BAABDC /* POI2.swift in Sources */,
 				178E1CAC25186EB000FDC75B /* +ChangedSettingsHandler.swift in Sources */,
@@ -2584,6 +2586,7 @@
 				171A583E24BED5A700F9CA76 /* SCNTriangleRing.swift in Sources */,
 				17EF33AE247A93C400A5B55D /* TimeHelper.swift in Sources */,
 				177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */,
+				17B1BC1D25BFEEA30015B9E7 /* ColorPanelProtocol.swift in Sources */,
 				1762BD6B2560BD1C009C6965 /* +FlatViewMouseHandling.swift in Sources */,
 				177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */,
 				17F2D7122583257D00DD8023 /* AttributedText.swift in Sources */,
@@ -2623,6 +2626,7 @@
 				172F4A1D24F9F2530014A65E /* ColorEditor.swift in Sources */,
 				1759FC6724A615A2001B1D4B /* RecentEarthquakeWindow.swift in Sources */,
 				17DE2DD425907D0300214204 /* +Secured.swift in Sources */,
+				17B1BC2325BFF1BF0015B9E7 /* SavedColorsPanel.swift in Sources */,
 				178D7C6D258894C00030C0AB /* +RectangleMouseHandling.swift in Sources */,
 				173056BA2553BAD700B1D4C9 /* DeleteConfirmationWindow.swift in Sources */,
 				17C0FD732531648D008F3D05 /* TLE.swift in Sources */,
@@ -2635,7 +2639,7 @@
 				17C3455A252C9AB100D01143 /* City2.swift in Sources */,
 				17DD791A24DA7A500046EB25 /* ResetConfirmWindow.swift in Sources */,
 				1760023624D2BF1800D5EA1A /* CGFloat.swift in Sources */,
-				1767EC1625BEAD6C00A976D2 /* ColorspacePanelBase.swift in Sources */,
+				1767EC1625BEAD6C00A976D2 /* ColorPanelBase.swift in Sources */,
 				1720013D258C7F9A00EF2A72 /* +WorldClock.swift in Sources */,
 				17F17A4724DE78F700568A4E /* LineDrawKernel.metal in Sources */,
 				1760023824D2BF3500D5EA1A /* Date.swift in Sources */,
@@ -2650,6 +2654,7 @@
 				1792486B251A1E3100AF4D4B /* +FlatViewEarthquakes.swift in Sources */,
 				173056C02553E7C700B1D4C9 /* +FollowMode.swift in Sources */,
 				17176C0D254CFE210051960D /* EarthquakeViewerController.swift in Sources */,
+				17B1BC1A25BFEB5D0015B9E7 /* ColorPanelParentProtocol.swift in Sources */,
 				1760023424D2BEF800D5EA1A /* Double.swift in Sources */,
 				17F9B001252035B300DE0219 /* +NotifiedEarthquakeList.swift in Sources */,
 				17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */,
@@ -2761,7 +2766,6 @@
 				1767A8E424794A0100C434B5 /* AppDelegate.swift in Sources */,
 				17E5557125B54D7900E3CE9E /* NSTextField2.swift in Sources */,
 				172F05FB255108F300BEA156 /* PreferencePanelView.swift in Sources */,
-				1767EC0325BE6FB100A976D2 /* NewColorProtocol.swift in Sources */,
 				17EF338E247A4F3A00A5B55D /* SettingChangedProtocol.swift in Sources */,
 				1701CFC52535646C00544F05 /* Snapshot.swift in Sources */,
 				17DF115E2512F3B400F04EAF /* AnimatedGradientLayer.swift in Sources */,
