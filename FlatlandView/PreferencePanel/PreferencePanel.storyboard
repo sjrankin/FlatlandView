@@ -3100,19 +3100,31 @@ Gw
                         <outlet property="AgeCombo" destination="dTE-ug-X6B" id="9Dw-ex-5an"/>
                         <outlet property="CircleBox" destination="4fH-xb-ySQ" id="Fw6-xk-Z7E"/>
                         <outlet property="CircularRadius" destination="1Ue-OK-gIW" id="SaX-kW-udy"/>
+                        <outlet property="ClearRegionsHelpButton" destination="CGh-NF-Ot4" id="gRe-Wr-r7J"/>
+                        <outlet property="DeleteRegionHelpButton" destination="cky-kK-8gb" id="0nN-wl-R19"/>
+                        <outlet property="EnableRegionHelpButton" destination="yLJ-T5-MeX" id="AiX-vs-fCO"/>
                         <outlet property="EnableRegionSwitch" destination="cgT-Il-WJP" id="1uZ-Kt-M9h"/>
                         <outlet property="LowerRightLat" destination="6EY-If-4l7" id="KaH-Z6-EUU"/>
                         <outlet property="LowerRightLon" destination="edI-bg-WlN" id="owW-UG-ILf"/>
+                        <outlet property="MagRangeHelpButton" destination="ow4-zz-mjp" id="MDy-ih-bbG"/>
                         <outlet property="MaxMagField" destination="9Dr-x9-eJ2" id="FtC-HF-Nbj"/>
                         <outlet property="MinMagField" destination="d3K-9d-HmY" id="lsE-Hl-Pf9"/>
+                        <outlet property="NewRegionHelpButton" destination="s4A-gC-wBn" id="h4s-Ht-FqO"/>
+                        <outlet property="PolarRegionsHelpButton" destination="PxU-jO-sqx" id="wL1-8r-pe6"/>
                         <outlet property="PolarSegment" destination="gVd-ST-Ing" id="a9r-rP-bS1"/>
+                        <outlet property="QuakeAgeHelpButton" destination="s3H-mA-vDB" id="RpE-Kd-jdH"/>
                         <outlet property="RectangleBox" destination="TGt-OG-07w" id="aPi-Js-yno"/>
+                        <outlet property="RectangularRegionHelpButton" destination="nZq-6E-iOO" id="mCq-l2-lES"/>
+                        <outlet property="RegionColorHelpButton" destination="9JI-Bd-pVl" id="H8V-6V-DlP"/>
                         <outlet property="RegionColorWell" destination="lYF-MY-XRh" id="ztM-LG-YmR"/>
                         <outlet property="RegionNameField" destination="FUh-0T-L01" id="Iq2-XW-IAq"/>
+                        <outlet property="RegionNameHelpButton" destination="XWD-f1-G2s" id="QeD-eL-4QT"/>
                         <outlet property="RegionTable" destination="Ula-Sm-dax" id="sTN-ye-Mdc"/>
+                        <outlet property="RegionTypeHelpButton" destination="tuk-qg-35J" id="o5O-Xw-xXE"/>
                         <outlet property="RegionTypeSegment" destination="7Qb-ke-eoj" id="UYS-zC-lzS"/>
                         <outlet property="SaveChangesButton" destination="CeF-yY-ed5" id="AHe-tH-fKr"/>
                         <outlet property="ShowNotificationSwitch" destination="Y2d-KF-iso" id="nhK-Ba-Mkc"/>
+                        <outlet property="ShowNotificationsHelpButton" destination="Aqr-4c-LNT" id="2RX-xj-gfA"/>
                         <outlet property="UpperLeftLat" destination="f7y-e8-kOR" id="WD4-7C-sIB"/>
                         <outlet property="UpperLeftLon" destination="nkj-5E-OaE" id="0Oe-B2-r8g"/>
                     </connections>
