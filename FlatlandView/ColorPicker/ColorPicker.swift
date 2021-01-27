@@ -9,103 +9,143 @@
 import Foundation
 import AppKit
 
-class ColorPicker: NSViewController, NSTableViewDelegate, NSTableViewDataSource, NewColorProtocol, WindowManagement
+class ColorPicker: NSViewController, WindowManagement, ColorPanelParentProtocol
 {
     public weak var Delegate: ColorPickerDelegate? = nil
+    var ParentWindow: ColorPickerWindow? = nil
     
     override func viewDidLoad()
     {
-        let IType = Settings.GetEnum(ForKey: .ColorInputType, EnumType: InputTypes.self, Default: .Normal)
-        switch IType
-        {
-            case .Normal:
-                InputTypeSelector.selectedSegment = 2
-                
-            case .Hex:
-                InputTypeSelector.selectedSegment = 1
-                
-            case .Integer:
-                InputTypeSelector.selectedSegment = 0
-        }
-        ManualColorChip.IsStatic = true
+        MainColorChip.IsStatic = true
         SetSourceColor(NSColor.white)
-        PopulateManualWithColor(NSColor.white)
-        MakeUITable()
+    }
+    
+    override func viewDidLayout()
+    {
+        if !HandledInitial
+        {
+            HandledInitial = true
+            ParentWindow = self.view.window?.windowController as? ColorPickerWindow
+            CreateColorPanels()
+            RGBValueLabel.stringValue = ""
+            HSBValueLabel.stringValue = ""
+            CMYKValueLabel.stringValue = ""
+            LoadPanel(.ColorWheel)
+        }
+    }
+    
+    var HandledInitial = false
+    
+    // MARK: - Panel management
+    
+    func LoadPanel(_ PanelType: ColorPanelTypes)
+    {
+        if Panels[PanelType] == nil
+        {
+            return
+        }
+        for SomeView in PanelContainer.subviews
+        {
+            SomeView.removeFromSuperview()
+        }
+        Panels[PanelType]!.Controller?.view.frame = PanelContainer.bounds
+        PanelContainer.addSubview(Panels[PanelType]!.Controller!.view)
+    }
+    
+    func CreateColorPanels()
+    {
+        Panels[.Manual] = ColorPanelBase(CreatePanelDialog("ManualEntryPanel"))
+        Panels[.ColorList] = ColorPanelBase(CreatePanelDialog("ColorListPanel"))
+        Panels[.SavedColors] = ColorPanelBase(CreatePanelDialog("SavedColorsPanel"))
+    }
+    
+    var Panels = [ColorPanelTypes: ColorPanelBase]()
+    
+    func CreatePanelDialog(_ IDName: String) -> NSViewController?
+    {
+        if let Controller = NSStoryboard(name: "ColorPicker", bundle: nil).instantiateController(withIdentifier: IDName) as? NSViewController
+        {
+            guard let AController = Controller as? ColorPanelProtocol else
+            {
+                Debug.FatalError("Error casting preference panel to ColorPanelProtocol")
+            }
+            AController.Parent = self
+            AController.SetColor(CurrentColor, From: .Picker)
+            return Controller
+        }
+        fatalError("Error creating \(IDName)")
+    }
+    
+    @IBAction func ShowColorWheelPanel(_ sender: Any)
+    {
+        LoadPanel(.ColorWheel)
+    }
+    
+    @IBAction func ShowManualPanel(_ sender: Any)
+    {
+        LoadPanel(.Manual)
+    }
+    
+    @IBAction func ShowColorListPanel(_ sender: Any)
+    {
+        LoadPanel(.ColorList)
+    }
+    
+    @IBAction func ShowSavedColorsPanel(_ sender: Any)
+    {
+        LoadPanel(.SavedColors)
+    }
+    
+    @IBAction func ShowAboutPanel(_ sender: Any)
+    {
+        LoadPanel(.About)
     }
     
     // MARK: - UI management
     
-    var UITable = [PickerColorChannels: (TextField: NSTextField, Label: NSTextField?, Slider: NSSlider, Space: PickerColorspaces?)]()
-    
-    /// Creates a table of UI elements for channel entry.
-    func MakeUITable()
-    {
-        UITable[.Alpha] = (Channel5Box, nil, Channel5Slider, nil)
-        UITable[.Red] = (Channel1Box, Channel1Label, Channel1Slider, .RGB)
-        UITable[.Green] = (Channel2Box, Channel2Label, Channel2Slider, .RGB)
-        UITable[.Blue] = (Channel3Box, Channel3Label, Channel3Slider, .RGB)
-        UITable[.Hue] = (Channel1Box, Channel1Label, Channel1Slider, .HSB)
-        UITable[.Saturation] = (Channel2Box, Channel2Label, Channel2Slider, .HSB)
-        UITable[.Brightness] = (Channel3Box, Channel3Label, Channel3Slider, .HSB)
-        UITable[.Cyan] = (Channel1Box, Channel1Label, Channel1Slider, .CMYK)
-        UITable[.Magenta] = (Channel2Box, Channel2Label, Channel2Slider, .CMYK)
-        UITable[.Yellow] = (Channel3Box, Channel3Label, Channel3Slider, .CMYK)
-        UITable[.Black] = (Channel4Box, Channel4Label, Channel4Slider, .CMYK)
-    }
-    
-    func ColorChannelFromField(_ Field: NSTextField, Colorspace: PickerColorspaces) -> PickerColorChannels?
-    {
-        for (Channel, (ChannelBox, _, _, Space)) in UITable
-        {
-            if Space == Colorspace
-            {
-                if ChannelBox == Field
-                {
-                    return Channel
-                }
-            }
-        }
-        return nil
-    }
-    
     func SetSourceColor(_ Color: NSColor)
     {
         CurrentColor = Color
-        ManualColorChip.Color = Color
-        ListColorChip.Color = Color
-        PopulateManualWithColor(Color)
+        MainColorChip.Color = Color
+        UpdateColorLabels(With: Color.InRGB)
+    }
+    
+    func UpdateColorLabels(With: NSColor)
+    {
+        var Red: CGFloat = 0.0
+        var Green: CGFloat = 0.0
+        var Blue: CGFloat = 0.0
+        var Alpha: CGFloat = 0.0
+        With.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+        let IRed = Int(Red * 255.0)
+        let IGreen = Int(Green * 255.0)
+        let IBlue = Int(Blue * 255.0)
+        let IAlpha = Int(Alpha * 255.0)
+        let SRed = String(IRed, radix: 16)
+        let SGreen = String(IGreen, radix: 16)
+        let SBlue = String(IBlue, radix: 16)
+        let SAlpha = String(IAlpha, radix: 16)
+        RGBValueLabel.stringValue = "#\(SRed)\(SGreen)\(SBlue)\(SAlpha)"
+        var Hue: CGFloat = 0.0
+        var Saturation: CGFloat = 0.0
+        var Brightness: CGFloat = 0.0
+        With.getHue(&Hue, saturation: &Saturation, brightness: &Brightness, alpha: &Alpha)
+        let SHue = "\(Hue.RoundedTo(2))"
+        let SSaturation = "\(Saturation.RoundedTo(2))"
+        let SBrightness = "\(Brightness.RoundedTo(2))"
+        let ShAlpha = "\(Alpha.RoundedTo(2))"
+        HSBValueLabel.stringValue = "\(SHue),\(SSaturation),\(SBrightness),\(ShAlpha)"
+        let (Cyan, Magenta, Yellow, Black) = With.ToCMYK()
+        let SCyan = "\(Cyan.RoundedTo(2))"
+        let SMagenta = "\(Magenta.RoundedTo(2))"
+        let SYellow = "\(Yellow.RoundedTo(2))"
+        let SBlack = "\(Black.RoundedTo(2))"
+        CMYKValueLabel.stringValue = "\(SCyan),\(SMagenta),\(SYellow),\(SBlack)"
     }
     
     var CurrentColor: NSColor = NSColor.white
     
-    @IBAction func HandleInputTypeChanged(_ sender: Any)
-    {
-        if let Segment = sender as? NSSegmentedControl
-        {
-            let Index = Segment.selectedSegment
-            var NewType = InputTypes.Normal
-            switch Index
-            {
-                case 0:
-                    NewType = .Integer
-                    
-                case 1:
-                    NewType = .Hex
-                    
-                case 2:
-                    NewType = .Normal
-                    
-                default:
-                    return
-            }
-            Settings.SetEnum(NewType, EnumType: InputTypes.self, ForKey: .ColorInputType)
-            
-        }
-    }
-    
-    // MARK: - Internal protocol handlers
-    
-    func NewColorEntered(_ Color: NSColor)
+    func NewColorFromPanel(_ Color: NSColor, From: ColorPanelTypes)
     {
         SetSourceColor(Color)
     }
@@ -129,56 +169,9 @@ class ColorPicker: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
         Pop?.close()
         self.view.window?.close()
     }
-    
-    // MARK: - Table management
-    
-    func numberOfRows(in tableView: NSTableView) -> Int
-    {
-        return 0
-    }
-    
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
-    {
-        var CellContents = ""
-        var CellIdentifier = ""
-        if tableColumn == tableView.tableColumns[0]
-        {
-            CellIdentifier = "ColorColumn"
-        }
-        else
-        {
-            CellIdentifier = "ColorNameColumn"
-        }
-        
-        let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
-        Cell?.textField?.stringValue = CellContents
-        return Cell
-    }
-    
+       
     // MARK: - Help system
-    
-    
-    @IBAction func RunHelp(_ sender: Any)
-    {
-        if let Button = sender as? NSButton
-        {
-            let Where = Button.bounds
-            var Topics = ColorTopics.GeneralColorSpaces
-            switch Button
-            {
-                case InputTypeHelpButton:
-                    Topics = .NumericInputTypes
-                    
-                case ColorSpaceHelpButton:
-                    Topics = .GeneralColorSpaces
-                    
-                default:
-                    return
-            }
-            ShowHelp(Message: Topics, Where: Where, What: Button)
-        }
-    }
-    
+        
     func ShowHelp(Message: ColorTopics, Where: NSRect, What: NSView)
     {
         if let PopController = NSStoryboard(name: "PreferenceHelpViewer", bundle: nil).instantiateController(withIdentifier: "PreferenceHelpViewer") as? PreferenceHelpPopover
@@ -218,95 +211,23 @@ Determines how you enter raw channel values. (You can use the slider to enter va
     
     var Pop: NSPopover? = nil
     
-    
-    @IBAction func HandleSliderChanged(_ sender: Any)
-    {
-        if let Slider = sender as? NSSlider
-        {
-        UpdateFromManualSlider(Slider)
-            }
-    }
-    
-    func ChangeColorChannel(Source: NSColor, NewValue: Double, Channel: PickerColorChannels) -> NSColor
-    {
-        var Red: CGFloat = 1.0
-        var Green: CGFloat = 1.0
-        var Blue: CGFloat = 1.0
-        var Alpha: CGFloat = 1.0
-        Source.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
-        switch Channel
-        {
-            case .Red:
-                Red = CGFloat(NewValue)
-                
-            case .Green:
-                Green = CGFloat(NewValue)
-                
-            case .Blue:
-                Blue = CGFloat(NewValue)
-                
-            case .Alpha:
-                Alpha = CGFloat(NewValue)
-                
-            default:
-                Debug.Print("Unsupported channel (\(Channel)) encountered in \(#function)")
-                return Source
-        }
-        let EditedColor = NSColor(calibratedRed: Red, green: Green, blue: Blue, alpha: Alpha)
-        return EditedColor
-    }
-    
-    @IBAction func HandleManualAlphaChanged(_ sender: Any)
-    {
-        if let Button = sender as? NSButton
-        {
-            if Button.state == .off
-            {
-                CurrentColor = ChangeColorChannel(Source: CurrentColor, NewValue: 1.0, Channel: .Alpha)
-//                CurrentColor = CurrentColor.withAlphaComponent(1.0)
-                SetSourceColor(CurrentColor)
-                Channel5Slider.isEnabled = false
-                Channel5Box.isEnabled = false
-            }
-            else
-            {
-                CurrentColor = ChangeColorChannel(Source: CurrentColor, NewValue: LastAlpha, Channel: .Alpha)
-//                CurrentColor = CurrentColor.withAlphaComponent(CGFloat(LastAlpha))
-                SetSourceColor(CurrentColor)
-                Channel5Slider.isEnabled = true
-                Channel5Box.isEnabled = true
-            }
-        }
-    }
-    
-    var LastAlpha: Double = 1.0
-    
     // MARK: - Interface builder outlets
     
-    @IBOutlet weak var ColorListTable: NSTableView!
-    @IBOutlet weak var ListColorChip: ColorChip!
-    @IBOutlet weak var InputTypeHelpButton: NSButton!
-    @IBOutlet weak var ColorSpaceHelpButton: NSButton!
-    @IBOutlet weak var ManualInputColorSpace: NSSegmentedControl!
-    @IBOutlet weak var ManualColorChip: ColorChip!
-    @IBOutlet weak var InputTypeSelector: NSSegmentedControl!
-    
-    
-    @IBOutlet weak var Channel1Box: NSTextField!
-    @IBOutlet weak var Channel2Box: NSTextField!
-    @IBOutlet weak var Channel3Box: NSTextField!
-    @IBOutlet weak var Channel4Box: NSTextField!
-    @IBOutlet weak var Channel5Box: NSTextField!
-    @IBOutlet weak var Channel1Label: NSTextField!
-    @IBOutlet weak var Channel2Label: NSTextField!
-    @IBOutlet weak var Channel3Label: NSTextField!
-    @IBOutlet weak var Channel4Label: NSTextField!
-    @IBOutlet weak var ManualAlphaCheck: NSButton!
-    @IBOutlet weak var Channel1Slider: NSSlider!
-    @IBOutlet weak var Channel2Slider: NSSlider!
-    @IBOutlet weak var Channel3Slider: NSSlider!
-    @IBOutlet weak var Channel4Slider: NSSlider!
-    @IBOutlet weak var Channel5Slider: NSSlider!
+    @IBOutlet weak var CMYKValueLabel: NSTextField!
+    @IBOutlet weak var HSBValueLabel: NSTextField!
+    @IBOutlet weak var RGBValueLabel: NSTextField!
+    @IBOutlet weak var MainColorChip: ColorChip!
+    @IBOutlet weak var PanelContainer: NSView!
+}
+
+enum ColorPanelTypes: String, CaseIterable
+{
+    case ColorWheel = "ColorWheel"
+    case Manual = "Manual"
+    case ColorList = "ColorList"
+    case SavedColors = "SavedColors"
+    case About = "About"
+    case Picker = "ColorPicker"
 }
 
 /// Determines the input format for color channels.
