@@ -145,6 +145,28 @@ extension NSColor
         }
     }
     
+    /// Convert the instance color to CMYK channels.
+    /// - Note: No color profiles are used - just the naive algorithm.
+    /// - Returns: Tuple with cyan, magenta, yellow, and black channels, each mutliplied by 100.0.
+    func ToCMYK() -> (Cyan: CGFloat, Magenta: CGFloat, Yellow: CGFloat, Black: CGFloat)
+    {
+        let RGB = self.InRGB
+        var Red: CGFloat = 0.0
+        var Green: CGFloat = 0.0
+        var Blue: CGFloat = 0.0
+        var Alpha: CGFloat = 0.0
+        RGB.getRed(&Red, green: &Green, blue: &Blue, alpha: &Alpha)
+        let K = 1.0 - max(Red, Green, Blue)
+        if K == 1.0
+        {
+            return (0.0, 0.0, 0.0, 100.0)
+        }
+        let C = (1.0 - Red - K) / (1.0 - K)
+        let M = (1.0 - Green - K) / (1.0 - K)
+        let Y = (1.0 - Blue - K) / (1.0 - K)
+        return (C * 100.0, M * 100.0, Y * 100.0, K * 100.0)
+    }
+    
     /// Returns the value of the color as a hex string. The string has the prefix
     /// `#` and is in RGBA order.
     /// - Note: This property converts all colors to sRGB prior to conversion to a hex string.
