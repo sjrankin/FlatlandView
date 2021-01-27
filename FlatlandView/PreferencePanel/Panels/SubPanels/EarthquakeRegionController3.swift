@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
-                                   NSControlTextEditingDelegate
+                                   NSControlTextEditingDelegate, SettingChangedProtocol
 {
     override func viewDidLoad()
     {
@@ -24,6 +24,38 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
         SaveChangesButton.isHidden = true
         RegionList = Settings.GetEarthquakeRegions()
         RegionTable.reloadData()
+        
+        HelpButtons.append(RegionTypeHelpButton)
+        HelpButtons.append(EnableRegionHelpButton)
+        HelpButtons.append(ShowNotificationsHelpButton)
+        HelpButtons.append(RegionColorHelpButton)
+        HelpButtons.append(QuakeAgeHelpButton)
+        HelpButtons.append(MagRangeHelpButton)
+        HelpButtons.append(RegionNameHelpButton)
+        HelpButtons.append(PolarRegionsHelpButton)
+        HelpButtons.append(RectangularRegionHelpButton)
+        HelpButtons.append(ClearRegionsHelpButton)
+        HelpButtons.append(DeleteRegionHelpButton)
+        HelpButtons.append(NewRegionHelpButton)
+        SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
+    }
+    
+    var QuakeWindowID: UUID = UUID()
+    func SubscriberID() -> UUID
+    {
+        return QuakeWindowID
+    }
+    
+    func SettingChanged(Setting: SettingKeys, OldValue: Any?, NewValue: Any?)
+    {
+        switch Setting
+        {
+            case .ShowUIHelp:
+                SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
+                
+            default:
+                break
+        }
     }
     
     var IsDirty = false
@@ -615,6 +647,17 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
             (12, "Clear/deletes all regions.")
         ]
     
+    var HelpButtons: [NSButton] = [NSButton]()
+    
+    func SetHelpVisibility(To: Bool)
+    {
+        for Button in HelpButtons
+        {
+            Button.alphaValue = To ? 1.0 : 0.0
+            Button.isEnabled = To ? true : false
+        }
+    }
+    
     // MARK: - Interface builder outlets.
     
     @IBOutlet weak var PolarSegment: NSSegmentedControl!
@@ -635,4 +678,19 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
     @IBOutlet weak var RectangleBox: NSBox!
     @IBOutlet weak var CircleBox: NSBox!
     @IBOutlet weak var SaveChangesButton: NSButton!
+    
+    // MARK: - Help buttons
+    
+    @IBOutlet weak var RegionTypeHelpButton: NSButton!
+    @IBOutlet weak var EnableRegionHelpButton: NSButton!
+    @IBOutlet weak var ShowNotificationsHelpButton: NSButton!
+    @IBOutlet weak var RegionColorHelpButton: NSButton!
+    @IBOutlet weak var QuakeAgeHelpButton: NSButton!
+    @IBOutlet weak var MagRangeHelpButton: NSButton!
+    @IBOutlet weak var RegionNameHelpButton: NSButton!
+    @IBOutlet weak var PolarRegionsHelpButton: NSButton!
+    @IBOutlet weak var RectangularRegionHelpButton: NSButton!
+    @IBOutlet weak var ClearRegionsHelpButton: NSButton!
+    @IBOutlet weak var DeleteRegionHelpButton: NSButton!
+    @IBOutlet weak var NewRegionHelpButton: NSButton!
 }
