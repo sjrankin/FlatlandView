@@ -820,6 +820,29 @@ extension GlobeView
                 let Indicator = SCNNode2(geometry: IndicatorShape)
                 #if true
                 Indicator.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: 0xffa080)
+                let Day: EventAttributes =
+                    {
+                        let D = EventAttributes()
+                        D.ForEvent = .SwitchToDay
+                        D.Diffuse = NSColor(RGB: 0xffa080)
+                        D.Emission = nil
+                        return D
+                    }()
+                let Night: EventAttributes =
+                    {
+                        let N = EventAttributes()
+                        N.ForEvent = .SwitchToNight
+                        N.Diffuse = NSColor(RGB: 0xffa080)
+                        N.Emission = NSColor.red
+                        return N
+                    }()
+                Indicator.CanSwitchState = true
+                Indicator.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+                Indicator.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+                if let IsInDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
+                {
+                    Indicator.IsInDaylight = IsInDay
+                }
                 #else
                 let TextureType = Settings.GetEnum(ForKey: .EarthquakeTextures, EnumType: EarthquakeTextures.self, Default: .Gradient1)
                 guard let TextureName = TextureMap[TextureType] else
@@ -901,32 +924,36 @@ extension GlobeView
                 let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.15)
                 let Indicator = SCNNode2(geometry: IndicatorShape)
                 let InitialAlpha: CGFloat = 0.8
-                #if true
-                Indicator.geometry?.firstMaterial?.diffuse.contents = NSColor.Maroon
-                #else
-                let TextureType = Settings.GetEnum(ForKey: .EarthquakeTextures, EnumType: EarthquakeTextures.self, Default: .Gradient1)
-                guard let TextureName = TextureMap[TextureType] else
+                Indicator.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: 0xffa080)
+
+                let Day: EventAttributes =
+                    {
+                        let D = EventAttributes()
+                        D.ForEvent = .SwitchToDay
+                        D.Diffuse = NSColor(RGB: 0xffa080)
+                        D.Specular = NSColor.white
+                        D.Emission = nil
+                        return D
+                    }()
+                Indicator.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
+                let Night: EventAttributes =
+                    {
+                        let N = EventAttributes()
+                        N.ForEvent = .SwitchToNight
+                        N.Diffuse = NSColor(RGB: 0xffa080)
+                        N.Specular = NSColor.white
+                        N.Emission = NSColor(RGB: 0xffa080)
+                        return N
+                    }()
+                Indicator.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+                Indicator.CanSwitchState = true
+                if let IsInDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
                 {
-                    fatalError("Error getting texture \(TextureType)")
+                    Indicator.IsInDaylight = IsInDay
                 }
-                if TextureName.isEmpty
-                {
-                    let SolidColor = Settings.GetColor(.EarthquakeColor, NSColor.red)
-                    Indicator.geometry?.firstMaterial?.diffuse.contents = SolidColor.withAlphaComponent(InitialAlpha)
-                }
-                else
-                {
-                    Indicator.geometry?.firstMaterial?.diffuse.contents = NSImage(named: TextureName)
-                }
-                #endif
-                Indicator.geometry?.firstMaterial?.specular.contents = NSColor.white
-                #if true
+
                 Indicator.geometry?.firstMaterial?.lightingModel = .lambert
                 Indicator.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-                #else
-                Indicator.geometry?.firstMaterial?.lightingModel = .physicallyBased
-                Indicator.categoryBitMask = LightMasks3D.MetalSun.rawValue | LightMasks3D.MetalMoon.rawValue
-                #endif
                 Indicator.scale = SCNVector3(NodeScales3D.RadiatingRings.rawValue,
                                              NodeScales3D.RadiatingRings.rawValue,
                                              NodeScales3D.RadiatingRings.rawValue)
