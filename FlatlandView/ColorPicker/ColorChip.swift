@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 /// Creates a code-only color chip that supports transparent colors.
-class ColorChip: NSView, ColorPickerDelegate
+@IBDesignable class ColorChip: NSView, ColorPickerDelegate
 {
     override init(frame frameRect: NSRect)
     {
@@ -28,18 +28,25 @@ class ColorChip: NSView, ColorPickerDelegate
     {
         CheckLayer.frame = bounds
         ColorLayer.frame = bounds
+        CornerRadius = _CornerRadius
+        BorderWidth = _BorderWidth
     }
     
     func InitializeUI()
     {
         wantsLayer = true
         layer?.backgroundColor = NSColor.black.cgColor
-        layer?.cornerRadius = 5.0
-        layer?.borderWidth = 4.0
         layer?.borderColor = IsStatic ? NSColor.systemGray.cgColor : NSColor.black.cgColor
         CheckLayer = CATiledLayer()
         CheckLayer.frame = bounds
-        CheckLayer.contents = NSImage(named: "SquareCheckerboard")
+        if let BGImage = GetBackgroundPattern()
+        {
+            CheckLayer.contents = BGImage
+        }
+        else
+        {
+            CheckLayer.contents = NSImage(named: "SquareCheckerboard")
+        }
         CheckLayer.contentsGravity = .resizeAspectFill
         CheckLayer.magnificationFilter = .linear
         CheckLayer.zPosition = 0
@@ -53,6 +60,85 @@ class ColorChip: NSView, ColorPickerDelegate
     
     var CheckLayer = CATiledLayer()
     var ColorLayer = CALayer()
+    
+    /// Holds the corner radius of the color chip.
+    private var _CornerRadius: CGFloat = 5.0
+    {
+        didSet
+        {
+            layer?.cornerRadius = _CornerRadius
+        }
+    }
+    /// Get or set the corner radius of the color chip.
+    @IBInspectable var CornerRadius: CGFloat
+    {
+        get
+        {
+            return _CornerRadius
+        }
+        set
+        {
+            _CornerRadius = newValue
+        }
+    }
+    
+    /// Holds the border width or the color chip.
+    private var _BorderWidth: CGFloat = 4.0
+    {
+        didSet
+        {
+            layer?.borderWidth = _BorderWidth
+        }
+    }
+    /// Get or set the border width of the color chip.
+    @IBInspectable var BorderWidth: CGFloat
+    {
+        get
+        {
+            return _BorderWidth
+        }
+        set
+        {
+            _BorderWidth = newValue
+        }
+    }
+    
+    /// Get the image to use for the background of the color chip.
+    /// - Returns: Image to use for the background. If nil, the image could not be found/loaded.
+    func GetBackgroundPattern() -> NSImage?
+    {
+        let ImageName = AlternateBackgroundImageName ?? "SquareCheckerboard"
+        return NSImage(named: ImageName)
+    }
+    
+    /// Holds the alternative background image name. If nil, the standard image will be used.
+    private var _AlternateBackgroundImageName: String? = nil
+    {
+        didSet
+        {
+            if let BGImage = _AlternateBackgroundImageName
+            {
+                CheckLayer.contents = BGImage
+            }
+            else
+            {
+                CheckLayer.contents = NSImage(named: "SquareCheckerboard")
+            }
+        }
+    }
+    /// Get or set the name of the image to use for the background of the color chip. This will be visible
+    /// when the color has a alpha level of less than 1.0.
+    @IBInspectable var AlternateBackgroundImageName: String?
+    {
+        get
+        {
+            return _AlternateBackgroundImageName
+        }
+        set
+        {
+            _AlternateBackgroundImageName = newValue
+        }
+    }
     
     /// Holds the color to display as well as updating the control when new colors are set.
     private var _Color: NSColor = NSColor.white
@@ -75,12 +161,25 @@ class ColorChip: NSView, ColorPickerDelegate
         }
     }
     
+    private var _CallerTitle: String? = nil
+    public var CallerTitle: String?
+    {
+        get
+        {
+            return _CallerTitle
+        }
+        set
+        {
+            _CallerTitle = newValue
+        }
+    }
+    
     /// Holds the static flag.
     private var _IsStatic: Bool = true
     /// Determines whether the user can change the color by clicking on this control. If `true`, when the user
     /// clicks the control, the `ColorPicker` is instantiated to let the user change the color. If `false`,
     /// this control ignores mouse clicks.
-    public var IsStatic: Bool
+    @IBInspectable public var IsStatic: Bool
     {
         get
         {
@@ -88,7 +187,7 @@ class ColorChip: NSView, ColorPickerDelegate
         }
         set
         {
-             _IsStatic = newValue
+            _IsStatic = newValue
         }
     }
     
@@ -112,6 +211,10 @@ class ColorChip: NSView, ColorPickerDelegate
                 Controller?.Delegate = self
                 WindowController.showWindow(nil)
                 Controller?.SetSourceColor(_Color)
+                if let CallerTitleValue = CallerTitle
+                {
+                    Controller?.CallerTitle = CallerTitleValue
+                }
             }
         }
     }
