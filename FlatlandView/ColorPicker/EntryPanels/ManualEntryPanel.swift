@@ -18,10 +18,17 @@ class ManualEntryPanel: NSViewController, NSTextFieldDelegate, ColorPanelProtoco
         super.viewDidLoad()
     }
     
+    let SliderMax = 1000.0
+    
     override func viewDidAppear()
     {
         super.viewDidAppear()
         MakeUITable()
+        Channel1Slider.maxValue = SliderMax
+        Channel2Slider.maxValue = SliderMax
+        Channel3Slider.maxValue = SliderMax
+        Channel4Slider.maxValue = SliderMax
+        Channel5Slider.maxValue = SliderMax
         let ColorSpace = Settings.GetEnum(ForKey: .ColorPickerColorspace, EnumType: PickerColorspaces.self, Default: .RGB)
         UpdateUIForColorSpace(ColorSpace)
         if let FirstColor = InitialColor
@@ -99,13 +106,13 @@ class ManualEntryPanel: NSViewController, NSTextFieldDelegate, ColorPanelProtoco
                         FinalAlpha = "\(Alpha)"
                 }
                 
-                Channel1Slider.doubleValue = Double(Red) * 1275.0
+                Channel1Slider.doubleValue = Double(Red) * SliderMax
                 Channel1Box.stringValue = FinalRed
-                Channel2Slider.doubleValue = Double(Green) * 1275.0
+                Channel2Slider.doubleValue = Double(Green) * SliderMax
                 Channel2Box.stringValue = FinalGreen
-                Channel3Slider.doubleValue = Double(Blue) * 1275.0
+                Channel3Slider.doubleValue = Double(Blue) * SliderMax
                 Channel3Box.stringValue = FinalBlue
-                Channel5Slider.doubleValue = Double(Alpha) * 1275.0
+                Channel5Slider.doubleValue = Double(Alpha) * SliderMax
                 Channel5Box.stringValue = FinalAlpha
                 
             case .HSB:
@@ -122,27 +129,27 @@ class ManualEntryPanel: NSViewController, NSTextFieldDelegate, ColorPanelProtoco
         switch CurrentSpace
         {
             case .RGB:
-                let NRed = Channel1Slider.doubleValue / 1275.0
-                let NGreen = Channel2Slider.doubleValue / 1275.0
-                let NBlue = Channel3Slider.doubleValue / 1275.0
-                let NAlpha = Channel5Slider.doubleValue / 1275.0
+                let NRed = Channel1Slider.doubleValue / SliderMax
+                let NGreen = Channel2Slider.doubleValue / SliderMax
+                let NBlue = Channel3Slider.doubleValue / SliderMax
+                let NAlpha = Channel5Slider.doubleValue / SliderMax
                 return NSColor(calibratedRed: CGFloat(NRed), green: CGFloat(NGreen),
                                blue: CGFloat(NBlue), alpha: CGFloat(NAlpha))
                 
             case .HSB:
-                let NHue = Channel1Slider.doubleValue / 1275.0
-                let NSat = Channel2Slider.doubleValue / 1275.0
-                let NBri = Channel3Slider.doubleValue / 1275.0
-                let NAlpha = Channel5Slider.doubleValue / 1275.0
+                let NHue = Channel1Slider.doubleValue / SliderMax
+                let NSat = Channel2Slider.doubleValue / SliderMax
+                let NBri = Channel3Slider.doubleValue / SliderMax
+                let NAlpha = Channel5Slider.doubleValue / SliderMax
                 return NSColor(calibratedHue: CGFloat(NHue), saturation: CGFloat(NSat),
                                brightness: CGFloat(NBri), alpha: CGFloat(NAlpha))
                 
             case .CMYK:
-                let NCyan = Channel1Slider.doubleValue / 1275.0
-                let NMagenta = Channel2Slider.doubleValue / 1275.0
-                let NYellow = Channel3Slider.doubleValue / 1275.0
-                let NBlack = Channel4Slider.doubleValue / 1275.0
-                let NAlpha = Channel5Slider.doubleValue / 1275.0
+                let NCyan = Channel1Slider.doubleValue / SliderMax
+                let NMagenta = Channel2Slider.doubleValue / SliderMax
+                let NYellow = Channel3Slider.doubleValue / SliderMax
+                let NBlack = Channel4Slider.doubleValue / SliderMax
+                let NAlpha = Channel5Slider.doubleValue / SliderMax
                 return NSColor(deviceCyan: CGFloat(NCyan), magenta: CGFloat(NMagenta),
                                yellow: CGFloat(NYellow), black: CGFloat(NBlack),
                                alpha: CGFloat(NAlpha))
@@ -169,22 +176,79 @@ class ManualEntryPanel: NSViewController, NSTextFieldDelegate, ColorPanelProtoco
     
     func UpdateFromManualSlider(_ Slider: NSSlider)
     {
+        let ColorSpace = Settings.GetEnum(ForKey: .ColorPickerColorspace, EnumType: PickerColorspaces.self, Default: .RGB)
         let InputType = Settings.GetEnum(ForKey: .ColorInputType, EnumType: InputTypes.self, Default: .Integer)
-        let SliderValue = Slider.doubleValue / 1275.0
+        let SliderValue = Slider.doubleValue / SliderMax
         let CurrentSpace = Settings.GetEnum(ForKey: .ColorPickerColorspace, EnumType: PickerColorspaces.self, Default: .RGB)
         switch Slider
         {
             case Channel1Slider:
                 Channel1Box.stringValue = FormatValue(SliderValue, For: InputType, In: CurrentSpace)
+                switch ColorSpace
+                {
+                    case .RGB:
+                        let RedSample = NSColor(calibratedRed: CGFloat(SliderValue), green: 0.0, blue: 0.0, alpha: 1.0)
+                        Channel1Sample.Color = RedSample
+                        
+                    case .HSB:
+                        let HueSample = NSColor(calibratedHue: CGFloat(SliderValue), saturation: 0.85, brightness: 0.85, alpha: 1.0)
+                        Channel1Sample.Color = HueSample
+                        
+                    case .CMYK:
+                        let CyanSample = NSColor(calibratedRed: 0.0, green: CGFloat(SliderValue), blue: CGFloat(SliderValue), alpha: 1.0)
+                        Channel1Sample.Color = CyanSample
+                }
                 
             case Channel2Slider:
                 Channel2Box.stringValue = FormatValue(SliderValue, For: InputType, In: CurrentSpace)
+                switch ColorSpace
+                {
+                    case .RGB:
+                        let GreenSample = NSColor(calibratedRed: 0.0, green: CGFloat(SliderValue), blue: 0.0, alpha: 1.0)
+                        Channel2Sample.Color = GreenSample
+                        
+                    case .HSB:
+                        let HueSliderValue = CGFloat(Channel1Slider.doubleValue) / CGFloat(SliderMax)
+                        let SatSample = NSColor(calibratedHue: HueSliderValue, saturation: CGFloat(SliderValue), brightness: 0.85, alpha: 1.0)
+                        Channel2Sample.Color = NSColor.UnitColor(CGFloat(SliderValue), Channel: .Saturation)
+                        
+                    case .CMYK:
+                        let MagentaSample = NSColor(calibratedRed: CGFloat(SliderValue), green: 0.0, blue: CGFloat(SliderValue), alpha: 1.0)
+                        Channel2Sample.Color = MagentaSample
+                }
                 
             case Channel3Slider:
                 Channel3Box.stringValue = FormatValue(SliderValue, For: InputType, In: CurrentSpace)
+                switch ColorSpace
+                {
+                    case .RGB:
+                        let BlueSample = NSColor(calibratedRed: 0.0, green: 0.0, blue: CGFloat(SliderValue), alpha: 1.0)
+                        Channel3Sample.Color = BlueSample
+                        
+                    case .HSB:
+                        let HueSliderValue = CGFloat(Channel1Slider.doubleValue / SliderMax)
+                        let SatSliderValue = CGFloat(Channel2Slider.doubleValue / SliderMax)
+                        let BriSample = NSColor(calibratedHue: HueSliderValue, saturation: SatSliderValue, brightness: CGFloat(SliderValue), alpha: 1.0)
+                        Channel3Sample.Color = BriSample
+                        
+                    case .CMYK:
+                        let YellowSample = NSColor(calibratedRed: CGFloat(SliderValue), green: CGFloat(SliderValue), blue: 0.0, alpha: 1.0)
+                        Channel3Sample.Color = YellowSample
+                }
                 
             case Channel4Slider:
                 Channel4Box.stringValue = FormatValue(SliderValue, For: InputType, In: CurrentSpace)
+                switch ColorSpace
+                {
+                    case .RGB:
+                        break
+                        
+                    case .HSB:
+                        break
+                        
+                    case .CMYK:
+                        Channel4Sample.Color = NSColor.UnitColor(CGFloat(SliderValue), Channel: .Black)
+                }
                 
             case Channel5Slider:
                 Channel5Box.stringValue = FormatValue(SliderValue, For: InputType, In: CurrentSpace)
@@ -264,6 +328,11 @@ class ManualEntryPanel: NSViewController, NSTextFieldDelegate, ColorPanelProtoco
                 Channel4Label.isHidden = true
                 Channel4Box.isHidden = true
                 Channel4Slider.isHidden = true
+                Channel4Sample.isHidden = true
+                Channel1Slider.trackFillColor = NSColor.red
+                Channel2Slider.trackFillColor = NSColor.green
+                Channel3Slider.trackFillColor = NSColor.blue
+                Channel5Slider.trackFillColor = NSColor(named: "ControlBlack")
                 
             case .HSB:
                 Channel1Label.stringValue = "Hue"
@@ -272,6 +341,8 @@ class ManualEntryPanel: NSViewController, NSTextFieldDelegate, ColorPanelProtoco
                 Channel4Label.isHidden = true
                 Channel4Box.isHidden = true
                 Channel4Slider.isHidden = true
+                Channel4Sample.isHidden = true
+                Channel5Slider.trackFillColor = NSColor(named: "ControlBlack")
                 
             case .CMYK:
                 Channel1Label.stringValue = "Cyan"
@@ -281,6 +352,12 @@ class ManualEntryPanel: NSViewController, NSTextFieldDelegate, ColorPanelProtoco
                 Channel4Label.isHidden = false
                 Channel4Box.isHidden = false
                 Channel4Slider.isHidden = false
+                Channel4Sample.isHidden = false
+                Channel1Slider.trackFillColor = NSColor.cyan
+                Channel2Slider.trackFillColor = NSColor.magenta
+                Channel3Slider.trackFillColor = NSColor.yellow
+                Channel4Slider.trackFillColor = NSColor.black
+                Channel5Slider.trackFillColor = NSColor(named: "ControlBlack")
         }
     }
     
@@ -324,4 +401,9 @@ class ManualEntryPanel: NSViewController, NSTextFieldDelegate, ColorPanelProtoco
     @IBOutlet weak var Channel3Slider: NSSlider!
     @IBOutlet weak var Channel4Slider: NSSlider!
     @IBOutlet weak var Channel5Slider: NSSlider!
+    @IBOutlet weak var Channel1Sample: ColorChip!
+    @IBOutlet weak var Channel2Sample: ColorChip!
+    @IBOutlet weak var Channel3Sample: ColorChip!
+    @IBOutlet weak var Channel4Sample: ColorChip!
+    @IBOutlet weak var Channel5Sample: ColorChip!
 }
