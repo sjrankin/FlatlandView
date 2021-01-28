@@ -103,6 +103,27 @@ class ColorPicker: NSViewController, WindowManagement, ColorPanelParentProtocol
     
     // MARK: - UI management
     
+    /// Holds the caller title string.
+    private var _CallerTitle: String = ""
+    {
+        didSet
+        {
+            CallerTitleLabel.stringValue = _CallerTitle
+        }
+    }
+    /// Get or set the caller title string.
+    var CallerTitle: String
+    {
+        get
+        {
+            return _CallerTitle
+        }
+        set
+        {
+            _CallerTitle = newValue
+        }
+    }
+    
     func SetSourceColor(_ Color: NSColor)
     {
         CurrentColor = Color
@@ -135,11 +156,15 @@ class ColorPicker: NSViewController, WindowManagement, ColorPanelParentProtocol
         let SBrightness = "\(Brightness.RoundedTo(2))"
         let ShAlpha = "\(Alpha.RoundedTo(2))"
         HSBValueLabel.stringValue = "\(SHue),\(SSaturation),\(SBrightness),\(ShAlpha)"
-        let (Cyan, Magenta, Yellow, Black) = With.ToCMYK()
-        let SCyan = "\(Cyan.RoundedTo(2))"
-        let SMagenta = "\(Magenta.RoundedTo(2))"
-        let SYellow = "\(Yellow.RoundedTo(2))"
-        let SBlack = "\(Black.RoundedTo(2))"
+        var (Cyan, Magenta, Yellow, Black) = With.ToCMYK()
+        Cyan.round()
+        Magenta.round()
+        Yellow.round()
+        Black.round()
+        let SCyan = "\(Int(Cyan))"
+        let SMagenta = "\(Int(Magenta))"
+        let SYellow = "\(Int(Yellow))"
+        let SBlack = "\(Int(Black))"
         CMYKValueLabel.stringValue = "\(SCyan),\(SMagenta),\(SYellow),\(SBlack)"
     }
     
@@ -213,6 +238,7 @@ Determines how you enter raw channel values. (You can use the slider to enter va
     
     // MARK: - Interface builder outlets
     
+    @IBOutlet weak var CallerTitleLabel: NSTextField!
     @IBOutlet weak var CMYKValueLabel: NSTextField!
     @IBOutlet weak var HSBValueLabel: NSTextField!
     @IBOutlet weak var RGBValueLabel: NSTextField!
