@@ -36,6 +36,7 @@ class ColorChipDebugController: NSViewController
         Alpha = 0.25 * CGFloat(Index + 1)
         let NewColor = NSColor(red: Red, green: Green, blue: Blue, alpha: Alpha)
         ColorChipTest.Color = NewColor
+        ColorChipTest.CallerTitle = "Test of color chips/color picker functionality" 
     }
     
     @IBOutlet weak var AlphaSegment: NSSegmentedControl!
