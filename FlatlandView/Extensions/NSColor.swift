@@ -100,6 +100,54 @@ extension NSColor
         self.init(red: FinalRed, green: FinalGreen, blue: FinalBlue, alpha: 1.0)
     }
     
+    /// Creates a color from the passed channel value.
+    /// - Parameter Value: The channel value to use to populate the new color. This value must be
+    ///                    a normal (0.0 to 1.0).
+    /// - Parameter Alpha: The alpha value to use for the color. Defaults to `1.0`. When using the
+    ///                    alpha channel of a color, pass it to this parameter, not `Value`. For
+    ///                    `Value` use `1.0` instead.
+    /// - Parameter Channel: The source channel for `Value`.
+    static func UnitColor(_ Value: CGFloat, Alpha: CGFloat = 1.0, Channel: PickerColorChannels) -> NSColor
+    {
+        var Final: NSColor = NSColor()
+        
+        switch Channel
+        {
+            case .Red, .Green, .Blue:
+                Final = NSColor(calibratedRed: Value, green: Value, blue: Value, alpha: Alpha)
+                
+            case .Hue:
+                Final = NSColor(calibratedHue: Value, saturation: 0.5, brightness: 1.0, alpha: Alpha)
+                
+            case .Saturation:
+                Final = NSColor(calibratedHue: Value, saturation: Value, brightness: 1.0, alpha: Alpha)
+                
+            case .Brightness:
+                Final = NSColor(calibratedHue: Value, saturation: Value, brightness: Value, alpha: Alpha)
+                
+            case .Cyan:
+                let (R, G, B) = CMYKtoRGB(Cyan: Value, Magenta: 0.0, Yellow: 0.0, Black: 0.0)
+                Final = NSColor(calibratedRed: R, green: G, blue: B, alpha: Alpha)
+                
+            case .Magenta:
+                let (R, G, B) = CMYKtoRGB(Cyan: 0.0, Magenta: Value, Yellow: 0.0, Black: 0.0)
+                Final = NSColor(calibratedRed: R, green: G, blue: B, alpha: Alpha)
+                
+            case .Yellow:
+                let (R, G, B) = CMYKtoRGB(Cyan: 0.0, Magenta: 0.0, Yellow: Value, Black: 0.0)
+                Final = NSColor(calibratedRed: R, green: G, blue: B, alpha: Alpha)
+                
+            case .Black:
+                let (R, G, B) = CMYKtoRGB(Cyan: 0.0, Magenta: 0.0, Yellow: 0.0, Black: Value)
+                Final = NSColor(calibratedRed: R, green: G, blue: B, alpha: Alpha)
+                
+            case .Alpha:
+                Final = NSColor(calibratedRed: Value, green: Value, blue: Value, alpha: Alpha)
+        }
+        
+        return Final.InRGB
+    }
+    
     /// Returns an interpolated color between the two passed colors.
     /// - Parameter Color1: First color.
     /// - Parameter Color2: Second color.
@@ -165,6 +213,21 @@ extension NSColor
         let M = (1.0 - Green - K) / (1.0 - K)
         let Y = (1.0 - Blue - K) / (1.0 - K)
         return (C * 100.0, M * 100.0, Y * 100.0, K * 100.0)
+    }
+    
+    /// Convert the passed CMYK channels to an equivalent set of RGB channels.
+    /// - Note: Color profiles are not used in the conversion process.
+    /// - Parameter Cyan: The cyan channel value.
+    /// - Parameter Magenta: The magenta channel value.
+    /// - Parameter Yellow: The yellow channel value.
+    /// - Parameter Black: The black channel value.
+    /// - Returns: Tuple with red, green, and blue channel values.
+    public static func CMYKtoRGB(Cyan: CGFloat, Magenta: CGFloat, Yellow: CGFloat, Black: CGFloat) -> (Red: CGFloat, Green: CGFloat, Blue: CGFloat)
+    {
+        let R = (1.0 - Cyan) * (1.0 - Black)
+        let G = (1.0 - Magenta) * (1.0 - Black)
+        let B = (1.0 - Yellow) * (1.0 - Black)
+        return (R, G, B)
     }
     
     /// Returns the value of the color as a hex string. The string has the prefix
