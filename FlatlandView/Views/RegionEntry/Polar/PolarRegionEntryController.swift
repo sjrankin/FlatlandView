@@ -51,7 +51,6 @@ class PolarRegionEntryController: NSViewController, NSWindowDelegate, RegionMous
     
     func MouseClicked(At: GeoPoint)
     {
-        print("Mouse clicked at \(At)")
         let Pole = PoleSelector.selectedSegment == 0 ? GeoPoint(90.0, 0.0) : GeoPoint(-90.0, 0.0)
         let Radius = Geometry.HaversineDistance(Point1: At, Point2: Pole) / 1000.0
         PolarRadiusField.stringValue = "\(Radius.RoundedTo(1))"
