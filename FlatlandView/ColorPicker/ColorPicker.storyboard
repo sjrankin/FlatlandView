@@ -10,8 +10,8 @@
         <scene sceneID="IDS-D9-0wz">
             <objects>
                 <windowController storyboardIdentifier="ColorPickerWindow" id="qqt-Bb-YCw" customClass="ColorPickerWindow" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Color Picker" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="sjz-2p-9Bn">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                    <window key="window" title="Color Picker" separatorStyle="shadow" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="sjz-2p-9Bn">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="2932" y="557" width="480" height="270"/>
                         <rect key="screenRect" x="2560" y="144" width="2304" height="1296"/>
@@ -85,7 +85,7 @@
             <objects>
                 <viewController id="Jmr-z4-I73" customClass="ColorPicker" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ICb-Vj-XhG">
-                        <rect key="frame" x="0.0" y="0.0" width="570" height="437"/>
+                        <rect key="frame" x="0.0" y="0.0" width="570" height="459"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tmu-5w-b2q">
@@ -115,16 +115,20 @@ DQ
                                 </connections>
                             </button>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="ScQ-tz-VPx" customClass="ColorChip" customModule="Flatland" customModuleProvider="target">
-                                <rect key="frame" x="20" y="302" width="127" height="115"/>
+                                <rect key="frame" x="20" y="284" width="127" height="137"/>
                             </customView>
                             <containerView translatesAutoresizingMaskIntoConstraints="NO" id="qtp-xp-5MS">
-                                <rect key="frame" x="168" y="48" width="383" height="369"/>
+                                <rect key="frame" x="168" y="48" width="383" height="373"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="383" id="Fcn-yk-oXz"/>
+                                    <constraint firstAttribute="height" constant="373" id="Vdd-9H-d0v"/>
+                                </constraints>
                                 <connections>
                                     <segue destination="lOb-4u-C1e" kind="embed" id="GY9-6u-jys"/>
                                 </connections>
                             </containerView>
-                            <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="510-V2-42I">
-                                <rect key="frame" x="20" y="157" width="100" height="137"/>
+                            <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="510-V2-42I">
+                                <rect key="frame" x="20" y="139" width="100" height="137"/>
                                 <rows>
                                     <gridRow id="vQ9-wv-ffJ"/>
                                     <gridRow bottomPadding="10" id="Qyk-4o-gtQ"/>
@@ -199,24 +203,44 @@ DQ
                                     </gridCell>
                                 </gridCells>
                             </gridView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5qs-Qi-6gI">
+                                <rect key="frame" x="18" y="430" width="534" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="530" id="6e3-oU-VtJ"/>
+                                    <constraint firstAttribute="height" constant="20" id="qqz-Zw-KTQ"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="58V-Ex-IoR">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="ScQ-tz-VPx" firstAttribute="top" secondItem="ICb-Vj-XhG" secondAttribute="top" constant="20" symbolic="YES" id="3gb-uY-ggS"/>
+                            <constraint firstItem="ScQ-tz-VPx" firstAttribute="top" secondItem="5qs-Qi-6gI" secondAttribute="bottom" constant="9" id="2Eg-kO-bxg"/>
+                            <constraint firstItem="ScQ-tz-VPx" firstAttribute="top" secondItem="ICb-Vj-XhG" secondAttribute="top" constant="38" id="3gb-uY-ggS"/>
+                            <constraint firstItem="5qs-Qi-6gI" firstAttribute="leading" secondItem="ScQ-tz-VPx" secondAttribute="leading" id="3rt-c7-1Gb"/>
                             <constraint firstAttribute="trailing" secondItem="tmu-5w-b2q" secondAttribute="trailing" constant="19" id="4jx-Qb-WIy"/>
+                            <constraint firstItem="510-V2-42I" firstAttribute="top" secondItem="ScQ-tz-VPx" secondAttribute="bottom" constant="8" symbolic="YES" id="5lj-KS-ahi"/>
                             <constraint firstItem="ScQ-tz-VPx" firstAttribute="leading" secondItem="J2d-RD-ueF" secondAttribute="leading" id="7VH-hn-Y8A"/>
                             <constraint firstItem="ScQ-tz-VPx" firstAttribute="top" secondItem="qtp-xp-5MS" secondAttribute="top" id="811-IY-Nfe"/>
+                            <constraint firstAttribute="bottom" secondItem="qtp-xp-5MS" secondAttribute="bottom" constant="48" id="Fng-Fw-zGY"/>
+                            <constraint firstAttribute="trailing" secondItem="qtp-xp-5MS" secondAttribute="trailing" constant="19" id="Gsn-Mk-hrB"/>
                             <constraint firstItem="qtp-xp-5MS" firstAttribute="leading" secondItem="ScQ-tz-VPx" secondAttribute="trailing" constant="21" id="LqE-xC-hcL"/>
                             <constraint firstItem="J2d-RD-ueF" firstAttribute="baseline" secondItem="tmu-5w-b2q" secondAttribute="baseline" id="Rhh-2R-043"/>
                             <constraint firstAttribute="bottom" secondItem="J2d-RD-ueF" secondAttribute="bottom" constant="8" id="T2k-Va-bcE"/>
                             <constraint firstItem="ScQ-tz-VPx" firstAttribute="leading" secondItem="ICb-Vj-XhG" secondAttribute="leading" constant="20" symbolic="YES" id="Ttw-xJ-lNd"/>
+                            <constraint firstItem="5qs-Qi-6gI" firstAttribute="leading" secondItem="510-V2-42I" secondAttribute="leading" id="Vnl-nz-mMl"/>
                             <constraint firstItem="tmu-5w-b2q" firstAttribute="top" secondItem="qtp-xp-5MS" secondAttribute="bottom" constant="20" symbolic="YES" id="WJy-kY-530"/>
                             <constraint firstAttribute="trailing" secondItem="qtp-xp-5MS" secondAttribute="trailing" constant="19" id="aiN-rE-25g"/>
                             <constraint firstItem="qtp-xp-5MS" firstAttribute="leading" secondItem="ICb-Vj-XhG" secondAttribute="leading" constant="168" id="fwP-jD-WV6"/>
-                            <constraint firstAttribute="bottom" secondItem="ScQ-tz-VPx" secondAttribute="bottom" constant="302" id="oH8-2x-Mme"/>
+                            <constraint firstAttribute="bottom" secondItem="ScQ-tz-VPx" secondAttribute="bottom" constant="284" id="oH8-2x-Mme"/>
+                            <constraint firstItem="qtp-xp-5MS" firstAttribute="top" secondItem="ICb-Vj-XhG" secondAttribute="top" constant="38" id="of6-AJ-Zwz"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="CMYKValueLabel" destination="JEF-jU-R08" id="rVv-G8-rKp"/>
+                        <outlet property="CallerTitleLabel" destination="5qs-Qi-6gI" id="xCd-f2-VGC"/>
                         <outlet property="HSBValueLabel" destination="0bp-If-xaO" id="1Al-ss-9lC"/>
                         <outlet property="MainColorChip" destination="ScQ-tz-VPx" id="zlY-tY-aev"/>
                         <outlet property="PanelContainer" destination="qtp-xp-5MS" id="BAk-zp-hOi"/>
@@ -225,7 +249,7 @@ DQ
                 </viewController>
                 <customObject id="Znk-7P-8je" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="437" y="701.5"/>
+            <point key="canvasLocation" x="437" y="712.5"/>
         </scene>
         <!--Manual Entry Panel-->
         <scene sceneID="aFr-xP-1gN">
@@ -236,7 +260,7 @@ DQ
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="L5U-1I-5KR">
-                                <rect key="frame" x="20" y="17" width="206" height="336"/>
+                                <rect key="frame" x="20" y="17" width="322" height="336"/>
                                 <constraints>
                                     <constraint firstItem="bcH-WK-2c9" firstAttribute="trailing" secondItem="UFe-SH-5lq" secondAttribute="trailing" id="qGS-Ou-kDz"/>
                                 </constraints>
@@ -250,8 +274,8 @@ DQ
                                 </columns>
                                 <gridCells>
                                     <gridCell row="6mC-HA-IEW" column="xBP-gs-LmE" id="2PJ-BW-7Hp">
-                                        <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="bcH-WK-2c9">
-                                            <rect key="frame" x="0.0" y="313" width="206" height="23"/>
+                                        <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="bcH-WK-2c9">
+                                            <rect key="frame" x="0.0" y="313" width="322" height="23"/>
                                             <constraints>
                                                 <constraint firstItem="bje-TW-OGa" firstAttribute="leading" secondItem="8Qf-3t-KRX" secondAttribute="trailing" constant="25" id="0XG-ah-Azg"/>
                                                 <constraint firstItem="bje-TW-OGa" firstAttribute="top" secondItem="bcH-WK-2c9" secondAttribute="top" constant="1.5" id="9Mf-3E-asM"/>
@@ -306,7 +330,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="dfv-vz-2GK" column="xBP-gs-LmE" id="da9-ql-Wu8">
                                         <gridView key="contentView" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="M9K-7b-K1V">
-                                            <rect key="frame" x="0.0" y="38" width="196" height="259"/>
+                                            <rect key="frame" x="0.0" y="38" width="322" height="259"/>
                                             <rows>
                                                 <gridRow id="ceP-RZ-KBp"/>
                                                 <gridRow id="QO4-Cv-0xH"/>
@@ -322,6 +346,7 @@ DQ
                                             <columns>
                                                 <gridColumn id="9ps-g3-PIQ"/>
                                                 <gridColumn id="uMU-40-pZ3"/>
+                                                <gridColumn id="9do-Yz-7Il"/>
                                             </columns>
                                             <gridCells>
                                                 <gridCell row="ceP-RZ-KBp" column="9ps-g3-PIQ" id="Yhw-ww-Y5b">
@@ -335,13 +360,14 @@ DQ
                                                     </textField>
                                                 </gridCell>
                                                 <gridCell row="ceP-RZ-KBp" column="uMU-40-pZ3" id="niy-o0-mhs"/>
+                                                <gridCell row="ceP-RZ-KBp" column="9do-Yz-7Il" id="xzA-7f-5v6"/>
                                                 <gridCell row="QO4-Cv-0xH" column="9ps-g3-PIQ" id="jon-Fg-TDA">
                                                     <slider key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JTk-fD-fTw">
-                                                        <rect key="frame" x="-2" y="210" width="124" height="28"/>
+                                                        <rect key="frame" x="-2" y="210" width="204" height="28"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="120" id="4dX-wb-0bR"/>
+                                                            <constraint firstAttribute="width" constant="200" id="Uur-pS-9gU"/>
                                                         </constraints>
-                                                        <sliderCell key="cell" state="on" alignment="left" maxValue="1275" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="qp7-AS-207"/>
+                                                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="1275" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="qp7-AS-207"/>
                                                         <connections>
                                                             <action selector="HandleSliderChanged:" target="v7g-Lq-7dF" id="wWY-lw-H5g"/>
                                                         </connections>
@@ -349,7 +375,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="QO4-Cv-0xH" column="uMU-40-pZ3" id="FQI-PD-RcZ">
                                                     <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LqD-RD-Gi8">
-                                                        <rect key="frame" x="126" y="216" width="70" height="21"/>
+                                                        <rect key="frame" x="206" y="216" width="70" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="70" id="MdX-gb-DI0"/>
                                                             <constraint firstAttribute="height" constant="21" id="XlQ-qe-8dU"/>
@@ -364,6 +390,24 @@ DQ
                                                         </connections>
                                                     </textField>
                                                 </gridCell>
+                                                <gridCell row="QO4-Cv-0xH" column="9do-Yz-7Il" id="rbI-pI-1va">
+                                                    <customView key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="YeV-3W-zcg" customClass="ColorChip" customModule="Flatland" customModuleProvider="target">
+                                                        <rect key="frame" x="282" y="216" width="40" height="20"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="20" id="13K-ak-oNI"/>
+                                                            <constraint firstAttribute="width" constant="40" id="BAV-cK-Pw4"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="CornerRadius">
+                                                                <real key="value" value="2"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="BorderWidth">
+                                                                <real key="value" value="1"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="IsStatic" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </customView>
+                                                </gridCell>
                                                 <gridCell row="cGm-wq-274" column="9ps-g3-PIQ" id="QZY-sY-0yh">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jyx-ZN-o3T">
                                                         <rect key="frame" x="-2" y="189" width="57" height="16"/>
@@ -375,13 +419,14 @@ DQ
                                                     </textField>
                                                 </gridCell>
                                                 <gridCell row="cGm-wq-274" column="uMU-40-pZ3" id="o9m-Df-6D7"/>
+                                                <gridCell row="cGm-wq-274" column="9do-Yz-7Il" id="doZ-EN-i16"/>
                                                 <gridCell row="jQt-pT-0cd" column="9ps-g3-PIQ" id="QlU-Qy-FFH">
                                                     <slider key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QCS-sW-I9v">
-                                                        <rect key="frame" x="-2" y="156" width="124" height="28"/>
+                                                        <rect key="frame" x="-2" y="156" width="204" height="28"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="120" id="03h-8q-SW3"/>
+                                                            <constraint firstAttribute="width" constant="200" id="03h-8q-SW3"/>
                                                         </constraints>
-                                                        <sliderCell key="cell" state="on" alignment="left" maxValue="1275" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="LAX-ff-I52"/>
+                                                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="1275" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="LAX-ff-I52"/>
                                                         <connections>
                                                             <action selector="HandleSliderChanged:" target="v7g-Lq-7dF" id="Gzi-4F-jKF"/>
                                                         </connections>
@@ -389,7 +434,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="jQt-pT-0cd" column="uMU-40-pZ3" id="1cS-XH-B9U">
                                                     <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hEd-5P-GKU">
-                                                        <rect key="frame" x="126" y="162" width="70" height="21"/>
+                                                        <rect key="frame" x="206" y="162" width="70" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="21" id="9kl-zi-ijx"/>
                                                             <constraint firstAttribute="width" constant="70" id="Qpp-U9-EGS"/>
@@ -404,6 +449,24 @@ DQ
                                                         </connections>
                                                     </textField>
                                                 </gridCell>
+                                                <gridCell row="jQt-pT-0cd" column="9do-Yz-7Il" id="wBe-vq-2sv">
+                                                    <customView key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Mca-PZ-0c0" customClass="ColorChip" customModule="Flatland" customModuleProvider="target">
+                                                        <rect key="frame" x="282" y="162" width="40" height="20"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="20" id="4QF-iR-MWF"/>
+                                                            <constraint firstAttribute="width" constant="40" id="iXp-4Z-nFf"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="CornerRadius">
+                                                                <real key="value" value="2"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="BorderWidth">
+                                                                <real key="value" value="1"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="IsStatic" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </customView>
+                                                </gridCell>
                                                 <gridCell row="wZK-O7-kIO" column="9ps-g3-PIQ" id="eGk-wz-vOF">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i0x-Mw-aPg">
                                                         <rect key="frame" x="-2" y="135" width="43" height="16"/>
@@ -415,13 +478,14 @@ DQ
                                                     </textField>
                                                 </gridCell>
                                                 <gridCell row="wZK-O7-kIO" column="uMU-40-pZ3" id="8kB-8k-p4z"/>
+                                                <gridCell row="wZK-O7-kIO" column="9do-Yz-7Il" id="PKY-ua-3ke"/>
                                                 <gridCell row="9PR-2Z-bdh" column="9ps-g3-PIQ" id="gGH-AE-Jgg">
                                                     <slider key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rVC-Rd-5yZ">
-                                                        <rect key="frame" x="-2" y="102" width="124" height="28"/>
+                                                        <rect key="frame" x="-2" y="102" width="204" height="28"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="120" id="7mU-3s-DLy"/>
+                                                            <constraint firstAttribute="width" constant="200" id="7mU-3s-DLy"/>
                                                         </constraints>
-                                                        <sliderCell key="cell" state="on" alignment="left" maxValue="1275" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="4HR-pr-W9H"/>
+                                                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="1275" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="4HR-pr-W9H"/>
                                                         <connections>
                                                             <action selector="HandleSliderChanged:" target="v7g-Lq-7dF" id="eUb-32-RtE"/>
                                                         </connections>
@@ -429,7 +493,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="9PR-2Z-bdh" column="uMU-40-pZ3" id="hwc-uO-9un">
                                                     <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="55M-2A-sj6">
-                                                        <rect key="frame" x="126" y="108" width="70" height="21"/>
+                                                        <rect key="frame" x="206" y="108" width="70" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="21" id="H8e-nH-2Wd"/>
                                                             <constraint firstAttribute="width" constant="70" id="w03-yX-ubs"/>
@@ -444,6 +508,24 @@ DQ
                                                         </connections>
                                                     </textField>
                                                 </gridCell>
+                                                <gridCell row="9PR-2Z-bdh" column="9do-Yz-7Il" id="8bk-dt-9yg">
+                                                    <customView key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Jh2-0m-Xes" customClass="ColorChip" customModule="Flatland" customModuleProvider="target">
+                                                        <rect key="frame" x="282" y="108" width="40" height="20"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="20" id="hkC-9A-Rmc"/>
+                                                            <constraint firstAttribute="width" constant="40" id="vO2-3K-Lzw"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="CornerRadius">
+                                                                <real key="value" value="2"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="BorderWidth">
+                                                                <real key="value" value="1"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="IsStatic" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </customView>
+                                                </gridCell>
                                                 <gridCell row="qJ0-PG-EOd" column="9ps-g3-PIQ" id="bu8-ib-dgm">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jlm-l2-WxN">
                                                         <rect key="frame" x="-2" y="81" width="37" height="16"/>
@@ -455,13 +537,14 @@ DQ
                                                     </textField>
                                                 </gridCell>
                                                 <gridCell row="qJ0-PG-EOd" column="uMU-40-pZ3" id="JIH-Rn-bgr"/>
+                                                <gridCell row="qJ0-PG-EOd" column="9do-Yz-7Il" id="Hrt-lh-RjD"/>
                                                 <gridCell row="UfP-7U-uh3" column="9ps-g3-PIQ" id="wxF-N6-EYM">
                                                     <slider key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="J1P-6k-8nV">
-                                                        <rect key="frame" x="-2" y="48" width="124" height="28"/>
+                                                        <rect key="frame" x="-2" y="48" width="204" height="28"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="120" id="oSF-Bq-H7c"/>
+                                                            <constraint firstAttribute="width" constant="200" id="oSF-Bq-H7c"/>
                                                         </constraints>
-                                                        <sliderCell key="cell" state="on" alignment="left" maxValue="1275" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="420-BQ-LiJ"/>
+                                                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="1275" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="420-BQ-LiJ"/>
                                                         <connections>
                                                             <action selector="HandleSliderChanged:" target="v7g-Lq-7dF" id="FJP-vL-yU0"/>
                                                         </connections>
@@ -469,7 +552,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="UfP-7U-uh3" column="uMU-40-pZ3" id="Os5-WN-rLF">
                                                     <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iSr-hb-iUJ">
-                                                        <rect key="frame" x="126" y="54" width="70" height="21"/>
+                                                        <rect key="frame" x="206" y="54" width="70" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="70" id="HX3-Pc-2OD"/>
                                                             <constraint firstAttribute="height" constant="21" id="TqJ-Nn-FWT"/>
@@ -484,6 +567,24 @@ DQ
                                                         </connections>
                                                     </textField>
                                                 </gridCell>
+                                                <gridCell row="UfP-7U-uh3" column="9do-Yz-7Il" id="jqB-yz-cJF">
+                                                    <customView key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="taV-WM-nJr" customClass="ColorChip" customModule="Flatland" customModuleProvider="target">
+                                                        <rect key="frame" x="282" y="54" width="40" height="20"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="20" id="NpK-8T-EkR"/>
+                                                            <constraint firstAttribute="width" constant="40" id="wMD-SC-ATZ"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="CornerRadius">
+                                                                <real key="value" value="2"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="BorderWidth">
+                                                                <real key="value" value="1"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="IsStatic" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </customView>
+                                                </gridCell>
                                                 <gridCell row="7R8-mx-Lut" column="9ps-g3-PIQ" id="XJ4-I8-DpO">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6JI-2Z-F61">
                                                         <rect key="frame" x="-2" y="27" width="39" height="16"/>
@@ -495,13 +596,14 @@ DQ
                                                     </textField>
                                                 </gridCell>
                                                 <gridCell row="7R8-mx-Lut" column="uMU-40-pZ3" id="3io-Po-MY7"/>
+                                                <gridCell row="7R8-mx-Lut" column="9do-Yz-7Il" id="bwV-Sb-rmY"/>
                                                 <gridCell row="uOA-Q5-nnp" column="9ps-g3-PIQ" id="bAq-WI-0F1">
                                                     <slider key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="R7o-mv-h0y">
-                                                        <rect key="frame" x="-2" y="-6" width="124" height="28"/>
+                                                        <rect key="frame" x="-2" y="-6" width="204" height="28"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="120" id="pPK-2w-7WL"/>
+                                                            <constraint firstAttribute="width" constant="200" id="pPK-2w-7WL"/>
                                                         </constraints>
-                                                        <sliderCell key="cell" state="on" alignment="left" maxValue="1275" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="hih-Jh-DqH"/>
+                                                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="1275" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="hih-Jh-DqH"/>
                                                         <connections>
                                                             <action selector="HandleSliderChanged:" target="v7g-Lq-7dF" id="JUZ-NN-8BY"/>
                                                         </connections>
@@ -509,7 +611,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="uOA-Q5-nnp" column="uMU-40-pZ3" id="ogp-uz-Ibf">
                                                     <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8vu-Lz-X5m">
-                                                        <rect key="frame" x="126" y="0.0" width="70" height="21"/>
+                                                        <rect key="frame" x="206" y="0.0" width="70" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="21" id="elt-5n-Vkh"/>
                                                             <constraint firstAttribute="width" constant="70" id="xgA-BQ-RpP"/>
@@ -524,12 +626,30 @@ DQ
                                                         </connections>
                                                     </textField>
                                                 </gridCell>
+                                                <gridCell row="uOA-Q5-nnp" column="9do-Yz-7Il" id="ZwT-nV-37g">
+                                                    <customView key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Dgr-q4-l8K" customClass="ColorChip" customModule="Flatland" customModuleProvider="target">
+                                                        <rect key="frame" x="282" y="0.0" width="40" height="20"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="20" id="3Dl-8H-frC"/>
+                                                            <constraint firstAttribute="width" constant="40" id="i6H-cZ-5GQ"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="CornerRadius">
+                                                                <real key="value" value="2"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="BorderWidth">
+                                                                <real key="value" value="1"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="IsStatic" value="YES"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </customView>
+                                                </gridCell>
                                             </gridCells>
                                         </gridView>
                                     </gridCell>
                                     <gridCell row="MJb-gg-v1h" column="xBP-gs-LmE" id="FOG-4v-FlX">
-                                        <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="UFe-SH-5lq">
-                                            <rect key="frame" x="0.0" y="0.0" width="206" height="22"/>
+                                        <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="UFe-SH-5lq">
+                                            <rect key="frame" x="0.0" y="0.0" width="322" height="22"/>
                                             <rows>
                                                 <gridRow id="IIc-5r-Og2"/>
                                             </rows>
@@ -559,7 +679,7 @@ DQ
                                                     </segmentedControl>
                                                 </gridCell>
                                                 <gridCell row="IIc-5r-Og2" column="zr0-l3-60K" id="F2g-FI-19f">
-                                                    <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Skx-m5-gHK">
+                                                    <button key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Skx-m5-gHK">
                                                         <rect key="frame" x="181" y="-0.5" width="25.5" height="24"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="20" id="9Kf-t8-n8p"/>
@@ -582,18 +702,23 @@ DQ
                     <connections>
                         <outlet property="Channel1Box" destination="LqD-RD-Gi8" id="AhY-zE-qtp"/>
                         <outlet property="Channel1Label" destination="FOh-2x-ibI" id="2UC-vD-vwJ"/>
+                        <outlet property="Channel1Sample" destination="YeV-3W-zcg" id="xS1-Ys-5fz"/>
                         <outlet property="Channel1Slider" destination="JTk-fD-fTw" id="Cpx-Wc-A4D"/>
                         <outlet property="Channel2Box" destination="hEd-5P-GKU" id="DuR-0S-llU"/>
                         <outlet property="Channel2Label" destination="Jyx-ZN-o3T" id="TAc-hA-255"/>
+                        <outlet property="Channel2Sample" destination="Mca-PZ-0c0" id="d5e-PF-pNi"/>
                         <outlet property="Channel2Slider" destination="QCS-sW-I9v" id="66Q-wn-SdJ"/>
                         <outlet property="Channel3Box" destination="55M-2A-sj6" id="v0N-LP-64l"/>
                         <outlet property="Channel3Label" destination="i0x-Mw-aPg" id="Hhu-8p-tkV"/>
+                        <outlet property="Channel3Sample" destination="Jh2-0m-Xes" id="dP3-cw-s0d"/>
                         <outlet property="Channel3Slider" destination="rVC-Rd-5yZ" id="qYv-rW-gbM"/>
                         <outlet property="Channel4Box" destination="iSr-hb-iUJ" id="zaA-7C-DHt"/>
                         <outlet property="Channel4Label" destination="jlm-l2-WxN" id="l8s-Ld-mJF"/>
+                        <outlet property="Channel4Sample" destination="taV-WM-nJr" id="wTZ-jA-ycd"/>
                         <outlet property="Channel4Slider" destination="J1P-6k-8nV" id="QiO-TY-VKr"/>
                         <outlet property="Channel5Box" destination="8vu-Lz-X5m" id="W33-Z9-eJO"/>
                         <outlet property="Channel5Label" destination="6JI-2Z-F61" id="rq1-fi-cfM"/>
+                        <outlet property="Channel5Sample" destination="Dgr-q4-l8K" id="JiI-Sp-tf0"/>
                         <outlet property="Channel5Slider" destination="R7o-mv-h0y" id="Qyz-V1-G1h"/>
                         <outlet property="ColorSpaceSegment" destination="fRn-TO-VGT" id="Opu-Y1-5bW"/>
                         <outlet property="InputTypeSegment" destination="SHB-aX-TXn" id="T32-5w-aGF"/>
