@@ -165,14 +165,6 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
             }
             Region.RegionColor = RegionColorWell.color
             Region.IsRectangular = RegionTypeSegment.selectedSegment == 0
-            if Region.IsRectangular
-            {
-                Region.UseNorthPole = nil
-            }
-            else
-            {
-                Region.UseNorthPole = PolarSegment.selectedSegment == 0 ? true : false
-            }
             Region.IsEnabled = EnableRegionSwitch.state == .on ? true : false
             Region.NotifyOnNewEarthquakes = ShowNotificationSwitch.state == .on ? true : false
             Region.Age = AgeCombo.indexOfSelectedItem
@@ -399,12 +391,9 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
             RegionTypeSegment.selectedSegment = 1
             RectangleBox.isHidden = true
             CircleBox.isHidden = false
-            guard let NorthPole = Item.UseNorthPole else
-            {
-                Debug.FatalError("Polar region malformed.")
-            }
-            PolarSegment.selectedSegment = NorthPole ? 0 : 1
             CircularRadius.stringValue = "\(Item.Radius.RoundedTo(1))"
+            CircularLatitude.stringValue = Utility.PrettyLatitude(Item.Center.Latitude)
+            CircularLongitude.stringValue = Utility.PrettyLongitude(Item.Center.Longitude)
         }
     }
     
@@ -423,7 +412,8 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
         UpperLeftLon.stringValue = ""
         LowerRightLat.stringValue = ""
         LowerRightLon.stringValue = ""
-        PolarSegment.selectedSegment = 0
+        CircularLatitude.stringValue = ""
+        CircularLongitude.stringValue = ""
         CircularRadius.stringValue = ""
         RegionTypeSegment.selectedSegment = 0
         RectangleBox.isHidden = false
@@ -574,27 +564,32 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
                             }
                         }
                         
+                    case CircularLatitude:
+                        let Result = InputValidation.LatitudeValidation(TextValue)
+                        switch Result
+                        {
+                            case .success(let Final):
+                                Region.Center.Latitude = Final
+                                IsDirty = true
+                                
+                            default:
+                                break
+                        }
+                        
+                    case CircularLongitude:
+                        let Result = InputValidation.LongitudeValidation(TextValue)
+                        switch Result
+                        {
+                            case .success(let Final):
+                                Region.Center.Longitude = Final
+                                IsDirty = true
+                                
+                            default:
+                                break
+                        }
+                        
                     default:
                         break
-                }
-            }
-        }
-    }
-    
-    @IBAction func PolarRegionPoleChangedHandler(_ sender: Any)
-    {
-        if let Segment = sender as? NSSegmentedControl
-        {
-            IsDirty = true
-            if let Region = CurrentRegion
-            {
-                if Segment.selectedSegment == 0
-                {
-                    Region.UseNorthPole = true
-                }
-                else
-                {
-                    Region.UseNorthPole = false
                 }
             }
         }
@@ -660,7 +655,8 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
     
     // MARK: - Interface builder outlets.
     
-    @IBOutlet weak var PolarSegment: NSSegmentedControl!
+    @IBOutlet weak var CircularLongitude: NSTextField!
+    @IBOutlet weak var CircularLatitude: NSTextField!
     @IBOutlet weak var UpperLeftLat: NSTextField!
     @IBOutlet weak var UpperLeftLon: NSTextField!
     @IBOutlet weak var LowerRightLat: NSTextField!
