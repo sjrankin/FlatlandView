@@ -613,8 +613,10 @@ enum GlobeNodeNames: String, CaseIterable
     case KnownLocation = "KnownLocation"
     /// Mouse indicator node.
     case MouseIndicator = "MouseIndicator"
-    /// Node use to show a region.
+    /// Node used to show a region.
     case RegionNode = "RegionNode"
+    /// Node used to show a transient region.
+    case TransientRegionNode = "TransientRegionNode"
     /// Node used to show a pinned location.
     case PinnedLocationNode = "PinnedLocationNode"
     /// Node used to indicate a previously searched location.
