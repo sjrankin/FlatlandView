@@ -129,30 +129,6 @@ extension GlobeView
         }
     }
     
-    @objc func Context_AddPolarQuakeRegion(_ sender: Any)
-    {
-        if RegionEditorOpen
-        {
-            return
-        }
-        RegionEditorOpen = true
-        let Storyboard = NSStoryboard(name: "RegionEntryUI", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "PolarRegionEntryWindow") as? PolarRegionEntryWindow
-        {
-            let Window = WindowController.window
-            if let Controller = Window?.contentViewController as? PolarRegionEntryController
-            {
-                InRegionCreationMode = true
-                OldLockState = Settings.GetBool(.WorldIsLocked)
-                Settings.SetBool(.WorldIsLocked, true)
-                Controller.ParentDelegate = self
-                Controller.MainDelegate = MainDelegate
-                MouseClickReceiver = Controller
-                WindowController.showWindow(nil)
-            }
-        }
-    }
-    
     @objc func Context_AddRadialQuakeRegion(_ sender: Any)
     {
         if RegionEditorOpen
@@ -609,12 +585,9 @@ return ClearSearchMenu!
         QuakeMenu?.submenu = NSMenu(title: "Earthquakes")
         let AddRegion = NSMenuItem(title: "Add Earthquake Region", action: #selector(Context_AddQuakeRegion), keyEquivalent: "")
         AddRegion.target = self
-        let AddPolarRegion = NSMenuItem(title: "Add Polar Earthquake Region", action: #selector(Context_AddPolarQuakeRegion), keyEquivalent: "")
-        AddPolarRegion.target = self
         let AddRadial = NSMenuItem(title: "Add Circular Region", action: #selector(Context_AddRadialQuakeRegion), keyEquivalent: "")
         AddRadial.target = self
         QuakeMenu?.submenu?.items.append(AddRegion)
-        QuakeMenu?.submenu?.items.append(AddPolarRegion)
         QuakeMenu?.submenu?.items.append(AddRadial)
         return QuakeMenu!
         #else
