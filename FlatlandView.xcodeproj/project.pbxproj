@@ -26,8 +26,6 @@
 		170E7BF12559284300EA3AD3 /* FloatingViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */; };
 		170E7BF52559290900EA3AD3 /* MouseInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BF42559290900EA3AD3 /* MouseInfoController.swift */; };
 		170E7BF82559293C00EA3AD3 /* MouseInfoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */; };
-		1710685725BACEE3004AE4B7 /* PolarRegionEntryWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710685625BACEE3004AE4B7 /* PolarRegionEntryWindow.swift */; };
-		1710685C25BACF35004AE4B7 /* PolarRegionEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710685B25BACF35004AE4B7 /* PolarRegionEntryController.swift */; };
 		1714DDB025382EFC001A3002 /* EnvironmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDAF25382EFC001A3002 /* EnvironmentView.swift */; };
 		1714DDB42538342A001A3002 /* LowLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB32538342A001A3002 /* LowLevel.swift */; };
 		1714DDB82539654A001A3002 /* UInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB72539654A001A3002 /* UInt64.swift */; };
@@ -468,8 +466,6 @@
 		170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FloatingViews.storyboard; sourceTree = "<group>"; };
 		170E7BF42559290900EA3AD3 /* MouseInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseInfoController.swift; sourceTree = "<group>"; };
 		170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseInfoProtocol.swift; sourceTree = "<group>"; };
-		1710685625BACEE3004AE4B7 /* PolarRegionEntryWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolarRegionEntryWindow.swift; sourceTree = "<group>"; };
-		1710685B25BACF35004AE4B7 /* PolarRegionEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolarRegionEntryController.swift; sourceTree = "<group>"; };
 		1714DDAF25382EFC001A3002 /* EnvironmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentView.swift; sourceTree = "<group>"; };
 		1714DDB32538342A001A3002 /* LowLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowLevel.swift; sourceTree = "<group>"; };
 		1714DDB72539654A001A3002 /* UInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt64.swift; sourceTree = "<group>"; };
@@ -975,15 +971,6 @@
 			path = Rectangular;
 			sourceTree = "<group>";
 		};
-		1710685A25BACF1D004AE4B7 /* Polar */ = {
-			isa = PBXGroup;
-			children = (
-				1710685625BACEE3004AE4B7 /* PolarRegionEntryWindow.swift */,
-				1710685B25BACF35004AE4B7 /* PolarRegionEntryController.swift */,
-			);
-			path = Polar;
-			sourceTree = "<group>";
-		};
 		1710D22324E661FE009B6BB7 /* StatusView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1349,29 +1336,29 @@
 		1760023224D2BEDF00D5EA1A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				1760023324D2BEF800D5EA1A /* Double.swift */,
+				1760024124D2BFFE00D5EA1A /* Array.swift */,
 				1760023524D2BF1800D5EA1A /* CGFloat.swift */,
 				1760023724D2BF3500D5EA1A /* Date.swift */,
-				1760023924D2BF6100D5EA1A /* NSImage.swift */,
-				1760023B24D2BF8000D5EA1A /* NSColor.swift */,
-				1760023D24D2BFBF00D5EA1A /* NSBezierPath.swift */,
-				1760023F24D2BFDC00D5EA1A /* String.swift */,
-				1760024124D2BFFE00D5EA1A /* Array.swift */,
 				17ABAFFB24E8FB02009DDC35 /* Dictionary.swift */,
+				1760023324D2BEF800D5EA1A /* Double.swift */,
+				172D20622521AD1F00FA8687 /* Int.swift */,
+				1714DDBA253965F8001A3002 /* Int64.swift */,
+				177D0F5E2547F04700CD5041 /* MTLTexture.swift */,
+				17DFE42E25A6D42300F88564 /* Notification.swift */,
+				1760023D24D2BFBF00D5EA1A /* NSBezierPath.swift */,
+				1760023B24D2BF8000D5EA1A /* NSColor.swift */,
+				1760023924D2BF6100D5EA1A /* NSImage.swift */,
+				1743FE7C255D5AD300AD05A7 /* NSRegularExpression.swift */,
+				17E5557025B54D7900E3CE9E /* NSTextField2.swift */,
+				17CFEC572522BDAE005C3E49 /* NSView.swift */,
+				17E3D4F024FE2091004712BB /* NSWindow.swift */,
 				17303AFD24F379FB00948127 /* SCNVector3.swift */,
 				17561A842567838400FD0506 /* SCNVector4.swift */,
-				17E3D4F024FE2091004712BB /* NSWindow.swift */,
-				172D20622521AD1F00FA8687 /* Int.swift */,
-				17CFEC572522BDAE005C3E49 /* NSView.swift */,
-				1714DDB72539654A001A3002 /* UInt64.swift */,
-				1714DDBA253965F8001A3002 /* Int64.swift */,
-				17B062DE253D557D00C4BAEE /* UUID.swift */,
+				1760023F24D2BFDC00D5EA1A /* String.swift */,
 				17B0B7342546ADF900DC0F03 /* UInt.swift */,
+				1714DDB72539654A001A3002 /* UInt64.swift */,
+				17B062DE253D557D00C4BAEE /* UUID.swift */,
 				17B0B7372546AE3400DC0F03 /* UInt8.swift */,
-				177D0F5E2547F04700CD5041 /* MTLTexture.swift */,
-				1743FE7C255D5AD300AD05A7 /* NSRegularExpression.swift */,
-				17DFE42E25A6D42300F88564 /* Notification.swift */,
-				17E5557025B54D7900E3CE9E /* NSTextField2.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2184,7 +2171,6 @@
 			isa = PBXGroup;
 			children = (
 				17055CFB25C543350025686A /* Radial */,
-				1710685A25BACF1D004AE4B7 /* Polar */,
 				1710685925BACF0C004AE4B7 /* Rectangular */,
 				17F5598725AD7DC700053314 /* RegionEntryUI.storyboard */,
 				17F5599025AD83B400053314 /* RegionEntryProtocol.swift */,
@@ -2511,7 +2497,6 @@
 				17F9AFF82520352500DE0219 /* +StoredFont.swift in Sources */,
 				17ABAFFC24E8FB02009DDC35 /* Dictionary.swift in Sources */,
 				17303AFE24F379FB00948127 /* SCNVector3.swift in Sources */,
-				1710685725BACEE3004AE4B7 /* PolarRegionEntryWindow.swift in Sources */,
 				170E7BF82559293C00EA3AD3 /* MouseInfoProtocol.swift in Sources */,
 				17897C7E2514A72100544DE1 /* +MainSettingsHandler.swift in Sources */,
 				172F061B255150BC00BEA156 /* POIPopover.swift in Sources */,
@@ -2708,7 +2693,6 @@
 				17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */,
 				17DDA0472484EB280090E1EB /* LocationEditingProtocol.swift in Sources */,
 				17CFEC582522BDAE005C3E49 /* NSView.swift in Sources */,
-				1710685C25BACF35004AE4B7 /* PolarRegionEntryController.swift in Sources */,
 				1750044524B46E73006528A4 /* FontNameWindow.swift in Sources */,
 				1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */,
 				1737101024E2BB7300BC6CF8 /* Stenciler.swift in Sources */,
