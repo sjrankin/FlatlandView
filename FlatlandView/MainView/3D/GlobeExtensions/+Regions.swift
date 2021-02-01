@@ -15,6 +15,43 @@ extension GlobeView
 {
     // MARK: - Region plotting functions.
     
+    #if DEBUG
+    func MakeDebugRegion(_ Where: UserRegion)
+    {
+        DebugRegion = CAShapeLayer()
+        DebugRegion?.name = "Debug Test Region"
+        DebugRegion?.isGeometryFlipped = true
+        DebugRegion?.frame = CGRect(origin: .zero, size: CGSize(width: 3600, height: 1800))
+        DebugRegion?.backgroundColor = NSColor.clear.cgColor
+        let RadialPercent = (Where.Radius * 2.0) / PhysicalConstants.EarthCircumference.rawValue
+        let Radius = 3600 * RadialPercent
+        print("MakeDebugRegion: Radius=\(Radius)")
+        let Path = CGMutablePath(ellipseIn: CGRect(x: Double(1800 - Int(Radius / 2)), y: Double(900 - Int(Radius / 2)),
+                                                   width: Radius, height: Radius), transform: nil)
+        DebugRegion?.strokeColor = NSColor.black.withAlphaComponent(0.35).cgColor
+        DebugRegion?.lineWidth = 2.0
+        DebugRegion?.edgeAntialiasingMask = .layerTopEdge
+        DebugRegion?.fillColor = NSColor.yellow.withAlphaComponent(0.35).cgColor
+        DebugRegion?.path = Path
+        
+        DebugRegionLayer = SCNNode2()
+        let Geo = SCNSphere(radius: GlobeRadius.RegionLayer.rawValue + 0.08)
+        Geo.segmentCount = 500
+        DebugRegionLayer?.geometry = Geo
+        DebugRegionLayer?.name = "Debug Test Node"
+        DebugRegionLayer?.position = SCNVector3(0.0, 0.0, 0.0)
+        DebugRegionLayer?.castsShadow = false
+        DebugRegionLayer?.geometry?.firstMaterial?.diffuse.contents = DebugRegion
+        DebugRegionLayer?.geometry?.firstMaterial?.selfIllumination.contents = DebugRegion
+        DebugRegionLayer?.geometry?.firstMaterial?.blendMode = .alpha
+        DebugRegionLayer?.eulerAngles = SCNVector3(0.0, 0.0, 0.0)
+        let XRotate = (-Where.Center.Latitude).Radians
+        let YRotate = (Where.Center.Longitude).Radians
+        DebugRegionLayer?.eulerAngles = SCNVector3(CGFloat(XRotate), CGFloat(YRotate), 0.0)
+        EarthNode?.addChildNode(DebugRegionLayer!)
+    }
+    #endif
+
     /// Remove all regions from the region layer.
     func RemoveRegions()
     {
@@ -32,6 +69,14 @@ extension GlobeView
     /// - Parameter Node: The node to initialize.
     func InitializeRegionNode(_ Node: SCNNode2)
     {
+        #if DEBUG
+        let Region1 = UserRegion()
+//        Region1.Center = GeoPoint(0.0, 90.0)
+        Region1.Center = GeoPoint(42.9854, 141.5630)
+//        Region1.Center = GeoPoint(37.3349,-122.4194)
+        Region1.Radius = 500
+        MakeDebugRegion(Region1)
+        #endif
         RegionLayer = CAShapeLayer()
         RegionLayer?.name = GlobeNodeNames.RegionNode.rawValue
         RegionLayer?.isGeometryFlipped = true
@@ -87,10 +132,11 @@ extension GlobeView
     }
     
     /// Plot a polar region. Polar regions are centered on either the north or south pole.
+    /// - Parameter On: The layer on which the polar region will be plotted.
     /// - Parameter Region: The region to plot.
     /// - Parameter Width: Width of the map in pixels. Defaults to `3600`.
     /// - Parameter Height: Height of the map in pixels. Defaults to `1800`.
-    func DoPlotPolarRegion(_ Region: UserRegion, Width: Int = 3600, Height: Int = 1800)
+    func DoPlotPolarRegion(On Layer: CAShapeLayer, _ Region: UserRegion, Width: Int = 3600, Height: Int = 1800)
     {
         guard let CenteredOnNorthPole = Region.UseNorthPole else
         {
@@ -115,7 +161,7 @@ extension GlobeView
             Size = CGSize(width: Double(Width), height: MapDistance)
         }
         RegionBox.frame = CGRect(origin: RegionOrigin, size: Size)
-        RegionLayer?.addSublayer(RegionBox)
+        Layer.addSublayer(RegionBox)
     }
     
     /// Plot a region on the region layer.
@@ -126,7 +172,7 @@ extension GlobeView
         if Region.UseNorthPole != nil
         {
             print("Plotting polar node")
-            DoPlotPolarRegion(Region)
+            DoPlotPolarRegion(On: Layer, Region)
             return
         }
         switch GetRegionType(Region)
@@ -169,10 +215,10 @@ extension GlobeView
     {
         if TransientRegionNode == nil
         {
-            let RegionNodeShape = SCNSphere(radius: GlobeRadius.RegionLayer.rawValue + 0.01)
+            let RegionNodeShape = SCNSphere(radius: GlobeRadius.RegionLayer.rawValue + 0.05)
             RegionNodeShape.segmentCount = 500
             TransientRegionNode = SCNNode2(geometry: RegionNodeShape)
-            TransientRegionNode?.name = GlobeNodeNames.RegionNode.rawValue
+            TransientRegionNode?.name = GlobeNodeNames.TransientRegionNode.rawValue
             TransientRegionNode?.position = SCNVector3(0.0, 0.0, 0.0)
             TransientRegionNode?.castsShadow = false
             InitializeTransientRegionNode(TransientRegionNode!)
@@ -180,7 +226,7 @@ extension GlobeView
         }
         else
         {
-            RemoveTransientRegions()
+            TransientRegionLayer?.sublayers?.removeAll()
         }
         for Region in TransientRegions
         {
@@ -191,10 +237,7 @@ extension GlobeView
     /// Remove all transient regions.
     func ClearTransientRegions()
     {
-        TransientRegionNode?.removeAllActions()
-        TransientRegionNode?.removeAllAnimations()
-        TransientRegionNode?.removeFromParentNode()
-        TransientRegionNode = nil
+        TransientRegionLayer?.sublayers?.removeAll()
         TransientRegions.removeAll()
     }
     
@@ -284,6 +327,10 @@ extension GlobeView
                 TRegion.UseNorthPole = NorthPole
                 PlotTransientRegions()
             }
+            else
+            {
+                print("Could not find transient region \(ID.uuidString)")
+            }
         }
     }
     
@@ -347,7 +394,7 @@ extension GlobeView
         East.UpperLeft.Longitude = Region.UpperLeft.Longitude
         East.LowerRight.Latitude = Region.LowerRight.Latitude
         East.LowerRight.Longitude = 180.0
-
+        
         West.UpperLeft.Latitude = Region.UpperLeft.Latitude
         West.UpperLeft.Longitude = -180.0
         West.LowerRight.Latitude = Region.LowerRight.Latitude
