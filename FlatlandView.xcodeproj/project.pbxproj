@@ -14,6 +14,9 @@
 		1701CFC52535646C00544F05 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701CFC42535646C00544F05 /* Snapshot.swift */; };
 		170245D025986E0100DF9457 /* +Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170245CF25986E0100DF9457 /* +Serialization.swift */; };
 		1704D3F4256A4DA100DE0F85 /* StencilPipelineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1704D3F3256A4DA100DE0F85 /* StencilPipelineProtocol.swift */; };
+		17055CF925C537A70025686A /* +Regions_Radial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17055CF825C537A70025686A /* +Regions_Radial.swift */; };
+		17055CFD25C5434B0025686A /* RadialRegionEntryWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17055CFC25C5434B0025686A /* RadialRegionEntryWindow.swift */; };
+		17055D0025C543700025686A /* RadialRegionEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17055CFF25C543700025686A /* RadialRegionEntryController.swift */; };
 		17078AE524AC66FC00782E20 /* SCN3DArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17078AE424AC66FC00782E20 /* SCN3DArrow.swift */; };
 		1707A7AF249CACAB00A90FCA /* Earthquake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1707A7AE249CACAB00A90FCA /* Earthquake.swift */; };
 		1709A0C025A94869008B89DD /* EarthquakeRegionWindow3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1709A0BF25A94869008B89DD /* EarthquakeRegionWindow3.swift */; };
@@ -453,6 +456,9 @@
 		1701CFC42535646C00544F05 /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
 		170245CF25986E0100DF9457 /* +Serialization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Serialization.swift"; sourceTree = "<group>"; };
 		1704D3F3256A4DA100DE0F85 /* StencilPipelineProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilPipelineProtocol.swift; sourceTree = "<group>"; };
+		17055CF825C537A70025686A /* +Regions_Radial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Regions_Radial.swift"; sourceTree = "<group>"; };
+		17055CFC25C5434B0025686A /* RadialRegionEntryWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadialRegionEntryWindow.swift; sourceTree = "<group>"; };
+		17055CFF25C543700025686A /* RadialRegionEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadialRegionEntryController.swift; sourceTree = "<group>"; };
 		17078AE424AC66FC00782E20 /* SCN3DArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCN3DArrow.swift; sourceTree = "<group>"; };
 		1707A7AE249CACAB00A90FCA /* Earthquake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Earthquake.swift; sourceTree = "<group>"; };
 		1709A0BF25A94869008B89DD /* EarthquakeRegionWindow3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow3.swift; sourceTree = "<group>"; };
@@ -921,6 +927,15 @@
 				170245CF25986E0100DF9457 /* +Serialization.swift */,
 			);
 			path = Earthquake;
+			sourceTree = "<group>";
+		};
+		17055CFB25C543350025686A /* Radial */ = {
+			isa = PBXGroup;
+			children = (
+				17055CFC25C5434B0025686A /* RadialRegionEntryWindow.swift */,
+				17055CFF25C543700025686A /* RadialRegionEntryController.swift */,
+			);
+			path = Radial;
 			sourceTree = "<group>";
 		};
 		170D429C2583125500FD7AD2 /* PreferenceHelp */ = {
@@ -1495,6 +1510,7 @@
 				173EB18A2490D1B7006CDB86 /* +Orbits.swift */,
 				1718271A25B1850200041826 /* +RegionEntryProtocolImplementation.swift */,
 				174B1CF025B42662003B33FE /* +Regions.swift */,
+				17055CF825C537A70025686A /* +Regions_Radial.swift */,
 				177389372596D511002698E8 /* +Rotations.swift */,
 				178A869D2489101E00BE8D46 /* StarField.swift */,
 				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
@@ -2167,6 +2183,7 @@
 		17F5598625AD7DA600053314 /* RegionEntry */ = {
 			isa = PBXGroup;
 			children = (
+				17055CFB25C543350025686A /* Radial */,
 				1710685A25BACF1D004AE4B7 /* Polar */,
 				1710685925BACF0C004AE4B7 /* Rectangular */,
 				17F5598725AD7DC700053314 /* RegionEntryUI.storyboard */,
@@ -2394,6 +2411,7 @@
 				17B0B7322546AD4500DC0F03 /* MetalHelper.swift in Sources */,
 				1723E698257E4870003CC24C /* InputValidation.swift in Sources */,
 				1740F49B2493173A00F6FAAE /* Hours.swift in Sources */,
+				17055CF925C537A70025686A /* +Regions_Radial.swift in Sources */,
 				1750044324B4640B006528A4 /* FontProtocol.swift in Sources */,
 				17DFAF562545A5BE00374344 /* ImageShifter.metal in Sources */,
 				1760024224D2BFFE00D5EA1A /* Array.swift in Sources */,
@@ -2547,6 +2565,7 @@
 				174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */,
 				174D0359252C929D00692B89 /* +MainDatabase.swift in Sources */,
 				1760023E24D2BFBF00D5EA1A /* NSBezierPath.swift in Sources */,
+				17055D0025C543700025686A /* RadialRegionEntryController.swift in Sources */,
 				17DE2DCA2590753100214204 /* +State.swift in Sources */,
 				17F1C7E42543FA840046AE33 /* +RectangleWorldHeritageSizes.swift in Sources */,
 				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
@@ -2771,6 +2790,7 @@
 				17DF115E2512F3B400F04EAF /* AnimatedGradientLayer.swift in Sources */,
 				17E5556625B5495500E3CE9E /* +CaptiveDialogManager.swift in Sources */,
 				178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */,
+				17055CFD25C5434B0025686A /* RadialRegionEntryWindow.swift in Sources */,
 				176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */,
 				17CA645C254E7DB100B6DFCC /* RegionalQuakeController.swift in Sources */,
 				175BA56825712A1A001ED3A2 /* SolarToday.swift in Sources */,
