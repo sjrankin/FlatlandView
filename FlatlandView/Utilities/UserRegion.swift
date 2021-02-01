@@ -379,12 +379,16 @@ class UserRegion: CustomStringConvertible
     
     /// Holds the instance ID of the region.
     private var _ID: UUID!
-    /// Get the instance ID of the region.
+    /// Get or set the instance ID of the region.
     public var ID: UUID
     {
         get
         {
             return _ID
+        }
+        set
+        {
+            _ID = newValue
         }
     }
     
