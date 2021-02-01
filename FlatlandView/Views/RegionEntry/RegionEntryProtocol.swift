@@ -14,8 +14,6 @@ protocol RegionEntryProtocol: class
 {
     /// Notify implementors that editing was successfully completed.
     func RegionEntryCompleted(Name: String, Color: NSColor, Corner1: GeoPoint, Corner2: GeoPoint)
-    /// Notify implementors that polar region editing was successfully completed.
-    func PolarRegionEntryCompleted(Name: String, Color: NSColor, Radius: Double, NorthPole: Bool)
     /// Notify implementors that a radial region editing session was successfully completed.
     func RadialRegionEntryCompleted(Name: String, Color: NSColor, Center: GeoPoint, Radius: Double)
     /// Notify implementors that region creation was canceled.
