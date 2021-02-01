@@ -22,6 +22,7 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
         Message2.isHidden = true
         RegionColorWell.color = NSColor.TeaGreen
         RegionNameField.stringValue = "New Field Name"
+        AllRegionsButton.toolTip = "View or edit all earthquake regions."
     }
     
     override func viewWillAppear()
@@ -245,6 +246,20 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
         }
     }
     
+    @IBAction func HandleAllRegionsButtonClicked(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "PreferencePanel", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeRegionWindow3") as? EarthquakeRegionWindow3
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!)
+            {
+                _ in
+            }
+        }
+    }
+    
+    @IBOutlet weak var AllRegionsButton: NSButton!
     @IBOutlet weak var ResetLowerRight: NSButton!
     @IBOutlet weak var ResetUpperLeft: NSButton!
     @IBOutlet weak var Message2: NSTextField!
