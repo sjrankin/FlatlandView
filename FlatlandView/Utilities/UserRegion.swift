@@ -82,15 +82,6 @@ class UserRegion: CustomStringConvertible
             Value.append("\(Center)")
             Value.append("\t")
             Value.append("\(Radius)")
-            Value.append("\t")
-            if UseNorthPole == nil
-            {
-                Value.append("nil")
-            }
-            else
-            {
-                Value.append("\(UseNorthPole!)")
-            }
             return Value
         }
     }
@@ -216,12 +207,6 @@ class UserRegion: CustomStringConvertible
     /// Radius of the circular region.
     var Radius: Double = 0.0
     
-    /// Determines if the region is centered on a pole. Possible values are:
-    /// - `nil`: Not a polar region - rectangular region used instead.
-    /// - `true`: Centered on the north pole.
-    /// - `false`: Centered on the south pole.
-    var UseNorthPole: Bool? = nil
-    
     /// Holds the straddles date line flag.
     private var _CrossesDateLine: Bool = false
     /// Returns a flag indicating whether the region straddles the date line (`true`) or not (`false`).
@@ -281,7 +266,7 @@ class UserRegion: CustomStringConvertible
     public static func Decode(Raw: String) -> UserRegion?
     {
         let Parts = Raw.split(separator: "\t", omittingEmptySubsequences: true)
-        if Parts.count != 17
+        if Parts.count != 16
         {
             return nil
         }
@@ -359,16 +344,6 @@ class UserRegion: CustomStringConvertible
                     
                 case 15:
                     Region.Radius = Double(Part)!
-                    
-                case 16:
-                    if Part == "nil"
-                    {
-                        Region.UseNorthPole = nil
-                    }
-                    else
-                    {
-                        Region.UseNorthPole = Bool(Part)!
-                    }
                     
                 default:
                     return nil
@@ -448,16 +423,11 @@ class UserRegion: CustomStringConvertible
         }
         else
         {
-            if let NorthPole = UseNorthPole
-            {
-                let PolarLatitude = NorthPole ? 90.0 : -90.0
-                let Distance = Geometry.HaversineDistance(Latitude1: Latitude,
-                                                          Longitude1: Longitude,
-                                                          Latitude2: PolarLatitude,
-                                                          Longitude2: 0.0) / 1000.0
-                return Distance <= Radius
-            }
-            return false
+            let Distance = Geometry.HaversineDistance(Latitude1: Latitude,
+                                                      Longitude1: Longitude,
+                                                      Latitude2: Center.Latitude,
+                                                      Longitude2: Center.Longitude) / 1000.0
+            return Distance <= Radius
         }
     }
 }
