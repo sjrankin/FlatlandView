@@ -331,7 +331,6 @@ class EarthquakeRegionController3: NSViewController, NSTableViewDelegate, NSTabl
                     CircleBox.isHidden = true
                     if let Region = CurrentRegion
                     {
-                        Region.UseNorthPole = nil
                         Region.IsRectangular = true
                         IsDirty = true
                     }
