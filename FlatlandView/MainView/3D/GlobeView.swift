@@ -575,6 +575,18 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var MostRecentMouseLatitude: Double = 0.0
     var MostRecentMouseLongitude: Double = 0.0
     var TransientRegions = [UserRegion]()
+    #if DEBUG
+    var DebugRegion: CAShapeLayer? = nil
+    var DebugRegionLayer: SCNNode2? = nil
+    #endif
+    var RadialContainer: [RadialLayer] = [RadialLayer]()
+}
+
+class RadialLayer
+{
+    var RegionID: UUID = UUID.Empty
+    var Overlay: CAShapeLayer? = nil
+    var ContainingNode: SCNNode2? = nil
 }
 
 enum MousePointerTypes: String, CaseIterable
