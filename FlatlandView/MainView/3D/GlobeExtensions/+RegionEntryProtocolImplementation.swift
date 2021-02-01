@@ -51,45 +51,6 @@ extension GlobeView: RegionEntryProtocol
         Settings.SetEarthquakeRegions(OldRegions)
     }
     
-    /// Handle completion of polar region creation.
-    /// - Note: This function assigns the following defaults:
-    ///    - `Region.Age = 30`
-    ///    - `Region.MinimumMagnitude = 5.0`
-    ///    - `Region.MaximumMagnitude = 9.9`
-    ///    - `Region.IsFallback = false`
-    ///    - `Region.IsEnabled = true`
-    ///    - `Region.IsRectangular = false`
-    ///    - `Region.Notification = .None`
-    ///    - `Region.NotifyOnNewEarthquakes = false`
-    /// - Note: The newly created region will be immediately assigned in the settings, which will trigger an
-    ///         event that will cause regions on the globe to be redrawn.
-    /// - Parameter Name: The name of the polar region.
-    /// - Parameter Color: The color of the polar region.
-    /// - Parameter Radius: The radial size of the polar region.
-    /// - Parameter NorthPole: If true, the region is centered over the north pole. If false, it is
-    ///                        centered over the south pole.
-    func PolarRegionEntryCompleted(Name: String, Color: NSColor, Radius: Double, NorthPole: Bool)
-    {
-        ResetFromRegionEntry()
-        let NewRegion = UserRegion()
-        NewRegion.Age = 30
-        NewRegion.MinimumMagnitude = 5.0
-        NewRegion.MaximumMagnitude = 9.9
-        NewRegion.RegionName = Name
-        NewRegion.IsFallback = false
-        NewRegion.IsEnabled = true
-        NewRegion.IsRectangular = false
-        NewRegion.Notification = .None
-        NewRegion.NotifyOnNewEarthquakes = false
-        NewRegion.RegionColor = Color
-        NewRegion.UseNorthPole = NorthPole
-        NewRegion.Radius = Radius
-        var OldRegions = Settings.GetEarthquakeRegions()
-        OldRegions.append(NewRegion)
-        //This will trigger an event that will cause the regions to be redrawn.
-        Settings.SetEarthquakeRegions(OldRegions)
-    }
-    
     /// Handle completion of radial region creation.
     /// - Note: This function assigns the following defaults:
     ///    - `Region.Age = 30`
@@ -100,7 +61,6 @@ extension GlobeView: RegionEntryProtocol
     ///    - `Region.IsRectangular = false`
     ///    - `Region.Notification = .None`
     ///    - `Region.NotifyOnNewEarthquakes = false`
-    ///    - `Region.UseNorthPole = nil`
     /// - Note: The newly created region will be immediately assigned in the settings, which will trigger an
     ///         event that will cause regions on the globe to be redrawn.
     /// - Parameter Name: The name of the polar region.
@@ -121,8 +81,8 @@ extension GlobeView: RegionEntryProtocol
         NewRegion.Notification = .None
         NewRegion.NotifyOnNewEarthquakes = false
         NewRegion.RegionColor = Color
-        NewRegion.UseNorthPole = nil
         NewRegion.Radius = Radius
+        NewRegion.Center = Center
         var OldRegions = Settings.GetEarthquakeRegions()
         OldRegions.append(NewRegion)
         Settings.SetEarthquakeRegions(OldRegions)
