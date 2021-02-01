@@ -21,6 +21,7 @@ class PolarRegionEntryController: NSViewController, NSWindowDelegate, RegionMous
         RegionNameField.stringValue = "New Polar Region"
         PolarRadiusField.stringValue = "1000.0"
         PoleSelector.selectedSegment = 0
+        AllRegionsButton.toolTip = "View or edit all current earthquake regions."
     }
     
     override func viewWillAppear()
@@ -51,37 +52,57 @@ class PolarRegionEntryController: NSViewController, NSWindowDelegate, RegionMous
     
     func MouseClicked(At: GeoPoint)
     {
+        MouseClickPoint = At
         let Pole = PoleSelector.selectedSegment == 0 ? GeoPoint(90.0, 0.0) : GeoPoint(-90.0, 0.0)
         let Radius = Geometry.HaversineDistance(Point1: At, Point2: Pole) / 1000.0
+        print("Clicked at \(At.Latitude.RoundedTo(1)),\(At.Longitude.RoundedTo(1)), Radius=\(Radius.RoundedTo(1))km")
         PolarRadiusField.stringValue = "\(Radius.RoundedTo(1))"
         ParentDelegate?.RemovePins()
+        ParentDelegate?.SetEndPin()
         ParentDelegate?.PlotLowerRightCorner(Latitude: At.Latitude, Longitude: At.Longitude)
         UpdateTransient(NorthPole: PoleSelector.selectedSegment == 0 ? true : false,
                         Radius: Radius,
                         Color: PolarRegionColorWell.color)
+        MainDelegate?.FocusWindow()
     }
+    
+    var MouseClickPoint: GeoPoint? = nil
+    var PreviousRadius: Double? = nil
     
     @IBAction func PolarRegionColorHandler(_ sender: Any)
     {
         if let ColorWell = sender as? NSColorWell
         {
             RegionColor = ColorWell.color
+            if let Radius = PreviousRadius
+            {
+                UpdateTransient(NorthPole: PoleSelector.selectedSegment == 0 ? true : false,
+                                Radius: Radius,
+                                Color: PolarRegionColorWell.color)
+            }
+            MainDelegate?.FocusWindow()
         }
     }
     
     /// Draw a transient region on the globe.
     func UpdateTransient(NorthPole: Bool, Radius: Double, Color: NSColor)
     {
-        print("Transient: NorthPole=\(NorthPole), Radius=\(Radius)")
+        #if false
+        TransientID = UUID()
+        ParentDelegate?.RemoveTransientRegions()
+        ParentDelegate?.PlotTransient(ID: TransientID!, NorthPole: NorthPole, Radius: Radius, Color: Color)
+        #else
         if TransientID == nil
         {
             TransientID = UUID()
+            print("Making new transient region, Radius=\(Radius)")
             ParentDelegate?.PlotTransient(ID: TransientID!, NorthPole: NorthPole, Radius: Radius, Color: Color)
         }
         else
         {
             ParentDelegate?.UpdateTransient(ID: TransientID!, NorthPole: NorthPole, Radius: Radius, Color: Color)
         }
+        #endif
     }
     
     var TransientID: UUID? = nil
@@ -163,6 +184,38 @@ class PolarRegionEntryController: NSViewController, NSWindowDelegate, RegionMous
         self.view.window?.close()
     }
     
+    @IBAction func PolarRegionChangedHandler(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            if let Where = MouseClickPoint
+            {
+                let Pole = Segment.selectedSegment == 0 ? GeoPoint(90.0, 0.0) : GeoPoint(-90.0, 0.0)
+                let Radius = Geometry.HaversineDistance(Point1: Where, Point2: Pole) / 1000.0
+                PreviousRadius = Radius
+                PolarRadiusField.stringValue = Radius.RoundedTo(2)
+                UpdateTransient(NorthPole: Segment.selectedSegment == 0 ? true : false,
+                                Radius: Radius,
+                                Color: PolarRegionColorWell.color)
+            }
+            MainDelegate?.FocusWindow()
+        }
+    }
+    
+    @IBAction func HandleAllRegionButtonClicked(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "PreferencePanel", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeRegionWindow3") as? EarthquakeRegionWindow3
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!)
+            {
+                _ in
+            }
+        }
+    }
+    
+    @IBOutlet weak var AllRegionsButton: NSButton!
     @IBOutlet weak var PolarRegionColorWell: NSColorWell!
     @IBOutlet weak var RegionNameField: NSTextField!
     @IBOutlet weak var PolarRadiusField: NSTextField!
