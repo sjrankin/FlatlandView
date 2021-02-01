@@ -15,14 +15,14 @@ extension GlobeView: RegionEntryProtocol
 {
     /// Called when region entry was completed by the user.
     /// - Note: This function assigns the following defaults:
-    ///    - Region.Age = 30
-    ///    - Region.MinimumMagnitude = 5.0
-    ///    - Region.MaximumMagnitude = 9.9
-    ///    - Region.IsFallback = false
-    ///    - Region.IsEnabled = true
-    ///    - Region.IsRectangular = true
-    ///    - Region.Notification = .None
-    ///    - Region.NotifyOnNewEarthquakes = false
+    ///    - `Region.Age = 30`
+    ///    - `Region.MinimumMagnitude = 5.0`
+    ///    - `Region.MaximumMagnitude = 9.9`
+    ///    - `Region.IsFallback = false`
+    ///    - `Region.IsEnabled = true`
+    ///    - `Region.IsRectangular = true`
+    ///    - `Region.Notification = .None`
+    ///    - `Region.NotifyOnNewEarthquakes = false`
     /// - Note: The newly created region will be immediately assigned in the settings, which will trigger an
     ///         event that will cause regions on the globe to be redrawn.
     /// - Parameter Name: The name of the region.
@@ -53,14 +53,14 @@ extension GlobeView: RegionEntryProtocol
     
     /// Handle completion of polar region creation.
     /// - Note: This function assigns the following defaults:
-    ///    - Region.Age = 30
-    ///    - Region.MinimumMagnitude = 5.0
-    ///    - Region.MaximumMagnitude = 9.9
-    ///    - Region.IsFallback = false
-    ///    - Region.IsEnabled = true
-    ///    - Region.IsRectangular = false
-    ///    - Region.Notification = .None
-    ///    - Region.NotifyOnNewEarthquakes = false
+    ///    - `Region.Age = 30`
+    ///    - `Region.MinimumMagnitude = 5.0`
+    ///    - `Region.MaximumMagnitude = 9.9`
+    ///    - `Region.IsFallback = false`
+    ///    - `Region.IsEnabled = true`
+    ///    - `Region.IsRectangular = false`
+    ///    - `Region.Notification = .None`
+    ///    - `Region.NotifyOnNewEarthquakes = false`
     /// - Note: The newly created region will be immediately assigned in the settings, which will trigger an
     ///         event that will cause regions on the globe to be redrawn.
     /// - Parameter Name: The name of the polar region.
@@ -70,7 +70,6 @@ extension GlobeView: RegionEntryProtocol
     ///                        centered over the south pole.
     func PolarRegionEntryCompleted(Name: String, Color: NSColor, Radius: Double, NorthPole: Bool)
     {
-        print("\(Name) with radius \(Radius) over north pole \(NorthPole)")
         ResetFromRegionEntry()
         let NewRegion = UserRegion()
         NewRegion.Age = 30
@@ -88,6 +87,44 @@ extension GlobeView: RegionEntryProtocol
         var OldRegions = Settings.GetEarthquakeRegions()
         OldRegions.append(NewRegion)
         //This will trigger an event that will cause the regions to be redrawn.
+        Settings.SetEarthquakeRegions(OldRegions)
+    }
+    
+    /// Handle completion of radial region creation.
+    /// - Note: This function assigns the following defaults:
+    ///    - `Region.Age = 30`
+    ///    - `Region.MinimumMagnitude = 5.0`
+    ///    - `Region.MaximumMagnitude = 9.9`
+    ///    - `Region.IsFallback = false`
+    ///    - `Region.IsEnabled = true`
+    ///    - `Region.IsRectangular = false`
+    ///    - `Region.Notification = .None`
+    ///    - `Region.NotifyOnNewEarthquakes = false`
+    ///    - `Region.UseNorthPole = nil`
+    /// - Note: The newly created region will be immediately assigned in the settings, which will trigger an
+    ///         event that will cause regions on the globe to be redrawn.
+    /// - Parameter Name: The name of the polar region.
+    /// - Parameter Color: The color of the polar region.
+    /// - Parameter Center: The center of the radial region.
+    /// - Parameter Radius: The radial size of the polar region.
+    func RadialRegionEntryCompleted(Name: String, Color: NSColor, Center: GeoPoint, Radius: Double)
+    {
+        ResetFromRegionEntry()
+        let NewRegion = UserRegion()
+        NewRegion.Age = 30
+        NewRegion.MinimumMagnitude = 5.0
+        NewRegion.MaximumMagnitude = 9.9
+        NewRegion.RegionName = Name
+        NewRegion.IsFallback = false
+        NewRegion.IsEnabled = true
+        NewRegion.IsRectangular = false
+        NewRegion.Notification = .None
+        NewRegion.NotifyOnNewEarthquakes = false
+        NewRegion.RegionColor = Color
+        NewRegion.UseNorthPole = nil
+        NewRegion.Radius = Radius
+        var OldRegions = Settings.GetEarthquakeRegions()
+        OldRegions.append(NewRegion)
         Settings.SetEarthquakeRegions(OldRegions)
     }
     
@@ -162,7 +199,7 @@ extension GlobeView: RegionEntryProtocol
         return PinNode
     }
     
-    /// Remove pins plotted on the globe when defining a rectangular region.
+    /// Remove pins plotted on the globe when defining a region.
     func RemovePins()
     {
         for Node in EarthNode!.childNodes
@@ -249,7 +286,18 @@ extension GlobeView: RegionEntryProtocol
     /// Plot a polar transient region.
     func PlotTransient(ID: UUID, NorthPole: Bool, Radius: Double, Color: NSColor)
     {
-       PlotTransientRegion(NorthPole: NorthPole, Radius: Radius, Color: Color, ID: ID)
+        PlotTransientRegion(NorthPole: NorthPole, Radius: Radius, Color: Color, ID: ID)
+    }
+    
+    /// Plot a radial transient region.
+    func PlotTransient(ID: UUID, Center: GeoPoint, Radius: Double, Color: NSColor)
+    {
+        let TRegion = UserRegion()
+        TRegion.RegionColor = Color
+        TRegion.ID = ID
+        TRegion.Center = Center
+        TRegion.Radius = Radius
+        AddRadialRegion(TRegion)
     }
     
     /// Update a transient region.
@@ -264,6 +312,18 @@ extension GlobeView: RegionEntryProtocol
         UpdateTransientRegion(ID: ID, NorthPole: NorthPole, Radius: Radius, Color: Color)
     }
     
+    /// Update a radial transient region.
+    func UpdateTransient(ID: UUID, Center: GeoPoint, Radius: Double, Color: NSColor)
+    {
+        RemoveRadialRegion(ID: ID)
+        let TRegion = UserRegion()
+        TRegion.RegionColor = Color
+        TRegion.ID = ID
+        TRegion.Center = Center
+        TRegion.Radius = Radius
+        UpdateRadialRegion(With: TRegion)
+    }
+    
     /// Remove transient regions.
     func RemoveTransientRegions()
     {
@@ -271,8 +331,16 @@ extension GlobeView: RegionEntryProtocol
     }
     
     /// Remove the specified transient region.
+    /// Parameter ID: The ID of the transient region to remove.
     func RemoveTransientRegion(ID: UUID)
     {
         ClearTransientRegion(ID: ID)
+    }
+    
+    /// Remove the specified transient radial region.
+    /// - Parameter ID: The ID of the transient region to remove.
+    func RemoveRadialTransientRegion(ID: UUID)
+    {
+        RemoveRadialRegion(ID: ID)
     }
 }
