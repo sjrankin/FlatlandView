@@ -116,6 +116,18 @@ extension GlobeView
         RadialContainer = RadialContainer.filter({$0.RegionID != ID})
     }
     
+    func RemoveRadialRegions()
+    {
+        for RadialL in RadialContainer
+        {
+            RadialL.ContainingNode?.removeFromParentNode()
+            RadialL.ContainingNode?.removeAllActions()
+            RadialL.ContainingNode?.removeAllAnimations()
+            RadialL.ContainingNode = nil
+        }
+        RadialContainer.removeAll()
+    }
+    
     /// "Update" the current radial layer with data from the passed region.
     /// - Note: The old layer is deleted and a new one created in its place.
     /// - Parameter With: The region whose data will be used to "update" the layer.
@@ -123,5 +135,14 @@ extension GlobeView
     {
         RemoveRadialRegion(NewRegion)
         AddRadialRegion(NewRegion)
+    }
+    
+    /// Plot a radial region.
+    func PlotRadialRegion(_ Region: UserRegion)
+    {
+        if !Region.IsRectangular
+        {
+            AddRadialRegion(Region)
+        }
     }
 }
