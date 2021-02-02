@@ -26,34 +26,43 @@ extension GlobeView
                                           size: CGSize(width: Defaults.StandardMapWidth.rawValue,
                                                        height: Defaults.StandardMapHeight.rawValue))
         NewRadial.Overlay?.backgroundColor = NSColor.clear.cgColor
-        let RadialPercent = (Region.Radius * 1.0) / PhysicalConstants.EarthCircumference.rawValue
+        let RadialPercent = Region.Radius / PhysicalConstants.EarthCircumference.rawValue
         let Radius = Defaults.StandardMapWidth.rawValue * RadialPercent
         let RegionOrigin = CGPoint(x: (Defaults.StandardMapWidth.rawValue / 2.0) - Radius,
                                    y: (Defaults.StandardMapHeight.rawValue / 2.0) - Radius)
         let Size = CGSize(width: Radius * 2.0, height: Radius * 2.0)
         let Path = CGMutablePath(ellipseIn: CGRect(origin: RegionOrigin, size: Size), transform: nil)
-        NewRadial.Overlay?.strokeColor = NSColor.black.withAlphaComponent(0.35).cgColor
-        NewRadial.Overlay?.lineWidth = 2.0
+        NewRadial.Overlay?.strokeColor = NSColor.black.withAlphaComponent(RadialConstants.RegionAlpha.rawValue).cgColor
+        NewRadial.Overlay?.lineWidth = RadialConstants.RegionBorderWidth.rawValue
         NewRadial.Overlay?.edgeAntialiasingMask = .layerTopEdge
-        NewRadial.Overlay?.fillColor = Region.RegionColor.withAlphaComponent(0.35).cgColor
+        NewRadial.Overlay?.fillColor = Region.RegionColor.withAlphaComponent(RadialConstants.RegionAlpha.rawValue).cgColor
         NewRadial.Overlay?.path = Path
         
         NewRadial.ContainingNode = SCNNode2()
-        let Geo = SCNSphere(radius: GlobeRadius.RegionLayer.rawValue + 0.08)
-        Geo.segmentCount = 500
+        let Geo = SCNSphere(radius: GlobeRadius.RegionLayer.rawValue + GetRegionLayerRadiusOffset())
+        Geo.segmentCount = Int(RadialConstants.SegmentCount.rawValue)
         NewRadial.ContainingNode?.geometry = Geo
         NewRadial.ContainingNode?.name = "Radial Region Container"
         NewRadial.ContainingNode?.position = SCNVector3(0.0, 0.0, 0.0)
         NewRadial.ContainingNode?.castsShadow = false
+        NewRadial.ContainingNode?.geometry?.firstMaterial?.blendMode = .alpha
         NewRadial.ContainingNode?.geometry?.firstMaterial?.diffuse.contents = NewRadial.Overlay!
         NewRadial.ContainingNode?.geometry?.firstMaterial?.selfIllumination.contents = NewRadial.Overlay!
-        NewRadial.ContainingNode?.geometry?.firstMaterial?.blendMode = .alpha
         NewRadial.ContainingNode?.eulerAngles = SCNVector3(0.0, 0.0, 0.0)
         let XRotate = (-Region.Center.Latitude).Radians
         let YRotate = (Region.Center.Longitude).Radians
         NewRadial.ContainingNode?.eulerAngles = SCNVector3(CGFloat(XRotate), CGFloat(YRotate), 0.0)
 
         return NewRadial
+    }
+    
+    /// Get an offset for radial layers' radii.
+    /// - Returns: Offset value to use when creating layers for radial regions.
+    func GetRegionLayerRadiusOffset() -> CGFloat
+    {
+        RadialRadiusOffset = RadialRadiusOffset + RadialConstants.RadialOffsetIncrement.rawValue
+        Debug.Print("RadialRadiusOffset+base=\(RadialRadiusOffset + GlobeRadius.RegionLayer.rawValue)")
+        return RadialRadiusOffset
     }
     
     /// Return the radial region layer with the specfied ID.
@@ -116,6 +125,7 @@ extension GlobeView
         RadialContainer = RadialContainer.filter({$0.RegionID != ID})
     }
     
+    /// Remove radial layers (and so radial regions) from the view.
     func RemoveRadialRegions()
     {
         for RadialL in RadialContainer
@@ -126,6 +136,7 @@ extension GlobeView
             RadialL.ContainingNode = nil
         }
         RadialContainer.removeAll()
+        RadialRadiusOffset = 0.011
     }
     
     /// "Update" the current radial layer with data from the passed region.
