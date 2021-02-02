@@ -742,6 +742,19 @@ enum HourConstants: Double, CaseIterable
     case RemoveDuration = 0.65
 }
 
+/// Constants used by radial layers.
+enum RadialConstants: CGFloat
+{
+    /// Alpha value for radial regions and borders.
+    case RegionAlpha = 0.35
+    /// Width of the border for radial regions.
+    case RegionBorderWidth = 2.0
+    /// Number of segments for the sphere that holds the radial layer.
+    case SegmentCount = 500.0
+    /// Incremental value for radial layer offsets.
+    case RadialOffsetIncrement = 0.01
+}
+
 #if DEBUG
 // MARK: - 3D scene debug constants.
 
