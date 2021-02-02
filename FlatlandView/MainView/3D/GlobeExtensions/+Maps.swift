@@ -260,6 +260,7 @@ extension GlobeView
                 SeaNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
                 SeaNode?.castsShadow = true
         }
+        SeaNode?.geometry?.firstMaterial?.blendMode = .replace
         
         EarthNode?.NodeID = NodeTables.EarthGlobe
         EarthNode?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
@@ -294,6 +295,7 @@ extension GlobeView
         
         let Declination = Sun.Declination(For: Date())
         SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+        SystemNode?.geometry?.firstMaterial?.blendMode = .replace
         
         if FastAnimate
         {
