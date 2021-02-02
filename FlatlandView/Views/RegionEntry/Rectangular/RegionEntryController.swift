@@ -133,13 +133,7 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
             ShowAlertMessage(Message: "Unable to read points - please verify for correctness.")
             return
         }
-        if NSColorPanel.shared.isVisible
-        {
-            NSColorPanel.shared.close()
-        }
-        ParentDelegate?.ClearMousePointer()
-        ParentDelegate?.ResetMousePointer()
-        ParentDelegate?.RemovePins()
+        OKClicked = true
         ParentDelegate?.RegionEntryCompleted(Name: RegionNameField.stringValue, Color: RegionColor,
                                              Corner1: Point1, Corner2: Point2)
         self.view.window?.close()
@@ -147,15 +141,26 @@ class RegionEntryController: NSViewController, NSWindowDelegate, RegionMouseClic
     
     @IBAction func HandleCancelButton(_ sender: Any)
     {
+        self.view.window?.close()
+    }
+    
+    var OKClicked = false
+    
+    /// Clean up from the OK, Cancel, or close window buttons.
+    override func viewWillDisappear()
+    {
+        super.viewWillDisappear()
         if NSColorPanel.shared.isVisible
         {
             NSColorPanel.shared.close()
         }
         ParentDelegate?.ClearMousePointer()
         ParentDelegate?.ResetMousePointer()
-        ParentDelegate?.RegionEntryCanceled()
         ParentDelegate?.RemovePins()
-        self.view.window?.close()
+        if !OKClicked
+        {
+            ParentDelegate?.RegionEntryCanceled()
+        }
     }
     
     var ClickCount = 0
