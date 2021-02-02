@@ -506,6 +506,8 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var EarthClock: Timer? = nil
     var PreviousLongitudePercent: Double? = nil
     
+    var PreviousCameraDistance: Int? = nil
+    
     var RotationAccumulator: CGFloat = 0.0
     /// Holds most nodes.
     var SystemNode: SCNNode? = nil
@@ -575,11 +577,8 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var MostRecentMouseLatitude: Double = 0.0
     var MostRecentMouseLongitude: Double = 0.0
     var TransientRegions = [UserRegion]()
-    #if DEBUG
-    var DebugRegion: CAShapeLayer? = nil
-    var DebugRegionLayer: SCNNode2? = nil
-    #endif
     var RadialContainer: [RadialLayer] = [RadialLayer]()
+    var RadialRadiusOffset: CGFloat = 0.011
 }
 
 class RadialLayer
