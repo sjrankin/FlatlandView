@@ -463,6 +463,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     let LongitudeIncrement = 0.19
     let LatitudeIncrement = 0.23
     public var CameraObserver: NSKeyValueObservation? = nil
+    public var FLCameraObserver: NSKeyValueObservation? = nil
     var OldPointOfView: SCNVector3? = nil
     var Camera: SCNCamera = SCNCamera()
     
@@ -578,19 +579,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var MostRecentMouseLongitude: Double = 0.0
     var TransientRegions = [UserRegion]()
     var RadialContainer: [RadialLayer] = [RadialLayer]()
-    var RadialRadiusOffset: CGFloat = 0.011
+    var RadialRadiusOffset: CGFloat = RadialConstants.RadialRadiusOffset.rawValue
 }
 
-class RadialLayer
-{
-    var RegionID: UUID = UUID.Empty
-    var Overlay: CAShapeLayer? = nil
-    var ContainingNode: SCNNode2? = nil
-}
 
-enum MousePointerTypes: String, CaseIterable
-{
-    case Normal = "Normal"
-    case StartPin = "StartPin"
-    case EndPin = "EndPin"
-}
