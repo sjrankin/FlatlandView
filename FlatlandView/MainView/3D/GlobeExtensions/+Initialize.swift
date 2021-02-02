@@ -71,7 +71,7 @@ extension GlobeView
         #endif
         
         self.allowsCameraControl = true
-        
+
         /// Watch the camera to ensure we always have the camera's orientation.
         CameraObserver = self.observe(\.pointOfView?.position, options: [.new, .initial])
         {
@@ -85,13 +85,11 @@ extension GlobeView
             }
         }
         
-        #if true
-        //If the user-camera control is enabled, this prevents the user from zooming in too close to the
-        //view by checking the run-time Z value and resetting the current point of view to the minimum
-        //value found in the user settings (but which is not user-accessible).
+        //Monitor the camera's distance from the center of the Earth. Used to set the quality level of extruded
+        //hour numerals.
+        //See: https://stackoverflow.com/questions/24768031/can-i-get-the-scnview-camera-position-when-using-allowscameracontrol
         if self.allowsCameraControl
         {
-            //https://stackoverflow.com/questions/24768031/can-i-get-the-scnview-camera-position-when-using-allowscameracontrol
             CameraObserver = self.observe(\.pointOfView?.position, options: [.new, .initial])
             {
                 (Node, Change) in
@@ -111,36 +109,13 @@ extension GlobeView
                             self.UpdateFlatnessForCamera(Distance: Distance)
                         }
                     }
-                    //Debug.Print("POV: \(Location), Distance=\(Distance.RoundedTo(1))")
-                    /*
-                    if self.OldPointOfView == nil
-                    {
-                        self.OldPointOfView = Node.pointOfView!.position
-                        return
-                    }
-                    let Distance = sqrt(Node.pointOfView!.position.x + Node.pointOfView!.position.y +
-                                            Node.pointOfView!.position.z)
-                    let Closest = Settings.GetCGFloat(.ClosestZ, Defaults.ClosestZ)
-                    if Distance < Closest
-                    {
-                        print("\(Distance)<\(Closest)")
-                        Node.pointOfView!.position = self.OldPointOfView!
-                    }
-                    else
-                    {
-                        self.OldPointOfView = Node.pointOfView!.position
-                    }
- */
                 }
             }
         }
-        #endif
         
         self.autoenablesDefaultLighting = false
         self.scene = SCNScene()
         self.backgroundColor = NSColor.clear
-        //Higher antialiasing mode values tend to use a lot of alpha which SceneKit uses when doing final
-        //rendering, making the globe transparent along the edges of grid lines, which looks really weird.
         switch Settings.GetEnum(ForKey: .AntialiasLevel, EnumType: SceneJitters.self, Default: .Jitter4X)
         {
             case .None:
@@ -158,7 +133,6 @@ extension GlobeView
             case .Jitter16X:
                 self.antialiasingMode = .multisampling16X
         }
-        //self.antialiasingMode = .multisampling16X
         self.isJitteringEnabled = Settings.GetBool(.EnableJittering)
         #if DEBUG
         self.showsStatistics = Settings.GetBool(.ShowStatistics)
@@ -293,18 +267,13 @@ extension GlobeView
         }
     }
     
-    /// Create the default camera. This is the camera that `allowsCameraControl` manipulates.
+    /// Create the Flatland camera. This is different from the one that allowsCameraControl manipulates.
     func CreateCamera()
     {
         RemoveNodeWithName(GlobeNodeNames.FlatlandCameraNode.rawValue)
         Camera = SCNCamera()
         Camera.wantsHDR = Settings.GetBool(.UseHDRCamera)
-        #if true
         Camera.fieldOfView = Settings.GetCGFloat(.FieldOfView, Defaults.FieldOfView)
-        #else
-        Camera.usesOrthographicProjection = true
-        Camera.orthographicScale = Settings.GetDouble(.OrthographicScale, 14.0)
-        #endif
         Camera.zFar = Settings.GetDouble(.ZFar, Defaults.ZFar)
         Camera.zNear = Settings.GetDouble(.ZNear, Defaults.ZNear)
         CameraNode = SCNNode()
@@ -312,5 +281,13 @@ extension GlobeView
         CameraNode.camera = Camera
         CameraNode.position = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue))
         self.scene?.rootNode.addChildNode(CameraNode)
+        FLCameraObserver = CameraNode.observe(\.position, options: [.new, .initial])
+        {
+            (Node, Change) in
+            OperationQueue.current?.addOperation
+            {
+                print("Flatland Camera position=\(Node.position)")
+            }
+        }
     }
 }
