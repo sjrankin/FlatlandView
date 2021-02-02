@@ -870,3 +870,15 @@ enum MapNodeScales: String, CaseIterable
     /// Large-sized nodes.
     case Large = "Large"
 }
+
+/// Pointer types for the mouse over maps.
+enum MousePointerTypes: String, CaseIterable
+{
+    /// Normal pointer (a 3D shape, not an arrow).
+    case Normal = "Normal"
+    /// Starting pin for creating regions.
+    case StartPin = "StartPin"
+    /// Ending pin for ending region creation.
+    case EndPin = "EndPin"
+}
+
