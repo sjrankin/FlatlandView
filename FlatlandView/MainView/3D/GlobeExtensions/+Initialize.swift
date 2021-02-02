@@ -85,7 +85,7 @@ extension GlobeView
             }
         }
         
-        #if false
+        #if true
         //If the user-camera control is enabled, this prevents the user from zooming in too close to the
         //view by checking the run-time Z value and resetting the current point of view to the minimum
         //value found in the user settings (but which is not user-accessible).
@@ -98,7 +98,20 @@ extension GlobeView
                 OperationQueue.current?.addOperation
                 {
                     let Location = Node.pointOfView!.position
-                    Debug.Print("POV: \(Location)")
+                    let Distance = sqrt((Location.x * Location.x) + (Location.y * Location.y) + (Location.z * Location.z))
+                    if self.PreviousCameraDistance == nil
+                    {
+                        self.PreviousCameraDistance = Int(Distance)
+                    }
+                    else
+                    {
+                        if self.PreviousCameraDistance != Int(Distance)
+                        {
+                            self.PreviousCameraDistance = Int(Distance)
+                            self.UpdateFlatnessForCamera(Distance: Distance)
+                        }
+                    }
+                    //Debug.Print("POV: \(Location), Distance=\(Distance.RoundedTo(1))")
                     /*
                     if self.OldPointOfView == nil
                     {
