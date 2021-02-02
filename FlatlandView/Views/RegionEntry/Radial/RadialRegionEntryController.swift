@@ -203,6 +203,7 @@ class RadialRegionEntryController: NSViewController, NSTextFieldDelegate, NSWind
                                                     Color: ColorWell.color)
                 }
             }
+            MainDelegate?.FocusWindow()
         }
     }
     
