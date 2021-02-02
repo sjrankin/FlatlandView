@@ -439,6 +439,7 @@
 		17F9B00D2520377F00DE0219 /* +LocationAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B00C2520377F00DE0219 /* +LocationAttributes.swift */; };
 		17F9B025252069DE00DE0219 /* SCNNode2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B024252069DE00DE0219 /* SCNNode2.swift */; };
 		17F9B0292520ABD900DE0219 /* FlatlandEventProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */; };
+		17FA21A425C8F46B00E2BEB6 /* +RadialLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FA21A325C8F46B00E2BEB6 /* +RadialLayer.swift */; };
 		17FC2213249879BE005A0929 /* EarthquakeData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17FC2212249879BE005A0929 /* EarthquakeData.storyboard */; };
 		17FE3BE1256F74D500451F9F /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE3BE0256F74D500451F9F /* LocationController.swift */; };
 		17FE3BE4256F74F300451F9F /* LocationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE3BE3256F74F300451F9F /* LocationWindow.swift */; };
@@ -889,6 +890,7 @@
 		17F9B00C2520377F00DE0219 /* +LocationAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+LocationAttributes.swift"; sourceTree = "<group>"; };
 		17F9B024252069DE00DE0219 /* SCNNode2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNNode2.swift; sourceTree = "<group>"; };
 		17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlandEventProtocol.swift; sourceTree = "<group>"; };
+		17FA21A325C8F46B00E2BEB6 /* +RadialLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+RadialLayer.swift"; sourceTree = "<group>"; };
 		17FC2212249879BE005A0929 /* EarthquakeData.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EarthquakeData.storyboard; sourceTree = "<group>"; };
 		17FE3BE0256F74D500451F9F /* LocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
 		17FE3BE3256F74F300451F9F /* LocationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWindow.swift; sourceTree = "<group>"; };
@@ -1502,6 +1504,7 @@
 				178A869D2489101E00BE8D46 /* StarField.swift */,
 				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
 				1727EA5724B15CD10051EA3B /* +UserCamera.swift */,
+				17FA21A325C8F46B00E2BEB6 /* +RadialLayer.swift */,
 			);
 			path = GlobeExtensions;
 			sourceTree = "<group>";
@@ -2696,6 +2699,7 @@
 				1750044524B46E73006528A4 /* FontNameWindow.swift in Sources */,
 				1727EA5F24B1F0760051EA3B /* KMDataPoint.swift in Sources */,
 				1737101024E2BB7300BC6CF8 /* Stenciler.swift in Sources */,
+				17FA21A425C8F46B00E2BEB6 /* +RadialLayer.swift in Sources */,
 				17DE2BAD2569FC75008077C7 /* Rectangle.swift in Sources */,
 				1797ED3D24E7B976005C74A0 /* FlatlandNotification.swift in Sources */,
 				17DAE38B25B3BC1E00C18522 /* StencilContext.swift in Sources */,
