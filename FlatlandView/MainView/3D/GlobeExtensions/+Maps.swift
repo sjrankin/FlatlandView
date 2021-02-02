@@ -145,6 +145,11 @@ extension GlobeView
         //must have a blend mode of .alpha.
         EarthNode?.geometry?.firstMaterial?.blendMode = .replace
         
+        let Constraint = SCNDistanceConstraint(target: self.EarthNode!)
+        Constraint.maximumDistance = 200
+        Constraint.minimumDistance = 70
+        CameraNode.constraints = [Constraint]
+        
         //Precondition the surfaces.
         switch MapType
         {
