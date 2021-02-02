@@ -84,6 +84,52 @@ extension GlobeView
         PreviousHourType = With
     }
     
+    /// Update the flatness (smoothness) of the hours in the set of displayed hours.
+    /// - Parameter To: New flatness level. Smaller values draw smoother text.
+    func ChangeHourFlatness(To NewFlatness: CGFloat)
+    {
+        if let Hours = HourNode
+        {
+            for Phrase in Hours.childNodes
+            {
+                for LabelNode in Phrase.childNodes
+                {
+                    if let Label = LabelNode.geometry as? SCNText
+                    {
+                        Label.flatness = NewFlatness
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Intended to be called when the user moves the camera closer or farther away from the Earth node to
+    /// update the flatness level of the hours. When the camera is closer, the flatness level will result in
+    /// smoother numerals.
+    /// - Parameter Distance: Distance from the camera to the center of the Earth node.
+    func UpdateFlatnessForCamera(Distance: CGFloat)
+    {
+        let DistanceMap: [(FlatLevel: CGFloat, Min: Int, Max: Int)] =
+        [
+            (0.001, 0, 50),
+            (0.005, 51, 80),
+            (0.01, 81, 100),
+            (0.05, 101, 120),
+            (0.5, 120, 1000)
+        ]
+        var FinalFlat: CGFloat = 0.01
+        let IDist = Int(Distance)
+        for (Final, Min, Max) in DistanceMap
+        {
+            if IDist >= Min && IDist <= Max
+            {
+                FinalFlat = Final
+                break
+            }
+        }
+        ChangeHourFlatness(To: FinalFlat)
+    }
+    
     /// Create an hour node with labels.
     /// - Note: `.RelativeToLocation` is not available if the user has not entered his location.
     ///         If no local information is available, nil is returned.
