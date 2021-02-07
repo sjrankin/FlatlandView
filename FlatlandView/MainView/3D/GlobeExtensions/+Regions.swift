@@ -76,9 +76,6 @@ extension GlobeView
     /// - Parameter Region: The region to plot.
     func DoPlotRegion(_ Region: UserRegion, To Layer: CAShapeLayer)
     {
-        #if true
-        PlotRadialRegion(Region)
-        #else
         if Region.IsRectangular
         {
             let RegionBox = CAShapeLayer()
@@ -91,11 +88,12 @@ extension GlobeView
             RegionBox.frame = CGRect(origin: UpperLeft, size: Size)
             Layer.addSublayer(RegionBox)
         }
+        /*
         else
         {
             PlotRadialRegion(Region)
         }
-        #endif
+        */
     }
     
     /// Plot a region on the region layer.
