@@ -33,12 +33,22 @@ class DebuggerWindow: NSWindowController
         DebugMapButtonItem.view?.layer?.cornerRadius = 3.0
         DebugMapButtonItem.view?.layer?.borderWidth = 1.0
         DebugMapButtonItem.view?.layer?.borderColor = NSColor.clear.cgColor
+        DebugCameraBarItem.view?.wantsLayer = true
+        DebugCameraBarItem.view?.layer?.cornerRadius = 3.0
+        DebugCameraBarItem.view?.layer?.borderWidth = 1.0
+        DebugCameraBarItem.view?.layer?.borderColor = NSColor.clear.cgColor
+        TextDebugBarItem.view?.wantsLayer = true
+        TextDebugBarItem.view?.layer?.cornerRadius = 3.0
+        TextDebugBarItem.view?.layer?.borderWidth = 1.0
+        TextDebugBarItem.view?.layer?.borderColor = NSColor.clear.cgColor
         
         ButtonMap[ClockControlButton] = ClockControlBarItem
         ButtonMap[DebugLogButton] = DebugLogBarItem
         ButtonMap[CommandLineButton] = CommandLineBarItem
         ButtonMap[Debug3DButton] = Debug3DBarItem
         ButtonMap[DebugMapButton] = DebugMapButtonItem
+        ButtonMap[DebugCameraButton] = DebugCameraBarItem
+        ButtonMap[TextDebugButton] = TextDebugBarItem
     }
     
     var ButtonMap = [NSButton: NSToolbarItem]()
@@ -73,10 +83,14 @@ class DebuggerWindow: NSWindowController
     @IBOutlet weak var CommandLineBarItem: NSToolbarItem!
     @IBOutlet weak var ClockControlBarItem: NSToolbarItem!
     @IBOutlet weak var DebugLogBarItem: NSToolbarItem!
+    @IBOutlet weak var DebugCameraBarItem: NSToolbarItem!
+    @IBOutlet weak var TextDebugBarItem: NSToolbarItem!
     
     @IBOutlet weak var DebugMapButton: NSButton!
     @IBOutlet weak var Debug3DButton: NSButton!
     @IBOutlet weak var CommandLineButton: NSButton!
     @IBOutlet weak var ClockControlButton: NSButton!
     @IBOutlet weak var DebugLogButton: NSButton!
+    @IBOutlet weak var DebugCameraButton: NSButton!
+    @IBOutlet weak var TextDebugButton: NSButton!
 }
