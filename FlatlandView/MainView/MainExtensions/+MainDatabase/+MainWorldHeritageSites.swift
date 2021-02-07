@@ -112,6 +112,12 @@ extension MainController
             Results.append(Site)
         }
         MainController.LastReadList = Results
+        let PlaceGroup = WordGroup()
+        for Place in Results
+        {
+            PlaceGroup.AddWord(Place.Name)
+        }
+        GlobalWordLists.AddGlobalWordList(For: .UNESCOSiteNames, WordList: PlaceGroup)
         return Results
     }
     
