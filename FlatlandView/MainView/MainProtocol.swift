@@ -126,6 +126,39 @@ protocol MainProtocol: class
     
     /// Make the main window focused ("key" in Apple terminology).
     func FocusWindow()
+    
+    /// Point the camera as the passed point.
+    /// - Parameter At: The point on the globe where to point the camera.
+    func PointCamera(At Point: GeoPoint)
+    
+    /// Reset the camera to its "natural" location.
+    func ResetCameraPosition()
+    
+    /// Set the camera orientation.
+    /// - Parameter Pitch: The pitch (X) value.
+    /// - Parameter Yaw: The yaw (Y) value.
+    /// - Parameter Roll: The roll (Z) value.
+    func SetCameraOrientation(Pitch: Double, Yaw: Double, Roll: Double, ValuesAreRadians: Bool)
+    
+    /// Get the 3D point of view node.
+    /// - Returns: The 3D point of view node.
+    func Get3DPointOfView() -> SCNNode?
+
+    /// Returns an array of user POI data.
+    /// - Returns: Array of user POI data.
+    func GetUserPOIData() -> [POI2]?
+    
+    /// Saves the passed array of user POI data.
+    /// - Parameter POIData: Array of POI data to save.
+    func SetUserPOIData(_ POIData: [POI2])
+    
+    /// Returns an array of additional cities.
+    /// - Returns: Array of additional/other cities.
+    func GetAdditionalCityData() -> [City2]?
+    
+    /// Saves the passed array of additional cities.
+    /// - Parameter OtherCities: Array of additional cities to save.
+    func SetAdditionalCityData(_ OtherCities: [City2])
 }
 
 /// Flatland's child windows.
