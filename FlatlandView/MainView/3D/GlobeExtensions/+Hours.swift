@@ -106,20 +106,14 @@ extension GlobeView
     /// Intended to be called when the user moves the camera closer or farther away from the Earth node to
     /// update the flatness level of the hours. When the camera is closer, the flatness level will result in
     /// smoother numerals.
+    /// - Note: Distances that result in the same flatness level as the previous call will take no action -
+    ///         control will return as soon as that condition is detected.
     /// - Parameter Distance: Distance from the camera to the center of the Earth node.
     func UpdateFlatnessForCamera(Distance: CGFloat)
     {
-        let DistanceMap: [(FlatLevel: CGFloat, Min: Int, Max: Int)] =
-        [
-            (0.001, 0, 50),
-            (0.005, 51, 80),
-            (0.01, 81, 100),
-            (0.05, 101, 120),
-            (0.5, 120, 1000)
-        ]
-        var FinalFlat: CGFloat = 0.01
+        var FinalFlat: CGFloat? = nil
         let IDist = Int(Distance)
-        for (Final, Min, Max) in DistanceMap
+        for (Final, Min, Max) in FlatnessDistanceMap
         {
             if IDist >= Min && IDist <= Max
             {
@@ -127,7 +121,23 @@ extension GlobeView
                 break
             }
         }
-        ChangeHourFlatness(To: FinalFlat)
+        if FinalFlat == nil
+        {
+            FinalFlat = FlatnessDistanceMap.last!.FlatLevel
+        }
+        if PreviousHourFlatnessLevel == nil
+        {
+            PreviousHourFlatnessLevel = FinalFlat
+        }
+        else
+        {
+            if PreviousHourFlatnessLevel! == FinalFlat!
+            {
+                return
+            }
+            PreviousHourFlatnessLevel = FinalFlat
+        }
+        ChangeHourFlatness(To: FinalFlat!)
     }
     
     /// Create an hour node with labels.
