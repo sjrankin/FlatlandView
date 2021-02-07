@@ -579,7 +579,6 @@ return ClearSearchMenu!
     
     func MakeEarthquakeMenu() -> NSMenuItem
     {
-        #if true
         QuakeMenu = NSMenuItem()
         QuakeMenu?.title = "Earthquakes"
         QuakeMenu?.submenu = NSMenu(title: "Earthquakes")
@@ -588,27 +587,10 @@ return ClearSearchMenu!
         let AddRadial = NSMenuItem(title: "Add Circular Region", action: #selector(Context_AddRadialQuakeRegion), keyEquivalent: "")
         AddRadial.target = self
         QuakeMenu?.submenu?.items.append(AddRegion)
+        #if false
         QuakeMenu?.submenu?.items.append(AddRadial)
-        return QuakeMenu!
-        #else
-        QuakeMenu = NSMenuItem()
-        QuakeMenu?.title = "Earthquakes"
-        QuakeMenu?.submenu = NSMenu(title: "Earthquakes")
-        let AddRegion = NSMenuItem(title: "Add Earthquake Region", action: #selector(Context_AddQuakeRegion), keyEquivalent: "")
-        AddRegion.target = self
-        let EditRegion = NSMenuItem(title: "Edit Earthquake Region", action: #selector(Context_EditQuakeRegion), keyEquivalent: "")
-        EditRegion.target = self
-        QuakeMenu?.submenu?.items.append(AddRegion)
-        QuakeMenu?.submenu?.items.append(EditRegion)
-        QuakeMenu?.submenu?.items.append(NSMenuItem.separator())
-        let CircleRegion = NSMenuItem(title: "Create Circular Region", action: #selector(Context_MakeCircularRegion), keyEquivalent: "")
-        CircleRegion.target = self
-        let RectRegion = NSMenuItem(title: "Create Rectangular Region", action: #selector(Context_MakeRectangularRegion), keyEquivalent: "")
-        RectRegion.target = self
-        QuakeMenu?.submenu?.items.append(CircleRegion)
-        QuakeMenu?.submenu?.items.append(RectRegion)
-        return QuakeMenu!
         #endif
+        return QuakeMenu!
     }
     
     func MakeLockMenu() -> NSMenuItem
