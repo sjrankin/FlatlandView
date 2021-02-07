@@ -32,15 +32,15 @@ class AboutDetailsController: NSViewController, NSTableViewDelegate, NSTableView
     {
         var CellContents = ""
         var CellIdentifier = ""
-                if tableColumn == tableView.tableColumns[0]
-                {
-                    CellIdentifier = "ValueColumn"
-                    CellContents = Details[row]
-                }
-                else
-                {
-                    return nil
-            }
+        if tableColumn == tableView.tableColumns[0]
+        {
+            CellIdentifier = "ValueColumn"
+            CellContents = Details[row]
+        }
+        else
+        {
+            return nil
+        }
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
