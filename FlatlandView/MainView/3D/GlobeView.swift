@@ -507,7 +507,20 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var EarthClock: Timer? = nil
     var PreviousLongitudePercent: Double? = nil
     
+    var PreviousHourFlatnessLevel: CGFloat? = nil
     var PreviousCameraDistance: Int? = nil
+    let FlatnessDistanceMap: [(FlatLevel: CGFloat, Min: Int, Max: Int)] =
+        [
+            (0.001, 0, 60),
+            (0.005, 61, 80),
+            (0.01, 81, 100),
+            (0.05, 101, 109),
+            (0.08, 110, 120),
+            (0.1, 121, 150),
+            (0.3, 151, 200),
+            (0.5, 201, 500),
+            (1.0, 501, 10000)
+        ]
     
     var RotationAccumulator: CGFloat = 0.0
     /// Holds most nodes.
