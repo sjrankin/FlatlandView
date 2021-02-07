@@ -74,6 +74,12 @@ extension MainController
                                Continent, CityID)
             Results.append(DBCity)
         }
+        let PlaceGroup = WordGroup()
+        for Place in Results
+        {
+            PlaceGroup.AddWord(Place.Name)
+        }
+        GlobalWordLists.AddGlobalWordList(For: .CityNames, WordList: PlaceGroup)
         return Results
     }
     
@@ -145,6 +151,12 @@ extension MainController
             }
             Results.append(DBCity)
         }
+        let PlaceGroup = WordGroup()
+        for Place in Results
+        {
+            PlaceGroup.AddWord(Place.Name)
+        }
+        GlobalWordLists.AddGlobalWordList(For: .AdditionalCityNames, WordList: PlaceGroup)
         return Results
     }
     
@@ -179,6 +191,12 @@ extension MainController
             }
             Results.append(DBPOI)
         }
+        let PlaceGroup = WordGroup()
+        for Place in Results
+        {
+            PlaceGroup.AddWord(Place.Name)
+        }
+        GlobalWordLists.AddGlobalWordList(For: .POINames, WordList: PlaceGroup)
         return Results
     }
 }
