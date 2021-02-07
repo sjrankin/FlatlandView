@@ -48,6 +48,7 @@ extension GlobeView
         self.pointOfView?.runAction(RotationAction)
         {
             self.pointOfView?.constraints = []
+            self.UpdateFlatnessForCamera(Distance: CGFloat(Defaults.InitialZ.rawValue))
         }
     }
     
@@ -56,6 +57,45 @@ extension GlobeView
     /// - Parameter Longitude: The longitude of the location.
     func RotateCameraTo(Latitude: Double, Longitude: Double)
     {
+    }
+    
+    // MARK: - Camera manipulation functions.
+    
+    /// Move the camera such that it is pointing at the passed point.
+    func PointCamera(At Point: GeoPoint)
+    {
+        Debug.Print("Pointing camera to \(Point)")
+        let (X, Y, Z) = ToECEF(Point.Latitude, Point.Longitude, Radius: Double(Defaults.InitialZ.rawValue))
+        let Constraint = SCNLookAtConstraint(target: EarthNode!)
+        Constraint.isGimbalLockEnabled = false
+        SCNTransaction.begin()
+        SCNTransaction.animationDuration = 2.0
+        self.pointOfView?.constraints = [Constraint]
+        SCNTransaction.commit()
+        let MoveCamera = SCNAction.move(to: SCNVector3(X, Y, Z), duration: 2.0)
+        self.pointOfView?.runAction(MoveCamera)
+        {
+            self.pointOfView?.constraints = []
+        }
+    }
+    
+    /// Reset the camera to its standard position based on the time.
+    func ResetCameraPosition()
+    {
+        ResetCamera()
+    }
+    
+    /// Set the camera orientation.
+    /// - Parameter Pitch: The pitch (X) value.
+    /// - Parameter Yaw: The yaw (Y) value.
+    /// - Parameter Roll: The roll (Z) value.
+    func SetCameraOrientation(Pitch: Double, Yaw: Double, Roll: Double, ValuesAreRadians: Bool)
+    {
+        let FinalX = CGFloat(ValuesAreRadians ? Pitch : Pitch.Radians)
+        let FinalY = CGFloat(ValuesAreRadians ? Yaw : Yaw.Radians)
+        let FinalZ = CGFloat(ValuesAreRadians ? Roll : Roll.Radians)
+        let RotateCamera = SCNAction.rotateBy(x: FinalX, y: FinalY, z: FinalZ, duration: 2.0)
+        pointOfView?.runAction(RotateCamera)
     }
     
     // MARK: - Code to implement camera control.
