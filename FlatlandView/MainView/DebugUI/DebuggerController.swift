@@ -51,6 +51,8 @@ class DebuggerController: NSViewController, WindowManagement
         Panels[.CommandLine] = DebugPanelBase(CreatePanelDialog("CommandLineUI"))
         Panels[.Debug3D] = DebugPanelBase(CreatePanelDialog("Debug3D"))
         Panels[.MapDebug] = DebugPanelBase(CreatePanelDialog("MapDebug"))
+        Panels[.CameraDebug] = DebugPanelBase(CreatePanelDialog("CameraDebug"))
+        Panels[.TextDebug] = DebugPanelBase(CreatePanelDialog("TextDebugPanel"))
     }
     
     var Panels = [DebugPanels: DebugPanelBase]()
@@ -113,6 +115,24 @@ class DebuggerController: NSViewController, WindowManagement
         }
     }
     
+    @IBAction func HandleCameraDebug(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            ParentWindow?.Highlight(Button)
+            SelectPanel(.CameraDebug)
+        }
+    }
+    
+    @IBAction func HandleTextDebug(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            ParentWindow?.Highlight(Button)
+            SelectPanel(.TextDebug)
+        }
+    }
+    
     func MainClosing()
     {
         self.view.window?.close()
@@ -128,4 +148,6 @@ enum DebugPanels
     case CommandLine
     case Debug3D
     case MapDebug
+    case CameraDebug
+    case TextDebug
 }
