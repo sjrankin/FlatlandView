@@ -260,4 +260,45 @@ extension MainController: MainProtocol
     {
         self.view.window?.makeKey()
     }
+    
+    func PointCamera(At Point: GeoPoint)
+    {
+        Main3DView.PointCamera(At: Point)
+    }
+    
+    func ResetCameraPosition()
+    {
+        Main3DView.ResetCameraPosition() 
+    }
+    
+    func SetCameraOrientation(Pitch: Double, Yaw: Double, Roll: Double, ValuesAreRadians: Bool)
+    {
+        Main3DView.SetCameraOrientation(Pitch: Pitch, Yaw: Yaw, Roll: Roll,
+                                        ValuesAreRadians: ValuesAreRadians)
+    }
+    
+    func Get3DPointOfView() -> SCNNode?
+    {
+        return Main3DView.pointOfView
+    }
+    
+    func GetUserPOIData() -> [POI2]?
+    {
+        return MainController.UserPOIs
+    }
+    
+    func SetUserPOIData(_ POIData: [POI2])
+    {
+        
+    }
+    
+    func GetAdditionalCityData() -> [City2]?
+    {
+        return CityManager.OtherCities
+    }
+    
+    func SetAdditionalCityData(_ OtherCities: [City2])
+    {
+        
+    }
 }
