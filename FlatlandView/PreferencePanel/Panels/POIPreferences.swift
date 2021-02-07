@@ -221,6 +221,18 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     
     @IBAction func HandleEditUserPOIs(_ sender: Any)
     {
+        let Storyboard = NSStoryboard(name: "UserPOIEditor", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "UserPOIEditorWindow") as?
+            UserPOIEditorWindow
+        {
+            let Window = WindowController.window
+            let VController = WindowController.window?.contentViewController as? UserPOIEditorController 
+            VController?.MainDelegate = MainDelegate
+            self.view.window?.beginSheet(Window!)
+            {
+                Result in
+            }
+        }
     }
     
     @IBAction func POIScaleChangedHandler(_ sender: Any)
