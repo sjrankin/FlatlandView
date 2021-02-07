@@ -359,26 +359,6 @@ class MainController: NSViewController
     /// Reference to the today viewer. Used to close the viewer if the main window is closed first.
     var TodayDelegate: WindowManagement? = nil
     
-    #if false
-    /// Respond to the user command to show the list of earthquakes.
-    /// - Parameter sender: Not used.
-    @IBAction func ShowEarthquakeListX(_ sender: Any)
-    {
-        #if false
-        let Storyboard = NSStoryboard(name: "LiveData", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "EarthquakeWindow2") as? GroupedEarthquakeWindow
-        {
-            let Window = WindowController.window
-            let Controller = Window?.contentViewController as? GroupedEarthquakeController
-            QuakeDelegate = Window?.contentView as? WindowManagement
-            QuakeController = Controller
-            Controller?.LoadData(DataType: .Earthquakes, Raw: PreviousEarthquakes as Any)
-            WindowController.showWindow(nil)
-        }
-        #endif
-    }
-    #endif
-    
     var QuakeController: EarthquakeViewerController? = nil
     var QuakeDelegate: WindowManagement? = nil
     var LiveStatusController: WindowManagement? = nil
@@ -406,11 +386,15 @@ class MainController: NSViewController
     
     @IBAction func RunTestDialog(_ sender: Any)
     {
+        #if true
+        Main3DView.RotateCameraTo(Latitude: 43.0, Longitude: 141)
+        #else
         let Storyboard = NSStoryboard(name: "Main", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "ColorChipDebugWindow") as? ColorChipDebugWindow
         {
             WindowController.showWindow(nil)
         }
+        #endif
     }
     
     @IBAction func TestCaptiveDialog(_ sender: Any)
@@ -819,6 +803,8 @@ class MainController: NSViewController
     static var UserPOIs = [POI2]()
     /// User homes from the POI database.
     static var UserHomes = [POI2]()
+    /// Additional cities defined by the user.
+    static var OtherCities = [City2]()
     
     // MARK: - World clock variables.
     var WorldClockTimer: Timer? = nil
