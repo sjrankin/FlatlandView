@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1700852B25773183002FD62F /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1700852A25773183002FD62F /* Geometry.swift */; };
 		170181C12504A467000F91B6 /* TransparencyParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170181C02504A467000F91B6 /* TransparencyParameters.swift */; };
+		17019F0425CD3C39000296A8 /* TextDebugPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17019F0325CD3C39000296A8 /* TextDebugPanel.swift */; };
+		17019F0625CD402C000296A8 /* GlobalWordLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17019F0525CD402C000296A8 /* GlobalWordLists.swift */; };
+		17019F0825CD6AFE000296A8 /* WordContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17019F0725CD6AFE000296A8 /* WordContainer.swift */; };
 		1701BF7A24FCE0D700686C3A /* CityPopulationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */; };
 		1701BF7C24FCE0FD00686C3A /* CityPopulationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */; };
 		1701CFC52535646C00544F05 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1701CFC42535646C00544F05 /* Snapshot.swift */; };
@@ -177,6 +180,9 @@
 		176A89832530280800489C22 /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176A89822530280800489C22 /* WindowManagement.swift */; };
 		176CBB76251B08E800D6C0AD /* EnumConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17000B4B251ADF22009CF3B7 /* EnumConstants.swift */; };
 		176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */; };
+		176E61AE25CD172B00FEA7B8 /* WordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176E61AD25CD172B00FEA7B8 /* WordList.swift */; };
+		176E61B025CD1DBB00FEA7B8 /* WordGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176E61AF25CD1DBB00FEA7B8 /* WordGroup.swift */; };
+		176E61B225CD1FD700FEA7B8 /* ZAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176E61B125CD1FD700FEA7B8 /* ZAlgorithm.swift */; };
 		176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */; };
 		176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */; };
 		177389382596D511002698E8 /* +Rotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177389372596D511002698E8 /* +Rotations.swift */; };
@@ -247,6 +253,7 @@
 		17A1810E257356AE002C6611 /* +Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A1810D257356AE002C6611 /* +Show.swift */; };
 		17A1811125737FCA002C6611 /* +Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A1811025737FCA002C6611 /* +Status.swift */; };
 		17A181142573934F002C6611 /* CommandLineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A181132573934F002C6611 /* CommandLineProtocol.swift */; };
+		17A259FA25CF7D7200A9D2A0 /* LocationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A259F925CF7D7200A9D2A0 /* LocationContainer.swift */; };
 		17A25CC42505D43600214C45 /* Metal2DShapeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A25CC32505D43600214C45 /* Metal2DShapeGenerator.swift */; };
 		17A25CC62505D44D00214C45 /* Metal2DShapeParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A25CC52505D44D00214C45 /* Metal2DShapeParameters.swift */; };
 		17A25CC82505D4B000214C45 /* Metal2DCircle.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17A25CC72505D4B000214C45 /* Metal2DCircle.metal */; };
@@ -318,6 +325,7 @@
 		17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */; };
 		17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */; };
 		17D570A324F8FDFD00EB5C08 /* GeneralEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D570A224F8FDFD00EB5C08 /* GeneralEditor.swift */; };
+		17D7E46A25CA7632002BF291 /* CameraDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D7E46925CA7632002BF291 /* CameraDebug.swift */; };
 		17DAE38B25B3BC1E00C18522 /* StencilContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DAE38A25B3BC1E00C18522 /* StencilContext.swift */; };
 		17DD615B24EE622B008C332A /* StatusUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD615A24EE622B008C332A /* StatusUIView.swift */; };
 		17DD791A24DA7A500046EB25 /* ResetConfirmWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD791924DA7A500046EB25 /* ResetConfirmWindow.swift */; };
@@ -380,6 +388,9 @@
 		17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33BE247A958B00A5B55D /* Versioning.swift */; };
 		17EF33C1247A95E300A5B55D /* ColorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33C0247A95E300A5B55D /* ColorList.swift */; };
 		17EF33C3247A961C00A5B55D /* SunGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF33C2247A961C00A5B55D /* SunGenerator.swift */; };
+		17EF9E1425CE890700A00F1E /* UserPOIEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17EF9E1325CE890700A00F1E /* UserPOIEditor.storyboard */; };
+		17EF9E1825CE895B00A00F1E /* UserPOIEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF9E1725CE895B00A00F1E /* UserPOIEditorWindow.swift */; };
+		17EF9E1A25CE897900A00F1E /* UserPOIEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF9E1925CE897900A00F1E /* UserPOIEditorController.swift */; };
 		17F17A4724DE78F700568A4E /* LineDrawKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17F17A4624DE78F700568A4E /* LineDrawKernel.metal */; };
 		17F17A4924DE793800568A4E /* LinesDrawKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17F17A4824DE793800568A4E /* LinesDrawKernel.metal */; };
 		17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F17A4A24DE79A800568A4E /* LineDraw.swift */; };
@@ -450,6 +461,9 @@
 		17000B4B251ADF22009CF3B7 /* EnumConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumConstants.swift; sourceTree = "<group>"; };
 		1700852A25773183002FD62F /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		170181C02504A467000F91B6 /* TransparencyParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparencyParameters.swift; sourceTree = "<group>"; };
+		17019F0325CD3C39000296A8 /* TextDebugPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDebugPanel.swift; sourceTree = "<group>"; };
+		17019F0525CD402C000296A8 /* GlobalWordLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalWordLists.swift; sourceTree = "<group>"; };
+		17019F0725CD6AFE000296A8 /* WordContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordContainer.swift; sourceTree = "<group>"; };
 		1701BF7924FCE0D700686C3A /* CityPopulationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationWindow.swift; sourceTree = "<group>"; };
 		1701BF7B24FCE0FD00686C3A /* CityPopulationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationController.swift; sourceTree = "<group>"; };
 		1701CFC42535646C00544F05 /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
@@ -622,6 +636,9 @@
 		176A897F2530278900489C22 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		176A89822530280800489C22 /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
 		176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewSuns.swift"; sourceTree = "<group>"; };
+		176E61AD25CD172B00FEA7B8 /* WordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordList.swift; sourceTree = "<group>"; };
+		176E61AF25CD1DBB00FEA7B8 /* WordGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGroup.swift; sourceTree = "<group>"; };
+		176E61B125CD1FD700FEA7B8 /* ZAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZAlgorithm.swift; sourceTree = "<group>"; };
 		176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow.swift; sourceTree = "<group>"; };
 		176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController.swift; sourceTree = "<group>"; };
 		177389372596D511002698E8 /* +Rotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Rotations.swift"; sourceTree = "<group>"; };
@@ -692,6 +709,7 @@
 		17A1810D257356AE002C6611 /* +Show.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Show.swift"; sourceTree = "<group>"; };
 		17A1811025737FCA002C6611 /* +Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Status.swift"; sourceTree = "<group>"; };
 		17A181132573934F002C6611 /* CommandLineProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineProtocol.swift; sourceTree = "<group>"; };
+		17A259F925CF7D7200A9D2A0 /* LocationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationContainer.swift; sourceTree = "<group>"; };
 		17A25CC32505D43600214C45 /* Metal2DShapeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metal2DShapeGenerator.swift; sourceTree = "<group>"; };
 		17A25CC52505D44D00214C45 /* Metal2DShapeParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metal2DShapeParameters.swift; sourceTree = "<group>"; };
 		17A25CC72505D4B000214C45 /* Metal2DCircle.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Metal2DCircle.metal; sourceTree = "<group>"; };
@@ -763,6 +781,7 @@
 		17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorWindow.swift; sourceTree = "<group>"; };
 		17D2F6BE24851FB900404510 /* MainSettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsWindow.swift; sourceTree = "<group>"; };
 		17D570A224F8FDFD00EB5C08 /* GeneralEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralEditor.swift; sourceTree = "<group>"; };
+		17D7E46925CA7632002BF291 /* CameraDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDebug.swift; sourceTree = "<group>"; };
 		17DAE38A25B3BC1E00C18522 /* StencilContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilContext.swift; sourceTree = "<group>"; };
 		17DD615A24EE622B008C332A /* StatusUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusUIView.swift; sourceTree = "<group>"; };
 		17DD791924DA7A500046EB25 /* ResetConfirmWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetConfirmWindow.swift; sourceTree = "<group>"; };
@@ -831,6 +850,9 @@
 		17EF33BE247A958B00A5B55D /* Versioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versioning.swift; sourceTree = "<group>"; };
 		17EF33C0247A95E300A5B55D /* ColorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorList.swift; sourceTree = "<group>"; };
 		17EF33C2247A961C00A5B55D /* SunGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunGenerator.swift; sourceTree = "<group>"; };
+		17EF9E1325CE890700A00F1E /* UserPOIEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserPOIEditor.storyboard; sourceTree = "<group>"; };
+		17EF9E1725CE895B00A00F1E /* UserPOIEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPOIEditorWindow.swift; sourceTree = "<group>"; };
+		17EF9E1925CE897900A00F1E /* UserPOIEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPOIEditorController.swift; sourceTree = "<group>"; };
 		17F17A4624DE78F700568A4E /* LineDrawKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = LineDrawKernel.metal; sourceTree = "<group>"; };
 		17F17A4824DE793800568A4E /* LinesDrawKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = LinesDrawKernel.metal; sourceTree = "<group>"; };
 		17F17A4A24DE79A800568A4E /* LineDraw.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineDraw.swift; sourceTree = "<group>"; };
@@ -1169,12 +1191,14 @@
 			isa = PBXGroup;
 			children = (
 				17F47B5E25AAEB8F00A3A281 /* SubPanels */,
+				1781BCBE256B5297007BACA8 /* PanelController.swift */,
 				174A6A2F2557D22500488274 /* LogPanel.swift */,
 				174A6A332557D24B00488274 /* ClockControlPanel.swift */,
 				17561A8C25678BE700FD0506 /* Debug3DPanel.swift */,
+				17D7E46925CA7632002BF291 /* CameraDebug.swift */,
 				17998144255BC32100E23B75 /* CommandLinePanel.swift */,
-				1781BCBE256B5297007BACA8 /* PanelController.swift */,
 				17F6C4F0257BA019003FFDA2 /* MapDebugPanel.swift */,
+				17019F0325CD3C39000296A8 /* TextDebugPanel.swift */,
 				17A180F325722195002C6611 /* Commands */,
 			);
 			path = DebugPanels;
@@ -1462,6 +1486,18 @@
 				1767EC1225BE9B0600A976D2 /* ColorChipDebugController.swift */,
 			);
 			path = ColorChipPickerDebug;
+			sourceTree = "<group>";
+		};
+		176E61AC25CD171600FEA7B8 /* StringSearch */ = {
+			isa = PBXGroup;
+			children = (
+				17019F0525CD402C000296A8 /* GlobalWordLists.swift */,
+				176E61AF25CD1DBB00FEA7B8 /* WordGroup.swift */,
+				176E61AD25CD172B00FEA7B8 /* WordList.swift */,
+				176E61B125CD1FD700FEA7B8 /* ZAlgorithm.swift */,
+				17019F0725CD6AFE000296A8 /* WordContainer.swift */,
+			);
+			path = StringSearch;
 			sourceTree = "<group>";
 		};
 		176EE0A724D58C7500131944 /* EarthquakeRegion */ = {
@@ -1982,11 +2018,11 @@
 		17E901E42552C34E0097A89A /* SubPanels */ = {
 			isa = PBXGroup;
 			children = (
+				17EF9E1625CE893700A00F1E /* EarthquakeRegionEditor */,
+				17EF9E1525CE892800A00F1E /* POIEditor */,
 				17E901E92552C38B0097A89A /* SubPanels.storyboard */,
 				173056B92553BAD700B1D4C9 /* DeleteConfirmationWindow.swift */,
 				173056BC2553BAFE00B1D4C9 /* DeleteConfirmationController.swift */,
-				1709A0BF25A94869008B89DD /* EarthquakeRegionWindow3.swift */,
-				1709A0C225A9488D008B89DD /* EarthquakeRegionController3.swift */,
 			);
 			path = SubPanels;
 			sourceTree = "<group>";
@@ -2042,6 +2078,7 @@
 		17EF3398247A672B00A5B55D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				176E61AC25CD171600FEA7B8 /* StringSearch */,
 				1727EA5B24B184110051EA3B /* DataStructures */,
 				17F2D7112583257D00DD8023 /* AttributedText.swift */,
 				17EF33C0247A95E300A5B55D /* ColorList.swift */,
@@ -2107,6 +2144,26 @@
 				17EF33BC247A951400A5B55D /* TimeZoneTable.swift */,
 			);
 			path = Cities;
+			sourceTree = "<group>";
+		};
+		17EF9E1525CE892800A00F1E /* POIEditor */ = {
+			isa = PBXGroup;
+			children = (
+				17EF9E1325CE890700A00F1E /* UserPOIEditor.storyboard */,
+				17EF9E1725CE895B00A00F1E /* UserPOIEditorWindow.swift */,
+				17EF9E1925CE897900A00F1E /* UserPOIEditorController.swift */,
+				17A259F925CF7D7200A9D2A0 /* LocationContainer.swift */,
+			);
+			path = POIEditor;
+			sourceTree = "<group>";
+		};
+		17EF9E1625CE893700A00F1E /* EarthquakeRegionEditor */ = {
+			isa = PBXGroup;
+			children = (
+				1709A0C225A9488D008B89DD /* EarthquakeRegionController3.swift */,
+				1709A0BF25A94869008B89DD /* EarthquakeRegionWindow3.swift */,
+			);
+			path = EarthquakeRegionEditor;
 			sourceTree = "<group>";
 		};
 		17F1C7C72543F8440046AE33 /* Rectangular */ = {
@@ -2206,27 +2263,27 @@
 			isa = PBXGroup;
 			children = (
 				17F9AFD42520334B00DE0219 /* +Boolean.swift */,
-				17DE2DC92590753100214204 /* +State.swift */,
 				17F9AFE12520340400DE0219 /* +CGFloat.swift */,
-				17F9AFD82520338500DE0219 /* +String.swift */,
-				17F9AFDB252033AE00DE0219 /* +Int.swift */,
-				17F9AFDE252033DF00DE0219 /* +Double.swift */,
-				17F9AFE42520342D00DE0219 /* +NSSize.swift */,
 				17F9AFE72520344F00DE0219 /* +CGPoint.swift */,
-				17F9AFEA2520347300DE0219 /* +NSRect.swift */,
-				17F9AFED2520349600DE0219 /* +NSColor.swift */,
-				17F9AFF0252034C500DE0219 /* +Date.swift */,
-				17F9AFF4252034FA00DE0219 /* +Enum.swift */,
-				17F9AFF72520352500DE0219 /* +StoredFont.swift */,
-				17F9AFFA2520354500DE0219 /* +SCNVector3.swift */,
 				17F9AFFD2520358C00DE0219 /* +CustomCityList.swift */,
-				17F9B000252035B300DE0219 /* +NotifiedEarthquakeList.swift */,
-				17F9B003252036AD00DE0219 /* +Generic.swift */,
+				17F9AFF0252034C500DE0219 /* +Date.swift */,
+				17F9AFDE252033DF00DE0219 /* +Double.swift */,
 				17F9B006252036F900DE0219 /* +EarthquakeSettings.swift */,
-				17F9B0092520373A00DE0219 /* +LocationsSettings.swift */,
+				17F9AFF4252034FA00DE0219 /* +Enum.swift */,
+				17F9B003252036AD00DE0219 /* +Generic.swift */,
+				17F9AFDB252033AE00DE0219 /* +Int.swift */,
 				17F9B00C2520377F00DE0219 /* +LocationAttributes.swift */,
+				17F9B0092520373A00DE0219 /* +LocationsSettings.swift */,
+				17F9B000252035B300DE0219 /* +NotifiedEarthquakeList.swift */,
+				17F9AFED2520349600DE0219 /* +NSColor.swift */,
+				17F9AFEA2520347300DE0219 /* +NSRect.swift */,
+				17F9AFE42520342D00DE0219 /* +NSSize.swift */,
 				1743FE76255D1C1E00AD05A7 /* +Query.swift */,
+				17F9AFFA2520354500DE0219 /* +SCNVector3.swift */,
 				17DE2DD325907D0300214204 /* +Secured.swift */,
+				17DE2DC92590753100214204 /* +State.swift */,
+				17F9AFF72520352500DE0219 /* +StoredFont.swift */,
+				17F9AFD82520338500DE0219 /* +String.swift */,
 			);
 			path = SettingTypes;
 			sourceTree = "<group>";
@@ -2347,6 +2404,7 @@
 				1733C80A24F79C0C0025D555 /* RawSettingsEditor.storyboard in Resources */,
 				17F1E5CC2549153A00E6F6CF /* FireflyParticleTest.sks in Resources */,
 				17DE2DCE2590795300214204 /* HelperPanels.storyboard in Resources */,
+				17EF9E1425CE890700A00F1E /* UserPOIEditor.storyboard in Resources */,
 				17F1E5CF2549155500E6F6CF /* SmokeParticleTest.sks in Resources */,
 				179BE7C324ED053D0025B349 /* Today.storyboard in Resources */,
 				1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */,
@@ -2387,6 +2445,8 @@
 				175BA55E2570D60E001ED3A2 /* ErrorReporterWindow.swift in Sources */,
 				17B8F5252503892800D71931 /* SplitterParameters.swift in Sources */,
 				1743FE77255D1C1E00AD05A7 /* +Query.swift in Sources */,
+				17EF9E1A25CE897900A00F1E /* UserPOIEditorController.swift in Sources */,
+				176E61B225CD1FD700FEA7B8 /* ZAlgorithm.swift in Sources */,
 				17DE2BA32569FB04008077C7 /* MapScene.swift in Sources */,
 				17A1810B25733891002C6611 /* +Set.swift in Sources */,
 				1773893C25971771002698E8 /* +Menus.swift in Sources */,
@@ -2443,11 +2503,13 @@
 				17EF33B2247A93ED00A5B55D /* Sun.swift in Sources */,
 				17F1C7DB2543F9FA0046AE33 /* +RectangleHours.swift in Sources */,
 				17897C842514A9BA00544DE1 /* +MainProtocolImplementation.swift in Sources */,
+				17D7E46A25CA7632002BF291 /* CameraDebug.swift in Sources */,
 				17C22C2324EA1CD9006BB3AB /* NASAMapConfirmation.swift in Sources */,
 				172F4A2524FA0F650014A65E /* DateTimeEditor.swift in Sources */,
 				172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */,
 				17B062DF253D557D00C4BAEE /* UUID.swift in Sources */,
 				174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */,
+				17019F0425CD3C39000296A8 /* TextDebugPanel.swift in Sources */,
 				17854C672503649800D099A7 /* +Layers.swift in Sources */,
 				174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */,
 				1718812924B85B9D00EE1E71 /* PerformanceOptions.swift in Sources */,
@@ -2533,11 +2595,13 @@
 				17EF339A247A673900A5B55D /* FileIO.swift in Sources */,
 				17CA6463254EA29100B6DFCC /* DetailQuakeController.swift in Sources */,
 				17E5557825B5541E00E3CE9E /* CaptiveDialogPanelProtocol.swift in Sources */,
+				17A259FA25CF7D7200A9D2A0 /* LocationContainer.swift in Sources */,
 				17DFAF532545A56300374344 /* ImageShiftParameters.swift in Sources */,
 				178E1C9D2518288500FDC75B /* +Camera.swift in Sources */,
 				1720B388248B68A1001202E5 /* AutoLocationProtocol.swift in Sources */,
 				1759AE62249F81A4003F79F5 /* UserLocation.swift in Sources */,
 				1792486E251A21C700AF4D4B /* +MainWorldHeritageSites.swift in Sources */,
+				17019F0825CD6AFE000296A8 /* WordContainer.swift in Sources */,
 				17F9B007252036F900DE0219 /* +EarthquakeSettings.swift in Sources */,
 				175DCC622580A3A900EB6D69 /* PreferenceHelpPopover.swift in Sources */,
 				178E1CA325186DE900FDC75B /* +Attract.swift in Sources */,
@@ -2647,6 +2711,7 @@
 				17DD791A24DA7A500046EB25 /* ResetConfirmWindow.swift in Sources */,
 				1760023624D2BF1800D5EA1A /* CGFloat.swift in Sources */,
 				1767EC1625BEAD6C00A976D2 /* ColorPanelBase.swift in Sources */,
+				176E61AE25CD172B00FEA7B8 /* WordList.swift in Sources */,
 				1720013D258C7F9A00EF2A72 /* +WorldClock.swift in Sources */,
 				17F17A4724DE78F700568A4E /* LineDrawKernel.metal in Sources */,
 				1760023824D2BF3500D5EA1A /* Date.swift in Sources */,
@@ -2717,6 +2782,7 @@
 				17C2F8EE259EE26400BCA628 /* +NodeState.swift in Sources */,
 				17DE2DD125907B3800214204 /* HomeLocationController.swift in Sources */,
 				1714DDBE25399401001A3002 /* +Home.swift in Sources */,
+				176E61B025CD1DBB00FEA7B8 /* WordGroup.swift in Sources */,
 				17A180FE257274C4002C6611 /* +Program.swift in Sources */,
 				17F6C4F5257BA24F003FFDA2 /* +Debug.swift in Sources */,
 				17FE3BE1256F74D500451F9F /* LocationController.swift in Sources */,
@@ -2759,6 +2825,7 @@
 				17897C8D2514AAB300544DE1 /* +MainTimers.swift in Sources */,
 				17F1C7E12543FA470046AE33 /* +RectangleCities.swift in Sources */,
 				17CA6460254EA27700B6DFCC /* DetailQuakeWindow.swift in Sources */,
+				17EF9E1825CE895B00A00F1E /* UserPOIEditorWindow.swift in Sources */,
 				17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */,
 				17B7D7AB24CED02B000C077B /* ImageFlipper.metal in Sources */,
 				1707A7AF249CACAB00A90FCA /* Earthquake.swift in Sources */,
@@ -2782,6 +2849,7 @@
 				176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */,
 				17CA645C254E7DB100B6DFCC /* RegionalQuakeController.swift in Sources */,
 				175BA56825712A1A001ED3A2 /* SolarToday.swift in Sources */,
+				17019F0625CD402C000296A8 /* GlobalWordLists.swift in Sources */,
 				178A86972488C23C00BE8D46 /* AboutController.swift in Sources */,
 				17C87B7825177EB00065BE6D /* +FlatViewNodeHandling.swift in Sources */,
 				17BCCC3F24D7F15600030E37 /* EarthquakeFilterer.swift in Sources */,
