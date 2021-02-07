@@ -16,10 +16,14 @@ class CityManager
     public static func Initialize()
     {
         AllCities = MainController.GetAllCities()
+        OtherCities = MainController.GetAllAdditionalCities()
     }
     
     /// All cities from the database.
     public static var AllCities: [City2]? = nil
+    
+    /// All cities from the other/additional cities database.
+    public static var OtherCities: [City2]? = nil
     
     /// Search for a city with the passed name.
     /// - Parameter Name: The name of the city. Case insensitive.
