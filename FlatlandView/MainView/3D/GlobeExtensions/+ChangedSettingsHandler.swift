@@ -92,6 +92,12 @@ extension GlobeView: SettingChangedProtocol
                     PlotCities()
                 }
                 
+            case .ShowBuiltInPOIs:
+                if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+                {
+                    PlotCities()
+                }
+                
             case .EarthquakeStyles:
                 ClearEarthquakes()
                 PlotEarthquakes()
