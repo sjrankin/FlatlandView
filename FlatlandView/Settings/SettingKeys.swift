@@ -217,6 +217,8 @@ enum SettingKeys: String, CaseIterable
     case AntialiasLevel = "AntialiasLevel"
     /// Boolean: If true, Flatland will search for what is close to the mouse pointer.
     case SearchForLocation = "SearchForLocation"
+    /// Boolean: If true, the mouse will be hidden when it is over the Earth.
+    case HideMouseOverEarth = "HideMouseOverEarth"
     
     // MARK: - Performance and optimization settings.
     /// Boolean: If true, hours have a chamfer value set.
