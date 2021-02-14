@@ -805,6 +805,8 @@ class MainController: NSViewController
     static var UserHomes = [POI2]()
     /// Additional cities defined by the user.
     static var OtherCities = [City2]()
+    /// Built-in POIs.
+    static var BuiltInPOIs = [POI2]()
     
     // MARK: - World clock variables.
     var WorldClockTimer: Timer? = nil
