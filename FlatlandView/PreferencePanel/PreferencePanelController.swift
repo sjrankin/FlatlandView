@@ -70,6 +70,7 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
         Panels[.Earthquakes] = PreferencePanelBase(CreatePanelDialog("EarthquakePreferences"))
         Panels[.LiveData] = PreferencePanelBase(CreatePanelDialog("LiveDataPreferences"))
         Panels[.MapAttributes] = PreferencePanelBase(CreatePanelDialog("MapAttributesPreferences"))
+        Panels[.Cities] = PreferencePanelBase(CreatePanelDialog("CityPreferences"))
     }
     
     var Panels = [PreferencePanelTypes: PreferencePanelBase]()
@@ -156,6 +157,15 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
             print("Map Attributes pressed")
             ParentWindow?.Highlight(Button)
             LoadPanel(.MapAttributes)
+        }
+    }
+    
+    @IBAction func HandleCitiesButton(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            ParentWindow?.Highlight(Button)
+            LoadPanel(.Cities)
         }
     }
     
@@ -393,6 +403,16 @@ Enter/edit your points-of-interest. You can also use the map directly to do with
 Sets the scale for POI items on the map. Does not affect stenciled text drawn on the map itself.
 """
                     
+                case .ShowBuiltInPOIs:
+                    Message = """
+Plot all of the built-in points of interest on the map.
+"""
+                    
+                case .ShowListofBuiltInPOIs:
+                    Message = """
+Show a list of all built-in points of interest.
+"""
+                    
                 // MARK: - Live data help.
                 case .LiveDataHelp:
                     Message = """
@@ -442,6 +462,7 @@ enum PreferencePanelTypes: String, CaseIterable
     case Satellites
     case LiveData
     case MapAttributes
+    case Cities
 }
 
 enum PreferenceHelp: String, CaseIterable
@@ -480,11 +501,14 @@ enum PreferenceHelp: String, CaseIterable
     case CapitalCities = "CapitalCities"
     case AllCities = "AllCities"
     case UNESCOSites = "UNESCOCites"
+    case ShowUNESCOSites = "ShowUNESCOSites"
+    case ShowBuiltInPOIs = "ShowBuiltInPOIs"
+    case ShowListofBuiltInPOIs = "ShowListOfBuiltInPOIs"
+    
     case ShowHome = "ShowHome"
     case EditHome = "EditHome"
     case ShowUserPOIs = "ShowUserPOIs"
     case EditUserPOIs = "EditUserPOIs"
-    case ShowUNESCOSites = "ShowUNESCOSites"
     case POIScale = "POIScale"
     
     case LiveDataHelp = "LiveDataHelp"
