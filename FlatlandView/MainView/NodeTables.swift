@@ -95,7 +95,7 @@ class NodeTables
         KnownTable.removeAll()
     }
     
-    /// Add user points of interesting.
+    /// Add user points of interest.
     /// - Parameter ID: The ID of the user POI.
     /// - Parameter Name: The name of the user POI.
     /// - Parameter Location: The location of the user POI.
@@ -110,6 +110,23 @@ class NodeTables
     public static func RemoveUserPOI()
     {
         POITable.removeAll()
+    }
+    
+    /// Add built-in points of interest.
+    /// - Parameter ID: The ID of the built-in POI.
+    /// - Parameter Name: The name of the built-in POI.
+    /// - Parameter Location: The location of the built-in POI.
+    public static func AddBuiltInPOI(ID: UUID, Name: String, Location: GeoPoint)
+    {
+        let BuiltInPOILocation = DisplayItem(ID: ID, ItemType: .BuiltInPOI, Name: Name,
+                                  Numeric: 0.0, Location: Location)
+        BuiltInPOITable[BuiltInPOILocation.ID] = BuiltInPOILocation
+    }
+    
+    /// Deletes all built-in POIs.
+    public static func RemoveBuiltInPOI()
+    {
+        BuiltInPOITable.removeAll()
     }
     
     /// Add the user's home location.
@@ -283,6 +300,9 @@ class NodeTables
             case .Region:
                 return RegionTable.count
                 
+            case .BuiltInPOI:
+                return BuiltInPOITable.count
+                
             default:
                 return nil
         }
@@ -291,6 +311,7 @@ class NodeTables
     private static var QuakeTable = [UUID: DisplayItem]()
     private static var CityTable = [UUID: DisplayItem]()
     private static var POITable = [UUID: DisplayItem]()
+    private static var BuiltInPOITable = [UUID: DisplayItem]()
     private static var HomeTable = [UUID: DisplayItem]()
     private static var UNESCOTable = [UUID: DisplayItem]()
     private static var MiscTable = [UUID: DisplayItem]()
@@ -326,6 +347,13 @@ class NodeTables
             case .UserPOI:
                 Debug.Print("User POI Keys:")
                 for (Key, _) in POITable
+                {
+                    Debug.Print("  \(Key.uuidString)")
+                }
+                
+            case .BuiltInPOI:
+                Debug.Print("Built-in POI Keys:")
+                for (Key, _) in BuiltInPOITable
                 {
                     Debug.Print("  \(Key.uuidString)")
                 }
@@ -376,6 +404,7 @@ class NodeTables
         UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!: ItemTypes.Miscellaneous,
         UUID(uuidString: NodeClasses.KnownLocation.rawValue)!: ItemTypes.KnownLocation,
         UUID(uuidString: NodeClasses.Region.rawValue)!: ItemTypes.Region,
+        UUID(uuidString: NodeClasses.BuiltInPOI.rawValue)!: ItemTypes.BuiltInPOI,
     ]
     
     /// The home ID.
@@ -429,6 +458,7 @@ enum ItemTypes: String, CaseIterable
     case City = "City"
     case Home = "Home"
     case UserPOI = "User POI"
+    case BuiltInPOI = "Built-in POI"
     case Earthquake = "Earthquake"
     case WorldHeritageSite = "World Heritage Site"
     case Miscellaneous = "Miscellaneous"
@@ -441,6 +471,7 @@ enum NodeClasses: String, CaseIterable
     case Unknown = "5f893956-1f90-468a-8475-f066824af425"
     case City = "8d4e5448-943e-4feb-a2e0-e83ab8bcd0b4"
     case UserPOI = "8b0437b8-24fd-4813-b8c6-af78c9dfd1a4"
+    case BuiltInPOI = "e3a36057-710f-416d-a6c0-75487af1f958"
     case HomeLocation = "21599d45-7ace-47f1-ad40-f302b019dc2c"
     case Earthquake = "fff542af-daf9-4629-8325-a26d8e54b427"
     case WorldHeritageSite = "f0b85fc5-c761-4b74-91fc-5b79b3d7d606"
