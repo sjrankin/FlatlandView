@@ -584,15 +584,17 @@ enum FileIONames: String, CaseIterable
     /// Name of the database of mappable locations and objects.
     case MappableName = "Mappable"
     /// The earthquake history database.
-    case QuakeHistoryDatabase = "EarthquakeHistory.db"
+    case QuakeHistoryDatabase = "EarthquakeHistory2.db"
     /// The name of the earthquake history database.
-    case QuakeName = "EarthquakeHistory"
+    case QuakeName = "EarthquakeHistory2"
     /// Database of POI locations.
     case POIDatabase = "POI.db"
     /// Name of the database of POI locations.
     case POIName = "POI"
     /// Common database extension.
     case DatabaseExtension = "db"
+    case MappableDatabaseS = "MappableS.db"
+    case QuakeHistoryDatabaseS = "EarthquakeHistoryS.db"
 }
 
 /// Table names in the mappable database.
@@ -621,6 +623,13 @@ enum POITableNames: String, CaseIterable
     case POI = "POI"
     /// User POI table.
     case UserPOI = "UserPOI"
+}
+
+/// Table names in the historic earthquake database.
+enum QuakeTableNames: String, CaseIterable
+{
+    /// Historic earthquakes (where "historic" means captured by Flatland).
+    case Historic = "Historical"
 }
 
 /// Constants used by the simple status bar.
