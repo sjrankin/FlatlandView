@@ -38,9 +38,9 @@ class POI2
     ///   - Added: When the POI was added.
     ///   - Modified: When the POI was modified.
     init(Meta: POIMetaTypes, _ PKID: Int, _ ID: UUID, _ Name: String, _ Description: String,
-         _ Latitude: Double, _ Longitude: Double, _ Color: String, _ Shape: String,
+         _ Latitude: Double, _ Longitude: Double, _ Color: NSColor, _ Shape: String,
          _ POIType: Int, _ Numeric: Double, _ Category: String? = nil, _ SubCategory: String? = nil,
-         _ Added: Date? = nil, _ Modified: Date? = nil)
+         _ Added: Date? = nil, _ Modified: Date? = nil, _ Show: Bool = true)
     {
         MetaType = Meta
         self.PKID = PKID
@@ -49,7 +49,7 @@ class POI2
         _Description = Description
         _Latitude = Latitude
         _Longitude = Longitude
-        _Color = NSColor(HexString: Color)!
+        _Color = Color
         _Shape = Shape
         _POIType = POIType
         _Numeric = Numeric
@@ -60,6 +60,7 @@ class POI2
         DeleteMe = false
         _IsDirty = false
         _IsNew = false
+        _Show = Show
     }
     
     /// Initializer
@@ -82,7 +83,7 @@ class POI2
     init(Meta: POIMetaTypes, _ ID: UUID, _ Name: String, _ Description: String,
          _ Latitude: Double, _ Longitude: Double, _ Color: String, _ Shape: String,
          _ POIType: Int, _ Numeric: Double, _ Category: String? = nil, _ SubCategory: String? = nil,
-         _ Added: Date? = nil, _ Modified: Date? = nil)
+         _ Added: Date? = nil, _ Modified: Date? = nil, _ Show: Bool = true)
     {
         MetaType = Meta
         self.PKID = -1
@@ -102,6 +103,7 @@ class POI2
         DeleteMe = false
         _IsDirty = false
         _IsNew = true
+        _Show = Show
     }
     
     var PKID: Int = 0
@@ -141,6 +143,25 @@ class POI2
         set
         {
             _Name = newValue
+        }
+    }
+    
+    var _Show: Bool = true
+    {
+        didSet
+        {
+            _IsDirty = true
+        }
+    }
+    var Show: Bool
+    {
+        get
+        {
+            return _Show
+        }
+        set
+        {
+            _Show = newValue
         }
     }
     
