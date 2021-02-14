@@ -123,6 +123,7 @@ extension MainController
     public static func GetAllAdditionalCities() -> [City2]
     {
         var Results = [City2]()
+        #if false
         let GetQuery = "SELECT * FROM \(MappableTableNames.AdditionalCities.rawValue)"
         let QueryHandle = SetupQuery(DB: MappableHandle, Query: GetQuery)
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
@@ -157,6 +158,7 @@ extension MainController
             PlaceGroup.AddWord(Place.Name)
         }
         GlobalWordLists.AddGlobalWordList(For: .AdditionalCityNames, WordList: PlaceGroup)
+        #endif
         return Results
     }
     
