@@ -25,6 +25,65 @@ class FileIO
         InitializeFileStructure()
     }
     
+    public static func InstallDatabases()
+    {
+        InstallDatabase(Name: FileIONames.QuakeHistoryDatabaseS.rawValue)
+        InstallDatabase(Name: FileIONames.MappableDatabaseS.rawValue)
+    }
+    
+    public static func InstallDatabase(Name: String)
+    {
+        print("Installing database \(Name)")
+        var DBPath: URL!
+        if !DirectoryExists(DatabaseDirectory)
+        {
+            do
+            {
+                DBPath = GetDocumentDirectory()?.appendingPathComponent(DatabaseDirectory)
+                try FileManager.default.createDirectory(atPath: DBPath!.path, withIntermediateDirectories: true,
+                                                        attributes: nil)
+                Debug.Print("Created database directory \(DBPath!.path)")
+            }
+            catch
+            {
+                fatalError("Error creating database directory \"\(DatabaseDirectory)\"")
+            }
+        }
+        let PathComponent = DatabaseDirectory + "/" + Name
+        let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
+        if FileManager.default.fileExists(atPath: LookForExisting.path)
+        {
+            Debug.Print("\"\(Name)\" exists at \(LookForExisting.path)")
+            return
+        }
+        let Parts = Name.split(separator: ".", omittingEmptySubsequences: true)
+        if Parts.count != 2
+        {
+            Debug.FatalError("Invalid name: \(Name). Must have name part and extension part.")
+        }
+        let FileName = String(Parts[0])
+        let ExtensionName = String(Parts[1])
+        if let Source = Bundle.main.path(forResource: FileName,
+                                         ofType: ExtensionName)
+        {
+            let SourceURL = URL(fileURLWithPath: Source)
+            let DestDir = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
+            do
+            {
+                try FileManager.default.copyItem(at: SourceURL, to: DestDir)
+                Debug.Print("Installed \(FileName) database.")
+            }
+            catch
+            {
+                fatalError("Error copying database. \(error.localizedDescription)")
+            }
+        }
+        else
+        {
+            fatalError("Did not find \(Name) in bundle.")
+        }
+    }
+    
     public static let AppDirectory = FileIONames.AppDirectory.rawValue
     public static let MapDirectory = FileIONames.MapDirectory.rawValue
     
@@ -210,7 +269,7 @@ class FileIO
             }
             catch
             {
-                fatalError("Error creating database directory \"\(DatabaseDirectory)\"")
+                Debug.FatalError("Error creating database directory \"\(DatabaseDirectory)\"")
             }
         }
         let PathComponent = DatabaseDirectory + "/" + FileIONames.QuakeHistoryDatabase.rawValue
@@ -230,12 +289,12 @@ class FileIO
             }
             catch
             {
-                fatalError("Error copying database. \(error.localizedDescription)")
+                Debug.FatalError("Error copying database. \(error.localizedDescription)")
             }
         }
         else
         {
-            fatalError("Did not find \(FileIONames.QuakeHistoryDatabase.rawValue) in bundle.")
+            Debug.FatalError("Did not find \(FileIONames.QuakeHistoryDatabase.rawValue) in bundle.")
         }
     }
     
@@ -244,6 +303,13 @@ class FileIO
     public static func GetMappableDatabaseURL() -> URL?
     {
         let PathComponent = DatabaseDirectory + "/" + FileIONames.MappableDatabase.rawValue
+        let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
+        return DBURL
+    }
+    
+    public static func GetMappagleDatabaseSURL() -> URL?
+    {
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.MappableDatabaseS.rawValue
         let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         return DBURL
     }
@@ -262,6 +328,15 @@ class FileIO
     public static func GetEarthquakeHistoryDatabaseURL() -> URL?
     {
         let PathComponent = DatabaseDirectory + "/" + FileIONames.QuakeHistoryDatabase.rawValue
+        let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
+        return DBURL
+    }
+    
+    /// Returns the URL for the earthquake history database.
+    /// - Returns: URL of the earthquake history database on success, nil if not found.
+    public static func GetEarthquakeHistoryDatabaseSURL() -> URL?
+    {
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.QuakeHistoryDatabaseS.rawValue
         let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         return DBURL
     }
