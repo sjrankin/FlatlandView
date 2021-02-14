@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18121" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18121"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="18121"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -2092,7 +2092,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="Eh4-uF-B6U" column="WrA-lP-cR9" id="xju-jR-seJ">
                                                                 <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Fa-eu-NYn">
-                                                                    <rect key="frame" x="43" y="-7" width="59" height="32"/>
+                                                                    <rect key="frame" x="75" y="-7" width="59" height="32"/>
                                                                     <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="g4O-4S-SFS">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -4677,7 +4677,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="yV5-9p-5ZO" id="KDi-9e-tVf">
                                                                 <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JVC-Oq-fEf">
-                                                                    <rect key="frame" x="110" y="0.0" width="70" height="21"/>
+                                                                    <rect key="frame" x="111" y="0.0" width="70" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="70" id="ItS-Kd-AZI"/>
                                                                         <constraint firstAttribute="height" constant="21" id="LJr-h7-tPM"/>
@@ -4703,7 +4703,7 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="idr-EN-7o2" id="HCq-pj-ks9">
-                                                                <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8F-g2-MPp">
+                                                                <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N8F-g2-MPp">
                                                                     <rect key="frame" x="226" y="0.0" width="70" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="CIA-Jp-N8a"/>
@@ -4774,7 +4774,7 @@ DQ
                                                     </gridView>
                                                 </gridCell>
                                                 <gridCell row="6wR-X2-Nd8" column="nSO-dn-FGw" id="kuD-Yb-Cfp">
-                                                    <gridView key="contentView" horizontalCompressionResistancePriority="754" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TCU-og-MA0">
+                                                    <gridView key="contentView" horizontalCompressionResistancePriority="754" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TCU-og-MA0">
                                                         <rect key="frame" x="0.0" y="69" width="361" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="sXw-XA-hZV" secondAttribute="trailing" id="cxf-Dr-hMK"/>
@@ -4815,8 +4815,8 @@ DQ
                                                     </gridView>
                                                 </gridCell>
                                                 <gridCell row="upJ-oP-Sw8" column="nSO-dn-FGw" id="LmV-ql-ybi">
-                                                    <gridView key="contentView" horizontalCompressionResistancePriority="751" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Zb3-vz-kQo">
-                                                        <rect key="frame" x="0.0" y="37" width="163" height="22"/>
+                                                    <gridView key="contentView" horizontalCompressionResistancePriority="751" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Zb3-vz-kQo">
+                                                        <rect key="frame" x="0.0" y="37" width="361" height="22"/>
                                                         <constraints>
                                                             <constraint firstItem="jgx-s7-OCT" firstAttribute="leading" secondItem="6hm-Fr-vwx" secondAttribute="trailing" constant="6" id="Cu5-bk-qvw"/>
                                                             <constraint firstAttribute="trailing" secondItem="jgx-s7-OCT" secondAttribute="trailing" id="Ren-xt-Ugf"/>
@@ -5069,7 +5069,7 @@ DQ
                                         </scrollView>
                                     </gridCell>
                                     <gridCell row="UgZ-w5-wxa" column="Qdo-3i-Rde" id="ggL-5Z-t0L">
-                                        <gridView key="contentView" horizontalCompressionResistancePriority="755" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
+                                        <gridView key="contentView" horizontalCompressionResistancePriority="755" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
                                             <rect key="frame" x="0.0" y="0.0" width="350" height="20"/>
                                             <rows>
                                                 <gridRow id="MvR-7n-9cc"/>
@@ -5093,8 +5093,8 @@ DQ
                                                     </button>
                                                 </gridCell>
                                                 <gridCell row="MvR-7n-9cc" column="e7a-yF-CtL" id="EWz-Z6-I1c">
-                                                    <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ojh-YB-tvi">
-                                                        <rect key="frame" x="222" y="-7" width="74" height="32"/>
+                                                    <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ojh-YB-tvi">
+                                                        <rect key="frame" x="44" y="-7" width="74" height="32"/>
                                                         <buttonCell key="cell" type="push" title="Delete" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fbo-bi-0FR">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -5105,8 +5105,8 @@ DQ
                                                     </button>
                                                 </gridCell>
                                                 <gridCell row="MvR-7n-9cc" column="OaW-Xe-n4J" id="lg4-1D-V8F">
-                                                    <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eN5-aZ-P0s">
-                                                        <rect key="frame" x="288" y="-7" width="69" height="32"/>
+                                                    <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eN5-aZ-P0s">
+                                                        <rect key="frame" x="110" y="-7" width="69" height="32"/>
                                                         <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="19q-fH-mod">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
