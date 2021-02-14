@@ -13,7 +13,7 @@ import SceneKit
 extension GlobeView
 {
     // MARK: - Mouse handling
-
+    
     /// Toggle the mouse follow mode. If disabling, the mouse indicator is removed from the scene.
     /// - Parameter sender: Not used.
     @objc func ContextToggleFollowMouse(_ sender: Any)
@@ -67,13 +67,40 @@ extension GlobeView
                 CurrentMouseLongitude = Longitude
                 if Settings.GetBool(.FollowMouse)
                 {
+                    if Settings.GetBool(.HideMouseOverEarth)
+                    {
+                        if MouseIsVisible
+                        {
+                            MouseIsVisible = false
+                            NSCursor.hide()
+                        }
+                    }
                     MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude, Caller: "Globe")
                     PlotMouseIndicator(Latitude: Latitude, Longitude: Longitude)
+                }
+            }
+            else
+            {
+                if Settings.GetBool(.HideMouseOverEarth)
+                {
+                    if !MouseIsVisible
+                    {
+                        MouseIsVisible = true
+                        NSCursor.unhide()
+                    }
                 }
             }
         }
         else
         {
+            if Settings.GetBool(.HideMouseOverEarth)
+            {
+                if !MouseIsVisible
+                {
+                    MouseIsVisible = true
+                    NSCursor.unhide()
+                }
+            }
             CurrentMouseLocation = nil
         }
     }
