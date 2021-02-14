@@ -135,6 +135,13 @@ class POIPopover: NSViewController, NSPopoverDelegate
                 NameLabel.stringValue = "Name"
                 NameValue.stringValue = ItemToDisplay.Name
                 
+            case .BuiltInPOI:
+                EditButton.isHidden = false
+                NumericLabel.stringValue = ""
+                NumericValue.stringValue = ""
+                NameLabel.stringValue = "Name"
+                NameValue.stringValue = ItemToDisplay.Name
+                
             case .Home:
                 EditButton.isHidden = false
                 NumericLabel.stringValue = ""
