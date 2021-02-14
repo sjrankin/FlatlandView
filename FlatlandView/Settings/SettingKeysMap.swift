@@ -209,6 +209,14 @@ extension Settings
             .ColorPickerColorspace: PickerColorspaces.self,
             .ShowUserPOIs: Bool.self,
             .ShowUIHelp: Bool.self,
+            .ShowBuiltInPOIs: Bool.self,
+            // MARK: - Database-related settings
+            .DB_Cities: [City2].self,
+            .DB_UserCities: [City2].self,
+            .DB_BuiltInPOIs: [POI2].self,
+            .DB_UserPOIs: [POI2].self,
+            .DB_Homes: [POI2].self,
+            .DB_WorldHeritageSites: [WorldHeritageSite].self,
             // MARK: - Debugging settings
             .Debug_EnableClockControl: Bool.self,
             .Debug_ClockDebugMap: Debug_MapTypes.self,
