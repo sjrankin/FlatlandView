@@ -19,11 +19,15 @@ class Settings
     
     /// Initialize settings. Run only if the initialization flag hasn't been set, or the force
     /// reinitialize flag is true.
+    /// - Note: This function also loads databases with data managed by this class.
     /// - Parameter ForceReinitialize: If true, settings will be reset to their default values. In
     ///                                this case, no messages will be returned to subscribers indicating
     ///                                changes have been made.
     public static func Initialize(_ ForceReinitialize: Bool = false)
     {
+        Debug.Print("Loading databases.")
+        DBIF.Initialize(LoadToo: true)
+        
         if WasInitialized()
         {
             if !ForceReinitialize
@@ -32,7 +36,7 @@ class Settings
             }
         }
         
-        print("Initializing settings.")
+        Debug.Print("Initializing settings.")
         InitializeBool(.InitializationFlag, true)
         InitializeEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .MapType)
         InitializeBool(.ShowNight, true)
