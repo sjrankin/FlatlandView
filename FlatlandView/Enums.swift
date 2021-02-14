@@ -92,6 +92,8 @@ enum CityColorOverrides: String, CaseIterable
     case WorldCities = "WorldCities"
     /// Return the captial cities color.
     case CapitalCities = "CapitalCities"
+    /// Additional, user-specified cities.
+    case AdditionalCities = "AdditionalCities"
 }
 
 /// Continents for the city database.
@@ -165,7 +167,7 @@ enum PolarShapes: String, CaseIterable
     /// Flag with the appropriate symbol.
     case Flag = "Flag"
     /// A literal pole with red stripes and a gold sphere on top.
-    case Pole = "Pole"
+    case Pole = "Barber Pole"
 }
 
 /// Scripts to use for some visual elements. This does not control the user interface
