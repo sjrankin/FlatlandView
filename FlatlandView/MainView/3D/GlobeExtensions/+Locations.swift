@@ -638,6 +638,7 @@ extension GlobeView
         {
             for SomePOI in MainController.UserPOIs
             {
+                NodeTables.RemoveUserPOI()
                 NodeTables.AddUserPOI(ID: SomePOI.ID,
                                       Name: SomePOI.Name,
                                       Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude))
@@ -651,6 +652,27 @@ extension GlobeView
                                    WithColor: ToPlot.CityColor,
                                    EnableEmission: ShowEmission,
                                    NodeID: SomePOI.ID,
+                                   NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
+            }
+        }
+        if Settings.GetBool(.ShowBuiltInPOIs)
+        {
+            NodeTables.RemoveBuiltInPOI()
+            for BuiltInPOI in MainController.BuiltInPOIs
+            {
+                NodeTables.AddBuiltInPOI(ID: BuiltInPOI.ID,
+                                         Name: BuiltInPOI.Name,
+                                         Location: GeoPoint(BuiltInPOI.Latitude, BuiltInPOI.Longitude))
+                let ToPlot = City2(From: BuiltInPOI)
+                let ShowEmission = Settings.GetBool(.ShowPOIEmission)
+                PlotLocationAsCone(ToPlot,
+                                   Latitude: ToPlot.Latitude,
+                                   Longitude: ToPlot.Longitude,
+                                   Radius: Radius,
+                                   ToSurface: Surface,
+                                   WithColor: ToPlot.CityColor,
+                                   EnableEmission: ShowEmission,
+                                   NodeID: BuiltInPOI.ID,
                                    NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
             }
         }
