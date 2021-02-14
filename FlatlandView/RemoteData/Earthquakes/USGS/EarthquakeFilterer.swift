@@ -49,8 +49,11 @@ class EarthquakeFilterer
     /// Determines if the passed earthquake can be displayed based on user-set filters.
     /// - Parameter Quake: The earthquake to determine whether it can be shown or not.
     /// - Parameter Filters: List of filters against which the quake is compared.
+    /// - Parameter AlwaysIf: A magnitude value which if a given earthquake's magnitude is greater than or
+    ///                       equal to, is always included.
     /// - Returns: True if the earthquake can be displayed (meets the filter criteria), false if not.
-    private static func ApplyEarthquakeFilters(_ Quake: Earthquake, _ Filters: [UserRegion]) -> Bool
+    private static func ApplyEarthquakeFilters(_ Quake: Earthquake, _ Filters: [UserRegion],
+                                               AlwaysIf GreaterThan: Double = 6.0) -> Bool
     {
         for Filter in Filters
         {
@@ -62,6 +65,10 @@ class EarthquakeFilterer
             {
                 var MagnitudeOK = false
                 if Quake.Magnitude >= Filter.MinimumMagnitude && Quake.Magnitude <= Filter.MaximumMagnitude
+                {
+                    MagnitudeOK = true
+                }
+                if Quake.Magnitude >= GreaterThan
                 {
                     MagnitudeOK = true
                 }
