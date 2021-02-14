@@ -253,6 +253,8 @@ enum SettingKeys: String, CaseIterable
     case UserHomeLongitude = "UserHomeLongitude"
     /// Secure string: Name of user's home. Will generate a fatal error if used with normal string functions.
     case UserHomeName = "UserHomeName"
+    /// Boolean: Show or hide built-in POIs.
+    case ShowBuiltInPOIs = "ShowBuiltInPOIs"
     
     // MARK: - City-related settings.
     /// Boolean: Show cities on the map. This is a filter boolean meaning if it is false,
@@ -476,8 +478,22 @@ enum SettingKeys: String, CaseIterable
     case ColorInputType = "ColorInputType"
     /// The last selected colorspace for the color picker.
     case ColorPickerColorspace = "ColorPickerColorspace"
-    /// Boolean: Show or hide UI help buttons (􀁝).
+    /// Boolean: Show or hide UI help buttons ("􀁝").
     case ShowUIHelp = "ShowUIHelp"
+    
+    // MARK: - Settings that interface with the database.
+    /// [City2]: List of built-in cities.
+    case DB_Cities = "DB_Cities"
+    /// [City2]: List of user cities.
+    case DB_UserCities = "DB_UserCities"
+    /// [POI2]: List of built-in POIs.
+    case DB_BuiltInPOIs = "DB_BuiltInPOIs"
+    /// [POI2]: List of user POIs.
+    case DB_UserPOIs = "DB_UserPOIs"
+    /// [POI2]: List of homes specified by the user.
+    case DB_Homes = "DB_Homes"
+    /// [WorldHeritageSite]: List of UNESCO world heritage sites.
+    case DB_WorldHeritageSites = "DB_WorldHeritageSites"
     
     // MARK: - Settings used in areas outside of the Settings system.
     /// Live data viewer.
