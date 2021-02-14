@@ -20,6 +20,16 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     /// Dimensional data.
     var Dimensions = [Double]()
     
+    /// Initialized. Used when reading historic earthquakes from the database.
+    /// - Warning: Until initialized by setting properties, instances of Earthquakes created with this
+    ///            initializer are unstable.
+    /// - Parameter PK: The database ID of the earthquake.
+    init(_ PK: Int)
+    {
+        Marked = false
+        PKID = PK
+    }
+    
     /// Initializer.
     required init(Values: [Double])
     {
@@ -109,6 +119,9 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         DepthError = Other.DepthError
         Marked = false
         DebugQuake = Other.DebugQuake
+        PKID = Other.PKID
+        Notified = Other.Notified
+        RegionName = Other.RegionName
         if IncludeRelated
         {
             if let OtherRelated = Other.Related
@@ -259,6 +272,9 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         return GeoPoint(Latitude, Longitude)
     }
     
+    /// Database ID of the quake. If nil, quake is not from a database.
+    var PKID: Int? = nil
+    
     /// Depth of the earthquake in kilometers.
     var Depth: Double = 0.0
     
@@ -358,6 +374,15 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     
     /// If true, the earthquake was injected and is intended for debug use.
     var DebugQuake: Bool = false
+    
+    /// User was notified flag.
+    var Notified: Bool = false
+    
+    /// Region name where the quake occurred.
+    var RegionName: String = ""
+    
+    /// Dirty flag.
+    var IsDirty: Bool = false
     
     // MARK: - Code for data manipulation
     
