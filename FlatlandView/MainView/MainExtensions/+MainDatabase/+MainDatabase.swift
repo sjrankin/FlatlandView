@@ -31,7 +31,7 @@ extension MainController
             if sqlite3_open_v2(MappableURL.path, &MainController.MappableHandle,
                                SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
             {
-                fatalError("Error openting \(MappableURL.path), \(String(cString: sqlite3_errmsg(MainController.MappableHandle!)))")
+                fatalError("Error opening \(MappableURL.path), \(String(cString: sqlite3_errmsg(MainController.MappableHandle!)))")
             }
         }
         else
@@ -66,7 +66,7 @@ extension MainController
             if sqlite3_open_v2(POIURL.path, &MainController.POIHandle,
                                SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
             {
-                fatalError("Error openting \(POIURL.path), \(String(cString: sqlite3_errmsg(MainController.POIHandle!)))")
+                fatalError("Error opening \(POIURL.path), \(String(cString: sqlite3_errmsg(MainController.POIHandle!)))")
             }
         }
         else
@@ -75,6 +75,7 @@ extension MainController
         }
         UserPOIs = GetAllUserPOIs()
         UserHomes = GetAllHomes()
+        BuiltInPOIs = GetAllBuiltInPOIs()
     }
     
     /// Set up a query in to the database.
@@ -402,108 +403,7 @@ enum DatabaseErrors: String, CaseIterable, Error
     case ConversionError = "Conversion Error"
 }
 
-/// Column IDs for the city table in the mappable database.
-enum CityColumns: Int32
-{
-    /// City entry primary key.
-    case CityPK = 0
-    /// City name.
-    case CityName = 1
-    /// Country of the city.
-    case CityCountry = 2
-    /// Capital city flag.
-    case CityIsCaptial = 3
-    /// City population.
-    case CityPopulation = 4
-    /// City metro population.
-    case CityMetroPopulation = 5
-    /// City latitude.
-    case CityLatitude = 6
-    /// City longitude.
-    case CityLongitude = 7
-    /// Continent of the city.
-    case CityContinent = 8
-    /// Color of the city.
-    case CityColor = 9
-    /// World city flag.
-    case CityWorldCity = 10
-    /// ID of the city (UUID).
-    case CityID = 11
-    /// Custom city flag.
-    case CityCustomCity = 12
-}
 
-/// Column IDs for the additional city table in the mappable database.
-enum AdditionalCityColumns: Int32
-{
-    /// Additional city entry primary key.
-    case CityPK = 0
-    /// City name.
-    case Name = 1
-    /// Country of the city.
-    case Country = 2
-    /// Subnational location of the city.
-    case SubNational = 3
-    /// City ID (UUID).
-    case CityID = 4
-    /// Population of the city.
-    case Population = 5
-    /// Metropopulation of the city.
-    case MetroPopulation = 6
-    /// Continent of the city.
-    case Continent = 7
-    /// Latitude of the city.
-    case Latitude = 8
-    /// Longitude of the city.
-    case Longitude = 9
-    /// Date added.
-    case Added = 10
-    /// Date modified.
-    case Modified = 11
-}
-
-/// Column IDs for POI locations.
-enum POIColumns: Int32
-{
-    /// POI entry primary key.
-    case POIPK = 0
-    /// POI ID (UUID).
-    case POIID = 1
-    /// POI name.
-    case Name = 2
-    /// POI latitude.
-    case Latitude = 3
-    /// POI longitude.
-    case Longitude = 4
-    /// POI description.
-    case Description = 5
-    /// POI numeric value. *Usaged TBD.*
-    case Numeric = 6
-    /// POI type.
-    case POIType = 7
-    /// Date POI added.
-    case Added = 8
-    /// Date POI modified.
-    case Modified = 9
-    /// POI Color.
-    case Color = 10
-}
-
-enum HomeColumns: Int32
-{
-    case ID = 0
-    case HomeID = 1
-    case Name = 2
-    case Description = 3
-    case Latitude = 4
-    case Longitude = 5
-    case Color = 6
-    case Shape = 7
-    case HomeType = 8
-    case Numeric = 9
-    case Added = 10
-    case Modified = 11
-}
 
 enum POIColumns2: Int32
 {
@@ -521,4 +421,5 @@ enum POIColumns2: Int32
     case SubCategory = 11
     case Added = 12
     case Modified = 13
+    case Show = 14
 }
