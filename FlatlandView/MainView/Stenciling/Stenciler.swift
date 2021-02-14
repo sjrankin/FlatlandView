@@ -325,6 +325,8 @@ class Stenciler
     }
     
     /// Add earthquake magnitude values to the map if the proper settings are true.
+    /// - Note: Magnitudes are plotted in lowest-to-highest order to make sure the earhtquakes with the
+    ///         greatest magnitudes are shown most prominently.
     /// - Parameter To: The map to add earthquake magnitude values.
     /// - Parameter With: List of earthquakes to add. This function assumes that all earthquakes in this
     ///                   list should be plotted.
@@ -337,6 +339,7 @@ class Stenciler
         {
             return Image
         }
+        let QuakeSource = Earthquakes.sorted(by: {$0.Magnitude < $1.Magnitude})
         let ScaleFactor = NSScreen.main!.backingScaleFactor
         var PlotMe = [TextRecord]()
         var Working = Image
@@ -349,7 +352,7 @@ class Stenciler
             FontMultiplier = 2.0
         }
         let FontSize = CGFloat(BaseFontSize) * CGFloat(Ratio) * ScaleFactor * FontMultiplier
-        for Quake in Earthquakes
+        for Quake in QuakeSource
         {
             let Location = Quake.LocationAsGeoPoint().ToEquirectangular(Width: Int(Image.size.width),
                                                                         Height: Int(Image.size.height))
