@@ -138,6 +138,9 @@ class City2: Hashable
     /// City ID.
     public var CityID: UUID = UUID()
     
+    /// City PK.
+    public var CityPK: Int? = nil
+    
     /// Used by the UI when creating custom city lists.
     public var IsCustomCity: Bool = false
     
@@ -152,6 +155,21 @@ class City2: Hashable
     
     /// The date the city was modified.
     public var Modified: Date? = nil
+    
+    /// Holds the dirty flag.
+    private var _IsDirty: Bool = false
+    /// The dirty flag.
+    public var IsDirty: Bool
+    {
+        get
+        {
+            return _IsDirty
+        }
+        set
+        {
+            _IsDirty = newValue
+        }
+    }
     
     // MARK: - Required for Hashable protocol.
     
