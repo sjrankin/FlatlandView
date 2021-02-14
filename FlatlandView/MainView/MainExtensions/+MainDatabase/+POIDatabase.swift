@@ -55,14 +55,16 @@ extension MainController
             let Description = ReadStringColumn(Handle: QueryHandle, Index: HomeColumns.Description.rawValue)!
             let Latitude = ReadDoubleColumn(Handle: QueryHandle, Index: HomeColumns.Latitude.rawValue)!
             let Longitude = ReadDoubleColumn(Handle: QueryHandle, Index: HomeColumns.Longitude.rawValue)!
-            let HomeColor = ReadStringColumn(Handle: QueryHandle, Index: HomeColumns.Color.rawValue)!
+            let HomeColor = ReadColorColumn(Handle: QueryHandle, Index: HomeColumns.Color.rawValue)!
             let Shape = ReadStringColumn(Handle: QueryHandle, Index: HomeColumns.Shape.rawValue)!
             let HomeType = ReadIntColumn(Handle: QueryHandle, Index: HomeColumns.HomeType.rawValue)!
             let Numeric = ReadDoubleColumn(Handle: QueryHandle, Index: HomeColumns.Numeric.rawValue)!
             let Added = ReadDateColumn(Handle: QueryHandle, Index: HomeColumns.Added.rawValue)!
             let Modified = ReadDateColumn(Handle: QueryHandle, Index: HomeColumns.Added.rawValue)!
+            let ShowHome = ReadBoolColumn(Handle: QueryHandle, Index: HomeColumns.Show.rawValue)!
             let HPOI = POI2(Meta: .User, PKID, HomeID, Name, Description, Latitude, Longitude,
-                            HomeColor, Shape, HomeType, Numeric, nil, nil, Added, Modified)
+                            HomeColor, Shape, HomeType, Numeric, nil, nil, Added, Modified,
+                            ShowHome)
             Results.append(HPOI)
         }
         return Results
@@ -101,7 +103,7 @@ extension MainController
             let Description = ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Description.rawValue)!
             let Latitude = ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Latitude.rawValue)!
             let Longitude = ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Longitude.rawValue)!
-            let HomeColor = ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Color.rawValue, Default: "#ffffff")
+            let Color = ReadColorColumn(Handle: QueryHandle, Index: POIColumns2.Color.rawValue, Default: NSColor.yellow)
             let Shape = ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Shape.rawValue)!
             let POIType = ReadIntColumn(Handle: QueryHandle, Index: POIColumns2.HomeType.rawValue)!
             let Numeric = ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Numeric.rawValue)!
@@ -109,9 +111,41 @@ extension MainController
             let Modified = ReadDateColumn(Handle: QueryHandle, Index: POIColumns2.Added.rawValue)!
             let Category = ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Category.rawValue, Default: "")
             let SubCategory = ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Category.rawValue, Default: "")
+            let ShowPOI = ReadBoolColumn(Handle: QueryHandle, Index: POIColumns2.Show.rawValue)!
+            let UPOI = POI2(Meta: .User, PKID, POIID, Name, Description, Latitude, Longitude,
+                            Color, Shape, POIType, Numeric, Category, SubCategory,
+                            Added, Modified, ShowPOI)
+            print("POI: \(Name)")
+            Results.append(UPOI)
+        }
+        return Results
+    }
+    
+    public static func GetAllBuiltInPOIs() -> [POI2]
+    {
+        var Results = [POI2]()
+        let GetQuery = "SELECT * FROM \(POITableNames.POI.rawValue)"
+        let QueryHandle = SetupQuery(DB: POIHandle, Query: GetQuery)
+        while (sqlite3_step(QueryHandle) == SQLITE_ROW)
+        {
+            let PKID = ReadIntColumn(Handle: QueryHandle, Index: POIColumns2.ID.rawValue)!
+            let POIID = ReadUUIDColumn(Handle: QueryHandle, Index: POIColumns2.POIID.rawValue)!
+            let Name = ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Name.rawValue)!
+            let Description = ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Description.rawValue)!
+            let Latitude = ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Latitude.rawValue)!
+            let Longitude = ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Longitude.rawValue)!
+            let HomeColor = ReadColorColumn(Handle: QueryHandle, Index: POIColumns2.Color.rawValue, Default: NSColor.yellow)
+            let Shape = ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Shape.rawValue)!
+            let POIType = ReadIntColumn(Handle: QueryHandle, Index: POIColumns2.HomeType.rawValue)!
+            let Numeric = ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Numeric.rawValue)!
+            let Added = ReadDateColumn(Handle: QueryHandle, Index: POIColumns2.Added.rawValue)!
+            let Modified = ReadDateColumn(Handle: QueryHandle, Index: POIColumns2.Added.rawValue)!
+            let Category = ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Category.rawValue, Default: "")
+            let SubCategory = ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Category.rawValue, Default: "")
+            let ShowPOI = ReadBoolColumn(Handle: QueryHandle, Index: POIColumns2.Show.rawValue)!
             let UPOI = POI2(Meta: .User, PKID, POIID, Name, Description, Latitude, Longitude,
                             HomeColor, Shape, POIType, Numeric, Category, SubCategory,
-                            Added, Modified)
+                            Added, Modified, ShowPOI)
             Results.append(UPOI)
         }
         return Results
