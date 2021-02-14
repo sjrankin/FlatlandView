@@ -203,6 +203,7 @@ extension Settings
             .EnableJittering: Bool.self,
             .AntialiasLevel: SceneJitters.self,
             .SearchForLocation: Bool.self,
+            .HideMouseOverEarth: Bool.self,
             .InputUnit: InputUnits.self,
             .InterfaceStyle: InterfaceStyles.self,
             .ColorInputType: InputTypes.self,
