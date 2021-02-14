@@ -364,6 +364,40 @@ class Locations
         }
         return Final
     }
+    
+    /// Map between `POITypes2` and corresponding descriptions.
+    private static var POITypeNames: [POITypes2: String] =
+    [
+        .AmusementPark: "Amusement Park",
+        .Capitol: "Capitol",
+        .Desert: "Desert",
+        .Forest: "Forest",
+        .GeographicalPoint: "Geographical Point",
+        .Historical: "Historical",
+        .Island: "Island",
+        .Lake: "Lake",
+        .Miscellaneous: "Miscellaneous",
+        .Mountain: "Mountain",
+        .Park: "Park",
+        .Plain: "Plain",
+        .Plateau: "Plateau",
+        .River: "River",
+        .Valley: "Valley",
+        .Volcano: "Volcano"
+    ]
+    
+    /// Given a general POI type, return its description.
+    /// - Parameter POIType: The type of POI whose description will be returned.
+    /// - Returns: A short description of the passed POI type. "`Unknown`" will be returned for POI types
+    ///            not comprehended in `POITypeNames`.
+    static public func POITypeToName(_ POIType: POITypes2) -> String
+    {
+        if let Name = POITypeNames[POIType]
+        {
+            return Name
+        }
+        return "Unknown"
+    }
 }
 
 /// Types of locations.
