@@ -112,6 +112,7 @@ extension GlobeView
     func NewEarthquakeList(_ NewList: [Earthquake], FromCache: Bool = false, Final: (() -> ())? = nil)
     {
         RemoveExpiredIndicators(NewList)
+        let Fukushima = NewList.filter({$0.Code.lowercased() == "6000dher"})
         let FilteredList = EarthquakeFilterer.FilterList(NewList)
         if FilteredList.count == 0
         {
