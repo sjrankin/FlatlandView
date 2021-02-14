@@ -525,7 +525,7 @@ class CityManager
     {
         if AllCities != nil
         {
-        return FilteredCities(In: AllCities!)
+            return FilteredCities(In: AllCities!)
         }
         else
         {
@@ -789,29 +789,39 @@ class CityManager
                 switch SomeCity.Continent
                 {
                     case .Africa:
-                        return Settings.GetColor(.AfricanCityColor, NSColor.blue)
+                        return NSColor.Botan
+//                        return Settings.GetColor(.AfricanCityColor, NSColor.Botan)
                         
                     case .Asia:
-                        return Settings.GetColor(.AsianCityColor, NSColor.brown)
+                        return NSColor.LightSkyBlue
+//                        return Settings.GetColor(.AsianCityColor, NSColor.PrussianBlue)
                         
                     case .Europe:
-                        return Settings.GetColor(.EuropeanCityColor, NSColor.magenta)
+                        return NSColor.ArtichokeGreen
+//                        return Settings.GetColor(.EuropeanCityColor, NSColor.Midori)
                         
                     case .NorthAmerica:
-                        return Settings.GetColor(.NorthAmericanCityColor, NSColor.green)
+                        return NSColor.Pistachio
+//                        return Settings.GetColor(.NorthAmericanCityColor, NSColor.Pistachio)
                         
                     case .SouthAmerica:
-                        return Settings.GetColor(.SouthAmericanCityColor, NSColor.orange)
+                        return NSColor.Gold
+//                        return Settings.GetColor(.SouthAmericanCityColor, NSColor.Gold)
                         
                     case .NoName:
                         return NSColor.white
                 }
                 
             case .CapitalCities:
-                return Settings.GetColor(.CapitalCityColor, NSColor.cyan)
+                return NSColor.cyan
+//                return Settings.GetColor(.CapitalCityColor, NSColor.cyan)
                 
             case .WorldCities:
-                return Settings.GetColor(.WorldCityColor, NSColor.yellow)
+                return NSColor.yellow
+                //return Settings.GetColor(.WorldCityColor, NSColor.yellow)
+            
+            case .AdditionalCities:
+                return SomeCity.CityColor
         }
     }
 }
