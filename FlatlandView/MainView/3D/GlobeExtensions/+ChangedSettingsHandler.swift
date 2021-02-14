@@ -434,6 +434,16 @@ extension GlobeView: SettingChangedProtocol
             case .FollowMouse:
                 SetMouseTracking(Track: Settings.GetBool(.FollowMouse))
                 
+            case .HideMouseOverEarth:
+                if !Settings.GetBool(.HideMouseOverEarth)
+                {
+                    if !MouseIsVisible
+                    {
+                        MouseIsVisible = true
+                        NSCursor.unhide()
+                    }
+                }
+                
             default:
                 return
         }
