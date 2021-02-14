@@ -33,7 +33,7 @@ class MainController: NSViewController
         DebugTextGrid.removeFromSuperview()
         #endif
         
-       MonitorMouse()
+        MonitorMouse()
         Internet.IsAvailable
         {
             Connected in
@@ -60,15 +60,15 @@ class MainController: NSViewController
             event in
             if event.window == self.view.window
             {
-                if self.Location.x >= 0 && self.Location.x < self.view.window!.frame.size.width
+                if self.Location.x >= 0 &&
+                    self.Location.x < self.view.window!.frame.size.width &&
+                    self.Location.y >= 0 &&
+                    self.Location.y < self.view.window!.frame.size.height
                 {
-                    if self.Location.y >= 0 && self.Location.y < self.view.window!.frame.size.height
-                    {
-                        let Point = CGPoint(x: self.Location.x, y: self.Location.y)
-                        self.Rect2DView.MouseClickedAt(Point: Point)
-                        self.Main2DView.MouseClickedAt(Point: Point)
-                        self.Main3DView.MouseClickedAt(Point: Point)
-                    }
+                    let Point = CGPoint(x: self.Location.x, y: self.Location.y)
+                    self.Rect2DView.MouseClickedAt(Point: Point)
+                    self.Main2DView.MouseClickedAt(Point: Point)
+                    self.Main3DView.MouseClickedAt(Point: Point)
                 }
             }
             return event
@@ -78,14 +78,26 @@ class MainController: NSViewController
             event in
             if event.window == self.view.window
             {
-                if self.Location.x >= 0 && self.Location.x < self.view.window!.frame.size.width
+                if self.Location.x >= 0 &&
+                    self.Location.x < self.view.window!.frame.size.width &&
+                    self.Location.y >= 0 &&
+                    self.Location.y < self.view.window!.frame.size.height
                 {
-                    if self.Location.y >= 0 && self.Location.y < self.view.window!.frame.size.height
+                    let Point = CGPoint(x: self.Location.x, y: self.Location.y)
+                    self.Main3DView.MouseMovedTo(Point: Point)
+                    self.Main2DView.MouseMovedTo(Point: Point)
+                    self.Rect2DView.MouseMovedTo(Point: Point)
+                }
+                else
+                {
+                    //The mouse is outside the window - if necessary, unhide the cursor.
+                    if Settings.GetBool(.HideMouseOverEarth)
                     {
-                        let Point = CGPoint(x: self.Location.x, y: self.Location.y)
-                        self.Main3DView.MouseMovedTo(Point: Point)
-                        self.Main2DView.MouseMovedTo(Point: Point)
-                        self.Rect2DView.MouseMovedTo(Point: Point)
+                        if !self.Main3DView.MouseIsVisible
+                        {
+                            self.Main3DView.MouseIsVisible = true
+                            NSCursor.unhide()
+                        }
                     }
                 }
             }
