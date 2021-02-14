@@ -313,6 +313,11 @@ Sets the scale (size) of the 3D shapes that indicate where an earthquake has occ
 Show or hide grid lines. Showing grid lines (very slightly) increases power consumption.
 """
                     
+                case .CursorAppearance:
+                    Message = """
+Show or hide the system arrow cursor when it is over the Earth. If you hide it, the cursor will be replaced by a 3D location indicator. The cursor will also resume its normal shape when not over the Earth.
+"""
+                    
                 case .GridLineColor:
                     Message = """
 Set the color of the grid lines. Ignored if grid lines are turned off.
@@ -494,6 +499,7 @@ enum PreferenceHelp: String, CaseIterable
     case FlatNightDarkness = "FlatNightDarkness"
     case ShowMoonlight = "ShowMoonlight"
     case PoleShape = "PoleShape"
+    case CursorAppearance = "CursorAppearance"
     
     case ShowCities = "ShowCities"
     case CityShape = "CityShape"
