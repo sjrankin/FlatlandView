@@ -882,3 +882,22 @@ enum MousePointerTypes: String, CaseIterable
     case EndPin = "EndPin"
 }
 
+enum POITypes2: Int, CaseIterable
+{
+    case GeographicalPoint = 0
+    case Mountain = 1
+    case Lake = 2
+    case Miscellaneous = 3
+    case Valley = 4
+    case River = 5
+    case Forest = 6
+    case Island = 7
+    case Volcano = 8
+    case Desert = 9
+    case Plain = 10
+    case Plateau = 11
+    case Park = 1000
+    case AmusementPark = 1001
+    case Capitol = 1002
+    case Historical = 1003
+}
