@@ -42,6 +42,10 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
         MapAttributesItem.view?.layer?.cornerRadius = 3.0
         MapAttributesItem.view?.layer?.borderWidth = 1.0
         MapAttributesItem.view?.layer?.borderColor = NSColor.clear.cgColor
+        CitiesItem.view?.wantsLayer = true
+        CitiesItem.view?.layer?.cornerRadius = 3.0
+        CitiesItem.view?.layer?.borderWidth = 1.0
+        CitiesItem.view?.layer?.borderColor = NSColor.clear.cgColor
         
         ButtonMap[GeneralButton2] = GeneralItem
         ButtonMap[LiveDataButton] = LiveDataItem
@@ -50,6 +54,7 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
         ButtonMap[SatelliteButton] = SatelliteItem
         ButtonMap[MapButton] = MapsItem
         ButtonMap[MapAttributesButton] = MapAttributesItem
+        ButtonMap[CitiesButton] = CitiesItem
         
         Highlight(GeneralButton2)
     }
@@ -98,6 +103,7 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
     @IBOutlet weak var QuakeItem: NSToolbarItem!
     @IBOutlet weak var SatelliteItem: NSToolbarItem!
     @IBOutlet weak var MapAttributesItem: NSToolbarItem!
+    @IBOutlet weak var CitiesItem: NSToolbarItem!
     
     @IBOutlet weak var MapAttributesButton: NSButton!
     @IBOutlet weak var SatelliteButton: NSButton!
@@ -106,4 +112,5 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
     @IBOutlet weak var MapButton: NSButton!
     @IBOutlet weak var LiveDataButton: NSButton!
     @IBOutlet weak var GeneralButton2: NSButton!
+    @IBOutlet weak var CitiesButton: NSButton!
 }
