@@ -22,6 +22,7 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     override func viewDidLayout()
     {
         super.viewDidLayout()
+        ShowBuiltInPOIsSwitch.state = Settings.GetBool(.ShowBuiltInPOIs) ? .on : .off
         let PreviousScale = Settings.GetEnum(ForKey: .POIScale, EnumType: MapNodeScales.self, Default: .Normal)
         switch PreviousScale
         {
@@ -36,39 +37,48 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
         }
         ShowHomeSwitch.state = Settings.GetState(.ShowHomeLocation)
         ShowUserPOISwitch.state = Settings.GetState(.ShowUserPOIs)
-        let WHSSites = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .Natural)
-        if let WHSIndex = WorldHeritageSiteTypes.allCases.firstIndex(of: WHSSites)
+        ShowUnescoSwitch.state = Settings.GetState(.ShowWorldHeritageSites)
+        let UnescoType = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .Natural)
+        switch UnescoType
         {
-            UnescoSitesSegment.selectedSegment = WHSIndex
+            case .AllSites:
+                UnescoSitesSegment.selectedSegment = 3
+                
+            case .Cultural:
+                UnescoSitesSegment.selectedSegment = 0
+                
+            case .Mixed:
+                UnescoSitesSegment.selectedSegment = 2
+                
+            case .Natural:
+                UnescoSitesSegment.selectedSegment = 1
         }
-        ShowUnescoSitesSwitch.state = Settings.GetState(.ShowWorldHeritageSites)
-        ShowCitiesSwitch.state = Settings.GetBool(.ShowCities) ? .on : .off
-        ShowUnescoSitesSwitch.state = Settings.GetState(.ShowWorldHeritageSites)
-        CityShapesCombo.removeAllItems()
-        let CurrentShape = Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .RelativeEmbedded)
-        for CityShape in CityDisplayTypes.allCases
-        {
-            CityShapesCombo.addItem(withObjectValue: CityShape.rawValue)
-            if CityShape == CurrentShape
-            {
-                CityShapesCombo.selectItem(withObjectValue: CityShape.rawValue)
-            }
-        }
-        
-        HelpButtons.append(ShowWorldHeritageSiteHelpButton)
-        HelpButtons.append(AllCitiesHelpButton)
-        HelpButtons.append(CapitalCityHelpButton)
-        HelpButtons.append(CityShapeHelpButton)
-        HelpButtons.append(ShowCityHelpButton)
+
         HelpButtons.append(EditUserPOIHelpButton)
         HelpButtons.append(ShowUserPOIHelpButton)
         HelpButtons.append(EditHomeLocationHelpButton)
-        HelpButtons.append(CityByPopHelpButton)
         HelpButtons.append(ShowHomeHelpButton)
-        HelpButtons.append(UNESCOHelpButton)
         HelpButtons.append(POIScaleHelpButton)
+        HelpButtons.append(ShowBuiltInPOIs)
+        HelpButtons.append(ShowListofBuiltInPOIs)
+        HelpButtons.append(UNESCOHelpButton)
+        HelpButtons.append(ShowWorldHeritageSiteHelpButton)
         
         SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
+    }
+    
+    @IBAction func HandleShowAllBuiltInPOIsButton(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "UserPOIEditor", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "BuiltInPOIWindow") as?
+            BuiltInPOIWindow
+        {
+            let Window = WindowController.window
+            self.view.window?.beginSheet(Window!)
+            {
+                Result in
+            }
+        }
     }
     
     @IBAction func HandleHelpButton(_ sender: Any)
@@ -77,27 +87,6 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
         {
             switch Button
             {
-                case ShowWorldHeritageSiteHelpButton:
-                    Parent?.ShowHelp(For: .ShowUNESCOSites, Where: Button.bounds, What: ShowWorldHeritageSiteHelpButton)
-                
-                case ShowCityHelpButton:
-                    Parent?.ShowHelp(For: .ShowCities, Where: Button.bounds, What: ShowCityHelpButton)
-                    
-                case CapitalCityHelpButton:
-                    Parent?.ShowHelp(For: .CapitalCities, Where: Button.bounds, What: CapitalCityHelpButton)
-                    
-                case CityByPopHelpButton:
-                    Parent?.ShowHelp(For: .CityByPopulation, Where: Button.bounds, What: CityByPopHelpButton)
-                    
-                case CityShapeHelpButton:
-                    Parent?.ShowHelp(For: .CityShape, Where: Button.bounds, What: CityShapeHelpButton)
-                    
-                case AllCitiesHelpButton:
-                    Parent?.ShowHelp(For: .AllCities, Where: Button.bounds, What: AllCitiesHelpButton)
-                    
-                case UNESCOHelpButton:
-                    Parent?.ShowHelp(For: .UNESCOSites, Where: Button.bounds, What: UNESCOHelpButton)
-                    
                 case ShowHomeHelpButton:
                     Parent?.ShowHelp(For: .ShowHome, Where: Button.bounds, What: ShowHomeHelpButton)
                     
@@ -113,77 +102,23 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
                 case POIScaleHelpButton:
                     Parent?.ShowHelp(For: .POIScale, Where: Button.bounds, What: POIScaleHelpButton)
                     
+                case ShowBuiltInPOIs:
+                    Parent?.ShowHelp(For: .ShowBuiltInPOIs, Where: Button.bounds, What: ShowBuiltInPOIs)
+                    
+                case ShowListofBuiltInPOIs:
+                    Parent?.ShowHelp(For: .ShowListofBuiltInPOIs, Where: Button.bounds, What: ShowListofBuiltInPOIs)
+                    
                 default:
                     return
             }
         }
     }
     
-    @IBAction func HandleShowCitiesChanged(_ sender: Any)
+    @IBAction func HandleShowBuiltInPOIsChanged(_ sender: Any)
     {
         if let Switch = sender as? NSSwitch
         {
-            Settings.SetBool(.ShowCities, Switch.state == .on ? true : false)
-        }
-    }
-    
-    @IBAction func HandleCityShapesChanged(_ sender: Any)
-    {
-        if let Combo = sender as? NSComboBox
-        {
-            if let SelectedShape = Combo.objectValueOfSelectedItem as? String
-            {
-                if let FinalShape = CityDisplayTypes(rawValue: SelectedShape)
-                {
-                    Settings.SetEnum(FinalShape, EnumType: CityDisplayTypes.self, ForKey: .CityShapes)
-                }
-            }
-        }
-    }
-    
-    @IBAction func HandleCitiesByPopulationChanged(_ sender: Any)
-    {
-        if let Switch = sender as? NSSwitch
-        {
-            
-        }
-    }
-    
-    @IBAction func HandleCapitalCitiesChanged(_ sender: Any)
-    {
-        if let Switch = sender as? NSSwitch
-        {
-            
-        }
-    }
-    
-    @IBAction func HandleAllCitiesSwitch(_ sender: Any)
-    {
-        if let Switch = sender as? NSSwitch
-        {
-            
-        }
-    }
-    
-    @IBAction func HandleSetPopulationButton(_ sender: Any)
-    {
-    }
-    
-    @IBAction func HandleViewUnescoSitesChanged(_ sender: Any)
-    {
-        if let Switch = sender as? NSSwitch
-        {
-            Settings.SetBool(.ShowWorldHeritageSites, Switch.state == .on ? true : false)
-        }
-    }
-    
-    @IBAction func HandleUnescoSitesChanged(_ sender: Any)
-    {
-        if let Segment = sender as? NSSegmentedControl
-        {
-            let Index = Segment.selectedSegment
-            let Final = WorldHeritageSiteTypes.allCases[Index]
-            Settings.SetEnum(Final, EnumType: WorldHeritageSiteTypes.self, ForKey: .WorldHeritageSiteType)
+            Settings.SetBool(.ShowBuiltInPOIs, Switch.state == .on ? true: false)
         }
     }
     
@@ -216,6 +151,40 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
         if let Switch = sender as? NSSwitch
         {
             Settings.SetBool(.ShowUserPOIs, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBAction func HandleUnescoSiteTypeChanged(_ sender: Any)
+    {
+        if let Segment = sender as? NSSegmentedControl
+        {
+            var SiteType = WorldHeritageSiteTypes.Natural
+            switch Segment.selectedSegment
+            {
+                case 0:
+                    SiteType = .Cultural
+                    
+                case 1:
+                    SiteType = .Natural
+                    
+                case 2:
+                    SiteType = .Mixed
+                    
+                case 3:
+                    SiteType = .AllSites
+                    
+                default:
+                    return
+            }
+            Settings.SetEnum(SiteType, EnumType: WorldHeritageSiteTypes.self, ForKey: .WorldHeritageSiteType)
+        }
+    }
+    
+    @IBAction func HandleShowUnescoSitesChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.ShowWorldHeritageSites, Switch.state == .on ? true : false)
         }
     }
     
@@ -265,28 +234,21 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     var HelpButtons: [NSButton] = [NSButton]()
     
     // MARK: - Interface builder outlets
-    @IBOutlet weak var ShowCitiesSwitch: NSSwitch!
-    @IBOutlet weak var CityShapesCombo: NSComboBox!
-    @IBOutlet weak var CitiesByPopulationSwitch: NSSwitch!
-    @IBOutlet weak var CapitalCitiesSwitch: NSSwitch!
-    @IBOutlet weak var AllCitiesSwitch: NSSwitch!
-    @IBOutlet weak var UnescoSitesSegment: NSSegmentedControl!
     @IBOutlet weak var ShowHomeSwitch: NSSwitch!
     @IBOutlet weak var ShowUserPOISwitch: NSSwitch!
-    @IBOutlet weak var ShowUnescoSitesSwitch: NSSwitch!
     @IBOutlet weak var POIScaleSegment: NSSegmentedControl!
+    @IBOutlet weak var ShowBuiltInPOIsSwitch: NSSwitch!
+    @IBOutlet weak var ShowUnescoSwitch: NSSwitch!
+    @IBOutlet weak var UnescoSitesSegment: NSSegmentedControl!
     
     // MARK: - Help buttons
-    @IBOutlet weak var ShowWorldHeritageSiteHelpButton: NSButton!
-    @IBOutlet weak var AllCitiesHelpButton: NSButton!
-    @IBOutlet weak var CapitalCityHelpButton: NSButton!
-    @IBOutlet weak var CityByPopHelpButton: NSButton!
-    @IBOutlet weak var CityShapeHelpButton: NSButton!
-    @IBOutlet weak var ShowCityHelpButton: NSButton!
     @IBOutlet weak var EditUserPOIHelpButton: NSButton!
     @IBOutlet weak var ShowUserPOIHelpButton: NSButton!
     @IBOutlet weak var EditHomeLocationHelpButton: NSButton!
     @IBOutlet weak var ShowHomeHelpButton: NSButton!
-    @IBOutlet weak var UNESCOHelpButton: NSButton!
     @IBOutlet weak var POIScaleHelpButton: NSButton!
+    @IBOutlet weak var ShowBuiltInPOIs: NSButton!
+    @IBOutlet weak var ShowListofBuiltInPOIs: NSButton!
+    @IBOutlet weak var UNESCOHelpButton: NSButton!
+    @IBOutlet weak var ShowWorldHeritageSiteHelpButton: NSButton!
 }
