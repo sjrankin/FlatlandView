@@ -201,6 +201,8 @@ enum CityDisplayTypes: String, CaseIterable
     case Pyramids = "Pyramids"
     /// City names displayed with a variation in the size of the text indicating population.
     case Names = "Names"
+    /// Each city is a thin cylinder.
+    case Sticks = "Sticks"
 }
 
 /// City population types.
