@@ -107,6 +107,7 @@ extension GlobeView
                         {
                             self.PreviousCameraDistance = Int(Distance)
                             self.UpdateFlatnessForCamera(Distance: Distance)
+                            self.UpdateCityFlatnessForCamera(Distance: Distance)
                         }
                     }
                 }
