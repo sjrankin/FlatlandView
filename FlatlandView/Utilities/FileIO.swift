@@ -33,7 +33,7 @@ class FileIO
     
     public static func InstallDatabase(Name: String)
     {
-        print("Installing database \(Name)")
+        print("Checking existence of the database \(Name)")
         var DBPath: URL!
         if !DirectoryExists(DatabaseDirectory)
         {
