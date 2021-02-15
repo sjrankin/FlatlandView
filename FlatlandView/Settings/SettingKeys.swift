@@ -318,6 +318,10 @@ enum SettingKeys: String, CaseIterable
     case PopulationColor = "PopulationColor"
     /// How to filter by city population.
     case PopulationFilterType = "PopulationFilterType"
+    /// Table of cities from the mappable database.
+    case CityList = "CityList"
+    /// Table of user cities from the mappable database.
+    case UserCityList = "UserCityList"
     
     // MARK: - World Heritage Site settings
     /// Boolean: Determines whether World Heritage Sites are shown.
