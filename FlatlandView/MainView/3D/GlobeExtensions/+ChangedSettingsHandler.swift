@@ -72,9 +72,12 @@ extension GlobeView: SettingChangedProtocol
                 PlotWorldHeritageSites()
                 
             case .Show3DEquator, .Show3DTropics, .Show3DMinorGrid, .Show3DPolarCircles, .Show3DPrimeMeridians,
-                 .MinorGrid3DGap, .Show3DGridLines, .GridLineColor, .MinorGridLineColor:
+                 .MinorGrid3DGap, .Show3DGridLines:
                 SetLineLayer()
                 ApplyAllStencils(Caller: "SettingChanged(.{Multiple})")
+                
+            case .GridLineColor, .MinorGridLineColor:
+                ApplyAllStencils(Caller: "SettingChanged(.GridLineColor)")
                 
             case .Script:
                 PlotPolarShape()
@@ -249,12 +252,23 @@ extension GlobeView: SettingChangedProtocol
             case .HourFontName:
                 UpdateHours()
                 
-            case .GridLinesDrawnOnMap, .MagnitudeValuesDrawnOnMap,
-                 .CityNamesDrawnOnMap:
+            case .GridLinesDrawnOnMap:
+                if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld) == .Globe3D
+                {
+                    ApplyAllStencils(Caller: "SettingChanged(.GridLinesDrawnOnMap)")
+                }
+                
+            case .CityNamesDrawnOnMap:
+                if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld) == .Globe3D
+                {
+                    ApplyAllStencils(Caller: "SettingChanged(.CityNamesDrawnOnMap)")
+                }
+                
+            case .MagnitudeValuesDrawnOnMap:
                 if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld) == .Globe3D
                 {
                     ClearEarthquakes()
-                    ApplyAllStencils(Caller: "SettingChanged(.{Multiple})")
+                    ApplyAllStencils(Caller: "SettingChanged(.MagnitudeValuesDrawnOnMap)")
                 }
                 
             case .ShowEarthquakeRegions, .EarthquakeRegions:
