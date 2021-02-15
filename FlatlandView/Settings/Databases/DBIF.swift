@@ -94,12 +94,12 @@ class DBIF
     
     // MARK: - In-memory tables.
     
-    private static var BuiltInPOIs = [POI2]()
-    private static var UserPOIs = [POI2]()
-    private static var UNESCOSites = [WorldHeritageSite]()
-    private static var InitialQuakes = [Earthquake]()
-    private static var Cities = [City2]()
-    private static var AdditionalCities = [City2]()
+    public static var BuiltInPOIs = [POI2]()
+    public static var UserPOIs = [POI2]()
+    public static var UNESCOSites = [WorldHeritageSite]()
+    public static var InitialQuakes = [Earthquake]()
+    public static var Cities = [City2]()
+    public static var AdditionalCities = [City2]()
     
     // MARK: - Database handles.
     public static var MappableHandle: OpaquePointer? = nil
