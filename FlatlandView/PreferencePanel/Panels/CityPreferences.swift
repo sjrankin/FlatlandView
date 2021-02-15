@@ -82,6 +82,8 @@ class CityPreferences: NSViewController, PreferencePanelProtocol
                 {
                     if let Shape = CityDisplayTypes(rawValue: Selected)
                     {
+                        let StencilNames = Shape != .Names
+                        Settings.SetBool(.CityNamesDrawnOnMap, StencilNames)
                         Settings.SetEnum(Shape, EnumType: CityDisplayTypes.self, ForKey: .CityShapes)
                     }
                 }
