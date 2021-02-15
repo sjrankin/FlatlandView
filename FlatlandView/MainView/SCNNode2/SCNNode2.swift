@@ -155,6 +155,9 @@ class SCNNode2: SCNNode
     /// Initial angle of the node. Usage is context sensitive.
     var InitialAngle: Double? = nil
     
+    /// The caller should set this to true if the node is showing SCNText geometry.
+    var IsTextNode: Bool = false
+    
     /// Propagate the parent's `NodeUsage` value to its children.
     func PropagateUsage()
     {
