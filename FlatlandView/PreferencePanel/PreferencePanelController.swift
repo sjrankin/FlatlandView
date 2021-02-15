@@ -310,7 +310,7 @@ Sets the scale (size) of the 3D shapes that indicate where an earthquake has occ
                 // MARK: - Map attributes help.
                 case .ShowGridLines:
                     Message = """
-Show or hide grid lines. Showing grid lines (very slightly) increases power consumption.
+Show or hide grid lines. Showing grid lines (very slightly) increases power consumption. Changing this setting may take a few seconds to be reflected in the view.
 """
                     
                 case .CursorAppearance:
@@ -320,7 +320,7 @@ Show or hide the system arrow cursor when it is over the Earth. If you hide it, 
                     
                 case .GridLineColor:
                     Message = """
-Set the color of the grid lines. Ignored if grid lines are turned off.
+Set the color of the grid lines. Ignored if grid lines are turned off. Changing the color may take a few seconds to be reflected in the view.
 """
                     
                 case .BackgroundColor:
@@ -352,7 +352,7 @@ Show cities on the map. You can select which cities and the shape they are shown
 """
                 case .CityShape:
                     Message = """
-The shape of cities shown on the map. Complex city shapes may slow down your computer.
+The shape of cities shown on the map. Complex city shapes may slow down your computer. |font type=bold|This is especially true if you use 3D extruded text for city names.|font type=system|
 """
                 case .CityByPopulation:
                     Message = """
