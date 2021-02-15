@@ -1205,6 +1205,7 @@ class Utility
             LetterShape.firstMaterial?.diffuse.contents = TextColor
             LetterShape.firstMaterial?.specular.contents = NSColor.white
             let LetterNode = SCNNode2(geometry: LetterShape)
+            LetterNode.IsTextNode = true 
             LetterNode.categoryBitMask = Mask
             LetterNode.scale = SCNVector3(Scale, Scale, Scale)
             if let Tag = WithTag
@@ -1216,7 +1217,7 @@ class Utility
                 LetterNode.name = "WordLetterNode"
             }
             let (X, Y, Z) = Geometry.ToECEF(Latitude, Double(CumulativeLetterLocation),
-                                   LatitudeOffset: -1.0, LongitudeOffset: -0.5,
+                                   LatitudeOffset: -1.5, LongitudeOffset: -0.5,
                                    Radius: Radius)
             LetterNode.position = SCNVector3(X, Y, Z)
             let YRotation = -Latitude
