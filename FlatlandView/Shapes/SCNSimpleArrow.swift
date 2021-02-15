@@ -29,8 +29,9 @@ class SCNSimpleArrow: SCNNode2, ShapeAttribute
     ///   - Color: Color of the diffuse surface of the arrow.
     ///   - Specular: Color of the specular surface of the arrow.
     ///   - LightMask: The light mask to apply to each sub-node of the simple arrow. Defaults to 0.
+    ///   - StemChamfer: The stem chamfer radius. Defaults to 0.05.
     init(Length: CGFloat, Width: CGFloat, Extrusion: CGFloat, Color: NSColor = NSColor.systemYellow,
-         Specular: NSColor = NSColor.white, LightMask: Int = 0)
+         Specular: NSColor = NSColor.white, LightMask: Int = 0, StemChamfer: Double = 0.05)
     {
         super.init()
         self.UseProtocolToSetState = true
@@ -42,8 +43,17 @@ class SCNSimpleArrow: SCNNode2, ShapeAttribute
         self.LightMask = LightMask
     }
     
+    /// Initializer
+    /// - Parameters:
+    ///   - Length: Overall length of the arrow.
+    ///   - Width: Width of the arrow (the arrowhead's width).
+    ///   - Extrusion: Depth of the arrow.
+    ///   - DiffuseTexture: Image to use for the diffuse surface.
+    ///   - Specular: Color of the specular surface of the arrow.
+    ///   - LightMask: The light mask to apply to each sub-node of the simple arrow. Defaults to 0.
+    ///   - StemChamfer: The stem chamfer radius. Defaults to 0.05.
     init(Length: CGFloat, Width: CGFloat, Extrusion: CGFloat, DiffuseTexture: NSImage,
-         Specular: NSColor = NSColor.white, LightMask: Int = 0)
+         Specular: NSColor = NSColor.white, LightMask: Int = 0, StemChamfer: Double = 0.05)
     {
         super.init()
         self.UseProtocolToSetState = true
@@ -295,6 +305,27 @@ class SCNSimpleArrow: SCNNode2, ShapeAttribute
         }
     }
     
+    /// Holds the stem chamfer radius.
+    private var _StemChamfer: Double = 0.05
+    {
+        didSet
+        {
+            MakeGeometry()
+        }
+    }
+    /// Get or set the stem chamfer radius.
+    public var StemChamfer: Double
+    {
+        get
+        {
+            return _StemChamfer
+        }
+        set
+        {
+            _StemChamfer = newValue
+        }
+    }
+    
     /// Create the arrow geometry and add it to `self`.
     func MakeGeometry()
     {
@@ -316,7 +347,8 @@ class SCNSimpleArrow: SCNNode2, ShapeAttribute
         Triangle.LightMask = _LightMask
         Triangle.Metalness = _Metalness
         Triangle.Roughness = _Roughness
-        let Box = SCNBox(width: _Width * 0.25, height: _Length * 0.5, length: _Extrusion, chamferRadius: 0.0)
+        let Box = SCNBox(width: _Width * 0.25, height: _Length * 0.5, length: _Extrusion,
+                         chamferRadius: CGFloat(_StemChamfer))
         if let Texture = DiffuseTexture
         {
             Box.firstMaterial?.diffuse.contents = Texture
