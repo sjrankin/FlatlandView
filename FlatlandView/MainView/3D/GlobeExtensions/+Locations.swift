@@ -335,6 +335,59 @@ extension GlobeView
         PlottedCities.append(CityNode)
     }
     
+    /// Plot a city as a "stick" or cylinder. This is intended to be used in conjunction with 3D city names.
+    /// - Parameter Plot: The city to plot.
+    /// - Parameter Latitude: The latitude of the city.
+    /// - Parameter Longitude: The longitude of the city.
+    /// - Parameter ToSurface: The surface that defines the globe.
+    /// - Parameter WithColor: The color of the city shape.
+    /// - Parameter Height: The height of the cylinder.
+    func PlotStickCity(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double,
+                       ToSurface: SCNNode2, WithColor: NSColor = .red, Height: Double = 0.5)
+    {
+        let RadialOffset = 0.1
+        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
+        
+        let Cylinder = SCNCylinder(radius: 0.04, height: CGFloat(Height))
+        let CylinderNode = SCNNode2(geometry: Cylinder)
+        CylinderNode.NodeID = Plot.CityID
+        CylinderNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
+        CylinderNode.CanShowBoundingShape = false
+        CylinderNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        let (H, S, B) = WithColor.HSB
+        var NewH = H + 0.5
+        if NewH > 1.0
+        {
+            NewH = NewH - 1.0
+        }
+        let StemColor = NSColor(calibratedHue: NewH, saturation: S, brightness: B, alpha: 1.0)
+        CylinderNode.geometry?.firstMaterial?.diffuse.contents = StemColor
+        CylinderNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+        CylinderNode.castsShadow = true
+        SunLight.intensity = 800
+        CylinderNode.position = SCNVector3(0.0, 0.0, 0.0)
+        
+        let FinalNode = SCNNode2()
+        FinalNode.Name = Plot.Name
+        FinalNode.SetLocation(Latitude, Longitude)
+        FinalNode.NodeID = Plot.CityID
+        FinalNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
+        FinalNode.addChildNode(CylinderNode)
+        FinalNode.scale = SCNVector3(GetScaleMultiplier())
+        
+        FinalNode.position = SCNVector3(X, Y, Z)
+        
+        let YRotation = Latitude + 90.0
+        let XRotation = Longitude + 180.0
+        FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        FinalNode.name = GlobeNodeNames.CityNode.rawValue
+        FinalNode.CanSwitchState = true
+        FinalNode.SetLocation(Latitude, Longitude)
+        
+        ToSurface.addChildNode(FinalNode)
+        PlottedCities.append(FinalNode)
+    }
+    
     /// Plot a city on the 3D sphere. The city display is a float ball whose radius is relative to
     /// the overall size of selected cities and altitude over the Earth is also relative to the population.
     /// - Parameter Plot: The city to plot.
@@ -353,7 +406,7 @@ extension GlobeView
     /// - Parameter IsASphere: If true, a sphere is used to represent the city. If false, a box is
     ///                        used instead.
     func PlotFloatingCity(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
-                          WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
+                          WithColor: NSColor = .red, RelativeSize: Double = 1.0,
                           RelativeHeight: Double = 1.0, LargestSize: Double = 1.0, LongestStem: Double = 1.0,
                           IsASphere: Bool)
     {
@@ -590,10 +643,15 @@ extension GlobeView
     {
         let Font = Settings.GetFont(.CityFontName, StoredFont("Arial", 24.0, NSColor.black))
         let TheFont = NSFont(name: Font.PostscriptName, size: 24.0)
-        let Letters = Utility.MakeFloatingWord(Radius: Radius, Word: "• " + SomeCity.Name,
+        #if true
+        let CityName = " " + SomeCity.Name
+        #else
+        let CityName = "• " + SomeCity.Name
+        #endif
+        let Letters = Utility.MakeFloatingWord(Radius: Radius, Word: CityName,
                                                Scale: NodeScales3D.CityNameScale.rawValue,
                                                Latitude: SomeCity.Latitude, Longitude: SomeCity.Longitude,
-                                               Extrusion: 1.0, Mask: LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue,
+                                               Extrusion: 5.0, Mask: LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue,
                                                TextFont: TheFont, TextColor: WithColor, OnSurface: EarthNode!,
                                                WithTag: GlobeNodeNames.CityNode.rawValue)
         for Letter in Letters
@@ -601,6 +659,78 @@ extension GlobeView
             Letter.NodeID = SomeCity.CityID
             Letter.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
             PlottedCities.append(Letter)
+        }
+    }
+    
+    /// Intended to be called when the user moves the camera closer or farther away from the Earth node to
+    /// update the flatness level of the 3D city names. When the camera is closer, the flatness level will result in
+    /// smoother numerals.
+    /// - Note: Distances that result in the same flatness level as the previous call will take no action -
+    ///         control will return as soon as that condition is detected.
+    /// - Note: If the city type is not 3D extruded names, no action will be taken.
+    /// - Parameter Distance: Distance from the camera to the center of the Earth node.
+    func UpdateCityFlatnessForCamera(Distance: CGFloat)
+    {
+        if Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .Names) != .Names
+        {
+            return
+        }
+        var FinalFlat: CGFloat? = nil
+        let IDist = Int(Distance)
+        for (Final, Min, Max) in FlatnessDistanceMap
+        {
+            if IDist >= Min && IDist <= Max
+            {
+                FinalFlat = Final
+                break
+            }
+        }
+        if FinalFlat == nil
+        {
+            FinalFlat = FlatnessDistanceMap.last!.FlatLevel
+        }
+        if PreviousCityFlatnessLevel == nil
+        {
+            PreviousCityFlatnessLevel = FinalFlat
+        }
+        else
+        {
+            if PreviousCityFlatnessLevel! == FinalFlat!
+            {
+                return
+            }
+            PreviousCityFlatnessLevel = FinalFlat
+        }
+        UpdateCityNameFlatness(To: FinalFlat!)
+    }
+    
+    /// Update the flatness level of city text nodes.
+    /// - Note: Nodes outside the point of view will not be adjusted.
+    /// - Parameter To: The new flatness level to apply.
+    func UpdateCityNameFlatness(To NewFlatness: CGFloat)
+    {
+        if let Earth = EarthNode
+        {
+            for Node in Earth.childNodes
+            {
+                if let POV = pointOfView
+                {
+                    if !isNode(Node, insideFrustumOf: POV)
+                    {
+                        continue
+                    }
+                }
+                if let Node2 = Node as? SCNNode2
+                {
+                    if Node2.IsTextNode
+                    {
+                        if let Text = Node2.geometry as? SCNText
+                        {
+                            Text.flatness = NewFlatness
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -633,6 +763,10 @@ extension GlobeView
         }
         PlottedCities.removeAll()
         CitiesToPlot = CityManager.FilteredCities()
+        if let UserCities = CityManager.OtherCities
+        {
+            CitiesToPlot.append(contentsOf: UserCities)
+        }
         
         if Settings.GetBool(.ShowUserLocations)
         {
@@ -681,73 +815,80 @@ extension GlobeView
         let (Max, Min) = CityManager.GetPopulationsIn(CityList: CitiesToPlot, UseMetroPopulation: UseMetro)
         for City in CitiesToPlot
         {
-            if City.IsUserCity
+            var RelativeSize: Double = 1.0
+            if let ThePopulation = GetCityPopulation2(From: City)
             {
-                continue
+                RelativeSize = Double(ThePopulation) / Double(Max)
             }
             else
             {
-                var RelativeSize: Double = 1.0
-                if let ThePopulation = GetCityPopulation2(From: City)
-                {
-                    RelativeSize = Double(ThePopulation) / Double(Max)
-                }
-                else
-                {
-                    RelativeSize = Double(Min) / Double(Max)
-                }
-                var CityColor = CityManager.ColorForCity(City)
-                if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
-                {
-                    CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
-                }
-                if Settings.GetBool(.ShowCitiesByPopulation)
-                {
-                    CityColor = Settings.GetColor(.PopulationColor, NSColor.Sunglow)
-                }
-                switch Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .UniformEmbedded)
-                {
-                    case .UniformEmbedded:
-                        PlotEmbeddedCitySphere(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                               ToSurface: Surface, WithColor: CityColor, RelativeSize: 1.0,
-                                               LargestSize: 0.15)
-                        
-                    case .RelativeEmbedded:
-                        PlotEmbeddedCitySphere(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                               ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                               LargestSize: 0.35)
-                        
-                    case .RelativeFloatingSpheres:
-                        PlotFloatingCity(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                         ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                         RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0,
-                                         IsASphere: true)
-                        
-                    case .RelativeFloatingBoxes:
-                        PlotFloatingCity(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                         ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                         RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0,
-                                         IsASphere: false)
-                        
-                    case .RelativeHeight:
-                        PlotSimpleCityShape(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                            ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                            LargestSize: 2.0, IsBox: true)
-                        
-                    case .Cylinders:
-                        PlotSimpleCityShape(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                            ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                            LargestSize: 2.0, IsBox: false)
-                        
-                    case .Pyramids:
-                        PlotPyramidCity(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                RelativeSize = Double(Min) / Double(Max)
+            }
+            var CityColor = CityManager.ColorForCity(City)
+            if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
+            {
+                CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
+            }
+            if Settings.GetBool(.ShowCitiesByPopulation)
+            {
+                CityColor = Settings.GetColor(.PopulationColor, NSColor.Sunglow)
+            }
+            if City.IsCustomCity
+            {
+                CityColor = City.CityColor
+            }
+            switch Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .UniformEmbedded)
+            {
+                case .UniformEmbedded:
+                    PlotEmbeddedCitySphere(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                           ToSurface: Surface, WithColor: CityColor, RelativeSize: 1.0,
+                                           LargestSize: 0.15)
+                    
+                case .RelativeEmbedded:
+                    PlotEmbeddedCitySphere(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                           ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                           LargestSize: 0.35)
+                    
+                case .RelativeFloatingSpheres:
+                    PlotFloatingCity(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                     ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                     RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0,
+                                     IsASphere: true)
+                    
+                case .RelativeFloatingBoxes:
+                    PlotFloatingCity(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                     ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                     RelativeHeight: RelativeSize, LargestSize: 0.5, LongestStem: 2.0,
+                                     IsASphere: false)
+                    
+                case .RelativeHeight:
+                    PlotSimpleCityShape(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
                                         ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
-                                        LargestSize: 2.0)
-                        
-                    case .Names:
-                        PlotCityName(City, Radius: Double(GlobeRadius.CityNames.rawValue),
-                                     ToSurface: Surface, WithColor: CityColor)
-                }
+                                        LargestSize: 2.0, IsBox: true)
+                    
+                case .Cylinders:
+                    PlotSimpleCityShape(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                        ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                        LargestSize: 2.0, IsBox: false)
+                    
+                case .Pyramids:
+                    PlotPyramidCity(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                    ToSurface: Surface, WithColor: CityColor, RelativeSize: RelativeSize,
+                                    LargestSize: 2.0)
+                    
+                case .Sticks:
+                    PlotStickCity(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                  ToSurface: Surface, WithColor: CityColor, Height: 0.5)
+                    
+                case .Names:
+                    if Settings.GetBool(.CityNamesDrawnOnMap)
+                    {
+                        Settings.SetBool(.CityNamesDrawnOnMap, false)
+                    }
+                    PlotCityName(City, Radius: Double(GlobeRadius.CityNames.rawValue),
+                                 ToSurface: Surface, WithColor: CityColor)
+                    PlotStickCity(City, Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
+                                  ToSurface: Surface, WithColor: CityColor, Height: 0.8)
             }
         }
     }
