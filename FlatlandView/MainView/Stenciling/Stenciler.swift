@@ -15,35 +15,6 @@ import CoreImage.CIFilterBuiltins
 /// Class that stencils text and shapes onto images.
 class Stenciler
 {
-    #if false
-    /// Notification closure definition. Returns an optional `NSImage` and optional completed `StencilStages`
-    /// enum as parameter values.
-    typealias NotificationClosure = ((NSImage?, StencilStages?) -> ())?
-    
-    typealias NotificationClosure2 = ((StencilContext) -> ())?
-    
-    /// Callers should add an ID and notification here to be notified when `AddStencils` has a completed
-    /// image ready.
-    /// - Note: Intended for debug use but can be used for other features as well.
-    /// - Parameter ID: ID of the caller.
-    /// - Parameter Function: Closure to call when a stenciled image has been completed.
-    public static func NotificationSubscriber(ID: UUID, Function: NotificationClosure)
-    {
-        Subscribers[ID] = Function
-    }
-    
-    /// Holds the list of all subscribers.
-    private static var Subscribers = [UUID: NotificationClosure]()
-    
-    /// Determines if the passed caller ID is in the subscription list.
-    /// - Parameter CallerID: The ID of the caller to determine if in the subscription list.
-    /// - Returns: True if the caller ID is in the subscription list, false if not.
-    public static func IsSubscribed(CallerID: UUID) -> Bool
-    {
-        return Subscribers[CallerID] != nil
-    }
-    #endif
-    
     static var StencilingQueue: OperationQueue? = nil
     
     /// Run the stencil pipeline on the supplied map.
@@ -69,7 +40,7 @@ class Stenciler
     {
         objc_sync_enter(StencilLock)
         defer{objc_sync_exit(StencilLock)}
-        
+        Debug.Print("RunStencilPipeline: \(Stages)")
         if Quakes == nil && Stages.count < 1
         {
             //Nothing to do - return the image unaltered.
@@ -86,19 +57,6 @@ class Stenciler
         {
             Caller.StencilPipelineStarted(Time: CACurrentMediaTime())
             var Working = Image
-            #if false
-            if Stages.contains(.EarthquakeRegions)
-            {
-                let Regions = Settings.GetEarthquakeRegions()
-                if Regions.count > 0
-                {
-                    let Blender = ImageBlender()
-                    Working = DrawRegions(Image: Working, Regions: Regions, Ratio: MapRatio,
-                                          Kernel: Blender)
-                    Caller.StageCompleted(Working, .EarthquakeRegions, CACurrentMediaTime())
-                }
-            }
-            #endif
             if Stages.contains(.GridLines)
             {
                 Working = AddGridLines(To: Working, Ratio: MapRatio)
@@ -218,11 +176,19 @@ class Stenciler
     {
         let ScaleFactor = NSScreen.main!.backingScaleFactor
         var Working = Image
-        let CitiesToPlot = CityManager.FilteredCities()
+        var CitiesToPlot = CityManager.FilteredCities()
+        if let UserCities = CityManager.OtherCities
+        {
+            CitiesToPlot.append(contentsOf: UserCities)
+        }
         var PlotMe = [TextRecord]()
         let CityFontRecord = Settings.GetString(.CityFontName, "Avenir")
         let CityFontName = Settings.ExtractFontName(From: CityFontRecord)!
+        #if true
         let BaseFontSize = Settings.ExtractFontSize(From: CityFontRecord)!
+        #else
+        let BaseFontSize: CGFloat = 7.0
+        #endif
         var FontMultiplier: CGFloat = 1.0
         if Image.size.width / 2.0 < 3600.0
         {
@@ -345,7 +311,11 @@ class Stenciler
         var Working = Image
         let QuakeFontRecord = Settings.GetString(.EarthquakeFontName, "Avenir")
         let QuakeFontName = Settings.ExtractFontName(From: QuakeFontRecord)!
-        let BaseFontSize = 24.0//Settings.ExtractFontSize(From: QuakeFontRecord)!
+        #if true
+        let BaseFontSize = 24.0
+        #else
+        let BaseFontSize = Settings.ExtractFontSize(From: QuakeFontRecord)!
+        #endif
         var FontMultiplier: CGFloat = 1.0
         if Image.size.width / 2.0 < 3600.0
         {
