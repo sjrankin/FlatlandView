@@ -15,8 +15,13 @@ class CityManager
     /// Initialize the City Manager. Loads all cities from the database.
     public static func Initialize()
     {
+        #if true
+        AllCities = Settings.GetCities(.CityList)
+        OtherCities = Settings.GetCities(.UserCityList)
+        #else
         AllCities = MainController.GetAllCities()
         OtherCities = MainController.GetAllAdditionalCities()
+        #endif
     }
     
     /// All cities from the database.
