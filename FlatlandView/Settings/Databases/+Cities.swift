@@ -62,6 +62,7 @@ extension DBIF
             NewCity.Longitude = Longitude
             NewCity.CityColor = Color
             NewCity.IsWorldCity = WorldCity
+            NewCity.IsCustomCity = false
             
             Results.append(NewCity)
         }
@@ -119,6 +120,7 @@ extension DBIF
             NewCity.CityColor = Color
             NewCity.IsWorldCity = WorldCity
             NewCity.SubNational = SubNational
+            NewCity.IsCustomCity = true
             
             Results.append(NewCity)
         }
