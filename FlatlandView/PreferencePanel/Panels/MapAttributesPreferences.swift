@@ -35,7 +35,7 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
         SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
         GridLineColorWell.color = Settings.GetColor(.GridLineColor)!
         BackgroundColorWell.color = Settings.GetColor(.BackgroundColor3D)!
-        ShowGridLinesSwitch.state = Settings.GetBool(.Show3DGridLines) ? .on : .off
+        ShowGridLinesSwitch.state = Settings.GetBool(.GridLinesDrawnOnMap) ? .on : .off
         ShowMoonLightSwitch.state = Settings.GetBool(.ShowMoonLight) ? .on : .off
         PoleCombo.removeAllItems()
         for Shape in PolarShapes.allCases
@@ -130,9 +130,10 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
     {
         if let Switch = sender as? NSSwitch
         {
-            Settings.SetBool(.Show3DGridLines, Switch.state == .on ? true : false)
+            Settings.SetBool(.GridLinesDrawnOnMap, Switch.state == .on ? true : false)
         }
     }
+    
     @IBAction func HandleShowMoonLightChanged(_ sender: Any)
     {
         if let Switch = sender as? NSSwitch
