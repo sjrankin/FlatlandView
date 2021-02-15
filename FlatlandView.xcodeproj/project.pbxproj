@@ -102,6 +102,7 @@
 		174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174623D024A81B2B007F5D4C /* DebugSettingsCode.swift */; };
 		174623D624A83FF0007F5D4C /* StarField3DWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174623D524A83FF0007F5D4C /* StarField3DWindow.swift */; };
 		174623D824A8400E007F5D4C /* StarField3DCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174623D724A8400E007F5D4C /* StarField3DCode.swift */; };
+		1746F88725DA2C2900A10842 /* +Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1746F88625DA2C2900A10842 /* +Database.swift */; };
 		1747BDBF25135189002B51D9 /* GradientParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1747BDBE25135189002B51D9 /* GradientParameters.swift */; };
 		1747BDC22513523D002B51D9 /* MetalGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1747BDC12513523D002B51D9 /* MetalGradient.swift */; };
 		1747BDC5251353AF002B51D9 /* MetalGradientKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 1747BDC4251353AF002B51D9 /* MetalGradientKernel.metal */; };
@@ -561,6 +562,7 @@
 		174623D024A81B2B007F5D4C /* DebugSettingsCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsCode.swift; sourceTree = "<group>"; };
 		174623D524A83FF0007F5D4C /* StarField3DWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarField3DWindow.swift; sourceTree = "<group>"; };
 		174623D724A8400E007F5D4C /* StarField3DCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarField3DCode.swift; sourceTree = "<group>"; };
+		1746F88625DA2C2900A10842 /* +Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Database.swift"; sourceTree = "<group>"; };
 		1747BDBE25135189002B51D9 /* GradientParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientParameters.swift; sourceTree = "<group>"; };
 		1747BDC12513523D002B51D9 /* MetalGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalGradient.swift; sourceTree = "<group>"; };
 		1747BDC4251353AF002B51D9 /* MetalGradientKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MetalGradientKernel.metal; sourceTree = "<group>"; };
@@ -2275,6 +2277,7 @@
 				17F9AFE12520340400DE0219 /* +CGFloat.swift */,
 				17F9AFE72520344F00DE0219 /* +CGPoint.swift */,
 				17F9AFFD2520358C00DE0219 /* +CustomCityList.swift */,
+				1746F88625DA2C2900A10842 /* +Database.swift */,
 				17F9AFF0252034C500DE0219 /* +Date.swift */,
 				17FAA7F425D26B1A0015D504 /* +DBArray.swift */,
 				17F9AFDE252033DF00DE0219 /* +Double.swift */,
@@ -2529,6 +2532,7 @@
 				172F35AD24CFFBBA00C8FDDC /* PiePercent.swift in Sources */,
 				17B062DF253D557D00C4BAEE /* UUID.swift in Sources */,
 				174F010A248CD03200F610DD /* MapManagerWindow.swift in Sources */,
+				1746F88725DA2C2900A10842 /* +Database.swift in Sources */,
 				17019F0425CD3C39000296A8 /* TextDebugPanel.swift in Sources */,
 				17854C672503649800D099A7 /* +Layers.swift in Sources */,
 				174623D124A81B2B007F5D4C /* DebugSettingsCode.swift in Sources */,
