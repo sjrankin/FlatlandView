@@ -20,6 +20,7 @@ class MainController: NSViewController
         MainController.StartTime = CACurrentMediaTime()
         Settings.Initialize()
         Settings.AddSubscriber(self)
+        CityManager.Initialize()
         
         InitializationFromEnvironment()
         ProgramInitialization()
