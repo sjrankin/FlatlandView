@@ -126,6 +126,7 @@ extension GlobeView
     /// - Parameter Layer: The layer to create.
     func UpdateLayer(_ Layer: GlobeLayers)
     {
+        print("**** At \(#function)")
         Stenciler.AddStencils2(Layer)
         {
             Image, LayerType in
