@@ -177,10 +177,10 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     /// other) from user settings.
     /// - Note: The grid uses its own set of lights to ensure it is properly visible when over the
     ///         night-side of the Earth.
-    /// - Parameter Radius: The radius of the sphere holding the lines. Default is `10.2` which is
-    ///                     slightly over the Earth.
+    /// - Parameter Radius: The radius of the sphere holding the lines.
     func SetLineLayer(Radius: CGFloat = GlobeRadius.LineSphere.rawValue)
     {
+        #if false
         if Settings.GetBool(.GridLinesDrawnOnMap)
         {
             return
@@ -201,6 +201,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
             LineNode?.castsShadow = false
             SystemNode?.addChildNode(self.LineNode!)
         }
+        #endif
     }
     
     /// Change the transparency of the land and sea nodes to what is in user settings.
@@ -510,6 +511,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var PreviousLongitudePercent: Double? = nil
     
     var PreviousHourFlatnessLevel: CGFloat? = nil
+    var PreviousCityFlatnessLevel: CGFloat? = nil
     var PreviousCameraDistance: Int? = nil
     let FlatnessDistanceMap: [(FlatLevel: CGFloat, Min: Int, Max: Int)] =
         [
