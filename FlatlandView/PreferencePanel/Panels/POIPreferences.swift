@@ -38,21 +38,13 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
         ShowHomeSwitch.state = Settings.GetState(.ShowHomeLocation)
         ShowUserPOISwitch.state = Settings.GetState(.ShowUserPOIs)
         ShowUnescoSwitch.state = Settings.GetState(.ShowWorldHeritageSites)
-        let UnescoType = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .Natural)
-        switch UnescoType
+        let CurrentUnescoType = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .Natural)
+        UnescoCombo.removeAllItems()
+        for UnescoType in WorldHeritageSiteTypes.allCases
         {
-            case .AllSites:
-                UnescoSitesSegment.selectedSegment = 3
-                
-            case .Cultural:
-                UnescoSitesSegment.selectedSegment = 0
-                
-            case .Mixed:
-                UnescoSitesSegment.selectedSegment = 2
-                
-            case .Natural:
-                UnescoSitesSegment.selectedSegment = 1
+            UnescoCombo.addItem(withObjectValue: UnescoType.rawValue)
         }
+        UnescoCombo.selectItem(withObjectValue: CurrentUnescoType.rawValue)
 
         HelpButtons.append(EditUserPOIHelpButton)
         HelpButtons.append(ShowUserPOIHelpButton)
@@ -158,29 +150,17 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
-    @IBAction func HandleUnescoSiteTypeChanged(_ sender: Any)
+    @IBAction func HandleUnescoTypeChanged(_ sender: Any)
     {
-        if let Segment = sender as? NSSegmentedControl
+        if let Combo = sender as? NSComboBox
         {
-            var SiteType = WorldHeritageSiteTypes.Natural
-            switch Segment.selectedSegment
+            if let RawValue = Combo.objectValueOfSelectedItem as? String
             {
-                case 0:
-                    SiteType = .Cultural
-                    
-                case 1:
-                    SiteType = .Natural
-                    
-                case 2:
-                    SiteType = .Mixed
-                    
-                case 3:
-                    SiteType = .AllSites
-                    
-                default:
-                    return
+                if let ActualValue = WorldHeritageSiteTypes(rawValue: RawValue)
+                {
+                    Settings.SetEnum(ActualValue, EnumType: WorldHeritageSiteTypes.self, ForKey: .WorldHeritageSiteType)
+                }
             }
-            Settings.SetEnum(SiteType, EnumType: WorldHeritageSiteTypes.self, ForKey: .WorldHeritageSiteType)
         }
     }
     
@@ -286,6 +266,7 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     @IBOutlet weak var ShowBuiltInPOIsSwitch: NSSwitch!
     @IBOutlet weak var ShowUnescoSwitch: NSSwitch!
     @IBOutlet weak var UnescoSitesSegment: NSSegmentedControl!
+    @IBOutlet weak var UnescoCombo: NSComboBox!
     
     // MARK: - Help buttons
     @IBOutlet weak var EditUserPOIHelpButton: NSButton!
