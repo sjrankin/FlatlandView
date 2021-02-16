@@ -824,6 +824,13 @@ extension GlobeView
             {
                 RelativeSize = Double(Min) / Double(Max)
             }
+            #if true
+            var CityColor = CityManager.ColorForCity(City)
+            if City.IsCustomCity
+            {
+                CityColor = City.CityColor
+            }
+            #else
             var CityColor = CityManager.ColorForCity(City)
             if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
             {
@@ -837,6 +844,7 @@ extension GlobeView
             {
                 CityColor = City.CityColor
             }
+            #endif
             switch Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .UniformEmbedded)
             {
                 case .UniformEmbedded:
