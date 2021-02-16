@@ -27,6 +27,7 @@ extension GlobeView: SettingChangedProtocol
     /// - Parameter NewValue: The new value of the setting (may be nil).
     func SettingChanged(Setting: SettingKeys, OldValue: Any?, NewValue: Any?)
     {
+        print(">>>> SettingChanged(\(Setting))")
         switch Setting
         {
             case .HourType:
@@ -248,6 +249,13 @@ extension GlobeView: SettingChangedProtocol
                 
             case .HourFontName:
                 UpdateHours()
+                
+            case .ExtrudedCitiesCastShadows:
+                if Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .RelativeEmbedded) == .Names
+                {
+                    PlotCities()
+                    ApplyAllStencils()
+                }
                 
             case .GridLinesDrawnOnMap:
                 if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld) == .Globe3D
