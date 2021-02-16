@@ -39,7 +39,7 @@ extension MainController: SettingChangedProtocol
                         let (Earth, Sea) = Main3DView.MakeMaps(NewMap)
                         if Sea != nil
                         {
-                            Main3DView.AddEarth()
+                            Main3DView.SetEarthMap()
                         }
                         else
                         {
@@ -93,12 +93,12 @@ extension MainController: SettingChangedProtocol
                             IsFlat = true
                             
                         case .CubicWorld:
-                            Main3DView.AddEarth()
+                            Main3DView.SetEarthMap()
                             IsFlat = false
                             
                         case .Globe3D:
                             IsFlat = false
-                            Main3DView.AddEarth()
+                            Main3DView.SetEarthMap()
                             if Settings.GetBool(.EnableEarthquakes)
                             {
                                 Main3DView.PlotEarthquakes()
