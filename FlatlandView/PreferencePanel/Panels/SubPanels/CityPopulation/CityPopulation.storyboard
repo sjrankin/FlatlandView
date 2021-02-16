@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18121" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18121"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Window Controller-->
+        <scene sceneID="m74-lC-T1C">
+            <objects>
+                <windowController storyboardIdentifier="CityPopulationWindow2" id="L5A-Sz-SQb" customClass="CityPopulationWindow2" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="aJQ-S3-zAD">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="2932" y="557" width="480" height="270"/>
+                        <rect key="screenRect" x="2560" y="144" width="2304" height="1296"/>
+                        <view key="contentView" id="GFk-FQ-cNB">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="L5A-Sz-SQb" id="v0c-Ap-hTL"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="bNc-aV-oVi" kind="relationship" relationship="window.shadowedContentViewController" id="AKn-SU-agX"/>
+                    </connections>
+                </windowController>
+                <customObject id="y8k-EB-Ery" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2704" y="3172"/>
+        </scene>
+        <!--City Population Controller2-->
+        <scene sceneID="FWB-tT-oVb">
+            <objects>
+                <viewController id="bNc-aV-oVi" customClass="CityPopulationController2" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="jMV-FB-vuU">
+                        <rect key="frame" x="0.0" y="0.0" width="543" height="272"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <box title="Show Cities by Population" translatesAutoresizingMaskIntoConstraints="NO" id="JIc-Df-msz">
+                                <rect key="frame" x="17" y="47" width="509" height="215"/>
+                                <view key="contentView" id="KJi-dI-RaH">
+                                    <rect key="frame" x="3" y="3" width="503" height="197"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="cNL-ea-HrL">
+                                            <rect key="frame" x="7" y="12" width="456" height="174"/>
+                                            <rows>
+                                                <gridRow id="TWG-P8-5kJ"/>
+                                                <gridRow topPadding="10" id="V6X-4u-Eho"/>
+                                                <gridRow id="jbE-PS-oOo"/>
+                                                <gridRow topPadding="15" id="p9O-a3-Hqq"/>
+                                                <gridRow topPadding="10" id="GbM-ir-BcX"/>
+                                            </rows>
+                                            <columns>
+                                                <gridColumn id="Frs-7W-YJd"/>
+                                                <gridColumn id="rAQ-fG-UPd"/>
+                                                <gridColumn id="BPg-M6-wc5"/>
+                                            </columns>
+                                            <gridCells>
+                                                <gridCell row="TWG-P8-5kJ" column="Frs-7W-YJd" id="lTi-F8-hyp">
+                                                    <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="gpU-KW-WiL">
+                                                        <rect key="frame" x="-2" y="150" width="42" height="25"/>
+                                                        <connections>
+                                                            <action selector="HandleFilterTypeChanged:" target="bNc-aV-oVi" id="Ixk-lF-bbH"/>
+                                                        </connections>
+                                                    </switch>
+                                                </gridCell>
+                                                <gridCell row="TWG-P8-5kJ" column="rAQ-fG-UPd" id="Ic2-qj-kPw">
+                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vPU-oW-eQb">
+                                                        <rect key="frame" x="42" y="155" width="118" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="By population rank" id="KQa-4P-UTW">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="TWG-P8-5kJ" column="BPg-M6-wc5" id="fzj-Qs-CtV">
+                                                    <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qAd-88-t5A">
+                                                        <rect key="frame" x="220" y="152" width="238" height="23"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="A3Y-d5-QJR"/>
+                                                            <constraint firstAttribute="width" constant="234" id="VXh-Xl-Zgl"/>
+                                                        </constraints>
+                                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="2dp-gd-0yY">
+                                                            <font key="font" metaFont="system"/>
+                                                            <segments>
+                                                                <segment label="10" width="32"/>
+                                                                <segment label="20" width="32" selected="YES" tag="1"/>
+                                                                <segment label="50" width="32"/>
+                                                                <segment label="100"/>
+                                                                <segment label="150"/>
+                                                                <segment label="200"/>
+                                                            </segments>
+                                                        </segmentedCell>
+                                                        <connections>
+                                                            <action selector="HandleRankSegmentChanged:" target="bNc-aV-oVi" id="2cU-ws-1bN"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                </gridCell>
+                                                <gridCell row="V6X-4u-Eho" column="Frs-7W-YJd" id="S2U-jI-Ebb">
+                                                    <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="mnz-TP-NBf">
+                                                        <rect key="frame" x="-2" y="112" width="42" height="25"/>
+                                                        <connections>
+                                                            <action selector="HandleFilterTypeChanged:" target="bNc-aV-oVi" id="4dx-lH-6Yd"/>
+                                                        </connections>
+                                                    </switch>
+                                                </gridCell>
+                                                <gridCell row="V6X-4u-Eho" column="rAQ-fG-UPd" id="65d-kK-kk7">
+                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QuI-ib-Hh3">
+                                                        <rect key="frame" x="42" y="117" width="88" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="By population" id="siF-TG-6b4">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="V6X-4u-Eho" column="BPg-M6-wc5" id="UBQ-5X-2rd">
+                                                    <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EB6-5S-kes">
+                                                        <rect key="frame" x="222" y="115" width="96" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="0Sl-Fp-YxO"/>
+                                                            <constraint firstAttribute="width" constant="96" id="lSi-5o-mla"/>
+                                                        </constraints>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="044-1x-h6Q">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="bNc-aV-oVi" id="s3Z-as-QIT"/>
+                                                        </connections>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="jbE-PS-oOo" column="Frs-7W-YJd" id="l4N-uh-1pp"/>
+                                                <gridCell row="jbE-PS-oOo" column="rAQ-fG-UPd" id="bit-B5-izJ"/>
+                                                <gridCell row="jbE-PS-oOo" column="BPg-M6-wc5" id="BS3-DD-0r8">
+                                                    <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cyl-B0-fLm">
+                                                        <rect key="frame" x="220" y="91" width="102" height="18"/>
+                                                        <buttonCell key="cell" type="check" title="Greater than" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="rQx-IT-4UJ">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="HandleGreaterThanChanged:" target="bNc-aV-oVi" id="dBK-Bq-CpK"/>
+                                                        </connections>
+                                                    </button>
+                                                </gridCell>
+                                                <gridCell row="p9O-a3-Hqq" column="Frs-7W-YJd" id="vJO-54-KzB"/>
+                                                <gridCell row="p9O-a3-Hqq" column="rAQ-fG-UPd" id="Z7p-bS-ULl">
+                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f0l-Zg-h9J">
+                                                        <rect key="frame" x="42" y="47" width="63" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="City color" id="RjL-6f-fbn">
+                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="p9O-a3-Hqq" column="BPg-M6-wc5" id="cqZ-cs-PlM">
+                                                    <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="OZB-yh-e4v">
+                                                        <rect key="frame" x="222" y="38" width="107" height="33"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="33" id="alj-kW-DnZ"/>
+                                                            <constraint firstAttribute="width" constant="107" id="v68-Po-59J"/>
+                                                        </constraints>
+                                                        <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <connections>
+                                                            <action selector="HandleCityColorChanged:" target="bNc-aV-oVi" id="lOH-At-0WU"/>
+                                                        </connections>
+                                                    </colorWell>
+                                                </gridCell>
+                                                <gridCell row="GbM-ir-BcX" column="Frs-7W-YJd" id="LKg-9J-esj"/>
+                                                <gridCell row="GbM-ir-BcX" column="rAQ-fG-UPd" id="2sb-YZ-v2o">
+                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDK-jc-H4a">
+                                                        <rect key="frame" x="42" y="3" width="176" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Use metropolitan population" id="8nA-nv-Ysw">
+                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="GbM-ir-BcX" column="BPg-M6-wc5" id="Srl-HH-YZW">
+                                                    <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="Hda-Rp-EyK">
+                                                        <rect key="frame" x="220" y="-2" width="42" height="25"/>
+                                                        <connections>
+                                                            <action selector="HandleUseMetroChanged:" target="bNc-aV-oVi" id="571-fu-h1W"/>
+                                                        </connections>
+                                                    </switch>
+                                                </gridCell>
+                                            </gridCells>
+                                        </gridView>
+                                    </subviews>
+                                </view>
+                            </box>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hm4-WJ-LJ9">
+                                <rect key="frame" x="237" y="13" width="69" height="32"/>
+                                <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="G4R-sE-vqZ">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="HandleClosePressed:" target="bNc-aV-oVi" id="qjV-7z-ucl"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="JIc-Df-msz" firstAttribute="centerX" secondItem="hm4-WJ-LJ9" secondAttribute="centerX" id="33h-6z-ih8"/>
+                            <constraint firstItem="JIc-Df-msz" firstAttribute="top" secondItem="jMV-FB-vuU" secondAttribute="top" constant="10" id="AtT-CI-VAi"/>
+                            <constraint firstItem="hm4-WJ-LJ9" firstAttribute="centerX" secondItem="jMV-FB-vuU" secondAttribute="centerX" id="BlW-c0-cMu"/>
+                            <constraint firstAttribute="bottom" secondItem="hm4-WJ-LJ9" secondAttribute="bottom" constant="20" symbolic="YES" id="JNQ-Fq-ZIc"/>
+                            <constraint firstItem="hm4-WJ-LJ9" firstAttribute="top" secondItem="JIc-Df-msz" secondAttribute="bottom" constant="11" id="Rgd-II-PGS"/>
+                            <constraint firstItem="JIc-Df-msz" firstAttribute="leading" secondItem="jMV-FB-vuU" secondAttribute="leading" constant="20" symbolic="YES" id="akB-mn-euS"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="ByRankSwitch" destination="gpU-KW-WiL" id="kHk-dT-lKJ"/>
+                        <outlet property="CityPopulationColor" destination="OZB-yh-e4v" id="uHx-SF-DHg"/>
+                        <outlet property="GreaterThanCheck" destination="Cyl-B0-fLm" id="Jr1-G2-01t"/>
+                        <outlet property="PopulationBox" destination="EB6-5S-kes" id="kKN-NS-JaH"/>
+                        <outlet property="RankSegment" destination="qAd-88-t5A" id="tqN-o6-Daf"/>
+                        <outlet property="UseMetropolitanSwitch" destination="Hda-Rp-EyK" id="D6l-Hk-0AW"/>
+                    </connections>
+                </viewController>
+                <customObject id="kfH-5j-fMo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2705" y="3727"/>
+        </scene>
+    </scenes>
+</document>
