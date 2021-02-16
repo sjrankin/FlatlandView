@@ -50,9 +50,10 @@ extension GlobeView
         return (Earth: BaseMap!, Sea: SecondaryMap)
     }
     
-    /// Add an Earth view to the 3D view.
+    /// Set an Earth map view to the 3D view.
     /// - Parameter FastAnimated: Used for debugging.
-    func AddEarth(FastAnimate: Bool = false, WithMap: NSImage? = nil)
+    /// - Parameter WithMap: Image to use as the base map.
+    func SetEarthMap(FastAnimate: Bool = false, WithMap: NSImage? = nil)
     {
         /*
          if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .CubicWorld
@@ -61,36 +62,24 @@ extension GlobeView
          return
          }
          */
-        if EarthNode != nil
-        {
-            EarthNode?.removeAllActions()
-            EarthNode?.removeFromParentNode()
-            EarthNode = nil
-        }
-        if SeaNode != nil
-        {
-            SeaNode?.removeAllActions()
-            SeaNode?.removeFromParentNode()
-            SeaNode = nil
-        }
-        if LineNode != nil
-        {
-            LineNode?.removeAllActions()
-            LineNode?.removeFromParentNode()
-            LineNode = nil
-        }
-        if SystemNode != nil
-        {
-            SystemNode?.removeAllActions()
-            SystemNode?.removeFromParentNode()
-            SystemNode = nil
-        }
-        if HourNode != nil
-        {
-            HourNode?.removeAllActions()
-            HourNode?.removeFromParentNode()
-            HourNode = nil
-        }
+        let SFrame = Debug.StackFrameContents(10)
+        let PrettyFrames = Debug.PrettyStackTrace(SFrame)
+        Debug.Print(PrettyFrames)
+        EarthNode?.removeAllActions()
+        EarthNode?.removeFromParentNode()
+        EarthNode = nil
+        SeaNode?.removeAllActions()
+        SeaNode?.removeFromParentNode()
+        SeaNode = nil
+        LineNode?.removeAllActions()
+        LineNode?.removeFromParentNode()
+        LineNode = nil
+        SystemNode?.removeAllActions()
+        SystemNode?.removeFromParentNode()
+        SystemNode = nil
+        HourNode?.removeAllActions()
+        HourNode?.removeFromParentNode()
+        HourNode = nil
         
         SystemNode = SCNNode()
         
