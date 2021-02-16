@@ -1175,6 +1175,7 @@ class Utility
     /// - Parameter OnSurface: Where the word will be plotted.
     /// - Parameter WithTag: Tag value to assign to the word. If nil, "WordLetterNode" is used.
     /// - Parameter AngleOffset: Offset to apply to letter positions.
+    /// - Parameter ShowShadows: Determines if extruded words show shadows.
     /// - Returns: Array with letter nodes.
     public static func MakeFloatingWord(Radius: Double, Word: String, Scale: CGFloat = 0.07,
                                         Latitude: Double, Longitude: Double,
@@ -1182,7 +1183,8 @@ class Utility
                                         TextFont: NSFont? = nil,
                                         TextColor: NSColor = NSColor.gray,
                                         OnSurface: SCNNode, WithTag: String? = nil,
-                                        AngleOffset: Double = 0.0) -> [SCNNode2]
+                                        AngleOffset: Double = 0.0,
+                                        ShowShadows: Bool = true) -> [SCNNode2]
     {
         var WordFont: NSFont = NSFont()
         if let SomeFont = TextFont
@@ -1208,7 +1210,7 @@ class Utility
             LetterNode.IsTextNode = true 
             LetterNode.categoryBitMask = Mask
             LetterNode.scale = SCNVector3(Scale, Scale, Scale)
-            LetterNode.castsShadow = Settings.GetBool(.ExtrudedCitiesCastShadows)
+            LetterNode.castsShadow = ShowShadows
             if let Tag = WithTag
             {
                 LetterNode.name = Tag
