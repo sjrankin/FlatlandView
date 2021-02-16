@@ -276,6 +276,8 @@ enum SettingKeys: String, CaseIterable
     case ShowSouthAmericanCities = "ShowSouthAmericanCities"
     /// Boolean: Show national capital cities.
     case ShowCapitalCities = "ShowCapitalCities"
+    /// Boolean: Show all cities (very slow).
+    case ShowAllCities = "ShowAllCities"
     /// Boolean: Show world cities.
     case ShowWorldCities = "ShowWorldCities"
     /// NSColor: Color to use for African cities.
@@ -322,6 +324,8 @@ enum SettingKeys: String, CaseIterable
     case CityList = "CityList"
     /// Table of user cities from the mappable database.
     case UserCityList = "UserCityList"
+    /// Boolean: If true, 3D city names cast shadows.
+    case ExtrudedCitiesCastShadows = "ExtrudedCitiesCastShadows"
     
     // MARK: - World Heritage Site settings
     /// Boolean: Determines whether World Heritage Sites are shown.
