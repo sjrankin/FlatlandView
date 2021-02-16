@@ -148,7 +148,7 @@ extension GlobeView
         #endif
         SetupLights()
         
-        AddEarth()
+        SetEarthMap()
         if Settings.GetBool(.InAttractMode)
         {
             StopClock()
