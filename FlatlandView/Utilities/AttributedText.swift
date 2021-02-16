@@ -114,7 +114,6 @@ class AttributedText
     
     private static func MakeFont(From: String) -> (FontTypes, CGFloat)?
     {
-        print("Parsing font: \(From)")
         var Parts = From.split(separator: " ", omittingEmptySubsequences: true)
         if Parts.count < 2
         {
