@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate,
+class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
                       PreferencePanelProtocol
 {
     weak var Parent: PreferencePanelControllerProtocol? = nil
@@ -18,124 +18,112 @@ class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        AllMaps = [MapNode]()
         for Category in MapManager.GetMapCategories()
         {
             let CategoryMaps = MapManager.GetMapsInCategory(Category)
             let MapNames = CategoryMaps.map{$0.rawValue}
-            let NewNode = MapNode(Category: Category.rawValue, Maps: MapNames)
-            AllMaps.append(NewNode)
+            let TableNode = TableMapNode()
+            TableNode.IsHeader = true
+            TableNode.Title = Category.rawValue
+            TableMapList.append(TableNode)
+            for MapName in MapNames
+            {
+                let MapForCat = TableMapNode()
+                MapForCat.IsHeader = false
+                MapForCat.Title = MapName
+                TableMapList.append(MapForCat)
+            }
         }
+        
         MapNameLabel.stringValue = ""
-        MapTable.reloadData()
+        MapTableView.reloadData()
         HelpButtons.append(MapSampleHelpButton)
+        HelpButtons.append(ResetPaneHelp)
+        HelpButtons.append(UpdateNowHelpButton)
+        HelpButtons.append(MapTableHelp)
         SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
     }
     
-    var AllMaps: [MapNode]!
-    
-    // MARK: - Outline view handling
-
-    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any
+    override func viewDidAppear()
     {
-        if let SomeMap = item as? MapNode
-        {
-            return SomeMap.Maps[index]
-        }
-        return AllMaps![index]
+         CurrentMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .SimplePoliticalMap1)
+        SelectMap(CurrentMap)
     }
     
-    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool
+    // MARK: - Table view handling
+    
+    func numberOfRows(in tableView: NSTableView) -> Int
     {
-        if let SomeMap = item as? MapNode
-        {
-            return SomeMap.Maps.count > 0
-        }
-        return false
+        return TableMapList.count
     }
     
-    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int
+    func tableView(_ tableView: NSTableView, isGroupRow row: Int) -> Bool
     {
-        if AllMaps == nil
-        {
-            return 0
-        }
-        if let SomeMap = item as? MapNode
-        {
-            return SomeMap.Maps.count
-        }
-        return AllMaps!.count
+        TableMapList[row].IsHeader
     }
     
-    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView?
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
-        var Text = ""
-        var TextFont = NSFont()
-        var TextColor = NSColor.black
-        if let SomeMap = item as? MapNode
+        var CellContents = ""
+        var CellIdentifier = ""
+        if tableColumn == tableView.tableColumns[0]
         {
-            Text = SomeMap.Category
-            if InDarkMode
-            {
-                TextColor = NSColor.white
-            }
-            else
-            {
-            TextColor = NSColor.PrussianBlue
-        }
-            TextFont = NSFont.boldSystemFont(ofSize: 15.0)
+            CellIdentifier = "MapColumn"
+            CellContents = "  " + TableMapList[row].Title
         }
         else
         {
-            if InDarkMode
-            {
-                TextColor = NSColor.lightGray
-            }
-            else
-            {
-                TextColor = NSColor.black
-            }
-            Text = item as! String
-            TextFont = NSFont.systemFont(ofSize: 14.0)
+            let TableWidth = MapTableView.frame.width
+            let Header = NSTextField(frame: NSRect(origin: CGPoint(x: 0, y: -16), size: CGSize(width: TableWidth, height: 40)))
+            Header.isEditable = false
+            Header.drawsBackground = false
+            Header.isBezeled = false
+            Header.stringValue = TableMapList[row].Title
+            Header.textColor = NSColor.white
+            Header.font = NSFont.boldSystemFont(ofSize: 18.0)
+            Header.backgroundColor = NSColor.clear
+            let HeaderView = NSView(frame: NSRect(origin: CGPoint.zero, size: CGSize(width: TableWidth, height: 40)))
+            HeaderView.addSubview(Header)
+            HeaderView.wantsLayer = true
+            HeaderView.layer?.backgroundColor = NSColor.systemGray.cgColor
+            return HeaderView
         }
-        let tableCell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "MapCell"), owner: self) as! NSTableCellView
-        tableCell.textField!.stringValue = Text
-        tableCell.textField!.font = TextFont
-        tableCell.textField!.textColor = TextColor
-        return tableCell
+        
+        let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
+        Cell?.textField?.stringValue = CellContents
+        return Cell
+    }
+
+    func tableViewSelectionDidChange(_ notification: Notification)
+    {
+        let NewRow = MapTableView.selectedRow
+        if NewRow > -1
+        {
+            let MapData = TableMapList[NewRow].Title
+            if let ActualMap = MapTypes(rawValue: MapData)
+            {
+                MapNameLabel.stringValue = MapData
+                CurrentMap = ActualMap
+                HandleMapViewTypeChanged(self)
+            }
+        }
     }
     
-    func outlineViewSelectionDidChange(_ notification: Notification)
+    func SelectMap(_ Which: MapTypes)
     {
-        guard let outView = notification.object as? NSOutlineView else
+        let SearchFor = Which.rawValue
+        for Index in 0 ..< TableMapList.count
         {
-            return
-        }
-        let SelectedIndex = outView.selectedRow
-        if let MapName = outView.item(atRow: SelectedIndex) as? String
-        {
-            if let MapType = MapTypes(rawValue: MapName)
+            if TableMapList[Index].IsHeader
             {
-                MapNameLabel.stringValue = MapName
-                let ViewType = GetViewType()
-                var ImageCenter = ImageCenters.SouthPole
-                if ViewType == .FlatNorthCenter
-                {
-                    ImageCenter = .NorthPole
-                }
-                if let MapImage = MapManager.ImageFor(MapType: MapType, ViewType: ViewType, ImageCenter: ImageCenter)
-                {
-                    SampleMapView.image = MapImage
-                    CurrentMap = MapType
-                }
-                else
-                {
-                    print("MapManager.ImageFor return nil image.")
-                }
+                continue
             }
-            else
+            if TableMapList[Index].Title == SearchFor
             {
-                print("Bad map type: \(MapName)")
+                let ISet = IndexSet(integer: Index)
+                MapTableView.selectRowIndexes(ISet, byExtendingSelection: false)
+                MapTableView.scrollRowToVisible(Index)
+                MapNameLabel.stringValue = SearchFor
             }
         }
     }
@@ -187,6 +175,15 @@ class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
                 case MapSampleHelpButton:
                     Parent?.ShowHelp(For: .MapSample, Where: Button.bounds, What: MapSampleHelpButton)
                     
+                case ResetPaneHelp:
+                    Parent?.ShowHelp(For: .PaneReset, Where: Button.bounds, What: ResetPaneHelp)
+                    
+                case MapTableHelp:
+                    Parent?.ShowHelp(For: .ChangingMapsHelp, Where: Button.bounds, What: MapTableHelp)
+                    
+                case UpdateNowHelpButton:
+                    Parent?.ShowHelp(For: .UpdateNowHelp, Where: Button.bounds, What: UpdateNowHelpButton)
+                    
                 default:
                     return
             }
@@ -196,10 +193,6 @@ class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
     func SetDarkMode(To DarkMode: Bool)
     {
         InDarkMode = DarkMode
-        if MapTable != nil
-        {
-        MapTable.reloadData()
-        }
     }
     
     func SetHelpVisibility(To: Bool)
@@ -211,37 +204,63 @@ class MapPreferences: NSViewController, NSOutlineViewDataSource, NSOutlineViewDe
         }
     }
     
+    //https://stackoverflow.com/questions/29433487/create-an-nsalert-with-swift
+    @discardableResult func RunMessageBoxOK(Message: String, InformationMessage: String) -> Bool
+    {
+        let Alert = NSAlert()
+        Alert.messageText = Message
+        Alert.informativeText = InformationMessage
+        Alert.alertStyle = .warning
+        Alert.addButton(withTitle: "Reset Values")
+        Alert.addButton(withTitle: "Cancel")
+        return Alert.runModal() == .alertFirstButtonReturn
+    }
+    
+    @IBAction func HandleResetPane(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            let DoReset = RunMessageBoxOK(Message: "Reset settings on this pane?",
+                                          InformationMessage: "You will lose all of the changes you have made to the settings on this panel.")
+            if DoReset
+            {
+                ResetToFactorySettings()
+            }
+        }
+    }
+    
+    @IBAction func HandleUpdateNowButton(_ sender: Any)
+    {
+        Settings.SetEnum(CurrentMap, EnumType: MapTypes.self, ForKey: .MapType)
+    }
+    
+    func ResetToFactorySettings()
+    {
+        CurrentMap = .SimplePoliticalMap1
+        Settings.SetEnum(.SimplePoliticalMap1, EnumType: MapTypes.self, ForKey: .MapType)
+        SelectMap(CurrentMap)
+        MapViewTypeSegment.selectedSegment = 1
+        HandleMapViewTypeChanged(self)
+    }
+
     var InDarkMode = false
+    
+    var TableMapList = [TableMapNode]()
     
     var HelpButtons: [NSButton] = [NSButton]()
     
+    @IBOutlet weak var MapTableView: NSTableView!
+    @IBOutlet weak var UpdateNowHelpButton: NSButton!
+    @IBOutlet weak var MapTableHelp: NSButton!
+    @IBOutlet weak var ResetPaneHelp: NSButton!
     @IBOutlet weak var MapSampleHelpButton: NSButton!
     @IBOutlet weak var MapNameLabel: NSTextField!
     @IBOutlet weak var MapViewTypeSegment: NSSegmentedControl!
-    @IBOutlet weak var MapTable: NSOutlineView!
     @IBOutlet weak var SampleMapView: NSImageView!
 }
 
-class MapNode
+class TableMapNode
 {
-    var Category: String!
-    var Maps: [String]!
-    
-    init(Category: String, Maps: [String])
-    {
-        self.Category = Category
-        self.Maps = Maps
-    }
-}
-
-class MapCategory
-{
-    var Name: String!
-    var Maps: [String]!
-    
-    init(Name: String, Maps: [String])
-    {
-        self.Name = Name
-        self.Maps = Maps
-    }
+    var IsHeader: Bool = false
+    var Title: String = ""
 }
