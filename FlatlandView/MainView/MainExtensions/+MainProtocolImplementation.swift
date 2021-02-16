@@ -301,4 +301,17 @@ extension MainController: MainProtocol
     {
         
     }
+    
+    /// Unconditionally make the mouse visible.
+    func MakeMouseVisible()
+    {
+        if Settings.GetBool(.HideMouseOverEarth)
+        {
+            if !self.Main3DView.MouseIsVisible
+            {
+                self.Main3DView.MouseIsVisible = true
+                NSCursor.unhide()
+            }
+        }
+    }
 }
