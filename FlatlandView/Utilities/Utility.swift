@@ -1208,6 +1208,7 @@ class Utility
             LetterNode.IsTextNode = true 
             LetterNode.categoryBitMask = Mask
             LetterNode.scale = SCNVector3(Scale, Scale, Scale)
+            LetterNode.castsShadow = Settings.GetBool(.ExtrudedCitiesCastShadows)
             if let Tag = WithTag
             {
                 LetterNode.name = Tag
