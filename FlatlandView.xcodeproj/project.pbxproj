@@ -116,6 +116,9 @@
 		174A6A342557D24B00488274 /* ClockControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174A6A332557D24B00488274 /* ClockControlPanel.swift */; };
 		174B1CF125B42662003B33FE /* +Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174B1CF025B42662003B33FE /* +Regions.swift */; };
 		174D0359252C929D00692B89 /* +MainDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174D0358252C929D00692B89 /* +MainDatabase.swift */; };
+		174DBCB825DB89E400E2D4F7 /* CityPopulation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 174DBCB725DB89E400E2D4F7 /* CityPopulation.storyboard */; };
+		174DBCBB25DB8AED00E2D4F7 /* CityPopulationWindow2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DBCBA25DB8AED00E2D4F7 /* CityPopulationWindow2.swift */; };
+		174DBCBD25DB8B0A00E2D4F7 /* CityPopulationController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DBCBC25DB8B0A00E2D4F7 /* CityPopulationController2.swift */; };
 		174DCEBE25D3B949002D4E40 /* EarthquakeHistoryS.db in Resources */ = {isa = PBXBuildFile; fileRef = 174DCEBD25D3B949002D4E40 /* EarthquakeHistoryS.db */; };
 		174DCEC025D3B950002D4E40 /* MappableS.db in Resources */ = {isa = PBXBuildFile; fileRef = 174DCEBF25D3B950002D4E40 /* MappableS.db */; };
 		174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 174F0106248CCD6C00F610DD /* MapManager.storyboard */; };
@@ -576,6 +579,9 @@
 		174A6A332557D24B00488274 /* ClockControlPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockControlPanel.swift; sourceTree = "<group>"; };
 		174B1CF025B42662003B33FE /* +Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Regions.swift"; sourceTree = "<group>"; };
 		174D0358252C929D00692B89 /* +MainDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+MainDatabase.swift"; sourceTree = "<group>"; };
+		174DBCB725DB89E400E2D4F7 /* CityPopulation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CityPopulation.storyboard; sourceTree = "<group>"; };
+		174DBCBA25DB8AED00E2D4F7 /* CityPopulationWindow2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationWindow2.swift; sourceTree = "<group>"; };
+		174DBCBC25DB8B0A00E2D4F7 /* CityPopulationController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPopulationController2.swift; sourceTree = "<group>"; };
 		174DCEBD25D3B949002D4E40 /* EarthquakeHistoryS.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = EarthquakeHistoryS.db; sourceTree = "<group>"; };
 		174DCEBF25D3B950002D4E40 /* MappableS.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = MappableS.db; sourceTree = "<group>"; };
 		174F0106248CCD6C00F610DD /* MapManager.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapManager.storyboard; sourceTree = "<group>"; };
@@ -1227,6 +1233,16 @@
 				17CB2486253C108300BAABDC /* +POIDatabase.swift */,
 			);
 			path = "+MainDatabase";
+			sourceTree = "<group>";
+		};
+		174DBCB925DB8AC800E2D4F7 /* CityPopulation */ = {
+			isa = PBXGroup;
+			children = (
+				174DBCB725DB89E400E2D4F7 /* CityPopulation.storyboard */,
+				174DBCBA25DB8AED00E2D4F7 /* CityPopulationWindow2.swift */,
+				174DBCBC25DB8B0A00E2D4F7 /* CityPopulationController2.swift */,
+			);
+			path = CityPopulation;
 			sourceTree = "<group>";
 		};
 		174F0108248CD01E00F610DD /* MapManager */ = {
@@ -2029,6 +2045,7 @@
 				17EF9E1625CE893700A00F1E /* EarthquakeRegionEditor */,
 				17EF9E1525CE892800A00F1E /* POIEditor */,
 				17E901E92552C38B0097A89A /* SubPanels.storyboard */,
+				174DBCB925DB8AC800E2D4F7 /* CityPopulation */,
 				173056B92553BAD700B1D4C9 /* DeleteConfirmationWindow.swift */,
 				173056BC2553BAFE00B1D4C9 /* DeleteConfirmationController.swift */,
 			);
@@ -2420,6 +2437,7 @@
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
 				17F79069252D57FF00FA2F23 /* Mappable.db in Resources */,
 				170E7BF12559284300EA3AD3 /* FloatingViews.storyboard in Resources */,
+				174DBCB825DB89E400E2D4F7 /* CityPopulation.storyboard in Resources */,
 				17FC2213249879BE005A0929 /* EarthquakeData.storyboard in Resources */,
 				17EB790C24AEEED100BB0473 /* EarthquakeDebugger.storyboard in Resources */,
 				1733C80A24F79C0C0025D555 /* RawSettingsEditor.storyboard in Resources */,
@@ -2642,8 +2660,10 @@
 				174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */,
 				174D0359252C929D00692B89 /* +MainDatabase.swift in Sources */,
 				1760023E24D2BFBF00D5EA1A /* NSBezierPath.swift in Sources */,
+				174DBCBB25DB8AED00E2D4F7 /* CityPopulationWindow2.swift in Sources */,
 				17055D0025C543700025686A /* RadialRegionEntryController.swift in Sources */,
 				17DE2DCA2590753100214204 /* +State.swift in Sources */,
+				174DBCBD25DB8B0A00E2D4F7 /* CityPopulationController2.swift in Sources */,
 				17F1C7E42543FA840046AE33 /* +RectangleWorldHeritageSizes.swift in Sources */,
 				17EF339E247A690500A5B55D /* SCNStar.swift in Sources */,
 				1759AE60249F817B003F79F5 /* MapSelector.swift in Sources */,
