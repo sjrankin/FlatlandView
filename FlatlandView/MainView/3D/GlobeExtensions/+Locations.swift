@@ -653,7 +653,8 @@ extension GlobeView
                                                Latitude: SomeCity.Latitude, Longitude: SomeCity.Longitude,
                                                Extrusion: 5.0, Mask: LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue,
                                                TextFont: TheFont, TextColor: WithColor, OnSurface: EarthNode!,
-                                               WithTag: GlobeNodeNames.CityNode.rawValue)
+                                               WithTag: GlobeNodeNames.CityNode.rawValue,
+                                               ShowShadows: Settings.GetBool(.ExtrudedCitiesCastShadows))
         for Letter in Letters
         {
             Letter.NodeID = SomeCity.CityID
