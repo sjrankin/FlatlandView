@@ -97,6 +97,7 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
                 InterfaceSegement.selectedSegment = 2
         }
         
+        HelpButtons.append(ResetPaneHelp)
         HelpButtons.append(ShowUIHelpHelp)
         HelpButtons.append(StatusBarHelp)
         HelpButtons.append(HourScaleHelpButton)
@@ -165,6 +166,17 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
             }
             let NewValue = InterfaceStyles.allCases[Segment.selectedSegment]
             Settings.SetEnum(NewValue, EnumType: InterfaceStyles.self, ForKey: .InterfaceStyle)
+            switch NewValue
+            {
+                case .Minimal:
+                    Settings.SetFalse(.ExtrudedCitiesCastShadows)
+                    
+                case .Normal:
+                    Settings.SetFalse(.ExtrudedCitiesCastShadows)
+
+                case .Maximum:
+                    Settings.SetTrue(.ExtrudedCitiesCastShadows)
+            }
         }
     }
     
@@ -201,10 +213,67 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
                 case StatusBarHelp:
                     Parent?.ShowHelp(For: .ShowStatusBar, Where: Button.bounds, What: StatusBarHelp) 
                     
+                case ResetPaneHelp:
+                    Parent?.ShowHelp(For: .PaneReset, Where: Button.bounds, What: ResetPaneHelp)
+                    
                 default:
                     return
             }
         }
+    }
+    
+    //https://stackoverflow.com/questions/29433487/create-an-nsalert-with-swift
+    @discardableResult func RunMessageBoxOK(Message: String, InformationMessage: String) -> Bool
+    {
+        let Alert = NSAlert()
+        Alert.messageText = Message
+        Alert.informativeText = InformationMessage
+        Alert.alertStyle = .warning
+        Alert.addButton(withTitle: "Reset Values")
+        Alert.addButton(withTitle: "Cancel")
+        return Alert.runModal() == .alertFirstButtonReturn
+    }
+    
+    @IBAction func HandleResetPane(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            let DoReset = RunMessageBoxOK(Message: "Reset settings on this pane?",
+                                         InformationMessage: "You will lose all of the changes you have made to the settings on this panel.")
+            if DoReset
+            {
+                ResetToFactorySettings()
+            }
+        }
+    }
+    
+    func ResetToFactorySettings()
+    {
+        //Reset time view.
+        Settings.SetBool(.TimeLabelSeconds, false)
+        ShowSecondsSwitch.state = .off
+        Settings.SetEnum(.UTC, EnumType: TimeLabels.self, ForKey: .TimeLabel)
+        TimeFormatSegment.selectedSegment = 1
+        
+        //Reset style box
+        Settings.SetEnum(.Globe3D, EnumType: ViewTypes.self, ForKey: .ViewType)
+        MapTypeSegment.selectedSegment = 3
+        Settings.SetEnum(.Solar, EnumType: HourValueTypes.self, ForKey: .HourType)
+        HourTypeSegment.selectedSegment = 1
+        Settings.SetEnum(.Normal, EnumType: MapNodeScales.self, ForKey: .HourScale)
+        HourScaleSegment.selectedSegment = 1
+        
+        //Reset interface box
+        Settings.SetEnum(.Normal, EnumType: InterfaceStyles.self, ForKey: .InterfaceStyle)
+        InterfaceSegement.selectedSegment = 1
+        Settings.SetBool(.ShowStatusBar, true)
+        ShowStatusSwitch.state = .on
+        Settings.SetBool(.ShowUIHelp, true)
+        ShowUIHelpSwitch.state = .on
+        
+        //Reset other box
+        Settings.SetEnum(.Kilometers, EnumType: InputUnits.self, ForKey: .InputUnit)
+        InputUnitSegment.selectedSegment = 0
     }
     
     func SetDarkMode(To: Bool)
@@ -289,6 +358,7 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
         }
     }
 
+    @IBOutlet weak var ResetPaneHelp: NSButton!
     @IBOutlet weak var ShowUIHelpHelp: NSButton!
     @IBOutlet weak var ShowUIHelpSwitch: NSSwitch!
     @IBOutlet weak var ShowStatusSwitch: NSSwitch!
