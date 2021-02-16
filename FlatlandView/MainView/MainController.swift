@@ -184,29 +184,11 @@ class MainController: NSViewController
         Debug.Print("Stenciling completed.")
     }
     
-    // MARK: Menu and toolbar event handlers
+    // MARK: - High-level mouse.
     
-    /// Respond to the user command to run settings.
-    /// - Note: If the settings window is already open, it will not open a second instance but return immediately.
-    /// - Parameter sender: Not used.
-    @IBAction func RunSettings(_ sender: Any)
-    {
-        if SettingsWindowOpen
-        {
-            return
-        }
-        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "MainSettingsWindow") as? MainSettingsWindowsCode
-        {
-            let SettingWindow = WindowController.window
-            let Controller = SettingWindow?.contentViewController as? MainSettingsBase
-            Controller?.MainDelegate = self
-            MainSettingsDelegate = Controller
-            Controller?.LoadData(DataType: .Earthquakes, Raw: LatestEarthquakes as Any)
-            WindowController.showWindow(nil)
-            SettingsWindowOpen = true
-        }
-    }
+
+    
+    // MARK: - Menu and toolbar event handlers
     
     var DoTrackMouse: Bool = true
     
@@ -230,6 +212,10 @@ class MainController: NSViewController
     {
         if PreferencesWindowOpen
         {
+            if let TheWindow = PreferenceWindow?.window
+            {
+                TheWindow.orderFront(self)
+            }
             return
         }
         let Storyboard = NSStoryboard(name: "PreferencePanel", bundle: nil)
@@ -238,12 +224,15 @@ class MainController: NSViewController
             let Window = WindowController.window
             let Controller = Window?.contentViewController as? PreferencePanelController
             Controller?.MainDelegate = self
+            PreferenceWindow = WindowController
             MainSettingsDelegate = Controller
             WindowController.showWindow(nil)
             PreferencesWindowOpen = true
+            MakeMouseVisible()
         }
     }
     
+    var PreferenceWindow: PreferencePanelWindow? = nil
     var PreferencesWindowOpen = false
     
     @IBAction func RunDebugger(_ sender: Any)
@@ -261,6 +250,7 @@ class MainController: NSViewController
             DebugDelegate = Controller
             WindowController.showWindow(nil)
             DebuggerOpen = false
+            MakeMouseVisible()
         }
     }
     
@@ -314,6 +304,7 @@ class MainController: NSViewController
         let Storyboard = NSStoryboard(name: "About", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "AboutWindow") as? AboutWindow
         {
+            MakeMouseVisible()
             let Window = WindowController.window
             AboutDelegate = Window?.contentView as? WindowManagement
             if let SomeController = Window?.contentViewController as? AboutController
@@ -345,6 +336,7 @@ class MainController: NSViewController
             let Storyboard = NSStoryboard(name: "ErrorDialogs", bundle: nil)
             if let WindowController = Storyboard.instantiateController(withIdentifier: "ErrorWindow") as? ErrorReporterWindow
             {
+                MakeMouseVisible()
                 let Window = WindowController.window
                 if let Controller = Window?.contentViewController as? ErrorReporter
                 {
