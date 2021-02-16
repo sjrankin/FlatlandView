@@ -48,6 +48,7 @@ extension Settings
     }
     
     /// Save a boolean value to the specfied setting.
+    /// - Warning: Throws a fatal error if `Setting` does not resolve to a boolean setting.
     /// - Parameter Setting: The setting that will be updated.
     /// - Parameter Value: The new value.
     public static func SetBool(_ Setting: SettingKeys, _ Value: Bool)
@@ -60,6 +61,24 @@ extension Settings
         let NewValue = Value
         UserDefaults.standard.set(NewValue, forKey: Setting.rawValue)
         NotifySubscribers(Setting: Setting, OldValue: OldValue, NewValue: NewValue)
+    }
+    
+    /// Sets a `true` value to the passed setting.
+    /// - Warning: Throws a fatal error if `Setting` does not resolve to a boolean setting.
+    /// - Note: Calls `SetBool(SettingKeys, Bool)`.
+    /// - Parameter Setting: The setting that will have a `true` written to it.
+    public static func SetTrue(_ Setting: SettingKeys)
+    {
+        SetBool(Setting, true)
+    }
+    
+    /// Sets a `false` value to the passed setting.
+    /// - Warning: Throws a fatal error if `Setting` does not resolve to a boolean setting.
+    /// - Note: Calls `SetBool(SettingKeys, Bool)`.
+    /// - Parameter Setting: The setting that will have a `false` written to it.
+    public static func SetFalse(_ Setting: SettingKeys)
+    {
+        SetBool(Setting, false)
     }
     
     /// Inverts the boolean value at the specified setting and returns the new value. The inverted
