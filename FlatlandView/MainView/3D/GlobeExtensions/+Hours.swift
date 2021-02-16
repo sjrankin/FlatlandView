@@ -303,7 +303,7 @@ extension GlobeView
     {
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
         let PhraseNode = SCNNode2(geometry: NodeShape)
-        PhraseNode.castsShadow = true
+        PhraseNode.castsShadow = Settings.GetBool(.HoursCastShadows)
         PhraseNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         PhraseNode.position = SCNVector3(0.0, 0.0, 0.0)
         PhraseNode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
@@ -473,7 +473,7 @@ extension GlobeView
                 HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
                 let HourRotation = (90.0 - Double(WorkingAngle)).Radians
                 HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
-                HourTextNode.castsShadow = true
+                HourTextNode.castsShadow = Settings.GetBool(.HoursCastShadows)
                 LabelNode.addChildNode(HourTextNode)
                 LabelNode.CanSwitchState = true
 
