@@ -32,8 +32,9 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
         HelpButtons.append(FlatMapNightLevelHelpButton)
         HelpButtons.append(PoleShapeHelpButton)
         HelpButtons.append(CursorHelp)
+        HelpButtons.append(PanelResetHelp)
         SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
-        GridLineColorWell.color = Settings.GetColor(.GridLineColor)!
+        GridLineColorWell.color = Settings.GetColor(.GridLineColor, NSColor.PrussianBlue)
         BackgroundColorWell.color = Settings.GetColor(.BackgroundColor3D)!
         ShowGridLinesSwitch.state = Settings.GetBool(.GridLinesDrawnOnMap) ? .on : .off
         ShowMoonLightSwitch.state = Settings.GetBool(.ShowMoonLight) ? .on : .off
@@ -44,6 +45,13 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
         }
         let CurrentPole = Settings.GetEnum(ForKey: .PolarShape, EnumType: PolarShapes.self, Default: .Pole)
         PoleCombo.selectItem(withObjectValue: CurrentPole.rawValue)
+        FlatMapNightCombo.removeAllItems()
+        for DarkLevel in NightDarknesses.allCases
+        {
+            FlatMapNightCombo.addItem(withObjectValue: DarkLevel.rawValue)
+        }
+        let CurrentDarkness = Settings.GetEnum(ForKey: .NightDarkness, EnumType: NightDarknesses.self, Default: .Dark)
+        FlatMapNightCombo.selectItem(withObjectValue: CurrentDarkness.rawValue)
     }
     
     @IBAction func HandleColorChanged(_ sender: Any)
@@ -56,7 +64,8 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
                     Settings.SetColor(.BackgroundColor3D, ColorWell.color)
                     
                 case GridLineColorWell:
-                    Settings.SetColor(.GridLineColor, ColorWell.color)
+                    let NewColor = ColorWell.color
+                    Settings.SetColor(.GridLineColor, NewColor)
                     
                 default:
                     return
@@ -106,6 +115,9 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
                 case CursorHelp:
                     Parent?.ShowHelp(For: .CursorAppearance, Where: Button.bounds, What: CursorHelp)
             
+                case PanelResetHelp:
+                    Parent?.ShowHelp(For: .PaneReset, Where: Button.bounds, What: PanelResetHelp)
+                    
                 default:
                     break
             }
@@ -156,8 +168,70 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
+    @IBAction func HandleResetPane(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            let DoReset = RunMessageBoxOK(Message: "Reset settings on this pane?",
+                                          InformationMessage: "You will lose all of the changes you have made to the settings on this panel.")
+            if DoReset
+            {
+                ResetToFactorySettings()
+            }
+        }
+    }
+    
+    //https://stackoverflow.com/questions/29433487/create-an-nsalert-with-swift
+    @discardableResult func RunMessageBoxOK(Message: String, InformationMessage: String) -> Bool
+    {
+        let Alert = NSAlert()
+        Alert.messageText = Message
+        Alert.informativeText = InformationMessage
+        Alert.alertStyle = .warning
+        Alert.addButton(withTitle: "Reset Values")
+        Alert.addButton(withTitle: "Cancel")
+        return Alert.runModal() == .alertFirstButtonReturn
+    }
+    
+    func ResetToFactorySettings()
+    {
+        Settings.SetBool(.GridLinesDrawnOnMap, true)
+        ShowGridLinesSwitch.state = .on
+        Settings.SetColor(.GridLineColor, NSColor.PrussianBlue)
+        GridLineColorWell.color = NSColor.PrussianBlue
+        Settings.SetColor(.BackgroundColor3D, NSColor.black)
+        BackgroundColorWell.color = NSColor.black
+        CursorSegment.selectedSegment = 0
+        Settings.SetBool(.HideMouseOverEarth, false)
+        Settings.SetEnum(.Dark, EnumType: NightDarknesses.self, ForKey: .NightDarkness)
+        FlatMapNightCombo.selectItem(withObjectValue: NightDarknesses.Dark.rawValue)
+        Settings.SetBool(.ShowMoonLight, true)
+        ShowMoonLightSwitch.state = .on
+        Settings.SetEnum(.Pole, EnumType: PolarShapes.self, ForKey: .PolarShape)
+        PoleCombo.selectItem(withObjectValue: PolarShapes.Pole.rawValue)
+    }
+    
+    @IBAction func HandleFlatMapNightChanged(_ sender: Any)
+    {
+        if let Combo = sender as? NSComboBox
+        {
+            if let Item = Combo.objectValueOfSelectedItem
+            {
+                if let ItemString = Item as? String
+                {
+                    if let ActualItem = NightDarknesses(rawValue: ItemString)
+                    {
+                        Settings.SetEnum(ActualItem, EnumType: NightDarknesses.self, ForKey: .NightDarkness)
+                    }
+                }
+            }
+        }
+    }
+    
     var HelpButtons: [NSButton] = [NSButton]()
 
+    @IBOutlet weak var FlatMapNightCombo: NSComboBox!
+    @IBOutlet weak var PanelResetHelp: NSButton!
     @IBOutlet weak var PoleCombo: NSComboBox!
     @IBOutlet weak var ShowMoonLightSwitch: NSSwitch!
     @IBOutlet weak var ShowGridLinesSwitch: NSSwitch!
@@ -171,5 +245,4 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
     @IBOutlet weak var ShowMoonlightHelpButton: NSButton!
     @IBOutlet weak var PoleShapeHelpButton: NSButton!
     @IBOutlet weak var CursorHelp: NSButton!
-    
 }
