@@ -326,6 +326,8 @@ enum SettingKeys: String, CaseIterable
     case UserCityList = "UserCityList"
     /// Boolean: If true, 3D city names cast shadows.
     case ExtrudedCitiesCastShadows = "ExtrudedCitiesCastShadows"
+    /// Boolean: If true, 3D floating hours cast shadows.
+    case HoursCastShadows = "HoursCastShadows"
     
     // MARK: - World Heritage Site settings
     /// Boolean: Determines whether World Heritage Sites are shown.
