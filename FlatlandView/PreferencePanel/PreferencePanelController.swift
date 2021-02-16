@@ -181,9 +181,26 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     
     func MainClosing()
     {
-        DistributedNotificationCenter.default().removeObserver(self)
         self.view.window?.close()
         Pop?.close()
+    }
+    
+    override func viewDidDisappear()
+    {
+        DistributedNotificationCenter.default().removeObserver(self)
+        CloseColorPanel()
+    }
+    
+    /// Close the color panel if it is visible.
+    func CloseColorPanel()
+    {
+        if NSColorPanel.sharedColorPanelExists
+        {
+            if NSColorPanel.shared.isVisible
+            {
+                NSColorPanel.shared.close()
+            }
+        }
     }
     
     func ShowHelp(For: PreferenceHelp, Where: NSRect, What: NSView)
@@ -261,6 +278,16 @@ Hides or shows the UI help buttons (􀁝) in the interface.
                 case .MapSample:
                     Message = """
 Lets you change the sample view of the map you are looking at.
+"""
+                    
+                case .ChangingMapsHelp:
+                    Message = """
+Maps are grouped into categories and you can see a sample of each map by clicking on it. However, the main view's map will not change until you close the Preferences window or click the |font type=bold|Update Now|font type=system| button.
+"""
+                    
+                case .UpdateNowHelp:
+                    Message = """
+Clicking the |font type=bold|Update Now|font type=system| will update the main view's map with the currently selected map. Flatland may take a few seconds to regenerate its view.
 """
                     
                 //MARK: - Earthquake help.
@@ -423,6 +450,22 @@ Show a list of all built-in points of interest.
                     Message = """
 Live data is returned by remote servers that are not affiliated with Flatland. As such, there are times when those servers may be offline. Additionally, using live data will incur a data cost if you are using a metered connection. |font type=bold|Live data will not function if you are not connected to the internet.|font type=system|
 """
+                    
+                    //MARK: - Common help.
+                case .PaneReset:
+                    Message = """
+Reset all values in the current pane to original, factory values. You will be asked to confirm this before this action is taken.
+"""
+                    
+                case .POIResetPaneHelp:
+                    Message = """
+Reset some values in the current pane to original, factory values. You will be asked to confirm this before this action is taken. You cannot reset built-in data (such as cities or points of interest). You can reset your personal cities and points of interest but need to do so from the |font type=bold|Edit|font type=system| button. |font type=italic|Your home location will be removed|font type=system|.
+"""
+                    
+                case .QuakePanelReset:
+                    Message = """
+Reset all values in the current pane to original, factory values. You will be asked to confirm this before this action is taken. Your regions will remain unchanged - to reset them, click on |font type=bold|Edit Regions|font type=system| to delete/reset your regions.
+"""
             }
             HelpController.SetHelpText(Message)
             Pop?.show(relativeTo: Where, of: What, preferredEdge: .maxY)
@@ -483,6 +526,8 @@ enum PreferenceHelp: String, CaseIterable
     case UIHelp = "UIHelp"
     
     case MapSample = "MapSample"
+    case ChangingMapsHelp = "ChangingMapsHelp"
+    case UpdateNowHelp = "UpdateNowHelp"
     
     case QuakeRegions = "QuakeRegions"
     case DisplayQuakes = "DisplayQuakes"
@@ -492,6 +537,7 @@ enum PreferenceHelp: String, CaseIterable
     case QuakeFetchFrequency = "QuakeFetchFrequency"
     case QuakeCheckNow = "QuakeCheckNow"
     case QuakeScale = "QuakeScale"
+    case QuakePanelReset = "QuakePanelReset"
     
     case ShowGridLines = "ShowGridLines"
     case GridLineColor = "GridLineColor"
@@ -510,6 +556,7 @@ enum PreferenceHelp: String, CaseIterable
     case ShowUNESCOSites = "ShowUNESCOSites"
     case ShowBuiltInPOIs = "ShowBuiltInPOIs"
     case ShowListofBuiltInPOIs = "ShowListOfBuiltInPOIs"
+    case POIResetPaneHelp = "POIResetPaneHelp"
     
     case ShowHome = "ShowHome"
     case EditHome = "EditHome"
@@ -518,4 +565,6 @@ enum PreferenceHelp: String, CaseIterable
     case POIScale = "POIScale"
     
     case LiveDataHelp = "LiveDataHelp"
+    
+    case PaneReset = "PaneReset"
 }
