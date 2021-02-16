@@ -120,6 +120,7 @@ extension Settings
             .PopulationFilterGreater: Bool.self,
             .PopulationColor: NSColor.self,
             .ExtrudedCitiesCastShadows: Bool.self,
+            .HoursCastShadows: Bool.self,
             .PopulationFilterType: PopulationFilterTypes.self,
             .AfricanCityColor: NSColor.self,
             .EuropeanCityColor: NSColor.self,
