@@ -63,6 +63,7 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
         HelpButtons.append(ShowListofBuiltInPOIs)
         HelpButtons.append(UNESCOHelpButton)
         HelpButtons.append(ShowWorldHeritageSiteHelpButton)
+        HelpButtons.append(ResetPaneHelp)
         
         SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
     }
@@ -107,6 +108,9 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
                     
                 case ShowListofBuiltInPOIs:
                     Parent?.ShowHelp(For: .ShowListofBuiltInPOIs, Where: Button.bounds, What: ShowListofBuiltInPOIs)
+                    
+                case ResetPaneHelp:
+                    Parent?.ShowHelp(For: .POIResetPaneHelp, Where: Button.bounds, What: ResetPaneHelp)
                     
                 default:
                     return
@@ -222,6 +226,19 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
         
     }
     
+    @IBAction func HandleResetPane(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            let DoReset = RunMessageBoxOK(Message: "Reset settings on this pane?",
+                                          InformationMessage: "You will lose all of the changes you have made to the settings on this panel.")
+            if DoReset
+            {
+                ResetToFactorySettings()
+            }
+        }
+    }
+    
     func SetHelpVisibility(To: Bool)
     {
         for HelpButton in HelpButtons
@@ -229,6 +246,35 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
             HelpButton.alphaValue = To ? 1.0 : 0.0
             HelpButton.isEnabled = To ? true : false
         }
+    }
+    
+    //https://stackoverflow.com/questions/29433487/create-an-nsalert-with-swift
+    @discardableResult func RunMessageBoxOK(Message: String, InformationMessage: String) -> Bool
+    {
+        let Alert = NSAlert()
+        Alert.messageText = Message
+        Alert.informativeText = InformationMessage
+        Alert.alertStyle = .warning
+        Alert.addButton(withTitle: "Reset Values")
+        Alert.addButton(withTitle: "Cancel")
+        return Alert.runModal() == .alertFirstButtonReturn
+    }
+    
+    func ResetToFactorySettings()
+    {
+        Settings.SetSecureString(.UserHomeName, "")
+        Settings.SetSecureString(.UserHomeLatitude, "")
+        Settings.SetSecureString(.UserHomeLongitude, "")
+        Settings.SetBool(.ShowHomeLocation, false)
+        ShowHomeSwitch.state = .off
+        Settings.SetBool(.ShowBuiltInPOIs, false)
+        ShowBuiltInPOIsSwitch.state = .off
+        Settings.SetEnum(.Normal, EnumType: MapNodeScales.self, ForKey: .POIScale)
+        POIScaleSegment.selectedSegment = 1
+        Settings.SetBool(.ShowWorldHeritageSites, false)
+        ShowUnescoSwitch.state = .off
+        Settings.SetEnum(.Cultural, EnumType: WorldHeritageSiteTypes.self, ForKey: .WorldHeritageSiteType)
+        UnescoSitesSegment.selectedSegment = 0
     }
     
     var HelpButtons: [NSButton] = [NSButton]()
@@ -251,4 +297,5 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     @IBOutlet weak var ShowListofBuiltInPOIs: NSButton!
     @IBOutlet weak var UNESCOHelpButton: NSButton!
     @IBOutlet weak var ShowWorldHeritageSiteHelpButton: NSButton!
+    @IBOutlet weak var ResetPaneHelp: NSButton!
 }
