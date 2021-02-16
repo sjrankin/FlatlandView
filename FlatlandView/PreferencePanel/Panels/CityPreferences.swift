@@ -32,12 +32,14 @@ class CityPreferences: NSViewController, PreferencePanelProtocol
         }
         let CurrentShape = Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .UniformEmbedded)
         CityShapesCombo.selectItem(withObjectValue: CurrentShape.rawValue)
+        CitiesByPopulationSwitch.state = Settings.GetBool(.ShowCitiesByPopulation) ? .on : .off
         
         HelpButtons.append(AllCitiesHelpButton)
         HelpButtons.append(CapitalCityHelpButton)
         HelpButtons.append(CityShapeHelpButton)
         HelpButtons.append(ShowCityHelpButton)
         HelpButtons.append(CityByPopHelpButton)
+        HelpButtons.append(ResetPaneHelp)
         SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
     }
     
@@ -61,6 +63,7 @@ class CityPreferences: NSViewController, PreferencePanelProtocol
     {
         if let Switch = sender as? NSSwitch
         {
+            Settings.SetBool(.ShowAllCities, Switch.state == .on ? true : false)
         }
     }
     
@@ -93,8 +96,8 @@ class CityPreferences: NSViewController, PreferencePanelProtocol
     
     @IBAction func HandleSetPopulationFilterButtonPressed(_ sender: Any)
     {
-        let Storyboard = NSStoryboard(name: "Settings", bundle: nil)
-        if let WindowController = Storyboard.instantiateController(withIdentifier: "CityPopulationWindow") as? CityPopulationWindow
+        let Storyboard = NSStoryboard(name: "CityPopulation", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "CityPopulationWindow2") as? CityPopulationWindow2
         {
             let Window = WindowController.window
             self.view.window?.beginSheet(Window!)
@@ -129,6 +132,9 @@ class CityPreferences: NSViewController, PreferencePanelProtocol
                 case AllCitiesHelpButton:
                     Parent?.ShowHelp(For: .AllCities, Where: Button.bounds, What: AllCitiesHelpButton)
                     
+                case ResetPaneHelp:
+                    Parent?.ShowHelp(For: .PaneReset, Where: Button.bounds, What: ResetPaneHelp)
+                    
                 default:
                     return
             }
@@ -144,6 +150,52 @@ class CityPreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
+    @IBAction func HandleResetPane(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            let DoReset = RunMessageBoxOK(Message: "Reset settings on this pane?",
+                                          InformationMessage: "You will lose all of the changes you have made to the settings on this panel.")
+            if DoReset
+            {
+                ResetToFactorySettings()
+            }
+        }
+    }
+    
+    //https://stackoverflow.com/questions/29433487/create-an-nsalert-with-swift
+    @discardableResult func RunMessageBoxOK(Message: String, InformationMessage: String) -> Bool
+    {
+        let Alert = NSAlert()
+        Alert.messageText = Message
+        Alert.informativeText = InformationMessage
+        Alert.alertStyle = .warning
+        Alert.addButton(withTitle: "Reset Values")
+        Alert.addButton(withTitle: "Cancel")
+        return Alert.runModal() == .alertFirstButtonReturn
+    }
+    
+    func ResetToFactorySettings()
+    {
+        Settings.SetTrue(.ShowCities)
+        ShowCitiesSwitch.state = .on
+        Settings.SetEnum(.UniformEmbedded, EnumType: CityDisplayTypes.self, ForKey: .CityShapes)
+        CityShapesCombo.selectItem(withObjectValue: CityDisplayTypes.UniformEmbedded.rawValue)
+        Settings.SetTrue(.ShowCitiesByPopulation)
+        CitiesByPopulationSwitch.state = .on
+        Settings.SetFalse(.ShowCapitalCities)
+        CapitalCitiesSwitch.state = .off
+        Settings.SetFalse(.ShowAllCities)
+        AllCitiesSwitch.state = .off
+        //City population settings not visible in this dialog.
+        Settings.SetColor(.PopulationColor, NSColor.white)
+        Settings.SetTrue(.PopulationRankIsMetro)
+        Settings.SetTrue(.PopulationFilterGreater)
+        Settings.SetInt(.PopulationFilterValue, 1000000)
+        Settings.SetEnum(.ByRank, EnumType: PopulationFilterTypes.self, ForKey: .PopulationFilterType)
+        Settings.SetInt(.PopulationRank, 2)
+    }
+    
     var HelpButtons: [NSButton] = [NSButton]()
     
     // MARK: - Interface builder outlets
@@ -155,10 +207,10 @@ class CityPreferences: NSViewController, PreferencePanelProtocol
     
     // MARK: - Help buttons
     
+    @IBOutlet weak var ResetPaneHelp: NSButton!
     @IBOutlet weak var AllCitiesHelpButton: NSButton!
     @IBOutlet weak var CapitalCityHelpButton: NSButton!
     @IBOutlet weak var CityByPopHelpButton: NSButton!
     @IBOutlet weak var CityShapeHelpButton: NSButton!
     @IBOutlet weak var ShowCityHelpButton: NSButton!
-    
 }
