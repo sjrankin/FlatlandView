@@ -170,12 +170,15 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
             {
                 case .Minimal:
                     Settings.SetFalse(.ExtrudedCitiesCastShadows)
+                    Settings.SetFalse(.HoursCastShadows)
                     
                 case .Normal:
                     Settings.SetFalse(.ExtrudedCitiesCastShadows)
+                    Settings.SetFalse(.HoursCastShadows)
 
                 case .Maximum:
                     Settings.SetTrue(.ExtrudedCitiesCastShadows)
+                    Settings.SetTrue(.HoursCastShadows)
             }
         }
     }
