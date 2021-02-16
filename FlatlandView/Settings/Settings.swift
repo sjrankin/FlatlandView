@@ -43,12 +43,9 @@ class Settings
         InitializeEnum(.RelativeToNoon, EnumType: HourValueTypes.self, ForKey: .HourType)
         InitializeEnum(.UTC, EnumType: TimeLabels.self, ForKey: .TimeLabel)
         InitializeDouble(.NightMaskAlpha, 0.4)
+        InitializeColor(.GridLineColor, NSColor.PrussianBlue)
         
         InitializeBool(.ShowUserLocations, false)
-        //InitializeDoubleNil(.UserHomeLatitude, nil)
-        //InitializeDoubleNil(.UserHomeLongitude, nil)
-        //InitializeString(.UserHomeName, "")
-        //InitializeInt(.LocalTimeZoneOffset, 0)
         InitializeString(.UserLocations, "")
         
         InitializeBool(.Show2DEquator, true) 
@@ -65,6 +62,7 @@ class Settings
         InitializeColor(.SouthAmericanCityColor, NSColor.cyan)
         InitializeColor(.CapitalCityColor, NSColor.yellow)
         InitializeColor(.WorldCityColor, NSColor.red)
+        InitializeBool(.ExtrudedCitiesCastShadows, false)
         
         InitializeDouble(.FieldOfView, 90.0)
         InitializeDouble(.OrthographicScale, 14.0)
