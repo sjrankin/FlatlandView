@@ -76,9 +76,6 @@ extension GlobeView: SettingChangedProtocol
                 SetLineLayer()
                 ApplyAllStencils(Caller: "SettingChanged(.{Multiple})")
                 
-            case .GridLineColor, .MinorGridLineColor:
-                ApplyAllStencils(Caller: "SettingChanged(.GridLineColor)")
-                
             case .Script:
                 PlotPolarShape()
                 UpdateHours()
@@ -146,11 +143,11 @@ extension GlobeView: SettingChangedProtocol
                         PlotEarthquakes()
                         if let InitialMap = InitialStenciledMap
                         {
-                        ApplyEarthquakeStencils(InitialMap: InitialMap)
+                            ApplyEarthquakeStencils(InitialMap: InitialMap)
                         }
                         else
                         {
-                        ApplyAllStencils(Caller: "SettingChanged(.ColorDetermination)")
+                            ApplyAllStencils(Caller: "SettingChanged(.ColorDetermination)")
                         }
                     }
                 }
@@ -178,7 +175,7 @@ extension GlobeView: SettingChangedProtocol
                         }
                         else
                         {
-                        ApplyAllStencils(Caller: "SettingChanged(.EarthquakeMagnitudeColors)")
+                            ApplyAllStencils(Caller: "SettingChanged(.EarthquakeMagnitudeColors)")
                         }
                     }
                 }
@@ -199,7 +196,7 @@ extension GlobeView: SettingChangedProtocol
                         }
                         else
                         {
-                        ApplyAllStencils(Caller: ".EarthquakeFontName")
+                            ApplyAllStencils(Caller: ".EarthquakeFontName")
                         }
                     }
                 }
@@ -258,6 +255,12 @@ extension GlobeView: SettingChangedProtocol
                     ApplyAllStencils(Caller: "SettingChanged(.GridLinesDrawnOnMap)")
                 }
                 
+            case .GridLineColor, .MinorGridLineColor:
+                if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld) == .Globe3D
+                {
+                    ApplyAllStencils(Caller: "SettingChanged(.{Minor}GridLineColor)")
+                }
+                
             case .CityNamesDrawnOnMap:
                 if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld) == .Globe3D
                 {
@@ -304,103 +307,103 @@ extension GlobeView: SettingChangedProtocol
                  .ShowLightInfluences, .ShowConstraints, .ShowStatistics, .ShowCreases,
                  .ShowPhysicsFields, .ShowPhysicsShapes, .RenderAsWireframe, .Debug3DMap,
                  .Enable3DDebugging:
-                    Settings.QueryBool(.ShowStatistics)
+                Settings.QueryBool(.ShowStatistics)
+                {
+                    Show in
+                    showsStatistics = Show
+                }
+                var DebugTypes = [DebugOptions3D]()
+                Settings.QueryBool(.ShowCreases)
+                {
+                    Show in
+                    if Show
                     {
-                        Show in
-                        showsStatistics = Show
+                        DebugTypes.append(.Creases)
                     }
-                    var DebugTypes = [DebugOptions3D]()
-                    Settings.QueryBool(.ShowCreases)
+                }
+                Settings.QueryBool(.RenderAsWireframe)
+                {
+                    Show in
+                    if Show
                     {
-                        Show in
-                        if Show
-                        {
-                            DebugTypes.append(.Creases)
-                        }
+                        DebugTypes.append(.RenderWireFrame)
                     }
-                    Settings.QueryBool(.RenderAsWireframe)
+                }
+                Settings.QueryBool(.ShowPhysicsShapes)
+                {
+                    Show in
+                    if Show
                     {
-                        Show in
-                        if Show
-                        {
-                            DebugTypes.append(.RenderWireFrame)
-                        }
+                        DebugTypes.append(.PhysicsShapes)
                     }
-                    Settings.QueryBool(.ShowPhysicsShapes)
+                }
+                Settings.QueryBool(.ShowPhysicsFields)
+                {
+                    Show in
+                    if Show
                     {
-                        Show in
-                        if Show
-                        {
-                            DebugTypes.append(.PhysicsShapes)
-                        }
+                        DebugTypes.append(.PhysicsFields)
                     }
-                    Settings.QueryBool(.ShowPhysicsFields)
+                }
+                Settings.QueryBool(.ShowSkeletons)
+                {
+                    Show in
+                    if Show
                     {
-                        Show in
-                        if Show
-                        {
-                            DebugTypes.append(.PhysicsFields)
-                        }
+                        DebugTypes.append(.Skeleton)
                     }
-                    Settings.QueryBool(.ShowSkeletons)
+                }
+                Settings.QueryBool(.ShowBoundingBoxes)
+                {
+                    Show in
+                    if Show
                     {
-                        Show in
-                        if Show
-                        {
-                            DebugTypes.append(.Skeleton)
-                        }
+                        DebugTypes.append(.BoundingBoxes)
                     }
-                    Settings.QueryBool(.ShowBoundingBoxes)
+                }
+                Settings.QueryBool(.ShowWireframes)
+                {
+                    Show in
+                    if Show
                     {
-                        Show in
-                        if Show
-                        {
-                            DebugTypes.append(.BoundingBoxes)
-                        }
+                        DebugTypes.append(.WireFrame)
                     }
-                    Settings.QueryBool(.ShowWireframes)
+                }
+                Settings.QueryBool(.ShowLightInfluences)
+                {
+                    Show in
+                    if Show
                     {
-                        Show in
-                        if Show
-                        {
-                            DebugTypes.append(.WireFrame)
-                        }
+                        DebugTypes.append(.LightInfluences)
                     }
-                    Settings.QueryBool(.ShowLightInfluences)
+                }
+                Settings.QueryBool(.ShowLightExtents)
+                {
+                    Show in
+                    if Show
                     {
-                        Show in
-                        if Show
-                        {
-                            DebugTypes.append(.LightInfluences)
-                        }
+                        DebugTypes.append(.LightExtents)
                     }
-                    Settings.QueryBool(.ShowLightExtents)
+                }
+                Settings.QueryBool(.ShowConstraints)
+                {
+                    Show in
+                    if Show
                     {
-                        Show in
-                        if Show
-                        {
-                            DebugTypes.append(.LightExtents)
-                        }
+                        DebugTypes.append(.Constraints)
                     }
-                    Settings.QueryBool(.ShowConstraints)
-                    {
-                        Show in
-                        if Show
-                        {
-                            DebugTypes.append(.Constraints)
-                        }
-                    }
-                    /*
-                    Settings.QueryBool(.ShowCamera)
-                    {
-                        Show in
-                        if Show
-                        {
-                            DebugTypes.append(.Cameras)
-                        }
-                    }
- */
-                    SetDebugOption(DebugTypes)
+                }
+                /*
+                 Settings.QueryBool(.ShowCamera)
+                 {
+                 Show in
+                 if Show
+                 {
+                 DebugTypes.append(.Cameras)
+                 }
+                 }
+                 */
+                SetDebugOption(DebugTypes)
                 
             case .Debug_EnableClockControl, .Debug_ClockDebugMap, .Debug_ClockActionFreeze,
                  .Debug_ClockActionFreezeTime, .Debug_ClockActionClockAngle, .Debug_ClockUseTimeMultiplier,
@@ -441,7 +444,7 @@ extension GlobeView: SettingChangedProtocol
                 
             case .EnableJittering:
                 self.isJitteringEnabled = Settings.GetBool(.EnableJittering)
-            
+                
             case .HourScale:
                 UpdateHours()
                 
