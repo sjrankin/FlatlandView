@@ -64,6 +64,7 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
         HelpButtons.append(EnableRegionsHelpButton)
         HelpButtons.append(SelectQuakeShapeHelpButton)
         HelpButtons.append(QuakeHighlightHelpButton)
+        HelpButtons.append(PanelResetHelp)
         SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
     }
     
@@ -98,6 +99,9 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
                     
                 case QuakeScaleHelpButton:
                     Parent?.ShowHelp(For: .QuakeScale, Where: Button.bounds, What: QuakeScaleHelpButton)
+                    
+                case PanelResetHelp:
+                    Parent?.ShowHelp(For: .QuakePanelReset, Where: Button.bounds, What: PanelResetHelp)
                     
                 default:
                     return
@@ -200,8 +204,48 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
+    @IBAction func HandleResetPane(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            let DoReset = RunMessageBoxOK(Message: "Reset settings on this pane?",
+                                          InformationMessage: "You will lose all of the changes you have made to the settings on this panel.")
+            if DoReset
+            {
+                ResetToFactorySettings()
+            }
+        }
+    }
+    
+    //https://stackoverflow.com/questions/29433487/create-an-nsalert-with-swift
+    @discardableResult func RunMessageBoxOK(Message: String, InformationMessage: String) -> Bool
+    {
+        let Alert = NSAlert()
+        Alert.messageText = Message
+        Alert.informativeText = InformationMessage
+        Alert.alertStyle = .warning
+        Alert.addButton(withTitle: "Reset Values")
+        Alert.addButton(withTitle: "Cancel")
+        return Alert.runModal() == .alertFirstButtonReturn
+    }
+    
+    func ResetToFactorySettings()
+    {
+        Settings.SetBool(.HighlightRecentEarthquakes, false)
+        HighlightNewQuakesSwitch.state = .off
+        Settings.SetBool(.EnableEarthquakes, true)
+        DisplayQuakesSwitch.state = .on
+        Settings.SetDouble(.EarthquakeFetchInterval, 150.0)
+        FetchFrequencyCombo.selectItem(at: 2)
+        Settings.SetEnum(.Arrow, EnumType: EarthquakeShapes.self, ForKey: .EarthquakeShapes)
+        QuakeShapeCombo.selectItem(withObjectValue: EarthquakeShapes.Arrow.rawValue)
+        Settings.SetEnum(.Normal, EnumType: MapNodeScales.self, ForKey: .QuakeScales)
+        QuakeScaleSegment.selectedSegment = 1
+    }
+    
     var HelpButtons: [NSButton] = [NSButton]()
 
+    @IBOutlet weak var PanelResetHelp: NSButton!
     @IBOutlet weak var QuakeScaleSegment: NSSegmentedControl!
     @IBOutlet weak var QuakeScaleHelpButton: NSButton!
     @IBOutlet weak var QuakeShapeCombo: NSComboBox!
