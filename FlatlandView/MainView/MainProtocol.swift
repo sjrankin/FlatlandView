@@ -159,6 +159,9 @@ protocol MainProtocol: class
     /// Saves the passed array of additional cities.
     /// - Parameter OtherCities: Array of additional cities to save.
     func SetAdditionalCityData(_ OtherCities: [City2])
+    
+    /// Unconditionally makes the mouse visible.
+    func MakeMouseVisible()
 }
 
 /// Flatland's child windows.
