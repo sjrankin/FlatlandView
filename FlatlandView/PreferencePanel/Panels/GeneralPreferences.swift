@@ -50,6 +50,9 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
                 
             case .RelativeToLocation:
                 HourTypeSegment.selectedSegment = 3
+                
+            case .WallClock:
+                HourTypeSegment.selectedSegment = 4
         }
         let PreviousScale = Settings.GetEnum(ForKey: .HourScale, EnumType: MapNodeScales.self, Default: .Normal)
         switch PreviousScale
@@ -333,6 +336,9 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
                     
                 case 3:
                     Settings.SetEnum(.RelativeToLocation, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                case 4:
+                    Settings.SetEnum(.WallClock, EnumType: HourValueTypes.self, ForKey: .HourType)
                     
                 default:
                     return
