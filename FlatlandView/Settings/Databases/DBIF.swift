@@ -201,7 +201,7 @@ enum HomeColumns: Int32
 enum QuakeColumns: Int32
 {
     /// Quake entry primary key.
-    case ID = 0
+    case PKID = 0
     case Latitude = 1
     case Longitude = 2
     case Place = 3
@@ -217,11 +217,11 @@ enum QuakeColumns: Int32
     case Significance = 13
     case Sequence = 14
     case Notified = 15
-    case FlatlandRegion = 16
+    case RegionName = 16
     case Marked = 17
     case MagType = 18
     case MagError = 19
-    case MagNS = 20
+    case MagNST = 20
     case DMin = 21
     case Alert = 22
     case Title = 23
