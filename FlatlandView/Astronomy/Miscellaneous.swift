@@ -423,7 +423,7 @@ class Miscellaneous
         let TheHour = Settings.AsInteger(HourKey)
         let TheMinute = Settings.AsInteger(MinuteKey)
         var HourS = String(describing: TheHour)
-        if (Settings.AsBool(ID.ShowLeading0))
+        if (Settings.AsBool(PKID.ShowLeading0))
         {
             if TheHour < 10
             {
@@ -443,7 +443,7 @@ class Miscellaneous
         var ShowAs24HourStyle = false
         if In24Hour == nil
         {
-            ShowAs24HourStyle = Settings.AsBool(ID.Is24HourClock)
+            ShowAs24HourStyle = Settings.AsBool(PKID.Is24HourClock)
         }
         else
         {
@@ -1094,7 +1094,7 @@ class Miscellaneous
     public func MakeTimeString(Hour: Int, Minute: Int) -> String
     {
         var HourS = String(describing: Hour)
-        if Settings.AsBool(ID.ShowLeading0)
+        if Settings.AsBool(PKID.ShowLeading0)
         {
             if Hour < 10
             {
