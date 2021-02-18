@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol CaptiveDialogManagementProtocol: class
+protocol CaptiveDialogManagementProtocol: AnyObject
 {
     func CloseCaptiveDialog()
 }

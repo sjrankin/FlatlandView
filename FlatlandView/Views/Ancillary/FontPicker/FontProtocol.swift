@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 /// Protocol for using the font picker.
-protocol FontProtocol: class
+protocol FontProtocol: AnyObject
 {
     /// Return the current font to display.
     func CurrentFont() -> StoredFont?

@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol PreferencePanelControllerProtocol: class
+protocol PreferencePanelControllerProtocol: AnyObject
 {
     func ShowHelp(For: PreferenceHelp, Where: NSRect, What: NSView)
 }

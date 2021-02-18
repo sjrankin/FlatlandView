@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol ColorPickerDelegate: class
+protocol ColorPickerDelegate: AnyObject
 {
     func NewColor(_ Color: NSColor?)
 }

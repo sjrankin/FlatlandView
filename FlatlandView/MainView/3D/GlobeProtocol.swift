@@ -11,7 +11,7 @@ import AppKit
 import SceneKit
 
 /// Protocol for the 3D Globe Node.
-protocol GlobeProtocol: class
+protocol GlobeProtocol: AnyObject
 {
     /// Plot a satellite.
     /// - Parameter Satellite: The satellite to plot.

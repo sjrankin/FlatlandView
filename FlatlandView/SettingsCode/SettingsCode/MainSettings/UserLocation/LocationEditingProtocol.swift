@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol LocationEditingProtocol: class
+protocol LocationEditingProtocol: AnyObject
 {
     func AddNewLocation() -> Bool
     func GetLocationToEdit() -> (Name: String, Latitude: Double, Longitude: Double, Color: NSColor)

@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SceneKit
 
-protocol MainProtocol: class
+protocol MainProtocol: AnyObject
 {
     /// Called when the main window should be refreshed.
     func Refresh(_ From: String)

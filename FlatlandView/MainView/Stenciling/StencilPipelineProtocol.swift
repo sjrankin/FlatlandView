@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 /// Protocol that consumers of stenciled images must conform to when using the pipeline stenciler.
-protocol StencilPipelineProtocol: class
+protocol StencilPipelineProtocol: AnyObject
 {
     /// Called when a given pipeline stage has been completed.
     /// - Parameter Image: The image after having undergone stenciling at the specified pipeline stage. If

@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol MouseInfoProtocol: class
+protocol MouseInfoProtocol: AnyObject
 {
     func SetLocation(Latitude: String, Longitude: String)
     func SetLocation(Latitude: Double, Longitude: Double, Caller: String)

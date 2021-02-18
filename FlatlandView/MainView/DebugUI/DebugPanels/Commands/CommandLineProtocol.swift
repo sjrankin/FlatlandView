@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol CommandLineProtocol: class
+protocol CommandLineProtocol: AnyObject
 {
     func LateResults(_ Results: [String])
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 /// Protocol for the communication of the availability of remote/asynchronous data.
-protocol AsynchronousDataProtocol: class
+protocol AsynchronousDataProtocol: AnyObject
 {
     /// Called when remote/asynchronous data is available.
     /// - Parameter CategoryType: The type of available data.

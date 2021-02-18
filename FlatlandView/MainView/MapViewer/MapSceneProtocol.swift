@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import SceneKit
 
-protocol MapSceneProtocol: class
+protocol MapSceneProtocol: AnyObject
 {
     /// Hides the scene.
     /// - Parameter Duration: Number of seconds to hide the scene.

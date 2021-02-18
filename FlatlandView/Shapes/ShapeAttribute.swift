@@ -11,7 +11,7 @@ import AppKit
 import SceneKit
 
 /// Protocol for setting shape attributes.
-protocol ShapeAttribute: class
+protocol ShapeAttribute: AnyObject
 {
     /// Sets the first diffuse material to the specified color.
     /// - Parameter Color: The color to use to set the first diffuse material.

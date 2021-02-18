@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol FlatlandEventProtocol: class
+protocol FlatlandEventProtocol: AnyObject
 {
     func NewWorldClockTime(WorldDate: Date)
     func MouseClickedAt(Point: CGPoint)

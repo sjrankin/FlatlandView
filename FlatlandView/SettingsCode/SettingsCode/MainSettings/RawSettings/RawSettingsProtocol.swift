@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol RawSettingsProtocol: class
+protocol RawSettingsProtocol: AnyObject
 {
     func GetSettingName() -> String
     func GetSettingType() -> String

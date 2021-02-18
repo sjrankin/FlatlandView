@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol WindowManagement: class
+protocol WindowManagement: AnyObject
 {
     func MainClosing()
 }

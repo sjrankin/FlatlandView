@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 /// Protocol for the region entry dialog to communicate with the globe.
-protocol RegionEntryProtocol: class
+protocol RegionEntryProtocol: AnyObject
 {
     /// Notify implementors that editing was successfully completed.
     func RegionEntryCompleted(Name: String, Color: NSColor, Corner1: GeoPoint, Corner2: GeoPoint)

@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol ColorPanelProtocol: class
+protocol ColorPanelProtocol: AnyObject
 {
     var Parent: ColorPanelParentProtocol? {get set}
     func SetColor(_ Color: NSColor, From: ColorPanelTypes)

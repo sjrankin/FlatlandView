@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AutoLocationProtocol: class
+protocol AutoLocationProtocol: AnyObject
 {
     func HaveNewLocation()
 }
