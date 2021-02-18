@@ -149,4 +149,79 @@ extension DBIF
         
         return Results
     }
+    
+    public static func MakeQuakeColumnList() -> String
+    {
+        var Columns = "("
+        for Index in 1 ..< Earthquake.QuakeColumnTable.count
+        {
+            Columns.append(Earthquake.QuakeColumnTable[Index])
+            if Index < Earthquake.QuakeColumnTable.count - 1
+            {
+                Columns.append(",")
+            }
+        }
+        Columns.append(")")
+        return Columns
+    }
+    
+    public static func MakeInsertStatement(From: Earthquake) -> String
+    {
+        var Statement = "INSERT INTO \(QuakeTableNames.Historic.rawValue) \(MakeQuakeColumnList()) "
+        Statement.append("VALUES \(Earthquake.MakeValueList(From));")
+        return Statement
+    }
+    
+    public static func InsertQuake(_ Quake: Earthquake)
+    {
+        let InsertStatement = MakeInsertStatement(From: Quake)
+        var InsertHandle: OpaquePointer? = nil
+        guard sqlite3_prepare_v2(DBIF.QuakeHandle, InsertStatement, -1, &InsertHandle, nil) == SQLITE_OK else
+        {
+            Debug.Print("Failure insert statement \(InsertStatement) for historic earthquakes")
+            let (Message, Value) = SQL.ExtendedError(From: DBIF.QuakeHandle)
+            Debug.Print("  \(Message) [\(Value)]")
+            return
+        }
+        guard sqlite3_step(InsertHandle) == SQLITE_DONE else
+        {
+            Debug.Print("Insert execution failed: \(InsertStatement) for historic earthquakes")
+            let (Message, Value) = SQL.ExtendedError(From: DBIF.QuakeHandle)
+            Debug.Print("  \(Message) [\(Value)]")
+            return
+        }
+    }
+    
+    public static func InsertQuakes(_ Quakes: [Earthquake])
+    {
+        for Quake in Quakes
+        {
+            InsertQuake(Quake)
+        }
+    }
+    
+    public static func QuakeInDatabase(_ ID: String) -> Bool
+    {
+        let Exists = "SELECT EXISTS(SELECT 1 FROM \(QuakeTableNames.Historic.rawValue) WHERE EventID=\(ID))"
+        var QueryHandle: OpaquePointer? = nil
+        let QuerySetupResult = SQL.SetupQuery(For: DBIF.QuakeHandle, Query: Exists)
+        switch QuerySetupResult
+        {
+            case .success(let Handle):
+                QueryHandle = Handle
+                
+            case .failure(let Why):
+                Debug.Print("Failure creating query \(Exists) for historic earthquakes: \(Why)")
+                let (Message, Value) = SQL.ExtendedError(From: DBIF.QuakeHandle)
+                Debug.Print("  \(Message) [\(Value)]")
+                return false
+        }
+        while (sqlite3_step(QueryHandle) == SQLITE_ROW)
+        {
+            let Value = sqlite3_column_int(QueryHandle, 0)
+            print("Search for \(ID) resulted in returned value \(Value)")
+        }
+        return false
+    }
 }
+
