@@ -128,7 +128,7 @@ extension MainController
         let QueryHandle = SetupQuery(DB: MappableHandle, Query: GetQuery)
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
         {
-            let ID = ReadIntColumn(Handle: QueryHandle, Index: AdditionalCityColumns.CityPK.rawValue)!
+            let PKID = ReadIntColumn(Handle: QueryHandle, Index: AdditionalCityColumns.CityPK.rawValue)!
             let Name = ReadStringColumn(Handle: QueryHandle, Index: AdditionalCityColumns.Name.rawValue)!
             let Country = ReadStringColumn(Handle: QueryHandle, Index: AdditionalCityColumns.Country.rawValue)!
             let SubNational = ReadStringColumn(Handle: QueryHandle, Index: AdditionalCityColumns.SubNational.rawValue)!
