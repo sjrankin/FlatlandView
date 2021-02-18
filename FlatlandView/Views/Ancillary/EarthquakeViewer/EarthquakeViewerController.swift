@@ -219,7 +219,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
             let IsInMagRange = Quake.Magnitude >= Double(Settings.GetInt(.EarthquakeDisplayMagnitude, IfZero: 4))
             if IsInAgeRange && IsInMagRange
             {
-                Quake.ContextDistance = nil
+                Quake.ContextDistance = -1.0
                 Results.append(Quake)
             }
         }
@@ -245,7 +245,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
                 Results.append(Quake)
             }
         }
-        Results.sort{$0.ContextDistance! < $1.ContextDistance!}
+        Results.sort{$0.ContextDistance < $1.ContextDistance}
         return Results
     }
     
@@ -339,9 +339,9 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
             CellIdentifier = "OtherColumn"
             if ShowDistance
             {
-                if let Distance = Filtered[row].ContextDistance
+                if Filtered[row].ContextDistance >= 0.0
                 {
-                    CellContents = "\(Distance.RoundedTo(1))"
+                    CellContents = "\(Filtered[row].ContextDistance.RoundedTo(1))"
                 }
                 else
                 {
@@ -445,11 +445,11 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
                         {
                             if SortDescriptor.ascending
                             {
-                                Filtered.sort{$0.ContextDistance! < $1.ContextDistance!}
+                                Filtered.sort{$0.ContextDistance < $1.ContextDistance}
                             }
                             else
                             {
-                                Filtered.sort{$0.ContextDistance! > $1.ContextDistance!}
+                                Filtered.sort{$0.ContextDistance > $1.ContextDistance}
                             }
                         }
                         
