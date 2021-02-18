@@ -67,6 +67,7 @@ extension GlobeView
                 CurrentMouseLongitude = Longitude
                 if Settings.GetBool(.FollowMouse)
                 {
+                    #if false
                     if Settings.GetBool(.HideMouseOverEarth)
                     {
                         if MouseIsVisible
@@ -75,6 +76,7 @@ extension GlobeView
                             NSCursor.hide()
                         }
                     }
+                    #endif
                     MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude, Caller: "Globe")
                     PlotMouseIndicator(Latitude: Latitude, Longitude: Longitude)
                 }
@@ -83,11 +85,13 @@ extension GlobeView
             {
                 if Settings.GetBool(.HideMouseOverEarth)
                 {
+                    #if false
                     if !MouseIsVisible
                     {
                         MouseIsVisible = true
                         NSCursor.unhide()
                     }
+                    #endif
                 }
             }
         }
@@ -95,11 +99,13 @@ extension GlobeView
         {
             if Settings.GetBool(.HideMouseOverEarth)
             {
+                #if false
                 if !MouseIsVisible
                 {
                     MouseIsVisible = true
                     NSCursor.unhide()
                 }
+                #endif
             }
             CurrentMouseLocation = nil
         }
