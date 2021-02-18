@@ -94,11 +94,13 @@ class MainController: NSViewController
                     //The mouse is outside the window - if necessary, unhide the cursor.
                     if Settings.GetBool(.HideMouseOverEarth)
                     {
+                        #if false
                         if !self.Main3DView.MouseIsVisible
                         {
                             self.Main3DView.MouseIsVisible = true
                             NSCursor.unhide()
                         }
+                        #endif
                     }
                 }
             }
