@@ -45,6 +45,9 @@ extension RectangleView
             case .RelativeToLocation:
                 //MakeRelativetoLocationHours(HourRadius: HourRadius)
             break
+                
+            case .WallClock:
+                break
         }
     }
     
