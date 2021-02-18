@@ -548,15 +548,21 @@
                                                     <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nuI-e6-hFF">
                                                         <rect key="frame" x="69" y="55" width="155" height="24"/>
                                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="0WU-vo-6Iu">
-                                                            <font key="font" metaFont="system"/>
+                                                            <font key="font" metaFont="systemBold"/>
                                                             <segments>
-                                                                <segment image="SouthCenterIcon" imageScaling="none" width="35"/>
-                                                                <segment image="NorthCenterIcon" imageScaling="none" width="35" selected="YES" tag="1"/>
-                                                                <segment image="RectangleIcon" imageScaling="none" width="35">
-                                                                    <nil key="label"/>
+                                                                <segment imageScaling="none" width="35">
+                                                                    <imageReference key="image" image="s.circle" catalog="system" symbolScale="large"/>
                                                                 </segment>
-                                                                <segment image="GlobeIcon" imageScaling="proportionallyUpOrDown" width="35">
+                                                                <segment imageScaling="none" width="35" selected="YES" tag="1">
+                                                                    <imageReference key="image" image="n.circle" catalog="system" symbolScale="large"/>
+                                                                </segment>
+                                                                <segment imageScaling="none" width="35">
                                                                     <nil key="label"/>
+                                                                    <imageReference key="image" image="rectangle" catalog="system" symbolScale="large"/>
+                                                                </segment>
+                                                                <segment imageScaling="proportionallyUpOrDown" width="35">
+                                                                    <nil key="label"/>
+                                                                    <imageReference key="image" image="globe" catalog="system" symbolScale="small"/>
                                                                 </segment>
                                                             </segments>
                                                         </segmentedCell>
@@ -594,19 +600,24 @@
                                                 </gridCell>
                                                 <gridCell row="IQc-tG-oye" column="GEp-W3-TH7" id="5Fj-NR-4Ul">
                                                     <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IZZ-Fv-f1n">
-                                                        <rect key="frame" x="69" y="27" width="145" height="24"/>
+                                                        <rect key="frame" x="69" y="27" width="178" height="24"/>
                                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="c0w-oQ-G3P">
                                                             <font key="font" metaFont="system"/>
                                                             <segments>
                                                                 <segment imageScaling="none" width="32">
                                                                     <imageReference key="image" image="circle" catalog="system" symbolScale="large"/>
                                                                 </segment>
-                                                                <segment image="ClockIcon" imageScaling="none" width="32" selected="YES" tag="1"/>
-                                                                <segment image="DeltaIcon" imageScaling="none" width="32">
-                                                                    <nil key="label"/>
+                                                                <segment imageScaling="none" width="32" selected="YES" tag="1">
+                                                                    <imageReference key="image" image="clock.fill" catalog="system" symbolScale="large"/>
                                                                 </segment>
-                                                                <segment image="PinIcon" imageScaling="proportionallyUpOrDown">
-                                                                    <nil key="label"/>
+                                                                <segment imageScaling="none" width="32">
+                                                                    <imageReference key="image" image="triangle.fill" catalog="system" symbolScale="large"/>
+                                                                </segment>
+                                                                <segment imageScaling="none" width="32">
+                                                                    <imageReference key="image" image="mappin.and.ellipse" catalog="system" symbolScale="large"/>
+                                                                </segment>
+                                                                <segment width="32">
+                                                                    <imageReference key="image" image="alarm" catalog="system" symbolScale="large"/>
                                                                 </segment>
                                                             </segments>
                                                         </segmentedCell>
@@ -812,7 +823,7 @@
                                                             </gridCell>
                                                             <gridCell row="xMi-KE-Tnd" column="51c-F3-cLs" id="bZ3-4J-td0">
                                                                 <button key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RTi-BD-Js8">
-                                                                    <rect key="frame" x="81" y="-1.5" width="25.5" height="24"/>
+                                                                    <rect key="frame" x="243" y="-1.5" width="25.5" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="20" id="2NC-pP-8CF"/>
                                                                         <constraint firstAttribute="width" constant="25" id="N4n-mm-bmj"/>
@@ -946,7 +957,7 @@
                                                             </gridCell>
                                                             <gridCell row="6w4-tA-Svk" column="K3z-q1-XSj" id="zSD-U8-bTX">
                                                                 <button key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U8a-lF-fcd">
-                                                                    <rect key="frame" x="81" y="-1.5" width="25.5" height="24"/>
+                                                                    <rect key="frame" x="243" y="-1.5" width="25.5" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="25" id="8vM-IJ-qAy"/>
                                                                         <constraint firstAttribute="height" constant="20" id="skF-ZE-ilN"/>
@@ -2357,8 +2368,8 @@
                                                     </textField>
                                                 </gridCell>
                                                 <gridCell row="7VX-ml-65F" column="dDW-fA-QIn" id="kcI-ot-vSR">
-                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="ey8-kP-ubQ">
-                                                        <rect key="frame" x="0.0" y="0.0" width="106" height="20"/>
+                                                    <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="ey8-kP-ubQ">
+                                                        <rect key="frame" x="0.0" y="0.0" width="268" height="20"/>
                                                         <rows>
                                                             <gridRow id="W29-HD-0Bi"/>
                                                         </rows>
@@ -2382,7 +2393,7 @@
                                                             </gridCell>
                                                             <gridCell row="W29-HD-0Bi" column="wwe-vL-plw" id="Py1-lK-pou">
                                                                 <button key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DMA-LH-xpc">
-                                                                    <rect key="frame" x="81" y="-1.5" width="25.5" height="24"/>
+                                                                    <rect key="frame" x="243" y="-1.5" width="25.5" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="25" id="BrT-03-nBc"/>
                                                                         <constraint firstAttribute="height" constant="20" id="brl-40-Z61"/>
@@ -4453,22 +4464,27 @@ Gw
         </scene>
     </scenes>
     <resources>
-        <image name="ClockIcon" width="24" height="24"/>
-        <image name="DeltaIcon" width="24" height="24"/>
         <image name="GlobeIcon" width="24" height="24"/>
         <image name="NorthCenterIcon" width="24" height="24"/>
-        <image name="PinIcon" width="24" height="24"/>
         <image name="RectangleIcon" width="24" height="24"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
+        <image name="alarm" catalog="system" width="18" height="19"/>
         <image name="building.2" catalog="system" width="15" height="13"/>
         <image name="circle" catalog="system" width="19" height="19"/>
         <image name="circle.dashed.inset.fill" catalog="system" width="13" height="13"/>
+        <image name="clock.fill" catalog="system" width="19" height="19"/>
         <image name="ellipsis.circle" catalog="system" width="19" height="19"/>
+        <image name="globe" catalog="system" width="13" height="13"/>
         <image name="map" catalog="system" width="20" height="18"/>
+        <image name="mappin.and.ellipse" catalog="system" width="18" height="20"/>
+        <image name="n.circle" catalog="system" width="19" height="19"/>
         <image name="network" catalog="system" width="19" height="19"/>
         <image name="pin.fill" catalog="system" width="13" height="14"/>
         <image name="questionmark.circle.fill" catalog="system" width="13" height="13"/>
+        <image name="rectangle" catalog="system" width="23" height="17"/>
+        <image name="s.circle" catalog="system" width="19" height="19"/>
         <image name="skew" catalog="system" width="23" height="20"/>
+        <image name="triangle.fill" catalog="system" width="20" height="18"/>
         <image name="waveform.path" catalog="system" width="24" height="21"/>
         <namedColor name="ControlBlack">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
