@@ -244,28 +244,6 @@ public class Solar
         return (SetTime, Duration)
     }
     
-    #if false
-    /// Return the sunrise and sunset times for the current location and passed date.
-    /// - Parameters:
-    ///   - For: The date whose sunset and sunrise times will be returned.
-    ///   - Where: Placemark of the current location - needed to get seconds from GMT.
-    /// - Returns: Tuple with the sequence of (Rise Hour, Rise Minute, Set Hour, Set Minute)
-    public static func SunriseSunset(For: Date, Where: CLPlacemark) -> (Int?, Int?, Int?, Int?)
-    {
-        //Debug.dprint("Getting sunrise and sunset for \(Where.country!)")
-        #if true
-        let Latitude = CurrentState.AsDouble(CurrentState.CurrentLatitude)
-        let Longitude = CurrentState.AsDouble(CurrentState.CurrentLongitude)
-        #else
-        let Settings = UserSettings()
-        let Latitude = Settings.AsDouble(PKID.CurrentLatitude)
-        let Longitude = Settings.AsDouble(PKID.CurrentLongitude)
-        #endif
-        let TZSeconds = Where.timeZone!.secondsFromGMT()
-        return SunriseSunset(For: For, AtLatitude: Latitude!, AtLongitude: Longitude!, TimeZoneSeconds: TZSeconds)
-    }
-    #endif
-    
     /// Return the sunrise and sunset times for the given date and location.
     /// - Parameters:
     ///   - For: The date whose sunset and sunrise times will be returned.
