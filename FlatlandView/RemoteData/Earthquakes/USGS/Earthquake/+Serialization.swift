@@ -63,9 +63,9 @@ extension Earthquake
         Working.append(MakeKVP("Longitude", Quake.Longitude))
         Working.append(MakeKVP("Depth", Quake.Depth))
         Working.append(MakeKVP("Status", Quake.Status))
-        if let Updated = Quake.Updated
+        if Quake.Updated.timeIntervalSince1970 > Date().timeIntervalSince1970
         {
-            Working.append(MakeKVP("Updated", "\(Updated)"))
+            Working.append(MakeKVP("Updated", "\(Quake.Updated)"))
         }
         Working.append(MakeKVP("MMI", Quake.MMI))
         Working.append(MakeKVP("Felt", Quake.Felt))
@@ -79,9 +79,9 @@ extension Earthquake
         Working.append(MakeKVP("Types", Quake.Types))
         Working.append(MakeKVP("EventType", Quake.EventType))
         Working.append(MakeKVP("Detail", Quake.Detail))
-        if let TZ = Quake.TZ
+        if Quake.TZ > -24
         {
-            Working.append(MakeKVP("TZ", TZ))
+            Working.append(MakeKVP("TZ", Quake.TZ))
         }
         Working.append(MakeKVP("Net", Quake.Net))
         Working.append(MakeKVP("NST", Quake.NST))
