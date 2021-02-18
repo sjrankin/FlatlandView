@@ -46,6 +46,11 @@ extension Settings
                 break
         }
     }
+    
+    public static func SaveQuakes(_ Quakes: [Earthquake])
+    {
+        DBIF.InsertQuakes(Quakes) 
+    }
 }
 
 /// Operations callers can perform on non-built-in tables.
