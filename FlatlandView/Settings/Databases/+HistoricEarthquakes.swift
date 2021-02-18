@@ -53,7 +53,7 @@ extension DBIF
         
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
         {
-            let PKID = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.ID.rawValue)!
+            let PKID = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.PKID.rawValue)!
             let Latitude = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.Latitude.rawValue)!
             let Longitude = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.Longitude.rawValue)!
             let Place = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Place.rawValue)!
@@ -69,11 +69,11 @@ extension DBIF
             let Significance = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.Significance.rawValue)!
             let Sequence = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.Sequence.rawValue)!
             let Notified = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.Notified.rawValue)!
-            let Region = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.FlatlandRegion.rawValue)!
+            let Region = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.RegionName.rawValue)!
             let Marked = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.Marked.rawValue)!
             let MagType = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.MagType.rawValue)!
             let MagError = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.MagError.rawValue)!
-            let MagNST = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.MagNS.rawValue)!
+            let MagNST = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.MagNST.rawValue)!
             let DMin = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.DMin.rawValue)!
             let Alert = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Alert.rawValue)!
             let Title = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Title.rawValue)!
