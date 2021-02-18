@@ -219,9 +219,10 @@ extension Date
     
     /// Converts the passed date's time components into a pretty string.
     /// - Parameter From: The date whose time components will be used to generate a pretty string.
+    /// - Parameter IncludeSeconds: If true, seconds are included in the time. If false, they are omitted.
     /// - Parameter ForFileName: If true, colons will be replaced by periods.
     /// - Returns: String value of the time components of `From`.
-    static func PrettyTime(From: Date, ForFileName: Bool = false) -> String
+    static func PrettyTime(From: Date, IncludeSeconds: Bool = true, ForFileName: Bool = false) -> String
     {
         let Cal = Calendar.current
         let Hour = Cal.component(.hour, from: From)
@@ -245,11 +246,13 @@ extension Date
         var Final = ""
         if ForFileName
         {
-            Final = "\(HourS).\(MinuteS).\(SecondS)"
+            let SecondString = IncludeSeconds ? ".\(SecondS)" : ""
+            Final = "\(HourS).\(MinuteS).\(SecondString)"
         }
         else
         {
-            Final = "\(HourS):\(MinuteS):\(SecondS)"
+            let SecondString = IncludeSeconds ? ":\(SecondS)" : ""
+            Final = "\(HourS):\(MinuteS):\(SecondString)"
         }
         return Final
     }
@@ -317,11 +320,12 @@ extension Date
     }
     
     /// Converts the instance date's time components into a pretty string.
+    /// - Parameter IncludeSeconds: If true, seconds are included. Defaults to `true`.
     /// - Parameter ForFileName: If true, colons (`:`) will be replaced with periods (`.`).
     /// - Returns: String value of the time components of the instance date.
-    func PrettyTime(ForFileName: Bool = false) -> String
+    func PrettyTime(IncludeSeconds: Bool = true, ForFileName: Bool = false) -> String
     {
-        return Date.PrettyTime(From: self, ForFileName: ForFileName)
+        return Date.PrettyTime(From: self, IncludeSeconds: IncludeSeconds, ForFileName: ForFileName)
     }
     
     /// Converts the instance date's date components into a pretty string.
