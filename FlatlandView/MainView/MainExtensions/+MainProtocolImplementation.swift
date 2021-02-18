@@ -307,11 +307,13 @@ extension MainController: MainProtocol
     {
         if Settings.GetBool(.HideMouseOverEarth)
         {
+            #if false
             if !self.Main3DView.MouseIsVisible
             {
                 self.Main3DView.MouseIsVisible = true
                 NSCursor.unhide()
             }
+            #endif
         }
     }
 }
