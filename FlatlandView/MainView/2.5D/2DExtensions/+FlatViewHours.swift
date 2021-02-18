@@ -30,7 +30,7 @@ extension FlatView
     func AddHours(HourRadius: Double)
     {
         RemoveNodeWithName(NodeNames2D.HourNodes.rawValue, FromParent: HourPlane)
-        switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
+        switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)  
         {
             case .None:
                 //Nothing to do here since all hours have already been removed.
@@ -44,7 +44,15 @@ extension FlatView
                 
             case .RelativeToLocation:
                 MakeRelativetoLocationHours(HourRadius: HourRadius)
+                
+            case .WallClock:
+                MakeWallClockHours(HourRadius: HourRadius)
         }
+    }
+    
+    func MakeWallClockHours(HourRadius: Double)
+    {
+        
     }
     
     func MakeSolarHours(HourRadius: Double)
