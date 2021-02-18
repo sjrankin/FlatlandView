@@ -135,6 +135,27 @@ extension Settings
         }
     }
     
+    public static func MakeInsertStatement(_ From: [(String, String)]) -> String
+    {
+        var ColumnList = ""
+        var ValueList = "VALUES "
+        for (Name, Value) in From
+        {
+            if Name == "PKID"
+            {
+                continue
+            }
+            ColumnList.append(Name)
+            ColumnList.append(",")
+            ValueList.append(Value)
+            ValueList.append(",")
+        }
+        ColumnList = String(ColumnList.dropLast(1))
+        ValueList = String(ValueList.dropLast(1))
+        let Final = "INSERT INTO \(QuakeTableNames.Historic.rawValue) (\(ColumnList)) (\(ValueList));"
+        return Final
+    }
+    
     /// Cache the list of earthquakes in settings.
     /// - Note: Cached earthquakes are used at start-up to show the user something rather than
     ///         have no earthquakes show up at all until the USGS sends data.
@@ -148,7 +169,10 @@ extension Settings
             Working.append("\n")
         }
         SetString(.CachedEarthquakes, Working)
-        Earthquake.GetFieldData(QuakeList.first!, Column: .Alert)
+        let List = Earthquake.GetFieldData(QuakeList.first!)
+//        print("\(List)")
+        let Test = MakeInsertStatement(List)
+        print("Test=\(Test)")
 //        Settings.SaveQuakes(QuakeList)
     }
     
