@@ -80,6 +80,13 @@ extension GlobeView
                 RemoveHours()
                 HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
                 SystemNode?.addChildNode(HourNode!)
+                
+            case .WallClock:
+                RemoveHours()
+                HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
+                let Declination = Sun.Declination(For: Date())
+                HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
+                self.scene?.rootNode.addChildNode(HourNode!)
         }
         PreviousHourType = With
     }
@@ -158,6 +165,9 @@ extension GlobeView
                 
             case .RelativeToNoon:
                 return MakeNoonDeltaHours(Radius: Radius)
+                
+            case .WallClock:
+                return MakeWallClockHours(Radius: Radius)
                 
             case .RelativeToLocation:
                 if Settings.GetDoubleNil(.UserHomeLatitude) == nil ||
@@ -243,6 +253,37 @@ extension GlobeView
         }
         let Color = Settings.GetColor(.HourColor, NSColor.systemOrange)
         return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, RadialOffset: 3.0, StartAngle: 0.0)
+    }
+    
+    func MakeWallClockHours(Radius: Double) -> SCNNode2
+    {
+        let NodeShape = SCNSphere(radius: CGFloat(Radius))
+        let Node = SCNNode2(geometry: NodeShape)
+        Node.position = SCNVector3(0.0, 0.0, 0.0)
+        Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
+        Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
+        Node.name = GlobeNodeNames.HourNode.rawValue
+        var HourLabelList = [(String, Int)]()
+        
+        let Cal = Calendar.current
+        for Hour in 0 ... 23
+        {
+            let SolarHours = [23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0]
+            let DisplayHour = SolarHours[(Hour + 6) % 24]
+            let DisplayString = GetScriptHours("\(DisplayHour)", Actual: DisplayHour)
+            let AngleTime = Cal.date(byAdding: .hour, value: Hour, to: Date())
+            let PrettyAngleTime = AngleTime?.PrettyTime(IncludeSeconds: false)
+            HourLabelList.append((PrettyAngleTime!, DisplayHour))
+//            HourLabelList.append((DisplayString, DisplayHour))
+        }
+        let Color = Settings.GetColor(.HourColor, NSColor.systemOrange)
+        return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, RadialOffset: 3.0,
+                              StartAngle: 360.0 / 24.0)
+    }
+    
+    func UpdateWallClockHours(_ Time: Date, Radius: Double = Double(GlobeRadius.HourSphere.rawValue))
+    {
+        
     }
     
     /// Make the hour node such that `0` is always under the user's location (if set) with offsets
@@ -460,6 +501,22 @@ extension GlobeView
                         HourTextNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
                         LabelNode.DoTestDaylight(#function)
                         
+                    case .WallClock:
+                        if Label.HourValue <= 6 || Label.HourValue >= 18
+                        {
+                            HourTextNode.IsInDaylight = false
+                            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
+                            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+                            HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor(RGB: Colors3D.GlowingHourColor.rawValue)
+                        }
+                        else
+                        {
+                            HourTextNode.IsInDaylight = true
+                            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
+                            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+                            HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor.clear
+                        }
+                        
                     default:
                         //We shouldn't get here, but just in case...
                         let Trace = Debug.PrettyStackTrace(Debug.StackFrameContents(8))
@@ -479,6 +536,7 @@ extension GlobeView
 
                 TotalLabelWidth = TotalLabelWidth + (CGFloat(CharWidth) + PreviousEnding)
             }
+            LabelNode.eulerAngles = SCNVector3(0.0, 0.0, 90.0.Radians)
             let LastAngle = CGFloat(Angle).Radians
             let FinalX = CGFloat(0) * cos(LastAngle)
             let FinalZ = CGFloat(0) * sin(LastAngle)
