@@ -70,14 +70,14 @@ class DetailQuakeController: NSViewController, NSTableViewDelegate, NSTableViewD
         DataSet.append(("IsCluster", "\(Quake.IsCluster)", true))
         DataSet.append(("ClusterCount", "\(Quake.ClusterCount)", true))
         DataSet.append(("Time", Quake.Time.PrettyDateTime(), false))
-        if let TimeZone = Quake.TZ
+        if abs(Quake.TZ) < 24
         {
-            DataSet.append(("Time Zone", "\(TimeZone)", false))
+            DataSet.append(("Time Zone", "\(Quake.TZ)", false))
         }
         DataSet.append(("Age", "\(Quake.GetAge().RoundedTo(0)) seconds", true))
-        if let Updated = Quake.Updated
+        if Quake.Updated.timeIntervalSince1970 > Date().timeIntervalSince1970
         {
-            DataSet.append(("Updated", "\(Updated.PrettyDateTime())", false))
+            DataSet.append(("Update", "\(Quake.Updated.PrettyDateTime())", false))
         }
         else
         {
