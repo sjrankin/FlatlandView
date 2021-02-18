@@ -104,7 +104,7 @@ extension GlobeView
                 A.AttributesChange = true
                 A.CastsShadow = true
                 A.Class = Plot.nod
-                A.PKID = NodeID
+                A.ID = NodeID
                 A.EulerX = (Latitude + 90).Radians
                 A.EulerY = (Longitude + 180.0).Radians
                 A.Position = SCNVector3(X, Y, Z)
