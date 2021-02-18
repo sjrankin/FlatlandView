@@ -47,10 +47,10 @@ class NodeTables
                                        Numeric: 0.0, Location: nil, Description: "The sun")
         MiscTable[SunID]?.HasNumber = false
         #if false
-        MiscTable[EarthGlobe] = DisplayItem(PKID: EarthGlobe, ItemType: .Miscellaneous, Name: "Earth Node",
+        MiscTable[EarthGlobe] = DisplayItem(ID: EarthGlobe, ItemType: .Miscellaneous, Name: "Earth Node",
                                             Numeric: 0.0, Location: nil, Description: "Main Earth Node")
         MiscTable[EarthGlobe]?.HasNumber = false
-        MiscTable[SeaGlobe] = DisplayItem(PKID: SeaGlobe, ItemType: .Miscellaneous, Name: "Sea Node",
+        MiscTable[SeaGlobe] = DisplayItem(ID: SeaGlobe, ItemType: .Miscellaneous, Name: "Sea Node",
                                           Numeric: 0.0, Location: nil, Description: "Main Sea Node")
         MiscTable[SeaGlobe]?.HasNumber = false
         #endif
