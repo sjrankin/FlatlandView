@@ -110,9 +110,10 @@ class EarthquakeDetailController: NSViewController, NSTableViewDelegate, NSTable
                             CellContents = QuakeSource!.Status
                             
                         case 8:
-                            if let Updated = QuakeSource!.Updated
+                            let TimeAt1970 = Date().timeIntervalSince1970
+                            if QuakeSource!.Updated.timeIntervalSince1970 > TimeAt1970
                             {
-                                CellContents = "\(Updated)"
+                                CellContents = "\(QuakeSource!.Updated)"
                             }
                             else
                             {
