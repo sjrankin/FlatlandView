@@ -417,75 +417,6 @@ class Miscellaneous
         return Final
     }
     
-    #if false
-    func MakeTimeString(HourKey: Int, MinuteKey: Int) -> String
-    {
-        let TheHour = Settings.AsInteger(HourKey)
-        let TheMinute = Settings.AsInteger(MinuteKey)
-        var HourS = String(describing: TheHour)
-        if (Settings.AsBool(PKID.ShowLeading0))
-        {
-            if TheHour < 10
-            {
-                HourS = "0" + HourS
-            }
-        }
-        var MinuteS = String(describing: TheMinute)
-        if TheMinute < 10
-        {
-            MinuteS = "0" + MinuteS
-        }
-        return HourS + ":" + MinuteS
-    }
-    
-    func MakeTimeString(TheDate: Date, In24Hour: Bool? = nil) -> String
-    {
-        var ShowAs24HourStyle = false
-        if In24Hour == nil
-        {
-            ShowAs24HourStyle = Settings.AsBool(PKID.Is24HourClock)
-        }
-        else
-        {
-            ShowAs24HourStyle = In24Hour!
-        }
-        var (Hour, Minute) = GetTime(TheDate)
-        var IsPM = false
-        if !ShowAs24HourStyle
-        {
-            if Hour >= 12
-            {
-                IsPM = true
-            }
-            Hour = Hour % 12
-        }
-        var HourString = String(describing: Hour)
-        if Hour < 10
-        {
-            HourString = "0" + HourString
-        }
-        var MinuteString = String(describing: Minute)
-        if Minute < 10
-        {
-            MinuteString = "0" + MinuteString
-        }
-        var AMPM = ""
-        if !ShowAs24HourStyle
-        {
-            if IsPM
-            {
-                AMPM = "PM"
-            }
-            else
-            {
-                AMPM = "AM"
-            }
-        }
-        let Final = HourString + ":" + MinuteString + " " + AMPM
-        return Final
-    }
-    #endif
-    
     func MakeTimeString(TheDate: Date, IncludeSeconds: Bool = true) -> String
     {
         let Cal = Calendar.current
@@ -1089,26 +1020,6 @@ class Miscellaneous
         }
         return MinimumFontSize
     }
-    
-    #if false
-    public func MakeTimeString(Hour: Int, Minute: Int) -> String
-    {
-        var HourS = String(describing: Hour)
-        if Settings.AsBool(PKID.ShowLeading0)
-        {
-            if Hour < 10
-            {
-                HourS = "0" + HourS
-            }
-        }
-        var MinuteS = String(describing: Minute)
-        if Minute < 10
-        {
-            MinuteS = "0" + MinuteS
-        }
-        return HourS + ":" + MinuteS
-    }
-    #endif
     
     public let StaticFontNames = ["Academy Engraved LET","Party LET","Savoye LET"]
     
