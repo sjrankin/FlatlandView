@@ -148,6 +148,8 @@ extension Settings
             Working.append("\n")
         }
         SetString(.CachedEarthquakes, Working)
+        Earthquake.GetFieldData(QuakeList.first!, Column: .Alert)
+//        Settings.SaveQuakes(QuakeList)
     }
     
     /// Returns an array of earthquakes from the set of cached earthquakes in settings.
