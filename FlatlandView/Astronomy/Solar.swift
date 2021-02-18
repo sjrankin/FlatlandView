@@ -258,8 +258,8 @@ public class Solar
         let Longitude = CurrentState.AsDouble(CurrentState.CurrentLongitude)
         #else
         let Settings = UserSettings()
-        let Latitude = Settings.AsDouble(ID.CurrentLatitude)
-        let Longitude = Settings.AsDouble(ID.CurrentLongitude)
+        let Latitude = Settings.AsDouble(PKID.CurrentLatitude)
+        let Longitude = Settings.AsDouble(PKID.CurrentLongitude)
         #endif
         let TZSeconds = Where.timeZone!.secondsFromGMT()
         return SunriseSunset(For: For, AtLatitude: Latitude!, AtLongitude: Longitude!, TimeZoneSeconds: TZSeconds)
