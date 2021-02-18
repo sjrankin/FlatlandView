@@ -58,6 +58,8 @@ enum HourValueTypes: String, CaseIterable
     /// Hours relative to set location. Not used if the user does not set a
     /// location.
     case RelativeToLocation = "RelativeToLocation"
+    /// Time is the wall clock time at every 15°.
+    case WallClock = "WallClock"
 }
 
 /// The available time label types.
