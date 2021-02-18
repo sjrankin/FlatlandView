@@ -11,6 +11,9 @@ import AppKit
 
 /// Encapsulates one or more earthquakes. Encapsulated earthquakes are those that are in a small
 /// geographic region.
+/// - Note: This class will generate strings to be used to add or update earthquakes in a SQLite database. To
+///         do this, static functions make heavy use of reflection and rely on private backing stores for
+///         field data to all start with two underscores (`__`).
 /// - Note: See [ComCatDocumentation - Event Terms](https://earthquake.usgs.gov/data/comcat/data-eventterms.php)
 class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
 {
@@ -143,28 +146,64 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     }
     
     /// The sequence value.
-    var Sequence: Int = 0
+    private var __Sequence: Int = 0
+    /// Get or set the sequence value.
+    var Sequence: Int
+    {
+        get
+        {
+            return __Sequence
+        }
+        set
+        {
+            __Sequence = newValue
+        }
+    }
     
     /// USGS earthquake code/ID.
-    var Code: String = ""
+    private var __Code: String = ""
+    /// Get or set the USGS code/ID.
+    var Code: String
+    {
+        get
+        {
+            return __Code
+        }
+        set
+        {
+            __Code = newValue
+        }
+    }
     
     /// Holds the place name. May be blank.
-    private var _Place: String = ""
+    private var __Place: String = ""
     /// Get or set the name of the place of the earthquake. May be blank.
     var Place: String
     {
         get
         {
-            return _Place
+            return __Place
         }
         set
         {
-            _Place = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
+            __Place = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
         }
     }
     
+    /// Holds the magnitude value.
+    private var __Magnitude: Double = 0.0
     /// The magnitude of the earthquake.
-    var Magnitude: Double = 0.0
+    var Magnitude: Double
+    {
+        get
+        {
+            return __Magnitude
+        }
+        set
+        {
+            __Magnitude = newValue
+        }
+    }
     
     /// Returns the greatest magnitude. If a given earthquake is not a cluster, this is merely the
     /// same value as in `Magnitude`. This this earthquake represents a cluster of earthquakes, the
@@ -234,8 +273,20 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         }
     }
     
+    /// Holds the time of the earthquake
+    private var __Time: Date = Date()
     /// Date/time the earthquake occurred.
-    var Time: Date = Date()
+    var Time: Date
+    {
+        get
+        {
+            return __Time
+        }
+        set
+        {
+            __Time = newValue
+        }
+    }
     
     /// Returns the difference between the current time and the time of the earthquake. Smaller
     /// values indicate more recent earthquakes.
@@ -246,14 +297,50 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         return Delta
     }
     
+    /// Holds the tsunami value.
+    private var __Tsunami: Int = 0
     /// Tsunami value. If 1, tsunami information _may_ exist but also may not exist.
-    var Tsunami: Int = 0
+    var Tsunami: Int
+    {
+        get
+        {
+            return __Tsunami
+        }
+        set
+        {
+            __Tsunami = newValue
+        }
+    }
     
+    /// Holds the latitude.
+    var __Latitude: Double = 0.0
     /// Get or set the latitude of the earthquake.
-    var Latitude: Double = 0.0
+    var Latitude: Double
+    {
+        get
+        {
+            return __Latitude
+        }
+        set
+        {
+            __Latitude = newValue
+        }
+    }
     
+    /// Holds the longitude.
+    private var __Longitude: Double = 0.0
     /// Longitude of the earthquake.
-    var Longitude: Double = 0.0
+    var Longitude: Double
+    {
+        get
+        {
+            return __Longitude
+        }
+        set
+        {
+            __Longitude = newValue
+        }
+    }
     
     /// Set the location of the earthquake.
     /// - Parameter Latitude: The latitude of the earthquake.
@@ -272,114 +359,546 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         return GeoPoint(Latitude, Longitude)
     }
     
+    /// Holds the ID of the quake.
+    private var __PKID: Int? = nil
     /// Database ID of the quake. If nil, quake is not from a database.
-    var PKID: Int? = nil
+    var PKID: Int?
+    {
+        get
+        {
+            return __PKID
+        }
+        set
+        {
+            __PKID = newValue
+        }
+    }
     
+    /// Holds the depth of the quake.
+    var __Depth: Double = 0.0
     /// Depth of the earthquake in kilometers.
-    var Depth: Double = 0.0
+    var Depth: Double
+    {
+        get
+        {
+            return __Depth
+        }
+        set
+        {
+            __Depth = newValue
+        }
+    }
     
+    /// Holds the uncertainty of the depth.
+    var __DepthError: Double = 0.0
     /// Uncertainty of the depth.
-    var DepthError: Double = 0.0
+    var DepthError: Double
+    {
+        get
+        {
+            return __DepthError
+        }
+        set
+        {
+            __DepthError = newValue
+        }
+    }
     
+    /// Holds the status of the event.
+    private var __Status: String = ""
     /// Status of the event.
-    var Status: String = ""
+    var Status: String
+    {
+        get
+        {
+            return __Status
+        }
+        set
+        {
+            __Status = newValue
+        }
+    }
     
+    /// Holds the updated time.
+    private var __Updated: Date? = nil
     /// When updated.
-    var Updated: Date? = nil
+    var Updated: Date?
+    {
+        get
+        {
+            return __Updated
+        }
+        set
+        {
+            __Updated = newValue
+        }
+    }
     
+    /// Holds the shakemap intensity.
+    private var __MMI: Double = 0.0
     /// Shakemap intensity.
-    var MMI: Double = 0.0
+    var MMI: Double
+    {
+        get
+        {
+            return __MMI
+        }
+        set
+        {
+            __MMI = newValue
+        }
+    }
     
+    /// Holds the DYFI data point.
+    private var __Felt: Int = 0
     /// Reports from the DYFI system.
-    var Felt: Int = 0
+    var Felt: Int
+    {
+        get
+        {
+            return __Felt
+        }
+        set
+        {
+            __Felt = newValue
+        }
+    }
     
+    /// Holds the significance.
+    private var __Significance: Int = 0
     /// Subjective significance value. Greater values indicate greater significance.
-    var Significance: Int = 0
+    var Significance: Int
+    {
+        get
+        {
+            return __Significance
+        }
+        set
+        {
+            __Significance = newValue
+        }
+    }
     
+    /// Holds the ID.
+    private var __ID: UUID = UUID()
     /// Unique (per instance) ID of the earthquake.
-    var ID: UUID = UUID()
+    var ID: UUID
+    {
+        get
+        {
+            return __ID
+        }
+        set
+        {
+            __ID = newValue
+        }
+    }
     
+    /// Holds the event ID.
+    private var __EventID: String = ""
     /// The event ID.
-    var EventID: String = ""
+    var EventID: String
+    {
+        get
+        {
+            return __EventID
+        }
+        set
+        {
+            __EventID = newValue
+        }
+    }
     
+    /// Holds the magnitude calculation methd.
+    private var __MagType: String = ""
     /// How magnitude was calculated.
     /// - Notes: See [Magnitude Types](https://www.usgs.gov/natural-hazards/earthquake-hazards/science/magnitude-types?qt-science_center_objects=0#qt-science_center_objects)
-    var MagType: String = ""
+    var MagType: String
+    {
+        get
+        {
+            return __MagType
+        }
+        set
+        {
+            __MagType = newValue
+        }
+    }
     
+    /// Holds the uncertainty of the magnitude.
+    private var __MagError: Double = 0.0
     /// Uncertainty of reported magnitude of event.
-    var MagError: Double = 0.0
+    var MagError: Double
+    {
+        get
+        {
+            return __MagError
+        }
+        set
+        {
+            __MagError = newValue
+        }
+    }
     
+    /// Number of seismic stations.
+    private var __MagNST: Int = 0
     /// Number of seismic stations used to calculate magnitude.
-    var MagNST: Int = 0
+    var MagNST: Int
+    {
+        get
+        {
+            return __MagNST
+        }
+        set
+        {
+            __MagNST = newValue
+        }
+    }
     
+    /// Distance from epicenter to nearest station.
+    private var __DMin: Double = 0.0
     /// Horizontal distance from the epicenter to the nearest station in degrees.
-    var DMin: Double = 0.0
+    var DMin: Double
+    {
+        get
+        {
+            return __DMin
+        }
+        set
+        {
+            __DMin = newValue
+        }
+    }
     
+    /// Alert value.
+    private var __Alert: String = ""
     /// Alert level from PAGER.
-    var Alert: String = ""
+    var Alert: String
+    {
+        get
+        {
+            return __Alert
+        }
+        set
+        {
+            __Alert = newValue
+        }
+    }
     
+    /// Holds the title.
+    private var __Title: String = ""
     /// Title.
-    var Title: String = ""
+    var Title: String
+    {
+        get
+        {
+            return __Title
+        }
+        set
+        {
+            __Title = newValue
+        }
+    }
     
+    /// Holds the product types.
+    private var __Types: String = ""
     /// List of product types associated with this event.
-    var Types: String = ""
+    var Types: String
+    {
+        get
+        {
+            return __Types
+        }
+        set
+        {
+            __Types = newValue
+        }
+    }
     
+    /// Holds the event type.
+    private var __EventType: String = ""
     /// Type of seismic event.
-    var EventType: String = ""
+    var EventType: String
+    {
+        get
+        {
+            return __EventType
+        }
+        set
+        {
+            __EventType = newValue
+        }
+    }
     
+    /// Hold the Detail value.
+    private var __Detail: String = ""
     /// Link to GeoJSON detail.
-    var Detail: String = ""
+    var Detail: String
+    {
+        get
+        {
+            return __Detail
+        }
+        set
+        {
+            __Detail = newValue
+        }
+    }
     
+    /// Holds the time zone value.
+    private var __TZ: Int? = nil
     /// Timezone offset from UTC in minutes at the epicenter.
-    var TZ: Int? = nil
+    var TZ: Int?
+    {
+        get
+        {
+            return __TZ
+        }
+        set
+        {
+            __TZ = newValue
+        }
+    }
     
+    /// USGS event page address.
+    private var __EventPageURL: String = ""
     /// Link to USGS event page for the event.
-    var EventPageURL: String = ""
+    var EventPageURL: String
+    {
+        get
+        {
+            return __EventPageURL
+        }
+        set
+        {
+            __EventPageURL = newValue
+        }
+    }
     
+    /// Holds the network sources.
+    private var __Sources: String = ""
     /// List of network contributors.
-    var Sources: String = ""
+    var Sources: String
+    {
+        get
+        {
+            return __Sources
+        }
+        set
+        {
+            __Sources = newValue
+        }
+    }
     
+    /// Holds the ID of data contributors.
+    private var __Net: String = ""
     /// ID of data contributors.
-    var Net: String = ""
+    var Net: String
+    {
+        get
+        {
+            return __Net
+        }
+        set
+        {
+            __Net = newValue
+        }
+    }
     
+    /// Holds the number of seismic stations
+    private var __NST: Int = 0
     /// Number of seismic stations used to determine location.
-    var NST: Int = 0
+    var NST: Int
+    {
+        get
+        {
+            return __NST
+        }
+        set
+        {
+            __NST = newValue
+        }
+    }
     
+    /// Holds the azimuthal gap.
+    private var __Gap: Double = 0.0
     /// The largest azimuthal gap between adjacent stations.
-    var Gap: Double = 0
+    var Gap: Double
+    {
+        get
+        {
+            return __Gap
+        }
+        set
+        {
+            __Gap = newValue
+        }
+    }
     
+    /// Holds event IDs.
+    private var __IDs: String = ""
     /// List of event IDs associated with an event.
-    var IDs: String = ""
+    var IDs: String
+    {
+        get
+        {
+            return __IDs
+        }
+        set
+        {
+            __IDs = newValue
+        }
+    }
     
+    /// Holds the horizontal error.
+    private var __HorizontalError: Double = 0.0
     /// Uncertainty of reported location of even in kilometers.
-    var HorizontalError: Double = 0.0
+    var HorizontalError: Double
+    {
+        get
+        {
+            return __HorizontalError
+        }
+        set
+        {
+            __HorizontalError = newValue
+        }
+    }
     
+    /// Holds the DYFI maximum intensity.
+    private var __CDI: Double = 0.0
     /// Maximum reported intensity for the event - computed by DYFI. Should be reported as a Roman numeral.
-    var CDI: Double = 0.0
+    var CDI: Double
+    {
+        get
+        {
+            return __CDI
+        }
+        set
+        {
+            __CDI = newValue
+        }
+    }
     
+    /// Holds the RMS.
+    private var __RMS: Double = 0.0
     /// Root mean square travel time residual in seconds.
-    var RMS: Double = 0.0
+    var RMS: Double
+    {
+        get
+        {
+            return __RMS
+        }
+        set
+        {
+            __RMS = newValue
+        }
+    }
     
+    /// Holds the NPH.
+    private var __NPH: String = ""
     /// Number of phases used.
-    var NPH: String = ""
+    var NPH: String
+    {
+        get
+        {
+            return __NPH
+        }
+        set
+        {
+            __NPH = newValue
+        }
+    }
     
+    /// Holds the name of the network.
+    private var __LocationSource: String = ""
     /// Network that authored the report.
-    var LocationSource: String = ""
+    var LocationSource: String
+    {
+        get
+        {
+            return __LocationSource
+        }
+        set
+        {
+            __LocationSource = newValue
+        }
+    }
     
+    /// Holds the magnitude source network.
+    private var __MagSource: String = ""
     /// Network that generated the magnitude.
-    var MagSource: String = ""
+    var MagSource: String
+    {
+        get
+        {
+            return __MagSource
+        }
+        set
+        {
+            __MagSource = newValue
+        }
+    }
     
+    /// Holds the context distance.
+    private var __ContextDistance: Double? = nil
     /// Distance from something else. If nil, no distance used.
-    var ContextDistance: Double? = nil
+    var ContextDistance: Double?
+    {
+        get
+        {
+            return __ContextDistance
+        }
+        set
+        {
+            __ContextDistance = newValue
+        }
+    }
     
+    /// Holds the debug flag.
+    private var __DebugQuake: Bool = false
     /// If true, the earthquake was injected and is intended for debug use.
-    var DebugQuake: Bool = false
+    var DebugQuake: Bool
+    {
+        get
+        {
+            return __DebugQuake
+        }
+        set
+        {
+            __DebugQuake = newValue
+        }
+    }
     
+    /// Holds the notification flag.
+    private var __Notified: Bool = false
     /// User was notified flag.
-    var Notified: Bool = false
+    var Notified: Bool
+    {
+        get
+        {
+            return __Notified
+        }
+        set
+        {
+            __Notified = newValue
+        }
+    }
     
+    /// Holds the region name.
+    private var __RegionName: String = ""
     /// Region name where the quake occurred.
-    var RegionName: String = ""
+    var RegionName: String
+    {
+        get
+        {
+            return __RegionName
+        }
+        set
+        {
+            __RegionName = newValue
+        }
+    }
     
     /// Dirty flag.
     var IsDirty: Bool = false
@@ -602,8 +1121,10 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         }
     }
     
+    /// Used by other classes for inclusion into groups.
     public var Marked: Bool = false
     
+    /// Provides a debug description.
     var description: String
     {
         if let Related = Related
@@ -631,5 +1152,229 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     var hasValue: Int
     {
         return ObjectIdentifier(self).hashValue
+    }
+    
+    // MARK: Database helper functions
+    
+    static func MakeValueList(_ From: Earthquake) -> String
+    {
+        var Values = "("
+        Values.append("\(From.Latitude),")
+        Values.append("\(From.Longitude),")
+        Values.append("\"\(From.Place)\",")
+        Values.append("\(From.Magnitude),")
+        Values.append("\(From.Depth),")
+        Values.append("\(From.Time.timeIntervalSince1970),")
+        if let Updated = From.Updated
+        {
+            Values.append("\(Updated.timeIntervalSince1970),")
+        }
+        else
+        {
+            Values.append("0.0,")
+        }
+        Values.append("\"\(From.Code)\",")
+        Values.append("\(From.Tsunami),")
+        Values.append("\"\(From.Status)\",")
+        Values.append("\(From.MMI),")
+        Values.append("\(From.Felt),")
+        Values.append("\(From.Significance),")
+        Values.append("\(From.Sequence),")
+        Values.append("\(From.Notified ? 1 : 0),")
+        Values.append("\"\(From.RegionName)\",")
+        Values.append("\(From.Marked ? 1 : 0),")
+        Values.append("\"\(From.MagType)\",")
+        Values.append("\(From.MagError),")
+        Values.append("0,")
+        Values.append("\(From.DMin),")
+        Values.append("\"\(From.Alert)\",")
+        Values.append("\"\(From.Title)\",")
+        Values.append("\"\(From.Types)\",")
+        Values.append("\"\(From.EventType)\",")
+        Values.append("\"\(From.Detail)\",")
+        if let TZ = From.TZ
+        {
+            Values.append("\(TZ),")
+        }
+        else
+        {
+            Values.append("0,")
+        }
+        Values.append("\"\(From.EventPageURL)\",")
+        Values.append("\"\(From.Sources)\",")
+        Values.append("\"\(From.Net)\",")
+        Values.append("\(From.NST),")
+        Values.append("\(From.Gap),")
+        Values.append("\"\(From.IDs)\",")
+        Values.append("\(From.HorizontalError),")
+        Values.append("\(From.CDI),")
+        Values.append("\(From.RMS),")
+        Values.append("\"\(From.NPH)\",")
+        Values.append("\"\(From.LocationSource)\",")
+        Values.append("\"\(From.MagSource)\",")
+        if let ConDis = From.ContextDistance
+        {
+            Values.append("\(ConDis),")
+        }
+        else
+        {
+            Values.append("0.0,")
+        }
+        Values.append("\(From.DebugQuake ? 1 : 0),")
+        Values.append("0.0,")
+        Values.append("\"\(From.EventID)\"")
+        Values.append(")")
+        return Values
+    }
+    
+    /// Gets the name of the column for the specified column enum.
+    /// - Parameter For: The column enum whose name will be returned.
+    /// - Returns: The name of the database column for the specified enum on success, nil if not found or
+    ///            on other error condition.
+    static func ColumnName(For: QuakeColumns) -> String?
+    {
+        let Index = For.rawValue
+        if Index < 0 || Index > QuakeColumnTable.count - 1
+        {
+            return nil
+        }
+        return QuakeColumnTable[Int(Index)]
+    }
+    
+    static func GetFieldData(_ Quake: Earthquake, Column: QuakeColumns) -> String
+    {
+        let QuakeProperties = Mirror(reflecting: Quake).children
+        for Property in QuakeProperties
+        {
+            if var PropertyName = Property.label
+            {
+                if PropertyName.starts(with: "__")
+                {
+                    PropertyName = String(PropertyName.dropFirst(2))
+                    let IsOptional = Mirror.IsOptional(Property.value)
+                    print(">> \(PropertyName): \(type(of: Property.value)) = \(Property.value) [\(IsOptional)]")
+                }
+            }
+        }
+        return ""
+        /*
+        switch Column
+        {
+            case .Alert:
+            case .CDI:
+            case .Code:
+            case .ContextDistance:
+            case .DMin:
+            case .DebugQuake:
+            case .Depth:
+            case .Detail:
+            case .EventID:
+            case .EventPageURL:
+            case .EventType:
+            case .Felt:
+            case .FlatlandRegion:
+            case .Gap:
+            case .HorizontalError:
+            case .ID:
+            case .IDs:
+            case .Latitude:
+            case .LocationSource:
+            case .Longitude:
+            case .MMI:
+            case .MagError:
+            case .MagNS:
+            case .MagSource:
+            case .MagType:
+            case .Magnitude:
+            case .Marked:
+            case .NPH:
+            case .NST:
+            case .Net:
+            case .Notified:
+            case .Place:
+            case .QuakeDate:
+            case .QuakeID:
+            case .RMS:
+            case .Sequence:
+            case .Significance:
+            case .Sources:
+            case .Status:
+            case .TZ:
+            case .Time:
+            case .Title:
+            case .Tsunami:
+            case .Types:
+            case .Updated:
+        }
+ */
+    }
+    
+    static func MakeInsertString(_ Quake: Earthquake) -> String
+    {
+        return ""
+    }
+    
+    /// Array of quake column names.
+    static let QuakeColumnTable: [String] =
+        [
+            "ID",
+            "Latitude",
+            "Longitude",
+            "Place",
+            "Magnitude",
+            "Depth",
+            "Time",
+            "Updated",
+            "Code",
+            "Tsunami",
+            "Status",
+            "MMI",
+            "Felt",
+            "Significance",
+            "Sequence",
+            "Notified",
+            "FlatlandRegion",
+            "Marked",
+            "MagType",
+            "MagError",
+            "MagNS",
+            "DMin",
+            "Alert",
+            "Title",
+            "Types",
+            "EventType",
+            "Detail",
+            "TZ",
+            "EventPageURL",
+            "Sources",
+            "Net",
+            "NST",
+            "Gap",
+            "IDs",
+            "HorizontalError",
+            "CDI",
+            "RMS",
+            "NPH",
+            "LocationSource",
+            "MagSource",
+            "ContextDistance",
+            "DebugQuake",
+            "QuakeDate",
+            "QuakeID",
+            "EventID"
+        ]
+}
+
+
+extension Mirror
+{
+    static func IsOptional(_ Something: Any) -> Bool
+    {
+        guard let style = Mirror(reflecting: Something).displayStyle,
+              style == .optional else
+        {
+            return false
+        }
+        return true
     }
 }
