@@ -272,6 +272,7 @@ extension GlobeView: SettingChangedProtocol
             case .CityNamesDrawnOnMap:
                 if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .CubicWorld) == .Globe3D
                 {
+                    print("At .CityNamesDrawnOnMap")
                     ApplyAllStencils(Caller: "SettingChanged(.CityNamesDrawnOnMap)")
                 }
                 
@@ -462,11 +463,13 @@ extension GlobeView: SettingChangedProtocol
             case .HideMouseOverEarth:
                 if !Settings.GetBool(.HideMouseOverEarth)
                 {
+                    #if false
                     if !MouseIsVisible
                     {
                         MouseIsVisible = true
                         NSCursor.unhide()
                     }
+                    #endif
                 }
                 
             default:
