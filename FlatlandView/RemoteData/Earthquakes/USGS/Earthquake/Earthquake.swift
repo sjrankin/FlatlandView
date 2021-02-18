@@ -125,6 +125,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         PKID = Other.PKID
         Notified = Other.Notified
         RegionName = Other.RegionName
+        ContextDistance = Other.ContextDistance
         if IncludeRelated
         {
             if let OtherRelated = Other.Related
@@ -420,9 +421,9 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     }
     
     /// Holds the updated time.
-    private var __Updated: Date? = nil
-    /// When updated.
-    var Updated: Date?
+    private var __Updated: Date = Date.init(timeIntervalSince1970: 0)
+    /// When updated. If the date is the beginning of 1970, no value has been set.
+    var Updated: Date
     {
         get
         {
@@ -646,9 +647,9 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     }
     
     /// Holds the time zone value.
-    private var __TZ: Int? = nil
-    /// Timezone offset from UTC in minutes at the epicenter.
-    var TZ: Int?
+    private var __TZ: Int = Int.min
+    /// Timezone offset from UTC in minutes at the epicenter. If no value set, `Int.min` will be returned.
+    var TZ: Int
     {
         get
         {
@@ -841,9 +842,9 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
     }
     
     /// Holds the context distance.
-    private var __ContextDistance: Double? = nil
-    /// Distance from something else. If nil, no distance used.
-    var ContextDistance: Double?
+    private var __ContextDistance: Double = -Double.greatestFiniteMagnitude
+    /// Distance from something else. If value is `-Double.greatestFiniteMagnitude`, no value has been set.
+    var ContextDistance: Double
     {
         get
         {
@@ -1165,14 +1166,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         Values.append("\(From.Magnitude),")
         Values.append("\(From.Depth),")
         Values.append("\(From.Time.timeIntervalSince1970),")
-        if let Updated = From.Updated
-        {
-            Values.append("\(Updated.timeIntervalSince1970),")
-        }
-        else
-        {
-            Values.append("0.0,")
-        }
+        Values.append("\(From.Updated.timeIntervalSince1970),")
         Values.append("\"\(From.Code)\",")
         Values.append("\(From.Tsunami),")
         Values.append("\"\(From.Status)\",")
@@ -1192,14 +1186,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         Values.append("\"\(From.Types)\",")
         Values.append("\"\(From.EventType)\",")
         Values.append("\"\(From.Detail)\",")
-        if let TZ = From.TZ
-        {
-            Values.append("\(TZ),")
-        }
-        else
-        {
-            Values.append("0,")
-        }
+        Values.append("\(From.TZ),")
         Values.append("\"\(From.EventPageURL)\",")
         Values.append("\"\(From.Sources)\",")
         Values.append("\"\(From.Net)\",")
@@ -1212,14 +1199,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         Values.append("\"\(From.NPH)\",")
         Values.append("\"\(From.LocationSource)\",")
         Values.append("\"\(From.MagSource)\",")
-        if let ConDis = From.ContextDistance
-        {
-            Values.append("\(ConDis),")
-        }
-        else
-        {
-            Values.append("0.0,")
-        }
+        Values.append("\(From.ContextDistance),")
         Values.append("\(From.DebugQuake ? 1 : 0),")
         Values.append("0.0,")
         Values.append("\"\(From.EventID)\"")
@@ -1241,8 +1221,14 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         return QuakeColumnTable[Int(Index)]
     }
     
-    static func GetFieldData(_ Quake: Earthquake, Column: QuakeColumns) -> String
+    /// Returns an array of property names and values for fields backed by a database.
+    /// - Parameter Quake: The quake whose property data will be returned.
+    /// - Returns: Array of tuples. Each tuple has a property name and property value. The property value is
+    ///            converted to a string. Nil values are converted to default values for the type (eg, strings
+    ///            are converted to "" and numbers to 0).
+    static func GetFieldData(_ Quake: Earthquake) -> [(String, String)]
     {
+        var FieldData = [(String, String)]()
         let QuakeProperties = Mirror(reflecting: Quake).children
         for Property in QuakeProperties
         {
@@ -1250,63 +1236,53 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
             {
                 if PropertyName.starts(with: "__")
                 {
+                    var FinalValue = ""
                     PropertyName = String(PropertyName.dropFirst(2))
-                    let IsOptional = Mirror.IsOptional(Property.value)
-                    print(">> \(PropertyName): \(type(of: Property.value)) = \(Property.value) [\(IsOptional)]")
+                    if Mirror.IsOptional(Property.value)
+                    {
+                        FinalValue = "\(Property.value)"
+                        if FinalValue == "nil"
+                        {
+                            if type(of: Property.value) == String.self
+                            {
+                                FinalValue = "\"\""
+                            }
+                            else
+                            {
+                                FinalValue = "0"
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if type(of: Property.value) == String.self
+                        {
+                            FinalValue = "\"\(Property.value)\""
+                        }
+                        else
+                        {
+                            if type(of: Property.value) == Date.self
+                            {
+                                if let SomeDate = Property.value as? Date
+                                {
+                                    FinalValue = "\(SomeDate.timeIntervalSince1970)"
+                                }
+                                else
+                                {
+                                    FinalValue = "0"
+                                }
+                            }
+                            else
+                            {
+                            FinalValue = "\(Property.value)"
+                            }
+                        }
+                    }
+                    FieldData.append((PropertyName, FinalValue))
                 }
             }
         }
-        return ""
-        /*
-        switch Column
-        {
-            case .Alert:
-            case .CDI:
-            case .Code:
-            case .ContextDistance:
-            case .DMin:
-            case .DebugQuake:
-            case .Depth:
-            case .Detail:
-            case .EventID:
-            case .EventPageURL:
-            case .EventType:
-            case .Felt:
-            case .FlatlandRegion:
-            case .Gap:
-            case .HorizontalError:
-            case .ID:
-            case .IDs:
-            case .Latitude:
-            case .LocationSource:
-            case .Longitude:
-            case .MMI:
-            case .MagError:
-            case .MagNS:
-            case .MagSource:
-            case .MagType:
-            case .Magnitude:
-            case .Marked:
-            case .NPH:
-            case .NST:
-            case .Net:
-            case .Notified:
-            case .Place:
-            case .QuakeDate:
-            case .QuakeID:
-            case .RMS:
-            case .Sequence:
-            case .Significance:
-            case .Sources:
-            case .Status:
-            case .TZ:
-            case .Time:
-            case .Title:
-            case .Tsunami:
-            case .Types:
-            case .Updated:
-        }
- */
+        return FieldData
     }
     
     static func MakeInsertString(_ Quake: Earthquake) -> String
