@@ -247,12 +247,12 @@ extension Date
         if ForFileName
         {
             let SecondString = IncludeSeconds ? ".\(SecondS)" : ""
-            Final = "\(HourS).\(MinuteS).\(SecondString)"
+            Final = "\(HourS).\(MinuteS)\(SecondString)"
         }
         else
         {
             let SecondString = IncludeSeconds ? ":\(SecondS)" : ""
-            Final = "\(HourS):\(MinuteS):\(SecondString)"
+            Final = "\(HourS):\(MinuteS)\(SecondString)"
         }
         return Final
     }
