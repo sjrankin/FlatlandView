@@ -63,6 +63,8 @@ extension GlobeView
                 }
                 
             case .Solar:
+                WallClockTimer?.invalidate()
+                WallClockTimer = nil
                 RemoveHours()
                 HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
                 let Declination = Sun.Declination(For: Date())
@@ -70,6 +72,8 @@ extension GlobeView
                 self.scene?.rootNode.addChildNode(HourNode!)
                 
             case .RelativeToNoon:
+                WallClockTimer?.invalidate()
+                WallClockTimer = nil
                 RemoveHours()
                 HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
                 let Declination = Sun.Declination(For: Date())
@@ -77,17 +81,18 @@ extension GlobeView
                 self.scene?.rootNode.addChildNode(HourNode!)
                 
             case .RelativeToLocation:
+                WallClockTimer?.invalidate()
+                WallClockTimer = nil
                 RemoveHours()
                 HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
                 SystemNode?.addChildNode(HourNode!)
                 
             case .WallClock:
                 RemoveHours()
-                HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
+                HourNode = DrawHourLabels(Radius: Double(GlobeRadius.WallClockSphere.rawValue))
                 let Declination = Sun.Declination(For: Date())
                 HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
                 SystemNode?.addChildNode(HourNode!)
-//                self.scene?.rootNode.addChildNode(HourNode!)
         }
         PreviousHourType = With
     }
@@ -256,6 +261,9 @@ extension GlobeView
         return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, RadialOffset: 3.0, StartAngle: 0.0)
     }
     
+    /// Make wall-clock hours over each major longitude line.
+    /// - Parameter Radius: The radius of the sphere that holds the hours.
+    /// - Returns: Node that holds the wall clock hours.
     func MakeWallClockHours(Radius: Double) -> SCNNode2
     {
         let Color = Settings.GetColor(.HourColor, NSColor.systemOrange)
@@ -302,6 +310,12 @@ extension GlobeView
         return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, StartAngle: 0.0)
     }
     
+    /// Plot wall-clock hours.
+    /// - Parameter Radius: The radius of the sphere on which the time will be plotted.
+    /// - Parameter LetterColor: The color of the labels.
+    /// - Parameter RadialOffset: Optional radial offset. Defaults to `0.0`.
+    /// - Parameter StartAngle: Starting angle of the hours.
+    /// - Returns: Node that holds the wall clock hours.
     func PlotWallClockLabels(Radius: Double, LetterColor: NSColor = NSColor.systemYellow,
                              RadialOffset: CGFloat = 0.0, StartAngle: Double) -> SCNNode2
     {
@@ -341,12 +355,10 @@ extension GlobeView
                 BigCharWidth = CGFloat(HourConstants.BigBigCharWidth.rawValue)
                 SmallCharWidth = CGFloat(HourConstants.BigSmallCharWidth.rawValue)
         }
-
-        let FlatnessValue: CGFloat = CGFloat(HourConstants.NormalFlatness.rawValue)
         
         for LabelAngle in stride(from: 0.0, to: 359.0, by: 15.0)
         {
-            var WorkingAngle = StartAngle + LabelAngle - 15.0// - (15.0 * 3.0)
+            var WorkingAngle = StartAngle + LabelAngle - 15.0
             if WorkingAngle < 0.0
             {
                 WorkingAngle = 360.0 + WorkingAngle
@@ -357,38 +369,105 @@ extension GlobeView
                 Hour = 12 - (Hour - 12)
                 Hour = Hour * -1
             }
-            print("WorkingAngle = \(WorkingAngle): \(Int(LabelAngle)), StartAngle=\(StartAngle): Hour=\(Hour)")
             let UTC = Date().ToUTC()
             let Cal = Calendar.current
             let FinalDate = Cal.date(byAdding: .hour, value: Hour, to: UTC)
             let PrettyTime = Date.PrettyTime(From: FinalDate!, IncludeSeconds: false)
-            print("  Time=\(PrettyTime)")
-            let HourText = SCNText(string: PrettyTime, extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
-//            let HourText = SCNText(string: "\(Int(LabelAngle))", extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
-            let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium",
-                                                                      CGFloat(HourConstants.EnglishFontSize.rawValue),
-                                                                      NSColor.yellow))
-            let FontSize: CGFloat = 12.0
-            HourText.font = NSFont(name: FontData.PostscriptName, size: FontSize)
-            HourText.firstMaterial?.diffuse.contents = LetterColor
-            HourText.firstMaterial?.specular.contents = NSColor.white
-            HourText.flatness = FlatnessValue
-            let HourTextNode = SCNNode2(geometry: HourText)
-            HourTextNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-            let FinalScale = CGFloat(ScaleMultiplier) * NodeScales3D.HourText.rawValue
-            HourTextNode.scale = SCNVector3(FinalScale)
-            let (X, Y, Z) = ToECEF(0.0, WorkingAngle, Radius: Double(GlobeRadius.HourSphere.rawValue))
-            let HourHeight = HourTextNode.boundingBox.max.x - HourTextNode.boundingBox.min.x
-            let YOffset = Double(HourHeight / 2.0 * FinalScale)
-            HourTextNode.position = SCNVector3(X, Y + YOffset, Z)
-            let XAngle = (180.0 - WorkingAngle - 180.0).Radians
-            let YAngle = 0.0.Radians
-            let ZAngle = -90.0.Radians
-            HourTextNode.eulerAngles = SCNVector3(XAngle, YAngle, ZAngle)
+            let HourTextNode = MakeWallClockNode(WorkingAngle, ScaleMultiplier: ScaleMultiplier,
+                                                 Value: PrettyTime, LetterColor: LetterColor)
             PhraseNode.addChildNode(HourTextNode)
         }
 
+        WallStartAngle = StartAngle
+        WallScaleMultiplier = ScaleMultiplier
+        WallLetterColor = LetterColor
+        let Now = Date()
+        let Cal = Calendar.current
+        let Seconds = Cal.component(.second, from: Now)
+        let After = Double(60 - Seconds)
+        DispatchQueue.main.asyncAfter(deadline: .now() + After)
+        {
+            self.UpdateWallClockHours()
+            self.WallClockTimer = Timer.scheduledTimer(timeInterval: 60.0,
+                                                       target: self,
+                                                       selector: #selector(self.UpdateWallClockHours),
+                                                       userInfo: nil,
+                                                       repeats: true)
+        }
         return PhraseNode
+    }
+    
+    /// Called once a minute to update the time for wall clock nodes.
+    @objc func UpdateWallClockHours()
+    {
+        for Hour in HourNode!.childNodes
+        {
+            if let Node = Hour as? SCNNode2
+            {
+                if Node.IsTextNode
+                {
+                    Node.removeAllActions()
+                    Node.removeAllAnimations()
+                    Node.removeFromParentNode()
+                }
+            }
+        }
+        for LabelAngle in stride(from: 0.0, to: 359.0, by: 15.0)
+        {
+            var WorkingAngle = WallStartAngle + LabelAngle - 15.0
+            if WorkingAngle < 0.0
+            {
+                WorkingAngle = 360.0 + WorkingAngle
+            }
+            var Hour = Int(WorkingAngle / 15.0)
+            if Hour > 12
+            {
+                Hour = 12 - (Hour - 12)
+                Hour = Hour * -1
+            }
+            let UTC = Date().ToUTC()
+            let Cal = Calendar.current
+            let FinalDate = Cal.date(byAdding: .hour, value: Hour, to: UTC)
+            let PrettyTime = Date.PrettyTime(From: FinalDate!, IncludeSeconds: false)
+            let HourTextNode = MakeWallClockNode(WorkingAngle, ScaleMultiplier: WallScaleMultiplier,
+                                                 Value: PrettyTime, LetterColor: WallLetterColor)
+            HourNode?.addChildNode(HourTextNode)
+        }
+    }
+    
+    /// Create an extruded time node to use as wall clock time.
+    /// - Parameter WorkingAngle: Determines the location and the time to display.
+    /// - Parameter ScaleMultiplier: How to scale the 3D node.
+    /// - Parameter Value: The string to display.
+    /// - Parameter LetterColor: The color of the node.
+    /// - Returns: Node with extruded text oriented and located appropriately.
+    func MakeWallClockNode(_ WorkingAngle: Double, ScaleMultiplier: Double, Value: String,
+                           LetterColor: NSColor = NSColor.systemYellow) -> SCNNode2
+    {
+        let FlatnessValue: CGFloat = CGFloat(HourConstants.NormalFlatness.rawValue)
+        let HourText = SCNText(string: Value, extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
+        let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium",
+                                                                  CGFloat(HourConstants.EnglishFontSize.rawValue),
+                                                                  NSColor.yellow))
+        let FontSize: CGFloat = 12.0
+        HourText.font = NSFont(name: FontData.PostscriptName, size: FontSize)
+        HourText.firstMaterial?.diffuse.contents = LetterColor
+        HourText.firstMaterial?.specular.contents = NSColor.white
+        HourText.flatness = FlatnessValue
+        let HourTextNode = SCNNode2(geometry: HourText)
+        HourTextNode.IsTextNode = true
+        HourTextNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        let FinalScale = CGFloat(ScaleMultiplier) * NodeScales3D.HourText.rawValue
+        HourTextNode.scale = SCNVector3(FinalScale)
+        let (X, Y, Z) = ToECEF(0.0, WorkingAngle, Radius: Double(GlobeRadius.HourSphere.rawValue))
+        let HourHeight = HourTextNode.boundingBox.max.x - HourTextNode.boundingBox.min.x
+        let YOffset = Double(HourHeight / 2.0 * FinalScale)
+        HourTextNode.position = SCNVector3(X, Y + YOffset, Z)
+        let XAngle = (180.0 - WorkingAngle - 180.0).Radians
+        let YAngle = 0.0.Radians
+        let ZAngle = -90.0.Radians
+        HourTextNode.eulerAngles = SCNVector3(XAngle, YAngle, ZAngle)
+        return HourTextNode
     }
     
     /// Given an array of words, place a set of words in the hour ring over the Earth.
