@@ -543,6 +543,8 @@ enum GlobeRadius: CGFloat, CaseIterable
     case LineSphere = 10.2
     /// Sphere that holds the hour text.
     case HourSphere = 11.5
+    /// Sphere that holds the hour text if in wall clock mode.
+    case WallClockSphere = 11.0
     /// Location of city names (if used).
     case CityNames = 10.5
     /// Grid line layer.
