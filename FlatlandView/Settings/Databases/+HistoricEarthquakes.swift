@@ -200,9 +200,9 @@ extension DBIF
         }
     }
     
-    public static func QuakeInDatabase(_ ID: String) -> Bool
+    public static func QuakeInDatabase(_ Code: String) -> Bool
     {
-        let Exists = "SELECT EXISTS(SELECT 1 FROM \(QuakeTableNames.Historic.rawValue) WHERE EventID=\(ID))"
+        let Exists = "SELECT EXISTS(SELECT 1 FROM \(QuakeTableNames.Historic.rawValue) WHERE Code=\"\(Code)\")"
         var QueryHandle: OpaquePointer? = nil
         let QuerySetupResult = SQL.SetupQuery(For: DBIF.QuakeHandle, Query: Exists)
         switch QuerySetupResult
@@ -219,9 +219,39 @@ extension DBIF
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
         {
             let Value = sqlite3_column_int(QueryHandle, 0)
-            print("Search for \(ID) resulted in returned value \(Value)")
+            return true
         }
         return false
+    }
+    
+    public static func InsertQuake(Code: String, With Statement: String)
+    {
+        if QuakeInDatabase(Code)
+        {
+            print("Earthquake \(Code) already in database.")
+            return
+        }
+        InsertQuake(WithInsert: Statement)
+    }
+    
+    private static func InsertQuake(WithInsert Statement: String)
+    {
+        var InsertHandle: OpaquePointer? = nil
+        guard sqlite3_prepare_v2(DBIF.QuakeHandle, Statement, -1, &InsertHandle, nil) == SQLITE_OK else
+        {
+            Debug.Print("Failure insert statement \(Statement) for historic earthquakes")
+            let (Message, Value) = SQL.ExtendedError(From: DBIF.QuakeHandle)
+            Debug.Print("  \(Message) [\(Value)]")
+            return
+        }
+        guard sqlite3_step(InsertHandle) == SQLITE_DONE else
+        {
+            Debug.Print("Insert execution failed: \(Statement) for historic earthquakes")
+            let (Message, Value) = SQL.ExtendedError(From: DBIF.QuakeHandle)
+            Debug.Print("  \(Message) [\(Value)]")
+            return
+        }
+        print("Inserted \(Statement) into quake database.")
     }
 }
 
