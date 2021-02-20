@@ -86,7 +86,8 @@ extension GlobeView
                 HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
                 let Declination = Sun.Declination(For: Date())
                 HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
-                self.scene?.rootNode.addChildNode(HourNode!)
+                SystemNode?.addChildNode(HourNode!)
+//                self.scene?.rootNode.addChildNode(HourNode!)
         }
         PreviousHourType = With
     }
@@ -257,37 +258,9 @@ extension GlobeView
     
     func MakeWallClockHours(Radius: Double) -> SCNNode2
     {
-        #if false
-        return SCNNode2()
-        #else
-        //let NodeShape = SCNSphere(radius: CGFloat(Radius))
-        //let Node = SCNNode2(geometry: NodeShape)
-        //Node.position = SCNVector3(0.0, 0.0, 0.0)
-        //Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
-        //Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
-        //Node.name = GlobeNodeNames.HourNode.rawValue
-        var HourLabelList = [(String, Int)]()
-        
-        let Cal = Calendar.current
-        for Hour in 0 ... 23
-        {
-            let SolarHours = [23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0]
-            let DisplayHour = SolarHours[(Hour/* + 6*/) % 24]
-            //let DisplayString = GetScriptHours("\(DisplayHour)", Actual: DisplayHour)
-            let AngleTime = Cal.date(byAdding: .hour, value: Hour, to: Date())
-            let PrettyAngleTime = AngleTime?.PrettyTime(IncludeSeconds: false)
-            HourLabelList.append((PrettyAngleTime!, DisplayHour))
-//            HourLabelList.append((DisplayString, DisplayHour))
-        }
         let Color = Settings.GetColor(.HourColor, NSColor.systemOrange)
-        return PlotWallClockLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, RadialOffset: 3.0,
+        return PlotWallClockLabels(Radius: Radius, LetterColor: Color, RadialOffset: 3.0,
                               StartAngle: 360.0 / 24.0)
-        #endif
-    }
-    
-    func UpdateWallClockHours(_ Time: Date, Radius: Double = Double(GlobeRadius.HourSphere.rawValue))
-    {
-        
     }
     
     /// Make the hour node such that `0` is always under the user's location (if set) with offsets
@@ -329,8 +302,7 @@ extension GlobeView
         return PlotHourLabels(Radius: Radius, Labels: HourLabelList, LetterColor: Color, StartAngle: 0.0)
     }
     
-    func PlotWallClockLabels(Radius: Double, Labels: [(HourLabels: String, HourValue: Int)],
-                             LetterColor: NSColor = NSColor.systemYellow,
+    func PlotWallClockLabels(Radius: Double, LetterColor: NSColor = NSColor.systemYellow,
                              RadialOffset: CGFloat = 0.0, StartAngle: Double) -> SCNNode2
     {
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
@@ -374,25 +346,38 @@ extension GlobeView
         
         for LabelAngle in stride(from: 0.0, to: 359.0, by: 15.0)
         {
-            var WorkingAngle = LabelAngle //- 15.0// - (15.0 * 3.0)
+            var WorkingAngle = StartAngle + LabelAngle - 15.0// - (15.0 * 3.0)
             if WorkingAngle < 0.0
             {
                 WorkingAngle = 360.0 + WorkingAngle
             }
-            let HourText = SCNText(string: "\(Int(LabelAngle))", extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
+            var Hour = Int(WorkingAngle / 15.0)
+            if Hour > 12
+            {
+                Hour = 12 - (Hour - 12)
+                Hour = Hour * -1
+            }
+            print("WorkingAngle = \(WorkingAngle): \(Int(LabelAngle)), StartAngle=\(StartAngle): Hour=\(Hour)")
+            let UTC = Date().ToUTC()
+            let Cal = Calendar.current
+            let FinalDate = Cal.date(byAdding: .hour, value: Hour, to: UTC)
+            let PrettyTime = Date.PrettyTime(From: FinalDate!, IncludeSeconds: false)
+            print("  Time=\(PrettyTime)")
+            let HourText = SCNText(string: PrettyTime, extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
+//            let HourText = SCNText(string: "\(Int(LabelAngle))", extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
             let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium",
                                                                       CGFloat(HourConstants.EnglishFontSize.rawValue),
                                                                       NSColor.yellow))
             let FontSize: CGFloat = 12.0
             HourText.font = NSFont(name: FontData.PostscriptName, size: FontSize)
-            HourText.firstMaterial?.diffuse.contents = NSColor.systemGreen
+            HourText.firstMaterial?.diffuse.contents = LetterColor
             HourText.firstMaterial?.specular.contents = NSColor.white
             HourText.flatness = FlatnessValue
             let HourTextNode = SCNNode2(geometry: HourText)
             HourTextNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
             let FinalScale = CGFloat(ScaleMultiplier) * NodeScales3D.HourText.rawValue
             HourTextNode.scale = SCNVector3(FinalScale)
-            let (X, Y, Z) = ToECEF(0.0, WorkingAngle + 5.0, Radius: Radius + 0.1)
+            let (X, Y, Z) = ToECEF(0.0, WorkingAngle, Radius: Double(GlobeRadius.HourSphere.rawValue))
             let HourHeight = HourTextNode.boundingBox.max.x - HourTextNode.boundingBox.min.x
             let YOffset = Double(HourHeight / 2.0 * FinalScale)
             HourTextNode.position = SCNVector3(X, Y + YOffset, Z)
@@ -402,57 +387,7 @@ extension GlobeView
             HourTextNode.eulerAngles = SCNVector3(XAngle, YAngle, ZAngle)
             PhraseNode.addChildNode(HourTextNode)
         }
-        
-        #if false
-        var Angle = StartAngle
-        var Increment: CGFloat = 0.0
-        for Label in Labels
-        {
-            let Actual = Label.HourValue
- //           var WorkingAngle: CGFloat = CGFloat(Angle) + RadialOffset + Increment
-            var WorkingAngle: CGFloat = Increment
-            Increment = Increment + 15.0
-            let Radians = WorkingAngle.Radians
-            let HourText = SCNText(string: "\(Increment)", extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
-//            let HourText = SCNText(string: Label.HourLabels, extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
-            var FontSize: CGFloat = VisualScript == .English ? CGFloat(HourConstants.EnglishFontSize.rawValue) :
-                CGFloat(HourConstants.OtherFontSize.rawValue)
-            FontSize = FontSize * 0.65
-            let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium",
-                                                                      CGFloat(HourConstants.EnglishFontSize.rawValue),
-                                                                      NSColor.yellow))
-            HourText.font = NSFont(name: FontData.PostscriptName, size: FontSize)
-            HourText.firstMaterial?.diffuse.contents =  NSColor(RGB: Colors3D.HourColor.rawValue)
-            HourText.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
-           let HourTextNode = SCNNode2(geometry: HourText)
-            if Label.HourValue <= 6 || Label.HourValue >= 18
-            {
-                HourTextNode.IsInDaylight = false
-                HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
-                HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
-                HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor(RGB: Colors3D.GlowingHourColor.rawValue)
-            }
-            else
-            {
-                HourTextNode.IsInDaylight = true
-                HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
-                HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
-                HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor.clear
-            }
-            HourTextNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-            let FinalScale = CGFloat(ScaleMultiplier) * NodeScales3D.HourText.rawValue
-            HourTextNode.scale = SCNVector3(FinalScale)
-            let X = CGFloat(Radius) * cos(Radians)
-            let Z = CGFloat(Radius) * sin(Radians)
-            HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
-            let HourRotation = (90.0 - Double(WorkingAngle)).Radians
-            HourTextNode.eulerAngles = SCNVector3(0.0, HourRotation, 0.0)
-            HourTextNode.castsShadow = Settings.GetBool(.HoursCastShadows)
-            HourTextNode.CanSwitchState = true
-            PhraseNode.addChildNode(HourTextNode)
-            //break
-        }
-        #endif
+
         return PhraseNode
     }
     
@@ -655,7 +590,7 @@ extension GlobeView
                 TotalLabelWidth = TotalLabelWidth + (CGFloat(CharWidth) + PreviousEnding)
             }
             let LastAngle = CGFloat(Angle).Radians
-            #if true
+            #if false
             let YOffset = -(LabelHeight * CGFloat(HourConstants.LabelHeightMultiplier.rawValue)) / CGFloat(HourConstants.LabelHeightDivisor.rawValue)
             LabelNode.position = SCNVector3(0.0, YOffset, 0.0)
             #else
@@ -678,7 +613,6 @@ extension GlobeView
                     }
                 }
             }
-            LabelNode.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
             PhraseNode.addChildNode(LabelNode)
             PhraseNode.CanSwitchState = true
             
