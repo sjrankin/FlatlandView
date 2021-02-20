@@ -137,7 +137,7 @@ extension GlobeView
                                         usesShortestUnitArc: true)
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
-        LineNode?.runAction(Rotate)
+        //LineNode?.runAction(Rotate)
         for (_, Layer) in StencilLayers
         {
             Layer.runAction(Rotate)
@@ -184,23 +184,34 @@ extension GlobeView
                                         usesShortestUnitArc: true)
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
-        LineNode?.runAction(Rotate)
+        #if false
+        //LineNode?.runAction(Rotate)
+        print("StencilLayers.count=\(StencilLayers.count)")
         for (_, Layer) in StencilLayers
         {
             Layer.runAction(Rotate)
         }
-        if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
+        #endif
+        let CurrentHourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
+        switch CurrentHourType
         {
-            HourNode?.runAction(Rotate)
-            UpdateHourLongitudes(Percent)
+            case .RelativeToLocation:
+                HourNode?.runAction(Rotate)
+                UpdateHourLongitudes(Percent)
+                
+            case .WallClock:
+                HourNode?.runAction(Rotate)
+
+            default:
+                break
         }
         let Declination = Sun.Declination(For: Date())
-        let SysRotate = SCNAction.rotateTo(x: CGFloat(Declination.Radians),
+        let DeclRotate = SCNAction.rotateTo(x: CGFloat(Declination.Radians),
                                            y: 0.0,
                                            z: 0.0,
                                            duration: Defaults.EarthRotationDuration.rawValue,
                                            usesShortestUnitArc: true)
-        SystemNode?.runAction(SysRotate)
+        SystemNode?.runAction(DeclRotate)
     }
     
     /// Push current node opacities and assign the new value.
