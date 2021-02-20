@@ -135,13 +135,16 @@ extension Settings
         }
     }
     
+    /// List of columns excluded in insert statements.
+    private static let ExcludedColumns = ["PKID", "ID"]
+    
     public static func MakeInsertStatement(_ From: [(String, String)]) -> String
     {
         var ColumnList = ""
-        var ValueList = "VALUES "
+        var ValueList = ""
         for (Name, Value) in From
         {
-            if Name == "PKID"
+            if ExcludedColumns.contains(Name)
             {
                 continue
             }
@@ -152,7 +155,65 @@ extension Settings
         }
         ColumnList = String(ColumnList.dropLast(1))
         ValueList = String(ValueList.dropLast(1))
-        let Final = "INSERT INTO \(QuakeTableNames.Historic.rawValue) (\(ColumnList)) (\(ValueList));"
+        let Final = "INSERT INTO \(QuakeTableNames.Historic.rawValue) (\(ColumnList)) VALUES(\(ValueList));"
+        return Final
+    }
+    
+    public static func CompressQuakes(_ Quakes: [Earthquake]) -> [Earthquake]
+    {
+        class QuakeSet
+        {
+            init(_ Code: String, _ Quake: Earthquake)
+            {
+                self.Code = Code
+                QuakeList.append(Quake)
+            }
+            
+            var Code: String = ""
+            var QuakeList = [Earthquake]()
+        }
+        
+        var Unique = [QuakeSet]()
+        for Quake in Quakes
+        {
+            let Saved = Unique.filter({$0.Code == Quake.Code})
+            if Saved.count == 0
+            {
+                Unique.append(QuakeSet(Quake.Code, Quake))
+            }
+        }
+
+        var Final = [Earthquake]()
+        
+        for Uni in Unique
+        {
+            if Uni.QuakeList.count < 1
+            {
+                fatalError("Missing earthquakes in \(Uni.Code)")
+            }
+            if Uni.QuakeList.count > 1
+            {
+                var Seq = -1
+                var SeqQuake: Earthquake? = nil
+                for UQuake in Uni.QuakeList
+                {
+                    if UQuake.Sequence > Seq
+                    {
+                        SeqQuake = UQuake
+                        Seq = UQuake.Sequence
+                    }
+                }
+                if let Latest = SeqQuake
+                {
+                Final.append(Latest)
+                }
+            }
+            else
+            {
+                Final.append(Uni.QuakeList.first!)
+            }
+        }
+        
         return Final
     }
     
@@ -169,11 +230,15 @@ extension Settings
             Working.append("\n")
         }
         SetString(.CachedEarthquakes, Working)
-        let List = Earthquake.GetFieldData(QuakeList.first!)
-//        print("\(List)")
-        let Test = MakeInsertStatement(List)
-        print("Test=\(Test)")
-//        Settings.SaveQuakes(QuakeList)
+        
+        let Compressed = CompressQuakes(QuakeList)
+        print("Source quake count: \(QuakeList.count), Compressed quake count: \(Compressed.count)")
+        for Quake in Compressed
+        {
+            let QuakeData = Earthquake.GetFieldData(Quake)
+            let InsertStatement = MakeInsertStatement(QuakeData)
+            Settings.SaveQuake(Code: Quake.Code, WithInsert: InsertStatement)
+        }
     }
     
     /// Returns an array of earthquakes from the set of cached earthquakes in settings.
