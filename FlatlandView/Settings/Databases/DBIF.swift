@@ -71,7 +71,6 @@ class DBIF
         print("Found \(InitialQuakes.count) latest earthquakes")
         Cities = GetAllCities()
         AdditionalCities = GetAllAdditionalCities()
-        print("City.count=\(Cities.count), AdditionalCities.count=\(AdditionalCities.count)")
     }
     
     private static var _QuakesInitialized: Bool = false
