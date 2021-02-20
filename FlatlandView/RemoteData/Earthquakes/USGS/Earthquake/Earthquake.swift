@@ -1221,6 +1221,8 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         return QuakeColumnTable[Int(Index)]
     }
     
+    // MARK: - Static functions for reflecting data.
+    
     /// Returns an array of property names and values for fields backed by a database.
     /// - Parameter Quake: The quake whose property data will be returned.
     /// - Returns: Array of tuples. Each tuple has a property name and property value. The property value is
@@ -1255,6 +1257,7 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
                     }
                     else
                     {
+                        let PropertyType = "\(type(of: Property.value))"
                         if type(of: Property.value) == String.self
                         {
                             FinalValue = "\"\(Property.value)\""
@@ -1274,7 +1277,14 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
                             }
                             else
                             {
+                                if type(of: Property.value) == UUID.self
+                                {
+                                    FinalValue = "\"\(FinalValue)\""
+                                }
+                                else
+                                {
                             FinalValue = "\(Property.value)"
+                                }
                             }
                         }
                     }
