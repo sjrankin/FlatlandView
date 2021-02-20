@@ -597,6 +597,11 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var TransientRegions = [UserRegion]()
     var RadialContainer: [RadialLayer] = [RadialLayer]()
     var RadialRadiusOffset: CGFloat = RadialConstants.RadialRadiusOffset.rawValue
+    
+    var WallClockTimer: Timer? = nil
+    var WallStartAngle: Double = 0.0
+    var WallScaleMultiplier: Double = 1.0
+    var WallLetterColor: NSColor = NSColor.red
 }
 
 
