@@ -51,6 +51,11 @@ extension Settings
     {
         DBIF.InsertQuakes(Quakes) 
     }
+    
+    public static func SaveQuake(Code: String, WithInsert Statement: String)
+    {
+        DBIF.InsertQuake(Code: Code, With: Statement)
+    }
 }
 
 /// Operations callers can perform on non-built-in tables.
