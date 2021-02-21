@@ -374,7 +374,8 @@ extension GlobeView
             let FinalDate = Cal.date(byAdding: .hour, value: Hour, to: UTC)
             let PrettyTime = Date.PrettyTime(From: FinalDate!, IncludeSeconds: false)
             let HourTextNode = MakeWallClockNode(WorkingAngle, ScaleMultiplier: ScaleMultiplier,
-                                                 Value: PrettyTime, LetterColor: LetterColor)
+                                                 Value: PrettyTime, LetterColor: LetterColor,
+                                                 NodeTime: FinalDate!)
             PhraseNode.addChildNode(HourTextNode)
         }
 
@@ -430,7 +431,8 @@ extension GlobeView
             let FinalDate = Cal.date(byAdding: .hour, value: Hour, to: UTC)
             let PrettyTime = Date.PrettyTime(From: FinalDate!, IncludeSeconds: false)
             let HourTextNode = MakeWallClockNode(WorkingAngle, ScaleMultiplier: WallScaleMultiplier,
-                                                 Value: PrettyTime, LetterColor: WallLetterColor)
+                                                 Value: PrettyTime, LetterColor: WallLetterColor,
+                                                 NodeTime: FinalDate!)
             HourNode?.addChildNode(HourTextNode)
         }
     }
@@ -440,16 +442,18 @@ extension GlobeView
     /// - Parameter ScaleMultiplier: How to scale the 3D node.
     /// - Parameter Value: The string to display.
     /// - Parameter LetterColor: The color of the node.
+    /// - Parameter NodeTime: The time of the node. Used to determine glowing.
     /// - Returns: Node with extruded text oriented and located appropriately.
     func MakeWallClockNode(_ WorkingAngle: Double, ScaleMultiplier: Double, Value: String,
-                           LetterColor: NSColor = NSColor.systemYellow) -> SCNNode2
+                           LetterColor: NSColor = NSColor.systemYellow,
+                           NodeTime: Date) -> SCNNode2
     {
         let FlatnessValue: CGFloat = CGFloat(HourConstants.NormalFlatness.rawValue)
         let HourText = SCNText(string: Value, extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
         let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium",
                                                                   CGFloat(HourConstants.EnglishFontSize.rawValue),
                                                                   NSColor.yellow))
-        let FontSize: CGFloat = 12.0
+        let FontSize: CGFloat = CGFloat(HourConstants.WallClockFontSize.rawValue)
         HourText.font = NSFont(name: FontData.PostscriptName, size: FontSize)
         HourText.firstMaterial?.diffuse.contents = LetterColor
         HourText.firstMaterial?.specular.contents = NSColor.white
@@ -467,6 +471,20 @@ extension GlobeView
         let YAngle = 0.0.Radians
         let ZAngle = -90.0.Radians
         HourTextNode.eulerAngles = SCNVector3(XAngle, YAngle, ZAngle)
+        if NodeTime.IsInEquatorialNight()
+        {
+            HourTextNode.IsInDaylight = false
+            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
+            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+            HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor(RGB: Colors3D.GlowingHourColor.rawValue)
+        }
+        else
+        {
+            HourTextNode.IsInDaylight = true
+            HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
+            HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+            HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor.clear
+        }
         return HourTextNode
     }
     
