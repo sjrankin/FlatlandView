@@ -251,7 +251,7 @@ Show or hide seconds in the main time display. Ignored if the clock format is No
                     
                 case .HourTypes:
                     Message = """
-Determines the type of hours to show. Can be none, relative to the sun (eg, the sun is always over the noon location), relative to a location, or relative to current noon.
+Determines the type of hours to show. Can be none, relative to the sun (eg, the sun is always over the noon location), relative to a location, relative to current noon, or wall-clock time (based on the sun, not time-zones).
 """
                     
                 case .MapTypes:
