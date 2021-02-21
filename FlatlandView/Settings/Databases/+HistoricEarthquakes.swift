@@ -232,6 +232,7 @@ extension DBIF
             return
         }
         InsertQuake(WithInsert: Statement)
+        print("Added earthquake \(Code) to database.")
     }
     
     private static func InsertQuake(WithInsert Statement: String)
