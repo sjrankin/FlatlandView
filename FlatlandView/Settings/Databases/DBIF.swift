@@ -139,6 +139,44 @@ enum CityColumns: Int32
     case SubNational = 13
 }
 
+/// Column IDs for the region table.
+enum RegionColumns: Int32
+{
+    case RegionPK = 0
+    case RegionName = 1
+    case RegionColor = 2
+    case BorderWidth = 3
+    case UpperLeftLatitude = 4
+    case UpperLeftLongitude = 5
+    case LowerRightLatitude = 6
+    case LowerRightLongitude = 7
+    case MinimumMagnitude = 8
+    case MaximumMagnitude = 9
+    case Age = 10
+    case Notification = 11
+    case SoundName = 12
+    case IsFallback = 13
+    case IsEnabled = 14
+    case NotifyOnNewQuake = 15
+    case IsRectangular = 16
+    case CenterLatitude = 17
+    case CenterLongitude = 18
+    case Radius = 19
+    case RegionID = 20
+}
+
+#if false
+//https://stackoverflow.com/questions/31450971/swift-enums-that-use-closures
+typealias IntClosure = (OpaquePointer?, Int) -> Int
+typealias DoubleClosure = (OpaquePointer?, Double) -> Double
+
+enum fred
+{
+    case SomeDouble(DoubleClosure)
+    case SomeInt(IntClosure)
+}
+#endif
+
 /// Column IDs for POI locations.
 enum POIColumns: Int32
 {
