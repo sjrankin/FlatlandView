@@ -177,6 +177,9 @@ class UserRegion: CustomStringConvertible
         }
     }
     
+    /// Database ID of the region.
+    var RegionPK: Int = 0
+    
     /// The name of the region.
     var RegionName: String = ""
     
