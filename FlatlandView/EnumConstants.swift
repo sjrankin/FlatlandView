@@ -751,6 +751,8 @@ enum HourConstants: Double, CaseIterable
     case HighPerformanceFlatness = 0.001
     /// Number of seconds for the animation of hour removal.
     case RemoveDuration = 0.65
+    /// Font size for wall clock hours.
+    case WallClockFontSize = 16.0
 }
 
 /// Constants used by radial layers.
