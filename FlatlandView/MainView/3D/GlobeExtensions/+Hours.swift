@@ -90,8 +90,6 @@ extension GlobeView
             case .WallClock:
                 RemoveHours()
                 HourNode = DrawHourLabels(Radius: Double(GlobeRadius.WallClockSphere.rawValue))
-                let Declination = Sun.Declination(For: Date())
-                HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
                 SystemNode?.addChildNode(HourNode!)
         }
         PreviousHourType = With
@@ -332,26 +330,22 @@ extension GlobeView
         let VisualScript = Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English)
         let HourScale = Settings.GetEnum(ForKey: .HourScale, EnumType: MapNodeScales.self, Default: .Normal)
         var ScaleMultiplier = HourConstants.NormalScaleMultiplier.rawValue
-        var VerticalOffset: CGFloat = CGFloat(HourConstants.NormalVerticalOffset.rawValue)
         var BigCharWidth: CGFloat = CGFloat(HourConstants.NormalBigCharWidth.rawValue)
         var SmallCharWidth: CGFloat = CGFloat(HourConstants.NormalSmallCharWidth.rawValue)
         switch HourScale
         {
             case .Small:
                 ScaleMultiplier = HourConstants.SmallScaleMultiplier.rawValue
-                VerticalOffset = CGFloat(HourConstants.SmallVerticalOffset.rawValue)
                 BigCharWidth = CGFloat(HourConstants.SmallBigCharWidth.rawValue)
                 SmallCharWidth = CGFloat(HourConstants.SmallSmallCharWidth.rawValue)
                 
             case .Normal:
                 ScaleMultiplier = HourConstants.NormalScaleMultiplier.rawValue
-                VerticalOffset = CGFloat(HourConstants.NormalVerticalOffset.rawValue)
                 BigCharWidth = CGFloat(HourConstants.NormalBigCharWidth.rawValue)
                 SmallCharWidth = CGFloat(HourConstants.NormalSmallCharWidth.rawValue)
                 
             case .Large:
                 ScaleMultiplier = HourConstants.BigScaleMultiplier.rawValue
-                VerticalOffset = CGFloat(HourConstants.BigVerticalOffset.rawValue)
                 BigCharWidth = CGFloat(HourConstants.BigBigCharWidth.rawValue)
                 SmallCharWidth = CGFloat(HourConstants.BigSmallCharWidth.rawValue)
         }
@@ -463,14 +457,17 @@ extension GlobeView
         HourTextNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         let FinalScale = CGFloat(ScaleMultiplier) * NodeScales3D.HourText.rawValue
         HourTextNode.scale = SCNVector3(FinalScale)
+        
         let (X, Y, Z) = ToECEF(0.0, WorkingAngle, Radius: Double(GlobeRadius.HourSphere.rawValue))
         let HourHeight = HourTextNode.boundingBox.max.x - HourTextNode.boundingBox.min.x
         let YOffset = Double(HourHeight / 2.0 * FinalScale)
         HourTextNode.position = SCNVector3(X, Y + YOffset, Z)
+        
         let XAngle = (180.0 - WorkingAngle - 180.0).Radians
         let YAngle = 0.0.Radians
         let ZAngle = -90.0.Radians
         HourTextNode.eulerAngles = SCNVector3(XAngle, YAngle, ZAngle)
+        
         if NodeTime.IsInEquatorialNight()
         {
             HourTextNode.IsInDaylight = false
