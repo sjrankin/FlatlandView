@@ -529,7 +529,26 @@ extension Date
         let OtherMinute = Time.Minute
         let OtherSecond = Time.Second
         let OtherSeconds = (OtherHour * 60 * 60) + (OtherMinute * 60) + OtherSecond
-        return SelfSecond >= OtherSecond
+        return SelfSeconds >= OtherSeconds
+    }
+    
+    /// Determines if the instance time is in equatorial night or day.
+    /// - Returns: True if the instance time is between 18:00 and 6:00 the following date, false if not.
+    func IsInEquatorialNight() -> Bool
+    {
+        let SelfHour = self.Hour
+        let SelfMinute = self.Minute
+        let SelfSecond = self.Second
+        let SelfSeconds = (SelfHour * 60 * 60) + (SelfMinute * 60) + SelfSecond
+        if SelfSeconds <= 6 * (60 * 60)
+        {
+            return true
+        }
+        if SelfSeconds >= 18 * (60 * 60)
+        {
+            return true
+        }
+        return false
     }
 }
 
