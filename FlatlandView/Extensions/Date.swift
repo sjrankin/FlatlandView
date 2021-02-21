@@ -533,18 +533,18 @@ extension Date
     }
     
     /// Determines if the instance time is in equatorial night or day.
-    /// - Returns: True if the instance time is between 18:00 and 6:00 the following date, false if not.
+    /// - Returns: True if the instance time is between 17:30 and 6:00 the following date, false if not.
     func IsInEquatorialNight() -> Bool
     {
         let SelfHour = self.Hour
         let SelfMinute = self.Minute
         let SelfSecond = self.Second
-        let SelfSeconds = (SelfHour * 60 * 60) + (SelfMinute * 60) + SelfSecond
-        if SelfSeconds <= 6 * (60 * 60)
+        let SelfSeconds = Double((SelfHour * 60 * 60) + (SelfMinute * 60) + SelfSecond)
+        if SelfSeconds <= HourConstants.NightEnd.rawValue * (60.0 * 60.0)
         {
             return true
         }
-        if SelfSeconds >= 18 * (60 * 60)
+        if SelfSeconds >= HourConstants.NightStart.rawValue * (60.0 * 60.0)
         {
             return true
         }
