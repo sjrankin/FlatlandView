@@ -544,7 +544,7 @@ enum GlobeRadius: CGFloat, CaseIterable
     /// Sphere that holds the hour text.
     case HourSphere = 11.5
     /// Sphere that holds the hour text if in wall clock mode.
-    case WallClockSphere = 11.0
+    case WallClockSphere = 10.6
     /// Location of city names (if used).
     case CityNames = 10.5
     /// Grid line layer.
@@ -614,6 +614,8 @@ enum MappableTableNames: String, CaseIterable
     case AdditionalCities = "AdditionalCities"
     /// Version table.
     case Version = "Version"
+    /// Regions, mostly user defined.
+    case Regions = "Regions"
 }
 
 /// Table names in the POI database.
@@ -753,6 +755,10 @@ enum HourConstants: Double, CaseIterable
     case RemoveDuration = 0.65
     /// Font size for wall clock hours.
     case WallClockFontSize = 16.0
+    /// The start of night for wall clock hours.
+    case NightStart = 17.5
+    /// The end of night for wall clock hours.
+    case NightEnd = 6.1
 }
 
 /// Constants used by radial layers.
