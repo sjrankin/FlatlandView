@@ -184,14 +184,6 @@ extension GlobeView
                                         usesShortestUnitArc: true)
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
-        #if false
-        //LineNode?.runAction(Rotate)
-        print("StencilLayers.count=\(StencilLayers.count)")
-        for (_, Layer) in StencilLayers
-        {
-            Layer.runAction(Rotate)
-        }
-        #endif
         let CurrentHourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
         switch CurrentHourType
         {
