@@ -223,6 +223,7 @@ extension Settings
     /// - Parameter QuakeList: List of earthquakes to cache.
     public static func CacheEarthquakes(_ QuakeList: [Earthquake])
     {
+        #if false
         var Working = ""
         for Quake in QuakeList
         {
@@ -230,6 +231,7 @@ extension Settings
             Working.append("\n")
         }
         SetString(.CachedEarthquakes, Working)
+        #endif
         
         let Compressed = CompressQuakes(QuakeList)
         print("Source quake count: \(QuakeList.count), Compressed quake count: \(Compressed.count)")
@@ -246,6 +248,9 @@ extension Settings
     public static func GetCachedEarthquakes() -> [Earthquake]
     {
         var DeCached = [Earthquake]()
+        #if true
+        return DBIF.QuakesInDB
+        #else
         if let Raw = GetString(.CachedEarthquakes)
         {
             let Parts = Raw.split(separator: "\n", omittingEmptySubsequences: true)
@@ -259,5 +264,6 @@ extension Settings
             }
         }
         return DeCached
+        #endif
     }
 }
