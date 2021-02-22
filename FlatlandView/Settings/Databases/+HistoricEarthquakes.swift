@@ -18,11 +18,11 @@ extension DBIF
     /// - Parameter Start: The starting date for the range of earthquakes to return.
     /// - Parameter End: The ending date for the range of earthquakes to return.
     /// - Returns: Array of earthquakes from the specified range. May be empty if nothing found.
-    public static func GetHistoricQuakes(Start: Date, End: Date) -> [Earthquake]
+    public static func GetEarthquakesInRange(Start: Date, End: Date) -> [Earthquake]
     {
         let StartSeconds = Start.timeIntervalSince1970
-        let EndSeconds = Start.timeIntervalSince1970
-        return GetHistoricQuakes(Start: StartSeconds, End: EndSeconds)
+        let EndSeconds = End.timeIntervalSince1970
+        return GetEarthquakesInRange(Start: StartSeconds, End: EndSeconds)
     }
     
     /// Get historic earthquakes by date range.
@@ -31,7 +31,7 @@ extension DBIF
     /// - Parameter End: The ending date for the range of earthquakes to return. The ending date is
     ///                  defined as the number of seconds since 1970.
     /// - Returns: Array of earthquakes from the specified range. May be empty if nothing found.
-    public static func GetHistoricQuakes(Start: Double, End: Double) -> [Earthquake]
+    public static func GetEarthquakesInRange(Start: Double, End: Double) -> [Earthquake]
     {
         print("Start=\(Date(timeIntervalSince1970: Start)), End=\(Date(timeIntervalSince1970: End))")
         var Results = [Earthquake]()
@@ -55,49 +55,49 @@ extension DBIF
         {
             let PKID = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.PKID.rawValue)!
             let Latitude = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.Latitude.rawValue)!
-            let Longitude = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.Longitude.rawValue)!
-            let Place = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Place.rawValue)!
-            let Magnitude = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.Magnitude.rawValue)!
-            let Depth = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.Depth.rawValue)!
-            let Time = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.Time.rawValue)!
-            let Updated = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.Updated.rawValue)!
-            let Code = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Code.rawValue)!
-            let Tsunami = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.Tsunami.rawValue)!
-            let Status = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Status.rawValue)!
-            let MMI = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.MMI.rawValue)!
-            let Felt = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.Felt.rawValue)!
-            let Significance = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.Significance.rawValue)!
-            let Sequence = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.Sequence.rawValue)!
-            let Notified = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.Notified.rawValue)!
-            let Region = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.RegionName.rawValue)!
-            let Marked = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.Marked.rawValue)!
-            let MagType = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.MagType.rawValue)!
-            let MagError = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.MagError.rawValue)!
-            let MagNST = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.MagNST.rawValue)!
-            let DMin = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.DMin.rawValue)!
-            let Alert = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Alert.rawValue)!
-            let Title = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Title.rawValue)!
-            let Types = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Types.rawValue)!
-            let EventType = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.EventType.rawValue)!
-            let Detail = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Detail.rawValue)!
-            let TZ = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.TZ.rawValue)!
-            let EventPageURL = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.EventPageURL.rawValue)!
-            let Sources = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Sources.rawValue)!
-            let Net = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.Net.rawValue)!
-            let NST = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.NST.rawValue)!
-            let Gap = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.Gap.rawValue)!
-            let IDs = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.IDs.rawValue)!
-            let HorizontalError = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.HorizontalError.rawValue)!
-            let CDI = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.CDI.rawValue)!
-            let RMS = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.RMS.rawValue)!
-            let NPH = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.NPH.rawValue)!
-            let LocationSource = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.LocationSource.rawValue)!
-            let MagSource = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.MagSource.rawValue)!
-            let ContextDistance = SQL.ReadDoubleColumn(Handle: QuakeHandle, Index: QuakeColumns.ContextDistance.rawValue)!
-            let DebugQuake = SQL.ReadIntColumn(Handle: QuakeHandle, Index: QuakeColumns.DebugQuake.rawValue)!
-            let QuakeDate = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.QuakeDate.rawValue)!
-            let QuakeID = SQL.ReadUUIDColumn(Handle: QuakeHandle, Index: QuakeColumns.QuakeID.rawValue)!
-            let EventID = SQL.ReadStringColumn(Handle: QuakeHandle, Index: QuakeColumns.EventID.rawValue)!
+            let Longitude = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.Longitude.rawValue)!
+            let Place = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.Place.rawValue)!
+            let Magnitude = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.Magnitude.rawValue)!
+            let Depth = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.Depth.rawValue)!
+            let Time = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.Time.rawValue)!
+            let Updated = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.Updated.rawValue)!
+            let Code = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.Code.rawValue)!
+            let Tsunami = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.Tsunami.rawValue)!
+            let Status = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.Status.rawValue)!
+            let MMI = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.MMI.rawValue)!
+            let Felt = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.Felt.rawValue)!
+            let Significance = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.Significance.rawValue)!
+            let Sequence = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.Sequence.rawValue)!
+            let Notified = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.Notified.rawValue)!
+            let Region = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.RegionName.rawValue)!
+            let Marked = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.Marked.rawValue)!
+            let MagType = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.MagType.rawValue)!
+            let MagError = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.MagError.rawValue)!
+            let MagNST = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.MagNST.rawValue)!
+            let DMin = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.DMin.rawValue)!
+            let Alert = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.Alert.rawValue)!
+            let Title = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.Title.rawValue)!
+            let Types = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.Types.rawValue)!
+            let EventType = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.EventType.rawValue)!
+            let Detail = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.Detail.rawValue)!
+            let TZ = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.TZ.rawValue)!
+            let EventPageURL = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.EventPageURL.rawValue)!
+            let Sources = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.Sources.rawValue)!
+            let Net = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.Net.rawValue)!
+            let NST = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.NST.rawValue)!
+            let Gap = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.Gap.rawValue)!
+            let IDs = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.IDs.rawValue)!
+            let HorizontalError = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.HorizontalError.rawValue)!
+            let CDI = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.CDI.rawValue)!
+            let RMS = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.RMS.rawValue)!
+            let NPH = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.NPH.rawValue)!
+            let LocationSource = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.LocationSource.rawValue)!
+            let MagSource = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.MagSource.rawValue)!
+            let ContextDistance = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.ContextDistance.rawValue)!
+            let DebugQuake = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.DebugQuake.rawValue)!
+            let QuakeDate = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.QuakeDate.rawValue, Default: "")
+            let QuakeID = SQL.ReadUUIDColumn(Handle: QueryHandle, Index: QuakeColumns.QuakeID.rawValue, Default: UUID.Empty)
+            let EventID = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.EventID.rawValue)!
             
             let HQuake = Earthquake(PKID)
             HQuake.Latitude = Latitude
@@ -141,15 +141,19 @@ extension DBIF
             HQuake.MagSource = MagSource
             HQuake.ContextDistance = ContextDistance
             HQuake.DebugQuake = DebugQuake == 0 ? false : true
-            HQuake.ID = QuakeID
+            HQuake.QuakeID = QuakeID
             HQuake.EventID = EventID
             
             Results.append(HQuake)
         }
         
+        Debug.Print("*>*> Read \(Results.count) earthquakes")
         return Results
     }
     
+    /// Creates a list of columns of earthquake data for storage or retrieval.
+    /// - Returns: List of column names in the earthquake database, comma separated and encapsulated
+    ///            in parentheses.
     public static func MakeQuakeColumnList() -> String
     {
         var Columns = "("
@@ -192,6 +196,10 @@ extension DBIF
         }
     }
     
+    /// Insert the list of earthquakes into the database.
+    /// - Note: Duplicate earthquakes (determined by the value of each earthquake's `Code` property) will not
+    ///         be inserted.
+    /// - Parameter Quakes: Array of quakes to insert.
     public static func InsertQuakes(_ Quakes: [Earthquake])
     {
         for Quake in Quakes
@@ -200,6 +208,9 @@ extension DBIF
         }
     }
     
+    /// Determines if an earthquake with the passed code is in the earthquake database.
+    /// - Parameter Code: The code to search in the database.
+    /// - Returns: True if an earthquake with `Code` is found in the database, false if not.
     public static func QuakeInDatabase(_ Code: String) -> Bool
     {
         let Exists = "SELECT EXISTS(SELECT 1 FROM \(QuakeTableNames.Historic.rawValue) WHERE Code=\"\(Code)\")"
@@ -219,22 +230,30 @@ extension DBIF
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
         {
             let Value = sqlite3_column_int(QueryHandle, 0)
-            return true
+            return Value == 0 ? false : true
         }
         return false
     }
     
+    /// Insert an earthquake into the database.
+    /// - Parameter Code: The code of the earthquake. If an earthquake with this code already exists, the
+    ///                   passed earthquake will not be inserted.
+    /// - Parameter With: The properly formatted Sqlite insert statement with the earthquake data to insert.
     public static func InsertQuake(Code: String, With Statement: String)
     {
         if QuakeInDatabase(Code)
         {
-            print("Earthquake \(Code) already in database.")
+            Debug.Print("Earthquake \(Code) already in database.")
             return
         }
         InsertQuake(WithInsert: Statement)
-        print("Added earthquake \(Code) to database.")
+        Debug.Print("Added earthquake \(Code) to database.")
     }
     
+    /// Insert an earthquake into the database.
+    /// - Note: Intended to be called only by `InsertQuake(String, String)` and not by anyone else.
+    /// - Parameter WithInsert: The properly formatted Sqlite insert statement with the earthquake data to
+    ///                         insert. The earthquake is unconditionally inserted.
     private static func InsertQuake(WithInsert Statement: String)
     {
         var InsertHandle: OpaquePointer? = nil
@@ -252,7 +271,7 @@ extension DBIF
             Debug.Print("  \(Message) [\(Value)]")
             return
         }
-        print("Inserted \(Statement) into quake database.")
+        Debug.Print("Inserted \(Statement) into quake database.")
     }
 }
 
