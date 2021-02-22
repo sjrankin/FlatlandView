@@ -376,25 +376,22 @@ extension GlobeView
         WallStartAngle = StartAngle
         WallScaleMultiplier = ScaleMultiplier
         WallLetterColor = LetterColor
-        let Now = Date()
-        let Cal = Calendar.current
-        let Seconds = Cal.component(.second, from: Now)
-        let After = Double(60 - Seconds)
-        DispatchQueue.main.asyncAfter(deadline: .now() + After)
-        {
-            self.UpdateWallClockHours()
-            self.WallClockTimer = Timer.scheduledTimer(timeInterval: 60.0,
-                                                       target: self,
-                                                       selector: #selector(self.UpdateWallClockHours),
-                                                       userInfo: nil,
-                                                       repeats: true)
-        }
+        UpdateWallClockHours()
+        WallClockTimer = Timer.scheduledTimer(timeInterval: HourConstants.WallClockUpdateTime.rawValue,
+                                              target: self,
+                                              selector: #selector(self.UpdateWallClockHours),
+                                              userInfo: nil,
+                                              repeats: true)
         return PhraseNode
     }
     
     /// Called once a minute to update the time for wall clock nodes.
     @objc func UpdateWallClockHours()
     {
+        if HourNode == nil
+        {
+            return
+        }
         for Hour in HourNode!.childNodes
         {
             if let Node = Hour as? SCNNode2
