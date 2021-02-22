@@ -480,18 +480,18 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
         }
     }
     
-    /// Holds the ID.
-    private var __ID: UUID = UUID()
+    /// Holds the QuakeID.
+    private var __QuakeID: UUID = UUID()
     /// Unique (per instance) ID of the earthquake.
-    var ID: UUID
+    var QuakeID: UUID
     {
         get
         {
-            return __ID
+            return __QuakeID
         }
         set
         {
-            __ID = newValue
+            __QuakeID = newValue
         }
     }
     
@@ -1258,14 +1258,9 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
                     else
                     {
                         let PropertyType = "\(type(of: Property.value))"
-                        if type(of: Property.value) == String.self
+                        switch PropertyType
                         {
-                            FinalValue = "\"\(Property.value)\""
-                        }
-                        else
-                        {
-                            if type(of: Property.value) == Date.self
-                            {
+                            case "Date":
                                 if let SomeDate = Property.value as? Date
                                 {
                                     FinalValue = "\(SomeDate.timeIntervalSince1970)"
@@ -1274,18 +1269,22 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
                                 {
                                     FinalValue = "0"
                                 }
-                            }
-                            else
-                            {
-                                if type(of: Property.value) == UUID.self
+                                
+                            case "UUID":
+                                if FinalValue.isEmpty
                                 {
-                                    FinalValue = "\"\(FinalValue)\""
+                                    FinalValue = "\"\(UUID().uuidString)\""
                                 }
                                 else
                                 {
-                            FinalValue = "\(Property.value)"
+                                    FinalValue = "\"\(FinalValue)\""
                                 }
-                            }
+                                
+                            case "String":
+                                FinalValue = "\"\(Property.value)\""
+                                
+                            default:
+                                FinalValue = "\(Property.value)"
                         }
                     }
                     FieldData.append((PropertyName, FinalValue))
@@ -1293,11 +1292,6 @@ class Earthquake: KMDataPoint, Hashable, CustomStringConvertible
             }
         }
         return FieldData
-    }
-    
-    static func MakeInsertString(_ Quake: Earthquake) -> String
-    {
-        return ""
     }
     
     /// Array of quake column names.
