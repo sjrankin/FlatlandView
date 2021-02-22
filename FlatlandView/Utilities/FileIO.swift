@@ -21,7 +21,7 @@ class FileIO
     {
         InstallMappableDatabase()
         InstallPOIDatabase()
-        InstallEarthquakeHistoryDatabase()
+        //InstallEarthquakeHistoryDatabase()
         InitializeFileStructure()
     }
     
