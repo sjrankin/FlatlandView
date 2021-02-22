@@ -213,7 +213,7 @@ class Locations
                                                                       Latitude2: Quake.Latitude, Longitude2: Quake.Longitude) / 1000.0
                             if Distance <= CloseIs
                             {
-                                let QuakeRecord = MetaLocation(ID: Quake.ID,
+                                let QuakeRecord = MetaLocation(ID: Quake.QuakeID,
                                                                Name: Quake.Title,
                                                                Latitude: Quake.Latitude,
                                                                Longitude: Quake.Longitude,
