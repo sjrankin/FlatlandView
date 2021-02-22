@@ -89,7 +89,7 @@ class DetailQuakeController: NSViewController, NSTableViewDelegate, NSTableViewD
         let MMIR = Roman[Int(Quake.MMI)]
         DataSet.append(("MMI", "\(MMIR) [\(Quake.MMI.RoundedTo(3))]", false))
         DataSet.append(("Status", Quake.Status, false))
-        DataSet.append(("Internal ID", Quake.ID.uuidString, true))
+        DataSet.append(("Internal ID", Quake.QuakeID.uuidString, true))
         let IDList = PrettyList(From: Quake.IDs)
         DataSet.append(("IDs", IDList, false))
         let SourceList = PrettyList(From: Quake.Sources)
