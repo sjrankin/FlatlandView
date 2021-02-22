@@ -759,6 +759,8 @@ enum HourConstants: Double, CaseIterable
     case NightStart = 17.5
     /// The end of night for wall clock hours.
     case NightEnd = 6.1
+    /// Duration between wall clock update checks.
+    case WallClockUpdateTime = 9.5968
 }
 
 /// Constants used by radial layers.
