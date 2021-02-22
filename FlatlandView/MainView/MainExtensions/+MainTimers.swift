@@ -67,7 +67,31 @@ extension MainController
             let Percent = Double(ElapsedSeconds) / Double(24 * 60 * 60)
             let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
             Main2DView.RotateImageTo(PrettyPercent)
-            //            RotateImageTo(PrettyPercent)
+            if Minute == 0 && !HourSoundTriggered
+            {
+                HourSoundTriggered = true
+                NSSound(named: "Blow")?.play()
+            }
+            if Minute != 0
+            {
+                HourSoundTriggered = false
+            }
+            /*
+            if Minute == 0 && !HourSoundTriggered
+            {
+                HourSoundTriggered = true
+                NSSound(named: "Blow")?.play()
+            }
+            if Minute != 0
+            {
+                HourSoundTriggered = false
+            }
+            if Second == 0
+            {
+                NSSound(named: "Blow")?.play()
+                Main3DView.UpdateWallClockHours()
+            }
+ */
         }
     }
     
