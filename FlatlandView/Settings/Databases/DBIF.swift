@@ -39,6 +39,7 @@ class DBIF
             _QuakesInitialized = true
             if let QuakeURL = FileIO.GetEarthquakeHistoryDatabaseSURL()
             {
+                print("Opening quake database \(QuakeURL.path)")
                 if sqlite3_open_v2(QuakeURL.path, &QuakeHandle,
                                    SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
                 {
@@ -66,9 +67,9 @@ class DBIF
         BuiltInPOIs = GetAllBuiltInPOIs()
         if let Earlier = Calendar.current.date(byAdding: .day, value: -30, to: Date())
         {
-            InitialQuakes = GetHistoricQuakes(Start: Earlier, End: Date())
+            QuakesInDB = GetEarthquakesInRange(Start: Earlier, End: Date())
         }
-        print("Found \(InitialQuakes.count) latest earthquakes")
+        print("Found \(QuakesInDB.count) latest earthquakes")
         Cities = GetAllCities()
         AdditionalCities = GetAllAdditionalCities()
     }
@@ -96,7 +97,7 @@ class DBIF
     public static var BuiltInPOIs = [POI2]()
     public static var UserPOIs = [POI2]()
     public static var UNESCOSites = [WorldHeritageSite]()
-    public static var InitialQuakes = [Earthquake]()
+    public static var QuakesInDB = [Earthquake]()
     public static var Cities = [City2]()
     public static var AdditionalCities = [City2]()
     
