@@ -821,6 +821,8 @@ class MainController: NSViewController
     var CurrentWorldTime: Double = 0.0
     var WorldClockStartTime: Date? = nil
     
+    var HourSoundTriggered: Bool = false
+    
     // MARK: - Windowing variables
     var ParentWindow: NSWindow? = nil
     
