@@ -133,7 +133,7 @@ class InjectCommand: CommandProtocol
                 }
                 let DebugQuake = Earthquake(Latitude: ActualLat, Longitude: ActualLon, Magnitude: ActualMag,
                                             IsDebug: true)
-                DebugQuake.ID = UUID()
+                DebugQuake.QuakeID = UUID()
                 DebugQuake.Sequence = Int.random(in: 100000 ... 500000)
                 DebugQuake.Code = String.Random(10)
                 if let Quakes = Main?.GetEarthquakeController()
