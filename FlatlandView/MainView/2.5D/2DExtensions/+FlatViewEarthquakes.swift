@@ -164,7 +164,7 @@ extension FlatView
             case .Star:
                 PlottedQuake = PlotEarthquakeStar(Quake: Quake, Radius: Radius)
         }
-        PlottedQuake.NodeID = Quake.ID
+        PlottedQuake.NodeID = Quake.QuakeID
         PlottedQuake.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
         PlottedQuake.PropagateIDs()
         QuakePlane.addChildNode(PlottedQuake)
