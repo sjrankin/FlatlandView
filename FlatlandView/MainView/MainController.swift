@@ -391,11 +391,19 @@ class MainController: NSViewController
         Earthquakes?.GetNewEarthquakeData()
     }
     
+    @IBAction func TestSomething(_ sender: Any)
+    {
+        #if DEBUG
+        SoundManager.Play(ForEvent: .Debug)
+        Main3DView.FlashAllHours(Count: 5)
+        //        Main3DView.FlashHoursInSequence(Count: 3)
+        //        Main3DView.RotateCameraTo(Latitude: 43.0, Longitude: 141)
+        #endif
+    }
+    
     @IBAction func RunTestDialog(_ sender: Any)
     {
-        #if true
-        Main3DView.RotateCameraTo(Latitude: 43.0, Longitude: 141)
-        #else
+        #if DEBUG
         let Storyboard = NSStoryboard(name: "Main", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "ColorChipDebugWindow") as? ColorChipDebugWindow
         {
