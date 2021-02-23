@@ -317,6 +317,8 @@ extension GlobeView
     func PlotWallClockLabels(Radius: Double, LetterColor: NSColor = NSColor.systemYellow,
                              RadialOffset: CGFloat = 0.0, StartAngle: Double) -> SCNNode2
     {
+        let StackTrace = Debug.StackFrameContents(8)
+        Debug.Print("PlotWallClockLabels: \(Debug.PrettyStackTrace(StackTrace))")
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
         let PhraseNode = SCNNode2(geometry: NodeShape)
         PhraseNode.castsShadow = Settings.GetBool(.HoursCastShadows)
@@ -326,28 +328,18 @@ extension GlobeView
         PhraseNode.geometry?.firstMaterial?.specular.contents = NSColor.clear
         PhraseNode.name = GlobeNodeNames.HourNode.rawValue
 
-        
-        let VisualScript = Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English)
         let HourScale = Settings.GetEnum(ForKey: .HourScale, EnumType: MapNodeScales.self, Default: .Normal)
         var ScaleMultiplier = HourConstants.NormalScaleMultiplier.rawValue
-        var BigCharWidth: CGFloat = CGFloat(HourConstants.NormalBigCharWidth.rawValue)
-        var SmallCharWidth: CGFloat = CGFloat(HourConstants.NormalSmallCharWidth.rawValue)
         switch HourScale
         {
             case .Small:
                 ScaleMultiplier = HourConstants.SmallScaleMultiplier.rawValue
-                BigCharWidth = CGFloat(HourConstants.SmallBigCharWidth.rawValue)
-                SmallCharWidth = CGFloat(HourConstants.SmallSmallCharWidth.rawValue)
                 
             case .Normal:
                 ScaleMultiplier = HourConstants.NormalScaleMultiplier.rawValue
-                BigCharWidth = CGFloat(HourConstants.NormalBigCharWidth.rawValue)
-                SmallCharWidth = CGFloat(HourConstants.NormalSmallCharWidth.rawValue)
                 
             case .Large:
                 ScaleMultiplier = HourConstants.BigScaleMultiplier.rawValue
-                BigCharWidth = CGFloat(HourConstants.BigBigCharWidth.rawValue)
-                SmallCharWidth = CGFloat(HourConstants.BigSmallCharWidth.rawValue)
         }
         
         for LabelAngle in stride(from: 0.0, to: 359.0, by: 15.0)
@@ -376,7 +368,9 @@ extension GlobeView
         WallStartAngle = StartAngle
         WallScaleMultiplier = ScaleMultiplier
         WallLetterColor = LetterColor
-        UpdateWallClockHours()
+        //First time updating the wall clock hours, do not use InPlace = true because there are no nodes yet
+        //available.
+        UpdateWallClockHours(InPlace: false)
         WallClockTimer = Timer.scheduledTimer(timeInterval: HourConstants.WallClockUpdateTime.rawValue,
                                               target: self,
                                               selector: #selector(self.UpdateWallClockHours),
@@ -386,12 +380,23 @@ extension GlobeView
     }
     
     /// Called once a minute to update the time for wall clock nodes.
-    @objc func UpdateWallClockHours()
+    /// - Parameter InPlace: Determines if wall clock nodes are updated in-place (eg, the node itself is not
+    ///                      recreated - only the text shape is recreated) or all nodes replace then recreated.
+    ///                      Defaults to `true` meaning nodes are updated in place. Should be set to false for
+    ///                      first update.
+    @objc func UpdateWallClockHours(InPlace: Bool = true)
     {
         if HourNode == nil
         {
             return
         }
+        if InPlace
+        {
+            Debug.Print("Updating wall clock hours in place.")
+            UpdateWallClockHoursInPlace()
+            return
+        }
+        Debug.Print("Updating wall clock hours by replacing nodes.")
         for Hour in HourNode!.childNodes
         {
             if let Node = Hour as? SCNNode2
@@ -428,6 +433,55 @@ extension GlobeView
         }
     }
     
+    /// Update the text of wall clock hours without re-creating the nodes of the hours.
+    /// - Note: New `SCNText` geometries are created for each `SCNNode2` object.
+    func UpdateWallClockHoursInPlace()
+    {
+        for Node in HourNode!.childNodes
+        {
+            if let ActualNode = Node as? SCNNode2
+            {
+                if ActualNode.IsTextNode
+                {
+                    if let HourAngle = ActualNode.HourAngle
+                    {
+                        var Hour = Int(HourAngle / 15.0)
+                        if Hour > 12
+                        {
+                            Hour = 12 - (Hour - 12)
+                            Hour = Hour * -1
+                        }
+                        let UTC = Date().ToUTC()
+                        let Cal = Calendar.current
+                        let FinalDate = Cal.date(byAdding: .hour, value: Hour, to: UTC)
+                        let PrettyTime = Date.PrettyTime(From: FinalDate!, IncludeSeconds: false)
+                        //Need to update the actual node from HourNode, not the cast with the if let statements.
+                        ActualNode.ChangeText(To: PrettyTime)
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Create text for a wall clock node.
+    /// - Parameter With: The text to use for the returned `SCNText` shape.
+    /// - Parameter LetterColor: The color of the diffuse surface.
+    /// - Returns: `SCNText` with the shape as controlled by the value of `With`.
+    func MakeWallClockNodeText(With Text: String, LetterColor: NSColor = NSColor.systemYellow) -> SCNText
+    {
+        let FlatnessValue: CGFloat = CGFloat(HourConstants.NormalFlatness.rawValue)
+        let HourText = SCNText(string: Text, extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
+        let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium",
+                                                                  CGFloat(HourConstants.EnglishFontSize.rawValue),
+                                                                  NSColor.yellow))
+        let FontSize: CGFloat = CGFloat(HourConstants.WallClockFontSize.rawValue)
+        HourText.font = NSFont(name: FontData.PostscriptName, size: FontSize)
+        HourText.firstMaterial?.diffuse.contents = LetterColor
+        HourText.firstMaterial?.specular.contents = NSColor.white
+        HourText.flatness = FlatnessValue
+        return HourText
+    }
+    
     /// Create an extruded time node to use as wall clock time.
     /// - Parameter WorkingAngle: Determines the location and the time to display.
     /// - Parameter ScaleMultiplier: How to scale the 3D node.
@@ -439,6 +493,9 @@ extension GlobeView
                            LetterColor: NSColor = NSColor.systemYellow,
                            NodeTime: Date) -> SCNNode2
     {
+        #if true
+        let HourText = MakeWallClockNodeText(With: Value, LetterColor: LetterColor)
+        #else
         let FlatnessValue: CGFloat = CGFloat(HourConstants.NormalFlatness.rawValue)
         let HourText = SCNText(string: Value, extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
         let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium",
@@ -449,7 +506,9 @@ extension GlobeView
         HourText.firstMaterial?.diffuse.contents = LetterColor
         HourText.firstMaterial?.specular.contents = NSColor.white
         HourText.flatness = FlatnessValue
+        #endif
         let HourTextNode = SCNNode2(geometry: HourText)
+        HourTextNode.HourAngle = WorkingAngle
         HourTextNode.IsTextNode = true
         HourTextNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         let FinalScale = CGFloat(ScaleMultiplier) * NodeScales3D.HourText.rawValue
@@ -480,6 +539,81 @@ extension GlobeView
             HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor.clear
         }
         return HourTextNode
+    }
+    
+    /// Highlight the hours in sequence.
+    /// - Parameter Count: Number of cycles to flash the hours.
+    func FlashHoursInSequence(Count: Int)
+    {
+        if Count < 1
+        {
+            return
+        }
+        let ExecutionCount = Count < 1 ? 1 : Count
+        DoFlashHours(InSequence: true, RepeatCount: ExecutionCount)
+    }
+    
+    func FlashAllHours(Count: Int)
+    {
+        if Count < 1
+        {
+            return
+        }
+        let ExecutionCount = Count < 1 ? 1 : Count
+        DoFlashHours(InSequence: false, RepeatCount: ExecutionCount)
+    }
+    
+    /// Highlight the hours in sequence.
+    func DoFlashHours(InSequence: Bool, RepeatCount: Int = 0)
+    {
+        if HourNode == nil
+        {
+            return
+        }
+        var Index = 0
+        let DelayMultiplier: Double = InSequence ? 1.0 : 0.0
+        for Node in HourNode!.childNodes
+        {
+            if let HourLabel = Node as? SCNNode2
+            {
+                if HourLabel.IsTextNode
+                {
+                    var FirstColor = NSColor.green
+                    if HourLabel.IsInDaylight
+                    {
+                        FirstColor = NSColor(RGB: Colors3D.HourColor.rawValue)
+                    }
+                    else
+                    {
+                        FirstColor = NSColor(RGB: Colors3D.GlowingHourColor.rawValue)
+                    }
+                    let Action = SCNAction.customAction(duration: HourConstants.FlashHourDuration.rawValue)
+                    {
+                        (Node, Time) in
+                        let Percent = Time / CGFloat(HourConstants.FlashHourDuration.rawValue)
+                        let NewColor = NSColor.yellow.Interpolate2(FirstColor, Percent)
+                        if let ActualNode = Node as? SCNNode2
+                        {
+                            if ActualNode.IsInDaylight
+                            {
+                                ActualNode.geometry?.firstMaterial?.diffuse.contents = NewColor
+                            }
+                            else
+                            {
+                                ActualNode.geometry?.firstMaterial?.emission.contents = NewColor
+                            }
+                        }
+                    }
+                    let DelayDuration = HourConstants.FlashHourDelay.rawValue * Double(Index) * DelayMultiplier
+                    let Delay = SCNAction.wait(duration: DelayDuration)
+                    let Group = SCNAction.sequence([Delay, Action])
+                    let Repeat = SCNAction.repeat(Group, count: RepeatCount)
+                    HourLabel.runAction(Repeat)
+                    Index = Index + 1
+                }
+            }
+        }
+        //print("Found \(Index) hour nodes.")
     }
     
     /// Given an array of words, place a set of words in the hour ring over the Earth.
