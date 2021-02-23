@@ -158,6 +158,9 @@ class SCNNode2: SCNNode
     /// The caller should set this to true if the node is showing SCNText geometry.
     var IsTextNode: Bool = false
     
+    /// Convenience property to hold hour angles.
+    var HourAngle: Double? = nil
+    
     /// Propagate the parent's `NodeUsage` value to its children.
     func PropagateUsage()
     {
@@ -188,6 +191,26 @@ class SCNNode2: SCNNode
     
     /// Auxiliary string tag.
     var AuxiliaryTag: String? = nil
+    
+    // MARK: - Text handling
+    
+    /// Change the text geometry to the passed string.
+    /// - Note:
+    ///   - If `IsTextNode` is false, no action is taken.
+    ///   - If `geometry` hasn't been set, no action is taken.
+    /// - Parameter To: The new text to use for the text geometry.
+    func ChangeText(To NewText: String)
+    {
+        if !IsTextNode
+        {
+            return
+        }
+        if geometry == nil
+        {
+            return
+        }
+        (geometry as? SCNText)?.string = NewText
+    }
     
     // MARK: - Bounding shapes.
     
