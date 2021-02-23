@@ -493,6 +493,12 @@ enum SettingKeys: String, CaseIterable
     /// Boolean: Show or hide UI help buttons ("􀁝").
     case ShowUIHelp = "ShowUIHelp"
     
+    // MARK: - Event and sound settings
+    /// Boolean: Determines if sounds are globally enabled.
+    case EnableSounds = "EnableSounds"
+    /// Boolean: Determines if hour chiming is enable.
+    case EnableHourEvent = "EnableHourEvent"
+    
     // MARK: - Settings that interface with the database.
     /// [City2]: List of built-in cities.
     case DB_Cities = "DB_Cities"
