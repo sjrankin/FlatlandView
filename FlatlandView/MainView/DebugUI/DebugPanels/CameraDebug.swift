@@ -140,7 +140,8 @@ class CameraDebug: PanelController
         {
             if LatValue < -90.0 || LatValue > 90.0
             {
-                NSSound(named: "Tink")?.play()
+                SoundManager.Play(ForEvent: .BadInput)
+//                NSSound(named: "Tink")?.play()
                 return nil
             }
             return LatValue
@@ -152,7 +153,8 @@ class CameraDebug: PanelController
                 PointToLatitude.stringValue = "0"
                 return 0.0
             }
-            NSSound(named: "Tink")?.play()
+            SoundManager.Play(ForEvent: .BadInput)
+//            NSSound(named: "Tink")?.play()
             return nil
         }
     }
@@ -163,7 +165,8 @@ class CameraDebug: PanelController
         {
             if LonValue < -180.0 || LonValue > 180.0
             {
-                NSSound(named: "Tink")?.play()
+                SoundManager.Play(ForEvent: .BadInput)
+//                NSSound(named: "Tink")?.play()
                 return nil
             }
             return LonValue
@@ -175,7 +178,8 @@ class CameraDebug: PanelController
                 PointToLongitude.stringValue = "0"
                 return 0.0
             }
-            NSSound(named: "Tink")?.play()
+            SoundManager.Play(ForEvent: .BadInput)
+//            NSSound(named: "Tink")?.play()
             return nil
         }
     }
