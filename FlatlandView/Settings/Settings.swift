@@ -64,6 +64,8 @@ class Settings
         InitializeColor(.WorldCityColor, NSColor.red)
         InitializeBool(.ExtrudedCitiesCastShadows, false)
         
+        InitializeBool(.EnableSounds, true)
+        
         InitializeDouble(.FieldOfView, 90.0)
         InitializeDouble(.OrthographicScale, 14.0)
         InitializeBool(.UseHDRCamera, false)
