@@ -148,6 +148,51 @@ extension NSColor
         return Final.InRGB
     }
     
+    public static func ColorDistance(_ Color1: NSColor, _ Color2: NSColor) -> CGFloat
+    {
+        var Red1: CGFloat = 0.0
+        var Green1: CGFloat = 0.0
+        var Blue1: CGFloat = 0.0
+        var Alpha1: CGFloat = 0.0
+        var Red2: CGFloat = 0.0
+        var Green2: CGFloat = 0.0
+        var Blue2: CGFloat = 0.0
+        var Alpha2: CGFloat = 0.0
+        Color1.getRed(&Red1, green: &Green1, blue: &Blue1, alpha: &Alpha1)
+        Color2.getRed(&Red2, green: &Green2, blue: &Blue2, alpha: &Alpha2)
+        let RD = pow(Red1 - Red2, 2)
+        let GD = pow(Green1 - Green2, 2)
+        let BD = pow(Blue1 - Blue2, 2)
+        let Distance = sqrt(RD + GD + BD)
+        return Distance
+    }
+    
+    /// Interpolate between two colors. The first color is the instance color.
+    /// - Note: See [Interpolating gradient colors](https://stackoverflow.com/questions/20323180/interpolating-gradient-colors-as-with-nsgradient-on-ios)
+    /// - Parameter InitialColor: The target color.
+    /// - Parameter Distance: Distance between the first (instance) color and the target (`InitialColor`) color.
+    ///                       This value is assumed to be a normal value.
+    /// - Returns: Color in between the instance color and the passed color.
+    func Interpolate2(_ InitialColor: NSColor, _ Distance: CGFloat) -> NSColor
+    {
+        /// Returns a value between `Start` and `End` for the specified distance.
+        /// - Parameter Start: Starting value.
+        /// - Parameter End: Ending value.
+        /// - Parameter Distance: Distance in between `Start` and `End`. This value is assumed to be a normal.
+        func interpolate(_ Start: CGFloat, _ End: CGFloat, _ Distance: CGFloat) -> CGFloat
+        {
+            return Start + (End - Start) * Distance
+        }
+        
+        let FromRGBColor: NSColor = self.usingColorSpace(.genericRGB)!
+        let ToRGBColor: NSColor = InitialColor.usingColorSpace(.genericRGB)!
+        let Red: CGFloat = interpolate(FromRGBColor.redComponent, ToRGBColor.redComponent, Distance)
+        let Green: CGFloat = interpolate(FromRGBColor.greenComponent, ToRGBColor.greenComponent, Distance)
+        let Blue: CGFloat = interpolate(FromRGBColor.blueComponent, ToRGBColor.blueComponent, Distance)
+        let Alpha: CGFloat = interpolate(FromRGBColor.alphaComponent, ToRGBColor.alphaComponent, Distance)
+        return NSColor.init(red: Red, green: Green, blue: Blue, alpha: Alpha)
+    }
+    
     /// Returns an interpolated color between the two passed colors.
     /// - Parameter Color1: First color.
     /// - Parameter Color2: Second color.
