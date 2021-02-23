@@ -214,6 +214,9 @@ extension Settings
             .ShowUserPOIs: Bool.self,
             .ShowUIHelp: Bool.self,
             .ShowBuiltInPOIs: Bool.self,
+            // MARK: - Event and sound settings
+            .EnableSounds: Bool.self,
+            .EnableHourEvent: Bool.self,
             // MARK: - Database-related settings
             .DB_Cities: [City2].self,
             .DB_UserCities: [City2].self,
