@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18121" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18121"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="18121"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -139,6 +139,25 @@
                                         <action selector="Reset3DView:" target="gS1-iC-1Lf" id="RE9-4C-zOa"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="23E2F892-EFF1-46B2-AB10-3FF46E40D2E9" label="Debug" paletteLabel="Debug" id="mNI-Xf-upW">
+                                    <nil key="toolTip"/>
+                                    <imageReference key="image" image="ladybug.fill" catalog="system" symbolScale="large"/>
+                                    <size key="minSize" width="36" height="36"/>
+                                    <size key="maxSize" width="38.5" height="36.5"/>
+                                    <button key="view" id="g3j-GO-C8F">
+                                        <rect key="frame" x="2" y="14" width="38.5" height="36.5"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="ahY-6H-cKz">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="systemHeavy" size="18"/>
+                                            <imageReference key="image" image="ladybug.fill" catalog="system" symbolScale="large"/>
+                                        </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
+                                    </button>
+                                    <connections>
+                                        <action selector="TestSomething:" target="gS1-iC-1Lf" id="LeI-3V-JIk"/>
+                                    </connections>
+                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="B8B57144-D395-49DF-BDF1-9C6AAF02DFC0" label="Snapshot" paletteLabel="Snapshot" id="qP8-7E-Gyk">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="camera" catalog="system" symbolScale="large"/>
@@ -164,6 +183,7 @@
                                 <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="qP8-7E-Gyk"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
+                                <toolbarItem reference="mNI-Xf-upW"/>
                                 <toolbarItem reference="XOM-R1-tav"/>
                                 <toolbarItem reference="43P-br-LdQ"/>
                                 <toolbarItem reference="nkA-Au-qYY"/>
@@ -431,7 +451,7 @@
                                                     <menuItem title="Test Something" id="VOa-dO-ypb">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
-                                                            <action selector="RunTestDialog:" target="vAH-R8-aOX" id="2Da-8U-nlB"/>
+                                                            <action selector="TestSomething:" target="vAH-R8-aOX" id="AWA-re-rc8"/>
                                                         </connections>
                                                     </menuItem>
                                                 </items>
@@ -865,6 +885,7 @@
         <image name="camera" catalog="system" width="23" height="18"/>
         <image name="house.circle" catalog="system" width="19" height="19"/>
         <image name="info.circle.fill" catalog="system" width="19" height="19"/>
+        <image name="ladybug.fill" catalog="system" width="22" height="22"/>
         <image name="wifi" catalog="system" width="21" height="16"/>
         <image name="wrench.and.screwdriver" catalog="system" width="23" height="22"/>
         <namedColor name="ControlBlack">
