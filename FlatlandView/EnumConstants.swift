@@ -759,8 +759,12 @@ enum HourConstants: Double, CaseIterable
     case NightStart = 17.5
     /// The end of night for wall clock hours.
     case NightEnd = 6.1
-    /// Duration between wall clock update checks.
+    /// Duration between wall clock update checks in seconds.
     case WallClockUpdateTime = 9.5968
+    /// Duration of a flash event for changing hour colors in seconds.
+    case FlashHourDuration = 2.15
+    /// Delay between flashing hours in sequence, in seconds.
+    case FlashHourDelay = 0.275
 }
 
 /// Constants used by radial layers.
