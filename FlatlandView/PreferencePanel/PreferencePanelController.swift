@@ -71,6 +71,7 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
         Panels[.LiveData] = PreferencePanelBase(CreatePanelDialog("LiveDataPreferences"))
         Panels[.MapAttributes] = PreferencePanelBase(CreatePanelDialog("MapAttributesPreferences"))
         Panels[.Cities] = PreferencePanelBase(CreatePanelDialog("CityPreferences"))
+        Panels[.Sounds] = PreferencePanelBase(CreatePanelDialog("SoundPreferences"))
     }
     
     var Panels = [PreferencePanelTypes: PreferencePanelBase]()
@@ -166,6 +167,15 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
         {
             ParentWindow?.Highlight(Button)
             LoadPanel(.Cities)
+        }
+    }
+    
+    @IBAction func HandleSoundsButton(_ sender: Any)
+    {
+        if let Button = sender as? NSButton
+        {
+            ParentWindow?.Highlight(Button)
+            LoadPanel(.Sounds)
         }
     }
     
@@ -272,6 +282,11 @@ Hides or shows the status bar. Status messages are always sent so if you show a 
                 case .UIHelp:
                     Message = """
 Hides or shows the UI help buttons (􀁝) in the interface.
+"""
+                    
+                case .HourEventHelp:
+                    Message = """
+Enable or disable sounds and visual effects at the top of each hour.
 """
                     
                 //MARK: - Map help.
@@ -450,7 +465,37 @@ Show a list of all built-in points of interest.
                     Message = """
 Live data is returned by remote servers that are not affiliated with Flatland. As such, there are times when those servers may be offline. Additionally, using live data will incur a data cost if you are using a metered connection. |font type=bold|Live data will not function if you are not connected to the internet.|font type=system|
 """
+                //MARK: - Sound help.
+                case .ClearEventSoundHelp:
+                    Message = """
+Clear all sounds from the currently selected event. Essentially, this just sets the sound to |font type=bold|None|font type=system|.
+"""
                     
+                case .MuteEventHelp:
+                    Message = """
+Mutes an event's sound without changing it.
+"""
+                    
+                case .PlaySampleHelp:
+                    Message = """
+Play the currently selected sound.
+"""
+                    
+                case .UserFileHelp:
+                    Message = """
+This lets you select a sound file on your computer to use for a given event. If you select a sound file, please do not move it as Flatland will expect it to be in the same spot all of the time.
+"""
+                    
+                case .SoundPlayHelp:
+                    Message = """
+Global sound enabling. Enable or disable all sounds Flatland plays. (Your system may generate its own sounds - this setting will not affect those sounds.)
+"""
+                    
+                case .BuiltInSoundsHelp:
+                    Message = """
+List of built-in sounds for Flatland, including standard system sounds.
+"""
+                
                     //MARK: - Common help.
                 case .PaneReset:
                     Message = """
@@ -511,6 +556,7 @@ enum PreferencePanelTypes: String, CaseIterable
     case LiveData
     case MapAttributes
     case Cities
+    case Sounds
 }
 
 enum PreferenceHelp: String, CaseIterable
@@ -524,6 +570,7 @@ enum PreferenceHelp: String, CaseIterable
     case HourScale = "HourScale"
     case ShowStatusBar = "ShowStatusBar"
     case UIHelp = "UIHelp"
+    case HourEventHelp = "HourEventHelp"
     
     case MapSample = "MapSample"
     case ChangingMapsHelp = "ChangingMapsHelp"
@@ -567,4 +614,11 @@ enum PreferenceHelp: String, CaseIterable
     case LiveDataHelp = "LiveDataHelp"
     
     case PaneReset = "PaneReset"
+    
+    case SoundPlayHelp = "SoundPlayHelp"
+    case UserFileHelp = "UserFileHelp"
+    case BuiltInSoundsHelp = "BuiltInSoundsHelp"
+    case PlaySampleHelp = "PlaySampleHelp"
+    case MuteEventHelp = "MuteEventHelp"
+    case ClearEventSoundHelp = "ClearEventSoundHelp"
 }
