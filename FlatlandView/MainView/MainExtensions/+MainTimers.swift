@@ -70,28 +70,13 @@ extension MainController
             if Minute == 0 && !HourSoundTriggered
             {
                 HourSoundTriggered = true
-                NSSound(named: "Blow")?.play()
+                SoundManager.Play(ForEvent: .HourChime)
+//                NSSound(named: "Blow")?.play()
             }
             if Minute != 0
             {
                 HourSoundTriggered = false
             }
-            /*
-            if Minute == 0 && !HourSoundTriggered
-            {
-                HourSoundTriggered = true
-                NSSound(named: "Blow")?.play()
-            }
-            if Minute != 0
-            {
-                HourSoundTriggered = false
-            }
-            if Second == 0
-            {
-                NSSound(named: "Blow")?.play()
-                Main3DView.UpdateWallClockHours()
-            }
- */
         }
     }
     
