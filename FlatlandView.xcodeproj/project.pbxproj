@@ -135,7 +135,8 @@
 		175623A92500C1D6006C0A60 /* AsynchronousData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175623A82500C1D6006C0A60 /* AsynchronousData.swift */; };
 		1757CACD24949C3F00ECA8C1 /* 3DDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1757CACC24949C3F00ECA8C1 /* 3DDebugWindow.swift */; };
 		1757CACF24949C6300ECA8C1 /* 3DDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1757CACE24949C6300ECA8C1 /* 3DDebugController.swift */; };
-		1758AB6225E4D0B800876ACA /* Sounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1758AB6125E4D0B800876ACA /* Sounds.swift */; };
+		1758AB6225E4D0B800876ACA /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1758AB6125E4D0B800876ACA /* SoundManager.swift */; };
+		1758AB6425E4F53100876ACA /* SoundPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1758AB6325E4F53100876ACA /* SoundPreferences.swift */; };
 		1759AE59249F7715003F79F5 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759AE58249F7715003F79F5 /* ContainerController.swift */; };
 		1759AE5B249F7781003F79F5 /* MainSettingsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759AE5A249F7781003F79F5 /* MainSettingsBase.swift */; };
 		1759AE5E249F811E003F79F5 /* OtherOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759AE5D249F811E003F79F5 /* OtherOptions.swift */; };
@@ -601,7 +602,8 @@
 		175623A82500C1D6006C0A60 /* AsynchronousData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousData.swift; sourceTree = "<group>"; };
 		1757CACC24949C3F00ECA8C1 /* 3DDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DDebugWindow.swift; sourceTree = "<group>"; };
 		1757CACE24949C6300ECA8C1 /* 3DDebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DDebugController.swift; sourceTree = "<group>"; };
-		1758AB6125E4D0B800876ACA /* Sounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sounds.swift; sourceTree = "<group>"; };
+		1758AB6125E4D0B800876ACA /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		1758AB6325E4F53100876ACA /* SoundPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPreferences.swift; sourceTree = "<group>"; };
 		1759AE58249F7715003F79F5 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		1759AE5A249F7781003F79F5 /* MainSettingsBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSettingsBase.swift; sourceTree = "<group>"; };
 		1759AE5D249F811E003F79F5 /* OtherOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherOptions.swift; sourceTree = "<group>"; };
@@ -1095,6 +1097,7 @@
 				172F060B25512A1800BEA156 /* SatellitePreferences.swift */,
 				172F060E25512A2C00BEA156 /* EarthquakePreferences.swift */,
 				172F061125512A4500BEA156 /* LiveDataPreferences.swift */,
+				1758AB6325E4F53100876ACA /* SoundPreferences.swift */,
 				174444FA25525A750003C386 /* MapAttributesPreferences.swift */,
 			);
 			path = Panels;
@@ -2130,7 +2133,7 @@
 				17DE2DC625906D3200214204 /* SecureStore.swift */,
 				1701CFC42535646C00544F05 /* Snapshot.swift */,
 				175BA56725712A1A001ED3A2 /* SolarToday.swift */,
-				1758AB6125E4D0B800876ACA /* Sounds.swift */,
+				1758AB6125E4D0B800876ACA /* SoundManager.swift */,
 				17EF33C2247A961C00A5B55D /* SunGenerator.swift */,
 				1723C80224D54C4C00C41EEE /* UserRegion.swift */,
 				17EF33A2247A699300A5B55D /* Utility.swift */,
@@ -2609,6 +2612,7 @@
 				17A181142573934F002C6611 /* CommandLineProtocol.swift in Sources */,
 				172F4A2124FA0F0D0014A65E /* BooleanEditor.swift in Sources */,
 				17561A8D25678BE700FD0506 /* Debug3DPanel.swift in Sources */,
+				1758AB6425E4F53100876ACA /* SoundPreferences.swift in Sources */,
 				17B8F52025037DB800D71931 /* AdjustTransparency.metal in Sources */,
 				174A6A252557CCF000488274 /* DebuggerWindow.swift in Sources */,
 				17F9AFF82520352500DE0219 /* +StoredFont.swift in Sources */,
@@ -2912,7 +2916,7 @@
 				17CA645C254E7DB100B6DFCC /* RegionalQuakeController.swift in Sources */,
 				175BA56825712A1A001ED3A2 /* SolarToday.swift in Sources */,
 				17E1AFFA25CFDDEE003CDE8F /* BuiltInPOIController.swift in Sources */,
-				1758AB6225E4D0B800876ACA /* Sounds.swift in Sources */,
+				1758AB6225E4D0B800876ACA /* SoundManager.swift in Sources */,
 				17019F0625CD402C000296A8 /* GlobalWordLists.swift in Sources */,
 				178A86972488C23C00BE8D46 /* AboutController.swift in Sources */,
 				17C87B7825177EB00065BE6D /* +FlatViewNodeHandling.swift in Sources */,
