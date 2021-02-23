@@ -17,6 +17,7 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        EnableHourEventSwitch.state = Settings.GetBool(.EnableHourEvent) ? .on : .off
         ShowStatusSwitch.state = Settings.GetBool(.ShowStatusBar) ? .on : .off
         let CurrentMapView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.FlatNorthCenter)
         switch CurrentMapView
@@ -222,6 +223,9 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
                 case ResetPaneHelp:
                     Parent?.ShowHelp(For: .PaneReset, Where: Button.bounds, What: ResetPaneHelp)
                     
+                case EnableHourHelp:
+                    Parent?.ShowHelp(For: .HourEventHelp, Where: Button.bounds, What: EnableHourHelp)
+                    
                 default:
                     return
             }
@@ -276,6 +280,10 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
         ShowStatusSwitch.state = .on
         Settings.SetBool(.ShowUIHelp, true)
         ShowUIHelpSwitch.state = .on
+        
+        //Reset event box
+        Settings.SetTrue(.EnableHourEvent)
+        EnableHourEventSwitch.state = .on
         
         //Reset other box
         Settings.SetEnum(.Kilometers, EnumType: InputUnits.self, ForKey: .InputUnit)
@@ -346,6 +354,14 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
         }
     }
     
+    @IBAction func HandleEnableHourEventChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.EnableHourEvent, Switch.state == .on ? true : false)
+        }
+    }
+    
     @IBAction func HourScaleChangedHandler(_ sender: Any)
     {
         if let Segment = sender as? NSSegmentedControl
@@ -367,6 +383,8 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
         }
     }
 
+    @IBOutlet weak var EnableHourEventSwitch: NSSwitch!
+    @IBOutlet weak var EnableHourHelp: NSButton!
     @IBOutlet weak var ResetPaneHelp: NSButton!
     @IBOutlet weak var ShowUIHelpHelp: NSButton!
     @IBOutlet weak var ShowUIHelpSwitch: NSSwitch!
