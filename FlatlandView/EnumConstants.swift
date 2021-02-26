@@ -595,8 +595,12 @@ enum FileIONames: String, CaseIterable
     case POIName = "POI"
     /// Common database extension.
     case DatabaseExtension = "db"
+    /// Mappable items database.
     case MappableDatabaseS = "MappableS.db"
+    /// Quake history database.
     case QuakeHistoryDatabaseS = "EarthquakeHistoryS.db"
+    /// General purpose settings database.
+    case Settings = "Settings.db"
 }
 
 /// Table names in the mappable database.
