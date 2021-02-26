@@ -29,6 +29,7 @@ class FileIO
     {
         InstallDatabase(Name: FileIONames.QuakeHistoryDatabaseS.rawValue)
         InstallDatabase(Name: FileIONames.MappableDatabaseS.rawValue)
+        InstallDatabase(Name: FileIONames.Settings.rawValue) 
     }
     
     public static func InstallDatabase(Name: String)
@@ -339,6 +340,31 @@ class FileIO
         let PathComponent = DatabaseDirectory + "/" + FileIONames.QuakeHistoryDatabaseS.rawValue
         let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         return DBURL
+    }
+    
+    /// Returns the URL for the settings database.
+    /// - Returns: URL of the settings database on success, nil if not found.
+    public static func GetSettingsDatabaseURL() -> URL?
+    {
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.Settings.rawValue
+        let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
+        return DBURL
+    }
+    
+    /// Determines if the settings exists at its expected location.
+    /// - Returns: True if the database is where it is expected to be, false if not.
+    public static func SettingsDatabaseExists() -> Bool
+    {
+        if DirectoryExists(DatabaseDirectory)
+        {
+            let PathComponent = DatabaseDirectory + "/" + FileIONames.Settings.rawValue
+            let LookForExisting = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
+            if FileManager.default.fileExists(atPath: LookForExisting.path)
+            {
+                return true
+            }
+        }
+        return false
     }
     
     /// Determines if the mappable database exists at its expected location.
