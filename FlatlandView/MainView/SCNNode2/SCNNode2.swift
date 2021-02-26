@@ -897,7 +897,7 @@ class SCNNode2: SCNNode
                                             userInfo: nil, repeats: true)
     }
     
-    var DynamicTimer: Timer? = nil
+    weak var DynamicTimer: Timer? = nil
     
     func StopDynamicUpdates()
     {
@@ -1064,6 +1064,23 @@ class SCNNode2: SCNNode
     }
     
     var OpacityStack = Stack<CGFloat>()
+    
+    // MARK: - Child management
+    
+    /// Returns the total number of child nodes (must be of type `SCNNode2`) of the instance node.
+    func ChildCount() -> Int
+    {
+        var Count = 0
+        for Child in childNodes
+        {
+            if let Child2 = Child as? SCNNode2
+            {
+                Count = Count + Child2.ChildCount()
+            }
+        }
+        Count = Count + childNodes.count
+        return Count
+    }
 }
 
 // MARK: - Bounding shapes.
