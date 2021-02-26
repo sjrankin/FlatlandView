@@ -213,26 +213,17 @@ extension DBIF
     /// - Returns: True if an earthquake with `Code` is found in the database, false if not.
     public static func QuakeInDatabase(_ Code: String) -> Bool
     {
-        let Exists = "SELECT EXISTS(SELECT 1 FROM \(QuakeTableNames.Historic.rawValue) WHERE Code=\"\(Code)\")"
-        var QueryHandle: OpaquePointer? = nil
-        let QuerySetupResult = SQL.SetupQuery(For: DBIF.QuakeHandle, Query: Exists)
-        switch QuerySetupResult
+        let Where = "Code=\"\(Code)\""
+        let Result = SQL.RowExists(In: DBIF.QuakeHandle!, Table: QuakeTableNames.Historic.rawValue,
+                                   Where: Where)
+        switch Result
         {
-            case .success(let Handle):
-                QueryHandle = Handle
+            case .success(let Exists):
+                return Exists
                 
             case .failure(let Why):
-                Debug.Print("Failure creating query \(Exists) for historic earthquakes: \(Why)")
-                let (Message, Value) = SQL.ExtendedError(From: DBIF.QuakeHandle)
-                Debug.Print("  \(Message) [\(Value)]")
                 return false
         }
-        while (sqlite3_step(QueryHandle) == SQLITE_ROW)
-        {
-            let Value = sqlite3_column_int(QueryHandle, 0)
-            return Value == 0 ? false : true
-        }
-        return false
     }
     
     /// Insert an earthquake into the database.
