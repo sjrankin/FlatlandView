@@ -15,7 +15,6 @@ class DBIF
 {
     public static func Initialize(LoadToo: Bool = true)
     {
-        #if true
         FileIO.InstallDatabases()
         if !MappableInitialized
         {
@@ -51,17 +50,34 @@ class DBIF
                 Debug.FatalError("Error getting URL for the historic earthquake database.")
             }
         }
+        if !_SettingsInitialized
+        {
+            _SettingsInitialized = true
+            if let SettingsURL = FileIO.GetSettingsDatabaseURL()
+            {
+                print("Opening settings database \(SettingsURL.path)")
+                if sqlite3_open_v2(SettingsURL.path, &SettingsHandle,
+                                   SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
+                {
+                    Debug.FatalError("Error opening \(SettingsURL.path), \(String(cString: sqlite3_errmsg(SettingsHandle!)))")
+                }
+            }
+            else
+            {
+                Debug.FatalError("Error getting URL for the settings database.")
+            }
+        }
         if LoadToo
         {
             LoadTables()
         }
-        #endif
     }
     
     /// Load certain tables into memory-resident arrays.
     /// - Note: Only the most recent earthquakes are loaded, not all of them.
     public static func LoadTables()
     {
+        LoadSettingsTables()
         UNESCOSites = LoadWorldHeritageSites()
         UserPOIs = GetAllUserPOIs()
         BuiltInPOIs = GetAllBuiltInPOIs()
@@ -92,6 +108,15 @@ class DBIF
         }
     }
     
+    private static var _SettingsInitialized: Bool = false
+    public static var SettingsInitialized: Bool
+    {
+        get
+        {
+            return _SettingsInitialized
+        }
+    }
+    
     // MARK: - In-memory tables.
     
     public static var BuiltInPOIs = [POI2]()
@@ -100,10 +125,13 @@ class DBIF
     public static var QuakesInDB = [Earthquake]()
     public static var Cities = [City2]()
     public static var AdditionalCities = [City2]()
+    public static var EventList = [EventRecord]()
+    public static var SoundList = [SoundRecord]()
     
     // MARK: - Database handles.
     public static var MappableHandle: OpaquePointer? = nil
     public static var QuakeHandle: OpaquePointer? = nil
+    public static var SettingsHandle: OpaquePointer? = nil
 }
 
 
