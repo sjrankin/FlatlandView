@@ -352,14 +352,215 @@ class SQL
         }
         return Default
     }
+    
+    // MARK: - Higher-level functions.
+    
+    /// General purpose function to determine if a row exists in a database.
+    /// - Parameter In: Open database handle. *Must be an open database!*
+    /// - Parameter Table: Name of the table to search.
+    /// - Parameter Where: Phrase used to determine if a record in the specified table exists or not. *Must
+    ///                    be a properly-formated SQL phrase.*
+    /// - Returns: Result value with success holding a boolean indicating existence (true) or non-existence
+    ///            (false) of the row in the table. On error, .failure will contain the reason for the failure.
+    public static func RowExists(In Database: OpaquePointer, Table Name: String, Where Phrase: String) -> Result<Bool, DatabaseOperationResult>
+    {
+        if Name.isEmpty
+        {
+            return .failure(.MissingTableName)
+        }
+        if Phrase.isEmpty
+        {
+            return .failure(.MissingSearchClause)
+        }
+        let Query = "SELECT EXISTS(SELECT 1 FROM \(Name) WHERE \(Phrase))"
+        var QueryHandle: OpaquePointer? = nil
+        let QuerySetupResult = SQL.SetupQuery(For: Database, Query: Query)
+        switch QuerySetupResult
+        {
+            case .success(let Handle):
+                QueryHandle = Handle
+                
+            case .failure(let Why):
+                Debug.Print("Failure creating query \(Query): \(Why)")
+                let (Message, Value) = SQL.ExtendedError(From: Database)
+                Debug.Print("  \(Message) [\(Value)]")
+                return .failure(.QueryError)
+        }
+        while (sqlite3_step(QueryHandle) == SQLITE_ROW)
+        {
+            let Value = sqlite3_column_int(QueryHandle, 0)
+            return .success(Value == 0 ? false : true)
+        }
+        return .success(false)
+    }
+    
+    public static func DeleteRow(In Database: OpaquePointer, Table Name: String, DeletePhrase: String) -> Result<Bool, DatabaseOperationResult>
+    {
+        if Name.isEmpty
+        {
+            return .failure(.MissingTableName)
+        }
+        if DeletePhrase.isEmpty
+        {
+            return .failure(.MissingSearchClause)
+        }
+        let Command = "DELETE FROM \(Name) WHERE \(DeletePhrase)"
+        var CommandHandle: OpaquePointer? = nil
+        let QuerySetupResult = SQL.SetupQuery(For: Database, Query: Command)
+        switch QuerySetupResult
+        {
+            case .success(let Handle):
+                CommandHandle = Handle
+                
+            case .failure(let Why):
+                Debug.Print("Failure creating query \(Command): \(Why)")
+                let (Message, Value) = SQL.ExtendedError(From: Database)
+                Debug.Print("  \(Message) [\(Value)]")
+                return .failure(.QueryError)
+        }
+        
+        if sqlite3_step(CommandHandle) == SQLITE_DONE
+        {
+            return .success(true)
+        }
+        
+        return .failure(.ErrorDeletingRow)
+    }
+    
+    public static func UpdateRow(Database: OpaquePointer, Table Name: String, Row Command: String)
+    {
+//        let SCommand = "INSERT OR REPLACE INTO \(Command)"
+        let SCommand = Command
+        var UpdateHandle: OpaquePointer? = nil
+        guard sqlite3_prepare_v2(Database, SCommand, -1, &UpdateHandle, nil) == SQLITE_OK else
+        {
+            Debug.Print("Failure insert statement \(SCommand) for row update")
+            let (Message, Value) = SQL.ExtendedError(From: Database)
+            Debug.Print("  \(Message) [\(Value)]")
+            return
+        }
+        guard sqlite3_step(UpdateHandle) == SQLITE_DONE else
+        {
+            Debug.Print("Insert execution failed: \(SCommand) for row update")
+            let (Message, Value) = SQL.ExtendedError(From: Database)
+            Debug.Print("  \(Message) [\(Value)]")
+            return
+        }
+        print("Inserted/updated into table \(Name)")
+    }
+    
+    #if false
+    public static func AddOrUpdate(Database: OpaquePointer, Table Name: String, SearchPhrase: String,
+                                   InsertCommand: String)
+    {
+        var RowExists = false
+        let SearchResults = SQL.RowExists(In: Database, Table: Name, Where: SearchPhrase)
+        switch SearchResults
+        {
+            case .success(let DoesExist):
+                RowExists = DoesExist
+                
+            case .failure(let Why):
+                return
+        }
+        if RowExists
+        {
+            let DeleteResults = DeleteRow(In: Database, Table: Name, DeletePhrase: SearchPhrase)
+            print("Deleting row with \(SearchPhrase)")
+            switch DeleteResults
+            {
+                case .success(let NotUsed):
+                    break
+                    
+                case .failure(let AlsoNotUsed):
+                    return
+            }
+        }
+        
+        var InsertHandle: OpaquePointer? = nil
+        guard sqlite3_prepare_v2(Database, InsertCommand, -1, &InsertHandle, nil) == SQLITE_OK else
+        {
+            Debug.Print("Failure insert statement \(InsertCommand) for row insertion")
+            let (Message, Value) = SQL.ExtendedError(From: Database)
+            Debug.Print("  \(Message) [\(Value)]")
+            return
+        }
+        guard sqlite3_step(InsertHandle) == SQLITE_DONE else
+        {
+            Debug.Print("Insert execution failed: \(InsertCommand) for row insertion")
+            let (Message, Value) = SQL.ExtendedError(From: Database)
+            Debug.Print("  \(Message) [\(Value)]")
+            return
+        }
+    }
+    #endif
+    
+    public static func MakeInsertStatement(From: [(String, String)], For Table: String,
+                                           ExcludedColumns: [String] = [String]()) -> String
+    {
+        var ColumnList = ""
+        var ValueList = ""
+        for (Name, Value) in From
+        {
+            if ExcludedColumns.contains(Name)
+            {
+                continue
+            }
+            ColumnList.append(Name)
+            ColumnList.append(",")
+            ValueList.append(Value)
+            ValueList.append(",")
+        }
+        ColumnList = String(ColumnList.dropLast(1))
+        ValueList = String(ValueList.dropLast(1))
+        let Final = "INSERT INTO \(Table) (\(ColumnList)) VALUES(\(ValueList));"
+        return Final
+    }
+    
+    public static func MakeUpdateStatement(From: [(String, String)], For Table: String,
+                                           ExcludedColumns: [String] = [String]()) -> String
+    {
+        var ColumnList = ""
+        var ValueList = ""
+        for (Name, Value) in From
+        {
+            if ExcludedColumns.contains(Name)
+            {
+                continue
+            }
+            ColumnList.append(Name)
+            ColumnList.append(",")
+            ValueList.append(Value)
+            ValueList.append(",")
+        }
+        ColumnList = String(ColumnList.dropLast(1))
+        ValueList = String(ValueList.dropLast(1))
+        let Final = "INSERT OR REPLACE INTO \(Table) (\(ColumnList)) VALUES(\(ValueList));"
+        return Final
+    }
 }
 
+/// High-level result types for SQL database operations.
 enum DatabaseOperationResult: String, CaseIterable, Error
 {
+    /// Operational success.
     case Success = "Success"
+    /// Error preparing query.
     case QueryPreparationError = "Query preparation error"
+    /// General query error.
+    case QueryError = "Query error"
+    /// Invalid query handle returned.
     case BadQueryHandleReturned = "Bad query handle returned"
+    /// Database handle is unexpectedly nil.
     case NilDatabase = "Database handle is nil"
+    /// Result of query is empty.
     case EmptyQuery = "Query is empty"
+    /// Error in preparation to get row count.
     case ErrorGettingRowCount = "Error preparing for getting row count"
+    /// Missing table name.
+    case MissingTableName = "Missing table name for query"
+    /// Search clause for query missing.
+    case MissingSearchClause = "Missing search clause for query"
+    /// Error deleting row.
+    case ErrorDeletingRow = "Error deleting row."
 }
