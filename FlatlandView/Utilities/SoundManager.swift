@@ -62,6 +62,14 @@ class SoundManager
         ]
 }
 
+enum SoundClasses: String, CaseIterable
+{
+    case General = "General"
+    case BuiltIn = "Built-In"
+    case Flatland = "Flatland"
+    case User = "User"
+}
+
 /// Built-in system sounds.
 enum Sounds: String, CaseIterable
 {
@@ -85,8 +93,10 @@ enum Sounds: String, CaseIterable
 
 enum SoundEvents: String, CaseIterable
 {
-    case BadInput = "BadInput"
-    case HourChime = "HourChime"
-    case NewEarthquake = "NewEarthquake"
-    case Debug = "DebugEvent"
+    case BadInput = "Bad Input"
+    case HourChime = "Hour Chime"
+    case NewEarthquake = "New Earthquake"
+    #if DEBUG
+    case Debug = "Debug Event"
+    #endif
 }
