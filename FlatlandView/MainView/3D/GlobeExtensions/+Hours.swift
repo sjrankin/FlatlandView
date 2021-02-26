@@ -370,12 +370,15 @@ extension GlobeView
         WallLetterColor = LetterColor
         //First time updating the wall clock hours, do not use InPlace = true because there are no nodes yet
         //available.
-        UpdateWallClockHours(InPlace: false)
-        WallClockTimer = Timer.scheduledTimer(timeInterval: HourConstants.WallClockUpdateTime.rawValue,
+        OperationQueue.main.addOperation
+        {
+            self.UpdateWallClockHours(InPlace: false)
+            self.WallClockTimer = Timer.scheduledTimer(timeInterval: HourConstants.WallClockUpdateTime.rawValue,
                                               target: self,
                                               selector: #selector(self.UpdateWallClockHours),
                                               userInfo: nil,
                                               repeats: true)
+        }
         return PhraseNode
     }
     
@@ -397,6 +400,8 @@ extension GlobeView
             return
         }
         Debug.Print("Updating wall clock hours by replacing nodes.")
+        let Trace = Debug.StackFrameContents(5)
+        Debug.Print("   \(Debug.PrettyStackTrace(Trace))")
         for Hour in HourNode!.childNodes
         {
             if let Node = Hour as? SCNNode2
