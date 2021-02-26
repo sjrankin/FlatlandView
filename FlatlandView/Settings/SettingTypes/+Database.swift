@@ -11,6 +11,30 @@ import AppKit
 
 extension Settings
 {
+    // MARK: - Sound and event-related table functions.
+    
+    public static func GetEvents() -> [EventRecord]
+    {
+        return DBIF.EventList
+    }
+    
+    public static func SaveEvents(_ List: [EventRecord])
+    {
+        DBIF.EventList = List
+        DBIF.SaveEvents()
+    }
+    
+    public static func GetSounds() -> [SoundRecord]
+    {
+        return DBIF.SoundList
+    }
+    
+    public static func SaveSounds(_ List: [SoundRecord])
+    {
+        DBIF.SoundList = List
+        DBIF.SaveSounds()
+    }
+    
     // MARK: - City-related table retrieval/editing.
     
     /// Get the set of cities determined by `Key`.
