@@ -356,6 +356,12 @@
 		17DFAF532545A56300374344 /* ImageShiftParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DFAF522545A56300374344 /* ImageShiftParameters.swift */; };
 		17DFAF562545A5BE00374344 /* ImageShifter.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17DFAF552545A5BE00374344 /* ImageShifter.metal */; };
 		17DFE42F25A6D42300F88564 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DFE42E25A6D42300F88564 /* Notification.swift */; };
+		17E0E35825E5FA3800291823 /* Settings.db in Resources */ = {isa = PBXBuildFile; fileRef = 17E0E35725E5FA3700291823 /* Settings.db */; };
+		17E0E35B25E5FC7400291823 /* +LoadSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E0E35A25E5FC7400291823 /* +LoadSettings.swift */; };
+		17E0E35E25E5FD1000291823 /* SoundRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E0E35D25E5FD1000291823 /* SoundRecord.swift */; };
+		17E0E36025E5FED900291823 /* PropertyExtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E0E35F25E5FED900291823 /* PropertyExtraction.swift */; };
+		17E0E36225E6046D00291823 /* EventRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E0E36125E6046D00291823 /* EventRecord.swift */; };
+		17E0E36425E6063D00291823 /* SettingsDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E0E36325E6063D00291823 /* SettingsDB.swift */; };
 		17E1AFF625CFCE6D003CDE8F /* CityPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E1AFF525CFCE6D003CDE8F /* CityPreferences.swift */; };
 		17E1AFF825CFDDBF003CDE8F /* BuiltInPOIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E1AFF725CFDDBF003CDE8F /* BuiltInPOIWindow.swift */; };
 		17E1AFFA25CFDDEE003CDE8F /* BuiltInPOIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E1AFF925CFDDEE003CDE8F /* BuiltInPOIController.swift */; };
@@ -404,7 +410,6 @@
 		17EF9E1A25CE897900A00F1E /* UserPOIEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF9E1925CE897900A00F1E /* UserPOIEditorController.swift */; };
 		17F0AC5025D372F600B2F496 /* +POI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F0AC4F25D372F600B2F496 /* +POI.swift */; };
 		17F0AC5225D37BA100B2F496 /* +HistoricEarthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F0AC5125D37BA100B2F496 /* +HistoricEarthquakes.swift */; };
-		17F0AC5425D3A5E000B2F496 /* EarthquakeHistory2.db in Resources */ = {isa = PBXBuildFile; fileRef = 17F0AC5325D3A5E000B2F496 /* EarthquakeHistory2.db */; };
 		17F0AC5625D3A63E00B2F496 /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F0AC5525D3A63E00B2F496 /* FileIO.swift */; };
 		17F0AC5825D3A70000B2F496 /* +Cities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F0AC5725D3A70000B2F496 /* +Cities.swift */; };
 		17F17A4724DE78F700568A4E /* LineDrawKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17F17A4624DE78F700568A4E /* LineDrawKernel.metal */; };
@@ -825,6 +830,12 @@
 		17DFAF522545A56300374344 /* ImageShiftParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageShiftParameters.swift; sourceTree = "<group>"; };
 		17DFAF552545A5BE00374344 /* ImageShifter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ImageShifter.metal; sourceTree = "<group>"; };
 		17DFE42E25A6D42300F88564 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		17E0E35725E5FA3700291823 /* Settings.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = Settings.db; sourceTree = "<group>"; };
+		17E0E35A25E5FC7400291823 /* +LoadSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+LoadSettings.swift"; sourceTree = "<group>"; };
+		17E0E35D25E5FD1000291823 /* SoundRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundRecord.swift; sourceTree = "<group>"; };
+		17E0E35F25E5FED900291823 /* PropertyExtraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyExtraction.swift; sourceTree = "<group>"; };
+		17E0E36125E6046D00291823 /* EventRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRecord.swift; sourceTree = "<group>"; };
+		17E0E36325E6063D00291823 /* SettingsDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDB.swift; sourceTree = "<group>"; };
 		17E1AFF525CFCE6D003CDE8F /* CityPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPreferences.swift; sourceTree = "<group>"; };
 		17E1AFF725CFDDBF003CDE8F /* BuiltInPOIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInPOIWindow.swift; sourceTree = "<group>"; };
 		17E1AFF925CFDDEE003CDE8F /* BuiltInPOIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInPOIController.swift; sourceTree = "<group>"; };
@@ -879,7 +890,6 @@
 		17EF9E1925CE897900A00F1E /* UserPOIEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPOIEditorController.swift; sourceTree = "<group>"; };
 		17F0AC4F25D372F600B2F496 /* +POI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+POI.swift"; sourceTree = "<group>"; };
 		17F0AC5125D37BA100B2F496 /* +HistoricEarthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+HistoricEarthquakes.swift"; sourceTree = "<group>"; };
-		17F0AC5325D3A5E000B2F496 /* EarthquakeHistory2.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = EarthquakeHistory2.db; sourceTree = "<group>"; };
 		17F0AC5525D3A63E00B2F496 /* FileIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
 		17F0AC5725D3A70000B2F496 /* +Cities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Cities.swift"; sourceTree = "<group>"; };
 		17F17A4624DE78F700568A4E /* LineDrawKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = LineDrawKernel.metal; sourceTree = "<group>"; };
@@ -1436,7 +1446,7 @@
 				17F79068252D57FE00FA2F23 /* Mappable.db */,
 				174DCEBD25D3B949002D4E40 /* EarthquakeHistoryS.db */,
 				174DCEBF25D3B950002D4E40 /* MappableS.db */,
-				17F0AC5325D3A5E000B2F496 /* EarthquakeHistory2.db */,
+				17E0E35725E5FA3700291823 /* Settings.db */,
 				1767A8E224794A0100C434B5 /* FlatlandView */,
 				1767A8E124794A0100C434B5 /* Products */,
 				17E5EF4F24F0DBC500665167 /* Frameworks */,
@@ -1454,6 +1464,7 @@
 		1767A8E224794A0100C434B5 /* FlatlandView */ = {
 			isa = PBXGroup;
 			children = (
+				17E0E35C25E5FCF700291823 /* FlatlandEvents */,
 				1767EBF425BE564B00A976D2 /* ColorPicker */,
 				17F47B5625AA94B200A3A281 /* ImageProcessing */,
 				175DCC672580BCDB00EB6D69 /* StaticText */,
@@ -2006,6 +2017,24 @@
 			path = ImageShift;
 			sourceTree = "<group>";
 		};
+		17E0E35925E5FC4D00291823 /* SettingsDBIF */ = {
+			isa = PBXGroup;
+			children = (
+				17E0E35A25E5FC7400291823 /* +LoadSettings.swift */,
+				17E0E36325E6063D00291823 /* SettingsDB.swift */,
+			);
+			path = SettingsDBIF;
+			sourceTree = "<group>";
+		};
+		17E0E35C25E5FCF700291823 /* FlatlandEvents */ = {
+			isa = PBXGroup;
+			children = (
+				17E0E35D25E5FD1000291823 /* SoundRecord.swift */,
+				17E0E36125E6046D00291823 /* EventRecord.swift */,
+			);
+			path = FlatlandEvents;
+			sourceTree = "<group>";
+		};
 		17E5556425B5493D00E3CE9E /* CaptiveDialog */ = {
 			isa = PBXGroup;
 			children = (
@@ -2130,6 +2159,7 @@
 				1727EA5E24B1F0760051EA3B /* KMDataPoint.swift */,
 				175BA56425711F76001ED3A2 /* Locations.swift */,
 				1714DDB32538342A001A3002 /* LowLevel.swift */,
+				17E0E35F25E5FED900291823 /* PropertyExtraction.swift */,
 				17DE2DC625906D3200214204 /* SecureStore.swift */,
 				1701CFC42535646C00544F05 /* Snapshot.swift */,
 				175BA56725712A1A001ED3A2 /* SolarToday.swift */,
@@ -2333,6 +2363,7 @@
 			isa = PBXGroup;
 			children = (
 				17FAA7F725D27F320015D504 /* DBIF.swift */,
+				17E0E35925E5FC4D00291823 /* SettingsDBIF */,
 				17F0AC5725D3A70000B2F496 /* +Cities.swift */,
 				17F0AC5125D37BA100B2F496 /* +HistoricEarthquakes.swift */,
 				17F0AC4F25D372F600B2F496 /* +POI.swift */,
@@ -2441,6 +2472,7 @@
 				17E5556925B54A5400E3CE9E /* CaptiveDialogs.storyboard in Resources */,
 				175BA5582570D565001ED3A2 /* ErrorDialogs.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
+				17E0E35825E5FA3800291823 /* Settings.db in Resources */,
 				17CB248D253C5BCB00BAABDC /* POI.db in Resources */,
 				1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */,
 				1767EBF625BE566600A976D2 /* ColorPicker.storyboard in Resources */,
@@ -2456,7 +2488,6 @@
 				17DE2DCE2590795300214204 /* HelperPanels.storyboard in Resources */,
 				17EF9E1425CE890700A00F1E /* UserPOIEditor.storyboard in Resources */,
 				174DCEC025D3B950002D4E40 /* MappableS.db in Resources */,
-				17F0AC5425D3A5E000B2F496 /* EarthquakeHistory2.db in Resources */,
 				179BE7C324ED053D0025B349 /* Today.storyboard in Resources */,
 				1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */,
 				178909C7250E0DCB0092E3A4 /* Main.storyboard in Resources */,
@@ -2517,6 +2548,7 @@
 				17DFAF562545A5BE00374344 /* ImageShifter.metal in Sources */,
 				1760024224D2BFFE00D5EA1A /* Array.swift in Sources */,
 				176CBB76251B08E800D6C0AD /* EnumConstants.swift in Sources */,
+				17E0E36025E5FED900291823 /* PropertyExtraction.swift in Sources */,
 				17998145255BC32100E23B75 /* CommandLinePanel.swift in Sources */,
 				17EF33BD247A951400A5B55D /* TimeZoneTable.swift in Sources */,
 				177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */,
@@ -2599,6 +2631,7 @@
 				17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */,
 				178A869C2488C3D100BE8D46 /* AboutDetailsWindow.swift in Sources */,
 				17EF3397247A670B00A5B55D /* MapItem.swift in Sources */,
+				17E0E36225E6046D00291823 /* EventRecord.swift in Sources */,
 				178E1CA925186E6E00FDC75B /* +Stenciling.swift in Sources */,
 				17C3455E252C9AC700D01143 /* POI.swift in Sources */,
 				17A18108257336C7002C6611 /* +Clear.swift in Sources */,
@@ -2642,6 +2675,7 @@
 				174A6A292557CD0B00488274 /* DebuggerController.swift in Sources */,
 				17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */,
 				172F4A2724FA1A900014A65E /* EditorProtocol.swift in Sources */,
+				17E0E36425E6063D00291823 /* SettingsDB.swift in Sources */,
 				17FFF8CC2567ED04008B50AD /* +Axes.swift in Sources */,
 				17E5EF5F24F1051400665167 /* Debug.swift in Sources */,
 				17DFAF4F2545A53C00374344 /* ImageShifter.swift in Sources */,
@@ -2838,6 +2872,7 @@
 				17A180FB25727188002C6611 /* +Help.swift in Sources */,
 				17F47B6425AAEBD200A3A281 /* NodeRotationController.swift in Sources */,
 				174A6A2C2557CD6600488274 /* DebugPanelBase.swift in Sources */,
+				17E0E35E25E5FD1000291823 /* SoundRecord.swift in Sources */,
 				17F0AC5225D37BA100B2F496 /* +HistoricEarthquakes.swift in Sources */,
 				177FED8925E23B3F009C62E3 /* +RegionsData.swift in Sources */,
 				172F0606255129DF00BEA156 /* POIPreferences.swift in Sources */,
@@ -2864,6 +2899,7 @@
 				17F1C7E72543FAC70046AE33 /* +RectangleSettingsHandler.swift in Sources */,
 				17F9AFF5252034FA00DE0219 /* +Enum.swift in Sources */,
 				17DD791C24DA7A8E0046EB25 /* ResetConfirmController.swift in Sources */,
+				17E0E35B25E5FC7400291823 /* +LoadSettings.swift in Sources */,
 				17F44AA824CEF67700A02B19 /* SatelliteMap.swift in Sources */,
 				178A86A92489134300BE8D46 /* +GridLines.swift in Sources */,
 				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
