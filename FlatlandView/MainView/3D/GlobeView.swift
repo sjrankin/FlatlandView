@@ -71,6 +71,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
                 Node.removeAllActions()
                 Node.removeAllAnimations()
                 Node.removeFromParentNode()
+                Node.geometry = nil
             }
             return
         }
@@ -83,6 +84,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
                     Node.removeAllActions()
                     Node.removeAllAnimations()
                     Node.removeFromParentNode()
+                    Node.geometry = nil
                 }
             }
         }
@@ -602,6 +604,9 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var WallStartAngle: Double = 0.0
     var WallScaleMultiplier: Double = 1.0
     var WallLetterColor: NSColor = NSColor.red
+    
+    var PreviousMemory: Int64? = nil
+    var CumulativeMemory: Int64 = 0
 }
 
 
