@@ -126,6 +126,13 @@ class SCNNode2: SCNNode
         Initialize()
     }
     
+    /// This is probably redundant but we'll do it anyway.
+    deinit
+    {
+        self.geometry = nil
+    }
+    
+    /// Common initialization.
     private func Initialize()
     {
         StartDynamicUpdates()
