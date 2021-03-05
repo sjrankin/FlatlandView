@@ -567,7 +567,6 @@ enum GlobeRadius: CGFloat, CaseIterable
     case SearchIconRadialOffset = 0.2
 }
 
-// MARK: - File names and directories.
 // MARK: - Database-related constants.
 
 /// File and directory names used in `FileIO`.
@@ -640,6 +639,8 @@ enum QuakeTableNames: String, CaseIterable
     case Historic = "Historical"
 }
 
+// MARK: - Status bar constants
+
 /// Constants used by the simple status bar.
 enum StatusBarConstants: Double, CaseIterable
 {
@@ -661,7 +662,7 @@ enum StatusBarConstants: Double, CaseIterable
     case TextZ = 5000000.0
     /// Number of seconds for the initial message (the version number) shows.
     case InitialMessageDuration = 10.0
-    /// Maximum number of seconds to show the "getting earthquake data" message.
+    /// Maximum number of seconds to show the "refreshing earthquake data" message.
     case EarthquakeWaitingDuration = 60.001
     /// Horizontal text offset for small width status bars.
     case SmallBarOffset = -27.0
@@ -687,6 +688,8 @@ enum StatusBarConstants: Double, CaseIterable
     case CameraZPosition = 25.0
 }
 
+// MARK: - 3D mouse pointer constants
+
 /// Constants used for the drawing of the mouse pointer shape.
 enum MouseShape: Double, CaseIterable
 {
@@ -707,6 +710,8 @@ enum MouseShape: Double, CaseIterable
     /// Number of seconds to rotate each superfluous sphere.
     case SuperfluousSphereRotationDuration = 3.6
 }
+
+// MARK: - 3D hour constants
 
 /// Constants used for drawing 3D hours.
 enum HourConstants: Double, CaseIterable
@@ -769,6 +774,8 @@ enum HourConstants: Double, CaseIterable
     case FlashHourDuration = 2.15
     /// Delay between flashing hours in sequence, in seconds.
     case FlashHourDelay = 0.275
+    /// Number of seconds between checks to determine if a given node is in the day or night.
+    case DaylightCheckInterval = 65.01
 }
 
 /// Constants used by radial layers.
