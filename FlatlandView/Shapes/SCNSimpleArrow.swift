@@ -332,6 +332,7 @@ class SCNSimpleArrow: SCNNode2, ShapeAttribute
         for Child in self.childNodes
         {
             Child.removeFromParentNode()
+            Child.geometry = nil
         }
         Triangle = SCNTriangle(Base: _Width, Height: _Length / 3.0, Extrusion: _Extrusion)
         if let Texture = DiffuseTexture

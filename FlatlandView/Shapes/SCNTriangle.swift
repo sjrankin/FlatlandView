@@ -288,6 +288,7 @@ class SCNTriangle: SCNNode2, ShapeAttribute
         for Child in self.childNodes
         {
             Child.removeFromParentNode()
+            Child.geometry = nil
         }
         let Path = NSBezierPath()
         let HCenter = _Base / 2.0

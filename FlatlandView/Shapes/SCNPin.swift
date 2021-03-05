@@ -248,6 +248,7 @@ class SCNPin: SCNNode2
         for Child in self.childNodes
         {
             Child.removeFromParentNode()
+            Child.geometry = nil
         }
         let KnobTopShape = SCNCone(topRadius: _KnobRadius, bottomRadius: 0.0, height: _KnobHeight / 2.0)
         KnobTopShape.firstMaterial?.diffuse.contents = _KnobColor

@@ -36,6 +36,7 @@ class SCNSatellite: SCNNode2
                 Node.removeAllActions()
                 Node.removeAllAnimations()
                 Node.removeFromParentNode()
+                Node.geometry = nil
             }
         }
     }

@@ -281,6 +281,7 @@ class SCNTriangleRing: SCNNode2
         {
             Triangle.removeAllActions()
             Triangle.removeFromParentNode()
+            Triangle.geometry = nil
         }
         if _TriangleCount < 1
         {

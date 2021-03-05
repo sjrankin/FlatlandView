@@ -205,6 +205,7 @@ class SCN3DArrow: SCNNode2
         for Child in self.childNodes
         {
             Child.removeFromParentNode()
+            Child.geometry = nil
         }
         
         let Cone = SCNCone(topRadius: 0.0, bottomRadius: _Width * 0.75, height: _Length / 3.0)
