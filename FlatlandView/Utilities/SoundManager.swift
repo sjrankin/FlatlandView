@@ -16,6 +16,14 @@ import AppKit
 ///      false, no sounds will be played regardless of the event.
 class SoundManager
 {
+    /// Initialize the sound manager.
+    public static func Initialize()
+    {
+        #if DEBUG
+        EventSoundMap[.Debug] = Sounds.Frog.rawValue
+        #endif
+    }
+    
     /// Play a sound with the specified name. No error checking is done.
     /// - Parameter Name: The name of the sound to play.
     public static func Play(Name: String)
@@ -58,7 +66,6 @@ class SoundManager
             .BadInput: Sounds.Tink.rawValue,
             .HourChime: Sounds.Blow.rawValue,
             .NewEarthquake: Sounds.Sosumi.rawValue,
-            .Debug: Sounds.Frog.rawValue
         ]
 }
 
