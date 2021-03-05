@@ -416,11 +416,13 @@ class SCNNode2: SCNNode
             Line.removeAllActions()
             Line.removeAllAnimations()
             Line.removeFromParentNode()
+            Line.geometry = nil
         }
         BoundingBoxLines.removeAll()
         BoxNode.removeAllActions()
         BoxNode.removeAllAnimations()
         BoxNode.removeFromParentNode()
+        BoxNode.geometry = nil
         _ShowingBoundingShape = false
     }
     
@@ -672,7 +674,7 @@ class SCNNode2: SCNNode
     }
     
     /// Set the visual state for the node (and all child nodes) to day or night time (based on the parameter).
-    /// - Note: If either `DayState` or `NightState` is nil, no action is taken.
+    /// - Note: If either `DayState` or `NightState` is nil, the state set is for the day.
     /// - Parameter For: Determines which state to show.
     public func SetState(For DayTime: Bool)
     {
@@ -689,7 +691,6 @@ class SCNNode2: SCNNode
         }
         if HasImageTextures
         {
-            print("Has images")
             SetStateWithImages(For: DayTime)
             return
         }
@@ -1071,6 +1072,7 @@ class SCNNode2: SCNNode
     func ChildCount() -> Int
     {
         var Count = 0
+        //Add grandchilden and lower.
         for Child in childNodes
         {
             if let Child2 = Child as? SCNNode2
@@ -1078,6 +1080,7 @@ class SCNNode2: SCNNode
                 Count = Count + Child2.ChildCount()
             }
         }
+        //Add children.
         Count = Count + childNodes.count
         return Count
     }
