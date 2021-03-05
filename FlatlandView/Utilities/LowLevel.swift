@@ -130,6 +130,32 @@ class LowLevel
         return (MemUsed, MemFree)
     }
     
+    /// Return the amount of used memory by Flatland.
+    /// - Note: See [Programmatically retrieve memory usage](https://stackoverflow.com/questions/787160/programmatically-retrieve-memory-usage-on-iphone)
+    /// - Returns: Number of bytes of used memory. Nil if unable to retrieve.
+    public static func UsedMemory() -> UInt64?
+    {
+        let Task_VM_Info_Count = mach_msg_type_number_t(MemoryLayout<task_vm_info_data_t>.size / MemoryLayout<integer_t>.size)
+        let Task_VM_Info_Rev1_Count = mach_msg_type_number_t(MemoryLayout.offset(of: \task_vm_info_data_t.min_address)! / MemoryLayout<integer_t>.size)
+        var info = task_vm_info_data_t()
+        var count = Task_VM_Info_Count
+        let kr = withUnsafeMutablePointer(to: &info)
+        {
+            infoPtr in
+            infoPtr.withMemoryRebound(to: integer_t.self, capacity: Int(count))
+            {
+                intPtr in
+                task_info(mach_task_self_, task_flavor_t(TASK_VM_INFO), intPtr, &count)
+            }
+        }
+        guard kr == KERN_SUCCESS, count >= Task_VM_Info_Rev1_Count else
+        {
+            return nil
+            
+        }
+        return info.phys_footprint
+    }
+    
     /// Return a string of the amount of space currently allocated by Metal.
     /// - Returns: Number of bytes (in string format) allocated by Metal.
     public static func MetalAllocatedSpace() -> String
