@@ -69,6 +69,7 @@ extension FlatView
         for Node in GridNode.childNodes
         {
             Node.removeFromParentNode()
+            Node.geometry = nil
         }
         let EquatorLocation = CGFloat(FlatConstants.FlatRadius.rawValue) / 2.0
         let CancerLocation = (CGFloat(FlatConstants.FlatRadius.rawValue) * (90.0 + 23.4366) / 180.0)
@@ -171,6 +172,7 @@ extension FlatView
                     Node.removeAllActions()
                     Node.removeAllAnimations()
                     Node.removeFromParentNode()
+                    Node.geometry = nil
                 }
             }
             return
@@ -184,6 +186,7 @@ extension FlatView
                     Node.removeAllActions()
                     Node.removeAllAnimations()
                     Node.removeFromParentNode()
+                    Node.geometry = nil
                 }
             }
         }
