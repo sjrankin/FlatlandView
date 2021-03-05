@@ -29,12 +29,14 @@ class MemoryDebug
     /// Open a memory location for starting the measurement of memory.
     /// - Note: All previous data in pre-existing memory locations are zeroed and lost.
     /// - Parameter Name: The name of the memory location. If not found, a new record is created.
-    public static func Open(_ Name: String)
+    /// - Parameter Field: The type of memory to return. Defaults to `.PhysicalFootprint`.
+    public static func Open(_ Name: String, Field: MemoryFields = .PhysicalFootprint)
     {
         if !HasLocation(Name)
         {
             let NewRecord = MemoryData()
             NewRecord.Name = Name
+            NewRecord.Field = Field
             Locations[Name] = NewRecord
         }
         if let Record = Locations[Name]
@@ -42,7 +44,11 @@ class MemoryDebug
             Record.Start = nil
             Record.End = nil
             Record.Delta = nil
+            #if true
+            Record.Start = LowLevel.MemoryStatistics(Field)
+            #else
             Record.Start = LowLevel.UsedMemory()
+            #endif
         }
     }
     
@@ -60,7 +66,11 @@ class MemoryDebug
     {
         if let Record = Locations[Name]
         {
+            #if true
+            Record.End = LowLevel.MemoryStatistics(Record.Field)
+            #else
             Record.End = LowLevel.UsedMemory()
+            #endif
             if Record.Start != nil
             {
                 Record.Delta = Int64(Record.End!) - Int64(Record.Start!)
@@ -87,12 +97,15 @@ class MemoryDebug
     ///           //Caller's code here.
     /// - Parameter Name: The name of the location to measure.
     /// - Parameter DebugPrint: If true, a statement is issued to the console showing the delta memory size.
+    /// - Parameter Field: The memory field to use. Defaults to `.PhysicalFootprint`.
     /// - Parameter Closure: Closure executed after the `Open` call and before the `CloseCall`. If the code in
     ///                      `Closure` makes background calls, the measured memory usage will not be valid.
     /// - Returns: The location's memory record data. Nil returned on error.
-    @discardableResult public static func Block(_ Name: String, DebugPrint DoPrint: Bool = true, _ Closure: (() -> ())?) -> MemoryData?
+    @discardableResult public static func Block(_ Name: String, DebugPrint DoPrint: Bool = true,
+                                                Field MemoryField: MemoryFields = .PhysicalFootprint,
+                                                _ Closure: (() -> ())?) -> MemoryData?
     {
-        Open(Name)
+        Open(Name, Field: MemoryField)
         Closure?()
         Close(Name, DebugPrint: DoPrint)
         return Locations[Name]
@@ -116,5 +129,8 @@ class MemoryData
     
     /// Name of the memory location record.
     public var Name: String? = nil
+    
+    /// Field to use for memory calculations.
+    public var Field: MemoryFields = .PhysicalFootprint
 }
 
