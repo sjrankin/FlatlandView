@@ -18,6 +18,7 @@ extension FlatView
         for Node in WHSNodeList
         {
             Node.removeFromParentNode()
+            Node.geometry = nil
         }
         WHSNodeList.removeAll()
         if Settings.GetBool(.ShowWorldHeritageSites)
