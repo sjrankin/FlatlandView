@@ -12,7 +12,7 @@ import AppKit
 extension Int64
 {
     /// Returns the instance value as a delimited string.
-    /// - Parameter Delimiter: The character (or string if the caller prefers) to use to delimit thousands blocks.
+    /// - Parameter Delimiter: The character to use to delimit thousands blocks.
     /// - Returns: Value as a character delimited string.
     func Delimited(Delimiter: String = ",") -> String
     {
@@ -41,6 +41,22 @@ extension Int64
             }
             let Separator = RawArray.count > 0 ? Delimiter : ""
             Working = "\(Separator)\(Sub)" + Working
+        }
+        if self < 0
+        {
+            let CheckFor = "-\(Delimiter)"
+            if Working.hasPrefix(CheckFor)
+            {
+                Working.removeFirst(CheckFor.count)
+                Working = "-" + Working
+            }
+        }
+        else
+        {
+            if Working.first! == String.Element(Delimiter)
+            {
+                Working.removeFirst()
+            }
         }
         return Working
     }
