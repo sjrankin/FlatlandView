@@ -20,6 +20,7 @@ class MainController: NSViewController
         MainController.StartTime = CACurrentMediaTime()
         Settings.Initialize()
         Settings.AddSubscriber(self)
+        SoundManager.Initialize()
         CityManager.Initialize()
         
         InitializationFromEnvironment()
@@ -159,7 +160,7 @@ class MainController: NSViewController
         
         StatusBar.ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
                        For: StatusBarConstants.InitialMessageDuration.rawValue)
-        StatusBar.AddQueuedMessage("Getting earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
+        StatusBar.AddQueuedMessage("Refreshing earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
                          ID: EQMessageID)
         
         InitializeWorldClock()
