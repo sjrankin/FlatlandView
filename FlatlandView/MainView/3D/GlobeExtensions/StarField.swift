@@ -96,6 +96,7 @@ class Starfield: SCNView
             {
                 StarNode.removeAllActions()
                 StarNode.removeFromParentNode()
+                StarNode.geometry = nil
             }
         }
     }
@@ -160,6 +161,7 @@ class Starfield: SCNView
         {
             Node.removeAllActions()
             Node.removeFromParentNode()
+            Node.geometry = nil
             self.MakeStar(StarColor: NSColor.white, SpeedMultiplier: SpeedMultiplier,
                           MaxStarSize: MaxStarSize, UseNaturalStarColors: UseNaturalStarColors)
         }

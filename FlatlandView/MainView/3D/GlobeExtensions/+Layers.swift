@@ -21,6 +21,7 @@ extension GlobeView
         if let LayerToRemove = StencilLayers[Layer]
         {
             LayerToRemove.removeFromParentNode()
+            LayerToRemove.geometry = nil
             StencilLayers.removeValue(forKey: Layer)
         }
     }
@@ -31,6 +32,7 @@ extension GlobeView
         for (_, LayerNode) in StencilLayers
         {
             LayerNode.removeFromParentNode()
+            LayerNode.geometry = nil
         }
         StencilLayers.removeAll()
     }

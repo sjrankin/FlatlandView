@@ -25,6 +25,7 @@ extension RectangleView
             FollowModeNode?.removeAllAnimations()
             FollowModeNode?.removeAllActions()
             FollowModeNode?.removeFromParentNode()
+            FollowModeNode?.geometry = nil
             MainDelegate?.ShowMouseLocationView(false)
         }
     }

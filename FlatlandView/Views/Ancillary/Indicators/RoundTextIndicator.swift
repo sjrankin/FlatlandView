@@ -107,6 +107,7 @@ import SceneKit
             ChildNode.removeAllActions()
             ChildNode.removeAllAnimations()
             ChildNode.removeFromParentNode()
+            ChildNode.geometry = nil
         }
         Plane = SCNPlane(width: self.frame.width, height: self.frame.height)
         Plane.firstMaterial?.diffuse.contents = NSColor.clear

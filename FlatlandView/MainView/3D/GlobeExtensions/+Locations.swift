@@ -761,6 +761,7 @@ extension GlobeView
         for AlreadyPlotted in PlottedCities
         {
             AlreadyPlotted!.removeFromParentNode()
+            AlreadyPlotted!.geometry = nil
         }
         PlottedCities.removeAll()
         CitiesToPlot = CityManager.FilteredCities()
@@ -1106,6 +1107,7 @@ extension GlobeView
         for Node in WHSNodeList
         {
             Node?.removeFromParentNode()
+            Node?.geometry = nil
         }
         WHSNodeList.removeAll()
         if Settings.GetBool(.ShowWorldHeritageSites)

@@ -25,6 +25,7 @@ extension GlobeView
                     SomeNode.removeAllActions()
                     SomeNode.removeAllAnimations()
                     SomeNode.removeFromParentNode()
+                    SomeNode.geometry = nil
                 }
             }
         }

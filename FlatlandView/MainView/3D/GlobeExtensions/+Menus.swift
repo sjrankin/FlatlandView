@@ -234,6 +234,7 @@ extension GlobeView
             Node.runAction(FadeAway)
             {
                 Node.removeFromParentNode()
+                Node.geometry = nil
                 if Index == self.SearchedNodeIcons.count - 1
                 {
                     self.SearchedNodeIcons.removeAll()

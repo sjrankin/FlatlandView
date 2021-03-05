@@ -19,14 +19,18 @@ extension GlobeView
     {
         EarthNode?.removeAllActions()
         EarthNode?.removeFromParentNode()
+        EarthNode?.geometry = nil
         SeaNode?.removeAllActions()
         SeaNode?.removeFromParentNode()
-        LineNode?.removeAllActions()
-        LineNode?.removeFromParentNode()
+        SeaNode?.geometry = nil
+//        LineNode?.removeAllActions()
+//        LineNode?.removeFromParentNode()
         SystemNode?.removeAllActions()
         SystemNode?.removeFromParentNode()
+        SystemNode?.geometry = nil
         HourNode?.removeAllActions()
         HourNode?.removeFromParentNode()
+        HourNode?.geometry = nil
         
         let EarthCube = SCNBox(width: 10.0, height: 10.0, length: 10.0, chamferRadius: 0.5)
         EarthNode = SCNNode2(geometry: EarthCube)

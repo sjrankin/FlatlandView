@@ -266,12 +266,14 @@ class StatusBar3D: SCNView
             OldText.runAction(FadeAway)
             {
                 self.CurrentText?.removeFromParentNode()
+                self.CurrentText?.geometry = nil
                 self.MakeTextNode(Text)
             }
         }
         else
         {
             CurrentText?.removeFromParentNode()
+            CurrentText?.geometry = nil
             MakeTextNode(Text)
         }
     }

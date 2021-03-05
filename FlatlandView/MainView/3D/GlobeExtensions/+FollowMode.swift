@@ -28,6 +28,7 @@ extension GlobeView
             FollowModeNode?.removeAllAnimations()
             FollowModeNode?.removeAllActions()
             FollowModeNode?.removeFromParentNode()
+            FollowModeNode?.geometry = nil
         }
     }
     

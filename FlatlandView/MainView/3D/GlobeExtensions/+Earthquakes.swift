@@ -52,6 +52,7 @@ extension GlobeView
                 {
                     Node.removeAllActions()
                     Node.removeFromParentNode()
+                    Node.geometry = nil
                 }
             }
             IndicatorAgeMap.removeAll()
@@ -157,6 +158,7 @@ extension GlobeView
             {
                 Node.removeAllActions()
                 Node.removeFromParentNode()
+                Node.geometry = nil
             }
             IndicatorAgeMap.removeAll()
             return
@@ -175,6 +177,7 @@ extension GlobeView
                         {
                             INode.removeAllActions()
                             INode.removeFromParentNode()
+                            INode.geometry = nil
                             IndicatorAgeMap.removeValue(forKey: Quake.Code)
                         }
                     }

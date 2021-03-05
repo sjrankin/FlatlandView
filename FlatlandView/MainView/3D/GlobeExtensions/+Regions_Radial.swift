@@ -120,6 +120,7 @@ extension GlobeView
                 Node.removeAllActions()
                 Node.removeAllAnimations()
                 Node.removeFromParentNode()
+                Node.geometry = nil
             }
         }
         RadialContainer = RadialContainer.filter({$0.RegionID != ID})

@@ -64,6 +64,7 @@ extension RectangleView
         for Node in GridNode.childNodes
         {
             Node.removeFromParentNode()
+            Node.geometry = nil
         }
         let HalfHeight: CGFloat = CGFloat(RectMode.MapHeight.rawValue / 2.0)
         let EquatorLocation = HalfHeight - CGFloat(RectMode.MapHeight.rawValue / 2.0)
@@ -180,6 +181,7 @@ extension RectangleView
                     Node.removeAllActions()
                     Node.removeAllAnimations()
                     Node.removeFromParentNode()
+                    Node.geometry = nil
                 }
             }
             return
@@ -193,6 +195,7 @@ extension RectangleView
                     Node.removeAllActions()
                     Node.removeAllAnimations()
                     Node.removeFromParentNode()
+                    Node.geometry = nil
                 }
             }
         }
