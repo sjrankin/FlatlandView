@@ -404,7 +404,9 @@ extension GlobeView
         }
         Debug.Print("Updating wall clock hours by replacing nodes.")
         #endif
-        for Hour in HourNode!.childNodes
+        MemoryDebug.Block("Hour Node Reduction")
+        {
+            for Hour in self.HourNode!.childNodes
         {
             if let Node = Hour as? SCNNode2
             {
@@ -416,6 +418,7 @@ extension GlobeView
                     Node.geometry = nil
                 }
             }
+        }
         }
         CumulativeMemory = 0
         for LabelAngle in stride(from: 0.0, to: 359.0, by: 15.0)
