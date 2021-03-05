@@ -362,6 +362,7 @@
 		17E0E36025E5FED900291823 /* PropertyExtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E0E35F25E5FED900291823 /* PropertyExtraction.swift */; };
 		17E0E36225E6046D00291823 /* EventRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E0E36125E6046D00291823 /* EventRecord.swift */; };
 		17E0E36425E6063D00291823 /* SettingsDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E0E36325E6063D00291823 /* SettingsDB.swift */; };
+		17E11C3F25F0CFDF009B7707 /* MemoryDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E11C3E25F0CFDF009B7707 /* MemoryDebug.swift */; };
 		17E1AFF625CFCE6D003CDE8F /* CityPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E1AFF525CFCE6D003CDE8F /* CityPreferences.swift */; };
 		17E1AFF825CFDDBF003CDE8F /* BuiltInPOIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E1AFF725CFDDBF003CDE8F /* BuiltInPOIWindow.swift */; };
 		17E1AFFA25CFDDEE003CDE8F /* BuiltInPOIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E1AFF925CFDDEE003CDE8F /* BuiltInPOIController.swift */; };
@@ -836,6 +837,7 @@
 		17E0E35F25E5FED900291823 /* PropertyExtraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyExtraction.swift; sourceTree = "<group>"; };
 		17E0E36125E6046D00291823 /* EventRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRecord.swift; sourceTree = "<group>"; };
 		17E0E36325E6063D00291823 /* SettingsDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDB.swift; sourceTree = "<group>"; };
+		17E11C3E25F0CFDF009B7707 /* MemoryDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryDebug.swift; sourceTree = "<group>"; };
 		17E1AFF525CFCE6D003CDE8F /* CityPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityPreferences.swift; sourceTree = "<group>"; };
 		17E1AFF725CFDDBF003CDE8F /* BuiltInPOIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInPOIWindow.swift; sourceTree = "<group>"; };
 		17E1AFF925CFDDEE003CDE8F /* BuiltInPOIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInPOIController.swift; sourceTree = "<group>"; };
@@ -1578,6 +1580,7 @@
 				1773893B25971771002698E8 /* +Menus.swift */,
 				1762BD672560BB2E009C6965 /* +MouseHandling.swift */,
 				173EB18A2490D1B7006CDB86 /* +Orbits.swift */,
+				17FA21A325C8F46B00E2BEB6 /* +RadialLayer.swift */,
 				1718271A25B1850200041826 /* +RegionEntryProtocolImplementation.swift */,
 				174B1CF025B42662003B33FE /* +Regions.swift */,
 				17055CF825C537A70025686A /* +Regions_Radial.swift */,
@@ -1585,7 +1588,6 @@
 				178A869D2489101E00BE8D46 /* StarField.swift */,
 				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
 				1727EA5724B15CD10051EA3B /* +UserCamera.swift */,
-				17FA21A325C8F46B00E2BEB6 /* +RadialLayer.swift */,
 			);
 			path = GlobeExtensions;
 			sourceTree = "<group>";
@@ -2035,6 +2037,14 @@
 			path = FlatlandEvents;
 			sourceTree = "<group>";
 		};
+		17E11C3D25F0CFD6009B7707 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				17E11C3E25F0CFDF009B7707 /* MemoryDebug.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
 		17E5556425B5493D00E3CE9E /* CaptiveDialog */ = {
 			isa = PBXGroup;
 			children = (
@@ -2143,6 +2153,7 @@
 		17EF3398247A672B00A5B55D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				17E11C3D25F0CFD6009B7707 /* Debug */,
 				176E61AC25CD171600FEA7B8 /* StringSearch */,
 				1727EA5B24B184110051EA3B /* DataStructures */,
 				17F2D7112583257D00DD8023 /* AttributedText.swift */,
@@ -2766,6 +2777,7 @@
 				172D20632521AD1F00FA8687 /* Int.swift in Sources */,
 				17A59CB825872124005B0C07 /* SCNExtrudedLetter.swift in Sources */,
 				17A25CC82505D4B000214C45 /* Metal2DCircle.metal in Sources */,
+				17E11C3F25F0CFDF009B7707 /* MemoryDebug.swift in Sources */,
 				17C87B7E25177FBF0065BE6D /* +FlatViewSettingsHandler.swift in Sources */,
 				1759AE66249F81F6003F79F5 /* View3DSettingsWindow.swift in Sources */,
 				1743FE7D255D5AD300AD05A7 /* NSRegularExpression.swift in Sources */,
