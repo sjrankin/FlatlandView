@@ -135,6 +135,9 @@ class LowLevel
     /// - Returns: Number of bytes of used memory. Nil if unable to retrieve.
     public static func UsedMemory() -> UInt64?
     {
+        #if true
+        return MemoryStatistics(.PhysicalFootprint)
+        #else
         let Task_VM_Info_Count = mach_msg_type_number_t(MemoryLayout<task_vm_info_data_t>.size / MemoryLayout<integer_t>.size)
         let Task_VM_Info_Rev1_Count = mach_msg_type_number_t(MemoryLayout.offset(of: \task_vm_info_data_t.min_address)! / MemoryLayout<integer_t>.size)
         var info = task_vm_info_data_t()
@@ -154,6 +157,59 @@ class LowLevel
             
         }
         return info.phys_footprint
+        #endif
+    }
+    
+    /// Return memory information.
+    /// - Parameter For: Determines the field from the `task_vm_info_data_t` structure to return.
+    /// - Returns: Value found in the specified field on success, nil on failure. All non-nil values returned
+    ///            are `UInt64`s, even the fields that are natively integers.
+    public static func MemoryStatistics(_ For: MemoryFields) -> UInt64?
+    {
+        let Task_VM_Info_Count = mach_msg_type_number_t(MemoryLayout<task_vm_info_data_t>.size / MemoryLayout<integer_t>.size)
+        let Task_VM_Info_Rev1_Count = mach_msg_type_number_t(MemoryLayout.offset(of: \task_vm_info_data_t.min_address)! / MemoryLayout<integer_t>.size)
+        var info = task_vm_info_data_t()
+        var count = Task_VM_Info_Count
+        let kr = withUnsafeMutablePointer(to: &info)
+        {
+            infoPtr in
+            infoPtr.withMemoryRebound(to: integer_t.self, capacity: Int(count))
+            {
+                intPtr in
+                task_info(mach_task_self_, task_flavor_t(TASK_VM_INFO), intPtr, &count)
+            }
+        }
+        guard kr == KERN_SUCCESS, count >= Task_VM_Info_Rev1_Count else
+        {
+            return nil
+            
+        }
+        switch For
+        {
+            case .VirtualSize:
+                return info.virtual_size
+                
+            case .RegionCount:
+                return UInt64(info.region_count)
+                
+            case .PageSize:
+                return UInt64(info.page_size)
+                
+            case .ResidentSize:
+                return info.resident_size
+                
+            case .ResidentPeakSize:
+                return info.resident_size_peak
+                
+            case .Reusable:
+                return info.reusable
+                
+            case .ReusablePeak:
+                return info.reusable_peak
+                
+            case .PhysicalFootprint:
+                return info.phys_footprint
+        }
     }
     
     /// Return a string of the amount of space currently allocated by Metal.
@@ -331,4 +387,16 @@ enum SysKeys: String, CaseIterable
     case CPUThermalLevel = "machdep.xcpm.cpu_thermal_level"
     /// Numeric: I/O thermal level.
     case IOThermalLevel = "machdep.xcpm.io_thermal_level"
+}
+
+enum MemoryFields: String, CaseIterable
+{
+    case VirtualSize = "VirtualSize"
+    case RegionCount = "RegionCount"
+    case PageSize = "PageSize"
+    case ResidentSize = "ResidentSize"
+    case ResidentPeakSize = "ResidentPeakSize"
+    case Reusable = "Resuable"
+    case ReusablePeak = "ReusablePeak"
+    case PhysicalFootprint = "PhysicalFootprint"
 }
