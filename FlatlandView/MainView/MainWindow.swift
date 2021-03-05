@@ -27,6 +27,8 @@ class MainWindow: NSWindowController
         Item.image = Image
     }
     
+    @IBOutlet weak var DebuggerButton: NSToolbarItem!
+    @IBOutlet weak var DebugButton: NSToolbarItem!
     @IBOutlet weak var WorldLockButton: NSButton!
     @IBOutlet weak var WorldLockToolbarItem: NSToolbarItem!
     @IBOutlet weak var MainToolBar: NSToolbar!
