@@ -224,6 +224,11 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     func UpdateEarth(With Percent: Double)
     {
         let FlatViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+        if FlatViewType != .Rectangular
+        {
+            return
+        }
+        Debug.Print("At 2.5D.UpdateEarth")
         PreviousPercent = Percent
         var FinalOffset = 90.0
         var Multiplier = 1.0
