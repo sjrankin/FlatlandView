@@ -121,6 +121,7 @@ class AboutController: NSViewController, SCNSceneRendererDelegate, WindowManagem
     
     func UpdateEarth(With Percent: Double)
     {
+        Debug.Print("At Flat.UpdateEarth")
         let Degrees = 180.0 - (360.0) * Percent
         let Radians = Degrees.Radians
         let Rotate = SCNAction.rotateTo(x: 0.0, y: CGFloat(-Radians), z: 0.0, duration: 1.0)
