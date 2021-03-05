@@ -169,6 +169,7 @@ extension GlobeView: RegionEntryProtocol
                 Node.removeAllActions()
                 Node.removeAllAnimations()
                 Node.removeFromParentNode()
+                Node.geometry = nil
             }
         }
         UpperLeftNode = nil
