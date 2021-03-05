@@ -2153,9 +2153,9 @@
 		17EF3398247A672B00A5B55D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				1727EA5B24B184110051EA3B /* DataStructures */,
 				17E11C3D25F0CFD6009B7707 /* Debug */,
 				176E61AC25CD171600FEA7B8 /* StringSearch */,
-				1727EA5B24B184110051EA3B /* DataStructures */,
 				17F2D7112583257D00DD8023 /* AttributedText.swift */,
 				17EF33C0247A95E300A5B55D /* ColorList.swift */,
 				17E5EF5E24F1051400665167 /* Debug.swift */,
