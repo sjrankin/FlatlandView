@@ -231,7 +231,7 @@ extension GlobeView
     /// change attributes accordingly.
     func StartDarknessClock()
     {
-        DarkClock = Timer.scheduledTimer(timeInterval: 5.0,
+        DarkClock = Timer.scheduledTimer(timeInterval: HourConstants.DaylightCheckInterval.rawValue,
                                          target: self,
                                          selector: #selector(UpdateNodes),
                                          userInfo: nil,
