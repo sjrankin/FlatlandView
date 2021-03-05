@@ -19,6 +19,7 @@ extension MainController: AsynchronousDataProtocol
     /// - Parameter StartTime: The time the asynchronous process started.
     func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double)
     {
+        Debug.Print("AsynchronousDataAvailable(\(CategoryType))")
         switch CategoryType
         {
             case .Earthquakes:
@@ -31,7 +32,8 @@ extension MainController: AsynchronousDataProtocol
                         USGS.TotalDuration = USGS.TotalDuration + Duration
                         let PrettyDuration = Utility.MakePrettyElapsedTime(Int(Duration), AppendSeconds: true)
                         Debug.Print("Earthquake retrieval duration: \(PrettyDuration)")
-                        StatusBar.InsertMessageAheadOfQueue("Earthquake retrieval duration: \(PrettyDuration)", ExpiresIn: 10.0, ID: UUID())
+                        StatusBar.InsertMessageAheadOfQueue("Earthquake retrieval duration: \(PrettyDuration)",
+                                                            ExpiresIn: 10.0, ID: UUID())
                     }
                     Main3DView.NewEarthquakeList(NewEarthquakes, Final: DoneWithStenciling)
                     Main2DView.PlotEarthquakes(NewEarthquakes, Replot: true)
