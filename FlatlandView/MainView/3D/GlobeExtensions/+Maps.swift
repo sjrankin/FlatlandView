@@ -50,6 +50,22 @@ extension GlobeView
         return (Earth: BaseMap!, Sea: SecondaryMap)
     }
     
+    func DoGetNodeCount(From: SCNNode) -> Int
+    {
+        var Count = 0
+        for Child in From.childNodes
+        {
+            Count = Count + DoGetNodeCount(From: Child)
+        }
+        Count = Count + From.childNodes.count
+        return Count
+    }
+    
+    func ViewNodeCount() -> Int
+    {
+        return DoGetNodeCount(From: self.scene!.rootNode)
+    }
+    
     /// Set an Earth map view to the 3D view.
     /// - Parameter FastAnimated: Used for debugging.
     /// - Parameter WithMap: Image to use as the base map.
@@ -82,6 +98,9 @@ extension GlobeView
         HourNode = nil
         
         SystemNode = SCNNode()
+        
+        let Count = ViewNodeCount()
+        Debug.Print("Scene node count=\(Count)")
         
         let EarthSphere = SCNSphere(radius: GlobeRadius.Primary.rawValue)
         EarthSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: Int(Defaults.SphereSegmentCount.rawValue))
