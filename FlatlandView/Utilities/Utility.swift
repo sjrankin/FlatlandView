@@ -1048,7 +1048,7 @@ class Utility
     public static func MakeAboutSentence(Radius: Double, Words: [String]) -> SCNNode
     {
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
-        let Node = SCNNode(geometry: NodeShape)
+        let Node = SCNNode2(geometry: NodeShape)
         Node.position = SCNVector3(0.0, 0.0, 0.0)
         Node.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         Node.geometry?.firstMaterial?.specular.contents = NSColor.clear
@@ -1109,7 +1109,7 @@ class Utility
                 HourText.flatness = Settings.GetCGFloat(.TextSmoothness, 0.1)
                 let X = CGFloat(Radius) * cos(Radians)
                 let Z = CGFloat(Radius) * sin(Radians)
-                let HourTextNode = SCNNode(geometry: HourText)
+                let HourTextNode = SCNNode2(geometry: HourText)
                 HourTextNode.scale = SCNVector3(0.07, 0.07, 0.07)
                 HourTextNode.position = SCNVector3(X, -VerticalOffset, Z)
                 let HourRotation = (90.0 - Double(WorkingAngle) + 00.0).Radians
@@ -1137,7 +1137,7 @@ class Utility
                                         Extrusion: CGFloat = 1.0,
                                         TextColor: NSColor = NSColor.gray) -> SCNNode
     {
-        let WordNode = SCNNode()
+        let WordNode = SCNNode2()
         WordNode.position = SCNVector3(0.0, 0.0, 0.0)
         let WordFont = NSFont.systemFont(ofSize: 24.0)
         let FontAttribute = [NSAttributedString.Key.font: WordFont]
@@ -1149,7 +1149,7 @@ class Utility
             LetterShape.font = WordFont
             LetterShape.firstMaterial?.diffuse.contents = TextColor
             LetterShape.firstMaterial?.specular.contents = NSColor.white
-            let LetterNode = SCNNode(geometry: LetterShape)
+            let LetterNode = SCNNode2(geometry: LetterShape)
             LetterNode.position = SCNVector3(CumulativeLetterLocation, 0.0, 0.0)
             LetterNode.name = "LetterNode"
             CumulativeLetterLocation = CumulativeLetterLocation + LetterSize.width
@@ -1299,7 +1299,7 @@ class Utility
             {
                 LetterShape.firstMaterial?.lightingModel = .physicallyBased
             }
-            let LetterNode = SCNNode(geometry: LetterShape)
+            let LetterNode = SCNNode2(geometry: LetterShape)
             if let LightMask = Mask
             {
                 LetterNode.categoryBitMask = LightMask
@@ -1344,7 +1344,7 @@ class Utility
                                       WithTag: String? = nil,
                                       Flatness: CGFloat = 0.1) -> SCNNode
     {
-        let FinalNode = SCNNode()
+        let FinalNode = SCNNode2()
         FinalNode.position = SCNVector3(0.0, 0.0, 0.0)
         var WordFont: NSFont = NSFont()
         if let SomeFont = TextFont
@@ -1370,7 +1370,7 @@ class Utility
             {
                 LetterShape.firstMaterial?.lightingModel = .physicallyBased
             }
-            let LetterNode = SCNNode(geometry: LetterShape)
+            let LetterNode = SCNNode2(geometry: LetterShape)
             if let LightMask = Mask
             {
                 LetterNode.categoryBitMask = LightMask
@@ -1403,7 +1403,7 @@ class Utility
         }
         
         let cyl = SCNCylinder(radius: CGFloat(Radius * 1.0), height: CGFloat(Extrusion))
-        let cyln = SCNNode(geometry: cyl)
+        let cyln = SCNNode2(geometry: cyl)
         cyln.position = SCNVector3(0.0, 0.0, 0.0)
         cyln.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
         cyl.firstMaterial?.diffuse.contents = NSColor.systemYellow
@@ -1511,7 +1511,7 @@ class Utility
         #if false
         // Used for debugging.
         let cyl = SCNCylinder(radius: CGFloat(Radius * 0.9), height: CGFloat(Extrusion))
-        let cyln = SCNNode(geometry: cyl)
+        let cyln = SCNNode2(geometry: cyl)
         cyl.firstMaterial?.diffuse.contents = NSColor.systemYellow
         FinalNode.addChildNode(cyln)
         #endif
@@ -1553,7 +1553,7 @@ class Utility
         let FontAttribute = [NSAttributedString.Key.font: WordFont]
         var CumulativeLetterLocation: CGFloat = CGFloat(Longitude)
         let EqCircumference = 2.0 * Radius * Double.pi
-        let FinalNode = SCNNode()
+        let FinalNode = SCNNode2()
         for (_, Letter) in Word.enumerated()
         {
             let LetterSize = NSString(string: String(Letter)).size(withAttributes: FontAttribute)
@@ -1561,7 +1561,7 @@ class Utility
             LetterShape.font = WordFont
             LetterShape.firstMaterial?.diffuse.contents = TextColor
             LetterShape.firstMaterial?.specular.contents = NSColor.white
-            let LetterNode = SCNNode(geometry: LetterShape)
+            let LetterNode = SCNNode2(geometry: LetterShape)
             LetterNode.categoryBitMask = Mask
             LetterNode.scale = SCNVector3(Scale, Scale, Scale)
             if let Tag = WithTag
