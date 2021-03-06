@@ -248,23 +248,45 @@ extension GlobeView
             Debug.Print("No EarthNode in \(#function)")
             return
         }
-        for Node in EarthNode!.childNodes
+        MemoryDebug.Block("DarknessUpdateNodes")
         {
-            if let UpdateNode = Node as? SCNNode2
+            #if true
+            self.EarthNode!.ForEachChild
             {
-                if UpdateNode.CanSwitchState
+                Node in
+                if Node != nil
                 {
-                    if UpdateNode.HasLocation()
+                    if Node!.CanSwitchState && Node!.HasLocation()
                     {
-                        let NodeLocation = GeoPoint(UpdateNode.Latitude!, UpdateNode.Longitude!)
+                        let NodeLocation = GeoPoint(Node!.Latitude!, Node!.Longitude!)
                         NodeLocation.CurrentTime = Date()
-                        if let SunIsVisible = Solar.IsInDaylight(UpdateNode.Latitude!, UpdateNode.Longitude!)
+                        if let SunIsVisible = Solar.IsInDaylight(Node!.Latitude!, Node!.Longitude!)
                         {
-                            UpdateNode.IsInDaylight = SunIsVisible
+                            Node!.IsInDaylight = SunIsVisible
                         }
                     }
                 }
             }
+            #else
+            for Node in self.EarthNode!.childNodes
+            {
+                if let UpdateNode = Node as? SCNNode2
+                {
+                    if UpdateNode.CanSwitchState
+                    {
+                        if UpdateNode.HasLocation()
+                        {
+                            let NodeLocation = GeoPoint(UpdateNode.Latitude!, UpdateNode.Longitude!)
+                            NodeLocation.CurrentTime = Date()
+                            if let SunIsVisible = Solar.IsInDaylight(UpdateNode.Latitude!, UpdateNode.Longitude!)
+                            {
+                                UpdateNode.IsInDaylight = SunIsVisible
+                            }
+                        }
+                    }
+                }
+            }
+            #endif
         }
     }
     
