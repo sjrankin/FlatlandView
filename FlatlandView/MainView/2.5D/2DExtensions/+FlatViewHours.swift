@@ -16,7 +16,7 @@ extension FlatView
     {
         let Flat = SCNPlane(width: CGFloat(FlatConstants.HourRadius.rawValue * 2.0),
                             height: CGFloat(FlatConstants.HourRadius.rawValue * 2.0))
-        HourPlane = SCNNode(geometry: Flat)
+        HourPlane = SCNNode2(geometry: Flat)
         HourPlane.categoryBitMask = LightMasks3D.Sun.rawValue
         HourPlane.name = NodeNames2D.HourPlane.rawValue
         HourPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
