@@ -50,10 +50,6 @@ extension GlobeView
             {
                 Stages.append(.GridLines)
             }
-            else
-            {
-                print("No grid lines will be drawn")
-            }
             Stenciler.RunStencilPipeline(To: Map, Quakes: Quakes, Stages: Stages, Caller: self)
         }
         else
@@ -101,12 +97,7 @@ extension GlobeView
             }
             if Settings.GetBool(.GridLinesDrawnOnMap)
             {
-                print("Adding grid lines")
                 Stages.append(.GridLines)
-            }
-            else
-            {
-                print("Didn't add grid lines")
             }
             Stenciler.RunStencilPipeline(To: Map, Quakes: nil, Stages: Stages, Caller: self)
         }
