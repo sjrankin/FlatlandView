@@ -41,7 +41,7 @@ extension RectangleView
     {
         let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue),
                           length: CGFloat(RectMode.MapDepth.rawValue), chamferRadius: 0.0)
-        CityPlane = SCNNode(geometry: Flat)
+        CityPlane = SCNNode2(geometry: Flat)
         CityPlane.categoryBitMask = LightMasks3D.Sun.rawValue
         CityPlane.name = NodeNames2D.LocationPlane.rawValue
         CityPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
