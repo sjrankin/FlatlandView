@@ -49,7 +49,7 @@ extension RectangleView
     {
         let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue),
          length: CGFloat(RectMode.MapDepth.rawValue), chamferRadius: 0.0)
-        GridNode = SCNNode(geometry: Flat)
+        GridNode = SCNNode2(geometry: Flat)
         GridNode.castsShadow = false
         GridNode.categoryBitMask = LightMasks2D.Grid.rawValue
         GridNode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
@@ -103,7 +103,7 @@ extension RectangleView
                                height: Height,
                                length: CGFloat(RectMode.LineWidth.rawValue),
                                chamferRadius: 0.0)
-        let LineNode = SCNNode(geometry: LineShape)
+        let LineNode = SCNNode2(geometry: LineShape)
         LineNode.categoryBitMask = LightMasks2D.Grid.rawValue
         LineNode.castsShadow = false
         LineNode.name = NodeNames2D.GridNodes.rawValue
@@ -131,7 +131,7 @@ extension RectangleView
                                height: CGFloat(RectMode.LineWidth.rawValue),
                                length: CGFloat(RectMode.LineWidth.rawValue),
                                chamferRadius: 0.0)
-        let LineNode = SCNNode(geometry: LineShape)
+        let LineNode = SCNNode2(geometry: LineShape)
         LineNode.categoryBitMask = LightMasks2D.Grid.rawValue
         LineNode.name = NodeNames2D.GridNodes.rawValue
         LineNode.castsShadow = false
@@ -147,7 +147,7 @@ extension RectangleView
         light.intensity = 1000
         light.color = NSColor.white
         light.categoryBitMask = LightMasks2D.NightMask.rawValue
-        let ln = SCNNode()
+        let ln = SCNNode2()
         ln.light = light
         ln.position = SCNVector3(0.0,0.0,30.0)
         self.scene?.rootNode.addChildNode(ln)
@@ -157,7 +157,7 @@ extension RectangleView
         let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue),
                           length: CGFloat(RectMode.MapDepth.rawValue), chamferRadius: 0.0)
         #endif
-        RectNightMaskNode = SCNNode(geometry: Flat)
+        RectNightMaskNode = SCNNode2(geometry: Flat)
         RectNightMaskNode.categoryBitMask = LightMasks2D.NightMask.rawValue
         RectNightMaskNode.castsShadow = false
         RectNightMaskNode.name = "NIGHT MASK PLANE"
@@ -281,7 +281,7 @@ extension RectangleView
     {
         let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapDepth.rawValue),
                           length: CGFloat(RectMode.MapHeight.rawValue), chamferRadius: 0.0)
-        UNESCOPlane = SCNNode(geometry: Flat)
+        UNESCOPlane = SCNNode2(geometry: Flat)
         UNESCOPlane.categoryBitMask = LightMasks3D.Sun.rawValue
         UNESCOPlane.name = NodeNames2D.WorldHeritageSite.rawValue
         UNESCOPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
