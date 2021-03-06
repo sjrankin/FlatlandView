@@ -82,13 +82,13 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var HourLight = SCNLight()
     var HourLightNode = SCNNode()
     var NightMaskNode = SCNNode()
-    var GridNode = SCNNode()
-    var HourPlane = SCNNode()
-    var CityPlane = SCNNode()
+    var GridNode = SCNNode2()
+    var HourPlane = SCNNode2()
+    var CityPlane = SCNNode2()
     var PolarLight = SCNLight()
-    var PolarNode = SCNNode()
-    var QuakePlane = SCNNode()
-    var UNESCOPlane = SCNNode()
+    var PolarNode = SCNNode2()
+    var QuakePlane = SCNNode2()
+    var UNESCOPlane = SCNNode2()
     
     /// Set the 2D earth map.
     /// - Parameter NewImage: The image to use for the view.
