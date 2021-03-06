@@ -94,14 +94,14 @@ extension RectangleView
         PolarLight.zFar = CGFloat(FlatConstants.PolarZFar.rawValue)
         PolarLight.zNear = CGFloat(FlatConstants.PolarZNear.rawValue)
         PolarLight.spotOuterAngle = CGFloat(FlatConstants.PolarLightOuterAngle.rawValue)
-        PolarNode = SCNNode()
+        PolarNode = SCNNode2()
         PolarNode.name = LightNames.Polar2D.rawValue
         PolarNode.light = PolarLight
         //let PolarNodeY = CGFloat(FlatConstants.FlatRadius.rawValue) + CGFloat(FlatConstants.PolarSunRimOffset.rawValue)
         let PolarNodeY = CGFloat(30)
         let PolarNodeZ = CGFloat(9)
         PolarNode.position = SCNVector3(0.0, PolarNodeY, PolarNodeZ)
-//        PolarNode.position = SCNVector3(0.0, PolarNodeY, CGFloat(FlatConstants.PolarLightZTerminal.rawValue))
+        //        PolarNode.position = SCNVector3(0.0, PolarNodeY, CGFloat(FlatConstants.PolarLightZTerminal.rawValue))
         #if true
         PolarNode.eulerAngles = SCNVector3(CGFloat(240.0.Radians), CGFloat(180.0.Radians), 0.0)
         #else
@@ -132,6 +132,7 @@ extension RectangleView
     /// Set the light for the grid.
     func SetGridLight()
     {
+        #if false
         GridLight = SCNLight()
         GridLight.type = .omni
         GridLight.color = NSColor.white
@@ -141,5 +142,6 @@ extension RectangleView
         GridLightNode.light = GridLight
         GridLightNode.position = SCNVector3(0.0, 0.0, FlatConstants.GridLightZ.rawValue)
         self.scene?.rootNode.addChildNode(GridLightNode)
+        #endif
     }
 }
