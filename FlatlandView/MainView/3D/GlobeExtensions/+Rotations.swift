@@ -192,7 +192,8 @@ extension GlobeView
                                         usesShortestUnitArc: true)
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
-        let CurrentHourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
+        let CurrentHourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self,
+                                               Default: .None)
         switch CurrentHourType
         {
             case .RelativeToLocation:
@@ -212,6 +213,8 @@ extension GlobeView
                                            duration: Defaults.EarthRotationDuration.rawValue,
                                            usesShortestUnitArc: true)
         SystemNode?.runAction(DeclRotate)
+        let NodeCount = ViewNodeCount()
+        Debug.Print(" Scene node count: \(NodeCount)")
     }
     
     /// Push current node opacities and assign the new value.
