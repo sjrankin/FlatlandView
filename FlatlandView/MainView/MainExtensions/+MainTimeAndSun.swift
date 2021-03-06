@@ -66,7 +66,7 @@ extension MainController
         UptimeLabel.textColor = Color
         UptimeValue.textColor = Color
         WorldClockLabel.textColor = Color
-        WorldClockTickCount.textColor = Color
+        MemoryUsedOut.textColor = Color
         #endif
     }
 }
