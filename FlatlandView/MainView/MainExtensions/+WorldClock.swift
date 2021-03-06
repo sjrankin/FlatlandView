@@ -55,14 +55,33 @@ extension MainController
     
     @objc func HandleMemoryInUseDisplay()
     {
+        #if DEBUG
         if let InUse = LowLevel.MemoryStatistics(.PhysicalFootprint)
         {
             let DisplayMe = InUse.WithSuffix()
+            if PreviousMemoryUsed == nil
+            {
+                PreviousMemoryUsed = InUse
+                ChangeDelta = CACurrentMediaTime()
+            }
+            else
+            {
+                let NicePrevious = PreviousMemoryUsed!.WithSuffix()
+                if NicePrevious != DisplayMe
+                {
+                    let ChangeTime = CACurrentMediaTime() - ChangeDelta
+                    let MemDelta = Int64(InUse) - Int64(PreviousMemoryUsed!)
+                    ChangeDelta = CACurrentMediaTime()
+                    PreviousMemoryUsed = InUse
+                    Debug.Print("Periodic Memory Delta: \(MemDelta), \(Int(ChangeTime)) seconds")
+                }
+            }
             MemoryUsedOut.stringValue = DisplayMe
         }
         else
         {
             MemoryUsedOut.stringValue = "?"
         }
+        #endif
     }
 }
