@@ -53,7 +53,7 @@ extension FlatView
         let Flat = SCNCylinder(radius: CGFloat(FlatConstants.FlatRadius.rawValue),
                                height: CGFloat(FlatConstants.GridLayerThickness.rawValue))
         Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
-        GridNode = SCNNode(geometry: Flat)
+        GridNode = SCNNode2(geometry: Flat)
         GridNode.castsShadow = false
         GridNode.categoryBitMask = LightMasks2D.Grid.rawValue
         GridNode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
@@ -100,7 +100,7 @@ extension FlatView
     func MakeVerticalLine(At: CGFloat, Height: CGFloat) -> SCNNode
     {
         let LineShape = SCNBox(width: Height, height: 0.1, length: 0.1, chamferRadius: 0.0)
-        let LineNode = SCNNode(geometry: LineShape)
+        let LineNode = SCNNode2(geometry: LineShape)
         LineNode.categoryBitMask = LightMasks2D.Grid.rawValue
         LineNode.castsShadow = false
         LineNode.name = NodeNames2D.GridNodes.rawValue
@@ -116,7 +116,7 @@ extension FlatView
     func MakeHorizontalLine(At: CGFloat, Width: CGFloat) -> SCNNode
     {
         let LineShape = SCNBox(width: 0.1, height: 0.1, length: Width, chamferRadius: 0.0)
-        let LineNode = SCNNode(geometry: LineShape)
+        let LineNode = SCNNode2(geometry: LineShape)
         LineNode.categoryBitMask = LightMasks2D.Grid.rawValue
         LineNode.name = NodeNames2D.GridNodes.rawValue
         LineNode.castsShadow = false
@@ -131,7 +131,7 @@ extension FlatView
     func MakeRing(Radius: CGFloat) -> SCNNode
     {
         let RingShape = SCNTorus(ringRadius: Radius, pipeRadius: 0.06)
-        let RingNode = SCNNode(geometry: RingShape)
+        let RingNode = SCNNode2(geometry: RingShape)
         RingNode.categoryBitMask = LightMasks2D.Grid.rawValue
         RingShape.ringSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
         RingShape.pipeSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
@@ -148,7 +148,7 @@ extension FlatView
         let Flat = SCNCylinder(radius: CGFloat(FlatConstants.FlatRadius.rawValue),
                                height: CGFloat(FlatConstants.NightMaskThickness.rawValue))
         Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
-        NightMaskNode = SCNNode(geometry: Flat)
+        NightMaskNode = SCNNode2(geometry: Flat)
         NightMaskNode.categoryBitMask = LightMasks2D.Sun.rawValue
         NightMaskNode.castsShadow = false
         NightMaskNode.geometry?.firstMaterial?.diffuse.contents = nil
@@ -234,7 +234,7 @@ extension FlatView
     {
         let Flat = SCNPlane(width: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0),
                             height: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0))
-        UNESCOPlane = SCNNode(geometry: Flat)
+        UNESCOPlane = SCNNode2(geometry: Flat)
         UNESCOPlane.categoryBitMask = LightMasks3D.Sun.rawValue
         UNESCOPlane.name = NodeNames2D.WorldHeritageSite.rawValue
         UNESCOPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
