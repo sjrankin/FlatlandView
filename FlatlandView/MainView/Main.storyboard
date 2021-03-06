@@ -573,7 +573,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                                         <subviews>
                                             <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="8bV-LF-Aru">
-                                                <rect key="frame" x="16" y="40" width="174" height="104"/>
+                                                <rect key="frame" x="16" y="40" width="188" height="104"/>
                                                 <rows>
                                                     <gridRow id="rd2-2S-9be"/>
                                                     <gridRow id="hUu-6V-Wv1"/>
@@ -598,7 +598,7 @@
                                                     </gridCell>
                                                     <gridCell row="rd2-2S-9be" column="uXg-z6-FRB" id="HTy-hQ-XfP">
                                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dYd-FD-q21">
-                                                            <rect key="frame" x="90" y="88" width="37" height="16"/>
+                                                            <rect key="frame" x="104" y="88" width="37" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Eaf-E6-7Sv">
                                                                 <font key="font" usesAppearanceFont="YES"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -618,7 +618,7 @@
                                                     </gridCell>
                                                     <gridCell row="hUu-6V-Wv1" column="uXg-z6-FRB" id="Yig-2Y-1L3">
                                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y44-LR-5jK">
-                                                            <rect key="frame" x="90" y="66" width="37" height="16"/>
+                                                            <rect key="frame" x="104" y="66" width="37" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="bhu-H5-ka1">
                                                                 <font key="font" usesAppearanceFont="YES"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -638,7 +638,7 @@
                                                     </gridCell>
                                                     <gridCell row="nSj-c3-yWL" column="uXg-z6-FRB" id="zRd-tH-iUx">
                                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YGQ-2K-P1W">
-                                                            <rect key="frame" x="90" y="44" width="37" height="16"/>
+                                                            <rect key="frame" x="104" y="44" width="37" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="9zY-vt-F5u">
                                                                 <font key="font" usesAppearanceFont="YES"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -658,7 +658,7 @@
                                                     </gridCell>
                                                     <gridCell row="v5C-OW-VV3" column="uXg-z6-FRB" id="uiG-GB-Qtq">
                                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nJR-aJ-l3k">
-                                                            <rect key="frame" x="90" y="22" width="37" height="16"/>
+                                                            <rect key="frame" x="104" y="22" width="37" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Krk-oU-ZRd">
                                                                 <font key="font" usesAppearanceFont="YES"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -668,8 +668,8 @@
                                                     </gridCell>
                                                     <gridCell row="R7N-Rl-jgu" column="Ufb-zH-uwb" id="Ebg-wM-dPj">
                                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rlV-yu-2EY">
-                                                            <rect key="frame" x="-2" y="0.0" width="75" height="16"/>
-                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="World Ticks" id="hB4-bm-a4o">
+                                                            <rect key="frame" x="-2" y="0.0" width="89" height="16"/>
+                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Memory Used" id="hB4-bm-a4o">
                                                                 <font key="font" usesAppearanceFont="YES"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -678,7 +678,7 @@
                                                     </gridCell>
                                                     <gridCell row="R7N-Rl-jgu" column="uXg-z6-FRB" id="aES-ir-lFC">
                                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oyg-sR-Tzn">
-                                                            <rect key="frame" x="90" y="0.0" width="86" height="16"/>
+                                                            <rect key="frame" x="104" y="0.0" width="86" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="0000000000" id="peh-65-rbf">
                                                                 <font key="font" usesAppearanceFont="YES"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -772,6 +772,7 @@
                         <outlet property="Main3DView" destination="Zfw-8N-1gC" id="YRH-zy-lP6"/>
                         <outlet property="MainTimeLabelBottom" destination="UlV-IY-Q92" id="u2r-4Z-uTJ"/>
                         <outlet property="MainTimeLabelTop" destination="Iq2-x8-FBV" id="1pC-lg-ZK9"/>
+                        <outlet property="MemoryUsedOut" destination="oyg-sR-Tzn" id="53Z-8f-6RS"/>
                         <outlet property="PrimaryView" destination="6id-Tb-uKs" id="SgK-oT-a85"/>
                         <outlet property="Rect2DView" destination="qi4-7r-za1" id="P7U-lU-wEE"/>
                         <outlet property="Status3DLeftConstraint" destination="4qr-0V-e74" id="5aQ-wp-MpB"/>
@@ -782,7 +783,6 @@
                         <outlet property="VersionLabel" destination="QkX-vn-KDb" id="7Jt-Th-gp2"/>
                         <outlet property="VersionValue" destination="dYd-FD-q21" id="BkE-3i-AVi"/>
                         <outlet property="WorldClockLabel" destination="rlV-yu-2EY" id="gu7-b7-pWt"/>
-                        <outlet property="WorldClockTickCount" destination="oyg-sR-Tzn" id="53Z-8f-6RS"/>
                     </connections>
                 </viewController>
                 <customObject id="Qhx-E0-N3F" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
