@@ -177,12 +177,32 @@
                                         <action selector="TakeSnapShot:" target="gS1-iC-1Lf" id="5Lt-lk-Dn6"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="ADD7669F-73A1-4C1E-BDF6-0AD40D586899" label="Memory" paletteLabel="Memory" id="S6R-vz-Pvb">
+                                    <nil key="toolTip"/>
+                                    <imageReference key="image" image="memorychip" catalog="system" symbolScale="large"/>
+                                    <size key="minSize" width="36" height="36"/>
+                                    <size key="maxSize" width="37.5" height="36.5"/>
+                                    <button key="view" id="2Xe-EO-mrB">
+                                        <rect key="frame" x="6" y="14" width="37.5" height="36.5"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="YMz-SR-xUA">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="systemHeavy" size="18"/>
+                                            <imageReference key="image" image="memorychip" catalog="system" symbolScale="large"/>
+                                        </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
+                                    </button>
+                                    <connections>
+                                        <action selector="MemoryDisplay:" target="gS1-iC-1Lf" id="oBm-Ck-ODW"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="emU-F6-qZj"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="qP8-7E-Gyk"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
+                                <toolbarItem reference="S6R-vz-Pvb"/>
                                 <toolbarItem reference="mNI-Xf-upW"/>
                                 <toolbarItem reference="XOM-R1-tav"/>
                                 <toolbarItem reference="43P-br-LdQ"/>
@@ -434,6 +454,12 @@
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="RunDebugger:" target="vAH-R8-aOX" id="xbQ-gI-JmD"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Memory Display" id="gcB-Iq-98E">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="MemoryDisplay:" target="vAH-R8-aOX" id="CMD-97-kVC"/>
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="dyj-iO-Xvv"/>
@@ -888,6 +914,7 @@
         <image name="house.circle" catalog="system" width="19" height="19"/>
         <image name="info.circle.fill" catalog="system" width="19" height="19"/>
         <image name="ladybug.fill" catalog="system" width="22" height="22"/>
+        <image name="memorychip" catalog="system" width="21" height="19"/>
         <image name="wifi" catalog="system" width="21" height="16"/>
         <image name="wrench.and.screwdriver" catalog="system" width="23" height="22"/>
         <namedColor name="ControlBlack">
