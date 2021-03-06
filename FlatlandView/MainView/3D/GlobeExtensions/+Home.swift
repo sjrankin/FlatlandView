@@ -624,7 +624,7 @@ extension GlobeView
                       EmissiveColor: NSColor = NSColor.white)
     {
         let Pole = SCNCylinder(radius: 0.04, height: 4.5)
-        let PoleNode = SCNNode(geometry: Pole)
+        let PoleNode = SCNNode2(geometry: Pole)
         PoleNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         PoleNode.geometry?.firstMaterial?.diffuse.contents = NSColor.brown
         
@@ -632,7 +632,7 @@ extension GlobeView
         let FlagY = -2.0
         
         let FlagInterior = SCNBox(width: 0.035, height: 0.5, length: 1.1, chamferRadius: 0.0)
-        let FlagInteriorNode = SCNNode(geometry: FlagInterior)
+        let FlagInteriorNode = SCNNode2(geometry: FlagInterior)
         FlagInteriorNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FlagInteriorNode.geometry?.firstMaterial?.diffuse.contents = EmissiveColor
         FlagInteriorNode.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -645,7 +645,7 @@ extension GlobeView
         FlagInteriorNode.eulerAngles = SCNVector3(0.0, 90.0.Radians, 0.0)
         
         let FlagFace = SCNBox(width: 0.04, height: 0.6, length: 1.2, chamferRadius: 0.0)
-        let FlagFaceNode = SCNNode(geometry: FlagFace)
+        let FlagFaceNode = SCNNode2(geometry: FlagFace)
         FlagFaceNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FlagFaceNode.position = SCNVector3(FlagX, FlagY, 0.0)
         let FlagName = "GreenHomeFlag"
