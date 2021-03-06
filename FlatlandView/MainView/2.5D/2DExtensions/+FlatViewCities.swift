@@ -41,7 +41,7 @@ extension FlatView
     {
         let Flat = SCNPlane(width: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0),
                             height: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0))
-        CityPlane = SCNNode(geometry: Flat)
+        CityPlane = SCNNode2(geometry: Flat)
         CityPlane.categoryBitMask = LightMasks3D.Sun.rawValue
         CityPlane.name = NodeNames2D.LocationPlane.rawValue
         CityPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
