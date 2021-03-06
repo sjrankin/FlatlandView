@@ -11,6 +11,30 @@ import AppKit
 
 extension Int64
 {
+    /// Returns the value as a string with a suffix for KB, MB, or GB.
+    /// - Returns: String with a rounded value with the appropriate suffix.
+    func WithSuffix() -> String
+    {
+        let Suffixes: [(Low: UInt64, High: UInt64, Suffix: String)] =
+            [
+                (0, 1023, ""),
+                (1024, 1048575, "KB"),
+                (1048576, 1073471823, "MB"),
+                (1073471824, UInt64.max, "GB")
+            ]
+        
+        for (Low, High, Suffix) in Suffixes
+        {
+            if self >= Low && self <= High
+            {
+                var Value: Double = Double(self) / Double(Low)
+                Value = Value.RoundedTo(2)
+                return "\(Value) \(Suffix)"
+            }
+        }
+        return Delimited()
+    }
+    
     /// Returns the instance value as a delimited string.
     /// - Parameter Delimiter: The character to use to delimit thousands blocks.
     /// - Returns: Value as a character delimited string.
