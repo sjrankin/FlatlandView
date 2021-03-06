@@ -85,7 +85,10 @@ class USGS
     @objc func GetNewEarthquakeData()
     {
         _IsBusy = true
-        defer{_IsBusy = false}
+        defer
+        {
+            _IsBusy = false
+        }
         USGS.CallCount = USGS.CallCount + 1
         EarthquakeStartTime = CACurrentMediaTime()
         RetrievalQueue = OperationQueue()
@@ -93,6 +96,7 @@ class USGS
         RetrievalQueue?.name = "Earthquake Retrieval Queue"
         RetrievalQueue?.addOperation
         {
+            MemoryDebug.Open("\(#function)")
             self.GetUSGSEarthquakeData
             {
                 Results in
@@ -128,6 +132,7 @@ class USGS
                         print("JSON error \(error)")
                     }
                     self.HaveAllEarthquakes()
+                    MemoryDebug.Close("\(#function)")
                 }
                 else
                 {
