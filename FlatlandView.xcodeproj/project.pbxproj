@@ -413,6 +413,9 @@
 		17F0AC5225D37BA100B2F496 /* +HistoricEarthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F0AC5125D37BA100B2F496 /* +HistoricEarthquakes.swift */; };
 		17F0AC5625D3A63E00B2F496 /* FileIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F0AC5525D3A63E00B2F496 /* FileIO.swift */; };
 		17F0AC5825D3A70000B2F496 /* +Cities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F0AC5725D3A70000B2F496 /* +Cities.swift */; };
+		17F0B93525F352C000D1AE43 /* MemoryUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17F0B93425F352C000D1AE43 /* MemoryUI.storyboard */; };
+		17F0B93725F355AE00D1AE43 /* MemoryUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F0B93625F355AE00D1AE43 /* MemoryUI.swift */; };
+		17F0B93925F355C800D1AE43 /* MemoryUIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F0B93825F355C800D1AE43 /* MemoryUIWindow.swift */; };
 		17F17A4724DE78F700568A4E /* LineDrawKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17F17A4624DE78F700568A4E /* LineDrawKernel.metal */; };
 		17F17A4924DE793800568A4E /* LinesDrawKernel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 17F17A4824DE793800568A4E /* LinesDrawKernel.metal */; };
 		17F17A4B24DE79A800568A4E /* LineDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F17A4A24DE79A800568A4E /* LineDraw.swift */; };
@@ -894,6 +897,9 @@
 		17F0AC5125D37BA100B2F496 /* +HistoricEarthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+HistoricEarthquakes.swift"; sourceTree = "<group>"; };
 		17F0AC5525D3A63E00B2F496 /* FileIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileIO.swift; sourceTree = "<group>"; };
 		17F0AC5725D3A70000B2F496 /* +Cities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Cities.swift"; sourceTree = "<group>"; };
+		17F0B93425F352C000D1AE43 /* MemoryUI.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MemoryUI.storyboard; sourceTree = "<group>"; };
+		17F0B93625F355AE00D1AE43 /* MemoryUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUI.swift; sourceTree = "<group>"; };
+		17F0B93825F355C800D1AE43 /* MemoryUIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryUIWindow.swift; sourceTree = "<group>"; };
 		17F17A4624DE78F700568A4E /* LineDrawKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = LineDrawKernel.metal; sourceTree = "<group>"; };
 		17F17A4824DE793800568A4E /* LinesDrawKernel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = LinesDrawKernel.metal; sourceTree = "<group>"; };
 		17F17A4A24DE79A800568A4E /* LineDraw.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineDraw.swift; sourceTree = "<group>"; };
@@ -1217,6 +1223,7 @@
 		174A6A222557BD6400488274 /* DebugUI */ = {
 			isa = PBXGroup;
 			children = (
+				17F0B93325F352AD00D1AE43 /* Memory */,
 				1767EC0E25BE9AC200A976D2 /* ColorChipPickerDebug */,
 				174A6A2E2557D21A00488274 /* DebugPanels */,
 				174A6A1F2557BD5E00488274 /* Debug.storyboard */,
@@ -2246,6 +2253,16 @@
 			path = EarthquakeRegionEditor;
 			sourceTree = "<group>";
 		};
+		17F0B93325F352AD00D1AE43 /* Memory */ = {
+			isa = PBXGroup;
+			children = (
+				17F0B93425F352C000D1AE43 /* MemoryUI.storyboard */,
+				17F0B93825F355C800D1AE43 /* MemoryUIWindow.swift */,
+				17F0B93625F355AE00D1AE43 /* MemoryUI.swift */,
+			);
+			path = Memory;
+			sourceTree = "<group>";
+		};
 		17F1C7C72543F8440046AE33 /* Rectangular */ = {
 			isa = PBXGroup;
 			children = (
@@ -2474,6 +2491,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				174F0107248CCD6C00F610DD /* MapManager.storyboard in Resources */,
+				17F0B93525F352C000D1AE43 /* MemoryUI.storyboard in Resources */,
 				17F4FFE825A407D7004A2EFA /* LiveDataStatus.storyboard in Resources */,
 				178E6F732540533600DA0F76 /* RoundTextTest.storyboard in Resources */,
 				17F5598825AD7DC700053314 /* RegionEntryUI.storyboard in Resources */,
@@ -2638,6 +2656,7 @@
 				1748913324C6A53D00B5F6AF /* Imaging.swift in Sources */,
 				175BA5542570CEBA001ED3A2 /* Internet.swift in Sources */,
 				17DDEAD3251C3A8500B0ADE7 /* MainRunProtocol.swift in Sources */,
+				17F0B93725F355AE00D1AE43 /* MemoryUI.swift in Sources */,
 				17EF338C247A4EBB00A5B55D /* Settings.swift in Sources */,
 				17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */,
 				178A869C2488C3D100BE8D46 /* AboutDetailsWindow.swift in Sources */,
@@ -2815,6 +2834,7 @@
 				17E3EDC624B5B223007C1D72 /* FontHelper.swift in Sources */,
 				17561A852567838400FD0506 /* SCNVector4.swift in Sources */,
 				1759AE59249F7715003F79F5 /* ContainerController.swift in Sources */,
+				17F0B93925F355C800D1AE43 /* MemoryUIWindow.swift in Sources */,
 				17C3455A252C9AB100D01143 /* City2.swift in Sources */,
 				17DD791A24DA7A500046EB25 /* ResetConfirmWindow.swift in Sources */,
 				1760023624D2BF1800D5EA1A /* CGFloat.swift in Sources */,
