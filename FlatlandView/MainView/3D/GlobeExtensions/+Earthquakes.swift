@@ -35,7 +35,10 @@ extension GlobeView
                     ApplyAllStencils(Caller: #function)
                 }
             }
-            PlotEarthquakes(EarthquakeList, IsCached: FromCache, On: Earth)
+            MemoryDebug.Block("PlotEarthquakesCall")
+            {
+                self.PlotEarthquakes(self.EarthquakeList, IsCached: FromCache, On: Earth)
+            }
             Final?()
         }
     }
@@ -50,6 +53,7 @@ extension GlobeView
                 if Node.name == GlobeNodeNames.EarthquakeNodes.rawValue ||
                     Node.name == GlobeNodeNames.IndicatorNode.rawValue
                 {
+                    Node.removeAllAnimations()
                     Node.removeAllActions()
                     Node.removeFromParentNode()
                     Node.geometry = nil
@@ -156,6 +160,7 @@ extension GlobeView
         {
             for (_, Node) in IndicatorAgeMap
             {
+                Node.removeAllAnimations()
                 Node.removeAllActions()
                 Node.removeFromParentNode()
                 Node.geometry = nil
@@ -175,6 +180,7 @@ extension GlobeView
                     {
                         if let INode = IndicatorAgeMap[Quake.Code]
                         {
+                            INode.removeAllAnimations()
                             INode.removeAllActions()
                             INode.removeFromParentNode()
                             INode.geometry = nil
@@ -197,8 +203,7 @@ extension GlobeView
             return
         }
         let Oldest = OldestEarthquakeOccurence(List)
-        let Biggest = CityManager.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true) 
-        //        let Biggest = Cities.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
+        let Biggest = CityManager.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
         var MaxSignificance = 0
         for Quake in List
         {
