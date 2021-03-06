@@ -243,6 +243,29 @@ class SCNNode2: SCNNode
     /// Auxiliary string tag.
     var AuxiliaryTag: String? = nil
     
+    /// Returns all child nodes that are of type `SCNNode2`.
+    /// - Returns: Array of child nodes that are of type `SCNNode2`.
+    func ChildNodes2() -> [SCNNode2]
+    {
+        var Results = [SCNNode2]()
+        for SomeNode in childNodes
+        {
+            if let TheNode = SomeNode as? SCNNode2
+            {
+                Results.append(TheNode)
+            }
+        }
+        return Results
+    }
+    
+    func ForEachChild(_ Closure: ((SCNNode2?) -> ())?)
+    {
+        for SomeNode in childNodes
+        {
+            Closure?((SomeNode as? SCNNode2))
+        }
+    }
+    
     // MARK: - Text handling
     
     /// Change the text geometry to the passed string.
@@ -729,6 +752,27 @@ class SCNNode2: SCNNode
     /// - Parameter For: Determines which state to show.
     public func SetState(For DayTime: Bool)
     {
+        #if true
+        if DayState == nil || NightState == nil
+        {
+            for Child in self.ChildNodes2()
+            {
+                Child.SetState(For: DayTime)
+            }
+            return
+        }
+        if HasImageTextures
+        {
+            SetStateWithImages(For: DayTime)
+            return
+        }
+        let NodeState = DayTime ? DayState! : NightState!
+        SetVisualAttributes(NodeState)
+        for Child in self.ChildNodes2()
+        {
+            Child.SetState(For: DayTime)
+        }
+        #else
         if DayState == nil || NightState == nil
         {
             for Child in self.childNodes
@@ -754,6 +798,7 @@ class SCNNode2: SCNNode
                 ActualChild.SetState(For: DayTime)
             }
         }
+        #endif
     }
     
     /// Set to true if the contents of the diffuse material is made up of one or more images.
