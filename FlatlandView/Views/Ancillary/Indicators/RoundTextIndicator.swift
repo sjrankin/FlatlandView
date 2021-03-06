@@ -73,7 +73,7 @@ import SceneKit
         Camera.fieldOfView = 100.0
         Camera.zFar = 10000.0
         Camera.zNear = 0.1
-        let CameraNode = SCNNode()
+        let CameraNode = SCNNode2()
         CameraNode.camera = Camera
         CameraNode.position = SCNVector3(0.0, 0.0, _CameraZ)
         self.scene?.rootNode.addChildNode(CameraNode)
@@ -111,7 +111,7 @@ import SceneKit
         }
         Plane = SCNPlane(width: self.frame.width, height: self.frame.height)
         Plane.firstMaterial?.diffuse.contents = NSColor.clear
-        PlaneNode = SCNNode(geometry: Plane)
+        PlaneNode = SCNNode2(geometry: Plane)
         PlaneNode.position = SCNVector3(0.0, 0.0, 0.0)
         PlaneNode.eulerAngles = SCNVector3(0.0.Radians, 0.0.Radians, 0.0.Radians)
         var FontForText: NSFont = NSFont()
@@ -232,7 +232,7 @@ import SceneKit
     var Plane = SCNPlane()
     
     /// The node for the plane.
-    var PlaneNode = SCNNode()
+    var PlaneNode = SCNNode2()
     
     private var _Extrusion: Double = 3.5
     
