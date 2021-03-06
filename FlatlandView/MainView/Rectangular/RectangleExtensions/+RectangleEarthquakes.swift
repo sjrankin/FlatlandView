@@ -17,7 +17,7 @@ extension RectangleView
     {
         let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue),
                           length: CGFloat(RectMode.MapDepth.rawValue), chamferRadius: 0.0)
-        QuakePlane = SCNNode(geometry: Flat)
+        QuakePlane = SCNNode2(geometry: Flat)
         QuakePlane.categoryBitMask = LightMasks3D.Sun.rawValue
         QuakePlane.name = NodeNames2D.EarthquakePlane.rawValue
         QuakePlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
