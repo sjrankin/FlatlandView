@@ -97,7 +97,7 @@ extension GlobeView
         HourNode?.removeFromParentNode()
         HourNode = nil
         
-        SystemNode = SCNNode()
+        SystemNode = SCNNode2()
         
         let Count = ViewNodeCount()
         Debug.Print("Scene node count=\(Count)")
