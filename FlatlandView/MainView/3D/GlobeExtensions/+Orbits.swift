@@ -53,7 +53,7 @@ class OrbitalObject
     
     func Shape() -> SCNNode
     {
-        return SCNNode()
+        return SCNNode2()
     }
     
     //https://en.wikipedia.org/wiki/Orbital_speed
