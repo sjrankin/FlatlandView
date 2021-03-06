@@ -95,7 +95,7 @@ extension GlobeView
         }
         let LayerSphere = SCNSphere(radius: Radius)
         LayerSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: .SphereSegmentCount)
-        let LayerNode = SCNNode(geometry: LayerSphere)
+        let LayerNode = SCNNode2(geometry: LayerSphere)
         LayerNode.position = SCNVector3(0.0, 0.0, 0.0)
         LayerNode.geometry?.firstMaterial?.diffuse.contents = Image
         LayerNode.geometry?.firstMaterial?.specular.contents = NSColor.white
