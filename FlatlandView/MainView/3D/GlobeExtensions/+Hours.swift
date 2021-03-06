@@ -24,9 +24,29 @@ extension GlobeView
     /// Remove the hour container node.
     private func RemoveHours()
     {
+        if HourNode == nil
+        {
+            return
+        }
+        HourNode?.ClearAll()
+        HourNode = nil
+        #if false
+        for ChildNode in HourNode!.childNodes
+        {
+            if let Child = ChildNode as? SCNNode2
+            {
+                Child.Clear()
+            }
+        }
+        #if true
+        HourNode?.Clear()
+        #else
+        HourNode?.removeAllAnimations()
         HourNode?.removeAllActions()
         HourNode?.removeFromParentNode()
         HourNode = nil
+        #endif
+        #endif
     }
     
     /// Update the globe display with the specified hour types.
@@ -266,7 +286,7 @@ extension GlobeView
     {
         let Color = Settings.GetColor(.HourColor, NSColor.systemOrange)
         return PlotWallClockLabels(Radius: Radius, LetterColor: Color, RadialOffset: 3.0,
-                              StartAngle: 360.0 / 24.0)
+                                   StartAngle: 360.0 / 24.0)
     }
     
     /// Make the hour node such that `0` is always under the user's location (if set) with offsets
@@ -370,6 +390,14 @@ extension GlobeView
         WallLetterColor = LetterColor
         //First time updating the wall clock hours, do not use InPlace = true because there are no nodes yet
         //available.
+        #if true
+        self.UpdateWallClockHours(InPlace: false)
+        self.WallClockTimer = Timer.scheduledTimer(timeInterval: HourConstants.WallClockUpdateTime.rawValue,
+                                                   target: self,
+                                                   selector: #selector(self.UpdateWallClockHours),
+                                                   userInfo: nil,
+                                                   repeats: true)
+        #else
         OperationQueue.main.addOperation
         {
             self.UpdateWallClockHours(InPlace: false)
@@ -379,6 +407,7 @@ extension GlobeView
                                               userInfo: nil,
                                               repeats: true)
         }
+        #endif
         return PhraseNode
     }
     
@@ -508,13 +537,13 @@ extension GlobeView
                            LetterColor: NSColor = NSColor.systemYellow,
                            NodeTime: Date) -> SCNNode2
     {
-        MemoryDebug.Open("\(#function)")
+        MemoryDebug.Open("MakeWallClockNode")
         defer
         {
-            let Result = MemoryDebug.Close("\(#function)")
+            let Result = MemoryDebug.Close("MakeWallClockNode")
             if let Delta = Result
             {
-            CumulativeMemory = CumulativeMemory + Delta
+                CumulativeMemory = CumulativeMemory + Delta
             }
         }
         let HourText = MakeWallClockNodeText(With: Value, LetterColor: LetterColor)
