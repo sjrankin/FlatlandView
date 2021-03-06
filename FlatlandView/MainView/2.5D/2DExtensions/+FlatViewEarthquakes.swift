@@ -17,7 +17,7 @@ extension FlatView
     {
         let Flat = SCNPlane(width: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0),
                             height: CGFloat(FlatConstants.FlatRadius.rawValue * 2.0))
-        QuakePlane = SCNNode(geometry: Flat)
+        QuakePlane = SCNNode2(geometry: Flat)
         QuakePlane.categoryBitMask = LightMasks3D.Sun.rawValue
         QuakePlane.name = NodeNames2D.EarthquakePlane.rawValue
         QuakePlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
