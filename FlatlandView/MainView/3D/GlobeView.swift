@@ -194,7 +194,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         {
             let LineSphere = SCNSphere(radius: Radius)
             LineSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: Int(Defaults.SphereSegmentCount.rawValue))
-            LineNode = SCNNode(geometry: LineSphere)
+            LineNode = SCNNode2(geometry: LineSphere)
             LineNode?.categoryBitMask = LightMasks3D.Grid.rawValue
             LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
             let GridLineImage = MakeGridLines(Width: CGFloat(Defaults.StandardMapWidth.rawValue),
