@@ -39,7 +39,12 @@ class Stenciler
                                           Caller: StencilPipelineProtocol)
     {
         objc_sync_enter(StencilLock)
-        defer{objc_sync_exit(StencilLock)}
+        MemoryDebug.Open("RunStencilPipeLine")
+        defer
+        {
+            MemoryDebug.Close("RunStencilPipeLine")
+            objc_sync_exit(StencilLock)
+        }
         Debug.Print("RunStencilPipeline: \(Stages)")
         if Quakes == nil && Stages.count < 1
         {
