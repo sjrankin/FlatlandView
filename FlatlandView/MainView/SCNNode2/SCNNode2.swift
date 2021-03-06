@@ -13,6 +13,8 @@ import SceneKit
 /// Thin wrapper around `SCNNode` that provides a few auxiliary properties for carrying data and ID information.
 class SCNNode2: SCNNode
 {
+    // MARK: - Initialization and deinitialization.
+    
     /// Default initializer.
     override init()
     {
@@ -126,9 +128,14 @@ class SCNNode2: SCNNode
         Initialize()
     }
     
-    /// This is probably redundant but we'll do it anyway.
+    /// Deinitializer. Remove references to things that may keep the node in memory when we want
+    /// it to be fully removed.
     deinit
     {
+        self.geometry?.firstMaterial?.diffuse.contents = nil
+        self.geometry?.firstMaterial?.specular.contents = nil
+        self.geometry?.firstMaterial?.emission.contents = nil
+        self.geometry?.firstMaterial?.selfIllumination.contents = nil
         self.geometry = nil
     }
     
@@ -137,6 +144,43 @@ class SCNNode2: SCNNode
     {
         StartDynamicUpdates()
     }
+    
+    /// Clears a node of its contents. Removes it from the parent. Prepares node to be deleted.
+    public func Clear()
+    {
+        self.removeAllAnimations()
+        self.removeAllActions()
+        self.removeFromParentNode()
+        self.geometry?.firstMaterial?.diffuse.contents = nil
+        self.geometry?.firstMaterial?.specular.contents = nil
+        self.geometry?.firstMaterial?.emission.contents = nil
+        self.geometry?.firstMaterial?.selfIllumination.contents = nil
+        self.geometry = nil
+    }
+    
+    /// Clears a node of its contents. Does the same for all child nodes. Prepares the node to be deleted.
+    /// - Note: Only child nodes of type `SCNNode2` are cleared.
+    public func ClearAll()
+    {
+        for Child in self.childNodes
+        {
+            if let _ = Child as? SCNNode2
+            {
+                (Child as? SCNNode2)?.ClearAll()
+            }
+            Child.removeAllAnimations()
+            Child.removeAllActions()
+            Child.removeFromParentNode()
+            Child.geometry?.firstMaterial?.diffuse.contents = nil
+            Child.geometry?.firstMaterial?.specular.contents = nil
+            Child.geometry?.firstMaterial?.emission.contents = nil
+            Child.geometry?.firstMaterial?.selfIllumination.contents = nil
+            Child.geometry = nil
+        }
+        Clear()
+    }
+    
+    // MARK: - Additional fields.
     
     /// Tag value. Defaults to nil.
     var Tag: Any? = nil
