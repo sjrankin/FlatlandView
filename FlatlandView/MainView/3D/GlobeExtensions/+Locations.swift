@@ -142,7 +142,7 @@ extension GlobeView
         SphereNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         
         let Cone = SCNCone(topRadius: 0.0, bottomRadius: 0.2, height: 0.5)
-        let ConeNode = SCNNode(geometry: Cone)
+        let ConeNode = SCNNode2(geometry: Cone)
         ConeNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
@@ -1048,7 +1048,7 @@ extension GlobeView
         PoleNode.geometry?.firstMaterial?.diffuse.contents = NSColor.brown
         
         let FlagFace = SCNBox(width: 0.04, height: 0.6, length: 1.2, chamferRadius: 0.0)
-        let FlagFaceNode = SCNNode(geometry: FlagFace)
+        let FlagFaceNode = SCNNode2(geometry: FlagFace)
         FlagFaceNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         let XOffset = NorthPole ? 0.6 : -0.6
         let YOffset = NorthPole ? 1.0 : -1.0
