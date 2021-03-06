@@ -44,11 +44,7 @@ class MemoryDebug
             Record.Start = nil
             Record.End = nil
             Record.Delta = nil
-            #if true
             Record.Start = LowLevel.MemoryStatistics(Field)
-            #else
-            Record.Start = LowLevel.UsedMemory()
-            #endif
         }
     }
     
@@ -66,11 +62,7 @@ class MemoryDebug
     {
         if let Record = Locations[Name]
         {
-            #if true
             Record.End = LowLevel.MemoryStatistics(Record.Field)
-            #else
-            Record.End = LowLevel.UsedMemory()
-            #endif
             if Record.Start != nil
             {
                 Record.Delta = Int64(Record.End!) - Int64(Record.Start!)
