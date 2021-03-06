@@ -32,6 +32,7 @@ extension MainController
     /// Update the world clock.
     @objc func HandleWorldClockTick()
     {
+        #if false
         let Adder = 1.0 * WorldClockTimeMultiplier
         CurrentWorldTime = CurrentWorldTime + Adder
         let NewTime = Date(timeInterval: CurrentWorldTime, since: WorldClockStartTime!)
@@ -44,10 +45,24 @@ extension MainController
             if let StartTime = self.WorldClockStartTime
             {
             let DateSeconds = Date().timeIntervalSince(StartTime)
-            self.WorldClockTickCount.stringValue = "\(DateSeconds)"
+            self.MemoryUsedOut.stringValue = "\(DateSeconds)"
 //            self.WorldClockTickCount.stringValue = "\(Int(self.CurrentWorldTime))"
             }
         }
         #endif
+        #endif
+    }
+    
+    @objc func HandleMemoryInUseDisplay()
+    {
+        if let InUse = LowLevel.MemoryStatistics(.PhysicalFootprint)
+        {
+            let DisplayMe = InUse.WithSuffix()
+            MemoryUsedOut.stringValue = DisplayMe
+        }
+        else
+        {
+            MemoryUsedOut.stringValue = "?"
+        }
     }
 }
