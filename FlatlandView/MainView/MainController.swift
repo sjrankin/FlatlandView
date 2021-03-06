@@ -41,6 +41,12 @@ class MainController: NSViewController
             Connected in
             self.CurrentlyConnected = Connected
         }
+        
+        let _ = Timer.scheduledTimer(timeInterval: 1.0,
+                                     target: self,
+                                     selector: #selector(HandleMemoryInUseDisplay),
+                                     userInfo: nil,
+                                     repeats: true)
     }
     
     var CurrentlyConnected: Bool = false
@@ -850,7 +856,7 @@ class MainController: NSViewController
     
     // MARK: - Debug UI elements
     @IBOutlet weak var WorldClockLabel: NSTextField!
-    @IBOutlet weak var WorldClockTickCount: NSTextField!
+    @IBOutlet weak var MemoryUsedOut: NSTextField!
     @IBOutlet weak var VersionLabel: NSTextField!
     @IBOutlet weak var VersionValue: NSTextField!
     @IBOutlet weak var BuildLabel: NSTextField!
