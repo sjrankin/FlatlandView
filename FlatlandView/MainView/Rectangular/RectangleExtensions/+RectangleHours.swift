@@ -16,7 +16,7 @@ extension RectangleView
     {
         let Flat = SCNBox(width: CGFloat(RectMode.MapWidth.rawValue), height: CGFloat(RectMode.MapHeight.rawValue),
                           length: CGFloat(RectMode.MapDepth.rawValue), chamferRadius: 0.0)
-        HourPlane = SCNNode(geometry: Flat)
+        HourPlane = SCNNode2(geometry: Flat)
         HourPlane.categoryBitMask = LightMasks3D.Sun.rawValue
         HourPlane.name = NodeNames2D.HourPlane.rawValue
         HourPlane.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
