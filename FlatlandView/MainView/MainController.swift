@@ -398,6 +398,17 @@ class MainController: NSViewController
         Earthquakes?.GetNewEarthquakeData()
     }
     
+    @IBAction func MemoryDisplay(_ sender: Any)
+    {
+        #if DEBUG
+        let Storyboard = NSStoryboard(name: "MemoryUI", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "MemoryDebugWindow") as? MemoryUIWindow
+        {
+            WindowController.showWindow(nil)
+        }
+        #endif
+    }
+    
     @IBAction func TestSomething(_ sender: Any)
     {
         #if DEBUG
@@ -871,4 +882,7 @@ class MainController: NSViewController
     @IBOutlet weak var ContentTop: NSLayoutConstraint!
     @IBOutlet weak var CaptiveDialogContainer: NSView!
     @IBOutlet weak var CaptiveDialogPanel: NSView!
+    
+    var ChangeDelta: Double = 0.0
+    var PreviousMemoryUsed: UInt64? = nil
 }
