@@ -94,7 +94,7 @@ extension FlatView
         PolarLight.zFar = CGFloat(FlatConstants.PolarZFar.rawValue)
         PolarLight.zNear = CGFloat(FlatConstants.PolarZNear.rawValue)
         PolarLight.spotOuterAngle = CGFloat(FlatConstants.PolarLightOuterAngle.rawValue)
-        PolarNode = SCNNode()
+        PolarNode = SCNNode2()
         PolarNode.name = LightNames.Polar2D.rawValue
         PolarNode.light = PolarLight
         let PolarNodeY = CGFloat(FlatConstants.FlatRadius.rawValue) + CGFloat(FlatConstants.PolarSunRimOffset.rawValue)
@@ -186,6 +186,7 @@ extension FlatView
     /// Set the light for the grid.
     func SetGridLight()
     {
+        #if false
         GridLight = SCNLight()
         GridLight.type = .omni
         GridLight.color = NSColor.white
@@ -195,5 +196,6 @@ extension FlatView
         GridLightNode.light = GridLight
         GridLightNode.position = SCNVector3(0.0, 0.0, FlatConstants.GridLightZ.rawValue)
         self.scene?.rootNode.addChildNode(GridLightNode)
+        #endif
     }
 }
