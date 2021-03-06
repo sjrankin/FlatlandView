@@ -178,6 +178,7 @@ extension GlobeView
     /// side, it's not easily visible. There are two grid lights - one for day time and one for night time.
     func SetGridLight()
     {
+        #if false
         GridLight1 = CreateDefaultLight(Mask: LightMasks3D.Grid.rawValue, LightName: LightNames.Grid13D)
         GridLight1.type = .omni
         GridLight1.color = NSColor.white
@@ -195,5 +196,6 @@ extension GlobeView
         GridLightNode2.light = GridLight2
         GridLightNode2.position = SCNVector3(0.0, 0.0, Defaults.Grid2Z.rawValue)
         self.scene?.rootNode.addChildNode(GridLightNode2)
+        #endif
     }
 }
