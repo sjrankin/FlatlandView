@@ -25,12 +25,14 @@ class SunGenerator
     /// - Parameter Radius: The visual radius of the sun.
     func VariableSunImage(Using View: NSImageView, Interval: Double = 0.1, Radius: Float = 40.0)
     {
+        #if false
         VariableView = View
         VariableSunRadius = Radius
         VariableSunTimer = Timer.scheduledTimer(timeInterval: Interval,
                                                 target: self,
                                                 selector: #selector(UpdateVariableSun),
                                                 userInfo: nil, repeats: true)
+        #endif
     }
     
     /// Holds the radius of the sun when viewing via `VariableSunImage`.
