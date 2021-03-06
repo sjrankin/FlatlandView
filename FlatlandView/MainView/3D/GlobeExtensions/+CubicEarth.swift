@@ -54,7 +54,7 @@ extension GlobeView
         UpdateHourLabels(With: HourType)
         
         let Declination = Sun.Declination(For: Date())
-        SystemNode = SCNNode()
+        SystemNode = SCNNode2()
         SystemNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
         HourNode?.eulerAngles = SCNVector3(Declination.Radians, 0.0, 0.0)
         
