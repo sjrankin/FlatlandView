@@ -137,7 +137,7 @@ class Starfield: SCNView
         }
         let P = PointInSphere(Radius: 100.0)
         let StarSize = Double.random(in: 0.025 ... MaxStarSize)
-        let Node = SCNNode(geometry: SCNSphere(radius: CGFloat(StarSize)))
+        let Node = SCNNode2(geometry: SCNSphere(radius: CGFloat(StarSize)))
         Node.position = P
         if UseNaturalStarColors
         {
