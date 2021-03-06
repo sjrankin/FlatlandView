@@ -14,13 +14,24 @@ import AppKit
 extension Double
 {
     /// Returns a rounded value of the instance double.
-    /// - Note: This "rounding" is nothing more than truncation.
+    /// - Note:
+    ///   - This "rounding" is nothing more than truncation.
+    ///   - `NaN` values are returned as `0.0`.
+    ///   - Infinite values are returned as `0.0`.
     /// - Parameter Count: Number of places to round to.
     /// - Parameter PadTo: If specified, the number of digits to pad the least significant portion to if less
     ///                    than `Count`.
     /// - Returns: Rounded value.
     func RoundedTo(_ Count: Int) -> Double
     {
+        if self.isNaN
+        {
+            return 0.0
+        }
+        if self.isInfinite
+        {
+            return 0.0
+        }
         let Multiplier = pow(10.0, Count)
         let Value = Int(self * Double(truncating: Multiplier as NSNumber))
         return Double(Value) / Double(truncating: Multiplier as NSNumber)
