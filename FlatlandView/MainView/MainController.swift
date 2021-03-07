@@ -18,7 +18,9 @@ class MainController: NSViewController
     {
         super.viewDidLoad()
         MainController.StartTime = CACurrentMediaTime()
+        #if DEBUG
         UptimeStart = CACurrentMediaTime()
+        #endif
         Settings.Initialize()
         Settings.AddSubscriber(self)
         SoundManager.Initialize()
