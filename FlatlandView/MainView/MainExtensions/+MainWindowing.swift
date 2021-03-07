@@ -61,8 +61,11 @@ extension MainController: NSWindowDelegate
     /// - Parameter notification: Not used.
     func windowDidMove(_ notification: Notification)
     {
-        let WindowOrigin = WindowLocation()
-        WindowMovedTo(WindowOrigin)
+        OperationQueue.main.addOperation
+        {
+            let WindowOrigin = self.WindowLocation()
+            self.WindowMovedTo(WindowOrigin)
+        }
     }
     
     /// Handle window closing events.
