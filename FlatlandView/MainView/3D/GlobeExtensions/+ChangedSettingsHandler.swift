@@ -28,6 +28,10 @@ extension GlobeView: SettingChangedProtocol
     func SettingChanged(Setting: SettingKeys, OldValue: Any?, NewValue: Any?)
     {
         print(">>>> SettingChanged(\(Setting))")
+        if Setting == .WindowOrigin
+        {
+            Debug.Print("SettingChanged=\(Setting)")
+        }
         switch Setting
         {
             case .HourType:
@@ -473,6 +477,7 @@ extension GlobeView: SettingChangedProtocol
                 }
                 
             default:
+                Debug.Print("Unhandled setting \(Setting)")
                 return
         }
         Debug.Print("Setting \(Setting) handled in GlobeView")
