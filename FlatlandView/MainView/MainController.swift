@@ -18,6 +18,7 @@ class MainController: NSViewController
     {
         super.viewDidLoad()
         MainController.StartTime = CACurrentMediaTime()
+        UptimeStart = CACurrentMediaTime()
         Settings.Initialize()
         Settings.AddSubscriber(self)
         SoundManager.Initialize()
@@ -48,6 +49,10 @@ class MainController: NSViewController
                                      userInfo: nil,
                                      repeats: true)
     }
+    
+    #if DEBUG
+    var UptimeStart: Double = 0.0
+    #endif
     
     var CurrentlyConnected: Bool = false
     
