@@ -1568,7 +1568,6 @@
 		17765C602567EB9500B2FE37 /* GlobeExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				178E1CA525186E1300FDC75B /* +Initialize.swift */,
 				178E1CA225186DE900FDC75B /* +Attract.swift */,
 				17FFF8CB2567ED04008B50AD /* +Axes.swift */,
 				178E1C9C2518288500FDC75B /* +Camera.swift */,
@@ -1580,6 +1579,7 @@
 				178A86A82489134300BE8D46 /* +GridLines.swift */,
 				1714DDBD25399401001A3002 /* +Home.swift */,
 				178A86A12489127C00BE8D46 /* +Hours.swift */,
+				178E1CA525186E1300FDC75B /* +Initialize.swift */,
 				17854C662503649800D099A7 /* +Layers.swift */,
 				178E1C9F251829C700FDC75B /* +Lights.swift */,
 				178A86A3248912FA00BE8D46 /* +Locations.swift */,
