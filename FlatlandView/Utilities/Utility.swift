@@ -1763,5 +1763,35 @@ class Utility
         FinalLon = FinalLon * LonMultiplier
         return (FinalLat, FinalLon)
     }
+    
+    /// Converts the delta between the two values into a time duration in the form of
+    /// HH:MM:SS.
+    /// - Note: Both `Seconds1` and `Seconds2` are converted to integers before processing.
+    /// - Parameter Seconds1: First seconds value (assumed to be an absolute time but need
+    ///                       not be).
+    /// - Parameter Seconds2: Second seconds value (assumed to be an absolute time but need
+    ///                       not be).
+    /// - Returns: String in the form of `HH:MM:SS` where `HH` is unbounded (eg, may be a very
+    ///            large number).
+    public static func DurationBetween(Seconds1: Double, Seconds2: Double) -> String
+    {
+        let Delta = abs(Int(Seconds1) - Int(Seconds2))
+        let HourCount = Delta / (60 * 60)
+        let Remainder = Delta % (60 * 60)
+        let MinuteCount = Remainder / 60
+        let SecondCount = Remainder % 60
+        let HourS = "\(HourCount)"
+        var MinuteS = "\(MinuteCount)"
+        if MinuteCount < 10
+        {
+            MinuteS = "0" + MinuteS
+        }
+        var SecondS = "\(SecondCount)"
+        if SecondCount < 10
+        {
+            SecondS = "0" + SecondS
+        }
+        return "\(HourS):\(MinuteS):\(SecondS)"
+    }
 }
 
