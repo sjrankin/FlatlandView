@@ -55,7 +55,7 @@
          <EnvironmentVariable
             key = "MALLOC_PERMIT_INSANE_REQUESTS"
             value = "YES"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "TSAN_OPTIONS"
