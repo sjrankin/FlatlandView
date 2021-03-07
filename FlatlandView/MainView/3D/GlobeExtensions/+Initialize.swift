@@ -250,7 +250,6 @@ extension GlobeView
         }
         MemoryDebug.Block("DarknessUpdateNodes")
         {
-            #if true
             self.EarthNode!.ForEachChild
             {
                 Node in
@@ -267,26 +266,6 @@ extension GlobeView
                     }
                 }
             }
-            #else
-            for Node in self.EarthNode!.childNodes
-            {
-                if let UpdateNode = Node as? SCNNode2
-                {
-                    if UpdateNode.CanSwitchState
-                    {
-                        if UpdateNode.HasLocation()
-                        {
-                            let NodeLocation = GeoPoint(UpdateNode.Latitude!, UpdateNode.Longitude!)
-                            NodeLocation.CurrentTime = Date()
-                            if let SunIsVisible = Solar.IsInDaylight(UpdateNode.Latitude!, UpdateNode.Longitude!)
-                            {
-                                UpdateNode.IsInDaylight = SunIsVisible
-                            }
-                        }
-                    }
-                }
-            }
-            #endif
         }
     }
     
