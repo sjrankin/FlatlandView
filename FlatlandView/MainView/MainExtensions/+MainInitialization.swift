@@ -258,7 +258,7 @@ extension MainController
         if let MainController = ViewWindow as? MainWindow
         {
             #if DEBUG
-            UptimeValue.stringValue = "0"
+            UptimeValue.stringValue = ""
             #endif
             #if false
             switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .Solar)
