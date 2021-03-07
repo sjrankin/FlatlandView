@@ -258,11 +258,25 @@ class SCNNode2: SCNNode
         return Results
     }
     
+    /// Iterate over all child nodes in the instance node and execute the close against it. If a child node
+    /// cannot be converted to an `SCNNode2`, nil is passed to the closure.
+    /// - Parameter Closure: The closure block to execute against each child node in turn.
     func ForEachChild(_ Closure: ((SCNNode2?) -> ())?)
     {
         for SomeNode in childNodes
         {
             Closure?((SomeNode as? SCNNode2))
+        }
+    }
+    
+    /// Iterate over all child nodes in the instance node and execute the close against it. Only child nodes
+    /// that are of type `SCNNode2` are iterated here.
+    /// - Parameter Closure: The closure block to execute against each child node in turn.
+    func ForEachChild2(_ Closure: ((SCNNode2) -> ())?)
+    {
+        for SomeNode in ChildNodes2()
+        {
+            Closure?(SomeNode)
         }
     }
     
@@ -644,6 +658,12 @@ class SCNNode2: SCNNode
     /// - Parameter InDay: True indicates daylight, false indicates nighttime.
     private func PropagateState(InDay: Bool)
     {
+        #if true
+        for Child in ChildNodes2()
+        {
+            Child.IsInDaylight = InDay
+        }
+        #else
         for Child in self.childNodes
         {
             if let Node = Child as? SCNNode2
@@ -651,6 +671,7 @@ class SCNNode2: SCNNode
                 Node.IsInDaylight = InDay
             }
         }
+        #endif
     }
     
     /// Sets the day or night state for nodes that have diffuse materials made up of one or more
@@ -710,26 +731,53 @@ class SCNNode2: SCNNode
     /// - Parameter State: The set of state values to assign.
     private func SetVisualAttributes(_ State: NodeState)
     {
+        #if true
+        if let DiffuseTexture = State.Diffuse
+        {
+            self.geometry?.firstMaterial?.diffuse.contents = DiffuseTexture
+        }
+        else
+        {
+            self.geometry?.firstMaterial?.diffuse.contents = State.Color
+        }
+        self.geometry?.firstMaterial?.specular.contents = State.Specular ?? NSColor.white
+        self.geometry?.firstMaterial?.lightingModel = State.LightModel
+        self.geometry?.firstMaterial?.emission.contents = State.Emission ?? NSColor.clear
+        self.geometry?.firstMaterial?.lightingModel = State.LightModel
+        self.geometry?.firstMaterial?.metalness.contents = State.Metalness
+        self.geometry?.firstMaterial?.roughness.contents = State.Roughness
+        #else
         if UseProtocolToSetState
         {
             if let PNode = self as? ShapeAttribute
             {
                 if let DiffuseTexture = State.Diffuse
                 {
-                    PNode.SetDiffuseTexture(DiffuseTexture)
+                    MemoryDebug.Block("SetVisualAttributes.SetDiffuseTexture")
+                    {
+                        PNode.SetDiffuseTexture(DiffuseTexture)
+                    }
                 }
                 else
                 {
-                    PNode.SetMaterialColor(State.Color)
+                    MemoryDebug.Block("SetVisualAttributes.SetMaterialColor")
+                    {
+                        PNode.SetMaterialColor(State.Color)
+                    }
                 }
-                PNode.SetEmissionColor(State.Emission ?? NSColor.clear)
-                PNode.SetLightingModel(State.LightModel)
-                PNode.SetMetalness(State.Metalness)
-                PNode.SetRoughness(State.Roughness)
+                MemoryDebug.Block("SetVisualAttributes.Other")
+                {
+                    PNode.SetEmissionColor(State.Emission ?? NSColor.clear)
+                    PNode.SetLightingModel(State.LightModel)
+                    PNode.SetMetalness(State.Metalness)
+                    PNode.SetRoughness(State.Roughness)
+                }
             }
         }
         else
         {
+            MemoryDebug.Block("SetVisualAttributes")
+            {
             if let DiffuseTexture = State.Diffuse
             {
                 self.geometry?.firstMaterial?.diffuse.contents = DiffuseTexture
@@ -744,7 +792,9 @@ class SCNNode2: SCNNode
             self.geometry?.firstMaterial?.lightingModel = State.LightModel
             self.geometry?.firstMaterial?.metalness.contents = State.Metalness
             self.geometry?.firstMaterial?.roughness.contents = State.Roughness
+            }
         }
+        #endif
     }
     
     /// Set the visual state for the node (and all child nodes) to day or night time (based on the parameter).
@@ -810,8 +860,8 @@ class SCNNode2: SCNNode
     {
         didSet
         {
-            PropagateState(InDay: _IsInDaylight)
-            SetState(For: _IsInDaylight)
+                self.PropagateState(InDay: self._IsInDaylight)
+                self.SetState(For: self._IsInDaylight)
         }
     }
     /// Get or set the daylight state. Setting the same value two (or more) times in a row will not result
@@ -824,23 +874,6 @@ class SCNNode2: SCNNode
         }
         set
         {
-            #if false
-            if PreviousDayState == nil
-            {
-                PreviousDayState = newValue
-            }
-            else
-            {
-                if PreviousDayState == newValue
-                {
-                    return
-                }
-                else
-                {
-                    PreviousDayState = newValue
-                }
-            }
-            #endif
             _IsInDaylight = newValue
         }
     }
