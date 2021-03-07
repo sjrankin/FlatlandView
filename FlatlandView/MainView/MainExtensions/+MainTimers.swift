@@ -106,12 +106,18 @@ extension MainController
     #if DEBUG
     @objc func DebugTimerHandler()
     {
+        #if true
+        let DurationValue = Utility.DurationBetween(Seconds1: CACurrentMediaTime(),
+                                                    Seconds2: UptimeStart)
+        UptimeValue.stringValue = DurationValue
+        #else
         if Date.timeIntervalSinceReferenceDate - StartDebugCount >= 1.0
         {
             StartDebugCount = Date.timeIntervalSinceReferenceDate
             UptimeSeconds = UptimeSeconds + 1
             UptimeValue.stringValue = "\(UptimeSeconds)"
         }
+        #endif
     }
     #endif
 }
