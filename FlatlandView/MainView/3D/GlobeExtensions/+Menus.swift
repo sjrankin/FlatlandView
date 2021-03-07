@@ -42,6 +42,7 @@ extension GlobeView
                         [
                             MakeWhatsHereMenu(),
                             MakeClearSearchMenu(),
+                            MakeOtherSearchMenu(),
                             NSMenuItem.separator(),
                             MakeMapMenu(),
                             MakeTimeMenu(),
@@ -60,6 +61,7 @@ extension GlobeView
                         [
                             MakeWhatsHereMenu(),
                             MakeClearSearchMenu(),
+                            MakeOtherSearchMenu(),
                             NSMenuItem.separator(),
                             MakeMapMenu(),
                             MakeTimeMenu(),
@@ -525,10 +527,43 @@ extension GlobeView
         return UnderMouseMenu!
     }
     
+    func MakeOtherSearchMenu() -> NSMenuItem
+    {
+        let OtherSearch = NSMenuItem()
+        OtherSearch.title = "More Searches"
+        OtherSearch.submenu = NSMenu(title: "More Searches")
+        let Antipode = NSMenuItem(title: "Antipode", action: #selector(MarkAntipode), keyEquivalent: "")
+        Antipode.target = self
+        let ClearAntipodes = NSMenuItem(title: "Clear Antipodes", action: #selector(ClearAntipodes), keyEquivalent: "")
+        ClearAntipodes.target = self
+        let MeasureDistance = NSMenuItem(title: "Measure Distance", action: #selector(MeasureDistance), keyEquivalent: "")
+        MeasureDistance.target = self
+        OtherSearch.submenu?.items.append(Antipode)
+        OtherSearch.submenu?.items.append(ClearAntipodes)
+        OtherSearch.submenu?.items.append(NSMenuItem.separator())
+        OtherSearch.submenu?.items.append(MeasureDistance)
+        return OtherSearch
+    }
+    
+    @objc func MarkAntipode(_ sender: Any)
+    {
+        
+    }
+    
+    @objc func ClearAntipodes(_ sender: Any)
+    {
+        
+    }
+    
+    @objc func MeasureDistance(_ sender: Any)
+    {
+        
+    }
+    
     func MakeClearSearchMenu() -> NSMenuItem
     {
         ClearSearchMenu = NSMenuItem(title: "Clear searches", action: #selector(ClearPastSearches), keyEquivalent: "")
-return ClearSearchMenu!
+        return ClearSearchMenu!
     }
     
     func MakeResetMenu() -> NSMenuItem
