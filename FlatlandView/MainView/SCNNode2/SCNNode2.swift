@@ -128,13 +128,6 @@ class SCNNode2: SCNNode
         Initialize()
     }
     
-    /// Deinitializer. Remove references to things that may keep the node in memory when we want
-    /// it to be fully removed.
-    deinit
-    {
-        //Clear()
-    }
-    
     /// Common initialization.
     private func Initialize()
     {
@@ -147,13 +140,11 @@ class SCNNode2: SCNNode
         self.removeAllAnimations()
         self.removeAllActions()
         self.removeFromParentNode()
-        #if false
         self.geometry?.firstMaterial?.diffuse.contents = nil
         self.geometry?.firstMaterial?.specular.contents = nil
         self.geometry?.firstMaterial?.emission.contents = nil
         self.geometry?.firstMaterial?.selfIllumination.contents = nil
         self.geometry = nil
-        #endif
     }
     
     /// Clears a node of its contents. Does the same for all child nodes. Prepares the node to be deleted.
