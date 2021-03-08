@@ -67,14 +67,15 @@ extension MainController
             else
             {
                 let NicePrevious = PreviousMemoryUsed!.WithSuffix()
+                #if false
                 if NicePrevious != DisplayMe
                 {
                     let ChangeTime = CACurrentMediaTime() - ChangeDelta
                     let MemDelta = Int64(InUse) - Int64(PreviousMemoryUsed!)
                     ChangeDelta = CACurrentMediaTime()
                     PreviousMemoryUsed = InUse
-                    Debug.Print("Periodic Memory Delta: \(MemDelta), \(Int(ChangeTime)) seconds")
                 }
+                #endif
             }
             MemoryUsedOut.stringValue = DisplayMe
         }
