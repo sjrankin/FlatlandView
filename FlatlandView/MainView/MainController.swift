@@ -17,6 +17,7 @@ class MainController: NSViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
         MainController.StartTime = CACurrentMediaTime()
         #if DEBUG
         UptimeStart = CACurrentMediaTime()
