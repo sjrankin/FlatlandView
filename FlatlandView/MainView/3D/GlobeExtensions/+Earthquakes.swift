@@ -401,6 +401,7 @@ extension GlobeView
         InfoNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
         InfoNode.NodeID = Quake.QuakeID
         InfoNode.position = SCNVector3(Xp, Yp, Zp)
+        var Addendum: SCNNode2? = nil
         
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         {
@@ -601,6 +602,17 @@ extension GlobeView
                 FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 FinalNode.NodeID = Quake.QuakeID
                 FinalNode.runAction(ScaleForever)
+                
+            case .TetheredNumber:
+                FinalNode = SCNNode2(geometry: SCNCylinder(radius: CGFloat(Percent * 0.05),
+                                                           height: CGFloat(Quake3D.QuakeCapsuleHeight.rawValue * Percent)))
+                let FinalScale = NodeScales3D.CylinderEarthquake.rawValue * CGFloat(ScaleMultiplier)
+                FinalNode.scale = SCNVector3(FinalScale, FinalScale, FinalScale)
+                FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
+                FinalNode.NodeID = Quake.QuakeID
+                YRotation = Quake.Latitude + 90.0
+                XRotation = Quake.Longitude + 180.0
+                Addendum = PlotMagnitudes(Quake, AtHeight: 0.0)//Quake3D.QuakeCapsuleHeight.rawValue * Percent)
         }
         
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
@@ -610,6 +622,11 @@ extension GlobeView
         FinalNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FinalNode.position = SCNVector3(X, Y, Z)
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
+        if Addendum != nil
+        {
+            
+            FinalNode.addChildNode(Addendum!)
+        }
         return (FinalNode, MagNode, InfoNode)
     }
     
@@ -704,15 +721,15 @@ extension GlobeView
     
     /// Plot earthquakes as text indicating the magnitude of the earthquake.
     /// - Parameter Quake: The earthquake to plot.
+    /// - Parameter Vertically: If true, text is plotted vertically.
+    /// - Parameter AtHeight: If non-nil, the height of the text over the Earth.
+    /// - Parameter Prefix: Prefix for the magnitude value. Defaults to "• M".
     /// - Returns: Node with extruded text indicating the earthquake.
-    func PlotMagnitudes(_ Quake: Earthquake, Vertically: Bool = false) -> SCNNode2
+    func PlotMagnitudes(_ Quake: Earthquake, Vertically: Bool = false, AtHeight: Double? = nil,
+                        Prefix: String = "• M") -> SCNNode2
     {
-        let Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
-        #if false
-        let Magnitude = "M\(Quake.GreatestMagnitude.RoundedTo(2))"
-        #else
-        let Magnitude = "• M\(Quake.GreatestMagnitude.RoundedTo(1))"
-        #endif
+        var Radius = Double(GlobeRadius.Primary.rawValue) + 0.5
+        let Magnitude = "\(Prefix)\(Quake.GreatestMagnitude.RoundedTo(1))"
         
         let MagText = SCNText(string: Magnitude, extrusionDepth: CGFloat(Quake.GreatestMagnitude))
         let FontSize = CGFloat(18.0 + Quake.GreatestMagnitude)
@@ -732,8 +749,14 @@ extension GlobeView
         YOffset = MagNode.boundingBox.max.y * NodeScales3D.EarthquakeText.rawValue * 3.5
         let XOffset = ((MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 2.0) * NodeScales3D.EarthquakeText.rawValue -
             (MagNode.boundingBox.min.y * NodeScales3D.EarthquakeText.rawValue)
-        let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude,
-                                        LatitudeOffset: Double(-YOffset), LongitudeOffset: Double(XOffset),
+        if let HeightOffset = AtHeight
+        {
+            Radius = Radius + HeightOffset
+        }
+        let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude,
+                                        Quake.Longitude,
+                                        LatitudeOffset: Double(-YOffset),
+                                        LongitudeOffset: Double(XOffset),
                                         Radius: Radius)
         MagNode.position = SCNVector3(X, Y, Z)
         
