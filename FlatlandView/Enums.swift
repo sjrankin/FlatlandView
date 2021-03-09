@@ -424,6 +424,8 @@ enum EarthquakeShapes: String, CaseIterable
     case Cylinder = "Cylinder"
     /// Earthquake is a capsule.
     case Capsule = "Capsule"
+    /// Tethered magnitude value.
+    case TetheredNumber = "Tethered Magnitude"
 }
 
 /// Types of earthquake indicators.
