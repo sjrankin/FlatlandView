@@ -306,4 +306,110 @@ public class TimeHelper
         let Cal = Calendar.current
         return Cal.date(from: Components)
     }
+    
+    /// Returns the Hours, Minutes, and Seconds for the passed date.
+    /// - Parameter RawDate: The date used to extract the time returned.
+    /// - Parameter For: The time zone of the date. Defaults to "UTC".
+    /// - Returns: Tuple of the hours, minutes, and seconds for the date. Nil on error.
+    public static func DateToDateComponents(_ RawDate: Date, For TZ: String = "UTC") -> (Hour: Int, Minute: Int, Second: Int)?
+    {
+        if let TimeZ = TimeZone(abbreviation: TZ)
+        {
+            let Formatter = DateFormatter()
+            Formatter.timeZone = TimeZ
+            Formatter.dateFormat = "HH:mm:ss"
+            let StringDate = Formatter.string(from: RawDate)
+            let Parts = StringDate.split(separator: ":")
+            guard Parts.count == 3 else
+            {
+                return nil
+            }
+            guard let Hours = Int(String(Parts[0])) else
+            {
+                return nil
+            }
+            guard let Minutes = Int(String(Parts[1])) else
+            {
+                return nil
+            }
+            guard let Seconds = Int(String(Parts[2])) else
+            {
+                return nil
+            }
+            return (Hours, Minutes, Seconds)
+        }
+        return nil
+    }
+    
+    /// Return the passed date to seconds.
+    /// - Parameter RawDate: The date to convert.
+    /// - Parameter For: Time zone name. Defaults to "UTC".
+    /// - Returns: Number of seconds for the date on success, nil on error.
+    public static func DateToSeconds(_ RawDate: Date, For TZ: String = "UTC") -> Int?
+    {
+        if let (Hours, Minutes, Seconds) = DateToDateComponents(RawDate, For: TZ)
+        {
+            let Total = (Hours * 60 * 60) + (Minutes * 60) + Seconds
+            return Total
+        }
+        return nil
+    }
+    
+    /// Returns the current solar time at the specified longitude.
+    /// - Note: The solar time does *not* take into account time zones so the time may be up to 59 minutes
+    ///         off from the wall clock.
+    /// - Parameter Longitude: The longitude of the location whose solar time will be returned.
+    /// - Parameter As24Hour: If true, the returned value will be returned as a 24-hour formatted string.
+    ///                       Otherwise, AM/PM indicators are added.
+    /// - Returns: String value representing the date. Nil on error.
+    public static func SolarTimeAt(Longitude: Double, As24Hour: Bool = true) -> String?
+    {
+        let DateNow = Date()
+        let Hours = Longitude / 15.0
+        let Seconds = Int(Hours * 60.0 * 60.0)
+        if let UTCSeconds = DateToSeconds(DateNow, For: "UTC")
+        {
+            var FinalSeconds = abs(UTCSeconds + Seconds)
+            var LocalHours = FinalSeconds / (60 * 60)
+            FinalSeconds = FinalSeconds - (LocalHours * 60 * 60)
+            let LocalMinutes = FinalSeconds / 60
+            let LocalSeconds = FinalSeconds % 60
+            var HourS = "\(LocalHours)"
+            if LocalHours < 10
+            {
+                HourS = "0" + HourS
+            }
+            var MinuteS = "\(LocalMinutes)"
+            if LocalMinutes < 10
+            {
+                MinuteS = "0" + MinuteS
+            }
+            var SecondS = "\(LocalSeconds)"
+            if LocalSeconds < 10
+            {
+                SecondS = "0" + SecondS
+            }
+            if As24Hour
+            {
+                return "\(HourS):\(MinuteS):\(SecondS)"
+            }
+            else
+            {
+                var Indicator = ""
+                let InAfternoon = LocalHours >= 12
+                if InAfternoon
+                {
+                    Indicator = "PM"
+                    LocalHours = 12 - LocalHours
+                    HourS = "\(LocalHours)"
+                }
+                else
+                {
+                    Indicator = "AM"
+                }
+                return "\(HourS):\(MinuteS):\(SecondS) \(Indicator)"
+            }
+        }
+        return nil
+    }
 }
