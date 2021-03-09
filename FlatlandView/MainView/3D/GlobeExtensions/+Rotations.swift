@@ -57,13 +57,6 @@ extension GlobeView
         PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
         
         #if DEBUG
-        /*
-        if let Earth = EarthNode
-        {
-            let EarthNodeCount = Earth.ChildCount()
-            Debug.Print("EarthNodeCount=\(EarthNodeCount)")
-        }
- */
         if Settings.GetBool(.Debug_EnableClockControl)
         {
             if Settings.EnumIs(.Globe, .Debug_ClockDebugMap, EnumType: Debug_MapTypes.self)
@@ -144,7 +137,6 @@ extension GlobeView
                                         usesShortestUnitArc: true)
         EarthNode?.runAction(Rotate)
         SeaNode?.runAction(Rotate)
-        //LineNode?.runAction(Rotate)
         for (_, Layer) in StencilLayers
         {
             Layer.runAction(Rotate)
@@ -182,9 +174,6 @@ extension GlobeView
     ///                   and supporting 3D nodes.
     func UpdateEarth(With Percent: Double)
     {
-        //Debug.Print("At 3D.UpdateEarth")
-        //MemoryDebug.Open("UpdateEarth")
-        //defer{MemoryDebug.Close("UpdateEarth")}
         let Degrees = 180.0 - (360.0 * Percent)
         let Radians = Degrees.Radians
         let Rotate = SCNAction.rotateTo(x: 0.0,
@@ -215,8 +204,6 @@ extension GlobeView
                                            duration: Defaults.EarthRotationDuration.rawValue,
                                            usesShortestUnitArc: true)
         SystemNode?.runAction(DeclRotate)
-        //let NodeCount = ViewNodeCount()
-        //Debug.Print(" Scene node count: \(NodeCount)")
     }
     
     /// Push current node opacities and assign the new value.
