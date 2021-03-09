@@ -280,6 +280,7 @@ class LowLevel
             "MacBookPro16,1": ("MacBook Pro", "16", "2019"),
             "MacBookPro16,2": ("MacBook Pro", "13", "2020"),
             "MacBookPro16,3": ("MacBook Pro", "13", "2020"),
+            "MacBookPro17.1": ("MacBook Pro M1", "13", "2020"),
             "MacBookAir2,1": ("MacBook Air", "11", "2009"),
             "MacBookAir3,1": ("MacBook Air", "11", "Late 2010"),
             "MacBookAir3,2": ("MacBook Air", "13", "Late 2010"),
@@ -294,6 +295,16 @@ class LowLevel
             "MacBookAir8,1": ("MacBook Air", "13", "2018"),
             "MacBookAir8,2": ("MacBook Air", "13", "2019"),
             "MacBookAir9,1": ("MacBook Air", "13", "2020"),
+            "MacBookAir10,1": ("MacBook Air M1", "13", "2020"),
+            "MacMini3,1": ("Mac Mini", "0", "2009"),
+            "MacMini4,1": ("Mac Mini", "0", "2010"),
+            "MacMini5,1": ("Mac Mini", "0", "2011"),
+            "MacMini5,2": ("Mac Mini", "0", "2011"),
+            "MacMini6,1": ("Mac Mini", "0", "2012"),
+            "MacMini6,2": ("Mac Mini", "0", "2012"),
+            "MacMini7,1": ("Mac Mini", "0", "2014"),
+            "MacMini8,1": ("Mac Mini", "0", "2018"),
+            "MacMini,9,1": ("Mac Mini M1", "0", "2020"),
         ]
 }
 
@@ -367,14 +378,23 @@ enum SysKeys: String, CaseIterable
     case IOThermalLevel = "machdep.xcpm.io_thermal_level"
 }
 
+/// Fields `MemoryStatistics` returns.
 enum MemoryFields: String, CaseIterable
 {
+    /// Virtual memory size.
     case VirtualSize = "VirtualSize"
+    /// Region count.
     case RegionCount = "RegionCount"
+    /// Page size.
     case PageSize = "PageSize"
+    /// Resident size.
     case ResidentSize = "ResidentSize"
+    /// Resident peak size.
     case ResidentPeakSize = "ResidentPeakSize"
+    /// Reusable size.
     case Reusable = "Resuable"
+    /// Reusable peak size.
     case ReusablePeak = "ReusablePeak"
+    /// Physical footprint.
     case PhysicalFootprint = "PhysicalFootprint"
 }
