@@ -317,9 +317,10 @@ public class TimeHelper
         {
             let Formatter = DateFormatter()
             Formatter.timeZone = TimeZ
-            Formatter.dateFormat = "HH:mm:ss"
+            let UnitSeparator = ":"
+            Formatter.dateFormat = "HH\(UnitSeparator)mm\(UnitSeparator)ss"
             let StringDate = Formatter.string(from: RawDate)
-            let Parts = StringDate.split(separator: ":")
+            let Parts = StringDate.split(separator: String.Element(UnitSeparator))
             guard Parts.count == 3 else
             {
                 return nil
