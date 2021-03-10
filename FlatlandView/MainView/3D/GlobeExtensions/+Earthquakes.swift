@@ -133,7 +133,7 @@ extension GlobeView
         NewQuakes.sort(by: {$0.Magnitude > $1.Magnitude})
         if let Biggest = NewQuakes.max(by: {$0.Magnitude > $1.Magnitude})
         {
-            MainDelegate?.PushStatusMessage("New quake: \(Biggest.Title)", PersistFor: 600.0)
+            MainDelegate?.PushStatusMessage("New quake: \(Biggest.Title), \(Biggest.Time)", PersistFor: 600.0)
         }
         ClearEarthquakes()
         EarthquakeList.removeAll()
@@ -224,7 +224,9 @@ extension GlobeView
                 var BaseColor = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
                 let HighlightHow = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
                                                     Default: .None)
-                if HighlightHow != .None
+                let QuakeShapeType =  Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self,
+                                                       Default: .TetheredNumber)
+                if HighlightHow != .None && QuakeShapeType != .TetheredNumber
                 {
                     let HowRecent = Settings.GetEnum(ForKey: .RecentEarthquakeDefinition, EnumType: EarthquakeRecents.self,
                                                      Default: .Day1)
@@ -240,6 +242,17 @@ extension GlobeView
                 }
                 
                 QNode.geometry?.firstMaterial?.emission.contents = nil
+                #if true
+                let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
+                let Colors = Settings.GetMagnitudeColors()
+                for (Magnitude, Color) in Colors
+                {
+                    if Magnitude == MagRange
+                    {
+                        BaseColor = Color
+                    }
+                }
+                #else
                 switch Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
                 {
                     case .Age:
@@ -295,6 +308,7 @@ extension GlobeView
                             BaseColor = NSColor(hue: H, saturation: CGFloat(Percent) * S, brightness: B, alpha: 0.8)
                         }
                 }
+                #endif
                 
                 let Shape = Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
                 #if true
@@ -401,7 +415,6 @@ extension GlobeView
         InfoNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
         InfoNode.NodeID = Quake.QuakeID
         InfoNode.position = SCNVector3(Xp, Yp, Zp)
-        var Addendum: SCNNode2? = nil
         
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         {
@@ -604,15 +617,116 @@ extension GlobeView
                 FinalNode.runAction(ScaleForever)
                 
             case .TetheredNumber:
-                FinalNode = SCNNode2(geometry: SCNCylinder(radius: CGFloat(Percent * 0.05),
-                                                           height: CGFloat(Quake3D.QuakeCapsuleHeight.rawValue * Percent)))
+                var IsInDay = true
+                if let InDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
+                {
+                    IsInDay = InDay
+                }
+                var IsRecentQuake = false
+                let HighlightHow = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
+                                                    Default: .None)
+                if HighlightHow != .None
+                {
+                    let HowRecent = Settings.GetEnum(ForKey: .RecentEarthquakeDefinition, EnumType: EarthquakeRecents.self,
+                                                     Default: .Day1)
+                    if let RecentSeconds = RecentMap[HowRecent]
+                    {
+                        if Quake.GetAge() <= RecentSeconds
+                        {
+                            IsRecentQuake = true
+                        }
+                    }
+                }
+                let BaseRadius = Quake3D.BaseDiscRadius.rawValue
+                let QuakeColorMagnitude = GetMagnitudeRange(For: Quake.Magnitude)
+                var QuakeColor = NSColor.yellow
+                if let QuakeColorM = Settings.GetMagnitudeColors()[QuakeColorMagnitude]
+                {
+                    QuakeColor = QuakeColorM
+                }
+                let LocalPercent = Quake.Magnitude / 10.0
+                let NodeHeight = CGFloat(Quake3D.QuakeCapsuleHeight.rawValue * LocalPercent)
+                let PoleNode = SCNNode2(geometry: SCNCylinder(radius: CGFloat(LocalPercent * Quake3D.DiscPoleRadius.rawValue),
+                                                              height: NodeHeight))
                 let FinalScale = NodeScales3D.CylinderEarthquake.rawValue * CGFloat(ScaleMultiplier)
-                FinalNode.scale = SCNVector3(FinalScale, FinalScale, FinalScale)
-                FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
-                FinalNode.NodeID = Quake.QuakeID
+                PoleNode.scale = SCNVector3(FinalScale, FinalScale, FinalScale)
+                PoleNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
+                PoleNode.NodeID = Quake.QuakeID
+                PoleNode.position = SCNVector3(0.0, -NodeHeight * 0.5, 0.0)
+                PoleNode.SetState(ForDay: true, Color: QuakeColor, Emission: nil)
+                PoleNode.SetState(ForDay: false, Color: QuakeColor, Emission: QuakeColor)
+                PoleNode.IsInDaylight = IsInDay
                 YRotation = Quake.Latitude + 90.0
                 XRotation = Quake.Longitude + 180.0
-                Addendum = PlotMagnitudes(Quake, AtHeight: 0.0)//Quake3D.QuakeCapsuleHeight.rawValue * Percent)
+                let RimRadius = CGFloat(BaseRadius * LocalPercent) + CGFloat(Quake3D.RimRadiusOffset.rawValue)
+                let Rim = SCNNode2(geometry: SCNTorus(ringRadius: RimRadius,
+                                                      pipeRadius: CGFloat(Quake3D.RimRadiusOffset.rawValue)))
+                Rim.geometry?.firstMaterial?.diffuse.contents = QuakeColor
+                Rim.SetState(ForDay: true, Color: QuakeColor, Emission: nil)
+                Rim.SetState(ForDay: false, Color: QuakeColor, Emission: QuakeColor)
+                Rim.IsInDaylight = IsInDay
+                if IsRecentQuake
+                {
+                    for Angle in stride(from: 0, to: 360, by: Int(Quake3D.NewQuakeStrideAngle.rawValue))
+                    {
+                        let RNode = SCNNode2()
+                        let RNodeShape = SCNSphere(radius: CGFloat(Quake3D.NewQuakeSphereRadius.rawValue))
+                        RNode.geometry = RNodeShape
+                        RNode.geometry?.firstMaterial?.diffuse.contents = NSColor.Gold
+                        RNode.geometry?.firstMaterial?.specular.contents = NSColor.white
+                        RNode.SetState(ForDay: true, Color: NSColor.systemRed, Emission: nil,
+                                       Model: .physicallyBased,
+                                       Metalness: Quake3D.DayMetalnessValue.rawValue,
+                                       Roughness: Quake3D.DayRoughnessValue.rawValue)
+                        RNode.SetState(ForDay: false, Color: NSColor.red, Emission: NSColor.systemPink)
+                        RNode.IsInDaylight = IsInDay
+                        let X = RimRadius * cos(CGFloat(Angle).Radians)
+                        let Y = RimRadius * sin(CGFloat(Angle).Radians)
+                        RNode.position = SCNVector3(X, 0.0, Y)
+                        Rim.addChildNode(RNode)
+                    }
+                    var RotateSpeed = Quake3D.BaseDiscRotateSpeed.rawValue * (1.0 - LocalPercent)
+                    if RotateSpeed < Quake3D.MinimumRotateSpeed.rawValue
+                    {
+                        RotateSpeed = Quake3D.MinimumRotateSpeed.rawValue
+                    }
+                    let RimRotate = SCNAction.rotate(by: CGFloat(180.0.Radians), around: SCNVector3(0.0, 1.0, 0.0),
+                                                     duration: RotateSpeed)
+                    let RotateForever = SCNAction.repeatForever(RimRotate)
+                    Rim.runAction(RotateForever)
+                }
+                let Disc = SCNNode2(geometry: SCNCylinder(radius: CGFloat(BaseRadius * LocalPercent),
+                                                          height: CGFloat(Quake3D.DiscThickness.rawValue)))
+                Disc.geometry?.firstMaterial?.diffuse.contents = QuakeColor.withAlphaComponent(CGFloat(Quake3D.DiscAlphaValue.rawValue))
+                let TextValue = "\(Quake.Magnitude.RoundedTo(1))"
+                let MTextShape = SCNText(string: TextValue, extrusionDepth: CGFloat(Quake3D.DiscTextHeight.rawValue))
+                let FontSize: CGFloat = CGFloat(Quake3D.BaseDiscFontSize.rawValue) +
+                    (CGFloat(Quake3D.VariableDiscFontAdder.rawValue) * CGFloat(LocalPercent))
+                MTextShape.font = NSFont.boldSystemFont(ofSize: FontSize)
+                MTextShape.flatness = 0.0
+                let MText = SCNNode2(geometry: MTextShape)
+                let TextScale = Quake3D.DiscTextScale.rawValue + (Quake3D.DiscTextScale.rawValue * LocalPercent)
+                MText.scale = SCNVector3(TextScale)
+                MText.SetState(ForDay: true, Color: NSColor.black, Emission: nil)
+                MText.SetState(ForDay: false, Color: NSColor.white, Emission: NSColor.white)
+                MText.eulerAngles = SCNVector3(90.0.Radians, 180.0.Radians, 0.0)
+
+                Disc.addChildNode(MText)
+                Disc.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
+                Disc.NodeID = Quake.QuakeID
+                Disc.position = SCNVector3(0.0, -NodeHeight, 0.0)
+                Rim.position = SCNVector3(0.0, -NodeHeight, 0.0)
+                let MTextWidth = abs(MText.boundingBox.max.x - MText.boundingBox.min.x) * 0.01
+                let MTextHeight = abs(MText.boundingBox.max.y - MText.boundingBox.min.y) * 0.01
+                MText.position = SCNVector3(MTextWidth, CGFloat(Quake3D.DiscTextYOffset.rawValue), MTextHeight)
+                
+                FinalNode = SCNNode2()
+                FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
+                FinalNode.NodeID = Quake.QuakeID
+                FinalNode.addChildNode(PoleNode)
+                FinalNode.addChildNode(Disc)
+                FinalNode.addChildNode(Rim)
+                RadialOffset = 0.0
         }
         
         let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
@@ -622,11 +736,6 @@ extension GlobeView
         FinalNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         FinalNode.position = SCNVector3(X, Y, Z)
         FinalNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, 0.0)
-        if Addendum != nil
-        {
-            
-            FinalNode.addChildNode(Addendum!)
-        }
         return (FinalNode, MagNode, InfoNode)
     }
     
