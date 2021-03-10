@@ -342,6 +342,38 @@ enum Quake3D: Double, CaseIterable
     case ArrowRotationDuration = 1.0
     /// Radial offset for invisible earthquakes.
     case InvisibleEarthquakeOffset = 0.1045
+    /// Angle to stride by when creating spheres to indicate new earthquakes.
+    case NewQuakeStrideAngle = 45.0
+    /// Base radius for disc earthquake indicators.
+    case BaseDiscRadius = 2.01
+    /// Radius of the pole holding up the earthquake disc.
+    case DiscPoleRadius = 0.0501
+    /// Offset for the rim for the torus.
+    case RimRadiusOffset = 0.101
+    /// Radius of spheres indicating a new earthquake.
+    case NewQuakeSphereRadius = 0.215
+    /// Metalness value for disc earthquake new quake spheres.
+    case DayMetalnessValue = 0.999995
+    /// Roughness value for disc earthquake new quake spheres.
+    case DayRoughnessValue = 0.49999965
+    /// Base speed for rotating new earthquake discs.
+    case BaseDiscRotateSpeed = 5.0
+    /// Minimum rotational speed allowed for new quakes for disc indicators.
+    case MinimumRotateSpeed = 0.09994492
+    /// Thickness of the disc portion of disc indicators.
+    case DiscThickness = 0.1000058
+    /// Alpha value of discs.
+    case DiscAlphaValue = 0.6
+    /// Extrusion value for magnitude values for disc indicators.
+    case DiscTextHeight = 0.50193785
+    /// Base font size for text for disc indicators.
+    case BaseDiscFontSize = 48.0
+    /// Base value of the font size adder for text for disc indicators.
+    case VariableDiscFontAdder = 8.0
+    /// Text scale value for disc text.
+    case DiscTextScale = 0.010112
+    /// Y offset for disc indicator text position.
+    case DiscTextYOffset = -0.15
 }
 
 // MARK: - Light mask values for 2D mode.
