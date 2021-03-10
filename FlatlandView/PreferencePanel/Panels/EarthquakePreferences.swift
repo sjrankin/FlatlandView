@@ -53,6 +53,13 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
             QuakeShapeCombo.addItem(withObjectValue: SomeShape.rawValue)
         }
         QuakeShapeCombo.selectItem(withObjectValue: EShape.rawValue)
+        NewQuakeComboBox.removeAllItems()
+        for SomeStyle in EarthquakeIndicators.allCases
+        {
+            NewQuakeComboBox.addItem(withObjectValue: SomeStyle.rawValue)
+        }
+        let IShape = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self, Default: .None)
+        NewQuakeComboBox.selectItem(withObjectValue: IShape.rawValue)
         DisplayQuakesSwitch.state = Settings.GetBool(.EnableEarthquakes) ? .on : .off
         HighlightNewQuakesSwitch.state = Settings.GetState(.HighlightRecentEarthquakes)
         
@@ -102,6 +109,9 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
                     
                 case PanelResetHelp:
                     Parent?.ShowHelp(For: .QuakePanelReset, Where: Button.bounds, What: PanelResetHelp)
+                    
+                case NewQuakeIndicatorHelp:
+                    Parent?.ShowHelp(For: .NewQuakeIndicator, Where: Button.bounds, What: NewQuakeIndicatorHelp)
                     
                 default:
                     return
@@ -171,6 +181,15 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
                     }
                     let Frequency = FetchFrequencies[Index]
                     Settings.SetDouble(.EarthquakeFetchInterval, Frequency)
+                    
+                case NewQuakeComboBox:
+                    if let RawValue = Combo.objectValueOfSelectedItem as? String
+                    {
+                        if let Raw = EarthquakeIndicators(rawValue: RawValue)
+                        {
+                            Settings.SetEnum(Raw, EnumType: EarthquakeIndicators.self, ForKey: .EarthquakeStyles)
+                        }
+                    }
                     
                 default:
                     return
@@ -245,6 +264,8 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
     
     var HelpButtons: [NSButton] = [NSButton]()
 
+    @IBOutlet weak var NewQuakeComboBox: NSComboBox!
+    @IBOutlet weak var NewQuakeIndicatorHelp: NSButton!
     @IBOutlet weak var PanelResetHelp: NSButton!
     @IBOutlet weak var QuakeScaleSegment: NSSegmentedControl!
     @IBOutlet weak var QuakeScaleHelpButton: NSButton!
