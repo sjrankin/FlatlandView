@@ -349,6 +349,11 @@ Check for new earthquakes. Result availability is determined by how busy the rem
 Sets the scale (size) of the 3D shapes that indicate where an earthquake has occurred. Does not affect stenciled text drawn on the map.
 """
                     
+                case .NewQuakeIndicator:
+                    Message = """
+Lets you change how new earthquakes are shown. Animated new earthquake indicators will use more CPU and battery power.
+"""
+                    
                 // MARK: - Map attributes help.
                 case .ShowGridLines:
                     Message = """
@@ -585,6 +590,7 @@ enum PreferenceHelp: String, CaseIterable
     case QuakeCheckNow = "QuakeCheckNow"
     case QuakeScale = "QuakeScale"
     case QuakePanelReset = "QuakePanelReset"
+    case NewQuakeIndicator = "NewQuakeIndicator"
     
     case ShowGridLines = "ShowGridLines"
     case GridLineColor = "GridLineColor"
