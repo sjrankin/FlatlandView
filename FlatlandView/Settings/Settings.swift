@@ -72,6 +72,8 @@ class Settings
         
         InitializeBool(.EnableEarthquakes, false)
         InitializeDouble(.EarthquakeFetchInterval, 60.0 * 5.0)
+        InitializeEnum(.RadiatingRings, EnumType: EarthquakeIndicators.self,
+                       ForKey: .EarthquakeStyles)
     }
     
     /// Determines if settings were initialized.
