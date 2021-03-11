@@ -19,9 +19,7 @@ class MainController: NSViewController
         super.viewDidLoad()
         
         MainController.StartTime = CACurrentMediaTime()
-        #if DEBUG
         UptimeStart = CACurrentMediaTime()
-        #endif
         Settings.Initialize()
         Settings.AddSubscriber(self)
         SoundManager.Initialize()
@@ -51,11 +49,28 @@ class MainController: NSViewController
                                      selector: #selector(HandleMemoryInUseDisplay),
                                      userInfo: nil,
                                      repeats: true)
+        
+        let _ = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true)
+        {
+            _ in
+            var DisplayMe = ""
+            if let InUse = LowLevel.MemoryStatistics(.PhysicalFootprint)
+            {
+                DisplayMe = InUse.WithSuffix()
+            }
+            let DurationValue = Utility.DurationBetween(Seconds1: CACurrentMediaTime(), Seconds2: self.UptimeStart)
+            let StatString = "Uptime: \(DurationValue), Memory: \(DisplayMe)"
+            self.StatusBar.ShowStatusText(StatString, For: 15.0)
+        }
     }
     
-    #if DEBUG
-    var UptimeStart: Double = 0.0
-    #endif
+    /// Determines if the main window is at least partially visible in some view.
+    /// - Notes: See [OS X: finding if a window is visible on screen](https://developer.apple.com/forums/thread/71171)
+    /// - Returns: True if the main window is visible somewhere on the screen, false if not.
+    func WindowIsInView() -> Bool
+    {
+        return ParentWindow?.occlusionState.contains(.visible) ?? false
+    }
     
     var CurrentlyConnected: Bool = false
     
@@ -893,4 +908,6 @@ class MainController: NSViewController
     
     var ChangeDelta: Double = 0.0
     var PreviousMemoryUsed: UInt64? = nil
+    /// Start time (in seconds) of the current instance.
+    var UptimeStart: Double = 0.0
 }
