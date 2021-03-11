@@ -640,9 +640,9 @@ extension GlobeView
                 let BaseRadius = Quake3D.BaseDiscRadius.rawValue
                 let QuakeColorMagnitude = GetMagnitudeRange(For: Quake.Magnitude)
                 var QuakeColor = NSColor.yellow
-                if let QuakeColorM = Settings.GetMagnitudeColors()[QuakeColorMagnitude]
+                if let MagColor = Settings.GetMagnitudeColors()[QuakeColorMagnitude]
                 {
-                    QuakeColor = QuakeColorM
+                    QuakeColor = MagColor
                 }
                 let LocalPercent = Quake.Magnitude / 10.0
                 let NodeHeight = CGFloat(Quake3D.QuakeCapsuleHeight.rawValue * LocalPercent)
@@ -652,6 +652,7 @@ extension GlobeView
                 PoleNode.scale = SCNVector3(FinalScale, FinalScale, FinalScale)
                 PoleNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
                 PoleNode.NodeID = Quake.QuakeID
+                //Move the pole such that most of it is visible.
                 PoleNode.position = SCNVector3(0.0, -NodeHeight * 0.5, 0.0)
                 PoleNode.SetState(ForDay: true, Color: QuakeColor, Emission: nil)
                 PoleNode.SetState(ForDay: false, Color: QuakeColor, Emission: QuakeColor)
