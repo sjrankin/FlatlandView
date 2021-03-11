@@ -115,7 +115,6 @@ extension MainController
             let UPOI = POI2(Meta: .User, PKID, POIID, Name, Description, Latitude, Longitude,
                             Color, Shape, POIType, Numeric, Category, SubCategory,
                             Added, Modified, ShowPOI)
-            print("POI: \(Name)")
             Results.append(UPOI)
         }
         return Results
