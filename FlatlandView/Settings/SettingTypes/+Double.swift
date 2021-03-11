@@ -26,9 +26,9 @@ extension Settings
     /// - Parameter Value: The initial value of the setting.
     public static func InitializeDoubleNil(_ Setting: SettingKeys, _ Value: Double? = nil)
     {
-        if !TypeIsValid(Setting, Type: Double?.self)
+        guard TypeIsValid(Setting, Type: Double?.self) else
         {
-            fatalError("\(Setting) is not a Double?")
+            Debug.FatalError("\(Setting) is not a Double?")
         }
         if let Actual = Value
         {
@@ -45,9 +45,9 @@ extension Settings
     /// - Returns: Double found at the specified setting.
     public static func GetDouble(_ Setting: SettingKeys) -> Double
     {
-        if !TypeIsValid(Setting, Type: Double.self)
+        guard TypeIsValid(Setting, Type: Double.self) else
         {
-            fatalError("\(Setting) is not a Double")
+            Debug.FatalError("\(Setting) is not a Double")
         }
         return UserDefaults.standard.double(forKey: Setting.rawValue)
     }
@@ -60,9 +60,9 @@ extension Settings
     ///            returned.
     public static func GetDouble(_ Setting: SettingKeys, _ IfZero: Defaults) -> Double
     {
-        if !TypeIsValid(Setting, Type: Double.self)
+        guard TypeIsValid(Setting, Type: Double.self) else
         {
-            fatalError("\(Setting) is not a Double")
+            Debug.FatalError("\(Setting) is not a Double")
         }
         let DoubleValue = UserDefaults.standard.double(forKey: Setting.rawValue)
         if DoubleValue == 0.0
@@ -79,9 +79,9 @@ extension Settings
     ///                         to the completion handler.
     public static func QueryDouble(_ Setting: SettingKeys, Completion: (Double) -> Void)
     {
-        if !TypeIsValid(Setting, Type: Double.self)
+        guard TypeIsValid(Setting, Type: Double.self) else
         {
-            fatalError("\(Setting) is not a Double")
+            Debug.FatalError("\(Setting) is not a Double")
         }
         let DoubleValue = UserDefaults.standard.double(forKey: Setting.rawValue)
         Completion(DoubleValue)
@@ -95,9 +95,9 @@ extension Settings
     ///            value is 0.0.
     public static func GetDouble(_ Setting: SettingKeys, _ IfZero: Double = 0) -> Double
     {
-        if !TypeIsValid(Setting, Type: Double.self)
+        guard TypeIsValid(Setting, Type: Double.self) else
         {
-            fatalError("\(Setting) is not a Double")
+            Debug.FatalError("\(Setting) is not a Double")
         }
         let Value = UserDefaults.standard.double(forKey: Setting.rawValue)
         if Value == 0.0
@@ -121,9 +121,9 @@ extension Settings
         {
             return SecureStringAsDoubleNil(Setting, Default)
         }
-        if !TypeIsValid(Setting, Type: Double?.self)
+        guard TypeIsValid(Setting, Type: Double?.self) else
         {
-            fatalError("\(Setting) is not a Double?")
+            Debug.FatalError("\(Setting) is not a Double?")
         }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
@@ -175,9 +175,9 @@ extension Settings
     ///                         to the completion handler.
     public static func QueryDoubleNil(_ Setting: SettingKeys, Completion: (Double?) -> Void)
     {
-        if !TypeIsValid(Setting, Type: Double?.self)
+        guard TypeIsValid(Setting, Type: Double?.self) else
         {
-            fatalError("\(Setting) is not a Double?")
+            Debug.FatalError("\(Setting) is not a Double?")
         }
         let DoubleNil = GetDoubleNil(Setting)
         Completion(DoubleNil)
@@ -188,9 +188,9 @@ extension Settings
     /// - Parameter Value: The value to save.
     public static func SetDouble(_ Setting: SettingKeys, _ Value: Double)
     {
-        if !TypeIsValid(Setting, Type: Double.self)
+        guard TypeIsValid(Setting, Type: Double.self) else
         {
-            fatalError("\(Setting) is not a Double?")
+            Debug.FatalError("\(Setting) is not a Double?")
         }
         let OldValue = UserDefaults.standard.double(forKey: Setting.rawValue)
         let NewValue = Value
@@ -209,9 +209,9 @@ extension Settings
             SaveDoubleNilInSecureStorage(Setting, Value)
             return
         }
-        if !TypeIsValid(Setting, Type: Double?.self)
+        guard TypeIsValid(Setting, Type: Double?.self) else
         {
-            fatalError("\(Setting) is not a Double?")
+            Debug.FatalError("\(Setting) is not a Double?")
         }
         let OldValue = GetDoubleNil(Setting)
         let NewValue = Value
