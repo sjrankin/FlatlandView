@@ -179,6 +179,7 @@ class Stenciler
     /// - Returns: Image representation with city names.
     private static func AddCityNames(To Image: NSBitmapImageRep, Ratio: Double) -> NSBitmapImageRep
     {
+        var FontMultiplier: CGFloat = 1.0
         let ScaleFactor = NSScreen.main!.backingScaleFactor
         var Working = Image
         var CitiesToPlot = CityManager.FilteredCities()
@@ -187,19 +188,13 @@ class Stenciler
             CitiesToPlot.append(contentsOf: UserCities)
         }
         var PlotMe = [TextRecord]()
-        let CityFontRecord = Settings.GetString(.CityFontName, "Avenir")
-        let CityFontName = Settings.ExtractFontName(From: CityFontRecord)!
-        #if true
-        let BaseFontSize = Settings.ExtractFontSize(From: CityFontRecord)!
-        #else
-        let BaseFontSize: CGFloat = 7.0
-        #endif
-        var FontMultiplier: CGFloat = 1.0
+        let BaseFontSize = 32.0
         if Image.size.width / 2.0 < 3600.0
         {
             FontMultiplier = 2.0
         }
-        let FontSize = BaseFontSize * ScaleFactor * CGFloat(Ratio) * FontMultiplier
+        let FontSize = CGFloat(BaseFontSize) * ScaleFactor * CGFloat(Ratio) * FontMultiplier
+        
         for City in CitiesToPlot
         {
             let CityPoint = GeoPoint(City.Latitude, City.Longitude)
@@ -211,7 +206,8 @@ class Stenciler
             let CityColor = CityManager.ColorForCity(City)
             var LatitudeFontOffset = CGFloat(abs(City.Latitude) / 90.0)
             LatitudeFontOffset = CGFloat(Constants.StencilCitySize.rawValue) * LatitudeFontOffset
-            let CityFont = NSFont(name: CityFontName, size: FontSize + LatitudeFontOffset)!
+            let CityFont = NSFont.GetFont(InOrder: ["SFProText-Bold", "Avenir-Black", "ArialMT"],
+                                          Size: FontSize + LatitudeFontOffset)
             let Record = TextRecord(Text: City.Name, Location: Location, Font: CityFont, Color: CityColor,
                                     OutlineColor: NSColor.black)
             PlotMe.append(Record)
