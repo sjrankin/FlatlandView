@@ -26,9 +26,9 @@ extension Settings
     /// - Returns: The color stored at the specified setting, nil if not found.
     public static func GetColor(_ Setting: SettingKeys) -> NSColor?
     {
-        if !TypeIsValid(Setting, Type: NSColor.self)
+        guard TypeIsValid(Setting, Type: NSColor.self) else
         {
-            fatalError("\(Setting) is not an NSColor")
+            Debug.FatalError("\(Setting) is not an NSColor")
         }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
@@ -46,9 +46,9 @@ extension Settings
     ///                         to the completion handler.
     public static func QueryColor(_ Setting: SettingKeys, Completion: (NSColor?) -> Void)
     {
-        if !TypeIsValid(Setting, Type: NSColor.self)
+        guard TypeIsValid(Setting, Type: NSColor.self) else
         {
-            fatalError("\(Setting) is not an NSColor")
+            Debug.FatalError("\(Setting) is not an NSColor")
         }
         let ColorValue = GetColor(Setting)
         Completion(ColorValue)
@@ -61,9 +61,9 @@ extension Settings
     ///            color found.
     public static func GetColor(_ Setting: SettingKeys, _ Default: NSColor) -> NSColor
     {
-        if !TypeIsValid(Setting, Type: NSColor.self)
+        guard TypeIsValid(Setting, Type: NSColor.self) else
         {
-            fatalError("\(Setting) is not an NSColor")
+            Debug.FatalError("\(Setting) is not an NSColor")
         }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
@@ -83,9 +83,9 @@ extension Settings
     ///            color found. Value returned as a `CGColor`.
     public static func GetCGColor(_ Setting: SettingKeys, _ Default: NSColor) -> CGColor
     {
-        if !TypeIsValid(Setting, Type: NSColor.self)
+        guard TypeIsValid(Setting, Type: NSColor.self) else
         {
-            fatalError("\(Setting) is not an NSColor")
+            Debug.FatalError("\(Setting) is not an NSColor")
         }
         return GetColor(Setting, Default).cgColor
     }
@@ -95,9 +95,9 @@ extension Settings
     /// - Parameter Value: The color to save.
     public static func SetColor(_ Setting: SettingKeys, _ Value: NSColor)
     {
-        if !TypeIsValid(Setting, Type: NSColor.self)
+        guard TypeIsValid(Setting, Type: NSColor.self) else
         {
-            fatalError("\(Setting) is not an NSColor")
+            Debug.FatalError("\(Setting) is not an NSColor")
         }
         let OldValue = GetColor(Setting)
         UserDefaults.standard.set(Value.Hex, forKey: Setting.rawValue)
