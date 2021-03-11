@@ -24,6 +24,10 @@ extension Settings
     ///            is returned.
     public static func GetVector(_ Setting: SettingKeys, _ Default: SCNVector3 = SCNVector3(0.0, 0.0, 0.0)) -> SCNVector3
     {
+        guard TypeIsValid(Setting, Type: SCNVector3.self) else
+        {
+            Debug.FatalError("\(Setting) is not SCNVector3")
+        }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             if let StoredVector = SCNVector3.Deserialize(Raw)
@@ -41,6 +45,10 @@ extension Settings
     /// - Parameter NewValue: The value to store.
     public static func SetVector(_ Setting: SettingKeys, _ NewValue: SCNVector3)
     {
+        guard TypeIsValid(Setting, Type: SCNVector3.self) else
+        {
+            Debug.FatalError("\(Setting) is not SCNVector3")
+        }
         let Serialized = SCNVector3.Serialize(NewValue)
         UserDefaults.standard.setValue(Serialized, forKey: Setting.rawValue)
         NotifySubscribers(Setting: Setting, OldValue: nil, NewValue: NewValue as Any)
