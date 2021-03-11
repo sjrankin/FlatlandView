@@ -146,6 +146,31 @@ class MainController: NSViewController
         SetWindowDelegate()
     }
     
+    /// Handle the window did become main event.
+    /// - Note:
+    ///   - See [How to set the position and size programmatically](https://stackoverflow.com/questions/32882548/how-to-set-the-position-and-size-programmatically-for-the-main-window)
+    ///   - We need to set the position of the window in this function, *not* viewDidLayout.
+    /// - Parameter notification: Not used.
+    func windowDidBecomeMain(_ notification: Notification)
+    {
+        if !InitialWindowPositionSet
+        {
+            InitialWindowPositionSet = true
+            let MainWindow = self.view.window
+            if let UpperLeft = Settings.GetCGPoint(.WindowOrigin)
+            {
+                let FinalY = NSScreen.main!.frame.height - UpperLeft.y
+                let FinalPoint = CGPoint(x: UpperLeft.x, y: FinalY)
+                MainWindow?.setFrameTopLeftPoint(FinalPoint)
+            }
+            if let ContentsSize = Settings.GetNSSize(.PrimaryViewSize)
+            {
+                Debug.Print("ContentsSize=\(ContentsSize)")
+                //MainWindow?.setContentSize(ContentsSize)
+            }
+        }
+    }
+    
     /// Initialize things that require a fully set-up window.
     override func viewDidLayout()
     {
@@ -155,21 +180,6 @@ class MainController: NSViewController
         InitializeFlatland()
         NotificationCenter.default.addObserver(self, selector: #selector(HandlePrimaryViewContentsSizeChange),
                                                name: NSView.frameDidChangeNotification, object: PrimaryView)
-        if !InitialWindowPositionSet
-        {
-            InitialWindowPositionSet = true
-            let MainWindow = self.view.window
-            if let UpperLeft = Settings.GetCGPoint(.WindowOrigin)
-            {
-                MainWindow?.setFrameTopLeftPoint(UpperLeft)
-                Debug.Print("Starting window point: \(UpperLeft)")
-            }
-            if let ContentsSize = Settings.GetNSSize(.PrimaryViewSize)
-            {
-                Debug.Print("ContentsSize=\(ContentsSize)")
-                //MainWindow?.setContentSize(ContentsSize)
-            }
-        }
         
         if let AD = NSApplication.shared.delegate as? AppDelegate
         {
