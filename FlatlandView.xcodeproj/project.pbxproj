@@ -47,6 +47,7 @@
 		1720B383248B522C001202E5 /* GetLocationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B382248B522C001202E5 /* GetLocationWindow.swift */; };
 		1720B385248B5255001202E5 /* GetLocationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B384248B5255001202E5 /* GetLocationCode.swift */; };
 		1720B388248B68A1001202E5 /* AutoLocationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720B387248B68A1001202E5 /* AutoLocationProtocol.swift */; };
+		172372DD25F9E3E8005FA22E /* NSFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172372DC25F9E3E8005FA22E /* NSFont.swift */; };
 		1723C80324D54C4C00C41EEE /* UserRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1723C80224D54C4C00C41EEE /* UserRegion.swift */; };
 		1723E698257E4870003CC24C /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1723E697257E4870003CC24C /* InputValidation.swift */; };
 		1727EA5824B15CD10051EA3B /* +UserCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1727EA5724B15CD10051EA3B /* +UserCamera.swift */; };
@@ -521,6 +522,7 @@
 		1720B382248B522C001202E5 /* GetLocationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationWindow.swift; sourceTree = "<group>"; };
 		1720B384248B5255001202E5 /* GetLocationCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLocationCode.swift; sourceTree = "<group>"; };
 		1720B387248B68A1001202E5 /* AutoLocationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLocationProtocol.swift; sourceTree = "<group>"; };
+		172372DC25F9E3E8005FA22E /* NSFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSFont.swift; sourceTree = "<group>"; };
 		1723C80224D54C4C00C41EEE /* UserRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRegion.swift; sourceTree = "<group>"; };
 		1723E697257E4870003CC24C /* InputValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
 		17267C522537D63A0036F6EA /* FlatlandRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandRelease.entitlements; sourceTree = "<group>"; };
@@ -1443,6 +1445,7 @@
 				1714DDB72539654A001A3002 /* UInt64.swift */,
 				17B062DE253D557D00C4BAEE /* UUID.swift */,
 				17B0B7372546AE3400DC0F03 /* UInt8.swift */,
+				172372DC25F9E3E8005FA22E /* NSFont.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2575,6 +2578,7 @@
 				17055CF925C537A70025686A /* +Regions_Radial.swift in Sources */,
 				1750044324B4640B006528A4 /* FontProtocol.swift in Sources */,
 				17DFAF562545A5BE00374344 /* ImageShifter.metal in Sources */,
+				172372DD25F9E3E8005FA22E /* NSFont.swift in Sources */,
 				1760024224D2BFFE00D5EA1A /* Array.swift in Sources */,
 				176CBB76251B08E800D6C0AD /* EnumConstants.swift in Sources */,
 				17E0E36025E5FED900291823 /* PropertyExtraction.swift in Sources */,
