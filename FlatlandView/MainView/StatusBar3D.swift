@@ -260,24 +260,26 @@ class StatusBar3D: SCNView
     /// - Parameter Text: The text to draw.
     private func DrawText(_ Text: String)
     {
+        #if true
+        CurrentText?.Clear()
+        CurrentText = nil
+        MakeTextNode(Text)
+        #else
         if let OldText = CurrentText
         {
             let FadeAway = SCNAction.fadeOut(duration: 0.1)
             OldText.runAction(FadeAway)
             {
                 self.CurrentText?.Clear()
-//                self.CurrentText?.removeFromParentNode()
-//                self.CurrentText?.geometry = nil
                 self.MakeTextNode(Text)
             }
         }
         else
         {
             CurrentText?.Clear()
-//            CurrentText?.removeFromParentNode()
-//            CurrentText?.geometry = nil
             MakeTextNode(Text)
         }
+        #endif
     }
     
     /// Push a message to the message queue.
