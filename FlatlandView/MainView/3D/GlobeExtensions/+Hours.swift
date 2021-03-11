@@ -337,8 +337,8 @@ extension GlobeView
     func PlotWallClockLabels(Radius: Double, LetterColor: NSColor = NSColor.systemYellow,
                              RadialOffset: CGFloat = 0.0, StartAngle: Double) -> SCNNode2
     {
-        let StackTrace = Debug.StackFrameContents(8)
-        Debug.Print("PlotWallClockLabels: \(Debug.PrettyStackTrace(StackTrace))")
+        //let StackTrace = Debug.StackFrameContents(8)
+        //Debug.Print("PlotWallClockLabels: \(Debug.PrettyStackTrace(StackTrace))")
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
         let PhraseNode = SCNNode2(geometry: NodeShape)
         PhraseNode.castsShadow = Settings.GetBool(.HoursCastShadows)
@@ -418,8 +418,8 @@ extension GlobeView
     ///                      first update.**
     @objc func UpdateWallClockHours(InPlace: Bool = true)
     {
-        MemoryDebug.Open("\(#function)")
-        defer{MemoryDebug.Close("\(#function)")}
+        //MemoryDebug.Open("\(#function)")
+        //defer{MemoryDebug.Close("\(#function)")}
         if HourNode == nil
         {
             return
@@ -433,6 +433,21 @@ extension GlobeView
         }
         Debug.Print("Updating wall clock hours by replacing nodes.")
         #endif
+        #if true
+        for Hour in self.HourNode!.childNodes
+        {
+            if let Node = Hour as? SCNNode2
+            {
+                if Node.IsTextNode
+                {
+                    Node.removeAllActions()
+                    Node.removeAllAnimations()
+                    Node.removeFromParentNode()
+                    Node.geometry = nil
+                }
+            }
+        }
+        #else
         MemoryDebug.Block("Hour Node Reduction")
         {
             for Hour in self.HourNode!.childNodes
@@ -449,7 +464,8 @@ extension GlobeView
             }
         }
         }
-        CumulativeMemory = 0
+        #endif
+        //CumulativeMemory = 0
         for LabelAngle in stride(from: 0.0, to: 359.0, by: 15.0)
         {
             var WorkingAngle = WallStartAngle + LabelAngle - 15.0
@@ -472,7 +488,7 @@ extension GlobeView
                                                  NodeTime: FinalDate!)
             HourNode?.addChildNode(HourTextNode)
         }
-        Debug.Print("Cumulative memory for MakeWallClockNode: \(CumulativeMemory)")
+        //Debug.Print("Cumulative memory for MakeWallClockNode: \(CumulativeMemory)")
     }
     
     /// Update the text of wall clock hours without re-creating the nodes of the hours.
@@ -537,6 +553,7 @@ extension GlobeView
                            LetterColor: NSColor = NSColor.systemYellow,
                            NodeTime: Date) -> SCNNode2
     {
+        #if false
         MemoryDebug.Open("MakeWallClockNode")
         defer
         {
@@ -546,6 +563,7 @@ extension GlobeView
                 CumulativeMemory = CumulativeMemory + Delta
             }
         }
+        #endif
         let HourText = MakeWallClockNodeText(With: Value, LetterColor: LetterColor)
         let HourTextNode = SCNNode2(geometry: HourText)
         HourTextNode.HourAngle = WorkingAngle
