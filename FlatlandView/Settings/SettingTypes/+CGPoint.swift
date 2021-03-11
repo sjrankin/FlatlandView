@@ -30,32 +30,33 @@ extension Settings
     }
     
     /// Get the CGPoint value at the specified setting.
-    /// - Warming: A fatal error will be thrown if the type of `Setting` is not `CGPoint`.
+    /// - Warning: A fatal error will be thrown if the type of `Setting` is not `CGPoint`.
     /// - Parameter Setting: The setting where the CGPoint value is stored.
     /// - Parameter Default: If there is no value in `Setting` and `Default` has a value, the value in
     ///                      `Default` will be returned.
     /// - Returns: The CGPoint value on success, nil if not available.
     public static func GetCGPoint(_ Setting: SettingKeys, Default: CGPoint? = nil) -> CGPoint?
     {
-        if !TypeIsValid(Setting, Type: CGPoint.self)
+        guard TypeIsValid(Setting, Type: CGPoint.self) else
         {
-            fatalError("\(Setting) is not an CGPoint")
+            Debug.FatalError("\(Setting) is not an CGPoint")
         }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             let Parts = Raw.split(separator: ",", omittingEmptySubsequences: true)
-            if Parts.count != 2
+            guard Parts.count == 2 else
             {
-                fatalError("Mal-formed CGPoint found for \(Setting.rawValue): \"\(Raw)\"")
+                Debug.FatalError("Mal-formed CGPoint found for \(Setting.rawValue): \"\(Raw)\"")
             }
-            if let PointX = Double(String(Parts[0]))
+            guard let PointX = Double(String(Parts[0])) else
             {
-                if let PointY = Double(String(Parts[1]))
-                {
-                    return CGPoint(x: PointX, y: PointY)
-                }
+                Debug.FatalError("Error parsing X value from \(Setting.rawValue): \"\(Raw)\"")
             }
-            fatalError("Error parsing value from \(Setting.rawValue): \"\(Raw)\"")
+            guard let PointY = Double(String(Parts[1])) else
+            {
+                Debug.FatalError("Error parsing Y value from \(Setting.rawValue): \"\(Raw)\"")
+            }
+            return CGPoint(x: PointX, y: PointY)
         }
         else
         {
@@ -73,7 +74,7 @@ extension Settings
     }
     
     /// Get the CGPoint value at the specified setting.
-    /// - Warming: A fatal error will be thrown if the type of `Setting` is not `CGPoint`.
+    /// - Warning: A fatal error will be thrown if the type of `Setting` is not `CGPoint`.
     /// - Parameter Setting: The setting where the CGPoint value is stored.
     /// - Parameter Default: If there is no value in `Setting` and `Default` has a value, the value in
     ///                      `Default` will be returned.
@@ -87,18 +88,19 @@ extension Settings
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             let Parts = Raw.split(separator: ",", omittingEmptySubsequences: true)
-            if Parts.count != 2
+            guard Parts.count == 2 else
             {
-                fatalError("Mal-formed CGPoint found for \(Setting.rawValue): \"\(Raw)\"")
+                Debug.FatalError("Mal-formed CGPoint found for \(Setting.rawValue): \"\(Raw)\"")
             }
-            if let PointX = Double(String(Parts[0]))
+            guard let PointX = Double(String(Parts[0])) else
             {
-                if let PointY = Double(String(Parts[1]))
-                {
-                    return CGPoint(x: PointX, y: PointY)
-                }
+                Debug.FatalError("Error parsing X value from \(Setting.rawValue): \"\(Raw)\"")
             }
-            fatalError("Error parsing value from \(Setting.rawValue): \"\(Raw)\"")
+            guard let PointY = Double(String(Parts[1])) else
+            {
+                Debug.FatalError("Error parsing Y value from \(Setting.rawValue): \"\(Raw)\"")
+            }
+            return CGPoint(x: PointX, y: PointY)
         }
         return Default
     }
