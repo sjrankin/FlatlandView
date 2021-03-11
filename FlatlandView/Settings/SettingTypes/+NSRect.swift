@@ -57,9 +57,9 @@ extension Settings
     /// - Parameter Value: The value to store.
     public static func SetRect(_ Setting: SettingKeys, _ Value: NSRect)
     {
-        if !TypeIsValid(Setting, Type: NSRect.self)
+        guard TypeIsValid(Setting, Type: NSRect.self) else
         {
-            fatalError("\(Setting) is not a NSRect")
+            Debug.FatalError("\(Setting) is not a NSRect")
         }
         let OldValue = GetRect(Setting)
         let Encoded = EncodeRect(Value)
@@ -72,9 +72,9 @@ extension Settings
     /// - Returns: Populated `NSRect` on success, nil on error.
     public static func GetRect(_ Setting: SettingKeys) -> NSRect?
     {
-        if !TypeIsValid(Setting, Type: NSRect.self)
+        guard TypeIsValid(Setting, Type: NSRect.self) else
         {
-            fatalError("\(Setting) is not a NSRect")
+            Debug.FatalError("\(Setting) is not a NSRect")
         }
         if let Value = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
@@ -97,9 +97,9 @@ extension Settings
     ///            `Setting` is empty, `NSRect.zero` if `Default` is nil.
     public static func GetRect(_ Setting: SettingKeys, Default: NSRect? = nil) -> NSRect
     {
-        if !TypeIsValid(Setting, Type: NSRect.self)
+        guard TypeIsValid(Setting, Type: NSRect.self) else
         {
-            fatalError("\(Setting) is not a NSRect")
+            Debug.FatalError("\(Setting) is not a NSRect")
         }
         if let Value = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
