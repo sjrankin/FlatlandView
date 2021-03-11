@@ -27,9 +27,9 @@ extension Settings
     /// - Returns: String found at the specified setting, or `Default` if it does not exist.
     public static func GetString(_ Setting: SettingKeys, _ Default: String) -> String
     {
-        if !TypeIsValid(Setting, Type: String.self)
+        guard TypeIsValid(Setting, Type: String.self) else
         {
-            fatalError("\(Setting) is not a string")
+            Debug.FatalError("\(Setting) is not a string")
         }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
@@ -44,9 +44,9 @@ extension Settings
     /// - Returns: String found at the specified setting, or nil if it does not exist.
     public static func GetString(_ Setting: SettingKeys) -> String?
     {
-        if !TypeIsValid(Setting, Type: String.self)
+        guard TypeIsValid(Setting, Type: String.self) else
         {
-            fatalError("\(Setting) is not a string")
+            Debug.FatalError("\(Setting) is not a string")
         }
         return UserDefaults.standard.string(forKey: Setting.rawValue)
     }
@@ -66,9 +66,9 @@ extension Settings
     ///                         to the completion handler.
     public static func QueryString(_ Setting: SettingKeys, Completion: (String?) -> Void)
     {
-        if !TypeIsValid(Setting, Type: String.self)
+        guard TypeIsValid(Setting, Type: String.self) else
         {
-            fatalError("\(Setting) is not a string")
+            Debug.FatalError("\(Setting) is not a string")
         }
         let StringValue = UserDefaults.standard.string(forKey: Setting.rawValue)
         Completion(StringValue)
@@ -79,9 +79,9 @@ extension Settings
     /// - Parameter Value: The value to save.
     public static func SetString(_ Setting: SettingKeys, _ Value: String)
     {
-        if !TypeIsValid(Setting, Type: String.self)
+        guard TypeIsValid(Setting, Type: String.self) else
         {
-            fatalError("\(Setting) is not a string")
+            Debug.FatalError("\(Setting) is not a string")
         }
         let OldValue = UserDefaults.standard.string(forKey: Setting.rawValue)
         let NewValue = Value
