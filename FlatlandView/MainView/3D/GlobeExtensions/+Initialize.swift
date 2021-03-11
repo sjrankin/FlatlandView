@@ -248,6 +248,24 @@ extension GlobeView
             Debug.Print("No EarthNode in \(#function)")
             return
         }
+        #if true
+        EarthNode!.ForEachChild
+        {
+            Node in
+            if Node != nil
+            {
+                if Node!.CanSwitchState && Node!.HasLocation()
+                {
+                    let NodeLocation = GeoPoint(Node!.Latitude!, Node!.Longitude!)
+                    NodeLocation.CurrentTime = Date()
+                    if let SunIsVisible = Solar.IsInDaylight(Node!.Latitude!, Node!.Longitude!)
+                    {
+                        Node!.IsInDaylight = SunIsVisible
+                    }
+                }
+            }
+        }
+        #else
         MemoryDebug.Block("DarknessUpdateNodes")
         {
             self.EarthNode!.ForEachChild
@@ -267,6 +285,7 @@ extension GlobeView
                 }
             }
         }
+        #endif
     }
     
     /// Create the Flatland camera. This is different from the one that allowsCameraControl manipulates.
