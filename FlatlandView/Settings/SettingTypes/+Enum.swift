@@ -22,7 +22,7 @@ extension Settings
     {
         guard let _ = EnumType.init(rawValue: NewValue.rawValue) else
         {
-            fatalError("Invalid enum conversion. Most likely tried to convert an enum case from Enum type 'A' to Enum type 'B'.")
+            Debug.FatalError("Invalid enum conversion. Most likely tried to convert an enum case from Enum type 'A' to Enum type 'B'.")
         }
         UserDefaults.standard.set(NewValue.rawValue, forKey: ForKey.rawValue)
     }
@@ -36,9 +36,9 @@ extension Settings
     /// - Returns: Enum value (of type `EnumType`) for the specified setting key.
     public static func GetEnum<T: RawRepresentable>(ForKey: SettingKeys, EnumType: T.Type, Default: T) -> T where T.RawValue == String
     {
-        if !TypeIsValid(ForKey, Type: EnumType.self)
+        guard TypeIsValid(ForKey, Type: EnumType.self) else
         {
-            fatalError("\(ForKey) is not \(EnumType.self)")
+            Debug.FatalError("\(ForKey) is not \(EnumType.self)")
         }
         if let Raw = GetMaskedString(ForKey)
         {
@@ -59,9 +59,9 @@ extension Settings
     /// - Returns: Enum value (of type `EnumType`) for the specified setting key. Nil returned if the setting was not found.
     public static func GetEnum<T: RawRepresentable>(ForKey: SettingKeys, EnumType: T.Type) -> T? where T.RawValue == String
     {
-        if !TypeIsValid(ForKey, Type: EnumType.self)
+        guard TypeIsValid(ForKey, Type: EnumType.self) else
         {
-            fatalError("\(ForKey) is not \(EnumType.self)")
+            Debug.FatalError("\(ForKey) is not \(EnumType.self)")
         }
         if let Raw = GetMaskedString(ForKey)
         {
@@ -96,9 +96,9 @@ extension Settings
     ///                         to the completion handler.
     public static func QueryEnum<T: RawRepresentable>(_ Setting: SettingKeys, EnumType: T.Type, Completion: (T?) -> Void) where T.RawValue == String
     {
-        if !TypeIsValid(Setting, Type: EnumType.self)
+        guard TypeIsValid(Setting, Type: EnumType.self) else
         {
-            fatalError("\(Setting) is not \(EnumType.self)")
+            Debug.FatalError("\(Setting) is not \(EnumType.self)")
         }
         let EnumValue = GetEnum(ForKey: Setting, EnumType: EnumType)
         Completion(EnumValue)
@@ -117,14 +117,14 @@ extension Settings
     public static func SetEnum<T: RawRepresentable>(_ NewValue: T, EnumType: T.Type, ForKey: SettingKeys,
                                                     Completed: ((SettingKeys) -> Void)) where T.RawValue == String
     {
-        if !TypeIsValid(ForKey, Type: EnumType.self)
+        guard TypeIsValid(ForKey, Type: EnumType.self) else
         {
-            fatalError("\(ForKey) is not \(EnumType.self)")
+            Debug.FatalError("\(ForKey) is not \(EnumType.self)")
         }
         let OldValue = GetEnum(ForKey: ForKey, EnumType: EnumType.self)
         guard let _ = EnumType.init(rawValue: NewValue.rawValue) else
         {
-            fatalError("Invalid enum conversion. Most likely tried to convert an enum case from Enum A to Enum B.")
+            Debug.FatalError("Invalid enum conversion. Most likely tried to convert an enum case from Enum A to Enum B.")
         }
         UserDefaults.standard.set(NewValue.rawValue, forKey: ForKey.rawValue)
         Completed(ForKey)
@@ -142,14 +142,14 @@ extension Settings
     /// - Parameter ForKey: The settings key to use to indicate where to save the value.
     public static func SetEnum<T: RawRepresentable>(_ NewValue: T, EnumType: T.Type, ForKey: SettingKeys) where T.RawValue == String
     {
-        if !TypeIsValid(ForKey, Type: EnumType.self)
+        guard TypeIsValid(ForKey, Type: EnumType.self) else
         {
-            fatalError("\(ForKey) is not \(EnumType.self)")
+            Debug.FatalError("\(ForKey) is not \(EnumType.self)")
         }
         let OldValue = GetEnum(ForKey: ForKey, EnumType: EnumType.self)
         guard let _ = EnumType.init(rawValue: NewValue.rawValue) else
         {
-            fatalError("Invalid enum conversion. Most likely tried to convert an enum case from Enum type 'A' to Enum type 'B'.")
+            Debug.FatalError("Invalid enum conversion. Most likely tried to convert an enum case from Enum type 'A' to Enum type 'B'.")
         }
         UserDefaults.standard.set(NewValue.rawValue, forKey: ForKey.rawValue)
         NotifySubscribers(Setting: ForKey, OldValue: OldValue, NewValue: NewValue)
