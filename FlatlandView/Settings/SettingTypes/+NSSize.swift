@@ -19,9 +19,9 @@ extension Settings
     /// - Parameter Value: The value to save.
     public static func SetNSSize(_ Setting: SettingKeys, _ Value: NSSize)
     {
-        if !TypeIsValid(Setting, Type: NSSize.self)
+        guard TypeIsValid(Setting, Type: NSSize.self) else
         {
-            fatalError("\(Setting) is not an NSSize")
+            Debug.FatalError("\(Setting) is not an NSSize")
         }
         let Serialized = "\(Value.width),\(Value.height)"
         let OldValue = GetNSSize(Setting)
@@ -37,25 +37,26 @@ extension Settings
     /// - Returns: The NSSize value on success, nil if not available.
     public static func GetNSSize(_ Setting: SettingKeys, Default: NSSize? = nil) -> NSSize?
     {
-        if !TypeIsValid(Setting, Type: NSSize.self)
+        guard TypeIsValid(Setting, Type: NSSize.self) else
         {
-            fatalError("\(Setting) is not an NSSize")
+            Debug.FatalError("\(Setting) is not an NSSize")
         }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             let Parts = Raw.split(separator: ",", omittingEmptySubsequences: true)
-            if Parts.count != 2
+            guard Parts.count == 2 else
             {
-                fatalError("Mal-formed NSSize found for \(Setting.rawValue): \"\(Raw)\"")
+                Debug.FatalError("Mal-formed NSSize found for \(Setting.rawValue): \"\(Raw)\"")
             }
-            if let Width = Double(String(Parts[0]))
+            guard let Width = Double(String(Parts[0])) else
             {
-                if let Height = Double(String(Parts[1]))
-                {
-                    return NSSize(width: Width, height: Height)
-                }
+                Debug.FatalError("Error parsing value from \(Setting.rawValue): \"\(Raw)\"")
             }
-            fatalError("Error parsing value from \(Setting.rawValue): \"\(Raw)\"")
+            guard let Height = Double(String(Parts[1])) else
+            {
+                Debug.FatalError("Error parsing value from \(Setting.rawValue): \"\(Raw)\"")
+            }
+            return NSSize(width: Width, height: Height)
         }
         else
         {
@@ -80,25 +81,26 @@ extension Settings
     /// - Returns: The NSSize value on success, value of `Default` if not available.
     public static func GetNSSize(_ Setting: SettingKeys, Default: NSSize) -> NSSize
     {
-        if !TypeIsValid(Setting, Type: NSSize.self)
+        guard TypeIsValid(Setting, Type: NSSize.self) else
         {
-            fatalError("\(Setting) is not an NSSize")
+            Debug.FatalError("\(Setting) is not an NSSize")
         }
         if let Raw = UserDefaults.standard.string(forKey: Setting.rawValue)
         {
             let Parts = Raw.split(separator: ",", omittingEmptySubsequences: true)
-            if Parts.count != 2
+            guard Parts.count == 2 else
             {
-                fatalError("Mal-formed NSSize found for \(Setting.rawValue): \"\(Raw)\"")
+                Debug.FatalError("Mal-formed NSSize found for \(Setting.rawValue): \"\(Raw)\"")
             }
-            if let Width = Double(String(Parts[0]))
+            guard let Width = Double(String(Parts[0])) else
             {
-                if let Height = Double(String(Parts[1]))
-                {
-                    return NSSize(width: Width, height: Height)
-                }
+                Debug.FatalError("Error parsing value from \(Setting.rawValue): \"\(Raw)\"")
             }
-            fatalError("Error parsing value from \(Setting.rawValue): \"\(Raw)\"")
+            guard let Height = Double(String(Parts[1])) else
+            {
+                Debug.FatalError("Error parsing value from \(Setting.rawValue): \"\(Raw)\"")
+            }
+            return NSSize(width: Width, height: Height)
         }
         return Default
     }
