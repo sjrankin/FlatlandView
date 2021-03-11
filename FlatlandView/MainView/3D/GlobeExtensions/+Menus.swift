@@ -534,14 +534,14 @@ extension GlobeView
         OtherSearch.submenu = NSMenu(title: "More Searches")
         let Antipode = NSMenuItem(title: "Antipode", action: #selector(MarkAntipode), keyEquivalent: "")
         Antipode.target = self
-        let ClearAntipodes = NSMenuItem(title: "Clear Antipodes", action: #selector(ClearAntipodes), keyEquivalent: "")
-        ClearAntipodes.target = self
-        let MeasureDistance = NSMenuItem(title: "Measure Distance", action: #selector(MeasureDistance), keyEquivalent: "")
-        MeasureDistance.target = self
+        let ClearAntipodesMenu = NSMenuItem(title: "Clear Antipodes", action: #selector(ClearAntipodes), keyEquivalent: "")
+        ClearAntipodesMenu.target = self
+        let MeasureDistanceMenu = NSMenuItem(title: "Measure Distance", action: #selector(MeasureDistance), keyEquivalent: "")
+        MeasureDistanceMenu.target = self
         OtherSearch.submenu?.items.append(Antipode)
-        OtherSearch.submenu?.items.append(ClearAntipodes)
+        OtherSearch.submenu?.items.append(ClearAntipodesMenu)
         OtherSearch.submenu?.items.append(NSMenuItem.separator())
-        OtherSearch.submenu?.items.append(MeasureDistance)
+        OtherSearch.submenu?.items.append(MeasureDistanceMenu)
         return OtherSearch
     }
     
