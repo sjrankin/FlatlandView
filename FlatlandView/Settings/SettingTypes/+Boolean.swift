@@ -26,9 +26,9 @@ extension Settings
     /// - Returns: Boolean value of the setting.
     public static func GetBool(_ Setting: SettingKeys) -> Bool
     {
-        if !TypeIsValid(Setting, Type: Bool.self)
+        guard TypeIsValid(Setting, Type: Bool.self) else
         {
-            fatalError("\(Setting) is not a boolean")
+            Debug.FatalError("\(Setting) is not a boolean")
         }
         return UserDefaults.standard.bool(forKey: Setting.rawValue)
     }
@@ -39,9 +39,9 @@ extension Settings
     ///                         to the completion handler.
     public static func QueryBool(_ Setting: SettingKeys, Completion: (Bool) -> Void)
     {
-        if !TypeIsValid(Setting, Type: Bool.self)
+        guard TypeIsValid(Setting, Type: Bool.self) else
         {
-            fatalError("\(Setting) is not a boolean")
+            Debug.FatalError("\(Setting) is not a boolean")
         }
         let BoolValue = UserDefaults.standard.bool(forKey: Setting.rawValue)
         Completion(BoolValue)
@@ -53,9 +53,9 @@ extension Settings
     /// - Parameter Value: The new value.
     public static func SetBool(_ Setting: SettingKeys, _ Value: Bool)
     {
-        if !TypeIsValid(Setting, Type: Bool.self)
+        guard TypeIsValid(Setting, Type: Bool.self) else
         {
-            fatalError("\(Setting) is not a boolean")
+            Debug.FatalError("\(Setting) is not a boolean")
         }
         let OldValue = UserDefaults.standard.bool(forKey: Setting.rawValue)
         let NewValue = Value
@@ -118,9 +118,9 @@ extension Settings
     ///                         to the completion handler.
     public static func QueryInvertBool(_ Setting: SettingKeys, Completion: (Bool) -> Void)
     {
-        if !TypeIsValid(Setting, Type: Bool.self)
+        guard TypeIsValid(Setting, Type: Bool.self) else
         {
-            fatalError("\(Setting) is not a boolean")
+            Debug.FatalError("\(Setting) is not a boolean")
         }
         var BoolValue = UserDefaults.standard.bool(forKey: Setting.rawValue)
         BoolValue = !BoolValue
