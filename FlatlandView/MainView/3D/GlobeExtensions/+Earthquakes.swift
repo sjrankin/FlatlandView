@@ -133,7 +133,9 @@ extension GlobeView
         NewQuakes.sort(by: {$0.Magnitude > $1.Magnitude})
         if let Biggest = NewQuakes.max(by: {$0.Magnitude > $1.Magnitude})
         {
-            MainDelegate?.PushStatusMessage("New quake: \(Biggest.Title), \(Biggest.Time)", PersistFor: 600.0)
+            var TimeString = "\(Biggest.Time)"
+            TimeString = TimeString.replacingOccurrences(of: "+0000", with: "GMT")
+            MainDelegate?.PushStatusMessage("New quake: \(Biggest.Title), \(TimeString)", PersistFor: 600.0)
         }
         ClearEarthquakes()
         EarthquakeList.removeAll()
