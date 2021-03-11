@@ -18,9 +18,9 @@ extension Settings
     /// - Parameter Value: The initial value of the setting.
     public static func InitializeInt(_ Setting: SettingKeys, _ Value: Int)
     {
-        if !TypeIsValid(Setting, Type: Int.self)
+        guard TypeIsValid(Setting, Type: Int.self) else
         {
-            fatalError("\(Setting) is not an Int")
+            Debug.FatalError("\(Setting) is not an Int")
         }
         UserDefaults.standard.set(Value, forKey: Setting.rawValue)
     }
@@ -30,9 +30,9 @@ extension Settings
     /// - Returns: Integer found at the specified setting.
     public static func GetInt(_ Setting: SettingKeys) -> Int
     {
-        if !TypeIsValid(Setting, Type: Int.self)
+        guard TypeIsValid(Setting, Type: Int.self) else
         {
-            fatalError("\(Setting) is not an Int")
+            Debug.FatalError("\(Setting) is not an Int")
         }
         return UserDefaults.standard.integer(forKey: Setting.rawValue)
     }
@@ -45,9 +45,9 @@ extension Settings
     ///            is saved in the setting then returned.
     public static func GetInt(_ Setting: SettingKeys, IfZero: Int) -> Int
     {
-        if !TypeIsValid(Setting, Type: Int.self)
+        guard TypeIsValid(Setting, Type: Int.self) else
         {
-            fatalError("\(Setting) is not an Int")
+            Debug.FatalError("\(Setting) is not an Int")
         }
         let Value = UserDefaults.standard.integer(forKey: Setting.rawValue)
         if Value == 0
@@ -67,9 +67,9 @@ extension Settings
     ///            is saved in the setting then returned.
     public static func GetInt(_ Setting: SettingKeys, IfZero: Defaults) -> Int
     {
-        if !TypeIsValid(Setting, Type: Int.self)
+        guard TypeIsValid(Setting, Type: Int.self) else
         {
-            fatalError("\(Setting) is not an Int")
+            Debug.FatalError("\(Setting) is not an Int")
         }
         let Value = UserDefaults.standard.integer(forKey: Setting.rawValue)
         if Value == 0
@@ -86,9 +86,9 @@ extension Settings
     ///                         to the completion handler.
     public static func QueryInt(_ Setting: SettingKeys, Completion: (Int) -> Void)
     {
-        if !TypeIsValid(Setting, Type: Int.self)
+        guard TypeIsValid(Setting, Type: Int.self) else
         {
-            fatalError("\(Setting) is not an Int")
+            Debug.FatalError("\(Setting) is not an Int")
         }
         let IntValue = UserDefaults.standard.integer(forKey: Setting.rawValue)
         Completion(IntValue)
@@ -99,9 +99,9 @@ extension Settings
     /// - Parameter Value: The value to save.
     public static func SetInt(_ Setting: SettingKeys, _ Value: Int)
     {
-        if !TypeIsValid(Setting, Type: Int.self)
+        guard TypeIsValid(Setting, Type: Int.self) else
         {
-            fatalError("\(Setting) is not an Int")
+            Debug.FatalError("\(Setting) is not an Int")
         }
         let OldValue = UserDefaults.standard.integer(forKey: Setting.rawValue)
         let NewValue = Value
