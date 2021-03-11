@@ -367,7 +367,7 @@ enum Quake3D: Double, CaseIterable
     /// Extrusion value for magnitude values for disc indicators.
     case DiscTextHeight = 0.50193785
     /// Base font size for text for disc indicators.
-    case BaseDiscFontSize = 48.0
+    case BaseDiscFontSize = 52.0
     /// Base value of the font size adder for text for disc indicators.
     case VariableDiscFontAdder = 8.0
     /// Text scale value for disc text.
@@ -701,13 +701,13 @@ enum StatusBarConstants: Double, CaseIterable
     /// Horizontal text offset for wide width status bars.
     case BigBarOffset = -40.0
     /// Vertical text offset.
-    case VerticalTextOffset = -1.15
+    case VerticalTextOffset = -1.01
     /// Horizontal keep-out width.
     case HorizontalOffset = 0.5
     /// Scale value for status text.
     case StatusTextScale = 0.09
     /// Font size of the status bar font.
-    case FontSize = 20.0
+    case FontSize = 18.0
     /// Extrusion depth of the text.
     case TextExtrusion = 0.49958
     /// Debug status bar base width.
