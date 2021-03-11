@@ -74,6 +74,8 @@ class Settings
         InitializeDouble(.EarthquakeFetchInterval, 60.0 * 5.0)
         InitializeEnum(.RadiatingRings, EnumType: EarthquakeIndicators.self,
                        ForKey: .EarthquakeStyles)
+        
+        InitializeString(.CityFontName, "SFProText-Bold")
     }
     
     /// Determines if settings were initialized.
