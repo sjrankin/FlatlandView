@@ -118,19 +118,19 @@ public class Versioning: CustomStringConvertible
     }
     
     /// Build number.
-    public static let Build: Int = 9187
+    public static let Build: Int = 9217
     
     /// Build increment.
     private static let BuildIncrement = 1
     
     /// Build ID.
-    public static let BuildID: String = "86F79B23-7DD1-493E-BEA6-ABB01505CFAF"
+    public static let BuildID: String = "28E91EAC-13A8-4E26-A8BE-2467AE5B1D0E"
     
     /// Build date.
-    public static let BuildDate: String = "10 March 2021"
+    public static let BuildDate: String = "11 March 2021"
     
     /// Build Time.
-    public static let BuildTime: String = "15:50"
+    public static let BuildTime: String = "15:13"
     
     /// Holds the release build flag.
     private static var _IsReleaseBuild: Bool = false
@@ -166,7 +166,7 @@ public class Versioning: CustomStringConvertible
     }
     
     /// Copyright years.
-    public static let CopyrightYears = [2020]
+    public static let CopyrightYears = [2020, 2021]
     
     /// Legal holder of the copyright.
     public static let CopyrightHolder = "Stuart Rankin"
