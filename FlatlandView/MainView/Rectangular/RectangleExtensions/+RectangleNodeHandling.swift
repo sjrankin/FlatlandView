@@ -245,7 +245,7 @@ extension RectangleView
                 PreviousNightMaskValue = Percent
                 let Width = Double(SourceImage.size.width)
                 let ShiftAmount = Width * Percent
-                print("ShiftAmount=\(ShiftAmount)")
+                //print("ShiftAmount=\(ShiftAmount)")
                 let ShiftedImage = SourceImage.HorizontalShift(By: Int(ShiftAmount))
                 RectNightMaskNode.geometry?.firstMaterial?.diffuse.contents = ShiftedImage
             }
