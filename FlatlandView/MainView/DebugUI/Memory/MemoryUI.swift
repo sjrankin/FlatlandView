@@ -157,6 +157,7 @@ class MemoryUI: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     
     @IBAction func HandleSampleTimeChanged(_ sender: Any)
     {
+        #if false
         if let Segment = sender as? NSSegmentedControl
         {
             if let NewSampleTime = [1.0, 5.0, 30.0, 60.0, 300.0][Segment.selectedSegment]
@@ -168,6 +169,7 @@ class MemoryUI: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                                                    repeats: true)
             }
         }
+        #endif
     }
     
     @objc func ReadMemory()
