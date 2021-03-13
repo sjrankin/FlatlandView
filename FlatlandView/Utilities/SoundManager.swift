@@ -8,6 +8,7 @@
 
 import Foundation
 import AppKit
+import AVFoundation
 
 /// Manages sounds and the playing of sounds.
 /// - Note:
@@ -24,13 +25,94 @@ class SoundManager
         #endif
     }
     
+    /// Holds the `AVAudioPlayer` instance. If not stored as a property (or global), no sound will be heard
+    /// because the AVAudioPlay will go out of scope almost immediately.
+    /// - Note: See: [AVAudioPlayer play does not play sound](https://stackoverflow.com/questions/29379524/avaudioplayer-play-does-not-play-sound)
+    private static var Player: AVAudioPlayer? = nil
+    
+    /// Play a sound packaged with the bundle.
+    /// - Note: If there are errors playing the sound, control will return immediately.
+    /// - Parameter Name: Name of the sound. All sounds in the bundle must end with `.mp3` (and be that type)
+    ///                   but the name passed here should not include the extension.
+    private static func PlayBundleSound(_ Name: String)
+    {
+        guard let SoundUrl = Bundle.main.url(forResource: Name, withExtension: "mp3") else
+        {
+            Debug.Print("Error getting \(Name) in bundle.")
+            return
+        }
+        do
+        {
+            Player = try AVAudioPlayer(contentsOf: SoundUrl, fileTypeHint: AVFileType.mp3.rawValue)
+            guard let ThePlayer = Player else
+            {
+                Debug.Print("Error creating audio player")
+                return
+            }
+            ThePlayer.play()
+        }
+        catch
+        {
+            Debug.Print("Error creating audio player: \(error.localizedDescription)")
+        }
+    }
+    
     /// Play a sound with the specified name. No error checking is done.
     /// - Parameter Name: The name of the sound to play.
     public static func Play(Name: String)
     {
         if Settings.GetBool(.EnableSounds)
         {
+            if IsAsset(Name)
+            {
+                PlayBundleSound(Name)
+                return
+            }
             NSSound(named: Name)?.play()
+        }
+    }
+    
+    private static func IsAsset(_ Name: String) -> Bool
+    {
+        for SoundName in AdditionalSounds
+        {
+            if SoundName.rawValue == Name
+            {
+                return true
+            }
+        }
+        return false
+    }
+    
+    /// Plays a sound given the passed sound enumeration.
+    /// - Note: See [Accessing Audio Files in Asset Catalogs](https://developer.apple.com/library/archive/qa/qa1913/_index.html)
+    /// - Parameter Sound: The sound enumeration to play. If nil, no action is taken.
+    public static func Play(Sound: Sounds?)
+    {
+        if let TheSound = Sound
+        {
+            if AdditionalSounds.contains(TheSound)
+            {
+                if let SoundName = AdditionalToResource[TheSound]
+                {
+                    if let Asset = NSDataAsset(name: SoundName)
+                    {
+                        do
+                    {
+                        let Player = try AVAudioPlayer(data: Asset.data, fileTypeHint: "mp3")
+                        Player.play()
+                    }
+                        catch
+                        {
+                            Debug.Print("Error playing \(TheSound.rawValue): \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Play(Name: TheSound.rawValue)
+            }
         }
     }
     
@@ -38,10 +120,14 @@ class SoundManager
     /// - Parameter ForEvent: The event whose sound will be played.
     public static func Play(ForEvent: SoundEvents)
     {
+        #if true
+        Play(Sound: GetEventSound(ForEvent))
+        #else
         if let SoundName = GetSoundForEvent(ForEvent)
         {
             Play(Name: SoundName)
         }
+        #endif
     }
     
     /// Return the name of the sound for the specified event.
@@ -60,12 +146,38 @@ class SoundManager
         return nil
     }
     
+    /// Return the sound enumeration for the passed sound event.
+    /// - Parameter EventType: The event whose sound enumeration is returned.
+    /// - Returns: `Sounds` enumeration for the passed event.
+    public static func GetEventSound(_ EventType: SoundEvents) -> Sounds?
+    {
+        if let TheEvent = EventSoundMap[EventType]
+        {
+            return Sounds(rawValue: TheEvent)
+        }
+        return nil
+    }
+    
     /// Map of events to sound names.
     static var EventSoundMap: [SoundEvents: String] =
         [
             .BadInput: Sounds.Tink.rawValue,
             .HourChime: Sounds.Blow.rawValue,
             .NewEarthquake: Sounds.Sosumi.rawValue,
+        ]
+    
+    /// Array of sounds in the asset catelog.
+    static var AdditionalSounds = [Sounds.Chime, Sounds.Cymbal, Sounds.Doorbell, Sounds.Fiddle,
+                                   Sounds.Gong]
+    
+    /// Map of sounds to asset catelog sound names.
+    static var AdditionalToResource: [Sounds: String] =
+        [
+            Sounds.Chime: "Chime3",
+            Sounds.Cymbal: "Cymbal",
+            Sounds.Doorbell: "Doorbell",
+            Sounds.Fiddle: "Fiddle",
+            Sounds.Gong: "Gong"
         ]
 }
 
@@ -74,10 +186,11 @@ enum SoundClasses: String, CaseIterable
     case General = "General"
     case BuiltIn = "Built-In"
     case Flatland = "Flatland"
+    case Asset = "Asset"
     case User = "User"
 }
 
-/// Built-in system sounds.
+/// Sounds for events.
 enum Sounds: String, CaseIterable
 {
     case None = "None"
@@ -96,6 +209,12 @@ enum Sounds: String, CaseIterable
     case Sosumi = "Sosumi"
     case Submarine = "Submarine"
     case Tink = "Tink"
+    //Non-built-in sounds
+    case Chime = "Chime"
+    case Cymbal = "Cymbal"
+    case Doorbell = "Doorbell"
+    case Fiddle = "Fiddle"
+    case Gong = "Gong"
 }
 
 enum SoundEvents: String, CaseIterable
