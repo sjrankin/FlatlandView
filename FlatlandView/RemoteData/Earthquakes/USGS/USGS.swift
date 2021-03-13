@@ -91,10 +91,17 @@ class USGS
         }
         USGS.CallCount = USGS.CallCount + 1
         EarthquakeStartTime = CACurrentMediaTime()
+        #if true
+        let RetrievalQueue = OperationQueue()
+        RetrievalQueue.qualityOfService = .background
+        RetrievalQueue.name = "Earthquake Retrieval Queue"
+        #else
         RetrievalQueue = OperationQueue()
         RetrievalQueue?.qualityOfService = .background
         RetrievalQueue?.name = "Earthquake Retrieval Queue"
         RetrievalQueue?.addOperation
+        #endif
+        RetrievalQueue.addOperation
         {
             MemoryDebug.Open("\(#function)")
             self.GetUSGSEarthquakeData
