@@ -604,6 +604,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var WallStartAngle: Double = 0.0
     var WallScaleMultiplier: Double = 1.0
     var WallLetterColor: NSColor = NSColor.red
+    var LastWallClockTime: String? = nil
     
     var PreviousMemory: Int64? = nil
     var CumulativeMemory: Int64 = 0
