@@ -194,6 +194,11 @@
 		176E61B225CD1FD700FEA7B8 /* ZAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176E61B125CD1FD700FEA7B8 /* ZAlgorithm.swift */; };
 		176EE0A924D58CA500131944 /* EarthquakeRegionWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */; };
 		176EE0AB24D58CCB00131944 /* EarthquakeRegionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */; };
+		177003F525FCA02400B4F02D /* Chime.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 177003F425FCA02400B4F02D /* Chime.mp3 */; };
+		177003F825FCA05A00B4F02D /* Cymbal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 177003F725FCA05A00B4F02D /* Cymbal.mp3 */; };
+		177003FB25FCA05E00B4F02D /* Doorbell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 177003FA25FCA05E00B4F02D /* Doorbell.mp3 */; };
+		177003FE25FCA06200B4F02D /* Gong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 177003FD25FCA06200B4F02D /* Gong.mp3 */; };
+		1770040125FCA06600B4F02D /* Fiddle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1770040025FCA06600B4F02D /* Fiddle.mp3 */; };
 		1771C92C25E258B200FAC1C5 /* OpaquePointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771C92B25E258B200FAC1C5 /* OpaquePointer.swift */; };
 		177389382596D511002698E8 /* +Rotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177389372596D511002698E8 /* +Rotations.swift */; };
 		1773893C25971771002698E8 /* +Menus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1773893B25971771002698E8 /* +Menus.swift */; };
@@ -673,6 +678,11 @@
 		176E61B125CD1FD700FEA7B8 /* ZAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZAlgorithm.swift; sourceTree = "<group>"; };
 		176EE0A824D58CA500131944 /* EarthquakeRegionWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionWindow.swift; sourceTree = "<group>"; };
 		176EE0AA24D58CCB00131944 /* EarthquakeRegionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeRegionController.swift; sourceTree = "<group>"; };
+		177003F425FCA02400B4F02D /* Chime.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Chime.mp3; sourceTree = "<group>"; };
+		177003F725FCA05A00B4F02D /* Cymbal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Cymbal.mp3; sourceTree = "<group>"; };
+		177003FA25FCA05E00B4F02D /* Doorbell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Doorbell.mp3; sourceTree = "<group>"; };
+		177003FD25FCA06200B4F02D /* Gong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Gong.mp3; sourceTree = "<group>"; };
+		1770040025FCA06600B4F02D /* Fiddle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Fiddle.mp3; sourceTree = "<group>"; };
 		1771C92B25E258B200FAC1C5 /* OpaquePointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpaquePointer.swift; sourceTree = "<group>"; };
 		177389372596D511002698E8 /* +Rotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Rotations.swift"; sourceTree = "<group>"; };
 		1773893B25971771002698E8 /* +Menus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Menus.swift"; sourceTree = "<group>"; };
@@ -1454,6 +1464,11 @@
 			isa = PBXGroup;
 			children = (
 				17267C522537D63A0036F6EA /* FlatlandRelease.entitlements */,
+				177003F425FCA02400B4F02D /* Chime.mp3 */,
+				177003F725FCA05A00B4F02D /* Cymbal.mp3 */,
+				177003FA25FCA05E00B4F02D /* Doorbell.mp3 */,
+				177003FD25FCA06200B4F02D /* Gong.mp3 */,
+				1770040025FCA06600B4F02D /* Fiddle.mp3 */,
 				17CB248C253C5BCB00BAABDC /* POI.db */,
 				17F79068252D57FE00FA2F23 /* Mappable.db */,
 				174DCEBD25D3B949002D4E40 /* EarthquakeHistoryS.db */,
@@ -2497,14 +2512,18 @@
 				17F0B93525F352C000D1AE43 /* MemoryUI.storyboard in Resources */,
 				17F4FFE825A407D7004A2EFA /* LiveDataStatus.storyboard in Resources */,
 				178E6F732540533600DA0F76 /* RoundTextTest.storyboard in Resources */,
+				177003F525FCA02400B4F02D /* Chime.mp3 in Resources */,
 				17F5598825AD7DC700053314 /* RegionEntryUI.storyboard in Resources */,
+				177003F825FCA05A00B4F02D /* Cymbal.mp3 in Resources */,
 				174A6A202557BD5E00488274 /* Debug.storyboard in Resources */,
 				17E901EA2552C38C0097A89A /* SubPanels.storyboard in Resources */,
+				177003FE25FCA06200B4F02D /* Gong.mp3 in Resources */,
 				1750043924B46110006528A4 /* FontPickerUI.storyboard in Resources */,
 				17E5556925B54A5400E3CE9E /* CaptiveDialogs.storyboard in Resources */,
 				175BA5582570D565001ED3A2 /* ErrorDialogs.storyboard in Resources */,
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
 				17E0E35825E5FA3800291823 /* Settings.db in Resources */,
+				1770040125FCA06600B4F02D /* Fiddle.mp3 in Resources */,
 				17CB248D253C5BCB00BAABDC /* POI.db in Resources */,
 				1759FC6524A61355001B1D4B /* RecentEarthquakes.storyboard in Resources */,
 				1767EBF625BE566600A976D2 /* ColorPicker.storyboard in Resources */,
@@ -2520,6 +2539,7 @@
 				17DE2DCE2590795300214204 /* HelperPanels.storyboard in Resources */,
 				17EF9E1425CE890700A00F1E /* UserPOIEditor.storyboard in Resources */,
 				174DCEC025D3B950002D4E40 /* MappableS.db in Resources */,
+				177003FB25FCA05E00B4F02D /* Doorbell.mp3 in Resources */,
 				179BE7C324ED053D0025B349 /* Today.storyboard in Resources */,
 				1767A8E824794A0300C434B5 /* Assets.xcassets in Resources */,
 				178909C7250E0DCB0092E3A4 /* Main.storyboard in Resources */,
