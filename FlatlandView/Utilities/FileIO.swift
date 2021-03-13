@@ -87,6 +87,7 @@ class FileIO
     
     public static let AppDirectory = FileIONames.AppDirectory.rawValue
     public static let MapDirectory = FileIONames.MapDirectory.rawValue
+    public static let SoundDirectory = FileIONames.SoundDirectory.rawValue
     
     /// Initialize the file structure we need in the user's Documents directory.
     public static func InitializeFileStructure()
@@ -101,7 +102,7 @@ class FileIO
             }
             catch
             {
-                print("Error creating \(AppDirectory) in Documents: \(error.localizedDescription)")
+                Debug.Print("Error creating \(AppDirectory) in Documents: \(error.localizedDescription)")
                 return
             }
         }
@@ -114,10 +115,25 @@ class FileIO
             }
             catch
             {
-                print("Error creating \(MapDirectory) in Documents: \(error.localizedDescription)")
+                Debug.Print("Error creating \(MapDirectory) in Documents: \(error.localizedDescription)")
                 return
             }
         }
+        #if false
+        let SoundsURL = DocDirURL.appendingPathComponent(SoundDirectory)
+        if !DirectoryExists(SoundsURL.path)
+        {
+            do
+            {
+                try FileManager.default.createDirectory(atPath: SoundsURL.path, withIntermediateDirectories: true, attributes: nil)
+            }
+            catch
+            {
+                Debug.Print("Error creating \(SoundDirectory) in Documents: \(error.localizedDescription)")
+                return
+            }
+        }
+        #endif
     }
     
     /// Read the contents of the map structure file.
