@@ -30,23 +30,6 @@ extension GlobeView
         }
         HourNode?.ClearAll()
         HourNode = nil
-        #if false
-        for ChildNode in HourNode!.childNodes
-        {
-            if let Child = ChildNode as? SCNNode2
-            {
-                Child.Clear()
-            }
-        }
-        #if true
-        HourNode?.Clear()
-        #else
-        HourNode?.removeAllAnimations()
-        HourNode?.removeAllActions()
-        HourNode?.removeFromParentNode()
-        HourNode = nil
-        #endif
-        #endif
     }
     
     /// Update the globe display with the specified hour types.
@@ -337,8 +320,6 @@ extension GlobeView
     func PlotWallClockLabels(Radius: Double, LetterColor: NSColor = NSColor.systemYellow,
                              RadialOffset: CGFloat = 0.0, StartAngle: Double) -> SCNNode2
     {
-        //let StackTrace = Debug.StackFrameContents(8)
-        //Debug.Print("PlotWallClockLabels: \(Debug.PrettyStackTrace(StackTrace))")
         let NodeShape = SCNSphere(radius: CGFloat(Radius))
         let PhraseNode = SCNNode2(geometry: NodeShape)
         PhraseNode.castsShadow = Settings.GetBool(.HoursCastShadows)
@@ -390,82 +371,116 @@ extension GlobeView
         WallLetterColor = LetterColor
         //First time updating the wall clock hours, do not use InPlace = true because there are no nodes yet
         //available.
-        #if true
         self.UpdateWallClockHours(InPlace: false)
         self.WallClockTimer = Timer.scheduledTimer(timeInterval: HourConstants.WallClockUpdateTime.rawValue,
                                                    target: self,
                                                    selector: #selector(self.UpdateWallClockHours),
                                                    userInfo: nil,
                                                    repeats: true)
-        #else
-        OperationQueue.main.addOperation
-        {
-            self.UpdateWallClockHours(InPlace: false)
-            self.WallClockTimer = Timer.scheduledTimer(timeInterval: HourConstants.WallClockUpdateTime.rawValue,
-                                              target: self,
-                                              selector: #selector(self.UpdateWallClockHours),
-                                              userInfo: nil,
-                                              repeats: true)
-        }
-        #endif
         return PhraseNode
     }
     
+    /// Determines if two time formatted strings have the same hour.
+    /// - Parameter Old: The old string.
+    /// - Parameter New: The new string.
+    /// - Returns: True if the hour portions of both strings are different, false otherwise.
+    func IsNewHour(Old: String, New: String) -> Bool
+    {
+        let OldParts = Old.split(separator: ":")
+        guard OldParts.count > 1 else
+        {
+            return true
+        }
+        let NewParts = Old.split(separator: ":")
+        guard NewParts.count > 1 else
+        {
+            return true
+        }
+        Debug.Print("OldParts[0]=\(OldParts[0]), NewParts[0]=\(NewParts[0])")
+        return OldParts[0] != NewParts[0]
+    }
+    
     /// Called once a minute to update the time for wall clock nodes.
+    /// - Note: If the `HourNode` has not been created yet, no action is taken.
     /// - Parameter InPlace: Determines if wall clock nodes are updated in-place (eg, the node itself is not
     ///                      recreated - only the text shape is recreated) or all nodes replace then recreated.
     ///                      Defaults to `true` meaning nodes are updated in place. **Should be set to false for
-    ///                      first update.**
+    ///                      first update.** This parameter is ignored if the previous hour value is different
+    ///                      from the new hour value. This is to force the hour node to be positioned correctly.
     @objc func UpdateWallClockHours(InPlace: Bool = true)
     {
-        //MemoryDebug.Open("\(#function)")
-        //defer{MemoryDebug.Close("\(#function)")}
+        #if true
         if HourNode == nil
         {
             return
         }
-        #if false
-        if InPlace
+        let NewTime = Date().ToUTC()
+        let NewWallClockTime = NewTime.PrettyTime(IncludeSeconds: false)
+        if LastWallClockTime == nil
         {
-            Debug.Print("Updating wall clock hours in place.")
-            UpdateWallClockHoursInPlace()
+            LastWallClockTime = NewWallClockTime
+        }
+        else
+        {
+            if LastWallClockTime! == NewWallClockTime
+            {
+                //Wall clock time didn't change so don't waste system resources making unneeded SceneKit calls.
+                return
+            }
+            LastWallClockTime = NewWallClockTime
+        }
+        #else
+        if HourNode == nil
+        {
             return
         }
-        Debug.Print("Updating wall clock hours by replacing nodes.")
+        var OldTimeString = ""
+        var NewTimeString = ""
+        let NewTime = Date().ToUTC()
+        let NewWallClockTime = NewTime.PrettyTime(IncludeSeconds: false)
+        if LastWallClockTime == nil
+        {
+            LastWallClockTime = NewWallClockTime
+        }
+        else
+        {
+            if LastWallClockTime! == NewWallClockTime
+            {
+                return
+            }
+            OldTimeString = LastWallClockTime!
+            LastWallClockTime = NewWallClockTime
+            NewTimeString = NewWallClockTime
+        }
+        if !IsNewHour(Old: OldTimeString, New: NewTimeString)
+        {
+            print("Not new hour")
+            if InPlace
+            {
+                UpdateWallClockHoursInPlace()
+                return
+            }
+        }
+
+        Debug.Print("Replacing hour nodes.")
         #endif
-        #if true
         for Hour in self.HourNode!.childNodes
         {
             if let Node = Hour as? SCNNode2
             {
                 if Node.IsTextNode
                 {
+                    #if true
+                    (Hour as? SCNNode2)?.Clear()
+                    #else
                     Node.removeAllActions()
                     Node.removeAllAnimations()
                     Node.removeFromParentNode()
                     Node.geometry = nil
+                    #endif
                 }
             }
         }
-        #else
-        MemoryDebug.Block("Hour Node Reduction")
-        {
-            for Hour in self.HourNode!.childNodes
-        {
-            if let Node = Hour as? SCNNode2
-            {
-                if Node.IsTextNode
-                {
-                    Node.removeAllActions()
-                    Node.removeAllAnimations()
-                    Node.removeFromParentNode()
-                    Node.geometry = nil
-                }
-            }
-        }
-        }
-        #endif
-        //CumulativeMemory = 0
         for LabelAngle in stride(from: 0.0, to: 359.0, by: 15.0)
         {
             var WorkingAngle = WallStartAngle + LabelAngle - 15.0
@@ -488,15 +503,16 @@ extension GlobeView
                                                  NodeTime: FinalDate!)
             HourNode?.addChildNode(HourTextNode)
         }
-        //Debug.Print("Cumulative memory for MakeWallClockNode: \(CumulativeMemory)")
     }
     
     /// Update the text of wall clock hours without re-creating the nodes of the hours.
-    /// - Note: New `SCNText` geometries are created for each `SCNNode2` object.
+    /// - Note: New `SCNText` geometries are created for each `SCNNode2` object rather than create new
+    ///         `SCNNode2` object to increase performance and decrease memory loss.
     func UpdateWallClockHoursInPlace()
     {
         MemoryDebug.Open("\(#function)")
         defer{MemoryDebug.Close("\(#function)")}
+
         for Node in HourNode!.childNodes
         {
             if let ActualNode = Node as? SCNNode2
@@ -516,7 +532,8 @@ extension GlobeView
                         let FinalDate = Cal.date(byAdding: .hour, value: Hour, to: UTC)
                         let PrettyTime = Date.PrettyTime(From: FinalDate!, IncludeSeconds: false)
                         //Need to update the actual node from HourNode, not the cast with the `if let` statements.
-                        ActualNode.ChangeText(To: PrettyTime)
+                        (Node as? SCNNode2)?.ChangeText(To: PrettyTime)
+//                        ActualNode.ChangeText(To: PrettyTime)
                     }
                 }
             }
@@ -531,7 +548,7 @@ extension GlobeView
     {
         let FlatnessValue: CGFloat = CGFloat(HourConstants.NormalFlatness.rawValue)
         let HourText = SCNText(string: Text, extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
-        let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium",
+        let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Bold",
                                                                   CGFloat(HourConstants.EnglishFontSize.rawValue),
                                                                   NSColor.yellow))
         let FontSize: CGFloat = CGFloat(HourConstants.WallClockFontSize.rawValue)
@@ -553,17 +570,6 @@ extension GlobeView
                            LetterColor: NSColor = NSColor.systemYellow,
                            NodeTime: Date) -> SCNNode2
     {
-        #if false
-        MemoryDebug.Open("MakeWallClockNode")
-        defer
-        {
-            let Result = MemoryDebug.Close("MakeWallClockNode")
-            if let Delta = Result
-            {
-                CumulativeMemory = CumulativeMemory + Delta
-            }
-        }
-        #endif
         let HourText = MakeWallClockNodeText(With: Value, LetterColor: LetterColor)
         let HourTextNode = SCNNode2(geometry: HourText)
         HourTextNode.HourAngle = WorkingAngle
@@ -671,7 +677,6 @@ extension GlobeView
                 }
             }
         }
-        //print("Found \(Index) hour nodes.")
     }
     
     /// Given an array of words, place a set of words in the hour ring over the Earth.
@@ -744,7 +749,6 @@ extension GlobeView
         var Angle = StartAngle
         for Label in Labels
         {
-            let Actual = Label.HourValue
             var WorkingAngle: CGFloat = CGFloat(Angle) + RadialOffset
             var PreviousEnding: CGFloat = 0.0
             var TotalLabelWidth: CGFloat = 0.0
@@ -754,7 +758,7 @@ extension GlobeView
             {
                 let Radians = WorkingAngle.Radians
                 let HourText = SCNText(string: String(Letter), extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
-                var FontSize: CGFloat = VisualScript == .English ? CGFloat(HourConstants.EnglishFontSize.rawValue) :
+                let FontSize: CGFloat = VisualScript == .English ? CGFloat(HourConstants.EnglishFontSize.rawValue) :
                     CGFloat(HourConstants.OtherFontSize.rawValue)
                 if Settings.GetBool(.UseHourChamfer)
                 {
