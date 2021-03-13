@@ -25,11 +25,9 @@
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="xXa-Va-xc2"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="sYS-xp-8pI"/>
-                                <toolbarItem implicitItemIdentifier="6555D3DB-4076-4BED-A897-372B0D307910" label="General" paletteLabel="General" id="R6F-tE-Bns">
+                                <toolbarItem implicitItemIdentifier="6555D3DB-4076-4BED-A897-372B0D307910" label="General" paletteLabel="General" sizingBehavior="auto" id="R6F-tE-Bns">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="ellipsis.circle" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="35.5"/>
-                                    <size key="maxSize" width="36" height="35.5"/>
                                     <button key="view" id="PTa-eE-OZ9">
                                         <rect key="frame" x="6" y="14" width="36" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -44,11 +42,9 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="731016DF-0C72-4D29-9016-AD7A6D16F3AF" label="Live Data" paletteLabel="Live Data" id="8V9-cZ-NeF">
+                                <toolbarItem implicitItemIdentifier="731016DF-0C72-4D29-9016-AD7A6D16F3AF" label="Live Data" paletteLabel="Live Data" sizingBehavior="auto" id="8V9-cZ-NeF">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="network" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="35.5"/>
-                                    <size key="maxSize" width="36" height="35.5"/>
                                     <button key="view" id="CGa-Ob-NaI">
                                         <rect key="frame" x="10" y="14" width="36" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -63,11 +59,9 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="0FCF7B08-D2FB-4406-8D89-398B12492F56" label="Maps" paletteLabel="Maps" id="Z5N-9c-8yn">
+                                <toolbarItem implicitItemIdentifier="0FCF7B08-D2FB-4406-8D89-398B12492F56" label="Maps" paletteLabel="Maps" sizingBehavior="auto" id="Z5N-9c-8yn">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="map" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="35.5"/>
-                                    <size key="maxSize" width="36" height="35.5"/>
                                     <button key="view" id="8cm-IE-TQm">
                                         <rect key="frame" x="0.0" y="14" width="36" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -82,11 +76,9 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="A6AE90F3-CBD2-4848-869C-CCE55BA0F595" label="Map Attributes" paletteLabel="Map Attributes" id="2J4-6y-jLK">
+                                <toolbarItem implicitItemIdentifier="A6AE90F3-CBD2-4848-869C-CCE55BA0F595" label="Map Attributes" paletteLabel="Map Attributes" sizingBehavior="auto" id="2J4-6y-jLK">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="skew" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="35.5"/>
-                                    <size key="maxSize" width="36" height="35.5"/>
                                     <button key="view" id="rWa-bV-FXr">
                                         <rect key="frame" x="25" y="14" width="36" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -101,11 +93,9 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="83B7A0D8-31B9-40F8-BDC6-BAE737601ECA" label="POIs" paletteLabel="POIs" id="cOf-6w-ux2">
+                                <toolbarItem implicitItemIdentifier="83B7A0D8-31B9-40F8-BDC6-BAE737601ECA" label="POIs" paletteLabel="POIs" sizingBehavior="auto" id="cOf-6w-ux2">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="pin.fill" catalog="system" symbolScale="small"/>
-                                    <size key="minSize" width="37.5" height="33"/>
-                                    <size key="maxSize" width="39.5" height="35.5"/>
                                     <button key="view" id="aLv-b0-1Hw">
                                         <rect key="frame" x="0.0" y="14" width="39.5" height="33.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -120,11 +110,9 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="8C8DDD2E-9BA3-4844-90F2-2F68FBE08CAE" label="Cities" paletteLabel="Cities" id="4ih-H8-g9r">
+                                <toolbarItem implicitItemIdentifier="8C8DDD2E-9BA3-4844-90F2-2F68FBE08CAE" label="Cities" paletteLabel="Cities" sizingBehavior="auto" id="4ih-H8-g9r">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="building.2" catalog="system" symbolScale="small"/>
-                                    <size key="minSize" width="37.5" height="35"/>
-                                    <size key="maxSize" width="39" height="35.5"/>
                                     <button key="view" id="iG8-Xc-b5l">
                                         <rect key="frame" x="0.0" y="14" width="39" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -139,11 +127,9 @@
                                         <action selector="HandleCitiesButton:" target="VHg-z7-ETj" id="q8J-ji-sMF"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="78DFCE68-001A-4066-BCFA-E207261E3E12" label="Satellites" paletteLabel="Satellites" id="2Vm-QE-Yqj">
+                                <toolbarItem implicitItemIdentifier="78DFCE68-001A-4066-BCFA-E207261E3E12" label="Satellites" paletteLabel="Satellites" sizingBehavior="auto" id="2Vm-QE-Yqj">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="gyroscope" catalog="system" symbolScale="small"/>
-                                    <size key="minSize" width="37" height="35.5"/>
-                                    <size key="maxSize" width="37.5" height="35.5"/>
                                     <button key="view" id="pwG-yV-e97">
                                         <rect key="frame" x="9" y="14" width="37.5" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -158,11 +144,9 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="1005BC38-6F0B-4C26-A233-4E4837C2E3F3" label="Earthquakes" paletteLabel="Earthquakes" id="P4W-kP-dgO">
+                                <toolbarItem implicitItemIdentifier="1005BC38-6F0B-4C26-A233-4E4837C2E3F3" label="Earthquakes" paletteLabel="Earthquakes" sizingBehavior="auto" id="P4W-kP-dgO">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="waveform.path" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="37" height="35.5"/>
-                                    <size key="maxSize" width="38" height="35.5"/>
                                     <button key="view" id="29m-z4-P1A">
                                         <rect key="frame" x="18" y="14" width="38" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -177,11 +161,9 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="D2F17542-6C58-4293-86A6-59F7883FA678" label="Sounds" paletteLabel="Sounds" id="YPI-49-3dZ">
+                                <toolbarItem implicitItemIdentifier="D2F17542-6C58-4293-86A6-59F7883FA678" label="Sounds" paletteLabel="Sounds" sizingBehavior="auto" id="YPI-49-3dZ">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="speaker.fill" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="37" height="35.5"/>
-                                    <size key="maxSize" width="38.5" height="35.5"/>
                                     <button key="view" id="Zgb-uS-bVU">
                                         <rect key="frame" x="4" y="14" width="38.5" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1353,7 +1335,7 @@
                                             <gridCells>
                                                 <gridCell row="nAs-On-fu2" column="Xj8-Af-NI9" id="HUY-lp-TuP">
                                                     <box key="contentView" ambiguous="YES" title="Built-in Points of Interest" translatesAutoresizingMaskIntoConstraints="NO" id="plH-mb-WFH">
-                                                        <rect key="frame" x="-3" y="242" width="346" height="133"/>
+                                                        <rect key="frame" x="-3" y="258" width="346" height="133"/>
                                                         <view key="contentView" id="fZv-7P-hV0">
                                                             <rect key="frame" x="3" y="3" width="340" height="115"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2505,8 +2487,8 @@
                                                     </textField>
                                                 </gridCell>
                                                 <gridCell row="7VX-ml-65F" column="dDW-fA-QIn" id="kcI-ot-vSR">
-                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="ey8-kP-ubQ">
-                                                        <rect key="frame" x="0.0" y="0.0" width="268" height="20"/>
+                                                    <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="ey8-kP-ubQ">
+                                                        <rect key="frame" x="0.0" y="0.0" width="106" height="20"/>
                                                         <rows>
                                                             <gridRow id="W29-HD-0Bi"/>
                                                         </rows>
