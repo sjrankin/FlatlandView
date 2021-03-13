@@ -25,11 +25,9 @@
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="AwX-nU-XIN"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Fk7-Vk-xXx"/>
-                                <toolbarItem implicitItemIdentifier="2B37AB72-2533-4D41-B8C6-0B6A549A85D9" label="About" paletteLabel="About" id="KCB-ms-iiR">
+                                <toolbarItem implicitItemIdentifier="2B37AB72-2533-4D41-B8C6-0B6A549A85D9" label="About" paletteLabel="About" sizingBehavior="auto" id="KCB-ms-iiR">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="info.circle.fill" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="35.5"/>
-                                    <size key="maxSize" width="36" height="36"/>
                                     <button key="view" id="dmO-6s-0b4">
                                         <rect key="frame" x="2" y="14" width="36" height="35.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -44,11 +42,9 @@
                                         <action selector="ShowAbout:" target="gS1-iC-1Lf" id="Pj9-Io-E3e"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="7359AC66-B0A0-4F14-A4E5-3B134F33C7EC" label="Debugger" paletteLabel="Debugger" id="XOM-R1-tav">
+                                <toolbarItem implicitItemIdentifier="7359AC66-B0A0-4F14-A4E5-3B134F33C7EC" label="Debugger" paletteLabel="Debugger" sizingBehavior="auto" id="XOM-R1-tav">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="ant.circle.fill" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="36" height="36.5"/>
                                     <button key="view" id="Wkx-14-Ggd">
                                         <rect key="frame" x="12" y="14" width="36" height="36.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -63,11 +59,9 @@
                                         <action selector="RunDebugger:" target="gS1-iC-1Lf" id="YrH-iA-Zeu"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="1F95EEC7-8B59-4024-BACA-F0126B541895" label="Live Data" paletteLabel="Live Data Status" id="MQr-un-bBt">
+                                <toolbarItem implicitItemIdentifier="1F95EEC7-8B59-4024-BACA-F0126B541895" label="Live Data" paletteLabel="Live Data Status" sizingBehavior="auto" id="MQr-un-bBt">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="wifi" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="36" height="36"/>
                                     <button key="view" id="Z8O-9J-ghi">
                                         <rect key="frame" x="29" y="14" width="36" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -82,11 +76,9 @@
                                         <action selector="HandleLiveStatusButton:" target="gS1-iC-1Lf" id="XVZ-Zh-M88"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="6E958061-0B77-4FF9-A3A6-825D255B6201" label="Preferences" paletteLabel="Preferences" id="emU-F6-qZj">
+                                <toolbarItem implicitItemIdentifier="6E958061-0B77-4FF9-A3A6-825D255B6201" label="Preferences" paletteLabel="Preferences" sizingBehavior="auto" id="emU-F6-qZj">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="wrench.and.screwdriver" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="37" height="39.5"/>
                                     <button key="view" id="dhm-VL-7bI">
                                         <rect key="frame" x="17" y="14" width="37" height="39.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -101,11 +93,9 @@
                                         <action selector="RunPreferences:" target="gS1-iC-1Lf" id="2zs-zz-SwO"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="BE2379F7-C93C-4B52-916C-82D12405591F" label="Locked" paletteLabel="Locked" id="43P-br-LdQ">
+                                <toolbarItem implicitItemIdentifier="BE2379F7-C93C-4B52-916C-82D12405591F" label="Locked" paletteLabel="Locked" sizingBehavior="auto" id="43P-br-LdQ">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="arrow.triangle.2.circlepath.circle" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="37.5" height="37.5"/>
                                     <button key="view" id="tRj-rh-9AP">
                                         <rect key="frame" x="4" y="14" width="37.5" height="37.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -120,11 +110,9 @@
                                         <action selector="HandleLockUnlockWorldButton:" target="gS1-iC-1Lf" id="8bB-Qe-KWQ"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="8565F3F4-0A4B-4FC7-B461-E28A9CA6B743" label="Reset Map" paletteLabel="Reset Map" id="nkA-Au-qYY">
+                                <toolbarItem implicitItemIdentifier="8565F3F4-0A4B-4FC7-B461-E28A9CA6B743" label="Reset Map" paletteLabel="Reset Map" sizingBehavior="auto" id="nkA-Au-qYY">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="house.circle" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="38.5" height="36.5"/>
                                     <button key="view" id="Eeb-q1-HEd">
                                         <rect key="frame" x="12" y="14" width="38.5" height="36.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -139,11 +127,9 @@
                                         <action selector="Reset3DView:" target="gS1-iC-1Lf" id="RE9-4C-zOa"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="23E2F892-EFF1-46B2-AB10-3FF46E40D2E9" label="Debug" paletteLabel="Debug" id="mNI-Xf-upW">
+                                <toolbarItem implicitItemIdentifier="23E2F892-EFF1-46B2-AB10-3FF46E40D2E9" label="Debug" paletteLabel="Debug" sizingBehavior="auto" id="mNI-Xf-upW">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="ladybug.fill" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="38.5" height="36.5"/>
                                     <button key="view" id="g3j-GO-C8F">
                                         <rect key="frame" x="2" y="14" width="38.5" height="36.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -158,11 +144,9 @@
                                         <action selector="TestSomething:" target="gS1-iC-1Lf" id="LeI-3V-JIk"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="B8B57144-D395-49DF-BDF1-9C6AAF02DFC0" label="Snapshot" paletteLabel="Snapshot" id="qP8-7E-Gyk">
+                                <toolbarItem implicitItemIdentifier="B8B57144-D395-49DF-BDF1-9C6AAF02DFC0" label="Snapshot" paletteLabel="Snapshot" sizingBehavior="auto" id="qP8-7E-Gyk">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="camera" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="37.5" height="36.5"/>
                                     <button key="view" id="BLN-Ho-L5j">
                                         <rect key="frame" x="10" y="14" width="37.5" height="36.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -177,11 +161,9 @@
                                         <action selector="TakeSnapShot:" target="gS1-iC-1Lf" id="5Lt-lk-Dn6"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="ADD7669F-73A1-4C1E-BDF6-0AD40D586899" label="Memory" paletteLabel="Memory" id="S6R-vz-Pvb">
+                                <toolbarItem implicitItemIdentifier="ADD7669F-73A1-4C1E-BDF6-0AD40D586899" label="Memory" paletteLabel="Memory" sizingBehavior="auto" id="S6R-vz-Pvb">
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="memorychip" catalog="system" symbolScale="large"/>
-                                    <size key="minSize" width="36" height="36"/>
-                                    <size key="maxSize" width="37.5" height="36.5"/>
                                     <button key="view" id="2Xe-EO-mrB">
                                         <rect key="frame" x="6" y="14" width="37.5" height="36.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
