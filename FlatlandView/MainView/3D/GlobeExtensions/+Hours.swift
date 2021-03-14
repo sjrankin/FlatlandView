@@ -365,18 +365,11 @@ extension GlobeView
                                                  NodeTime: FinalDate!)
             PhraseNode.addChildNode(HourTextNode)
         }
-
+        
         WallStartAngle = StartAngle
         WallScaleMultiplier = ScaleMultiplier
         WallLetterColor = LetterColor
-        //First time updating the wall clock hours, do not use InPlace = true because there are no nodes yet
-        //available.
-        self.UpdateWallClockHours(InPlace: false)
-        self.WallClockTimer = Timer.scheduledTimer(timeInterval: HourConstants.WallClockUpdateTime.rawValue,
-                                                   target: self,
-                                                   selector: #selector(self.UpdateWallClockHours),
-                                                   userInfo: nil,
-                                                   repeats: true)
+        UpdateWallClockHours(NewTime: Date())
         return PhraseNode
     }
     
@@ -402,19 +395,14 @@ extension GlobeView
     
     /// Called once a minute to update the time for wall clock nodes.
     /// - Note: If the `HourNode` has not been created yet, no action is taken.
-    /// - Parameter InPlace: Determines if wall clock nodes are updated in-place (eg, the node itself is not
-    ///                      recreated - only the text shape is recreated) or all nodes replace then recreated.
-    ///                      Defaults to `true` meaning nodes are updated in place. **Should be set to false for
-    ///                      first update.** This parameter is ignored if the previous hour value is different
-    ///                      from the new hour value. This is to force the hour node to be positioned correctly.
-    @objc func UpdateWallClockHours(InPlace: Bool = true)
+    /// - Parameter NewTime: The time to display. If the time is the same as the previous time, no action
+    ///                      will be taken.
+    @objc func UpdateWallClockHours(NewTime: Date)
     {
-        #if true
         if HourNode == nil
         {
             return
         }
-        let NewTime = Date().ToUTC()
         let NewWallClockTime = NewTime.PrettyTime(IncludeSeconds: false)
         if LastWallClockTime == nil
         {
@@ -429,55 +417,14 @@ extension GlobeView
             }
             LastWallClockTime = NewWallClockTime
         }
-        #else
-        if HourNode == nil
-        {
-            return
-        }
-        var OldTimeString = ""
-        var NewTimeString = ""
-        let NewTime = Date().ToUTC()
-        let NewWallClockTime = NewTime.PrettyTime(IncludeSeconds: false)
-        if LastWallClockTime == nil
-        {
-            LastWallClockTime = NewWallClockTime
-        }
-        else
-        {
-            if LastWallClockTime! == NewWallClockTime
-            {
-                return
-            }
-            OldTimeString = LastWallClockTime!
-            LastWallClockTime = NewWallClockTime
-            NewTimeString = NewWallClockTime
-        }
-        if !IsNewHour(Old: OldTimeString, New: NewTimeString)
-        {
-            print("Not new hour")
-            if InPlace
-            {
-                UpdateWallClockHoursInPlace()
-                return
-            }
-        }
 
-        Debug.Print("Replacing hour nodes.")
-        #endif
         for Hour in self.HourNode!.childNodes
         {
             if let Node = Hour as? SCNNode2
             {
                 if Node.IsTextNode
                 {
-                    #if true
                     (Hour as? SCNNode2)?.Clear()
-                    #else
-                    Node.removeAllActions()
-                    Node.removeAllAnimations()
-                    Node.removeFromParentNode()
-                    Node.geometry = nil
-                    #endif
                 }
             }
         }
