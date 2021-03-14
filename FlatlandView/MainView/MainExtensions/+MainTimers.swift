@@ -78,7 +78,13 @@ extension MainController
             let Percent = Double(ElapsedSeconds) / Double(24 * 60 * 60)
             let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
             Main2DView.RotateImageTo(PrettyPercent)
-            Main3DView?.UpdateWallClockHours(NewTime: Now)
+            if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .Globe3D
+            {
+                if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .WallClock) == .WallClock
+                {
+                    Main3DView?.UpdateWallClockHours(NewTime: Now)
+                }
+            }
             if Settings.GetBool(.EnableHourEvent)
             {
                 if Minute == 0 && !HourSoundTriggered
