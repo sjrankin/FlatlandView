@@ -15,8 +15,6 @@ extension MainController
     
     @objc func MainTimerHandler()
     {
-        //let CurrentMapType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
-        
         let LabelType = Settings.GetEnum(ForKey: .TimeLabel, EnumType: TimeLabels.self, Default: .None)
         let Now = GetUTC()
         let Formatter = DateFormatter()
@@ -33,12 +31,25 @@ extension MainController
         let TZ = TimeZone(abbreviation: TimeZoneAbbreviation)
         Formatter.timeZone = TZ
         var Final = Formatter.string(from: Now)
+        let Parts = Final.split(separator: ":")
         if !Settings.GetBool(.TimeLabelSeconds)
         {
-            let Parts = Final.split(separator: ":")
             Final = "\(Parts[0]):\(Parts[1])"
         }
         let FinalText = Final + " " + TimeZoneAbbreviation
+        var IsNewHour = false
+        if PreviousHourValue.isEmpty
+        {
+            PreviousHourValue = String(Parts[0])
+        }
+        else
+        {
+            if PreviousHourValue != String(Parts[0])
+            {
+                IsNewHour = true
+                PreviousHourValue = String(Parts[0])
+            }
+        }
         if LabelType == .None
         {
             MainTimeLabelTop.stringValue = ""
@@ -67,6 +78,7 @@ extension MainController
             let Percent = Double(ElapsedSeconds) / Double(24 * 60 * 60)
             let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
             Main2DView.RotateImageTo(PrettyPercent)
+            Main3DView?.UpdateWallClockHours(NewTime: Now)
             if Settings.GetBool(.EnableHourEvent)
             {
                 if Minute == 0 && !HourSoundTriggered
