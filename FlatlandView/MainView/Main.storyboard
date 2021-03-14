@@ -29,8 +29,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="info.circle.fill" catalog="system" symbolScale="large"/>
                                     <button key="view" id="dmO-6s-0b4">
-                                        <rect key="frame" x="2" y="14" width="36" height="35.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="6" y="13.5" width="27" height="26.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="kWd-rg-pTh">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
@@ -46,8 +46,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="ant.circle.fill" catalog="system" symbolScale="large"/>
                                     <button key="view" id="Wkx-14-Ggd">
-                                        <rect key="frame" x="12" y="14" width="36" height="36.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="16" y="13.5" width="27" height="26.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="zsr-MT-7mw">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
@@ -63,8 +63,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="wifi" catalog="system" symbolScale="large"/>
                                     <button key="view" id="Z8O-9J-ghi">
-                                        <rect key="frame" x="29" y="14" width="36" height="36"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="36" y="14" width="21" height="16"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="BAD-F7-e9c">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -80,8 +80,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="wrench.and.screwdriver" catalog="system" symbolScale="large"/>
                                     <button key="view" id="dhm-VL-7bI">
-                                        <rect key="frame" x="17" y="14" width="37" height="39.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="19" y="14" width="33" height="31.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Umi-R7-IqS">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemHeavy" size="18"/>
@@ -97,8 +97,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="arrow.triangle.2.circlepath.circle" catalog="system" symbolScale="large"/>
                                     <button key="view" id="tRj-rh-9AP">
-                                        <rect key="frame" x="4" y="14" width="37.5" height="37.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="8" y="14" width="28.5" height="27.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="a9O-Kq-djn">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemHeavy" size="18"/>
@@ -114,8 +114,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="house.circle" catalog="system" symbolScale="large"/>
                                     <button key="view" id="Eeb-q1-HEd">
-                                        <rect key="frame" x="12" y="14" width="38.5" height="36.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="17" y="14" width="28.5" height="27.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="HFz-wi-CS9">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemHeavy" size="18"/>
@@ -131,8 +131,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="ladybug.fill" catalog="system" symbolScale="large"/>
                                     <button key="view" id="g3j-GO-C8F">
-                                        <rect key="frame" x="2" y="14" width="38.5" height="36.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="5" y="14" width="32.5" height="31.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="ahY-6H-cKz">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemHeavy" size="18"/>
@@ -148,8 +148,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="camera" catalog="system" symbolScale="large"/>
                                     <button key="view" id="BLN-Ho-L5j">
-                                        <rect key="frame" x="10" y="14" width="37.5" height="36.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="12" y="13.5" width="33.5" height="25.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="rov-9L-mab">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemHeavy" size="18"/>
@@ -165,8 +165,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="memorychip" catalog="system" symbolScale="large"/>
                                     <button key="view" id="2Xe-EO-mrB">
-                                        <rect key="frame" x="6" y="14" width="37.5" height="36.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="10" y="13.5" width="29.5" height="28.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="YMz-SR-xUA">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemHeavy" size="18"/>
