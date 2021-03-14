@@ -153,6 +153,7 @@ class MainController: NSViewController
     /// - Parameter notification: Not used.
     func windowDidBecomeMain(_ notification: Notification)
     {
+        #if false
         if !InitialWindowPositionSet
         {
             InitialWindowPositionSet = true
@@ -169,6 +170,7 @@ class MainController: NSViewController
                 //MainWindow?.setContentSize(ContentsSize)
             }
         }
+        #endif
     }
     
     /// Initialize things that require a fully set-up window.
