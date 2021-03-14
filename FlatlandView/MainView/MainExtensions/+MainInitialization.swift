@@ -128,7 +128,6 @@ extension MainController
                                            repeats: true)
         RunLoop.current.add(UpdateTimer!, forMode: .common)
         MainTimerHandler()
-        //let _ = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(QuickTimer), userInfo: nil, repeats: true)
         #if DEBUG
         StartDebugCount = Date.timeIntervalSinceReferenceDate
         let DebugTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(DebugTimerHandler), userInfo: nil, repeats: true)
@@ -144,7 +143,6 @@ extension MainController
         Earthquakes?.Delegate = self
         if Settings.GetBool(.EnableEarthquakes)
         {
-            Debug.Print("Calling GetEarthquakes")
             let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0 * 5.0)
             Earthquakes?.GetEarthquakes(Every: FetchInterval)
             let Cached = Settings.GetCachedEarthquakes()
