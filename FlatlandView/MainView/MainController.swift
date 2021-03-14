@@ -920,4 +920,5 @@ class MainController: NSViewController
     var PreviousMemoryUsed: UInt64? = nil
     /// Start time (in seconds) of the current instance.
     var UptimeStart: Double = 0.0
+    var PreviousHourValue: String = ""
 }
