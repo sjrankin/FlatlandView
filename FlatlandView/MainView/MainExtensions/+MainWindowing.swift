@@ -18,6 +18,7 @@ extension MainController: NSWindowDelegate
     {
         ParentWindow = self.view.window
         ParentWindow?.delegate = self
+        ParentWindow?.setFrameUsingName(NSWindow.FrameAutosaveName("FlatlandViewWindowLocation"))
     }
     
     /// Handle window will resize events.
@@ -50,6 +51,7 @@ extension MainController: NSWindowDelegate
                 let WindowNumber = Number as! UInt32
                 if WindowNumber == CurrentID && WindowName == "FlatlandView"
                 {
+                    ParentWindow?.saveFrame(usingName: NSWindow.FrameAutosaveName("FlatlandViewWindowLocation"))
                     return CGPoint(x: Bounds.origin.x, y: Bounds.origin.y)
                 }
             }
