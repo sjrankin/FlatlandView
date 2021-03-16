@@ -46,7 +46,7 @@ class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     override func viewDidAppear()
     {
-         CurrentMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .SimplePoliticalMap1)
+        CurrentMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .SimplePoliticalMap1)
         SelectMap(CurrentMap)
     }
     
@@ -93,7 +93,7 @@ class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         Cell?.textField?.stringValue = CellContents
         return Cell
     }
-
+    
     func tableViewSelectionDidChange(_ notification: Notification)
     {
         let NewRow = MapTableView.selectedRow
@@ -218,7 +218,7 @@ class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     @IBAction func HandleResetPane(_ sender: Any)
     {
-        if let Button = sender as? NSButton
+        if let _ = sender as? NSButton
         {
             let DoReset = RunMessageBoxOK(Message: "Reset settings on this pane?",
                                           InformationMessage: "You will lose all of the changes you have made to the settings on this panel.")
@@ -232,6 +232,7 @@ class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     @IBAction func HandleUpdateNowButton(_ sender: Any)
     {
         Settings.SetEnum(CurrentMap, EnumType: MapTypes.self, ForKey: .MapType)
+        Debug.Print("CurrentMap is now \(CurrentMap)")
     }
     
     func ResetToFactorySettings()
@@ -242,7 +243,7 @@ class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         MapViewTypeSegment.selectedSegment = 1
         HandleMapViewTypeChanged(self)
     }
-
+    
     var InDarkMode = false
     
     var TableMapList = [TableMapNode]()
