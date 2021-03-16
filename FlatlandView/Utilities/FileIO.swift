@@ -19,8 +19,8 @@ class FileIO
     ///            an undefined state.
     public static func Initialize()
     {
-        InstallMappableDatabase()
-        InstallPOIDatabase()
+        //InstallMappableDatabase()
+        //InstallPOIDatabase()
         //InstallEarthquakeHistoryDatabase()
         InitializeFileStructure()
     }
@@ -34,7 +34,7 @@ class FileIO
     
     public static func InstallDatabase(Name: String)
     {
-        print("Checking existence of the database \(Name)")
+        Debug.Print("Checking existence of the database \(Name)")
         var DBPath: URL!
         if !DirectoryExists(DatabaseDirectory)
         {
@@ -47,7 +47,7 @@ class FileIO
             }
             catch
             {
-                fatalError("Error creating database directory \"\(DatabaseDirectory)\"")
+                Debug.FatalError("Error creating database directory \"\(DatabaseDirectory)\"")
             }
         }
         let PathComponent = DatabaseDirectory + "/" + Name
@@ -76,23 +76,37 @@ class FileIO
             }
             catch
             {
-                fatalError("Error copying database. \(error.localizedDescription)")
+                Debug.FatalError("Error copying database. \(error.localizedDescription)")
             }
         }
         else
         {
-            fatalError("Did not find \(Name) in bundle.")
+            Debug.FatalError("Did not find \(Name) in bundle.")
         }
     }
     
     public static let AppDirectory = FileIONames.AppDirectory.rawValue
     public static let MapDirectory = FileIONames.MapDirectory.rawValue
     public static let SoundDirectory = FileIONames.SoundDirectory.rawValue
+    public static let PictureDirectory = FileIONames.PictureDirectory.rawValue
     
     /// Initialize the file structure we need in the user's Documents directory.
     public static func InitializeFileStructure()
     {
         let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let ImageDirURL = DocDirURL.appendingPathComponent(PictureDirectory)
+        if !DirectoryExists(ImageDirURL.path)
+        {
+            do
+            {
+                try FileManager.default.createDirectory(atPath: ImageDirURL.path, withIntermediateDirectories: true, attributes: nil)
+            }
+            catch
+            {
+                Debug.Print("Error creating \(PictureDirectory) in Documents: \(error.localizedDescription)")
+                return
+            }
+        }
         let AppDirURL = DocDirURL.appendingPathComponent(AppDirectory)
         if !DirectoryExists(AppDirURL.path)
         {
