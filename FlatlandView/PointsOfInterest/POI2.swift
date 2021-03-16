@@ -106,6 +106,29 @@ class POI2
         _Show = Show
     }
     
+    init(Meta: POIMetaTypes, _ PK: Int, _ ID: UUID, _ Name: String, _ Description: String,
+         _ Latitude: Double, _ Longitude: Double, _ Color: NSColor, _ POIType: Int,
+         _ Numeric: Double, _ Added: Date? = nil, _ Modified: Date? = nil,
+         _ Show: Bool = true)
+    {
+        MetaType = Meta
+        self.PKID = PK
+        _Name = Name
+        _ID = ID
+        _Description = Description
+        _Latitude = Latitude
+        _Longitude = Longitude
+        _Color = Color
+        _POIType = POIType
+        _Numeric = Numeric
+        _Added = Added
+        _Modified = Modified
+        DeleteMe = false
+        _IsDirty = false
+        _IsNew = true
+        _Show = Show
+    }
+    
     var PKID: Int = 0
     
     var _ID: UUID = UUID()
