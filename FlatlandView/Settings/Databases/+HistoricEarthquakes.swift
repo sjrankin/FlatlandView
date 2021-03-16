@@ -33,7 +33,7 @@ extension DBIF
     /// - Returns: Array of earthquakes from the specified range. May be empty if nothing found.
     public static func GetEarthquakesInRange(Start: Double, End: Double) -> [Earthquake]
     {
-        print("Start=\(Date(timeIntervalSince1970: Start)), End=\(Date(timeIntervalSince1970: End))")
+        //print("Start=\(Date(timeIntervalSince1970: Start)), End=\(Date(timeIntervalSince1970: End))")
         var Results = [Earthquake]()
         let WherePhrase = "WHERE Time BETWEEN \(Start) AND \(End)"
         let GetQuery = "SELECT * FROM \(QuakeTableNames.Historic.rawValue) \(WherePhrase)"
@@ -146,8 +146,7 @@ extension DBIF
             
             Results.append(HQuake)
         }
-        
-        Debug.Print("*>*> Read \(Results.count) earthquakes")
+
         return Results
     }
     
