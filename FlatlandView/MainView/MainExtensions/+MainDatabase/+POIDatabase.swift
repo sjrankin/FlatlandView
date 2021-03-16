@@ -92,6 +92,7 @@ extension MainController
     
     public static func GetAllUserPOIs() -> [POI2]
     {
+        #if false
         var Results = [POI2]()
         let GetQuery = "SELECT * FROM \(POITableNames.UserPOI.rawValue)"
         let QueryHandle = SetupQuery(DB: POIHandle, Query: GetQuery)
@@ -118,10 +119,14 @@ extension MainController
             Results.append(UPOI)
         }
         return Results
+        #else
+        return [POI2]()
+        #endif
     }
     
     public static func GetAllBuiltInPOIs() -> [POI2]
     {
+        #if false
         var Results = [POI2]()
         let GetQuery = "SELECT * FROM \(POITableNames.POI.rawValue)"
         let QueryHandle = SetupQuery(DB: POIHandle, Query: GetQuery)
@@ -148,6 +153,9 @@ extension MainController
             Results.append(UPOI)
         }
         return Results
+        #else
+        return [POI2]()
+        #endif
     }
     
     @discardableResult public static func DeleteRowIn(Table: String, PK: Int) -> Bool
