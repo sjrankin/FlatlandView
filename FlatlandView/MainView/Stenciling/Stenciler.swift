@@ -174,6 +174,7 @@ class Stenciler
     }
     
     /// Add city names to the passed image representation.
+    /// - Note: Determining the font size is dependent on several factors.
     /// - Parameter To: The image representation where city names will be added.
     /// - Parameter Ratio: Ratio between the standard sized map and the passed map.
     /// - Returns: Image representation with city names.
@@ -188,10 +189,15 @@ class Stenciler
             CitiesToPlot.append(contentsOf: UserCities)
         }
         var PlotMe = [TextRecord]()
-        let BaseFontSize = 32.0
+        let BaseFontSize = ScaleFactor >= 2.0 ? 32.0 : 16.0
         if Image.size.width / 2.0 < 3600.0
         {
             FontMultiplier = 2.0
+        }
+        let MapType = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+        if MapManager.CategoryFor(Map: MapType) == .Satellite
+        {
+            FontMultiplier = 0.8
         }
         let FontSize = CGFloat(BaseFontSize) * ScaleFactor * CGFloat(Ratio) * FontMultiplier
         
@@ -202,11 +208,10 @@ class Stenciler
                                                                 Height: Int(Image.size.height))
             let Location = NSPoint(x: CityPointLocation.X + Int(Constants.StencilCityTextOffset.rawValue),
                                    y: CityPointLocation.Y)
-            //let CityColor = Cities.ColorForCity(City)
             let CityColor = CityManager.ColorForCity(City)
             var LatitudeFontOffset = CGFloat(abs(City.Latitude) / 90.0)
             LatitudeFontOffset = CGFloat(Constants.StencilCitySize.rawValue) * LatitudeFontOffset
-            let CityFont = NSFont.GetFont(InOrder: ["SFProText-Bold", "Avenir-Black", "ArialMT"],
+            let CityFont = NSFont.GetFont(InOrder: ["SFProText-Bold", "HelveticaNeue-Bold", "Avenir-Black", "ArialMT"],
                                           Size: FontSize + LatitudeFontOffset)
             let Record = TextRecord(Text: City.Name, Location: Location, Font: CityFont, Color: CityColor,
                                     OutlineColor: NSColor.black)
@@ -312,15 +317,16 @@ class Stenciler
         var Working = Image
         let QuakeFontRecord = Settings.GetString(.EarthquakeFontName, "Avenir")
         let QuakeFontName = Settings.ExtractFontName(From: QuakeFontRecord)!
-        #if true
         let BaseFontSize = 24.0
-        #else
-        let BaseFontSize = Settings.ExtractFontSize(From: QuakeFontRecord)!
-        #endif
         var FontMultiplier: CGFloat = 1.0
         if Image.size.width / 2.0 < 3600.0
         {
             FontMultiplier = 2.0
+        }
+        let MapType = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+        if MapManager.CategoryFor(Map: MapType) == .Satellite
+        {
+            FontMultiplier = 1.0
         }
         let FontSize = CGFloat(BaseFontSize) * CGFloat(Ratio) * ScaleFactor * FontMultiplier
         for Quake in QuakeSource
@@ -328,14 +334,9 @@ class Stenciler
             let Location = Quake.LocationAsGeoPoint().ToEquirectangular(Width: Int(Image.size.width),
                                                                         Height: Int(Image.size.height))
             var LocationPoint = NSPoint(x: Location.X, y: Location.Y)
-            #if false
-            let Greatest = Quake.GreatestMagnitudeValue
-            let EqText = "\(Greatest.RoundedTo(3))"
-            #else
             let Greatest = Quake.GreatestMagnitude
             let EqText = "\(Greatest.RoundedTo(3))"
-            #endif
-            var LatitudeFontOffset = abs(Quake.Latitude) / 90.0
+            var LatitudeFontOffset = (abs(Quake.Latitude) / 90.0)
             LatitudeFontOffset = Constants.StencilFontSize.rawValue * LatitudeFontOffset
             let Mag = Quake.IsCluster ? Quake.GreatestMagnitude : Quake.Magnitude
             let FinalFontSize = FontSize + CGFloat(Mag) + CGFloat(LatitudeFontOffset)
@@ -444,6 +445,12 @@ class Stenciler
             var LineList = [LineDefinition]()
             let LineColor = Settings.GetColor(.GridLineColor, NSColor.red)
             let MinorLineColor = Settings.GetColor(.MinorGridLineColor, NSColor.yellow)
+            var LineThickness = 4
+            let MapType = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+            if MapManager.CategoryFor(Map: MapType) == .Satellite
+            {
+                LineThickness = 1
+            }
             
             if Settings.GetBool(.Show3DMinorGrid)
             {
@@ -457,7 +464,7 @@ class Stenciler
                     }
                     let Line: LineDefinition = (IsHorizontal: true,
                                                 At: Y,
-                                                Thickness: 4,
+                                                Thickness: LineThickness,
                                                 Color: MinorLineColor)
                     LineList.append(Line)
                 }
@@ -470,7 +477,7 @@ class Stenciler
                     }
                     let Line: LineDefinition = (IsHorizontal: false,
                                                 At: X,
-                                                Thickness: 4,
+                                                Thickness: LineThickness,
                                                 Color: MinorLineColor)
                     LineList.append(Line)
                 }
@@ -487,7 +494,7 @@ class Stenciler
                     }
                     let Line: LineDefinition = (IsHorizontal: true,
                                                 At: Y,
-                                                Thickness: 4,
+                                                Thickness: LineThickness,
                                                 Color: LineColor)
                     LineList.append(Line)
                 }
@@ -503,7 +510,7 @@ class Stenciler
                     }
                     let Line: LineDefinition = (IsHorizontal: false,
                                                 At: X,
-                                                Thickness: 4,
+                                                Thickness: LineThickness,
                                                 Color: LineColor)
                     LineList.append(Line)
                 }
