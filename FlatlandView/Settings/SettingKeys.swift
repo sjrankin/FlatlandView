@@ -432,6 +432,10 @@ enum SettingKeys: String, CaseIterable
     ///          accessible. If "enable_nasa_tiles" is not present, true is put into this
     ///          settings.
     case EnableNASATiles = "EnableNASATiles"
+    /// Int: Hours between tile fetching.
+    case NASATilesFetchInterval = "NASATilesFetchInterval"
+    /// Double?: Last time tiles were fetched from NASA.
+    case LastNASAFetchTime = "LastNASAFetchTime"
     
     // MARK: - General settings.
     /// The last settings viewed by the user.
