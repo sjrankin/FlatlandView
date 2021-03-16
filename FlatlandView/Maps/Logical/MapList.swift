@@ -24,7 +24,7 @@ class MapList
                 return SomeMap
             }
         }
-        print("Did not find map item for \(For)")
+        Debug.Print("Did not find map item for \(For)")
         return nil
     }
     
