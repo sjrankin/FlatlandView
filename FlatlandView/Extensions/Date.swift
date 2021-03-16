@@ -257,6 +257,18 @@ extension Date
         return Final
     }
     
+    static func PrettyDateTime(From Now: Date, IncludeSeconds: Bool = true, ForFileName: Bool = false) -> String
+    {
+        let TimePart = Date.PrettyTime(From: Now, IncludeSeconds: IncludeSeconds, ForFileName: ForFileName)
+        let Cal = Calendar.current
+        let Day = Cal.component(.day, from: Now)
+        let Month = Cal.component(.month, from: Now)
+        let Year = Cal.component(.year, from: Now)
+        let MonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][Month - 1]
+        let DatePart = "\(Day) \(MonthName) \(Year)"
+        return "\(DatePart)_\(TimePart)"
+    }
+    
     /// Converts the passed date's date components into a pretty string.
     /// - Parameter From: The date whose date components will be used to generate a pretty string.
     /// - Returns: String value of the date components of `From`.
