@@ -172,6 +172,8 @@ extension Settings
             .NotifiedEarthquakes: String.self,
             .NotifyLocation: NotificationLocations.self,
             .EnableNASATiles: Bool.self,
+            .NASATilesFetchInterval: Int.self,
+            .LastNASAFetchTime: Double?.self,
             .LastSettingsViewed: SettingGroups.self,
             .ShowSplashScreen: Bool.self,
             .SplashScreenDuration: Double.self,
