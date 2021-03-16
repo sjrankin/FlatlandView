@@ -21,7 +21,7 @@ class DBIF
             _MappableInitialized = true
             if let MappableURL = FileIO.GetMappagleDatabaseSURL()
             {
-                print("MappableURL=\(MappableURL.path)")
+                Debug.Print("MappableURL=\(MappableURL.path)")
                 if sqlite3_open_v2(MappableURL.path, &MappableHandle,
                                    SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
                 {
@@ -38,7 +38,7 @@ class DBIF
             _QuakesInitialized = true
             if let QuakeURL = FileIO.GetEarthquakeHistoryDatabaseSURL()
             {
-                print("Opening quake database \(QuakeURL.path)")
+                Debug.Print("Opening quake database \(QuakeURL.path)")
                 if sqlite3_open_v2(QuakeURL.path, &QuakeHandle,
                                    SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
                 {
@@ -55,7 +55,7 @@ class DBIF
             _SettingsInitialized = true
             if let SettingsURL = FileIO.GetSettingsDatabaseURL()
             {
-                print("Opening settings database \(SettingsURL.path)")
+                Debug.Print("Opening settings database \(SettingsURL.path)")
                 if sqlite3_open_v2(SettingsURL.path, &SettingsHandle,
                                    SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
                 {
@@ -85,7 +85,7 @@ class DBIF
         {
             QuakesInDB = GetEarthquakesInRange(Start: Earlier, End: Date())
         }
-        print("Found \(QuakesInDB.count) latest earthquakes")
+        Debug.Print("Found \(QuakesInDB.count) latest earthquakes")
         Cities = GetAllCities()
         AdditionalCities = GetAllAdditionalCities()
     }
