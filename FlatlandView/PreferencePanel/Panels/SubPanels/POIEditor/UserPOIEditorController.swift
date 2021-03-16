@@ -33,9 +33,17 @@ class UserPOIEditorController: NSViewController, NSTableViewDelegate, NSTableVie
     
     func LoadData()
     {
-        let POIs = MainDelegate?.GetUserPOIData()
+        let POIs = Settings.GetUserPOIs()
+//        let POIs = MainDelegate?.GetUserPOIData()
+
         let Cities = MainDelegate?.GetAdditionalCityData()
         UserTable.removeAll()
+        #if true
+        for POI in POIs
+        {
+            UserTable.append(LocationContainer(With: POI))
+        }
+        #else
         if let POIData = POIs
         {
             for POI in POIData
@@ -43,6 +51,7 @@ class UserPOIEditorController: NSViewController, NSTableViewDelegate, NSTableVie
                 UserTable.append(LocationContainer(With: POI))
             }
         }
+        #endif
         if let CityData = Cities
         {
             for City in CityData
@@ -89,6 +98,30 @@ class UserPOIEditorController: NSViewController, NSTableViewDelegate, NSTableVie
     func tableViewSelectionDidChange(_ notification: Notification)
     {
         let Index = POITable.selectedRow
+        if Index < 0
+        {
+            return
+        }
+        let Container = UserTable[Index]
+        NameField.stringValue = Container.LocationName
+        let IsCity = Container.IsCity
+        POITypeSegement.selectedSegment = IsCity ? 0 : 1
+        if IsCity
+        {
+            LatitudeField.stringValue = "\(Container.City!.Latitude.RoundedTo(3))"
+            LongitudeField.stringValue = "\(Container.City!.Longitude.RoundedTo(3))"
+            PopulationField.stringValue = "\(Container.City!.Population!)"
+            POIColorWell.color = Container.City!.CityColor
+            ShowSwitch.state = .on
+        }
+        else
+        {
+            LatitudeField.stringValue = "\(Container.POI!.Latitude.RoundedTo(3))"
+            LongitudeField.stringValue = "\(Container.POI!.Longitude.RoundedTo(3))"
+            PopulationField.stringValue = ""
+            POIColorWell.color = Container.POI!.Color
+            ShowSwitch.state = Container.POI!.Show ? .on : .off
+        }
     }
     
     // MARK: - Button handling.
@@ -106,7 +139,6 @@ class UserPOIEditorController: NSViewController, NSTableViewDelegate, NSTableVie
         var POIs = [POI2]()
         for Container in UserTable
         {
-
             if Container.IsCity
             {
                 Cities.append(Container.City!)
