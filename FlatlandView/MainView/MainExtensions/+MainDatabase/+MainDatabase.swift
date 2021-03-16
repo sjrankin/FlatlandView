@@ -21,6 +21,7 @@ extension MainController
     ///   - SQLite returns an error when attempting to open the mappable database.
     public static func InitializeMappableDatabase()
     {
+        /*
         if MappableInitialized
         {
             return
@@ -47,6 +48,7 @@ extension MainController
         MoveCities(Cities: AllCities)
         fatalError("All cities moved.")
         #endif
+        */
     }
     
     /// Initialize the POI item database.
@@ -403,23 +405,18 @@ enum DatabaseErrors: String, CaseIterable, Error
     case ConversionError = "Conversion Error"
 }
 
-
-
+/// Columns for POI tables.
 enum POIColumns2: Int32
 {
     case ID = 0
     case POIID = 1
     case Name = 2
-    case Description = 3
-    case Latitude = 4
-    case Longitude = 5
-    case Color = 6
-    case Shape = 7
-    case HomeType = 8
-    case Numeric = 9
-    case Category = 10
-    case SubCategory = 11
-    case Added = 12
-    case Modified = 13
-    case Show = 14
+    case Latitude = 3
+    case Longitude = 4
+    case Description = 5
+    case Numeric = 6
+    case POIType = 7
+    case Added = 8
+    case Modified = 9
+    case Color = 10
 }
