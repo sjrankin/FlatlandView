@@ -115,7 +115,7 @@ extension NSImage
     /// - Note: See [How to save an NSImage as a file.](https://stackoverflow.com/questions/3038820/how-to-save-a-nsimage-as-a-new-file)
     /// - Parameter ToURL: The URL where to save the image.
     /// - Returns: True on success, false if the image cannot be saved.
-    public func WritePNG(ToURL: URL) -> Bool
+    @discardableResult public func WritePNG(ToURL: URL) -> Bool
     {
         guard let Data = tiffRepresentation,
               let Rep = NSBitmapImageRep(data: Data),
