@@ -470,6 +470,16 @@ Show a list of all built-in points of interest.
                     Message = """
 Live data is returned by remote servers that are not affiliated with Flatland. As such, there are times when those servers may be offline. Additionally, using live data will incur a data cost if you are using a metered connection. |font type=bold|Live data will not function if you are not connected to the internet.|font type=system|
 """
+                case .EnableNASATilesHelp:
+                    Message = """
+In order to use NASA satellite imagery, you must enable this option. However doing so will result in increased data downloads and memory usage.
+"""
+                    
+                case .NASATilesFetchFrequencyHelp:
+                    Message = """
+Determines how often to download NASA imagery to use for the map. Most data is available on a 24 hour cycle so more frequently than that will result in no changes to the map. Select |font type=bold|On demand|font type=system| to only load when you explicitly tell Flatland to do so.
+"""
+                    
                 //MARK: - Sound help.
                 case .ClearEventSoundHelp:
                     Message = """
@@ -618,6 +628,8 @@ enum PreferenceHelp: String, CaseIterable
     case POIScale = "POIScale"
     
     case LiveDataHelp = "LiveDataHelp"
+    case EnableNASATilesHelp = "EnableNASATilesHelp"
+    case NASATilesFetchFrequencyHelp = "NASATilesFetchFrequencyHelp"
     
     case PaneReset = "PaneReset"
     
