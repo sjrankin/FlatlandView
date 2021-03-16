@@ -14,6 +14,7 @@ extension MainController
     /// Get initialization data from the run-time environment.
     func InitializationFromEnvironment()
     {
+        #if false
         if let EnableNASATiles = ProcessInfo.processInfo.environment[EnvironmentVars.SatelliteMaps.rawValue]
         {
             let DoEnable = EnableNASATiles.lowercased() == "yes" ? true : false
@@ -23,6 +24,7 @@ extension MainController
         {
             Settings.SetBool(.EnableNASATiles, true)
         }
+        #endif
     }
     
     /// Initialize program data.
@@ -34,11 +36,11 @@ extension MainController
 
         InitializeCaptiveDialog()
         
-        MainController.InitializeMappableDatabase()
-        MainController.InitializePOIDatabase()
-        WorldHeritageSites = MainController.GetAllSites()
-        POIManager.Initialize()
-        NodeTables.Initialize(Unesco: WorldHeritageSites!)
+        //MainController.InitializeMappableDatabase()
+        //MainController.InitializePOIDatabase()
+        //WorldHeritageSites = MainController.GetAllSites()
+        //POIManager.Initialize()
+        //NodeTables.Initialize(Unesco: WorldHeritageSites!)
         
         Main2DView.InitializeLocations()
         Rect2DView.InitializeLocations()
@@ -63,10 +65,12 @@ extension MainController
     {
         let VType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
-       
+       var IsFlat = false
+        
         switch VType
         {
             case .Globe3D:
+                IsFlat = false
                 if let Category = MapManager.CategoryFor(Map: MapValue)
                 {
                     if Category == .Satellite && Settings.GetBool(.EnableNASATiles)
@@ -78,12 +82,17 @@ extension MainController
                         Earth.MainDelegate = self
                         Earth.Delegate = self
                         Debug.Print("Calling LoadMap in \(#function)")
-                        Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
+                        if let SatMapData = EarthData.MapFromMaps(For: MapValue, From: Maps)
+                        {
+                            Earth.LoadMap(SatMapData, For: Earlier, Completed: EarthMapReceived)
+                        }
+                        SetFlatMode(false)
                         return
                     }
                 }
                 
             case .FlatNorthCenter, .FlatSouthCenter, .Rectangular:
+                IsFlat = true
                 if let InitialImage = MapManager.ImageFor(MapType: MapValue, ViewType: VType)
                 {
                     Main2DView.SetEarthMap(InitialImage)
@@ -102,12 +111,13 @@ extension MainController
                 }
                 
             case .CubicWorld:
+                IsFlat = false
                 return
         }
         
         InitializeUpdateTimer()
         Started = true
-        let IsFlat = [ViewTypes.FlatNorthCenter, ViewTypes.FlatSouthCenter, ViewTypes.Rectangular].contains(VType)
+        //let IsFlat = [ViewTypes.FlatNorthCenter, ViewTypes.FlatSouthCenter, ViewTypes.Rectangular].contains(VType)
         SetFlatMode(IsFlat)
     }
     
@@ -157,7 +167,11 @@ extension MainController
             Earth.MainDelegate = self
             Earth.Delegate = self
             Debug.Print("Calling LoadMap")
-            Earth.LoadMap(Maps[0], For: Earlier, Completed: EarthMapReceived)
+            let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+            if let SatMapData = EarthData.MapFromMaps(For: MapValue, From: Maps)
+            {
+                Earth.LoadMap(SatMapData, For: Earlier, Completed: EarthMapReceived)
+            }
         }
     }
     
