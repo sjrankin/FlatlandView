@@ -29,6 +29,7 @@ extension MainController: SettingChangedProtocol
         {
             case .MapType:
                 let NewMap = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+                Debug.Print("New map type = \(NewMap)")
                 let MapViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
                 switch MapViewType
                 {
