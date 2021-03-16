@@ -57,10 +57,10 @@ class MapSelector: NSViewController, NSTableViewDelegate, NSTableViewDataSource
         MapCategoryList = MapManager.GetMapCategories()
         if !Settings.GetBool(.EnableNASATiles)
         {
-           if let SatelliteIndex = MapCategoryList.firstIndex(of: .Satellite)
-           {
-            MapCategoryList.remove(at: SatelliteIndex)
-           }
+            if let SatelliteIndex = MapCategoryList.firstIndex(of: .Satellite)
+            {
+                MapCategoryList.remove(at: SatelliteIndex)
+            }
         }
         if let CurrentCategory = MapManager.CategoryFor(Map: LastMap)
         {
