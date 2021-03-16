@@ -39,21 +39,16 @@ extension DBIF
             let PKID = SQL.ReadIntColumn(Handle: QueryHandle, Index: POIColumns2.ID.rawValue)!
             let POIID = SQL.ReadUUIDColumn(Handle: QueryHandle, Index: POIColumns2.POIID.rawValue)!
             let Name = SQL.ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Name.rawValue)!
-            let Description = SQL.ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Description.rawValue)!
+            let Description = SQL.ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Description.rawValue, Default: "")
             let Latitude = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Latitude.rawValue)!
             let Longitude = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Longitude.rawValue)!
             let Color = SQL.ReadColorColumn(Handle: QueryHandle, Index: POIColumns2.Color.rawValue, Default: NSColor.yellow)
-            let Shape = SQL.ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Shape.rawValue)!
-            let POIType = SQL.ReadIntColumn(Handle: QueryHandle, Index: POIColumns2.HomeType.rawValue)!
+            let POIType = SQL.ReadIntColumn(Handle: QueryHandle, Index: POIColumns2.POIType.rawValue)!
             let Numeric = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Numeric.rawValue)!
             let Added = SQL.ReadDateColumn(Handle: QueryHandle, Index: POIColumns2.Added.rawValue)
             let Modified = SQL.ReadDateColumn(Handle: QueryHandle, Index: POIColumns2.Added.rawValue)
-            let Category = SQL.ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Category.rawValue, Default: "")
-            let SubCategory = SQL.ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Category.rawValue, Default: "")
-            let ShowPOI = SQL.ReadBoolColumn(Handle: QueryHandle, Index: POIColumns2.Show.rawValue)!
             let UPOI = POI2(Meta: .User, PKID, POIID, Name, Description, Latitude, Longitude,
-                            Color, Shape, POIType, Numeric, Category, SubCategory,
-                            Added, Modified, ShowPOI)
+                            Color, POIType, Numeric, Added, Modified)
             Results.append(UPOI)
         }
         return Results
@@ -80,6 +75,22 @@ extension DBIF
         }
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
         {
+            #if true
+            let PKID = SQL.ReadIntColumn(Handle: QueryHandle, Index: POIColumns2.ID.rawValue)!
+            let POIID = SQL.ReadUUIDColumn(Handle: QueryHandle, Index: POIColumns2.POIID.rawValue)!
+            let Name = SQL.ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Name.rawValue)!
+            let Description = SQL.ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Description.rawValue, Default: "")
+            let Latitude = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Latitude.rawValue)!
+            let Longitude = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Longitude.rawValue)!
+            let Color = SQL.ReadColorColumn(Handle: QueryHandle, Index: POIColumns2.Color.rawValue, Default: NSColor.yellow)
+            let POIType = SQL.ReadIntColumn(Handle: QueryHandle, Index: POIColumns2.POIType.rawValue)!
+            let Numeric = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns2.Numeric.rawValue)!
+            let Added = SQL.ReadDateColumn(Handle: QueryHandle, Index: POIColumns2.Added.rawValue)
+            let Modified = SQL.ReadDateColumn(Handle: QueryHandle, Index: POIColumns2.Added.rawValue)
+            let UPOI = POI2(Meta: .User, PKID, POIID, Name, Description, Latitude, Longitude,
+                            Color, POIType, Numeric, Added, Modified)
+            Results.append(UPOI)
+            #else
             let PKID = SQL.ReadIntColumn(Handle: QueryHandle, Index: POIColumns2.ID.rawValue)!
             let POIID = SQL.ReadUUIDColumn(Handle: QueryHandle, Index: POIColumns2.POIID.rawValue)!
             let Name = SQL.ReadStringColumn(Handle: QueryHandle, Index: POIColumns2.Name.rawValue)!
@@ -99,7 +110,13 @@ extension DBIF
                             Color, Shape, POIType, Numeric, Category, SubCategory,
                             Added, Modified, ShowPOI)
             Results.append(UPOI)
+            #endif
         }
         return Results
+    }
+    
+    public static func SetUserPOIs(_ POIs: [POI2])
+    {
+        
     }
 }
