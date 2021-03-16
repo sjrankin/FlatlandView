@@ -48,6 +48,8 @@ class EarthData
         Queue.name = "Load Tile Queue"
         Queue.addOperation
         {
+            MemoryDebug.Open("Get NASA Tiles")
+            Debug.Print(" >> \(Map.Layer): [\(ImageDate)]")
             Map.URLs = SatelliteMap.GenerateTileInformation(From: Map, When: ImageDate)
             let ExpectedCount = Map.URLs.count
             
@@ -59,6 +61,7 @@ class EarthData
             {
                 if let TileURL = URL(string: Path)
                 {
+                    //Debug.Print("Getting Earth tile at Row \(Row), Column \(Column)")
                     self.GetTile(From: TileURL, Row: Row, Column: Column, ExpectedCount: ExpectedCount,
                                  MaxRows: Map.VerticalTileCount, MaxColumns: Map.HorizontalTileCount)
                     {
@@ -67,7 +70,9 @@ class EarthData
                         {
                             Image, Duration, When, Done in
                             let TotalDuration = Duration + CACurrentMediaTime() - StartTime
+                            Debug.Print("Created satellite map in \(TotalDuration.RoundedTo(1)) seconds)")
                             Completed?(Image, TotalDuration, When, Done)
+                            MemoryDebug.Close("Get NASA Tiles")
                         }
                     }
                 }
@@ -96,7 +101,7 @@ class EarthData
         {
             for (_, (Row, Column)) in TileMap
             {
-                print("Missing tile at row \(Row), column \(Column)")
+                Debug.Print("Missing tile at row \(Row), column \(Column)")
             }
         }
         
@@ -110,12 +115,10 @@ class EarthData
             let BackgroundHeight = TilesY * TileSize
             let BackgroundWidth = TilesX * TileSize
             var Background = NSImage(size: NSSize(width: BackgroundWidth / 2, height: BackgroundHeight / 2))
-            print("CreateMapFromTiles: Background.size=\(Background.size)")
             Background.lockFocus()
             NSColor.systemYellow.drawSwatch(in: NSRect(origin: .zero, size: Background.size))
             Background.unlockFocus()
             Background = self.ResizeImage(Image: Background, Longest: CGFloat(TilesX * TileSize))
-            print("CreateMapFromTiles: Resized Background.size=\(Background.size)")
             autoreleasepool
             {
                 for (Row, Column, _, Tile) in self.Results
@@ -128,7 +131,6 @@ class EarthData
                 }
             }
             //Background = self.ResizeImage(Image: Background, Longest: 3600.0)
-            //print("CreateMapFromTiles: Resized{2} Background.size=\(Background.size)")
             let Duration = CACurrentMediaTime() - Start
             Completion?(Background, Duration, When, true)
         }
@@ -191,7 +193,7 @@ class EarthData
             }
             catch
             {
-                print("Error on tile \(Column)x\(Row): \(error.localizedDescription)")
+                Debug.Print("Error on tile \(Column)x\(Row): \(error.localizedDescription)")
             }
         }
     }
@@ -247,6 +249,24 @@ class EarthData
         return NewImage
     }
     
+    /// Returns the specified satellite map information for the given map type and set of satellite maps.
+    /// - Parameter For: The type of satellite map to return.
+    /// - Parameter From: The array of pre-existing satellite maps.
+    /// - Returns: A `SatelliteMap` object for the specified map type on success, nil if not found.
+    public static func MapFromMaps(For: MapTypes, From: [SatelliteMap]) -> SatelliteMap?
+    {
+        for Map in From
+        {
+            if Map.SatelliteMapType == For
+            {
+                return Map
+            }
+        }
+        return nil
+    }
+    
+    /// Return a list of satellite map data for getting image tiles from NASA.
+    /// - Returns: Array of all available satellite map definitions.
     public static func MakeSatelliteMapDefinitions() -> [SatelliteMap]
     {
         var Maps = [SatelliteMap]()
