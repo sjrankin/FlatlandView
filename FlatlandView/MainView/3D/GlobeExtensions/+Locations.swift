@@ -772,7 +772,7 @@ extension GlobeView
         
         if Settings.GetBool(.ShowUserLocations)
         {
-            for SomePOI in MainController.UserPOIs
+            for SomePOI in Settings.GetPOIs()
             {
                 NodeTables.RemoveUserPOI()
                 NodeTables.AddUserPOI(ID: SomePOI.ID,
@@ -794,7 +794,7 @@ extension GlobeView
         if Settings.GetBool(.ShowBuiltInPOIs)
         {
             NodeTables.RemoveBuiltInPOI()
-            for BuiltInPOI in MainController.BuiltInPOIs
+            for BuiltInPOI in Settings.GetUserPOIs()
             {
                 NodeTables.AddBuiltInPOI(ID: BuiltInPOI.ID,
                                          Name: BuiltInPOI.Name,
