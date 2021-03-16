@@ -62,10 +62,15 @@ extension MainController: AsynchronousDataProtocol
             #endif
             return
         }
-        Debug.Print("Received earth map from NASA")
+        Debug.Print("Received Earth map from NASA (\(Image.size.width) x \(Image.size.height))")
         Debug.Print("Map generation duration \(Duration), Date: \(ImageDate)")
+        MapManager.SaveMapInCache(Image)
+        let SatelliteMapCreation = Date()
+        Settings.SetDoubleNil(.LastNASAFetchTime, SatelliteMapCreation.timeIntervalSince1970)
         let Maps = EarthData.MakeSatelliteMapDefinitions()
         Maps[0].CachedMap = Image
         Main3DView.ChangeEarthBaseMap(To: Image)
+        Main3DView.ApplyAllStencils()
+        Main3DView.PlotRegions(#function)
     }
 }
