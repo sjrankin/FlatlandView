@@ -44,8 +44,12 @@ extension GlobeView
     
     /// Plot all regions on the region layer.
     /// - Note: For now, only earthquake regions are displayed.
-    func PlotRegions()
+    func PlotRegions(_ Caller: String? = nil)
     {
+        if let CallerName = Caller
+        {
+            Debug.Print("PlotRegions called by \(CallerName)")
+        }
         if RegionNode == nil
         {
             let RegionNodeShape = SCNSphere(radius: GlobeRadius.RegionLayer.rawValue)
