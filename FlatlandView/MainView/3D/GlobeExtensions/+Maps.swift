@@ -99,9 +99,6 @@ extension GlobeView
         
         SystemNode = SCNNode2()
         
-        let Count = ViewNodeCount()
-        Debug.Print("Scene node count=\(Count)")
-        
         let EarthSphere = SCNSphere(radius: GlobeRadius.Primary.rawValue)
         EarthSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: Int(Defaults.SphereSegmentCount.rawValue))
         let SeaSphere = SCNSphere(radius: GlobeRadius.SeaSphere.rawValue)
@@ -124,6 +121,9 @@ extension GlobeView
                 SecondaryMap = SeaMap
             }
         }
+        
+        let HasOtherImage = WithMap != nil
+        Debug.Print("SetEarthMap{\(MapType)}, Other image specified: \(HasOtherImage)")
         
         switch MapType
         {
