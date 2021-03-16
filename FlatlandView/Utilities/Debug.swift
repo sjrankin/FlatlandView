@@ -33,7 +33,7 @@ class Debug
         let Caller = PrettyStackTrace(StackFrameContents(1))
         #if DEBUG
         let Trace = PrettyStackTrace(StackFrameContents(10))
-        print("Fatal error: stack track: \(Trace)")
+        print("Fatal error: stack trace: \(Trace)")
         fatalError(Message)
         #else
         fatalError("\(Caller): \(Message)")
