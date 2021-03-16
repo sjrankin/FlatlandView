@@ -610,6 +610,8 @@ enum FileIONames: String, CaseIterable
     case MapDirectory = "Flatland/Maps"
     /// Directory where sounds are held.
     case SoundDirectory = "Flatland/Sounds"
+    /// Directory where scratch images are held.
+    case PictureDirectory = "Flatland/Pictures"
     /// The map structure file name.
     case MapStructure = "Maps.xml"
     /// The database directory.
