@@ -357,6 +357,7 @@
 		17DE2DD125907B3800214204 /* HomeLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DE2DD025907B3800214204 /* HomeLocationController.swift */; };
 		17DE2DD425907D0300214204 /* +Secured.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DE2DD325907D0300214204 /* +Secured.swift */; };
 		17DE2DD7259093BF00214204 /* HomeLocationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DE2DD6259093BF00214204 /* HomeLocationWindow.swift */; };
+		17DEFD5425FE0CDE00371CF6 /* +POISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DEFD5325FE0CDE00371CF6 /* +POISettings.swift */; };
 		17DF115E2512F3B400F04EAF /* AnimatedGradientLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */; };
 		17DFAF4F2545A53C00374344 /* ImageShifter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DFAF4E2545A53C00374344 /* ImageShifter.swift */; };
 		17DFAF532545A56300374344 /* ImageShiftParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DFAF522545A56300374344 /* ImageShiftParameters.swift */; };
@@ -841,6 +842,7 @@
 		17DE2DD025907B3800214204 /* HomeLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLocationController.swift; sourceTree = "<group>"; };
 		17DE2DD325907D0300214204 /* +Secured.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Secured.swift"; sourceTree = "<group>"; };
 		17DE2DD6259093BF00214204 /* HomeLocationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLocationWindow.swift; sourceTree = "<group>"; };
+		17DEFD5325FE0CDE00371CF6 /* +POISettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+POISettings.swift"; sourceTree = "<group>"; };
 		17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedGradientLayer.swift; sourceTree = "<group>"; };
 		17DFAF4E2545A53C00374344 /* ImageShifter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageShifter.swift; sourceTree = "<group>"; };
 		17DFAF522545A56300374344 /* ImageShiftParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageShiftParameters.swift; sourceTree = "<group>"; };
@@ -2227,13 +2229,13 @@
 		17EF33A4247A933100A5B55D /* Astronomy */ = {
 			isa = PBXGroup;
 			children = (
-				17EF33A5247A934A00A5B55D /* Julian.swift */,
-				17EF33A7247A936900A5B55D /* Solar.swift */,
-				17EF33AD247A93C400A5B55D /* TimeHelper.swift */,
-				17EF33AF247A93DC00A5B55D /* Miscellaneous.swift */,
-				17EF33B1247A93ED00A5B55D /* Sun.swift */,
-				17EF33B3247A940800A5B55D /* OrbitalElements.swift */,
 				17C0FD6F25316402008F3D05 /* GroundTrack.swift */,
+				17EF33A5247A934A00A5B55D /* Julian.swift */,
+				17EF33AF247A93DC00A5B55D /* Miscellaneous.swift */,
+				17EF33B3247A940800A5B55D /* OrbitalElements.swift */,
+				17EF33A7247A936900A5B55D /* Solar.swift */,
+				17EF33B1247A93ED00A5B55D /* Sun.swift */,
+				17EF33AD247A93C400A5B55D /* TimeHelper.swift */,
 				17C0FD722531648D008F3D05 /* TLE.swift */,
 			);
 			path = Astronomy;
@@ -2395,6 +2397,7 @@
 				17F9AFED2520349600DE0219 /* +NSColor.swift */,
 				17F9AFEA2520347300DE0219 /* +NSRect.swift */,
 				17F9AFE42520342D00DE0219 /* +NSSize.swift */,
+				17DEFD5325FE0CDE00371CF6 /* +POISettings.swift */,
 				1743FE76255D1C1E00AD05A7 /* +Query.swift */,
 				17F9AFFA2520354500DE0219 /* +SCNVector3.swift */,
 				17DE2DD325907D0300214204 /* +Secured.swift */,
@@ -2408,9 +2411,9 @@
 		17FAA7F625D27F0C0015D504 /* Databases */ = {
 			isa = PBXGroup;
 			children = (
-				17FAA7F725D27F320015D504 /* DBIF.swift */,
 				17E0E35925E5FC4D00291823 /* SettingsDBIF */,
 				17F0AC5725D3A70000B2F496 /* +Cities.swift */,
+				17FAA7F725D27F320015D504 /* DBIF.swift */,
 				17F0AC5125D37BA100B2F496 /* +HistoricEarthquakes.swift */,
 				17F0AC4F25D372F600B2F496 /* +POI.swift */,
 				17FAA7FB25D285480015D504 /* +WorldHeritageSites.swift */,
@@ -2748,6 +2751,7 @@
 				17019F0825CD6AFE000296A8 /* WordContainer.swift in Sources */,
 				17F9B007252036F900DE0219 /* +EarthquakeSettings.swift in Sources */,
 				175DCC622580A3A900EB6D69 /* PreferenceHelpPopover.swift in Sources */,
+				17DEFD5425FE0CDE00371CF6 /* +POISettings.swift in Sources */,
 				178E1CA325186DE900FDC75B /* +Attract.swift in Sources */,
 				17F9B004252036AD00DE0219 /* +Generic.swift in Sources */,
 				179EB780254FE40D00AADAAD /* PreferencePanelController.swift in Sources */,
