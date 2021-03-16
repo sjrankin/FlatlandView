@@ -17,7 +17,7 @@ extension MainController
     {
         WorldClockStartTime = Date()
         CurrentWorldTime = 0.0//CACurrentMediaTime()
-        Debug.Print("Starting World Time: \(CurrentWorldTime)")
+        //Debug.Print("Starting World Time: \(CurrentWorldTime)")
         WorldClockTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                                target: self,
                                                selector: #selector(HandleWorldClockTick),
