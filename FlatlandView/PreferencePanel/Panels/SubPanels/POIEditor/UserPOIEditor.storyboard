@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18121" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18121"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -100,7 +100,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="J0V-ey-a6K">
-                                                            <rect key="frame" x="8" y="0.0" width="229" height="24"/>
+                                                            <rect key="frame" x="18" y="0.0" width="229" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Jzi-1X-oms">
@@ -136,7 +136,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="jhs-Ka-73E">
-                                                            <rect key="frame" x="254" y="0.0" width="99" height="24"/>
+                                                            <rect key="frame" x="264" y="0.0" width="99" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="kMM-we-J5N">
@@ -172,7 +172,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="qy7-GR-Db8">
-                                                            <rect key="frame" x="370" y="0.0" width="79" height="24"/>
+                                                            <rect key="frame" x="380" y="0.0" width="79" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="ZuT-L5-UFV">
@@ -208,7 +208,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="HQq-QB-Ma6">
-                                                            <rect key="frame" x="466" y="0.0" width="97" height="24"/>
+                                                            <rect key="frame" x="476" y="0.0" width="97" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="RR2-kt-I4t">
@@ -244,7 +244,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="sLw-uU-CNW">
-                                                            <rect key="frame" x="580" y="0.0" width="57" height="24"/>
+                                                            <rect key="frame" x="590" y="0.0" width="57" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         </tableCellView>
                                                     </prototypeCellViews>
@@ -539,7 +539,7 @@ Gw
                                             <gridCells>
                                                 <gridCell row="DSx-eu-An5" column="M7q-Ii-3fd" id="81j-sh-Gfm">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sAQ-v5-Evp">
-                                                        <rect key="frame" x="-2" y="178" width="40" height="17"/>
+                                                        <rect key="frame" x="-2" y="179" width="40" height="17"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Name" id="tWl-ft-XSI">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -549,7 +549,7 @@ Gw
                                                 </gridCell>
                                                 <gridCell row="DSx-eu-An5" column="QSn-v9-6RU" id="Muj-HU-xZu">
                                                     <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lil-3S-5Lk">
-                                                        <rect key="frame" x="71" y="176" width="200" height="21"/>
+                                                        <rect key="frame" x="71" y="177" width="200" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="CbA-bQ-n5O"/>
                                                         </constraints>
@@ -562,7 +562,7 @@ Gw
                                                 </gridCell>
                                                 <gridCell row="cke-71-7YP" column="M7q-Ii-3fd" id="iaf-6F-qSR">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fAI-uD-mm0">
-                                                        <rect key="frame" x="-2" y="150" width="34" height="16"/>
+                                                        <rect key="frame" x="-2" y="151" width="34" height="16"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="16" id="gb8-Tx-PU6"/>
                                                         </constraints>
@@ -575,7 +575,7 @@ Gw
                                                 </gridCell>
                                                 <gridCell row="cke-71-7YP" column="QSn-v9-6RU" id="26u-oz-Gkh">
                                                     <segmentedControl key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dl6-AB-Ym9">
-                                                        <rect key="frame" x="69" y="146" width="244" height="24"/>
+                                                        <rect key="frame" x="69" y="147" width="244" height="24"/>
                                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="oeK-YN-nNq">
                                                             <font key="font" metaFont="system"/>
                                                             <segments>
