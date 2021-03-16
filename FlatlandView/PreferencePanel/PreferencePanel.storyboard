@@ -29,8 +29,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="ellipsis.circle" catalog="system" symbolScale="large"/>
                                     <button key="view" id="PTa-eE-OZ9">
-                                        <rect key="frame" x="6" y="14" width="36" height="35.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="11" y="13.5" width="27" height="26.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="iPA-yQ-opX">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
@@ -46,8 +46,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="network" catalog="system" symbolScale="large"/>
                                     <button key="view" id="CGa-Ob-NaI">
-                                        <rect key="frame" x="10" y="14" width="36" height="35.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="15" y="13.5" width="27" height="26.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="5tD-6l-b0t">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
@@ -63,8 +63,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="map" catalog="system" symbolScale="large"/>
                                     <button key="view" id="8cm-IE-TQm">
-                                        <rect key="frame" x="0.0" y="14" width="36" height="35.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="4" y="13.5" width="28" height="25.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="JDQ-e4-UF4">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
@@ -80,8 +80,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="skew" catalog="system" symbolScale="large"/>
                                     <button key="view" id="rWa-bV-FXr">
-                                        <rect key="frame" x="25" y="14" width="36" height="35.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="26" y="14" width="33" height="29.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="O1n-1L-qDy">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
@@ -95,14 +95,14 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="83B7A0D8-31B9-40F8-BDC6-BAE737601ECA" label="POIs" paletteLabel="POIs" sizingBehavior="auto" id="cOf-6w-ux2">
                                     <nil key="toolTip"/>
-                                    <imageReference key="image" image="pin.fill" catalog="system" symbolScale="small"/>
+                                    <imageReference key="image" image="pin.fill" catalog="system" symbolScale="large"/>
                                     <button key="view" id="aLv-b0-1Hw">
-                                        <rect key="frame" x="0.0" y="14" width="39.5" height="33.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="3" y="13.5" width="26.5" height="30.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="mWF-lX-GWF">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
-                                            <imageReference key="image" image="pin.fill" catalog="system" symbolScale="small"/>
+                                            <imageReference key="image" image="pin.fill" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlack"/>
                                         <connections>
@@ -112,14 +112,14 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="8C8DDD2E-9BA3-4844-90F2-2F68FBE08CAE" label="Cities" paletteLabel="Cities" sizingBehavior="auto" id="4ih-H8-g9r">
                                     <nil key="toolTip"/>
-                                    <imageReference key="image" image="building.2" catalog="system" symbolScale="small"/>
+                                    <imageReference key="image" image="building.2" catalog="system" symbolScale="large"/>
                                     <button key="view" id="iG8-Xc-b5l">
-                                        <rect key="frame" x="0.0" y="14" width="39" height="35.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="3" y="14" width="32" height="27.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="0fC-gL-Mtv">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
-                                            <imageReference key="image" image="building.2" catalog="system" symbolScale="small"/>
+                                            <imageReference key="image" image="building.2" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlack"/>
                                     </button>
@@ -129,14 +129,14 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="78DFCE68-001A-4066-BCFA-E207261E3E12" label="Satellites" paletteLabel="Satellites" sizingBehavior="auto" id="2Vm-QE-Yqj">
                                     <nil key="toolTip"/>
-                                    <imageReference key="image" image="gyroscope" catalog="system" symbolScale="small"/>
+                                    <imageReference key="image" image="gyroscope" catalog="system" symbolScale="large"/>
                                     <button key="view" id="pwG-yV-e97">
-                                        <rect key="frame" x="9" y="14" width="37.5" height="35.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="16" y="14" width="25" height="25.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="u6V-wf-gyj">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
-                                            <imageReference key="image" image="gyroscope" catalog="system" symbolScale="small"/>
+                                            <imageReference key="image" image="gyroscope" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlack"/>
                                         <connections>
@@ -148,8 +148,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="waveform.path" catalog="system" symbolScale="large"/>
                                     <button key="view" id="29m-z4-P1A">
-                                        <rect key="frame" x="18" y="14" width="38" height="35.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="20" y="14" width="33" height="30.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="18E-Pm-I6J">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
@@ -165,8 +165,8 @@
                                     <nil key="toolTip"/>
                                     <imageReference key="image" image="speaker.fill" catalog="system" symbolScale="large"/>
                                     <button key="view" id="Zgb-uS-bVU">
-                                        <rect key="frame" x="4" y="14" width="38.5" height="35.5"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="12" y="14" width="22.5" height="23.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Omo-I9-tvb">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="systemBold" size="18"/>
@@ -999,7 +999,7 @@
                                                     </textField>
                                                 </gridCell>
                                                 <gridCell row="Gnr-hT-JUr" column="1lR-i9-ZQH" id="icH-2l-S01">
-                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="e4t-xl-wtT">
+                                                    <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="e4t-xl-wtT">
                                                         <rect key="frame" x="0.0" y="0.0" width="268" height="20"/>
                                                         <rows>
                                                             <gridRow id="6w4-tA-Svk"/>
@@ -2488,7 +2488,7 @@
                                                 </gridCell>
                                                 <gridCell row="7VX-ml-65F" column="dDW-fA-QIn" id="kcI-ot-vSR">
                                                     <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="ey8-kP-ubQ">
-                                                        <rect key="frame" x="0.0" y="0.0" width="106" height="20"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="268" height="20"/>
                                                         <rows>
                                                             <gridRow id="W29-HD-0Bi"/>
                                                         </rows>
@@ -2512,7 +2512,7 @@
                                                             </gridCell>
                                                             <gridCell row="W29-HD-0Bi" column="wwe-vL-plw" id="Py1-lK-pou">
                                                                 <button key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DMA-LH-xpc">
-                                                                    <rect key="frame" x="81" y="-1.5" width="25.5" height="24"/>
+                                                                    <rect key="frame" x="243" y="-1.5" width="25.5" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="25" id="BrT-03-nBc"/>
                                                                         <constraint firstAttribute="height" constant="20" id="brl-40-Z61"/>
@@ -3599,33 +3599,168 @@ Gw
                                         </textField>
                                     </gridCell>
                                     <gridCell row="xdH-rM-2JW" column="87D-60-jf8" id="K4Q-M7-d7z">
-                                        <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="aRf-4i-gsN">
+                                        <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="S8Y-ab-ocH">
                                             <rect key="frame" x="134" y="-1.5" width="25.5" height="24"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="20" id="HwS-xh-0D6"/>
-                                                <constraint firstAttribute="width" constant="25" id="pKk-Ft-XYE"/>
+                                                <constraint firstAttribute="width" constant="25" id="gkt-iL-6jj"/>
+                                                <constraint firstAttribute="height" constant="20" id="vca-he-cRD"/>
                                             </constraints>
-                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="t4S-pR-9Bz">
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="8Zi-sL-qdT">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                                 <imageReference key="image" image="questionmark.circle.fill" catalog="system" symbolScale="small"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="HandleHelpButtonPressed:" target="7Me-AT-XNo" id="68G-tN-Fj1"/>
+                                                <action selector="HandleHelpButtonPressed:" target="7Me-AT-XNo" id="4CB-3E-QSJ"/>
                                             </connections>
                                         </button>
                                     </gridCell>
                                 </gridCells>
                             </gridView>
+                            <box fixedFrame="YES" title="NASA Satellite Images" translatesAutoresizingMaskIntoConstraints="NO" id="ufb-US-rZo">
+                                <rect key="frame" x="17" y="246" width="336" height="114"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" id="9tC-FR-AMp">
+                                    <rect key="frame" x="3" y="3" width="330" height="96"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="uZw-qG-HdL">
+                                            <rect key="frame" x="8" y="20" width="303" height="70"/>
+                                            <rows>
+                                                <gridRow id="0Jc-r0-7Sz"/>
+                                                <gridRow id="PWx-k8-1ye"/>
+                                                <gridRow id="ige-8H-IwH"/>
+                                            </rows>
+                                            <columns>
+                                                <gridColumn id="I8m-rw-awr"/>
+                                                <gridColumn id="uZ6-3F-g2T"/>
+                                                <gridColumn id="J99-Nl-8Iw"/>
+                                            </columns>
+                                            <gridCells>
+                                                <gridCell row="0Jc-r0-7Sz" column="I8m-rw-awr" id="Uk2-lK-Gne">
+                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="usP-rQ-OKM">
+                                                        <rect key="frame" x="-2" y="51" width="143" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Enable satellite images" id="L5a-e8-13e">
+                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="0Jc-r0-7Sz" column="uZ6-3F-g2T" id="gYF-RZ-2Rv">
+                                                    <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="qyr-l5-KO6">
+                                                        <rect key="frame" x="143" y="46" width="42" height="25"/>
+                                                        <connections>
+                                                            <action selector="HandleEnableNASATilesSwitchChanged:" target="7Me-AT-XNo" id="wRW-Ug-n6V"/>
+                                                        </connections>
+                                                    </switch>
+                                                </gridCell>
+                                                <gridCell row="0Jc-r0-7Sz" column="J99-Nl-8Iw" id="1gK-Gs-U4x">
+                                                    <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="x8R-Dz-FZy">
+                                                        <rect key="frame" x="278" y="47.5" width="25.5" height="24"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="25" id="WmD-za-qlh"/>
+                                                            <constraint firstAttribute="height" constant="20" id="hKY-Pz-Cwh"/>
+                                                        </constraints>
+                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="NcG-Nw-gnM">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                            <imageReference key="image" image="questionmark.circle.fill" catalog="system" symbolScale="small"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="HandleHelpButtonPressed:" target="7Me-AT-XNo" id="zk7-OP-ndY"/>
+                                                        </connections>
+                                                    </button>
+                                                </gridCell>
+                                                <gridCell row="PWx-k8-1ye" column="I8m-rw-awr" id="V5j-bF-Ysu">
+                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ewr-bt-Md0">
+                                                        <rect key="frame" x="-2" y="24" width="103" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Fetch frequency" id="Fit-93-U1G">
+                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="PWx-k8-1ye" column="uZ6-3F-g2T" id="M9d-WK-tmE">
+                                                    <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BlY-y3-I3O">
+                                                        <rect key="frame" x="145" y="19" width="130" height="25"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="127" id="AtI-PS-Zsx"/>
+                                                            <constraint firstAttribute="height" constant="19" id="DjC-HL-YLO"/>
+                                                        </constraints>
+                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="YSz-3F-PaV">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            <objectValues>
+                                                                <string>Item 1</string>
+                                                                <string>Item 2</string>
+                                                                <string>Item 3</string>
+                                                            </objectValues>
+                                                        </comboBoxCell>
+                                                        <connections>
+                                                            <action selector="HandleFetchIntervalChanged:" target="7Me-AT-XNo" id="jc0-h5-hcS"/>
+                                                        </connections>
+                                                    </comboBox>
+                                                </gridCell>
+                                                <gridCell row="PWx-k8-1ye" column="J99-Nl-8Iw" id="ECx-KD-yDS">
+                                                    <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="3xT-d5-TUs">
+                                                        <rect key="frame" x="278" y="20.5" width="25.5" height="24"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="20" id="e7d-l6-xmt"/>
+                                                            <constraint firstAttribute="width" constant="25" id="hp3-HW-f78"/>
+                                                        </constraints>
+                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="9VY-NA-oBj">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                            <imageReference key="image" image="questionmark.circle.fill" catalog="system" symbolScale="small"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="HandleHelpButtonPressed:" target="7Me-AT-XNo" id="TkV-HY-VHa"/>
+                                                        </connections>
+                                                    </button>
+                                                </gridCell>
+                                                <gridCell row="ige-8H-IwH" column="I8m-rw-awr" id="4UR-cn-hGN">
+                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rNB-7L-Tec">
+                                                        <rect key="frame" x="-2" y="0.0" width="65" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Last fetch" id="urV-Bx-6E4">
+                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="ige-8H-IwH" column="uZ6-3F-g2T" id="R3E-Nl-L8C">
+                                                    <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Brc-RR-IYr">
+                                                        <rect key="frame" x="143" y="0.0" width="126" height="16"/>
+                                                        <textFieldCell key="cell" lineBreakMode="clipping" title="1 Jan 2020, 12:12:12" id="dQu-o3-tUD">
+                                                            <font key="font" usesAppearanceFont="YES"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </gridCell>
+                                                <gridCell row="ige-8H-IwH" column="J99-Nl-8Iw" id="1z8-kM-KWy"/>
+                                            </gridCells>
+                                        </gridView>
+                                    </subviews>
+                                </view>
+                            </box>
                         </subviews>
                     </customView>
                     <connections>
-                        <outlet property="LiveDataHelpButton" destination="aRf-4i-gsN" id="nDh-X5-u1a"/>
+                        <outlet property="EnableNASATilesHelp" destination="x8R-Dz-FZy" id="oFG-pW-BIo"/>
+                        <outlet property="EnableNASATilesSwitch" destination="qyr-l5-KO6" id="09N-NX-oSB"/>
+                        <outlet property="FetchFrequencyHelp" destination="3xT-d5-TUs" id="iCD-6f-Br2"/>
+                        <outlet property="LastFetchTimeField" destination="Brc-RR-IYr" id="rJs-bi-MiR"/>
+                        <outlet property="LiveDataHelpButton" destination="S8Y-ab-ocH" id="jCP-bP-KpK"/>
+                        <outlet property="NASAFetchCombo" destination="BlY-y3-I3O" id="Rkz-OH-eZt"/>
                     </connections>
                 </viewController>
                 <customObject id="6YL-Oi-vD9" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-389" y="4425"/>
+            <point key="canvasLocation" x="-389" y="4424.5"/>
         </scene>
         <!--Map Attributes Preferences-->
         <scene sceneID="b5c-M0-UJG">
@@ -5159,17 +5294,17 @@ Gw
         <image name="RectangleIcon" width="24" height="24"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
         <image name="alarm" catalog="system" width="18" height="19"/>
-        <image name="building.2" catalog="system" width="15" height="13"/>
+        <image name="building.2" catalog="system" width="22" height="20"/>
         <image name="circle" catalog="system" width="19" height="19"/>
         <image name="clock.fill" catalog="system" width="19" height="19"/>
         <image name="ellipsis.circle" catalog="system" width="19" height="19"/>
         <image name="globe" catalog="system" width="19" height="19"/>
-        <image name="gyroscope" catalog="system" width="13" height="12"/>
+        <image name="gyroscope" catalog="system" width="18" height="18"/>
         <image name="map" catalog="system" width="20" height="18"/>
         <image name="mappin.and.ellipse" catalog="system" width="18" height="20"/>
         <image name="n.circle" catalog="system" width="19" height="19"/>
         <image name="network" catalog="system" width="19" height="19"/>
-        <image name="pin.fill" catalog="system" width="13" height="14"/>
+        <image name="pin.fill" catalog="system" width="18" height="21"/>
         <image name="questionmark.circle.fill" catalog="system" width="13" height="13"/>
         <image name="rectangle" catalog="system" width="23" height="17"/>
         <image name="s.circle" catalog="system" width="19" height="19"/>
