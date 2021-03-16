@@ -472,7 +472,7 @@ extension GlobeView: SettingChangedProtocol
                 }
                 
             default:
-                Debug.Print("Unhandled setting \(Setting)")
+                //Debug.Print("Unhandled setting \(Setting)")
                 return
         }
     }
