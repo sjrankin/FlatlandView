@@ -23,7 +23,8 @@ class BuiltInPOIController: NSViewController, NSTableViewDelegate, NSTableViewDa
         super.viewDidLayout()
         Window = self.view.window
         Parent = Window?.sheetParent
-        POIData = MainController.BuiltInPOIs
+//        POIData = MainController.BuiltInPOIs
+        POIData = Settings.GetPOIs()
         POITable.reloadData()
     }
     
