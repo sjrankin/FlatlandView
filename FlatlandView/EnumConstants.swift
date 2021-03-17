@@ -829,6 +829,13 @@ enum RadialConstants: CGFloat
     case RadialRadiusOffset = 0.011
 }
 
+/// Constants related to creating satellite maps.
+enum SatelliteConstants: Double, CaseIterable
+{
+    /// Resize value of each tile. Bigger values consume more memory.
+    case TileSize = 128.0
+}
+
 #if DEBUG
 // MARK: - 3D scene debug constants.
 
