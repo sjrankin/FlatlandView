@@ -149,6 +149,10 @@ class MapManager
                         .GIBS_MODIS_Aqua_CorrectedReflectance_721,
                         .GIBS_SNPP_VIIRS_CorrectedReflectance_TrueColor,
                         .GIBS_SNPP_VIIRS_CorrectedReflectance_M11I2I1,
+                        .GIBS_SNPP_VIIRS_CorrectedReflectance_M3I3M11,
+                        .GIBS_SNPP_VIIRS_DayNightBand_At_Sensor_Radiance,
+                        .GIBS_SNPP_Brightness_Temp_BandI5_Day,
+                        .GIBS_SNPP_Brightness_Temp_BandI5_Night,
                         .GIBS_NOAA20_VIIRS_CorrectedReflectance_TrueColor,
                         .GIBS_NOAA20_VIIRS_CorrectedReflectance_M3I3I11]
                 
