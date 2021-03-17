@@ -19,7 +19,11 @@ extension DBIF
     public static func GetAllUserPOIs() -> [POI2]
     {
         var Results = [POI2]()
-        
+        if DBIF.MappableHandle == nil
+        {
+            Debug.Print("Call to \(#function) before database initialized.")
+            return Results
+        }
         let GetQuery = "SELECT * FROM \(POITableNames.UserPOI.rawValue)"
         let QuerySetupResult = SQL.SetupQuery(For: DBIF.MappableHandle, Query: GetQuery)
         var QueryHandle: OpaquePointer? = nil
@@ -59,6 +63,11 @@ extension DBIF
     public static func GetAllBuiltInPOIs() -> [POI2]
     {
         var Results = [POI2]()
+        if DBIF.MappableHandle == nil
+        {
+            Debug.Print("Call to \(#function) before database initialized.")
+            return Results
+        }
         let GetQuery = "SELECT * FROM \(POITableNames.POI.rawValue)"
         let QuerySetupResult = SQL.SetupQuery(For: DBIF.MappableHandle, Query: GetQuery)
         var QueryHandle: OpaquePointer? = nil
@@ -68,6 +77,8 @@ extension DBIF
                 QueryHandle = Handle
                 
             case .failure(let Why):
+                let StackTrace = Debug.StackFrameContents(10)
+                Debug.Print("\(Debug.PrettyStackTrace(StackTrace))")
                 Debug.Print("Failure creating query for built-in points of interest: \(Why)")
                 let (Message, Value) = SQL.ExtendedError(From: DBIF.MappableHandle)
                 Debug.Print("  \(Message) [\(Value)]")
