@@ -60,7 +60,6 @@ class EarthData
             {
                 if let TileURL = URL(string: Path)
                 {
-                    //Debug.Print("Getting Earth tile at Row \(Row), Column \(Column)")
                     self.GetTile(From: TileURL, Row: Row, Column: Column, ExpectedCount: ExpectedCount,
                                  MaxRows: Map.VerticalTileCount, MaxColumns: Map.HorizontalTileCount)
                     {
@@ -110,7 +109,7 @@ class EarthData
         Queue.addOperation
         {
             var Count = 0
-            let TileSize = 128
+            let TileSize = Int(SatelliteConstants.TileSize.rawValue)
             let BackgroundHeight = TilesY * TileSize
             let BackgroundWidth = TilesX * TileSize
             var Background = NSImage(size: NSSize(width: BackgroundWidth / 2, height: BackgroundHeight / 2))
@@ -129,7 +128,6 @@ class EarthData
                     Count = Count + 1
                 }
             }
-            //Background = self.ResizeImage(Image: Background, Longest: 3600.0)
             let Duration = CACurrentMediaTime() - Start
             Completion?(Background, Duration, When, true, Name)
         }
