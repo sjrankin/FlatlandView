@@ -344,7 +344,6 @@ extension GlobeView
         {
             self.EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
         }
-        //EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
         ApplyAllStencils(Caller: #function)
     }
 }
