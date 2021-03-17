@@ -9,6 +9,8 @@
 import Foundation
 import AppKit
 
+/// Handles retrieval of GIBS (Global Imagery Browse Server from NASA) image tiles.
+/// - Note: We acknowledge the use of imagery provided by services from NASA's Global Imagery Browse Services (GIBS), part of NASA's Earth Observing System Data and Information System (EOSDIS).
 class EarthData
 {
     public weak var Delegate: AsynchronousDataProtocol? = nil
@@ -114,7 +116,7 @@ class EarthData
             let BackgroundWidth = TilesX * TileSize
             var Background = NSImage(size: NSSize(width: BackgroundWidth / 2, height: BackgroundHeight / 2))
             Background.lockFocus()
-            NSColor.systemYellow.drawSwatch(in: NSRect(origin: .zero, size: Background.size))
+            NSColor.black.drawSwatch(in: NSRect(origin: .zero, size: Background.size))
             Background.unlockFocus()
             Background = self.ResizeImage(Image: Background, Longest: CGFloat(TilesX * TileSize))
             autoreleasepool
@@ -136,6 +138,7 @@ class EarthData
     var TileMap = [UUID: (Int, Int)]()
     var Results = [(Row: Int, Column: Int, ID: UUID, Image: NSImage)]()
     var CountLock = NSObject()
+    
     var _DownloadCount = 0
     var DownloadCount: Int
     {
@@ -292,6 +295,22 @@ class EarthData
         Maps.append(SatelliteMap(MapType: MapTypes.GIBS_SNPP_VIIRS_CorrectedReflectance_M11I2I1,
                                  Layer: "VIIRS_SNPP_CorrectedReflectance_BandsM11-I2-I1",
                                  ForDate: Date()))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_SNPP_VIIRS_CorrectedReflectance_M3I3M11,
+                                 Layer: "VIIRS_SNPP_CorrectedReflectance_BandsM3-I3-M11",
+                                 ForDate: Date()))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_SNPP_VIIRS_DayNightBand_At_Sensor_Radiance,
+                                 Layer: "VIIRS_SNPP_DayNightBand_At_Sensor_Radiance",
+                                 ForDate: Date(),
+                                 MatrixSet: "500m",
+                                 Format: "png"))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_SNPP_Brightness_Temp_BandI5_Day,
+                                 Layer: "VIIRS_SNPP_Brightness_Temp_BandI5_Day",
+                                 ForDate: Date(),
+                                 Format: "png"))
+        Maps.append(SatelliteMap(MapType: MapTypes.GIBS_SNPP_Brightness_Temp_BandI5_Night,
+                                 Layer: "VIIRS_SNPP_Brightness_Temp_BandI5_Night",
+                                 ForDate: Date(),
+                                 Format: "png"))
         Maps.append(SatelliteMap(MapType: MapTypes.GIBS_NOAA20_VIIRS_CorrectedReflectance_TrueColor,
                                  Layer: "VIIRS_NOAA_CorrectedReflectance_TrueColor",
                                  ForDate: Date()))
