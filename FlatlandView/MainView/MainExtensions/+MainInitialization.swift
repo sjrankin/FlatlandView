@@ -30,18 +30,9 @@ extension MainController
     /// Initialize program data.
     func ProgramInitialization()
     {
-        FileIO.Initialize()
         PrimaryMapList = ActualMapIO.LoadMapList()
         FontHelper.Initialize()
-
         InitializeCaptiveDialog()
-        
-        //MainController.InitializeMappableDatabase()
-        //MainController.InitializePOIDatabase()
-        //WorldHeritageSites = MainController.GetAllSites()
-        //POIManager.Initialize()
-        //NodeTables.Initialize(Unesco: WorldHeritageSites!)
-        
         Main2DView.InitializeLocations()
         Rect2DView.InitializeLocations()
         Main3DView.PlotCities()
@@ -166,7 +157,7 @@ extension MainController
             let Earth = EarthData()
             Earth.MainDelegate = self
             Earth.Delegate = self
-            Debug.Print("Calling LoadMap")
+            Debug.Print(">>>> **** Calling LoadMap")
             let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
             if let SatMapData = EarthData.MapFromMaps(For: MapValue, From: Maps)
             {
