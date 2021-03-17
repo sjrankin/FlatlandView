@@ -158,7 +158,8 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         }
     }
     
-    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double)
+    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?,
+                                   StartTime: Double, Description: String?)
     {
         ParentWindow.HidePleaseWait()
         if Actual != nil
