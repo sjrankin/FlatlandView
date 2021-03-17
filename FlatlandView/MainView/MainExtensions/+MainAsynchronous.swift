@@ -17,7 +17,8 @@ extension MainController: AsynchronousDataProtocol
     /// - Parameter CategoryType: The type of asynchronous data.
     /// - Parameter Actual: The asynchronous data.
     /// - Parameter StartTime: The time the asynchronous process started.
-    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double)
+    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double,
+                                   Description: String?)
     {
         Debug.Print("AsynchronousDataAvailable(\(CategoryType))")
         switch CategoryType
@@ -53,7 +54,9 @@ extension MainController: AsynchronousDataProtocol
     /// - Parameter ImageDate: The date of the map.
     /// - Parameter Successful: If true, the map was downloaded successfully. If false, the map was not
     ///                         downloaded successfully and all other parameters are undefined.
-    func EarthMapReceived(Image: NSImage, Duration: Double, ImageDate: Date, Successful: Bool)
+    /// - Parameter Description: Name of the satellite map type.
+    func EarthMapReceived(Image: NSImage, Duration: Double, ImageDate: Date, Successful: Bool,
+                          Description: String?)
     {
         if !Successful
         {
@@ -64,13 +67,14 @@ extension MainController: AsynchronousDataProtocol
         }
         Debug.Print("Received Earth map from NASA (\(Image.size.width) x \(Image.size.height))")
         Debug.Print("Map generation duration \(Duration), Date: \(ImageDate)")
-        MapManager.SaveMapInCache(Image)
+        let SatName = Description == nil ? "CombinedMap" : Description!
+        MapManager.SaveMapInCache(Name: SatName, Image)
         let SatelliteMapCreation = Date()
         Settings.SetDoubleNil(.LastNASAFetchTime, SatelliteMapCreation.timeIntervalSince1970)
-        let Maps = EarthData.MakeSatelliteMapDefinitions()
-        Maps[0].CachedMap = Image
+//        Main3DView.SetEarthMap()
         Main3DView.ChangeEarthBaseMap(To: Image)
         Main3DView.ApplyAllStencils()
         Main3DView.PlotRegions(#function)
+        Debug.Print(">>>> NASA map finished.")
     }
 }
