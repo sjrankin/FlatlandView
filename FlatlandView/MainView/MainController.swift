@@ -20,6 +20,7 @@ class MainController: NSViewController
         
         MainController.StartTime = CACurrentMediaTime()
         UptimeStart = CACurrentMediaTime()
+        FileIO.Initialize()
         Settings.Initialize()
         Settings.AddSubscriber(self)
         SoundManager.Initialize()
