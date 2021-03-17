@@ -15,6 +15,8 @@ protocol AsynchronousDataProtocol: AnyObject
     /// - Parameter CategoryType: The type of available data.
     /// - Parameter Actual: The data that was received. May be nil.
     /// - Parameter StartTime: The time the asynchronous process started.
-    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double)
+    /// - Parameter Description: Optional description.
+    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double,
+                                   Description: String?)
 }
 
