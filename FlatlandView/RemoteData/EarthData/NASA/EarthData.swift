@@ -21,7 +21,7 @@ class EarthData
     /// used to retrieve the individual map tiles. The fourth parameter indicates whether the process was
     /// able to be completed or not. If false, there was some reason (most likely the environment value was
     /// not set to "yes") for not downloading the map.
-    typealias MapLoadedHandler = ((NSImage, Double, Date, Bool) -> ())?
+    typealias MapLoadedHandler = ((NSImage, Double, Date, Bool, String?) -> ())?
     
     /// Start downloading image tiles for the passed map type and date.
     /// - Note: If `.EnableNASATiles` is false, control is immedately returned and the last value of the
@@ -34,7 +34,7 @@ class EarthData
     {
         if !Settings.GetBool(.EnableNASATiles)
         {
-            Completed?(NSImage(), 0.0, ImageDate, false)
+            Completed?(NSImage(), 0.0, ImageDate, false, nil)
             return
         }
         let StartTime = CACurrentMediaTime()
@@ -49,7 +49,6 @@ class EarthData
         Queue.addOperation
         {
             MemoryDebug.Open("Get NASA Tiles")
-            Debug.Print(" >> \(Map.Layer): [\(ImageDate)]")
             Map.URLs = SatelliteMap.GenerateTileInformation(From: Map, When: ImageDate)
             let ExpectedCount = Map.URLs.count
             
@@ -66,12 +65,12 @@ class EarthData
                                  MaxRows: Map.VerticalTileCount, MaxColumns: Map.HorizontalTileCount)
                     {
                         //Called when all tiles are downloaded - time to start assembling them.
-                        self.CreateMapFromTiles(TilesX: TilesX, TilesY: TilesY, When: ImageDate)
+                        self.CreateMapFromTiles(TilesX: TilesX, TilesY: TilesY, When: ImageDate, Name: Map.Layer)
                         {
-                            Image, Duration, When, Done in
+                            Image, Duration, When, Done, Name in
                             let TotalDuration = Duration + CACurrentMediaTime() - StartTime
                             Debug.Print("Created satellite map in \(TotalDuration.RoundedTo(1)) seconds)")
-                            Completed?(Image, TotalDuration, When, Done)
+                            Completed?(Image, TotalDuration, When, Done, Map.Layer)
                             MemoryDebug.Close("Get NASA Tiles")
                         }
                     }
@@ -85,7 +84,7 @@ class EarthData
     /// - Parameter TilesY: Number of vertical tiles.
     /// - Parameter When: The date for the images.
     /// - Parameter Completion: Called upon map completion.
-    func CreateMapFromTiles(TilesX: Int, TilesY: Int, When: Date,
+    func CreateMapFromTiles(TilesX: Int, TilesY: Int, When: Date, Name: String,
                             Completion: MapLoadedHandler = nil)
     {
         let Start = CACurrentMediaTime()
@@ -132,7 +131,7 @@ class EarthData
             }
             //Background = self.ResizeImage(Image: Background, Longest: 3600.0)
             let Duration = CACurrentMediaTime() - Start
-            Completion?(Background, Duration, When, true)
+            Completion?(Background, Duration, When, true, Name)
         }
     }
     
