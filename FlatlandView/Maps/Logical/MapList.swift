@@ -226,6 +226,10 @@ enum MapTypes: String, CaseIterable
     case GIBS_MODIS_Aqua_CorrectedReflectance_721 = "MODIS Aqua Bands 721"
     case GIBS_SNPP_VIIRS_CorrectedReflectance_TrueColor = "Suomi NPP True Color"
     case GIBS_SNPP_VIIRS_CorrectedReflectance_M11I2I1 = "Suomi NPP Bands M11, I2, I1"
+    case GIBS_SNPP_VIIRS_CorrectedReflectance_M3I3M11 = "Suomi NPP Bands M3, I3, M11"
+    case GIBS_SNPP_VIIRS_DayNightBand_At_Sensor_Radiance = "Suomi NPP Day Night Band"
+    case GIBS_SNPP_Brightness_Temp_BandI5_Day = "Suomi NPP Brightness Map Day"
+    case GIBS_SNPP_Brightness_Temp_BandI5_Night = "Suomi NPP Brightness Map Night"
     case GIBS_NOAA20_VIIRS_CorrectedReflectance_TrueColor = "NOAA 20 True Color"
     case GIBS_NOAA20_VIIRS_CorrectedReflectance_M3I3I11 = "NOAA 20 Bands M3 I3 I11"
 }
