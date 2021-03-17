@@ -292,7 +292,7 @@ public class Solar
         mRightAscentionArr[0] = RA0
         mDeclinationArr[0] = Dec0
         
-        for K: Int in 0..<24
+        for K: Int in 0 ..< 24
         {
             mRightAscentionArr[2] = RA0 + (Double(K) + 1.0) * (RA1 - RA0) / 24.0
             mDeclinationArr[2] = Dec0 + (Double(K) + 1.0) * (Dec1 - Dec0) / 24.0
