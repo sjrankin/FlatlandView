@@ -122,8 +122,22 @@ extension GlobeView
             }
         }
         
-        let HasOtherImage = WithMap != nil
-        Debug.Print("SetEarthMap{\(MapType)}, Other image specified: \(HasOtherImage)")
+        //If the map is a satellite tile map, load the most recently cached map. If no cached map is available,
+        //display a simple political map.
+        if let Category = MapManager.CategoryFor(Map: MapType)
+        {
+            if Category == .Satellite
+            {
+                if let LastSatelliteMap = MapManager.MostRecentCachedMap()
+                {
+                    BaseMap = LastSatelliteMap
+                }
+                else
+                {
+                    BaseMap = MapManager.ImageFor(MapType: .SimplePoliticalMap1, ViewType: .Globe3D)
+                }
+            }
+        }
         
         switch MapType
         {
@@ -326,7 +340,11 @@ extension GlobeView
     func ChangeEarthBaseMap(To NewMap: NSImage)
     {
         GlobalBaseMap = NewMap
-        EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
+        OperationQueue.main.addOperation
+        {
+            self.EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
+        }
+        //EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
         ApplyAllStencils(Caller: #function)
     }
 }
