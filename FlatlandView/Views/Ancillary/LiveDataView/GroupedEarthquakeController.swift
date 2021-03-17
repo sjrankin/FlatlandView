@@ -247,7 +247,8 @@ class GroupedEarthquakeController: NSViewController, NSTableViewDelegate, NSTabl
     var AllQuakes = [Earthquake]()
     var SourceData = [Earthquake]()
     
-    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double)
+    func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double,
+                                   Description: String?)
     {
         RoundTextView.Hide()
         if Actual != nil
