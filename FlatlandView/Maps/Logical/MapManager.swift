@@ -209,13 +209,14 @@ class MapManager
     
     /// Save the passed image in the local pictures directory.
     /// - Note: This image will be used while new images are downloaded from NASA.
+    /// - Parameter Name: The name of the image.
     /// - Parameter Image: The image to save in the pictures directory.
-    public static func SaveMapInCache(_ Image: NSImage)
+    public static func SaveMapInCache(Name: String, _ Image: NSImage)
     {
         let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let ScratchURL = DocDirURL.appendingPathComponent(FileIO.PictureDirectory)
         let ImageDate = Date.PrettyDateTime(From: Date(), IncludeSeconds: false, ForFileName: true)
-        let FinalURL = ScratchURL.appendingPathComponent("CombinedMap-\(ImageDate).png")
+        let FinalURL = ScratchURL.appendingPathComponent("\(Name)-\(ImageDate).png")
         Image.WritePNG(ToURL: FinalURL)
     }
     
