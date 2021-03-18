@@ -34,6 +34,9 @@ class EarthData
     /// - Parameter Completed: Called when the process is completed.
     func LoadMap(_ Map: SatelliteMap, For ImageDate: Date, Completed: MapLoadedHandler = nil)
     {
+        Debug.Print(">>>>** Loading satellite map \(Map)")
+        let Trace = Debug.StackFrameContents(10)
+        Debug.Print("   \(Debug.PrettyStackTrace(Trace))")
         if !Settings.GetBool(.EnableNASATiles)
         {
             Completed?(NSImage(), 0.0, ImageDate, false, nil)
@@ -47,7 +50,7 @@ class EarthData
         
         let Queue = OperationQueue()
         Queue.qualityOfService = .background
-        Queue.name = "Load Tile Queue"
+        Queue.name = "Load Tile Queue for \(Map)"
         Queue.addOperation
         {
             MemoryDebug.Open("Get NASA Tiles")
@@ -78,6 +81,7 @@ class EarthData
                 }
             }
         }
+        Debug.Print(">>>>** Completed satellite map \(Map)")
     }
     
     /// Given a set of tiles from NASA, create a seamless equirectangular image.
@@ -88,6 +92,7 @@ class EarthData
     func CreateMapFromTiles(TilesX: Int, TilesY: Int, When: Date, Name: String,
                             Completion: MapLoadedHandler = nil)
     {
+        Debug.Print(">>>>>>> Started map creation.")
         let Start = CACurrentMediaTime()
         
         for Result in Results
@@ -133,6 +138,7 @@ class EarthData
             let Duration = CACurrentMediaTime() - Start
             Completion?(Background, Duration, When, true, Name)
         }
+        Debug.Print(">>>>>>> Completed map creation.")
     }
     
     var TileMap = [UUID: (Int, Int)]()
@@ -169,7 +175,7 @@ class EarthData
     {
         let Queue = OperationQueue()
         Queue.qualityOfService = .background
-        Queue.name = "Tile Retrieval Queue"
+        Queue.name = "Tile Retrieval Queue \(Column)x\(Row)"
         Queue.addOperation
         {
             do
@@ -178,7 +184,6 @@ class EarthData
                 if let Image = NSImage(data: ImageData)
                 {
                     objc_sync_enter(self.AccessLock)
-                    //defer{objc_sync_exit(self.AccessLock)}
                     let ID = UUID()
                     self.Results.append((Row, Column, ID, Image))
                     self.TileMap[ID] = (Row, Column)
