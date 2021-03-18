@@ -335,6 +335,7 @@
 		17CC52CA25B93A16002C7BE0 /* StatusBar3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC52C925B93A16002C7BE0 /* StatusBar3D.swift */; };
 		17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BB82491C8E400CACED5 /* SCNRegular.swift */; };
 		17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BBC2491EAA200CACED5 /* SCNPin.swift */; };
+		17CCA4212602DE7400997AAE /* +SatelliteImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CCA4202602DE7400997AAE /* +SatelliteImages.swift */; };
 		17CFEC582522BDAE005C3E49 /* NSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CFEC572522BDAE005C3E49 /* NSView.swift */; };
 		17CFEC6025232A4B005C3E49 /* WorldHeritageSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CFEC5F25232A4B005C3E49 /* WorldHeritageSite.swift */; };
 		17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */; };
@@ -820,6 +821,7 @@
 		17CC52C925B93A16002C7BE0 /* StatusBar3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBar3D.swift; sourceTree = "<group>"; };
 		17CC8BB82491C8E400CACED5 /* SCNRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNRegular.swift; sourceTree = "<group>"; };
 		17CC8BBC2491EAA200CACED5 /* SCNPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPin.swift; sourceTree = "<group>"; };
+		17CCA4202602DE7400997AAE /* +SatelliteImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+SatelliteImages.swift"; sourceTree = "<group>"; };
 		17CFEC572522BDAE005C3E49 /* NSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSView.swift; sourceTree = "<group>"; };
 		17CFEC5F25232A4B005C3E49 /* WorldHeritageSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldHeritageSite.swift; sourceTree = "<group>"; };
 		17D2F6BA2484F6A600404510 /* UserLocationEditorWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationEditorWindow.swift; sourceTree = "<group>"; };
@@ -2399,6 +2401,7 @@
 				17F9AFE42520342D00DE0219 /* +NSSize.swift */,
 				17DEFD5325FE0CDE00371CF6 /* +POISettings.swift */,
 				1743FE76255D1C1E00AD05A7 /* +Query.swift */,
+				17CCA4202602DE7400997AAE /* +SatelliteImages.swift */,
 				17F9AFFA2520354500DE0219 /* +SCNVector3.swift */,
 				17DE2DD325907D0300214204 /* +Secured.swift */,
 				17DE2DC92590753100214204 /* +State.swift */,
@@ -2963,6 +2966,7 @@
 				17F44AA824CEF67700A02B19 /* SatelliteMap.swift in Sources */,
 				178A86A92489134300BE8D46 /* +GridLines.swift in Sources */,
 				17D2F6BB2484F6A600404510 /* UserLocationEditorWindow.swift in Sources */,
+				17CCA4212602DE7400997AAE /* +SatelliteImages.swift in Sources */,
 				17C87B7525177E360065BE6D /* +FlatViewInitialization.swift in Sources */,
 				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
 				17897C8A2514AA6C00544DE1 /* +MainWindowing.swift in Sources */,
