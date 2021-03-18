@@ -173,7 +173,7 @@ class USGS
             USGS.TotalRetrieved = USGS.TotalRetrieved + FinalList.count
             self.CurrentList = FinalList.filter({$0.Magnitude >= 4.0})
             self.Delegate?.AsynchronousDataAvailable(CategoryType: .Earthquakes, Actual: FinalList as Any,
-                                                     StartTime: self.EarthquakeStartTime, Description: nil)
+                                                     StartTime: self.EarthquakeStartTime, Context: nil)
         }
     }
     
