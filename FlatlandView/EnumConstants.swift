@@ -636,6 +636,8 @@ enum FileIONames: String, CaseIterable
     case QuakeHistoryDatabaseS = "EarthquakeHistoryS.db"
     /// General purpose settings database.
     case Settings = "Settings.db"
+    /// Satellite map cache database.
+    case SatelliteMapDatabase = "SatelliteMapCache.db"
 }
 
 /// Table names in the mappable database.
