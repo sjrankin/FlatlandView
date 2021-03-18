@@ -19,17 +19,15 @@ class FileIO
     ///            an undefined state.
     public static func Initialize()
     {
-        //InstallMappableDatabase()
-        //InstallPOIDatabase()
-        //InstallEarthquakeHistoryDatabase()
         InitializeFileStructure()
     }
     
+    /// Install databases if not already installed.
     public static func InstallDatabases()
     {
         InstallDatabase(Name: FileIONames.QuakeHistoryDatabaseS.rawValue)
         InstallDatabase(Name: FileIONames.MappableDatabaseS.rawValue)
-        InstallDatabase(Name: FileIONames.Settings.rawValue) 
+        InstallDatabase(Name: FileIONames.Settings.rawValue)
     }
     
     public static func InstallDatabase(Name: String)
@@ -126,6 +124,9 @@ class FileIO
             do
             {
                 try FileManager.default.createDirectory(atPath: MapsURL.path, withIntermediateDirectories: true, attributes: nil)
+                let SatelliteList = MapManager.GetMapsInCategory(.Satellite)
+                let SatNames = SatelliteList.map({"\($0)"})
+                AddSubDirectories(To: MapsURL, SubDirectory: SatNames)
             }
             catch
             {
@@ -148,6 +149,152 @@ class FileIO
             }
         }
         #endif
+    }
+    
+    /// Get a cached satellite image in the specified directory.
+    /// - Parameter In: The type of satellite image to return. Each satellite map type has its own sub-directory
+    ///                 keyed against the `MapTypes` enum. There should be only one file in each sub-directory.
+    /// - Parameter PerformRemedial: If true, sub-directories that have more than one image are cleared. Sub-
+    ///                              directories that have invalid contents are cleared. Defaults to `true`.
+    /// - Returns: The cached satellite image on success, nil if not found or on error.
+    public static func GetCachedImage(In Directory: MapTypes, PerformRemedial: Bool = true) -> NSImage?
+    {
+        let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let ImageDirURL = DocDirURL.appendingPathComponent(MapDirectory)
+        if !FileManager.default.fileExists(atPath: ImageDirURL.path)
+        {
+            Debug.Print("\(#function): The directory \(ImageDirURL.path) does not exist.")
+            return nil
+        }
+        let SubDirName = "\(Directory)"
+        let SubDir = ImageDirURL.appendingPathComponent(SubDirName)
+        if !FileManager.default.fileExists(atPath: SubDir.path)
+        {
+            Debug.Print("\(#function): The directory \(SubDir.path) does not exist.")
+            return nil
+        }
+        //There should be only one file in the sub-directory...
+        let Contents = FilesIn(Directory: SubDir)
+        if Contents.isEmpty
+        {
+            return nil
+        }
+        if Contents.count > 1 && PerformRemedial
+        {
+            Debug.Print("\(#function): Too many items in \(SubDir.path) - deleting contents.")
+            DeleteContentsOf(Directory: SubDir)
+            return nil
+        }
+        if Contents[0].pathExtension.lowercased() == "png"
+        {
+            let Image = NSImage(contentsOf: Contents[0])
+            return Image
+        }
+        else
+        {
+            if PerformRemedial
+            {
+                Debug.Print("\(#function): Unrecognized file type for \(Contents[0].path): deleting contents.")
+                DeleteContentsOf(Directory: SubDir)
+            }
+            return nil
+        }
+    }
+    
+    /// Save a satellite image to the appropriate sub-directory.
+    /// - Parameter In: Indicates which sub-directory to use to store the satellite map.
+    /// - Parameter Map: The satellite map image to store.
+    /// - Returns: True on success, false on failure.
+    @discardableResult public static func SetCachedImage(In Directory: MapTypes, Map Image: NSImage) -> Bool
+    {
+        let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let ImageDirURL = DocDirURL.appendingPathComponent(MapDirectory)
+        if !FileManager.default.fileExists(atPath: ImageDirURL.path)
+        {
+            Debug.Print("\(#function): The directory \(ImageDirURL.path) does not exist.")
+            return false
+        }
+        let SubDirName = "\(Directory)"
+        let SubDir = ImageDirURL.appendingPathComponent(SubDirName)
+        if !FileManager.default.fileExists(atPath: SubDir.path)
+        {
+            Debug.Print("\(#function): The directory \(SubDir.path) does not exist.")
+            return false
+        }
+        let FileDate = Date.PrettyDateTime(From: Date(), IncludeSeconds: false, ForFileName: true)
+        let FileName = "\(Directory)-\(FileDate).png"
+        let FinalURL = SubDir.appendingPathComponent(FileName)
+        Image.WritePNG(ToURL: FinalURL)
+        return true
+    }
+    
+    /// Return an array of non-hidden file objects in the passed directory.
+    /// - Parameter Directory: The directory whose non-hidden items are returned.
+    /// - Returns: Array of file item URLs.
+    public static func FilesIn(Directory: URL) -> [URL]
+    {
+        var FileList = [URL]()
+        do
+        {
+            let Items = try FileManager.default.contentsOfDirectory(at: Directory, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+            for Item in Items
+            {
+                FileList.append(Item)
+            }
+        }
+        catch
+        {
+            Debug.Print("Error getting contents of \(Directory.path): \(error.localizedDescription)")
+        }
+        return FileList
+    }
+    
+    /// Deletes the contents of the passed directory. Only non-hidden items are deleted.
+    /// - Parameter Directory: The URL of the directory to clear.
+    public static func DeleteContentsOf(Directory: URL)
+    {
+        let AllFiles = FilesIn(Directory: Directory)
+        if AllFiles.isEmpty
+        {
+            return
+        }
+        do
+        {
+            for File in AllFiles
+            {
+                if FileManager.default.fileExists(atPath: File.path)
+                {
+                    try FileManager.default.removeItem(at: File)
+                }
+            }
+        }
+        catch
+        {
+            Debug.Print("Error deleting files: \(error.localizedDescription)")
+        }
+    }
+    
+    /// Add a list of sub-directories to the passed parent directory.
+    /// - Parameter To: The parent directory URL.
+    /// - Parameter SubDirectory: Array of sub-directory names.
+    public static func AddSubDirectories(To Directory: URL, SubDirectory Names: [String])
+    {
+        for Name in Names
+        {
+            let NameDirectory = Directory.appendingPathComponent(Name)
+            if !DirectoryExists(NameDirectory.path)
+            {
+                do
+                {
+                    try FileManager.default.createDirectory(atPath: NameDirectory.path, withIntermediateDirectories: true,
+                                                       attributes: nil)
+                }
+                catch
+                {
+                    Debug.Print("Error creating \(NameDirectory.path): \(error.localizedDescription)")
+                }
+            }
+        }
     }
     
     /// Read the contents of the map structure file.
@@ -338,7 +485,7 @@ class FileIO
         return DBURL
     }
     
-    public static func GetMappagleDatabaseSURL() -> URL?
+    public static func GetMappableDatabaseSURL() -> URL?
     {
         let PathComponent = DatabaseDirectory + "/" + FileIONames.MappableDatabaseS.rawValue
         let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
