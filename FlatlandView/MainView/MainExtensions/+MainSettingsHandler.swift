@@ -37,19 +37,35 @@ extension MainController: SettingChangedProtocol
                         Main3DView.play(self)
                         Main2DView.pause(self)
                         Rect2DView.pause(self)
-                        let (Earth, Sea) = Main3DView.MakeMaps(NewMap)
-                        if Sea != nil
+                        if MapManager.IsSatelliteMap(NewMap)
                         {
-                            Main3DView.SetEarthMap()
+                            let Earlier = Date().HoursAgo(36)
+                            let Maps = EarthData.MakeSatelliteMapDefinitions()
+                            let Earth = EarthData()
+                            Earth.MainDelegate = self
+                            Earth.Delegate = self
+                            Debug.Print("Calling LoadMap in \(#function)")
+                            if let SatMapData = EarthData.MapFromMaps(For: NewMap, From: Maps)
+                            {
+                                Earth.LoadMap(SatMapData, For: Earlier, Completed: EarthMapReceived)
+                            }
                         }
                         else
                         {
-                            Main3DView.ChangeEarthBaseMap(To: Earth)
-                        }
-                        if Settings.GetBool(.EnableEarthquakes)
-                        {
-                            Main3DView.ClearEarthquakes()
-                            Main3DView.PlotEarthquakes()
+                            let (Earth, Sea) = Main3DView.MakeMaps(NewMap)
+                            if Sea != nil
+                            {
+                                Main3DView.SetEarthMap()
+                            }
+                            else
+                            {
+                                Main3DView.ChangeEarthBaseMap(To: Earth)
+                            }
+                            if Settings.GetBool(.EnableEarthquakes)
+                            {
+                                Main3DView.ClearEarthquakes()
+                                Main3DView.PlotEarthquakes()
+                            }
                         }
                         
                     case .FlatNorthCenter, .FlatSouthCenter:
