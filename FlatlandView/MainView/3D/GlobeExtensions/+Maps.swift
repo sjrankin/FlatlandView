@@ -124,13 +124,15 @@ extension GlobeView
         
         //If the map is a satellite tile map, load the most recently cached map. If no cached map is available,
         //display a simple political map.
+        var IsSatelliteMap = false
         if let Category = MapManager.CategoryFor(Map: MapType)
         {
             if Category == .Satellite
             {
-                if let LastSatelliteMap = MapManager.MostRecentCachedMap()
+                if let LastSatelliteMap = Settings.GetCachedImage(For: MapType)
                 {
                     BaseMap = LastSatelliteMap
+                    IsSatelliteMap = true
                 }
                 else
                 {
@@ -162,6 +164,14 @@ extension GlobeView
         EarthNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
+        if IsSatelliteMap
+        {
+            EarthNode?.geometry?.firstMaterial?.emission.contents = BaseMap!
+        }
+        else
+        {
+            EarthNode?.geometry?.firstMaterial?.emission.contents = nil
+        }
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
         //The blend mode must be .replace if there are nodes over the Earth with alpha levels. Those nodes
         //must have a blend mode of .alpha.
