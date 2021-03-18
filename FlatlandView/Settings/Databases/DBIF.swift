@@ -19,9 +19,8 @@ class DBIF
         if !MappableInitialized
         {
             _MappableInitialized = true
-            if let MappableURL = FileIO.GetMappagleDatabaseSURL()
+            if let MappableURL = FileIO.GetMappableDatabaseSURL()
             {
-                Debug.Print("MappableURL=\(MappableURL.path)")
                 if sqlite3_open_v2(MappableURL.path, &MappableHandle,
                                    SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
                 {
@@ -38,7 +37,6 @@ class DBIF
             _QuakesInitialized = true
             if let QuakeURL = FileIO.GetEarthquakeHistoryDatabaseSURL()
             {
-                Debug.Print("Opening quake database \(QuakeURL.path)")
                 if sqlite3_open_v2(QuakeURL.path, &QuakeHandle,
                                    SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
                 {
@@ -55,7 +53,6 @@ class DBIF
             _SettingsInitialized = true
             if let SettingsURL = FileIO.GetSettingsDatabaseURL()
             {
-                Debug.Print("Opening settings database \(SettingsURL.path)")
                 if sqlite3_open_v2(SettingsURL.path, &SettingsHandle,
                                    SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
                 {
