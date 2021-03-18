@@ -23,7 +23,7 @@ class EarthData
     /// used to retrieve the individual map tiles. The fourth parameter indicates whether the process was
     /// able to be completed or not. If false, there was some reason (most likely the environment value was
     /// not set to "yes") for not downloading the map.
-    typealias MapLoadedHandler = ((NSImage, Double, Date, Bool, String?) -> ())?
+    typealias MapLoadedHandler = ((NSImage, Double, Date, Bool, Any?) -> ())?
     
     /// Start downloading image tiles for the passed map type and date.
     /// - Note: If `.EnableNASATiles` is false, control is immedately returned and the last value of the
@@ -71,7 +71,7 @@ class EarthData
                             Image, Duration, When, Done, Name in
                             let TotalDuration = Duration + CACurrentMediaTime() - StartTime
                             Debug.Print("Created satellite map in \(TotalDuration.RoundedTo(1)) seconds)")
-                            Completed?(Image, TotalDuration, When, Done, Map.Layer)
+                            Completed?(Image, TotalDuration, When, Done, Map.SatelliteMapType)
                             MemoryDebug.Close("Get NASA Tiles")
                         }
                     }
@@ -164,8 +164,7 @@ class EarthData
     /// - Parameter MaxRows: The maximum number of rows in the full image.
     /// - Parameter MaxColumns: The maximum number of columns in the full image.
     /// - Parameter Completed: Closure called when a tile has been received.
-    func GetTile(From: URL, Row: Int, Column: Int, ExpectedCount: Int,
-                 MaxRows: Int, MaxColumns: Int,
+    func GetTile(From: URL, Row: Int, Column: Int, ExpectedCount: Int, MaxRows: Int, MaxColumns: Int,
                  Completed: (() -> ())? = nil)
     {
         let Queue = OperationQueue()
@@ -282,7 +281,8 @@ class EarthData
                                  ForDate: Date()))
         Maps.append(SatelliteMap(MapType: MapTypes.GIBS_MODIS_Terra_SurfaceReflectance_143,
                                  Layer: "MODIS_Terra_CorrectedReflectance_Bands143",
-                                 ForDate: Date(), MatrixSet: "500m"))
+                                 ForDate: Date(),
+                                 MatrixSet: "500m"))
         Maps.append(SatelliteMap(MapType: MapTypes.GIBS_MODIS_Aqua_CorrectedReflectance_TrueColor,
                                  Layer: "MODIS_Aqua_CorrectedReflectance_TrueColor",
                                  ForDate: Date()))
