@@ -17,8 +17,9 @@ extension MainController: AsynchronousDataProtocol
     /// - Parameter CategoryType: The type of asynchronous data.
     /// - Parameter Actual: The asynchronous data.
     /// - Parameter StartTime: The time the asynchronous process started.
+    /// - Parameter Context: Contextual data.
     func AsynchronousDataAvailable(CategoryType: AsynchronousDataCategories, Actual: Any?, StartTime: Double,
-                                   Description: String?)
+                                   Context: Any?)
     {
         Debug.Print("AsynchronousDataAvailable(\(CategoryType))")
         switch CategoryType
@@ -54,9 +55,9 @@ extension MainController: AsynchronousDataProtocol
     /// - Parameter ImageDate: The date of the map.
     /// - Parameter Successful: If true, the map was downloaded successfully. If false, the map was not
     ///                         downloaded successfully and all other parameters are undefined.
-    /// - Parameter Description: Name of the satellite map type.
+    /// - Parameter Context: Context data. In our case, `Context` holds the satellite map enum value.
     func EarthMapReceived(Image: NSImage, Duration: Double, ImageDate: Date, Successful: Bool,
-                          Description: String?)
+                          Context: Any?)
     {
         if !Successful
         {
@@ -67,14 +68,16 @@ extension MainController: AsynchronousDataProtocol
         }
         Debug.Print("Received Earth map from NASA (\(Image.size.width) x \(Image.size.height))")
         Debug.Print("Map generation duration \(Duration), Date: \(ImageDate)")
-        let SatName = Description == nil ? "CombinedMap" : Description!
-        MapManager.SaveMapInCache(Name: SatName, Image)
-        let SatelliteMapCreation = Date()
-        Settings.SetDoubleNil(.LastNASAFetchTime, SatelliteMapCreation.timeIntervalSince1970)
-//        Main3DView.SetEarthMap()
-        Main3DView.ChangeEarthBaseMap(To: Image)
-        Main3DView.ApplyAllStencils()
-        Main3DView.PlotRegions(#function)
-        Debug.Print(">>>> NASA map finished.")
+        if let MapType = Context as? MapTypes
+        {
+            Settings.SetCachedImage(Image, SatelliteType: MapType)
+            let SatelliteMapCreation = Date()
+            Settings.SetDoubleNil(.LastNASAFetchTime, SatelliteMapCreation.timeIntervalSince1970)
+            //        Main3DView.SetEarthMap()
+            Main3DView.ChangeEarthBaseMap(To: Image)
+            Main3DView.ApplyAllStencils()
+            Main3DView.PlotRegions(#function)
+        }
+        Debug.Print("NASA map finished.")
     }
 }
