@@ -147,13 +147,20 @@ class MainController: NSViewController
         SetWindowDelegate()
     }
     
+    var FlatlandInitialized: Bool = false
+    
     /// Initialize things that require a fully set-up window.
     override func viewDidLayout()
     {
         InterfaceInitialization()
         StatusBar.SetConstraints(Left: Status3DLeftConstraint, Right: Status3DRightConstraint)
         StatusBar.SetVisibility(Settings.GetBool(.ShowStatusBar))
-        InitializeFlatland()
+        if !FlatlandInitialized
+        {
+            //Only do some initialization once.
+            FlatlandInitialized = true
+            InitializeFlatland()
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(HandlePrimaryViewContentsSizeChange),
                                                name: NSView.frameDidChangeNotification, object: PrimaryView)
         
@@ -167,7 +174,7 @@ class MainController: NSViewController
         }
         else
         {
-            fatalError("Unable to get app delegate: \(#function)")
+            Debug.FatalError("Unable to get app delegate: \(#function)")
         }
         
         SetWorldLock(Settings.GetBool(.WorldIsLocked))
