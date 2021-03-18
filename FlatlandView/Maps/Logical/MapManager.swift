@@ -125,6 +125,13 @@ class MapManager
         return Results
     }
     
+    /// Convenience function to determine if the passed map type is a satellite map.
+    /// - Returns:
+    public static func IsSatelliteMap(_ MapType: MapTypes) -> Bool
+    {
+        return GetMapsInCategory(.Satellite).contains(MapType)
+    }
+    
     /// Returns the set of maps associated with the passed map category.
     /// - Parameter Category: The category whose list of maps is returned.
     /// - Returns: List of maps for the passed category.
@@ -211,6 +218,7 @@ class MapManager
         return nil
     }
     
+    #if false
     /// Save the passed image in the local pictures directory.
     /// - Note: This image will be used while new images are downloaded from NASA.
     /// - Parameter Name: The name of the image.
@@ -232,11 +240,9 @@ class MapManager
         {
             return
         }
-        
         do
         {
             for File in AllFiles
-            
             {
                 if FileManager.default.fileExists(atPath: File.path)
                 {
@@ -318,6 +324,7 @@ class MapManager
         let Image = NSImage(contentsOf: FileList[0].FileLocation)
         return Image
     }
+    #endif
 }
 
 /// Map categories.
