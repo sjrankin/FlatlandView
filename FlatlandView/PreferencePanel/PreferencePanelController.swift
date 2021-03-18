@@ -298,6 +298,7 @@ Lets you change the sample view of the map you are looking at.
                 case .ChangingMapsHelp:
                     Message = """
 Maps are grouped into categories and you can see a sample of each map by clicking on it. However, the main view's map will not change until you close the Preferences window or click the |font type=bold|Update Now|font type=system| button.
+Satellite maps are dependent on a remote source and may or may not be available due to uncontrollable circumstances. If available, the most recently used satellite map wil be shown as an example.
 """
                     
                 case .UpdateNowHelp:
