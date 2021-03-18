@@ -29,11 +29,15 @@ class MemoryDebug
     public static func HasLocation(_ Name: String) -> Bool
     {
         #if DEBUG
+        objc_sync_enter(LocationSync)
+        defer{objc_sync_exit(LocationSync)}
         return Locations[Name] != nil
         #else
         return false
         #endif
     }
+    
+    public static var LocationSync = NSObject()
     
     /// Open a memory location for starting the measurement of memory.
     /// - Note: All previous data in pre-existing memory locations are zeroed and lost.
