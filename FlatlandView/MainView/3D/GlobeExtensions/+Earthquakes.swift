@@ -22,10 +22,12 @@ extension GlobeView
         {
             if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
             {
+                #if false
                 if let FromWhere = From
                 {
                     print("Called from \(FromWhere)")
                 }
+                #endif
                 if let AlreadyDone = InitialStenciledMap
                 {
                     ApplyEarthquakeStencils(InitialMap: AlreadyDone, Caller: #function)
