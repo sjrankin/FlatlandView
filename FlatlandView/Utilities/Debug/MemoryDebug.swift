@@ -85,7 +85,12 @@ class MemoryDebug
                 Record.Delta = Int64(Record.End!) - Int64(Record.Start!)
                 if DebugPrint
                 {
-                    Debug.Print("MemoryDebug Operation \"\(Name)\": Memory delta \(Record.Delta!.Delimited())")
+                    var Sign = ""
+                    if Record.Delta! > 0
+                    {
+                        Sign = "+"
+                    }
+                    Debug.Print("MemoryDebug Operation \"\(Name)\": Memory delta \(Sign)\(Record.Delta!.Delimited())")
                 }
                 return Record.Delta
             }
