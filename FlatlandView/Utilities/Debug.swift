@@ -40,12 +40,16 @@ class Debug
         #endif
     }
     
+    private static var PrintGate = NSObject()
+    
     /// Print a message to the debug console prefixed by the time this function was called.
     /// - Note: If compiled with #DEBUG on, the message will be prefixed with a time stamp and saved in the
     ///         cumulative log list. If #DEBUG is false, the message will be printed in the debug console.
     /// - Parameter Message: The message to print.
     public static func Print(_ Message: String)
     {
+        objc_sync_enter(PrintGate)
+        defer{objc_sync_exit(PrintGate)}
         #if DEBUG
         let Prefix = Utility.MakeTimeString(TheDate: Date())
         print("\(Prefix): \(Message)")
