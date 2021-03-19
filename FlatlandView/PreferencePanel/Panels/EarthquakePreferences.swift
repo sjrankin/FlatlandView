@@ -18,6 +18,7 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
     {
         super.viewDidLoad()
         
+        ShowQRCodeSwitch.state = Settings.GetBool(.ShowMagnitudeBarCode) ? .on : .off
         let PreviousScale = Settings.GetEnum(ForKey: .QuakeScales, EnumType: MapNodeScales.self, Default: .Normal)
         switch PreviousScale
         {
@@ -112,6 +113,9 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
                     
                 case NewQuakeIndicatorHelp:
                     Parent?.ShowHelp(For: .NewQuakeIndicator, Where: Button.bounds, What: NewQuakeIndicatorHelp)
+                    
+                case QRCodeHelp:
+                    Parent?.ShowHelp(For: .QRCodeHelp, Where: Button.bounds, What: QRCodeHelp) 
                     
                 default:
                     return
@@ -248,6 +252,14 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
         return Alert.runModal() == .alertFirstButtonReturn
     }
     
+    @IBAction func HandleShowQRCodeChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.ShowMagnitudeBarCode, Switch.state == .on ? true : false)
+        }
+    }
+    
     func ResetToFactorySettings()
     {
         Settings.SetBool(.HighlightRecentEarthquakes, false)
@@ -260,10 +272,13 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
         QuakeShapeCombo.selectItem(withObjectValue: EarthquakeShapes.Arrow.rawValue)
         Settings.SetEnum(.Normal, EnumType: MapNodeScales.self, ForKey: .QuakeScales)
         QuakeScaleSegment.selectedSegment = 1
+        ShowQRCodeSwitch.state = .off
     }
     
     var HelpButtons: [NSButton] = [NSButton]()
 
+    @IBOutlet weak var ShowQRCodeSwitch: NSSwitch!
+    @IBOutlet weak var QRCodeHelp: NSButton!
     @IBOutlet weak var NewQuakeComboBox: NSComboBox!
     @IBOutlet weak var NewQuakeIndicatorHelp: NSButton!
     @IBOutlet weak var PanelResetHelp: NSButton!
