@@ -234,7 +234,6 @@ extension Settings
         #endif
         
         let Compressed = CompressQuakes(QuakeList)
-        print("Source quake count: \(QuakeList.count), Compressed quake count: \(Compressed.count)")
         for Quake in Compressed
         {
             let QuakeData = Earthquake.GetFieldData(Quake)
