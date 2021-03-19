@@ -41,6 +41,7 @@ class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         HelpButtons.append(ResetPaneHelp)
         HelpButtons.append(UpdateNowHelpButton)
         HelpButtons.append(MapTableHelp)
+        HelpButtons.append(SaveImageHelp)
         SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
     }
     
@@ -160,9 +161,22 @@ class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         {
             ImageCenter = .NorthPole
         }
-        if let MapImage = MapManager.ImageFor(MapType: CurrentMap, ViewType: ViewType, ImageCenter: ImageCenter)
+        SaveImageGrid.isHidden = true
+        if MapManager.IsSatelliteMap(CurrentMap)
         {
-            SampleMapView.image = MapImage
+            if let SatMap = Settings.GetCachedImage(For: CurrentMap)
+            {
+                MapViewTypeSegment.selectedSegment = 2
+                SampleMapView.image = SatMap
+                SaveImageGrid.isHidden = false
+            }
+        }
+        else
+        {
+            if let MapImage = MapManager.ImageFor(MapType: CurrentMap, ViewType: ViewType, ImageCenter: ImageCenter)
+            {
+                SampleMapView.image = MapImage
+            }
         }
     }
     
@@ -184,9 +198,40 @@ class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSour
                 case UpdateNowHelpButton:
                     Parent?.ShowHelp(For: .UpdateNowHelp, Where: Button.bounds, What: UpdateNowHelpButton)
                     
+                case SaveImageHelp:
+                    Parent?.ShowHelp(For: .SaveImageHelp, Where: Button.bounds, What: SaveImageHelp)
+                    
                 default:
                     return
             }
+        }
+    }
+    
+    @IBAction func HandleSaveButtonPressed(_ sender: Any)
+    {
+        let SavePanel = NSSavePanel()
+        SavePanel.showsTagField = true
+        SavePanel.title = "Save Satellite Map Image"
+        SavePanel.allowedFileTypes = ["png"]
+        SavePanel.canCreateDirectories = true
+        let Now = Date()
+        let PrettyDate = Now.PrettyDate()
+        let PrettyTime = Now.PrettyTime(ForFileName: true)
+        SavePanel.nameFieldStringValue = "Flatland Satellite Map \(PrettyDate), \(PrettyTime).png"
+        SavePanel.level = .modalPanel
+        var SaveLocation: URL? = nil
+        if SavePanel.runModal() == .OK
+        {
+            SaveLocation = SavePanel.url
+        }
+        else
+        {
+            return
+        }
+        
+        if let SatMap = Settings.GetCachedImage(For: CurrentMap)
+        {
+            SatMap.WritePNG(ToURL: SaveLocation!)
         }
     }
     
@@ -250,6 +295,8 @@ class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSour
     
     var HelpButtons: [NSButton] = [NSButton]()
     
+    @IBOutlet weak var SaveImageHelp: NSButton!
+    @IBOutlet weak var SaveImageGrid: NSGridView!
     @IBOutlet weak var MapTableView: NSTableView!
     @IBOutlet weak var UpdateNowHelpButton: NSButton!
     @IBOutlet weak var MapTableHelp: NSButton!
@@ -264,4 +311,23 @@ class TableMapNode
 {
     var IsHeader: Bool = false
     var Title: String = ""
+}
+
+
+class NSImageView2: NSImageView
+{
+    override init(frame frameRect: NSRect)
+    {
+        super.init(frame: frameRect)
+    }
+    
+    required init?(coder: NSCoder)
+    {
+        super.init(coder: coder)
+    }
+    
+    override func rightMouseDown(with event: NSEvent)
+    {
+        super.rightMouseDown(with: event)
+    }
 }
