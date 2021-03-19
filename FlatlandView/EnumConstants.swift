@@ -838,6 +838,15 @@ enum SatelliteConstants: Double, CaseIterable
     case TileSize = 128.0
 }
 
+enum BarcodeConstants: Double, CaseIterable
+{
+    case OverlayTextSize = 60.0
+    case ReducedTextSize = 36.0
+    case TextOnTopAlpha = 0.6
+    case TextOnBottomAlpha = 0.95
+    case FinalScale = 3.0
+}
+
 #if DEBUG
 // MARK: - 3D scene debug constants.
 
