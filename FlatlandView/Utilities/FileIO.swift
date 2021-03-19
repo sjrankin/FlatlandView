@@ -204,8 +204,11 @@ class FileIO
     /// Save a satellite image to the appropriate sub-directory.
     /// - Parameter In: Indicates which sub-directory to use to store the satellite map.
     /// - Parameter Map: The satellite map image to store.
+    /// - Parameter InitialClear: If true, the sub-directory associated with the map type is cleared of
+    ///                           contents before the image is cached. Defaults to `true`.
     /// - Returns: True on success, false on failure.
-    @discardableResult public static func SetCachedImage(In Directory: MapTypes, Map Image: NSImage) -> Bool
+    @discardableResult public static func SetCachedImage(In Directory: MapTypes, Map Image: NSImage,
+                                                         InitialClear: Bool = true) -> Bool
     {
         let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let ImageDirURL = DocDirURL.appendingPathComponent(MapDirectory)
@@ -220,6 +223,10 @@ class FileIO
         {
             Debug.Print("\(#function): The directory \(SubDir.path) does not exist.")
             return false
+        }
+        if InitialClear
+        {
+            DeleteContentsOf(Directory: SubDir)
         }
         let FileDate = Date.PrettyDateTime(From: Date(), IncludeSeconds: false, ForFileName: true)
         let FileName = "\(Directory)-\(FileDate).png"
