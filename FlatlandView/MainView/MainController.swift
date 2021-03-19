@@ -152,40 +152,39 @@ class MainController: NSViewController
     /// Initialize things that require a fully set-up window.
     override func viewDidLayout()
     {
-        InterfaceInitialization()
-        StatusBar.SetConstraints(Left: Status3DLeftConstraint, Right: Status3DRightConstraint)
-        StatusBar.SetVisibility(Settings.GetBool(.ShowStatusBar))
         if !FlatlandInitialized
         {
-            //Only do some initialization once.
+            //viewDidLayout is called multiple times be we only need to initialize once...
             FlatlandInitialized = true
+            InterfaceInitialization()
+            StatusBar.SetConstraints(Left: Status3DLeftConstraint, Right: Status3DRightConstraint)
+            StatusBar.SetVisibility(Settings.GetBool(.ShowStatusBar))
             InitializeFlatland()
-        }
-        NotificationCenter.default.addObserver(self, selector: #selector(HandlePrimaryViewContentsSizeChange),
-                                               name: NSView.frameDidChangeNotification, object: PrimaryView)
-        
-        if let AD = NSApplication.shared.delegate as? AppDelegate
-        {
-            MainApp = AD
-            if MainApp == nil
+            NotificationCenter.default.addObserver(self, selector: #selector(HandlePrimaryViewContentsSizeChange),
+                                                   name: NSView.frameDidChangeNotification, object: PrimaryView)
+            if let AD = NSApplication.shared.delegate as? AppDelegate
             {
-                Debug.Print("MainApp is nil")
+                MainApp = AD
+                if MainApp == nil
+                {
+                    Debug.Print("MainApp is nil")
+                }
             }
+            else
+            {
+                Debug.FatalError("Unable to get app delegate: \(#function)")
+            }
+            
+            SetWorldLock(Settings.GetBool(.WorldIsLocked))
+            SetMouseLocationVisibility(Visible: Settings.GetBool(.FollowMouse))
+            
+            StatusBar.ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
+                                     For: StatusBarConstants.InitialMessageDuration.rawValue)
+            StatusBar.AddQueuedMessage("Refreshing earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
+                                       ID: EQMessageID)
+            
+            InitializeWorldClock()
         }
-        else
-        {
-            Debug.FatalError("Unable to get app delegate: \(#function)")
-        }
-        
-        SetWorldLock(Settings.GetBool(.WorldIsLocked))
-        SetMouseLocationVisibility(Visible: Settings.GetBool(.FollowMouse))
-        
-        StatusBar.ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
-                       For: StatusBarConstants.InitialMessageDuration.rawValue)
-        StatusBar.AddQueuedMessage("Refreshing earthquake data.", ExpiresIn: StatusBarConstants.EarthquakeWaitingDuration.rawValue,
-                         ID: EQMessageID)
-        
-        InitializeWorldClock()
     }
 
     /// Handle content view size changed events.
