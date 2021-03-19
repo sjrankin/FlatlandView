@@ -143,10 +143,10 @@ class EarthData
     
     var TileMap = [UUID: (Int, Int)]()
     var Results = [(Row: Int, Column: Int, ID: UUID, Image: NSImage)]()
-    var CountLock = NSObject()
+     var CountLock = NSObject()
     
-    var _DownloadCount = 0
-    var DownloadCount: Int
+    private  var _DownloadCount: Int = 0
+    public  var DownloadCount: Int
     {
         get
         {
@@ -160,6 +160,68 @@ class EarthData
             defer{objc_sync_exit(CountLock)}
             _DownloadCount = newValue
         }
+    }
+
+    private static var CumulativeCountLock = NSObject()
+    private static var _CumulativeTilesDownloaded: Int = 0
+    public static var CumulativeTilesDownloaded: Int
+    {
+        get
+        {
+            objc_sync_enter(CumulativeCountLock)
+            defer{objc_sync_exit(CumulativeCountLock)}
+            return _CumulativeTilesDownloaded
+        }
+        set
+        {
+            objc_sync_enter(CumulativeCountLock)
+            defer{objc_sync_exit(CumulativeCountLock)}
+            _CumulativeTilesDownloaded = newValue
+        }
+    }
+    
+    private static var CumulativeByteCountLock = NSObject()
+    private static var _CumulativeByteCount: UInt64 = 0
+    public static var CumulativeByteCount: UInt64
+    {
+        get
+        {
+            objc_sync_enter(CumulativeByteCountLock)
+            defer{objc_sync_exit(CumulativeByteCountLock)}
+            return _CumulativeByteCount
+        }
+        set
+        {
+            objc_sync_enter(CumulativeByteCountLock)
+            defer{objc_sync_exit(CumulativeByteCountLock)}
+            _CumulativeByteCount = newValue
+        }
+    }
+    
+    public static var CumulativeDurations = [Double]()
+    
+    public static func TotalDownloadDuration() -> Double
+    {
+        var Total: Double = 0.0
+        for Down in CumulativeDurations
+        {
+            Total = Total + Down
+        }
+        return Total
+    }
+    
+    public static func MeanDownloadDuration() -> Double
+    {
+        if CumulativeDurations.isEmpty
+        {
+            return 0.0
+        }
+        var Total: Double = 0.0
+        for Down in CumulativeDurations
+        {
+            Total = Total + Down
+        }
+        return Total / Double(CumulativeDurations.count)
     }
     
     /// Call a NASA server to get an image tile.
@@ -184,10 +246,14 @@ class EarthData
                 if let Image = NSImage(data: ImageData)
                 {
                     objc_sync_enter(self.AccessLock)
+                    var ByteSize = Int(Image.size.width * Image.size.height)
+                    ByteSize = ByteSize * 4
+                    EarthData.CumulativeByteCount = EarthData.CumulativeByteCount + UInt64(ByteSize)
                     let ID = UUID()
                     self.Results.append((Row, Column, ID, Image))
                     self.TileMap[ID] = (Row, Column)
                     self.DownloadCount = self.DownloadCount + 1
+                    EarthData.CumulativeTilesDownloaded = EarthData.CumulativeTilesDownloaded + 1
                     objc_sync_exit(self.AccessLock)
                     if self.DownloadCount == ExpectedCount
                     {
