@@ -164,13 +164,14 @@ extension GlobeView
         EarthNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
         EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
+        EarthNode?.geometry?.firstMaterial?.emission.contents = nil
         if IsSatelliteMap
         {
-            EarthNode?.geometry?.firstMaterial?.emission.contents = BaseMap!
-        }
-        else
-        {
-            EarthNode?.geometry?.firstMaterial?.emission.contents = nil
+            if MapType == .GIBS_SNPP_VIIRS_DayNightBand_At_Sensor_Radiance
+            {
+                print("<><><><> Setting night map to emission")
+                EarthNode?.geometry?.firstMaterial?.emission.contents = BaseMap!
+            }
         }
         EarthNode?.geometry?.firstMaterial?.lightingModel = .blinn
         //The blend mode must be .replace if there are nodes over the Earth with alpha levels. Those nodes
