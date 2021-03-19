@@ -168,6 +168,7 @@ extension Settings
             .EarthquakeRegions: String.self,
             .ShowEarthquakeRegions: Bool.self,
             .GeneralMinimumMagnitude: Double.self,
+            .ShowMagnitudeBarCode: Bool.self,
             .PreloadNASATiles: Bool.self,
             .NotifiedEarthquakes: String.self,
             .NotifyLocation: NotificationLocations.self,
