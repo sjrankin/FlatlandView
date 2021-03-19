@@ -214,11 +214,11 @@ class Stenciler
             let CityFont = NSFont.GetFont(InOrder: ["SFProText-Bold", "HelveticaNeue-Bold", "Avenir-Black", "ArialMT"],
                                           Size: FontSize + LatitudeFontOffset)
             let Record = TextRecord(Text: City.Name, Location: Location, Font: CityFont, Color: CityColor,
-                                    OutlineColor: NSColor.black)
+                                    OutlineColor: NSColor.black, QRCode: nil, Quake: nil)
             PlotMe.append(Record)
         }
         
-        Working = DrawOn(Rep: Working, Messages: PlotMe)
+        Working = DrawOn(Rep: Working, Messages: PlotMe, ForQuakes: false)
         return Working
     }
     
@@ -359,21 +359,23 @@ class Stenciler
                 LocationPoint = NSPoint(x: Image.size.width - Length,
                                         y: LocationPoint.y)
             }
+            let QRImage: NSImage? = Barcodes.QRCode(With: Quake.EventPageURL,
+                                                    FinalSize: NSSize(width: 100, height: 100))
             let Record = TextRecord(Text: EqText, Location: LocationPoint,
-                                    Font: QuakeFont, Color: BaseColor, OutlineColor: NSColor.black)
+                                    Font: QuakeFont, Color: BaseColor, OutlineColor: NSColor.black,
+                                    QRCode: QRImage, Quake: Quake)
             PlotMe.append(Record)
         }
-        Working = DrawOn(Rep: Working, Messages: PlotMe)
+        Working = DrawOn(Rep: Working, Messages: PlotMe, ForQuakes: true)
         return Working
     }
     
     /// Draw a set of strings on the passed image.
-    /// - Parameter Image: The sourse image where to draw the text.
-    /// - Parameter Messages: Array of tuples of strings and their location where to draw.
-    /// - Parameter Font: The font to use to draw the text.
-    /// - Parameter Color: The color of the text to draw.
+    /// - Parameter Rep: Image representation on which text is drawn.
+    /// - Parameter Messages: Array of text records to display.
+    /// - Parameter ForQuakes: If true, the text is drawn for earthquakes. Otherwise, normal text is assumed.
     /// - Returns: Image with the text drawn on it.
-    private static func DrawOn(Rep: NSBitmapImageRep, Messages: [TextRecord]) -> NSBitmapImageRep
+    private static func DrawOn(Rep: NSBitmapImageRep, Messages: [TextRecord], ForQuakes: Bool) -> NSBitmapImageRep
     {
         guard let Context = NSGraphicsContext(bitmapImageRep: Rep) else
         {
@@ -386,6 +388,8 @@ class Stenciler
         {
             autoreleasepool
             {
+                var MessageWidth: CGFloat = 0.0
+                var MagLocation: NSPoint = NSPoint.zero
                 if UsePlainText
                 {
                     let WorkingText: NSString = NSString(string: Message.Text)
@@ -394,6 +398,9 @@ class Stenciler
                     Attrs[NSAttributedString.Key.foregroundColor] = Message.Color as Any
                     WorkingText.draw(at: NSPoint(x: Message.Location.x, y: Message.Location.y),
                                      withAttributes: Attrs)
+                    MagLocation = Message.Location
+                    let TextSize = WorkingText.size(withAttributes: Attrs)
+                    MessageWidth = TextSize.width
                 }
                 else
                 {
@@ -407,7 +414,32 @@ class Stenciler
                     }
                     let AttrString = NSAttributedString(string: Message.Text, attributes: Attrs)
                     let FinalLocation = NSPoint(x: Message.Location.x, y: Message.Location.y - (AttrString.size().height / 2.0))
+                    MagLocation = FinalLocation
                     AttrString.draw(at: FinalLocation)
+                    let TextSize = AttrString.size()
+                    MessageWidth = TextSize.width
+                }
+                if ForQuakes
+                {
+                    if Settings.GetBool(.ShowMagnitudeBarCode)
+                    {
+                        if let QRCode = Message.QRCode
+                        {
+                            var FinalX = MagLocation.x + MessageWidth + 5
+                            if FinalX + QRCode.size.width > Rep.size.width
+                            {
+                                FinalX = Rep.size.width - (QRCode.size.width - 20)
+                            }
+                            var FinalY = MagLocation.y
+                            if FinalY + QRCode.size.height > Rep.size.height
+                            {
+                                FinalY = Rep.size.height - (QRCode.size.height - 5)
+                            }
+                            let Location = NSRect(x: FinalX, y: FinalY,
+                                                  width: 150, height: 150)
+                            QRCode.draw(in: Location)
+                        }
+                    }
                 }
             }
         }
@@ -418,13 +450,15 @@ class Stenciler
     /// Draw text strings on a surface.
     /// - Parameter Messages: List of strings to draw.
     /// - ImageSize: Size of the target surface to draw on
+    /// - ForQuakes: Determines the context of the text.
     /// - Returns: Image with text drawn on it.
     private static func DrawText(Messages: [TextRecord],
-                                 ImageSize: NSSize = NSSize(width: 3600, height: 1800)) -> NSImage
+                                 ImageSize: NSSize = NSSize(width: 3600, height: 1800),
+                                 ForQuakes: Bool) -> NSImage
     {
         let Surface = MakeNewImage(Size: ImageSize)
         let SurfaceRep = GetImageRep(From: Surface)
-        let NewRep = DrawOn(Rep: SurfaceRep, Messages: Messages)
+        let NewRep = DrawOn(Rep: SurfaceRep, Messages: Messages, ForQuakes: ForQuakes)
         let Final = GetImage(From: NewRep)
         return Final
     }
@@ -680,6 +714,7 @@ class Stenciler
     static var DrawLinesLock = NSObject()
     static var DrawTextLock = NSObject()
     
+    #if false
     /// Apply decals (in the form of text) to a blank image.
     /// - Parameter Size: Size of the target image. Defaults to 3600 by 1800.
     /// - Parameter Decals: Array of text to draw.
@@ -696,6 +731,7 @@ class Stenciler
         
         return DrawText(Messages: Decals, ImageSize: Size)
     }
+    #endif
     
     /// Draw earthquake magnitudes to the map.
     /// - Parameter Earthquakes: Array of earthquakes whose magnitudes will be drawn.
@@ -769,14 +805,18 @@ class Stenciler
                 LocationPoint = NSPoint(x: Size.width - Length,
                                         y: LocationPoint.y)
             }
+            let QRImage: NSImage? = Barcodes.QRCode(With: Quake.EventPageURL,
+                                                    FinalSize: NSSize(width: 100, height: 100),
+                                                    Digit: Quake.Magnitude)
             let Record = TextRecord(Text: EqText, Location: LocationPoint,
-                                    Font: QuakeFont, Color: BaseColor, OutlineColor: NSColor.black)
+                                    Font: QuakeFont, Color: BaseColor, OutlineColor: NSColor.black,
+                                    QRCode: QRImage, Quake: Quake)
             PlotMe.append(Record)
         }
-        let Final = DrawText(Messages: PlotMe, ImageSize: Size)
+        let Final = DrawText(Messages: PlotMe, ImageSize: Size, ForQuakes: true)
         return Final
     }
-    
+
     /// Draw grid lines on the map.
     /// - Parameter Size: Size of the surface on which to draw the grid lines. Defaults to 3600 x 1800.
     /// - Returns: Image with grid lines applied.
@@ -1028,6 +1068,10 @@ struct TextRecord
     let Color: NSColor
     /// If present, the outline color of the text. If not present, no outline is drawn.
     let OutlineColor: NSColor?
+    /// If present, an image of a QR code to display.
+    let QRCode: NSImage?
+    /// If present, an earthquake associated with the text.
+    let Quake: Earthquake?
 }
 
 /// Used to define a circle.
