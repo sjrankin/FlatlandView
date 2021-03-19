@@ -216,18 +216,23 @@ extension String
         return working
     }
     
+    /// Returns a sub-string of the passed string.
+    /// - Parameter Raw: Original string.
+    /// - Parameter Start: Starting index (0-based) of the sub-string.
+    /// - Parameter End: Ending index (0-based) of the sub-string.
+    /// - Returns: Sub-string from `Raw` in the specified range (inclusive).
     public static func SubString(_ Raw: String, Start: Int, End: Int) -> String
     {
         let AStart = Start - 1
         let AEnd = End - 1
         if AStart < 0 || AEnd < AStart
         {
-            print("AStart less than 0.")
+            Debug.Print("AStart less than 0.")
             return ""
         }
         if AEnd > Raw.count - 1 || AStart > AEnd
         {
-            print("AEnd > count - 1.")
+            Debug.Print("AEnd > count - 1.")
             return ""
         }
         let StartIndex = Raw.index(Raw.startIndex, offsetBy: AStart)
