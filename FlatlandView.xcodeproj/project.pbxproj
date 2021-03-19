@@ -199,6 +199,7 @@
 		177003FB25FCA05E00B4F02D /* Doorbell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 177003FA25FCA05E00B4F02D /* Doorbell.mp3 */; };
 		177003FE25FCA06200B4F02D /* Gong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 177003FD25FCA06200B4F02D /* Gong.mp3 */; };
 		1770040125FCA06600B4F02D /* Fiddle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1770040025FCA06600B4F02D /* Fiddle.mp3 */; };
+		17711EE926038A77004CF1AD /* Barcodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17711EE826038A77004CF1AD /* Barcodes.swift */; };
 		1771C92C25E258B200FAC1C5 /* OpaquePointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771C92B25E258B200FAC1C5 /* OpaquePointer.swift */; };
 		177389382596D511002698E8 /* +Rotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177389372596D511002698E8 /* +Rotations.swift */; };
 		1773893C25971771002698E8 /* +Menus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1773893B25971771002698E8 /* +Menus.swift */; };
@@ -685,6 +686,7 @@
 		177003FA25FCA05E00B4F02D /* Doorbell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Doorbell.mp3; sourceTree = "<group>"; };
 		177003FD25FCA06200B4F02D /* Gong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Gong.mp3; sourceTree = "<group>"; };
 		1770040025FCA06600B4F02D /* Fiddle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Fiddle.mp3; sourceTree = "<group>"; };
+		17711EE826038A77004CF1AD /* Barcodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Barcodes.swift; sourceTree = "<group>"; };
 		1771C92B25E258B200FAC1C5 /* OpaquePointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpaquePointer.swift; sourceTree = "<group>"; };
 		177389372596D511002698E8 /* +Rotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Rotations.swift"; sourceTree = "<group>"; };
 		1773893B25971771002698E8 /* +Menus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Menus.swift"; sourceTree = "<group>"; };
@@ -2186,6 +2188,7 @@
 				17E11C3D25F0CFD6009B7707 /* Debug */,
 				176E61AC25CD171600FEA7B8 /* StringSearch */,
 				17F2D7112583257D00DD8023 /* AttributedText.swift */,
+				17711EE826038A77004CF1AD /* Barcodes.swift */,
 				17EF33C0247A95E300A5B55D /* ColorList.swift */,
 				17E5EF5E24F1051400665167 /* Debug.swift */,
 				17F0AC5525D3A63E00B2F496 /* FileIO.swift */,
@@ -2942,6 +2945,7 @@
 				17FAA7F525D26B1A0015D504 /* +DBArray.swift in Sources */,
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
 				17C0FD7025316402008F3D05 /* GroundTrack.swift in Sources */,
+				17711EE926038A77004CF1AD /* Barcodes.swift in Sources */,
 				17E5556D25B54A9400E3CE9E /* UserRegionController.swift in Sources */,
 				17C2F8EE259EE26400BCA628 /* +NodeState.swift in Sources */,
 				17DE2DD125907B3800214204 /* HomeLocationController.swift in Sources */,
