@@ -156,6 +156,8 @@ enum SettingKeys: String, CaseIterable
     /// Boolean: If true, standard NSStrings are used to draw stenciled text. If false,
     /// NSAttributedStrings are used. NSStrings are faster...
     case StencilPlainText = "StencilPlainText"
+    /// Boolean: If true, show a barcode next to the magnitude.
+    case ShowMagnitudeBarCode = "ShowMagnitudeBarCode"
     // Camera settings.
     /// SCNVector3: Initial position of the camera.
     case InitialCameraPosition = "InitialCameraPosition"
