@@ -85,15 +85,28 @@ class LiveDataStatusController: NSViewController, NSTableViewDelegate, NSTableVi
                 }
                 
             case 1:
-                AddData("NASA Imagery Enabled", "False")
+                AddData("NASA Imagery Enabled", "\(Settings.GetBool(.EnableNASATiles))".capitalized)
+                let MapType = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Standard)
+                var IsActive = false
+                if MapManager.IsSatelliteMap(MapType)
+                {
+                    IsActive = true
+                }
+                AddData("NASA Imagery Active", "\(IsActive)".capitalized)
                 AddData("Source", "NASA")
                 AddData("Generalized URL", "https://gibs.earthquakedata.nasa.gov/")
                 AddData("Retrieval Frequency", "\(24 * 60 * 60) seconds")
-                AddData("Call Count", "0")
-                AddData("Total Duration", "0 seconds")
-                AddData("Mean Duration", "0 seconds")
-                AddData("Total Tiles Retrieved", "0")
-                AddData("Total Bytes Retrieved", "0")
+                if let LastRetrieval = Settings.GetDoubleNil(.LastNASAFetchTime)
+                {
+                    let LastUpdate = Date(timeIntervalSince1970: LastRetrieval).PrettyDateTime()
+                    AddData("Last Retrieval", LastUpdate)
+                }
+                AddData("Call Count", "\(EarthData.CumulativeDurations.count)")
+                AddData("Total Duration", "\(EarthData.TotalDownloadDuration().RoundedTo(1)) seconds")
+                AddData("Mean Duration", "\(EarthData.MeanDownloadDuration().RoundedTo(1)) seconds")
+                AddData("Total Tiles Retrieved", "\(EarthData.CumulativeTilesDownloaded)")
+                AddData("Total Bytes Retrieved", "\(EarthData.CumulativeByteCount)")
+                AddData("Last image type", "\(MapType.rawValue)")
                 
             default:
                 break
