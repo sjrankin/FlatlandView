@@ -295,6 +295,11 @@ Enable or disable sounds and visual effects at the top of each hour.
 Lets you change the sample view of the map you are looking at.
 """
                     
+                case .SaveImageHelp:
+                    Message = """
+Click to save the satellite map image in rectangular format. If the Save button is disabled, the image is not available to save. You may only save satellite map images.
+"""
+                    
                 case .ChangingMapsHelp:
                     Message = """
 Maps are grouped into categories and you can see a sample of each map by clicking on it. However, the main view's map will not change until you close the Preferences window or click the |font type=bold|Update Now|font type=system| button.
@@ -353,6 +358,11 @@ Sets the scale (size) of the 3D shapes that indicate where an earthquake has occ
                 case .NewQuakeIndicator:
                     Message = """
 Lets you change how new earthquakes are shown. Animated new earthquake indicators will use more CPU and battery power.
+"""
+                    
+                case .QRCodeHelp:
+                    Message = """
+If enabled, Flatland displays a QR code next to earthquake magnitude values that when viewed with a cell phone, open the USGS site related to the earthquake in question.
 """
                     
                 // MARK: - Map attributes help.
@@ -591,6 +601,7 @@ enum PreferenceHelp: String, CaseIterable
     case MapSample = "MapSample"
     case ChangingMapsHelp = "ChangingMapsHelp"
     case UpdateNowHelp = "UpdateNowHelp"
+    case SaveImageHelp = "SaveImageHelp"
     
     case QuakeRegions = "QuakeRegions"
     case DisplayQuakes = "DisplayQuakes"
@@ -602,6 +613,7 @@ enum PreferenceHelp: String, CaseIterable
     case QuakeScale = "QuakeScale"
     case QuakePanelReset = "QuakePanelReset"
     case NewQuakeIndicator = "NewQuakeIndicator"
+    case QRCodeHelp = "QRCodeHelp"
     
     case ShowGridLines = "ShowGridLines"
     case GridLineColor = "GridLineColor"
