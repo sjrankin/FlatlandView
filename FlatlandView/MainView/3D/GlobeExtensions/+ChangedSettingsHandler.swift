@@ -76,6 +76,9 @@ extension GlobeView: SettingChangedProtocol
                 SetLineLayer()
                 ApplyAllStencils(Caller: "SettingChanged(.{Multiple})")
                 
+            case .ShowMagnitudeBarCode:
+                ApplyAllStencils(Caller: "SettingChanged(.ShowMagnitudeBarCode)")
+                
             case .Script:
                 PlotPolarShape()
                 UpdateHours()
