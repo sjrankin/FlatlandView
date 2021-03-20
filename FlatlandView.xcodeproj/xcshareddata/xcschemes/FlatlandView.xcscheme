@@ -36,8 +36,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      enableThreadSanitizer = "YES"
-      enableUBSanitizer = "YES"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -69,6 +67,11 @@
          <EnvironmentVariable
             key = "CGBITMAP_CONTEXT_LOG_ERRORS"
             value = "YES"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "enable_earthquake_barcodes"
+            value = "NO"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
