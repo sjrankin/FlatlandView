@@ -50,6 +50,10 @@ public class Versioning: CustomStringConvertible
     /// The intended OS for the program.
     public static let IntendedOS: String = "macOS"
     
+    /// Value to control which features are available. For features that implement the scheme, a level that
+    /// is the same or lower is required in order for that feature to be enabled.
+    public static let FeatureLevel: Int = 1
+    
     /// Returns a standard-formatted version string in the form of "Major.Minor" with optional
     /// version suffix.
     /// - Parameter IncludeVersionSuffix: If true and the VersionSuffix value is non-empty, the contents
@@ -118,19 +122,19 @@ public class Versioning: CustomStringConvertible
     }
     
     /// Build number.
-    public static let Build: Int = 9428
+    public static let Build: Int = 9436
     
     /// Build increment.
     private static let BuildIncrement = 1
     
     /// Build ID.
-    public static let BuildID: String = "2FE3F8A7-4446-4D91-B67D-AD4BBE63DA41"
+    public static let BuildID: String = "FA3048DB-B83C-478F-8D93-56BE53CE425D"
     
     /// Build date.
-    public static let BuildDate: String = "19 March 2021"
+    public static let BuildDate: String = "20 March 2021"
     
     /// Build Time.
-    public static let BuildTime: String = "16:25"
+    public static let BuildTime: String = "14:33"
     
     /// Holds the release build flag.
     private static var _IsReleaseBuild: Bool = false
