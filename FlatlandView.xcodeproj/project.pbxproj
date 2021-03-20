@@ -393,6 +393,7 @@
 		17EB790824AEEE6B00BB0473 /* EarthquakeDebugWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790724AEEE6B00BB0473 /* EarthquakeDebugWindow.swift */; };
 		17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EB790924AEEE9800BB0473 /* EarthquakeDebugController.swift */; };
 		17EB790C24AEEED100BB0473 /* EarthquakeDebugger.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17EB790B24AEEED100BB0473 /* EarthquakeDebugger.storyboard */; };
+		17EEC0102605942000F1743D /* FeatureControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EEC00F2605942000F1743D /* FeatureControl.swift */; };
 		17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17EF337E247A472C00A5B55D /* Settings.storyboard */; };
 		17EF3389247A4E3D00A5B55D /* MainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF3388247A4E3D00A5B55D /* MainProtocol.swift */; };
 		17EF338C247A4EBB00A5B55D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17EF338B247A4EBB00A5B55D /* Settings.swift */; };
@@ -886,6 +887,7 @@
 		17EB790724AEEE6B00BB0473 /* EarthquakeDebugWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDebugWindow.swift; sourceTree = "<group>"; };
 		17EB790924AEEE9800BB0473 /* EarthquakeDebugController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeDebugController.swift; sourceTree = "<group>"; };
 		17EB790B24AEEED100BB0473 /* EarthquakeDebugger.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EarthquakeDebugger.storyboard; sourceTree = "<group>"; };
+		17EEC00F2605942000F1743D /* FeatureControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureControl.swift; sourceTree = "<group>"; };
 		17EF337E247A472C00A5B55D /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		17EF3388247A4E3D00A5B55D /* MainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainProtocol.swift; sourceTree = "<group>"; };
 		17EF338B247A4EBB00A5B55D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -1676,6 +1678,7 @@
 				17F9AFCD25202DEE00DE0219 /* ParentView.swift */,
 				172D205F252183C500FA8687 /* NodeTables.swift */,
 				17DF115D2512F3B400F04EAF /* AnimatedGradientLayer.swift */,
+				17EEC00F2605942000F1743D /* FeatureControl.swift */,
 				17DDEAD2251C3A8500B0ADE7 /* MainRunProtocol.swift */,
 				176A89822530280800489C22 /* WindowManagement.swift */,
 				1767A8E324794A0100C434B5 /* AppDelegate.swift */,
@@ -2974,6 +2977,7 @@
 				17C87B7525177E360065BE6D /* +FlatViewInitialization.swift in Sources */,
 				17D2F6BF24851FB900404510 /* MainSettingsWindow.swift in Sources */,
 				17897C8A2514AA6C00544DE1 /* +MainWindowing.swift in Sources */,
+				17EEC0102605942000F1743D /* FeatureControl.swift in Sources */,
 				17F9AFF1252034C500DE0219 /* +Date.swift in Sources */,
 				1759AE5E249F811E003F79F5 /* OtherOptions.swift in Sources */,
 				178909C6250E0CE80092E3A4 /* MainController.swift in Sources */,
