@@ -704,6 +704,8 @@ enum EnvironmentVars: String, CaseIterable
 {
     /// Value that determines whether to enable or disable downloading images from NASA.
     case SatelliteMaps = "enable_nasa_tiles"
+    /// Value that determines whether to enable or disable barcode generation for earthquakes.
+    case QuakeBarcodes = "enable_earthquake_barcodes"
 }
 
 /// Small set of relative sizes.
