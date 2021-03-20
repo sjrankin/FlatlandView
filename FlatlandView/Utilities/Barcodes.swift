@@ -14,17 +14,22 @@ import CoreImage.CIFilterBuiltins
 class Barcodes
 {
     /// Skews the passed image.
-    /// - Note: Skewing occurs symmetrically on the horizontal axis - either the top or bottom is enlarged.
+    /// - Note:
+    ///    - Skewing occurs symmetrically on the horizontal axis - either the top or bottom is enlarged.
+    ///    - See [CIPerspectiveTransform](https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIPerspectiveTransform)
     /// - Parameter Image: The source image to skew.
-    /// - Parameter Percent: Percent value (normal form) for the skewing. Skewing, for example, by `0.2` means
-    ///                      the left side will be 20% of the base width to the left of the base left side, and
-    ///                      the right side will be 20% of the base width to the right of the base right side,
-    ///                      for a total of 40% distortion. **This value must be between 0.0 and 1.0. Invalid
-    ///                      values are clamped to a normal range.** If `0.0` is passed, the original image is
-    ///                      returned unchanged.
-    /// - ForTop: If true, the top will be distorted. If false, the bottom will be distorted.
+    /// - Parameter TopPercent: Percent value (normal form) for the skewing. Skewing, for example, by `0.2` means
+    ///                         the left side will be 20% of the base width to the left of the base left side, and
+    ///                         the right side will be 20% of the base width to the right of the base right side,
+    ///                         for a total of 40% distortion. **This value must be between 0.0 and 1.0. Invalid
+    ///                         values are clamped to a normal range.** This affects the top of the image only.
+    /// - Parameter BottomPercent: Percent value (normal form) for the skewing. Skewing, for example, by `0.2` means
+    ///                            the left side will be 20% of the base width to the left of the base left side, and
+    ///                            the right side will be 20% of the base width to the right of the base right side,
+    ///                            for a total of 40% distortion. **This value must be between 0.0 and 1.0. Invalid
+    ///                            values are clamped to a normal range.** This affects the bottom of the image only.
     /// - Returns: Skewed image.
-    func SkewImage(_ Image: NSImage, Percent: Double, ForTop: Bool) -> NSImage
+    private static func SkewImage(_ Image: NSImage, TopPercent: Double, BottomPercent: Double) -> NSImage
     {
         let SourceTiff = Image.tiffRepresentation!
         let Working = CIImage(data: SourceTiff)!
@@ -32,23 +37,27 @@ class Barcodes
         let Base = Image.size.width
         var TopOffset: CGFloat = 0.0
         var BottomOffset: CGFloat = 0.0
-        var FinalPercent = Percent
-        if FinalPercent <= 0.0
+        var FinalTopPercent = TopPercent
+        if FinalTopPercent < 0.0
         {
-            return Image
+            FinalTopPercent = 0.0
         }
-        if FinalPercent > 1.0
+        if FinalTopPercent > 1.0
         {
-            FinalPercent = 1.0
+            FinalTopPercent = 1.0
         }
-        if ForTop
+        var FinalBottomPercent = BottomOffset
+        if FinalBottomPercent < 0.0
         {
-            TopOffset = Base * CGFloat(FinalPercent)
+            FinalBottomPercent = 0.0
         }
-        else
+        if FinalBottomPercent > 1.0
         {
-            BottomOffset = Base * CGFloat(FinalPercent)
+            FinalBottomPercent = 1.0
         }
+        
+        TopOffset = Base * CGFloat(FinalTopPercent)
+        BottomOffset = Base * CGFloat(FinalBottomPercent)
         Skew.topLeft = CGPoint(x: -TopOffset, y: Image.size.height)
         Skew.topRight = CGPoint(x: Image.size.width + TopOffset, y: Image.size.height)
         Skew.bottomLeft = CGPoint(x: -BottomOffset, y: 0)
@@ -178,10 +187,15 @@ class Barcodes
     /// - Parameter CorrectionLevel: Determines how the QR barcode is constructed in terms of error correction.
     ///                              Valid values are: "L", "M", "Q", and "H". Invalid values are changed to "M".
     ///                              Default value is "M".
+    /// - Parameter TopSkewValue: The percent (this value *must* be normalized) to skew the top
+    ///                           of the image.  Defaults to nil.
+    /// - Parameter BottomSkewValue: The percent (this value *must* be normalized) to skew the bottom
+    ///                              of the image.  Defaults to nil.
     /// - Returns: Image of the QR code with the specified data and attributes. Nil on error.
     public static func QRCode(With Text: String, FinalSize: NSSize, 
                               Digit: Double? = nil, DigitOnTop: Bool = true,
-                              CorrectionLevel: String = "M") -> NSImage?
+                              CorrectionLevel: String = "M",
+                              TopSkewValue: Double? = nil, BottomSkewValue: Double? = nil) -> NSImage?
     {
         let Filter = CIFilter.qrCodeGenerator()
         guard let TextData = Text.data(using: .isoLatin1, allowLossyConversion: false) else
@@ -207,6 +221,13 @@ class Barcodes
         if let Number = Digit
         {
             NImage = AddOverlayNumber(To: NImage, Number: Number, NumberOnTop: DigitOnTop)
+        }
+        
+        if TopSkewValue != nil || BottomSkewValue != nil
+        {
+            let SkewTopPercent = TopSkewValue ?? 0.0
+            let SkewBottomPercent = BottomSkewValue ?? 0.0
+            NImage = SkewImage(NImage, TopPercent: SkewTopPercent, BottomPercent: SkewBottomPercent)
         }
         
         return NImage
