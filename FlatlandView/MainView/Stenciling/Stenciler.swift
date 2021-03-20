@@ -428,15 +428,14 @@ class Stenciler
                             var FinalX = MagLocation.x + MessageWidth + 5
                             if FinalX + QRCode.size.width > Rep.size.width
                             {
-                                FinalX = Rep.size.width - (QRCode.size.width - 20)
+                                FinalX = Rep.size.width - (QRCode.size.width + 20)
                             }
                             var FinalY = MagLocation.y
                             if FinalY + QRCode.size.height > Rep.size.height
                             {
                                 FinalY = Rep.size.height - (QRCode.size.height - 5)
                             }
-                            let Location = NSRect(x: FinalX, y: FinalY,
-                                                  width: 150, height: 150)
+                            let Location = NSRect(x: FinalX, y: FinalY, width: 150, height: 150)
                             QRCode.draw(in: Location)
                         }
                     }
@@ -609,68 +608,6 @@ class Stenciler
         return Final
     }
     
-    /// Draw regions on the stencil.
-    /// - Parameter Image: The image on which regions will be drawn.
-    /// - Parameter Regions: List of earthquake regions to draw.
-    /// - Parameter Ratio: A ratio between the actual image size and the expected image size.
-    /// - Parameter Kernel: Metal kernel wrapper to do the actual drawing.
-    /// - Returns: New image with regions drawn.
-    private static func DrawRegions(Image: NSImage, Regions: [UserRegion], Ratio: Double,
-                                    Kernel: ImageBlender) -> NSImage
-    {
-        #if true
-        return Image
-        #else
-        var Final = Image
-        for Region in Regions
-        {
-            if Region.IsFallback
-            {
-                continue
-            }
-            autoreleasepool
-            {
-                let ImageWidth = Int(Image.size.width)
-                let ImageHeight = Int(Image.size.height)
-                var RegionWidth = GeoPoint.HorizontalDistance(Longitude1: Region.UpperLeft.Longitude,
-                                                              Longitude2: Region.LowerRight.Longitude,
-                                                              Latitude: Region.UpperLeft.Latitude,
-                                                              Width: ImageWidth, Height: ImageHeight)
-                RegionWidth = RegionWidth * Ratio
-                var RegionHeight = GeoPoint.VerticalDistance(Latitude1: Region.UpperLeft.Latitude,
-                                                             Latitude2: Region.LowerRight.Latitude,
-                                                             Longitude: Region.UpperLeft.Longitude,
-                                                             Width: ImageWidth, Height: ImageHeight)
-                RegionHeight = RegionHeight * Ratio
-                var XPercent: Double = 0.0
-                var YPercent: Double = 0.0
-                var (FinalX, FinalY) = GeoPoint.TransformToImageCoordinates(Latitude: Region.UpperLeft.Latitude,
-                                                                            Longitude: Region.UpperLeft.Longitude,
-                                                                            Width: ImageWidth,
-                                                                            Height: ImageHeight,
-                                                                            XPercent: &XPercent,
-                                                                            YPercent: &YPercent)
-                FinalX = Int(Double(FinalX) * Ratio)
-                FinalY = Int(Double(FinalY) * Ratio)
-                #if false
-                let SolidColor = SolidColorImage()
-                let Block = SolidColor.FillWithBorder(Width: Int(RegionWidth),
-                                                      Height: Int(RegionHeight),
-                                                      With: Region.RegionColor.withAlphaComponent(0.5),
-                                                      BorderThickness: 2,
-                                                      BorderColor: NSColor.black)
-                Final = ImageMerger.MergeImages(Background: Final, Sprite: Block!, At: CGPoint(x: FinalX, y: FinalY))
-                #else
-                Final = Kernel.MergeImages(Background: Final, Sprite: Region.RegionColor.withAlphaComponent(0.5),
-                                           SpriteSize: NSSize(width: RegionWidth, height: RegionHeight),
-                                           SpriteX: FinalX, SpriteY: FinalY)
-                #endif
-            }
-        }
-        return Final
-        #endif
-    }
-    
     /// Return an image representation from the passed `NSImage`. This is used to get the representation of the
     /// image once rather than each time something is drawn on the image. This increases performance significantly.
     /// - Note:
@@ -686,17 +623,7 @@ class Stenciler
     public static func GetImageRep(From: NSImage) -> NSBitmapImageRep
     {
         let ImgData = From.tiffRepresentation
-        var CImg = CIImage(data: ImgData!)
-        #if false
-        let ScaleFactor = NSScreen.main!.backingScaleFactor
-        if ScaleFactor == 2.0
-        {
-            let Scaling = CIFilter.bicubicScaleTransform()
-            Scaling.inputImage = CImg
-            Scaling.scale = Float(0.5)
-            CImg = Scaling.outputImage
-        }
-        #endif
+        let CImg = CIImage(data: ImgData!)
         return NSBitmapImageRep(ciImage: CImg!)
     }
     
@@ -709,29 +636,11 @@ class Stenciler
         return Final
     }
     
+    //Synchronization locks.
     static var DrawRectangleLock = NSObject()
     static var DrawCircularLock = NSObject()
     static var DrawLinesLock = NSObject()
     static var DrawTextLock = NSObject()
-    
-    #if false
-    /// Apply decals (in the form of text) to a blank image.
-    /// - Parameter Size: Size of the target image. Defaults to 3600 by 1800.
-    /// - Parameter Decals: Array of text to draw.
-    /// - Returns: Image with text drawn on it. If no text supplied, nil is returned.
-    public static func ApplyDecal(Size: NSSize = NSSize(width: 3600, height: 1800),
-                                  Decals: [TextRecord]) -> NSImage?
-    {
-        objc_sync_enter(DrawTextLock)
-        defer{objc_sync_exit(DrawTextLock)}
-        if Decals.count < 1
-        {
-            return nil
-        }
-        
-        return DrawText(Messages: Decals, ImageSize: Size)
-    }
-    #endif
     
     /// Draw earthquake magnitudes to the map.
     /// - Parameter Earthquakes: Array of earthquakes whose magnitudes will be drawn.
