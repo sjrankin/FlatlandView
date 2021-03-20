@@ -18,7 +18,21 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
     {
         super.viewDidLoad()
         
-        ShowQRCodeSwitch.state = Settings.GetBool(.ShowMagnitudeBarCode) ? .on : .off
+        Features.FeatureEnabled(.QuakeBarcodes)
+        {
+            IsEnabled in
+            if IsEnabled
+            {
+                self.ShowQRCodeSwitch.state = Settings.GetBool(.ShowMagnitudeBarCode) ? .on : .off
+            }
+            else
+            {
+                self.ShowQRCodeSwitch.removeFromSuperview()
+                self.QRCodeLabel.removeFromSuperview()
+                self.QRCodeHelp.removeFromSuperview()
+            }
+        }
+        //ShowQRCodeSwitch.state = Settings.GetBool(.ShowMagnitudeBarCode) ? .on : .off
         let PreviousScale = Settings.GetEnum(ForKey: .QuakeScales, EnumType: MapNodeScales.self, Default: .Normal)
         switch PreviousScale
         {
@@ -277,6 +291,7 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
     
     var HelpButtons: [NSButton] = [NSButton]()
 
+    @IBOutlet weak var QRCodeLabel: NSTextField!
     @IBOutlet weak var ShowQRCodeSwitch: NSSwitch!
     @IBOutlet weak var QRCodeHelp: NSButton!
     @IBOutlet weak var NewQuakeComboBox: NSComboBox!
