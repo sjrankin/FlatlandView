@@ -1175,6 +1175,26 @@ class USGS
                 return Fixed
         }
     }
+    
+    /// Returns the name of the region where the earthquake occurred.
+    /// - Parameter Quake: The quake whose region name will be returned.
+    /// - Returns: Name of the region where the quake occurred. If the quake did not occur in a region,
+    ///            an empty string is returned.
+    public static func InRegion(_ Quake: Earthquake) -> String
+    {
+        for Region in Settings.GetEarthquakeRegions()
+        {
+            if Region.IsFallback
+            {
+                continue
+            }
+            if Region.InRegion(Latitude: Quake.Latitude, Longitude: Quake.Longitude)
+            {
+                return Region.RegionName
+            }
+        }
+        return ""
+    }
 }
 
 
