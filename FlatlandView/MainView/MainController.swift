@@ -22,6 +22,7 @@ class MainController: NSViewController
         UptimeStart = CACurrentMediaTime()
         FileIO.Initialize()
         Settings.Initialize()
+        Settings.UpdateForFeatureLevel()
         Settings.AddSubscriber(self)
         SoundManager.Initialize()
         CityManager.Initialize()
@@ -403,7 +404,7 @@ class MainController: NSViewController
             Controller?.MainDelegate = self
             QuakeController = Controller
             WindowController.showWindow(nil)
-            Controller?.LoadData(DataType: .Earthquakes, Raw: PreviousEarthquakes as Any)
+            //Controller?.LoadData(DataType: .Earthquakes, Raw: PreviousEarthquakes as Any)
         }
     }
     
@@ -428,8 +429,8 @@ class MainController: NSViewController
     {
         #if DEBUG
         SoundManager.Play(ForEvent: .Debug)
-        Main3DView.FlashAllHours(Count: 5)
-        //        Main3DView.FlashHoursInSequence(Count: 3)
+        //Main3DView.FlashAllHours(Count: 5)
+                Main3DView.FlashHoursInSequence(Count: 4)
         //        Main3DView.RotateCameraTo(Latitude: 43.0, Longitude: 141)
         #endif
     }
@@ -682,6 +683,7 @@ class MainController: NSViewController
         }
     }
     
+    #if false
     /// Respond to the user command to change the map type.
     /// - Parameter sender: Not used.
     @IBAction func HandleViewTypeChange(_ sender: Any)
@@ -720,6 +722,7 @@ class MainController: NSViewController
             }
         }
     }
+    #endif
     
     /// Not currently implemented.
     @IBAction func DebugShow(_ sender: Any)
@@ -799,6 +802,8 @@ class MainController: NSViewController
     /// Program started flag.
     var Started = false
     
+    var LastQuakeDownloadTime: Date? = nil
+    
     /// Holds the location of the mouse pointer in the window.
     var Location: NSPoint {self.view.window!.mouseLocationOutsideOfEventStream}
     
@@ -826,6 +831,8 @@ class MainController: NSViewController
     var PrimaryMapList: ActualMapList? = nil
     /// The latest earthquakes from the USGS.
     var LatestEarthquakes = [Earthquake]()
+    /// The set of cached quakes from startup.
+    var CachedQuakes = [Earthquake]()
     /// Delegate to communicate with the mouse popover.
     var MouseInfoDelegate: MouseInfoProtocol? = nil
     /// Mouse infor view controller.
