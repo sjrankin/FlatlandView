@@ -13,23 +13,18 @@ class EarthquakeViewerWindow: NSWindowController
 {
     override func windowDidLoad()
     {
-        ShowPleaseWait()
-        DecorateSwitch.toolTip = "Shows or hides coordinate N, S, E, W labels."
+        //ShowPleaseWait()
         RegionQuakeButton.toolTip = "Enables filtering by a region."
-        UpdateFilterCount(0)
     }
     
     var ChildController: EarthquakeViewerController!
     
     func ShowPleaseWait()
     {
-        RoundTextView.TextColor = NSColor.systemRed
-        RoundTextView.RotateClockwise = false
-        RoundTextView.TextFont = NSFont.boldSystemFont(ofSize: 80.0)
-        RoundTextView.TextRadius = 7.0
-        RoundTextView.RotationOffset = 0.33
-        RoundTextView.AnimationDuration = 0.01
-        RoundTextView.ShowText("Please Wait")
+        let Trace = Debug.StackFrameContents(10)
+        Debug.Print("ShowPleaseWait: \(Debug.PrettyStackTrace(Trace))")
+        WorkingItem.label = "Downloading"
+        WorkingIndicator.startAnimation(self)
         if let Child = self.contentViewController as? EarthquakeViewerController
         {
             ChildController = Child
@@ -42,37 +37,53 @@ class EarthquakeViewerWindow: NSWindowController
     
     func HidePleaseWait()
     {
-        RoundTextView.Hide()
+        WorkingIndicator.stopAnimation(self)
+        WorkingItem.label = ""
     }
     
-    @IBAction func HandleDecorateSwitch(_ sender: Any)
+    func ShowNextIndicator(For Seconds: Double)
     {
-        if let Switch = sender as? NSSwitch
+        let Trace = Debug.StackFrameContents(10)
+        Debug.Print("ShowNextIndicator: \(Debug.PrettyStackTrace(Trace))")
+        NextIndicator.minValue = 0.0
+        NextIndicator.maxValue = 1.0
+        NextIndicator.isHidden = false
+        NextItem.label = "Next"
+        UpdateElapsedTime = 0.0
+        TotalUpdateTime = Seconds
+        UpdateTimer = Timer.scheduledTimer(timeInterval: UpdateInterval,
+                                           target: self,
+                                           selector: #selector(UpdateNextIndicator),
+                                           userInfo: nil,
+                                           repeats: true)
+    }
+    
+    @objc func UpdateNextIndicator()
+    {
+        UpdateElapsedTime = UpdateElapsedTime + UpdateInterval
+        if UpdateElapsedTime >= TotalUpdateTime
         {
-            let SwitchIsOn = Switch.state == .on
-            ChildController.HandleDecorateCoordinatesChanged(SwitchIsOn)
+            NextIndicator.doubleValue = 1.0
+            UpdateTimer?.invalidate()
+            UpdateTimer = nil
+        }
+        else
+        {
+            NextIndicator.doubleValue = UpdateElapsedTime / TotalUpdateTime
         }
     }
     
-    @IBAction func HandleComboChanged(_ sender: Any)
+    var UpdateElapsedTime: Double = 0.0
+    let UpdateInterval: Double = 0.1
+    var UpdateTimer: Timer? = nil
+    var TotalUpdateTime: Double = 0.0
+    
+    func HideNextIndicator()
     {
-        if let Combo = sender as? NSComboBox
-        {
-            if let SelectedObject = Combo.objectValueOfSelectedItem as? String
-            {
-                switch Combo
-                {
-                    case MagnitudeFilterCombo:
-                        ChildController.HandleNewMagnitudeFilter(SelectedObject)
-                        
-                    case AgeFilterCombo:
-                        ChildController.HandleNewAgeFilter(SelectedObject)
-                        
-                    default:
-                        return
-                }
-            }
-        }
+        NextItem.label = ""
+        NextIndicator.isHidden = true
+        UpdateTimer?.invalidate()
+        UpdateTimer = nil
     }
     
     @IBAction func HandleRegionalQuakesPressed(_ sender: Any)
@@ -85,22 +96,16 @@ class EarthquakeViewerWindow: NSWindowController
         ChildController.HandleRefreshPressed()
     }
     
-    func UpdateFilterCount(_ NewValue: Int)
-    {
-        FilterCountLabel.stringValue = "Filtered quakes: \(NewValue)"
-    }
-    
     func UpdateRegionalQuakeIcon(Enabled: Bool)
     {
         RegionQuakeButton.isEnabled = Enabled
 //        RegionQuakeButton.image = Enabled ? NSImage(named: "TargetIconOn") : NSImage(named: "TargetIcon")
     }
     
+    @IBOutlet weak var NextIndicator: NSProgressIndicator!
+    @IBOutlet weak var NextItem: NSToolbarItem!
+    @IBOutlet weak var WorkingItem: NSToolbarItem!
+    @IBOutlet weak var WorkingIndicator: NSProgressIndicator!
     @IBOutlet weak var RegionQuakeButton: NSButton!
-    @IBOutlet weak var FilterCountLabel: NSTextField!
-    @IBOutlet weak var DecorateSwitch: NSSwitch!
-    @IBOutlet weak var MagnitudeFilterCombo: NSComboBox!
-    @IBOutlet weak var AgeFilterCombo: NSComboBox!
     @IBOutlet weak var RefreshButton: NSButton!
-    @IBOutlet weak var RoundTextView: RoundTextIndicator!
 }
