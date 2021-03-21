@@ -418,16 +418,22 @@ extension GlobeView
         GlobeMapMenu?.image = SmallIconImage("GlobeIcon")
         GlobeMapMenu?.target = self
         GlobeMapMenu?.state = CurrentMap == .Globe3D ? .on : .off
-        CubicMapMenu = NSMenuItem(title: "Cubic", action: #selector(Context_SetMapType), keyEquivalent: "")
-        CubicMapMenu?.image = SmallIconImage("CubeIcon")
-        CubicMapMenu?.target = self
-        CubicMapMenu?.state = CurrentMap == .CubicWorld ? .on : .off
-        
         MapTypeMenu?.submenu?.items.append(NCenter!)
         MapTypeMenu?.submenu?.items.append(SCenter!)
         MapTypeMenu?.submenu?.items.append(RectMap!)
         MapTypeMenu?.submenu?.items.append(GlobeMapMenu!)
-        MapTypeMenu?.submenu?.items.append(CubicMapMenu!)
+        Features.FeatureEnabled(.CubicEarth)
+        {
+            IsEnabled in
+            if IsEnabled
+            {
+                self.CubicMapMenu = NSMenuItem(title: "Cubic", action: #selector(self.Context_SetMapType), keyEquivalent: "")
+                self.CubicMapMenu?.image = self.SmallIconImage("CubeIcon")
+                self.CubicMapMenu?.target = self
+                self.CubicMapMenu?.state = CurrentMap == .CubicWorld ? .on : .off
+                self.MapTypeMenu?.submenu?.items.append(self.CubicMapMenu!)
+            }
+        }
         return MapTypeMenu!
     }
     
@@ -453,7 +459,10 @@ extension GlobeView
                     Settings.SetEnum(ActualMap, EnumType: MapTypes.self, ForKey: .MapType)
                     
                 case CubicMapMenu:
+                    if Features.FeatureEnabled(.CubicEarth)
+                    {
                     Settings.SetEnum(.CubicWorld, EnumType: ViewTypes.self, ForKey: .ViewType)
+                    }
                     
                 case GlobeMapMenu:
                     Settings.SetEnum(.Globe3D, EnumType: ViewTypes.self, ForKey: .ViewType)
