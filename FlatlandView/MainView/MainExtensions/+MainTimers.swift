@@ -90,6 +90,7 @@ extension MainController
                 if Minute == 0 && !HourSoundTriggered
                 {
                     Main3DView.FlashAllHours(Count: 3)
+//                    Main3DView.FlashHoursInSequence(Count: 3)
                     HourSoundTriggered = true
                     SoundManager.Play(ForEvent: .HourChime)
                 }
