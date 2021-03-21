@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18121" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18121"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -218,6 +218,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="ByPopulationSwitch" destination="mnz-TP-NBf" id="PX5-Bl-2MY"/>
                         <outlet property="ByRankSwitch" destination="gpU-KW-WiL" id="kHk-dT-lKJ"/>
                         <outlet property="CityPopulationColor" destination="OZB-yh-e4v" id="uHx-SF-DHg"/>
                         <outlet property="GreaterThanCheck" destination="Cyl-B0-fLm" id="Jr1-G2-01t"/>
