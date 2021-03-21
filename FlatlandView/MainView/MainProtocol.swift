@@ -54,6 +54,10 @@ protocol MainProtocol: AnyObject
     /// Returns the set of current earthquakes the main view has.
     func GetCurrentEarthquakes() -> [Earthquake]
     
+    /// Returns the set of current earthquakes or the set of cached earthquakes if no current
+    /// earthquakes are available.
+    func GetEarthquakes() -> [Earthquake]
+    
     /// Sets the text of the status bar.
     /// - Parameter Text: The text to set.
     func SetStatusText(_ Text: String)
@@ -162,6 +166,9 @@ protocol MainProtocol: AnyObject
     
     /// Unconditionally makes the mouse visible.
     func MakeMouseVisible()
+    
+    /// The date/time of the most recent earthquake download.
+    func GetLastEarthquakeDownload() -> Date?
 }
 
 /// Flatland's child windows.
