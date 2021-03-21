@@ -15,12 +15,26 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
 {
     var ParentWindow: EarthquakeViewerWindow!
     public weak var MainDelegate: MainProtocol? = nil
+    {
+        didSet
+        {
+            if !LoadedInitialQuakes
+            {
+                LoadedInitialQuakes = true
+                AllQuakes = (MainDelegate?.GetEarthquakes())!
+                LoadData(DataType: .Earthquakes, Raw: AllQuakes)
+            }
+        }
+    }
+    
+    var LoadedInitialQuakes = false
     
     override func viewDidLoad()
     {
         USGSSource = USGS()
         USGSSource?.Delegate = self
-        USGSSource?.GetEarthquakes(Every: 60.0)
+        //USGSSource?.GetEarthquakes(Every: 300.0)
+        //ParentWindow?.ShowNextIndicator(For: 300.0)
         
         QuakeTable.doubleAction = #selector(HandleDoubleClick)
         
@@ -30,51 +44,92 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         QuakeTable.tableColumns[5].sortDescriptorPrototype = DistanceDescriptor
         
         ShowDistance = Settings.GetBool(.QuakeRegionEnable)
+        
+        HandleDecorateCoordinatesChanged(true)
     }
     
     let CodeDescriptor = NSSortDescriptor(key: ColumnDescriptors.Code.rawValue, ascending: true)
     let MagnitudeDescriptor = NSSortDescriptor(key: ColumnDescriptors.Magnitude.rawValue, ascending: true)
     let DateDescriptor = NSSortDescriptor(key: ColumnDescriptors.Date.rawValue, ascending: true)
     let DistanceDescriptor = NSSortDescriptor(key: ColumnDescriptors.Distance.rawValue, ascending: true)
+    var AlreadyLaidOut: Bool = false
     
     override func viewDidLayout()
     {
-        if let Win = self.view.window?.windowController as? EarthquakeViewerWindow
+        if !AlreadyLaidOut
         {
-            ParentWindow = Win
+            AlreadyLaidOut = true
+            if let Win = self.view.window?.windowController as? EarthquakeViewerWindow
+            {
+                ParentWindow = Win
+            }
+            else
+            {
+                fatalError("Error obtaining window in \(#function)")
+            }
+            AgeFilterCombo.removeAllItems()
+            for Age in EarthquakeAges.allCases
+            {
+                AgeFilterCombo.addItem(withObjectValue: Age.rawValue)
+            }
+            let Age = Settings.GetEnum(ForKey: .EarthquakeListAge, EnumType: EarthquakeAges.self, Default: .Age5)
+            if let Index = EarthquakeAges.allCases.firstIndex(of: Age)
+            {
+                FilterAge = Index
+                AgeFilterCombo.selectItem(at: Index)
+            }
+            MagFilterCombo.removeAllItems()
+            for Mag in stride(from: 10, through: 4, by: -1)
+            {
+                MagFilterCombo.addItem(withObjectValue: "\(Mag)")
+            }
+            FilterMag = Settings.GetInt(.EarthquakeDisplayMagnitude, IfZero: 4)
+            MagFilterCombo.selectItem(withObjectValue: "\(FilterMag)")
+            
+            MainApp = NSApplication.shared.delegate as? AppDelegate
+            if MainApp == nil
+            {
+                fatalError("MainApp is nil")
+            }
+            
+            AddMenu()
+            ParentWindow.UpdateRegionalQuakeIcon(Enabled: Settings.GetBool(.QuakeRegionEnable))
+            
+            if let PrettyDownload = MainDelegate?.GetLastEarthquakeDownload()
+            {
+                let PrettyTime = PrettyDownload.PrettyDateTime()
+                UpdatedLabel.stringValue = "Updated: \(PrettyTime)"
+            }
+            else
+            {
+                UpdatedLabel.stringValue = "Updated: Previously cached"
+            }
+            ParentWindow.HidePleaseWait()
+            ParentWindow.HideNextIndicator()
+            SetQRButton(With: nil)
+            GetQuakes()
+            RunGetQuakes()
         }
-        else
-        {
-            fatalError("Error obtaining window in \(#function)")
-        }
-        ParentWindow.AgeFilterCombo.removeAllItems()
-        for Age in EarthquakeAges.allCases
-        {
-            ParentWindow.AgeFilterCombo.addItem(withObjectValue: Age.rawValue)
-        }
-        let Age = Settings.GetEnum(ForKey: .EarthquakeListAge, EnumType: EarthquakeAges.self, Default: .Age5)
-        if let Index = EarthquakeAges.allCases.firstIndex(of: Age)
-        {
-            FilterAge = Index
-            ParentWindow.AgeFilterCombo.selectItem(at: Index)
-        }
-        ParentWindow.MagnitudeFilterCombo.removeAllItems()
-        for Mag in stride(from: 10, through: 4, by: -1)
-        {
-            ParentWindow.MagnitudeFilterCombo.addItem(withObjectValue: "\(Mag)")
-        }
-        FilterMag = Settings.GetInt(.EarthquakeDisplayMagnitude, IfZero: 4)
-        ParentWindow.MagnitudeFilterCombo.selectItem(withObjectValue: "\(FilterMag)")
-        
-        ParentWindow.DecorateSwitch.state = Settings.GetBool(.DecorateEarthquakeCoordinates) ? .on : .off
-        MainApp = NSApplication.shared.delegate as? AppDelegate
-        if MainApp == nil
-        {
-            fatalError("MainApp is nil")
-        }
-        
-        AddMenu()
-        ParentWindow.UpdateRegionalQuakeIcon(Enabled: Settings.GetBool(.QuakeRegionEnable))
+    }
+    
+    func RunGetQuakes()
+    {
+        ParentWindow.HidePleaseWait()
+        GetQuakeTimer = Timer.scheduledTimer(timeInterval: 300.0,
+                                             target: self,
+                                             selector: #selector(GetQuakes),
+                                             userInfo: nil,
+                                             repeats: true)
+        ParentWindow.ShowNextIndicator(For: 300.0)
+    }
+    
+    var GetQuakeTimer: Timer? = nil
+    
+    @objc func GetQuakes()
+    {
+        ParentWindow.HideNextIndicator()
+        ParentWindow.ShowPleaseWait()
+        USGSSource?.ForceFetch()
     }
     
     var FilterAge: Int = 5
@@ -85,8 +140,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
     
     func HandleRefreshPressed()
     {
-        ParentWindow.ShowPleaseWait()
-        USGSSource?.ForceFetch()
+        GetQuakes()
     }
     
     func HandleDecorateCoordinatesChanged(_ NewValue: Bool)
@@ -147,9 +201,11 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
             case .Earthquakes:
                 if let RawData = Raw as? [Earthquake]
                 {
+                    let PrettyNow = Date().PrettyDateTime()
+                    UpdatedLabel.stringValue = "Updated: \(PrettyNow)"
                     AllQuakes = RawData
                     SourceAllEarthquakes = RawData
-                    print("Received \(AllQuakes.count) earthquakes")
+                    Debug.Print("Received \(AllQuakes.count) earthquakes")
                     UpdateTable()
                 }
                 
@@ -164,7 +220,10 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         ParentWindow.HidePleaseWait()
         if Actual != nil
         {
+            ParentWindow.HidePleaseWait()
             LoadData(DataType: CategoryType, Raw: Actual!)
+            RunGetQuakes()
+            ParentWindow.ShowNextIndicator(For: 300.0)
         }
     }
     
@@ -194,6 +253,17 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
     
     // MARK: - Table handling
     
+    func tableViewSelectionDidChange(_ notification: Notification)
+    {
+        let Index = QuakeTable.selectedRow
+        guard Index >= 0 else
+        {
+            return
+        }
+        let Quake = Filtered[Index]
+        SetQRButton(With: Quake)
+    }
+    
     func AgeFilterValue(From: NSComboBox) -> Int
     {
         if let Current = From.objectValueOfSelectedItem as? String
@@ -213,7 +283,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
     func FilterQuakeList(_ Source: [Earthquake]) -> [Earthquake]
     {
         var Results = [Earthquake]()
-        let Seconds = Double(AgeFilterValue(From: ParentWindow.AgeFilterCombo))
+        let Seconds = Double(AgeFilterValue(From: AgeFilterCombo))
         for Quake in Source
         {
             let IsInAgeRange = Quake.GetAge() <= Seconds
@@ -230,7 +300,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
     
     func FilterQuakesByRegion(_ Source: [Earthquake]) -> [Earthquake]
     {
-        OtherColumn.headerCell.stringValue = "Distance"
+        LinkColumn.headerCell.stringValue = "Distance"
         var Results = [Earthquake]()
         let PointLatitude = Settings.GetDoubleNil(.QuakeRegionLatitude, 0.0)
         let PointLongitude = Settings.GetDoubleNil(.QuakeRegionLongitude,  0.0)
@@ -238,7 +308,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         for Quake in Source
         {
             var Distance = Geometry.HaversineDistance(Latitude1: Quake.Latitude, Longitude1: Quake.Longitude,
-                                                     Latitude2: PointLatitude!, Longitude2: PointLongitude!)
+                                                      Latitude2: PointLatitude!, Longitude2: PointLongitude!)
             Distance = Distance / 1000.0
             if Distance <= MaxDistance!
             {
@@ -253,6 +323,9 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
     func UpdateTable()
     {
         Filtered.removeAll()
+        #if true
+        Filtered = FilterQuakeList(AllQuakes)
+        #else
         let UseRegionalFiltering = Settings.GetBool(.QuakeRegionEnable)
         if UseRegionalFiltering
         {
@@ -268,12 +341,19 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         }
         else
         {
-            OtherColumn.headerCell.stringValue = ""
+            LinkColumn.headerCell.stringValue = ""
             Filtered = FilterQuakeList(AllQuakes)
         }
-
-        ParentWindow.UpdateFilterCount(Filtered.count)
+        #endif
+        
+        FilteredQuakeLabel.stringValue = "Filtered quakes: \(Filtered.count)"
         QuakeTable.reloadData()
+        if !Filtered.isEmpty
+        {
+            let Selected = IndexSet(integer: 0)
+            QuakeTable.selectRowIndexes(Selected, byExtendingSelection: false)
+            SetQRButton(With: Filtered[0])
+        }
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int
@@ -293,6 +373,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         var CellContents = ""
         var CellIdentifier = ""
         var RightJustify = false
+        var ToolTipText = ""
         
         if tableColumn == tableView.tableColumns[0]
         {
@@ -303,6 +384,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         {
             CellIdentifier = "LocationColumn"
             CellContents = Filtered[row].Place
+            ToolTipText = Filtered[row].Place
         }
         if tableColumn == tableView.tableColumns[2]
         {
@@ -313,50 +395,31 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         if tableColumn == tableView.tableColumns[3]
         {
             CellIdentifier = "DateColumn"
-            let Raw = Filtered[row].Time.PrettyDate()
+            let Raw = Filtered[row].Time.PrettyDateTime()
             CellContents = Raw
-            RightJustify = true
+            RightJustify = false
         }
         if tableColumn == tableView.tableColumns[4]
         {
             CellIdentifier = "CoordinatesColumn"
-            if Settings.GetBool(.DecorateEarthquakeCoordinates)
-            {
-                var Latitude = Filtered[row].Latitude
-                var Longitude = Filtered[row].Longitude
-                let LatIndicator = Latitude >= 0.0 ? "N" : "S"
-                let LonIndicator = Longitude < 0.0 ? "W" : "E"
-                Latitude = abs(Latitude)
-                Longitude = abs(Longitude)
-                CellContents = "\(Latitude.RoundedTo(3, PadTo: 3))\(LatIndicator)\t\t\(Longitude.RoundedTo(3, PadTo: 3))\(LonIndicator)"
-            }
-            else
-            {
-                CellContents = "\(Filtered[row].Latitude.RoundedTo(3, PadTo: 3))\t\t\(Filtered[row].Longitude.RoundedTo(3, PadTo: 3))"
-            }
+            var Latitude = Filtered[row].Latitude
+            var Longitude = Filtered[row].Longitude
+            let LatIndicator = Latitude >= 0.0 ? "N" : "S"
+            let LonIndicator = Longitude < 0.0 ? "W" : "E"
+            Latitude = abs(Latitude)
+            Longitude = abs(Longitude)
+            CellContents = "  \(Latitude.RoundedTo(2, PadTo: 2))\(LatIndicator)\t\t\(Longitude.RoundedTo(2, PadTo: 2))\(LonIndicator)"
         }
         if tableColumn == tableView.tableColumns[5]
         {
-            CellIdentifier = "OtherColumn"
-            if ShowDistance
-            {
-                if Filtered[row].ContextDistance >= 0.0
-                {
-                    CellContents = "\(Filtered[row].ContextDistance.RoundedTo(1))"
-                }
-                else
-                {
-                    CellContents = ""
-                }
-            }
-            else
-            {
-                CellContents = ""
-            }
+            CellIdentifier = "RegionColumn"
+            let RegionName = USGS.InRegion(Filtered[row])
+            CellContents = RegionName
         }
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
+        Cell?.textField?.toolTip = ToolTipText
         if RightJustify
         {
             Cell?.textField?.alignment = .right
@@ -391,7 +454,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
                     if let Controller = Window?.contentViewController as? DetailQuakeController
                     {
                         Controller.SetQuake(Quake)
-                    self.view.window?.beginSheet(Window!)
+                        self.view.window?.beginSheet(Window!)
                     }
                 }
             }
@@ -441,6 +504,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
                             Filtered.sort{$0.Magnitude > $1.Magnitude}
                         }
                         
+                    #if false
                     case .Distance:
                         if ShowDistance
                         {
@@ -453,7 +517,8 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
                                 Filtered.sort{$0.ContextDistance > $1.ContextDistance}
                             }
                         }
-                        
+                    #endif
+                    
                     default:
                         return
                 }
@@ -462,6 +527,12 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
                 return
         }
         QuakeTable.reloadData()
+        if !Filtered.isEmpty
+        {
+            let Selected = IndexSet(integer: 0)
+            QuakeTable.selectRowIndexes(Selected, byExtendingSelection: false)
+            SetQRButton(With: Filtered[0])
+        }
     }
     
     // MARK: - Menu handling
@@ -581,9 +652,9 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         if let MenuItem = sender as? NSMenuItem
         {
             FilterAge = MenuItem.tag
-            let SelIndex = ParentWindow.AgeFilterCombo.indexOfSelectedItem
-            ParentWindow.AgeFilterCombo.deselectItem(at: SelIndex)
-            ParentWindow.AgeFilterCombo.selectItem(at: FilterAge)
+            let SelIndex = AgeFilterCombo.indexOfSelectedItem
+            AgeFilterCombo.deselectItem(at: SelIndex)
+            AgeFilterCombo.selectItem(at: FilterAge)
             UpdateTable()
         }
     }
@@ -593,15 +664,16 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         if let MenuItem = sender as? NSMenuItem
         {
             FilterMag = MenuItem.tag
-            let SelIndex = ParentWindow.MagnitudeFilterCombo.indexOfSelectedItem
-            ParentWindow.MagnitudeFilterCombo.deselectItem(at: SelIndex)
-            ParentWindow.MagnitudeFilterCombo.selectItem(at: FilterMag)
+            let SelIndex = MagFilterCombo.indexOfSelectedItem
+            MagFilterCombo.deselectItem(at: SelIndex)
+            MagFilterCombo.selectItem(at: FilterMag)
             UpdateTable()
         }
     }
     
     @objc func DoHandleRefresh(_ sender: Any)
     {
+        ParentWindow.HideNextIndicator()
         ParentWindow.ShowPleaseWait()
         USGSSource?.ForceFetch()
     }
@@ -611,7 +683,6 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         let PreviousDecorate = Settings.GetBool(.DecorateEarthquakeCoordinates)
         let DoDecorate = !PreviousDecorate
         Settings.SetBool(.DecorateEarthquakeCoordinates, DoDecorate)
-        ParentWindow.DecorateSwitch.state = DoDecorate ? .on : .off
         UpdateTable()
     }
     
@@ -645,9 +716,73 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         }
     }
     
+    @IBAction func HandleComboBox(_ sender: Any)
+    {
+        if let ComboBox = sender as? NSComboBox
+        {
+            if let SelectedObject = ComboBox.objectValueOfSelectedItem as? String
+            {
+                switch ComboBox
+                {
+                    case MagFilterCombo:
+                        HandleNewMagnitudeFilter(SelectedObject)
+                        
+                    case AgeFilterCombo:
+                        HandleNewAgeFilter(SelectedObject)
+                        
+                    default:
+                        return
+                }
+            }
+        }
+    }
+    
+    @IBAction func HandleQRButtonClicked(_ sender: Any)
+    {
+        if let Quake = QuakeForButton
+        {
+            if let ValidURL = URL(string: Quake.EventPageURL)
+            {
+                NSWorkspace.shared.open(ValidURL)
+            }
+        }
+    }
+    
+    func SetQRButton(With: Earthquake?)
+    {
+        if let Quake = With
+        {
+            QRButton.isEnabled = true
+            QRButton.isHidden = false
+            if let QRImage = Barcodes.QRCode(With: Quake.EventPageURL, FinalSize: NSSize(width: 50, height: 50))
+            {
+                QRButton.image = QRImage
+                QuakeForButton = Quake
+                QRButton.toolTip = "Click to open a browser showing this information"
+            }
+            else
+            {
+                QRButton.isEnabled = false
+                QRButton.isHidden = true
+            }
+        }
+        else
+        {
+            QRButton.isEnabled = false
+            QRButton.isHidden = true
+        }
+    }
+    
+    var QuakeForButton: Earthquake? = nil
+    
     // MARK: - Interface builder outlets
     
-    @IBOutlet weak var OtherColumn: NSTableColumn!
+    @IBOutlet weak var QRButton: NSButton!
+    @IBOutlet weak var UpdatedLabel: NSTextField!
+    @IBOutlet weak var FilteredQuakeLabel: NSTextField!
+    @IBOutlet weak var MagFilterCombo: NSComboBox!
+    @IBOutlet weak var AgeFilterCombo: NSComboBox!
+    @IBOutlet weak var LinkColumn: NSTableColumn!
     @IBOutlet weak var QuakeTable: NSTableView!
 }
 
