@@ -25,8 +25,7 @@
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="AwX-nU-XIN"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Fk7-Vk-xXx"/>
-                                <toolbarItem implicitItemIdentifier="2B37AB72-2533-4D41-B8C6-0B6A549A85D9" label="About" paletteLabel="About" sizingBehavior="auto" id="KCB-ms-iiR">
-                                    <nil key="toolTip"/>
+                                <toolbarItem implicitItemIdentifier="2B37AB72-2533-4D41-B8C6-0B6A549A85D9" label="About" paletteLabel="About" toolTip="View information about Flatland." sizingBehavior="auto" id="KCB-ms-iiR">
                                     <imageReference key="image" image="info.circle.fill" catalog="system" symbolScale="large"/>
                                     <button key="view" id="dmO-6s-0b4">
                                         <rect key="frame" x="6" y="13.5" width="27" height="26.5"/>
@@ -59,8 +58,7 @@
                                         <action selector="RunDebugger:" target="gS1-iC-1Lf" id="YrH-iA-Zeu"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="1F95EEC7-8B59-4024-BACA-F0126B541895" label="Live Data" paletteLabel="Live Data Status" sizingBehavior="auto" id="MQr-un-bBt">
-                                    <nil key="toolTip"/>
+                                <toolbarItem implicitItemIdentifier="1F95EEC7-8B59-4024-BACA-F0126B541895" label="Live Data" paletteLabel="Live Data Status" toolTip="See current live data status and statistics." sizingBehavior="auto" id="MQr-un-bBt">
                                     <imageReference key="image" image="wifi" catalog="system" symbolScale="large"/>
                                     <button key="view" id="Z8O-9J-ghi">
                                         <rect key="frame" x="36" y="14" width="21" height="16"/>
@@ -76,8 +74,7 @@
                                         <action selector="HandleLiveStatusButton:" target="gS1-iC-1Lf" id="XVZ-Zh-M88"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="6E958061-0B77-4FF9-A3A6-825D255B6201" label="Preferences" paletteLabel="Preferences" sizingBehavior="auto" id="emU-F6-qZj">
-                                    <nil key="toolTip"/>
+                                <toolbarItem implicitItemIdentifier="6E958061-0B77-4FF9-A3A6-825D255B6201" label="Preferences" paletteLabel="Preferences" toolTip="Set Flatland preferences." sizingBehavior="auto" id="emU-F6-qZj">
                                     <imageReference key="image" image="wrench.and.screwdriver" catalog="system" symbolScale="large"/>
                                     <button key="view" id="dhm-VL-7bI">
                                         <rect key="frame" x="19" y="14" width="33" height="31.5"/>
@@ -93,8 +90,7 @@
                                         <action selector="RunPreferences:" target="gS1-iC-1Lf" id="2zs-zz-SwO"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="BE2379F7-C93C-4B52-916C-82D12405591F" label="Locked" paletteLabel="Locked" sizingBehavior="auto" id="43P-br-LdQ">
-                                    <nil key="toolTip"/>
+                                <toolbarItem implicitItemIdentifier="BE2379F7-C93C-4B52-916C-82D12405591F" label="Locked" paletteLabel="Locked" toolTip="Lock the view so Earth doesn't move with the mouse." sizingBehavior="auto" id="43P-br-LdQ">
                                     <imageReference key="image" image="arrow.triangle.2.circlepath.circle" catalog="system" symbolScale="large"/>
                                     <button key="view" id="tRj-rh-9AP">
                                         <rect key="frame" x="8" y="14" width="28.5" height="27.5"/>
@@ -110,8 +106,7 @@
                                         <action selector="HandleLockUnlockWorldButton:" target="gS1-iC-1Lf" id="8bB-Qe-KWQ"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="8565F3F4-0A4B-4FC7-B461-E28A9CA6B743" label="Reset Map" paletteLabel="Reset Map" sizingBehavior="auto" id="nkA-Au-qYY">
-                                    <nil key="toolTip"/>
+                                <toolbarItem implicitItemIdentifier="8565F3F4-0A4B-4FC7-B461-E28A9CA6B743" label="Reset Map" paletteLabel="Reset Map" toolTip="Reset the view so noon is closest to the user." sizingBehavior="auto" id="nkA-Au-qYY">
                                     <imageReference key="image" image="house.circle" catalog="system" symbolScale="large"/>
                                     <button key="view" id="Eeb-q1-HEd">
                                         <rect key="frame" x="17" y="14" width="28.5" height="27.5"/>
@@ -144,8 +139,7 @@
                                         <action selector="TestSomething:" target="gS1-iC-1Lf" id="LeI-3V-JIk"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="B8B57144-D395-49DF-BDF1-9C6AAF02DFC0" label="Snapshot" paletteLabel="Snapshot" sizingBehavior="auto" id="qP8-7E-Gyk">
-                                    <nil key="toolTip"/>
+                                <toolbarItem implicitItemIdentifier="B8B57144-D395-49DF-BDF1-9C6AAF02DFC0" label="Snapshot" paletteLabel="Snapshot" toolTip="Take a snapshot of the main window." sizingBehavior="auto" id="qP8-7E-Gyk">
                                     <imageReference key="image" image="camera" catalog="system" symbolScale="large"/>
                                     <button key="view" id="BLN-Ho-L5j">
                                         <rect key="frame" x="12" y="13.5" width="33.5" height="25.5"/>
@@ -178,15 +172,32 @@
                                         <action selector="MemoryDisplay:" target="gS1-iC-1Lf" id="oBm-Ck-ODW"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="55471A7C-A4AF-4B8C-B2C8-0137515C8C9C" label="Earthquakes" paletteLabel="Earthquake List" toolTip="See current live data status and statistics." sizingBehavior="auto" id="eOi-Yf-l9v">
+                                    <imageReference key="image" image="waveform.path" catalog="system" symbolScale="large"/>
+                                    <button key="view" id="RRF-hs-5LD">
+                                        <rect key="frame" x="32" y="14" width="24.5" height="21"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="hHE-HT-nX0">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                            <imageReference key="image" image="waveform.path" catalog="system" symbolScale="large"/>
+                                        </buttonCell>
+                                        <color key="contentTintColor" name="ControlBlack"/>
+                                    </button>
+                                    <connections>
+                                        <action selector="ShowEarthquakeList:" target="gS1-iC-1Lf" id="nPZ-yH-eer"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
+                                <toolbarItem reference="S6R-vz-Pvb"/>
+                                <toolbarItem reference="mNI-Xf-upW"/>
+                                <toolbarItem reference="XOM-R1-tav"/>
+                                <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="emU-F6-qZj"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="qP8-7E-Gyk"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
-                                <toolbarItem reference="S6R-vz-Pvb"/>
-                                <toolbarItem reference="mNI-Xf-upW"/>
-                                <toolbarItem reference="XOM-R1-tav"/>
                                 <toolbarItem reference="43P-br-LdQ"/>
                                 <toolbarItem reference="nkA-Au-qYY"/>
                                 <toolbarItem reference="MQr-un-bBt"/>
@@ -199,9 +210,16 @@
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="AboutButtonItem" destination="KCB-ms-iiR" id="bpF-oP-O1U"/>
                         <outlet property="DebugButton" destination="mNI-Xf-upW" id="fkO-Pr-YnW"/>
                         <outlet property="DebuggerButton" destination="XOM-R1-tav" id="7qb-5T-5mC"/>
+                        <outlet property="EarthquakeListItem" destination="eOi-Yf-l9v" id="3pV-oF-n0i"/>
+                        <outlet property="LiveDataButtonItem" destination="MQr-un-bBt" id="MA2-NC-5rP"/>
                         <outlet property="MainToolBar" destination="Olf-7r-jti" id="mOd-dQ-sAa"/>
+                        <outlet property="MemoryButtonItem" destination="S6R-vz-Pvb" id="Xnb-3G-6bo"/>
+                        <outlet property="PreferenceButtonItem" destination="emU-F6-qZj" id="nTc-G8-pMu"/>
+                        <outlet property="ResetMapButtonItem" destination="nkA-Au-qYY" id="CwU-cX-n5h"/>
+                        <outlet property="SnapshotButtonItem" destination="qP8-7E-Gyk" id="TKV-Wx-tJc"/>
                         <outlet property="WorldLockButton" destination="tRj-rh-9AP" id="Fhz-2X-M5h"/>
                         <outlet property="WorldLockToolbarItem" destination="43P-br-LdQ" id="79U-f8-c8I"/>
                         <segue destination="BrD-hm-rhT" kind="relationship" relationship="window.shadowedContentViewController" id="w6z-7E-nbl"/>
@@ -897,6 +915,7 @@
         <image name="info.circle.fill" catalog="system" width="19" height="19"/>
         <image name="ladybug.fill" catalog="system" width="22" height="22"/>
         <image name="memorychip" catalog="system" width="21" height="19"/>
+        <image name="waveform.path" catalog="system" width="24" height="21"/>
         <image name="wifi" catalog="system" width="21" height="16"/>
         <image name="wrench.and.screwdriver" catalog="system" width="23" height="22"/>
         <namedColor name="ControlBlack">
