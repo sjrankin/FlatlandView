@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import CoreGraphics
 
-class MainWindow: NSWindowController
+class MainWindow: NSWindowController, NSToolbarDelegate
 {
     override func windowDidLoad()
     {
@@ -27,6 +27,32 @@ class MainWindow: NSWindowController
         Item.image = Image
     }
     
+    //https://stackoverflow.com/questions/55878224/how-to-add-a-custom-nstoolbaritem-to-an-existing-toolbar-programmatically
+    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier]
+    {
+        var OKIDs = [NSToolbarItem.Identifier.flexibleSpace,
+                     NSToolbarItem.Identifier.space,
+                     SnapshotButtonItem.itemIdentifier,
+                     ResetMapButtonItem.itemIdentifier,
+                     PreferenceButtonItem.itemIdentifier,
+                     LiveDataButtonItem.itemIdentifier,
+                     WorldLockToolbarItem.itemIdentifier,
+                     EarthquakeListItem.itemIdentifier]
+        #if DEBUG
+        OKIDs.append(MemoryButtonItem.itemIdentifier)
+        OKIDs.append(DebuggerButton.itemIdentifier)
+        OKIDs.append(DebugButton.itemIdentifier)
+        #endif
+        return OKIDs
+    }
+    
+    @IBOutlet weak var EarthquakeListItem: NSToolbarItem!
+    @IBOutlet weak var MemoryButtonItem: NSToolbarItem!
+    @IBOutlet weak var SnapshotButtonItem: NSToolbarItem!
+    @IBOutlet weak var ResetMapButtonItem: NSToolbarItem!
+    @IBOutlet weak var PreferenceButtonItem: NSToolbarItem!
+    @IBOutlet weak var LiveDataButtonItem: NSToolbarItem!
+    @IBOutlet weak var AboutButtonItem: NSToolbarItem!
     @IBOutlet weak var DebuggerButton: NSToolbarItem!
     @IBOutlet weak var DebugButton: NSToolbarItem!
     @IBOutlet weak var WorldLockButton: NSButton!
