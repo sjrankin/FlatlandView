@@ -146,8 +146,13 @@ extension MainController
         {
             let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0 * 5.0)
             Earthquakes?.GetEarthquakes(Every: FetchInterval)
+            #if true
+            CachedQuakes = Settings.GetCachedEarthquakes()
+            PlotCachedQuakes(CachedQuakes)
+            #else
             let Cached = Settings.GetCachedEarthquakes()
             PlotCachedQuakes(Cached)
+            #endif
         }
         
         if Settings.GetBool(.PreloadNASATiles) && Settings.GetBool(.EnableNASATiles)
