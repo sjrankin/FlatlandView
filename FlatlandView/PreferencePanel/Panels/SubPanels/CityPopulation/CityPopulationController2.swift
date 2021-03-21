@@ -14,6 +14,10 @@ class CityPopulationController2: NSViewController, NSTextFieldDelegate
     override func viewDidLoad()
     {
         super.viewDidLoad()
+    }
+    
+    override func viewDidAppear()
+    {
         CityPopulationColor.color = Settings.GetColor(.PopulationColor, NSColor.white)
         UseMetropolitanSwitch.state = Settings.GetBool(.PopulationRankIsMetro) ? .on : .off
         GreaterThanCheck.state = Settings.GetBool(.PopulationFilterGreater) ? .on : .off
