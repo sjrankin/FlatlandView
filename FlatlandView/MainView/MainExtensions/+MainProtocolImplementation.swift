@@ -127,7 +127,25 @@ extension MainController: MainProtocol
         return Earthquakes
     }
     
-    /// Returns the set of current earthquakes.
+    /// Returns the current set of earthquakes. If no earthquakes have yet been read from the USGS,
+    /// the set of cached quakes are returned.
+    /// - Returns: The most recent set of downloaded earthquakes from the USGS in the instantiation, or
+    ///            if nothing has yet been downloaded, the set of cached earthquakes.
+    func GetEarthquakes() -> [Earthquake]
+    {
+        if LatestEarthquakes.isEmpty
+        {
+            return CachedQuakes
+        }
+        else
+        {
+            return LatestEarthquakes
+        }
+    }
+    
+    /// Returns the set of most recently read earthquakes.
+    /// - Returns: Array of the most recently read set of earthquakes in the current instantiation. If
+    ///            no quakes have been received, an empty array is returned.
     func GetCurrentEarthquakes() -> [Earthquake]
     {
         return LatestEarthquakes
@@ -315,5 +333,13 @@ extension MainController: MainProtocol
             }
             #endif
         }
+    }
+    
+    /// Returns the time-stamp of the most recent earthquake download.
+    /// - Returns: Date-time of the most recent earthquake download. If nil, no downloads have occurred
+    ///            for the current instantiation.
+    func GetLastEarthquakeDownload() -> Date?
+    {
+        return LastQuakeDownloadTime
     }
 }
