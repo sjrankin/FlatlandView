@@ -221,6 +221,16 @@ class UserRegion: CustomStringConvertible
         }
     }
     
+    /// Returns a flag indicating whether the region crosses the equator.
+    /// - Returns: True if the region straddles the equator, false if not.
+    var CrossesEquator: Bool
+    {
+        get
+        {
+            return DoesStraddleEquator(UpperLeft, LowerRight)
+        }
+    }
+    
     /// Determines if the region specified in the passed points straddles the date line.
     /// - Note: The results are stored in `_CrossesDateLine`.
     /// - Parameter UL: The upper-left (north west) corner of the region.
@@ -233,6 +243,34 @@ class UserRegion: CustomStringConvertible
             return
         }
         _CrossesDateLine = false
+    }
+    
+    /// Determines if the region in the passed points straddles the equator.
+    /// - Note: Unlike `DoesStraddleDateLine`, the results are returned.
+    /// - Parameter UL: The upper-left (north west) corner of the region.
+    /// - Parameter LR: The lower-right (south east) corner of the region.
+    /// - Returns: True if the region straddles the equator, false if not.
+    func DoesStraddleEquator(_ UL: GeoPoint, _ LR: GeoPoint) -> Bool
+    {
+        let ULSign = UL.Latitude < 0.0 ? -1 : 1
+        let LRSign = LR.Latitude < 0.0 ? -1 : 1
+        switch (ULSign, LRSign)
+        {
+            case (0, 0):
+                return false
+                
+            case (-1, 0):
+                return true
+                
+            case (0, -1):
+                return true
+                
+            case (-1, -1):
+                return false
+                
+            default:
+                return true
+        }
     }
     
     /// Returns the east sub-region for regions that straddle the international date line.
