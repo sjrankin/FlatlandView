@@ -85,6 +85,27 @@ class Settings
         return GetBool(.InitializationFlag)
     }
     
+    /// Override settings depending on feature availability.
+    public static func UpdateForFeatureLevel()
+    {
+        Features.FeatureEnabled(.NASAImagery)
+        {
+            IsEnabled in
+            if !IsEnabled
+            {
+                Settings.SetBool(.EnableNASATiles, false)
+            }
+        }
+        Features.FeatureEnabled(.QuakeBarcodes)
+        {
+            IsEnabled in
+            if !IsEnabled
+            {
+                Settings.SetBool(.ShowMagnitudeBarCode, false)
+            }
+        }
+    }
+    
     // MARK: - Subscriber management.
     
     /// List of subscribers we send change notices to.
