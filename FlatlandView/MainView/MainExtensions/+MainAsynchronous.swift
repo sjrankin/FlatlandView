@@ -37,6 +37,7 @@ extension MainController: AsynchronousDataProtocol
                         StatusBar.InsertMessageAheadOfQueue("Earthquake retrieval duration: \(PrettyDuration)",
                                                             ExpiresIn: 10.0, ID: UUID())
                     }
+                    LastQuakeDownloadTime = Date()
                     Main3DView.NewEarthquakeList(NewEarthquakes, Final: DoneWithStenciling)
                     Main2DView.PlotEarthquakes(NewEarthquakes, Replot: true)
                     Rect2DView.PlotEarthquakes(NewEarthquakes, Replot: true)
