@@ -71,13 +71,18 @@ extension GlobeView
     /// - Parameter WithMap: Image to use as the base map.
     func SetEarthMap(FastAnimate: Bool = false, WithMap: NSImage? = nil)
     {
-        /*
-         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .CubicWorld
-         {
-         ShowCubicEarth()
-         return
-         }
-         */
+        Features.FeatureEnabled(.CubicEarth)
+        {
+            IsEnabled in
+            if IsEnabled
+            {
+                if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D) == .CubicWorld
+                {
+                    self.ShowCubicEarth()
+                    return
+                }
+            }
+        }
         let SFrame = Debug.StackFrameContents(10)
         let PrettyFrames = Debug.PrettyStackTrace(SFrame)
         Debug.Print(PrettyFrames)
@@ -169,7 +174,6 @@ extension GlobeView
         {
             if MapType == .GIBS_SNPP_VIIRS_DayNightBand_At_Sensor_Radiance
             {
-                print("<><><><> Setting night map to emission")
                 EarthNode?.geometry?.firstMaterial?.emission.contents = BaseMap!
             }
         }
