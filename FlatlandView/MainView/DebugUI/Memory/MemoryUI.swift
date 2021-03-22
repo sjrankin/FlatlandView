@@ -9,15 +9,36 @@
 import Foundation
 import AppKit
 
-class MemoryUI: NSViewController, NSTableViewDataSource, NSTableViewDelegate
+class MemoryUI: NSViewController, NSTableViewDataSource, NSTableViewDelegate, SettingChangedProtocol
 {
+    public weak var MainDelegate: MainProtocol? = nil
+    {
+        didSet
+        {
+            if let Mem = MainDelegate?.GetMemoryStatistics()
+            {
+                UpdateChart(With: Mem)
+            }
+        }
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        SampleTimeSegment.selectedSegment = 0
         ReadMemory()
         SampleTable.reloadData()
+        Settings.AddSubscriber(self)
     }
+    
+    var Chart: CALayer? = nil
+    
+    override func viewDidLayout()
+    {
+        super.viewDidLayout()
+        Window = self.view.window?.windowController as? MemoryUIWindow
+    }
+    
+    var Window: MemoryUIWindow? = nil
     
     override func viewDidAppear()
     {
@@ -29,29 +50,29 @@ class MemoryUI: NSViewController, NSTableViewDataSource, NSTableViewDelegate
     }
     
     var Samples: [MemoryFields: (Absolute: UInt64?, Delta: Int64?, SampleTime: Double?)] =
-    [
-        .PhysicalFootprint: (nil, nil, nil),
-        .ResidentSize: (nil, nil, nil),
-        .ResidentPeakSize: (nil, nil, nil),
-        .Reusable: (nil, nil, nil),
-        .ReusablePeak: (nil, nil, nil),
-        .PageSize: (nil, nil, nil),
-        .VirtualSize: (nil, nil, nil),
-        .RegionCount: (nil, nil, nil)
-    ]
+        [
+            .PhysicalFootprint: (nil, nil, nil),
+            .ResidentSize: (nil, nil, nil),
+            .ResidentPeakSize: (nil, nil, nil),
+            .Reusable: (nil, nil, nil),
+            .ReusablePeak: (nil, nil, nil),
+            .PageSize: (nil, nil, nil),
+            .VirtualSize: (nil, nil, nil),
+            .RegionCount: (nil, nil, nil)
+        ]
     var Fields: [MemoryFields] = [.PhysicalFootprint, .ResidentSize, .ResidentPeakSize, .Reusable,
                                   .ReusablePeak, .PageSize, .VirtualSize, .RegionCount]
     var Names: [MemoryFields: String] =
-    [
-        .PhysicalFootprint: "Physical Footprint",
-        .ResidentSize: "Resident",
-        .ResidentPeakSize: "Resident Peak",
-        .Reusable: "Reusable",
-        .ReusablePeak: "Reusable Peak",
-        .PageSize: "Page Size",
-        .VirtualSize: "Virtual Size",
-        .RegionCount: "Region Count"
-    ]
+        [
+            .PhysicalFootprint: "Physical Footprint",
+            .ResidentSize: "Resident",
+            .ResidentPeakSize: "Resident Peak",
+            .Reusable: "Reusable",
+            .ReusablePeak: "Reusable Peak",
+            .PageSize: "Page Size",
+            .VirtualSize: "Virtual Size",
+            .RegionCount: "Region Count"
+        ]
     
     func numberOfRows(in tableView: NSTableView) -> Int
     {
@@ -69,7 +90,7 @@ class MemoryUI: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             let MemoryField = Fields[row]
             if let Name = Names[MemoryField]
             {
-            CellContents = Name
+                CellContents = Name
             }
         }
         if tableColumn == tableView.tableColumns[1]
@@ -79,7 +100,7 @@ class MemoryUI: NSViewController, NSTableViewDataSource, NSTableViewDelegate
             var Actual = ""
             if let ActualValue = Samples[MemoryField]?.Absolute
             {
-                if FullValueSwitch.state == .on
+                if Window!.FullValueCheck!.state == .on
                 {
                     Actual = ActualValue.Delimited()
                 }
@@ -110,7 +131,7 @@ class MemoryUI: NSViewController, NSTableViewDataSource, NSTableViewDelegate
                 {
                     CellTextColor = NSColor.systemRed
                 }
-                if FullValueSwitch.state == .on
+                if Window!.FullValueCheck!.state == .on
                 {
                     Delta = DeltaValue.Delimited()
                 }
@@ -205,17 +226,69 @@ class MemoryUI: NSViewController, NSTableViewDataSource, NSTableViewDelegate
         SampleTable.reloadData()
     }
     
-    @IBAction func HandleFullValueChanged(_ sender: Any)
+    func HandleFullValueChanged(ShowFullValue: Bool)
     {
         SampleTable.reloadData()
     }
     
+    func HandleRefreshButton()
+    {
+        if let MemoryData = MainDelegate?.GetMemoryStatistics()
+        {
+            UpdateChart(With: MemoryData)
+        }
+    }
+    
+    let SettingsID = UUID()
+    
+    func SubscriberID() -> UUID
+    {
+        return SettingsID
+    }
+    
+    func SettingChanged(Setting: SettingKeys, OldValue: Any?, NewValue: Any?)
+    {
+        if Setting == .Trigger_MemoryMeasured
+        {
+            if let MemoryData = MainDelegate?.GetMemoryStatistics()
+            {
+                print("New memory data: \(MemoryData.last!)")
+                UpdateChart(With: MemoryData)
+            }
+        }
+    }
+    
+    func UpdateChart(With Raw: [Int64])
+    {
+        Chart?.removeFromSuperlayer()
+        Chart = nil
+        if Raw.isEmpty
+        {
+            return
+        }
+        let Start = Raw[0]
+        var ChartData = [(Double, NSColor)]()
+        for Value in Raw
+        {
+            let Delta = Value - Start
+            let Color = Delta < 0 ? NSColor.green : NSColor.red
+            ChartData.append((Double(Delta), Color))
+        }
+        Chart = BarChart.MakeDeltaChart(With: ChartData,
+                                        Size: MemoryChart.frame.size,
+                                        BackgroundColor: NSColor.black,
+                                        BorderColor: NSColor.white,
+                                        HorizontalGap: 1.0)
+        MemoryChart.wantsLayer = true
+        MemoryChart.layer?.addSublayer(Chart!)
+    }
+    
     @IBAction func HandleCloseButton(_ sender: Any)
     {
+        Settings.RemoveSubscriber(self)
         self.view.window?.close()
     }
     
-    @IBOutlet weak var FullValueSwitch: NSSwitch!
+    @IBOutlet weak var MemoryChart: NSView!
     @IBOutlet weak var SampleTable: NSTableView!
-    @IBOutlet weak var SampleTimeSegment: NSSegmentedControl!
 }
