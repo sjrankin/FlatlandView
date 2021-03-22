@@ -519,6 +519,10 @@ enum SettingKeys: String, CaseIterable
     /// [WorldHeritageSite]: List of UNESCO world heritage sites.
     case DB_WorldHeritageSites = "DB_WorldHeritageSites"
     
+    // MARK: - Settings used to trigger events.
+    /// Integer: New memory measurement available.
+    case Trigger_MemoryMeasured = "Tigger_MemoryMeasured"
+    
     // MARK: - Settings used in areas outside of the Settings system.
     /// Live data viewer.
     case LiveViewWindowFrame = "LiveViewWindowFrame"
