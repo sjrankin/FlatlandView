@@ -18,6 +18,16 @@ class MainController: NSViewController
     {
         super.viewDidLoad()
         
+        Settings.SetInt(.Trigger_MemoryMeasured, 0)
+        MemoryDebug.MeasurePeriodically
+        {
+            Value in
+            //objc_sync_enter(self.MemoryLock)
+            self.MemoryOverTime.append(Value)
+            Settings.SetInt(.Trigger_MemoryMeasured, self.MemoryOverTime.count)
+            //objc_sync_exit(self.MemoryLock)
+        }
+        
         MainController.StartTime = CACurrentMediaTime()
         UptimeStart = CACurrentMediaTime()
         FileIO.Initialize()
@@ -65,6 +75,9 @@ class MainController: NSViewController
             self.StatusBar.ShowStatusText(StatString, For: 15.0)
         }
     }
+    
+    let MemoryLock = NSObject()
+    var MemoryOverTime = [Int64]()
     
     /// Determines if the main window is at least partially visible in some view.
     /// - Notes: See [OS X: finding if a window is visible on screen](https://developer.apple.com/forums/thread/71171)
@@ -420,6 +433,9 @@ class MainController: NSViewController
         let Storyboard = NSStoryboard(name: "MemoryUI", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "MemoryDebugWindow") as? MemoryUIWindow
         {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? MemoryUI
+            Controller?.MainDelegate = self
             WindowController.showWindow(nil)
         }
         #endif
