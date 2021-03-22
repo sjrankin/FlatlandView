@@ -237,6 +237,8 @@ extension Settings
             .Debug_ClockActionClockAngle: Double.self,
             .Debug_ClockUseTimeMultiplier: Bool.self,
             .Debug_ClockActionClockMultiplier: Double.self,
+            // MARK: - Settings for event triggering
+            .Trigger_MemoryMeasured: Int.self,
         ]
     
     /// Contains settings that are stored in secure storage.
