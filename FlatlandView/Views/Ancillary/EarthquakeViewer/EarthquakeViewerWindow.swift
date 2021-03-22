@@ -13,7 +13,6 @@ class EarthquakeViewerWindow: NSWindowController
 {
     override func windowDidLoad()
     {
-        //ShowPleaseWait()
         RegionQuakeButton.toolTip = "Enables filtering by a region."
     }
     
@@ -21,8 +20,6 @@ class EarthquakeViewerWindow: NSWindowController
     
     func ShowPleaseWait()
     {
-        let Trace = Debug.StackFrameContents(10)
-        Debug.Print("ShowPleaseWait: \(Debug.PrettyStackTrace(Trace))")
         WorkingItem.label = "Downloading"
         WorkingIndicator.startAnimation(self)
         if let Child = self.contentViewController as? EarthquakeViewerController
@@ -43,8 +40,6 @@ class EarthquakeViewerWindow: NSWindowController
     
     func ShowNextIndicator(For Seconds: Double)
     {
-        let Trace = Debug.StackFrameContents(10)
-        Debug.Print("ShowNextIndicator: \(Debug.PrettyStackTrace(Trace))")
         NextIndicator.minValue = 0.0
         NextIndicator.maxValue = 1.0
         NextIndicator.isHidden = false
@@ -99,7 +94,6 @@ class EarthquakeViewerWindow: NSWindowController
     func UpdateRegionalQuakeIcon(Enabled: Bool)
     {
         RegionQuakeButton.isEnabled = Enabled
-//        RegionQuakeButton.image = Enabled ? NSImage(named: "TargetIconOn") : NSImage(named: "TargetIcon")
     }
     
     @IBOutlet weak var NextIndicator: NSProgressIndicator!
