@@ -11,7 +11,7 @@ import AppKit
 
 /// Contains one user region. This is a region defined by the user to have different, user-specified
 /// local parameters for displaying earthquakes or other regions the user wants to define.
-class UserRegion: CustomStringConvertible
+class UserRegion: CustomStringConvertible, Hashable
 {
     /// Create an empty user region.
     init()
@@ -470,6 +470,16 @@ class UserRegion: CustomStringConvertible
                                                       Longitude2: Center.Longitude) / 1000.0
             return Distance <= Radius
         }
+    }
+    
+    static func == (lhs: UserRegion, rhs: UserRegion) -> Bool
+    {
+        return lhs.ID == rhs.ID
+    }
+    
+    func hash(into hasher: inout Hasher)
+    {
+        hasher.combine(ID)
     }
 }
 
