@@ -169,6 +169,14 @@ protocol MainProtocol: AnyObject
     
     /// The date/time of the most recent earthquake download.
     func GetLastEarthquakeDownload() -> Date?
+    
+    /// Returns memory measurements.
+    /// - Parameter Measurements: Pointer to memory data.
+    func GetMemoryStatistics(Measurements: inout [Int64])
+    
+    /// Returns memory measurements.
+    /// - Returns: Array of memory data.
+    func GetMemoryStatistics() -> [Int64]
 }
 
 /// Flatland's child windows.
