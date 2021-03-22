@@ -140,6 +140,43 @@ class MemoryDebug
     /// Holds the dictionary of memory location records.
     static var Locations = [String: MemoryData]()
     #endif
+    
+    /// Starts periodic measuring of the memory footprint of the process.
+    /// - Parameter Frequency: How often (in seconds) to measure memory. If 0.0 or less, no action is taken.
+    /// - Parameter Closure: Closure block to execute at each period of the timer.
+    public static func MeasurePeriodically(_ Frequency: Double = 60.0, _ Closure: ((Int64) -> ())?)
+    {
+        #if DEBUG
+        if Frequency <= 0.0
+        {
+            return
+        }
+        if let Current = LowLevel.MemoryStatistics(.PhysicalFootprint)
+        {
+            Closure?(Int64(Current))
+        }
+        PeriodicTimer = Timer.scheduledTimer(withTimeInterval: Frequency, repeats: true)
+        {
+            _ in
+            if let Current = LowLevel.MemoryStatistics(.PhysicalFootprint)
+            {
+                Closure?(Int64(Current))
+            }
+        }
+        #endif
+    }
+    
+    /// Periodic measurement timer.
+    private static var PeriodicTimer: Timer? = nil
+    
+    /// Stops periodic measurement.
+    public static func StopMeasuring()
+    {
+        #if DEBUG
+        PeriodicTimer?.invalidate()
+        PeriodicTimer = nil
+        #endif
+    }
 }
 
 /// Contains one measurement of information for a given program location.
