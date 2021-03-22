@@ -33,15 +33,13 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
     {
         USGSSource = USGS()
         USGSSource?.Delegate = self
-        //USGSSource?.GetEarthquakes(Every: 300.0)
-        //ParentWindow?.ShowNextIndicator(For: 300.0)
         
         QuakeTable.doubleAction = #selector(HandleDoubleClick)
         
         QuakeTable.tableColumns[0].sortDescriptorPrototype = CodeDescriptor
         QuakeTable.tableColumns[2].sortDescriptorPrototype = MagnitudeDescriptor
         QuakeTable.tableColumns[3].sortDescriptorPrototype = DateDescriptor
-        QuakeTable.tableColumns[5].sortDescriptorPrototype = DistanceDescriptor
+        QuakeTable.tableColumns[5].sortDescriptorPrototype = RegionDescriptor
         
         ShowDistance = Settings.GetBool(.QuakeRegionEnable)
         
@@ -51,7 +49,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
     let CodeDescriptor = NSSortDescriptor(key: ColumnDescriptors.Code.rawValue, ascending: true)
     let MagnitudeDescriptor = NSSortDescriptor(key: ColumnDescriptors.Magnitude.rawValue, ascending: true)
     let DateDescriptor = NSSortDescriptor(key: ColumnDescriptors.Date.rawValue, ascending: true)
-    let DistanceDescriptor = NSSortDescriptor(key: ColumnDescriptors.Distance.rawValue, ascending: true)
+    let RegionDescriptor = NSSortDescriptor(key: ColumnDescriptors.Region.rawValue, ascending: true)
     var AlreadyLaidOut: Bool = false
     
     override func viewDidLayout()
@@ -91,6 +89,20 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
             {
                 fatalError("MainApp is nil")
             }
+            
+            RegionCombo.removeAllItems()
+            RegionCombo.addItem(withObjectValue: "All Regions")
+            var RegionNames = Set<String>()
+            for Region in Settings.GetEarthquakeRegions()
+            {
+                RegionNames.insert(Region.RegionName)
+            }
+            let FinalRegions = Array(RegionNames).sorted()
+            for Region in FinalRegions
+            {
+                RegionCombo.addItem(withObjectValue: Region)
+            }
+            RegionCombo.selectItem(at: 0)
             
             AddMenu()
             ParentWindow.UpdateRegionalQuakeIcon(Enabled: Settings.GetBool(.QuakeRegionEnable))
@@ -192,6 +204,11 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         }
     }
     
+    func HandleNewRegionFilter(_ Raw: String)
+    {
+        UpdateTable()
+    }
+    
     // MARK: - Asynchronous data handling
     
     func LoadData(DataType: AsynchronousDataCategories, Raw: Any)
@@ -201,6 +218,10 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
             case .Earthquakes:
                 if let RawData = Raw as? [Earthquake]
                 {
+                    for Quake in RawData
+                    {
+                        Quake.RegionName = USGS.InRegion(Quake)
+                    }
                     let PrettyNow = Date().PrettyDateTime()
                     UpdatedLabel.stringValue = "Updated: \(PrettyNow)"
                     AllQuakes = RawData
@@ -298,6 +319,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         return Results
     }
     
+    #if false
     func FilterQuakesByRegion(_ Source: [Earthquake]) -> [Earthquake]
     {
         LinkColumn.headerCell.stringValue = "Distance"
@@ -319,32 +341,20 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         Results.sort{$0.ContextDistance < $1.ContextDistance}
         return Results
     }
+    #endif
     
     func UpdateTable()
     {
         Filtered.removeAll()
-        #if true
         Filtered = FilterQuakeList(AllQuakes)
-        #else
-        let UseRegionalFiltering = Settings.GetBool(.QuakeRegionEnable)
-        if UseRegionalFiltering
+        
+        if let RegionValue = RegionCombo.objectValueOfSelectedItem as? String
         {
-            if Settings.GetBool(.QuakeSetAll)
+            if RegionValue.lowercased() != "all regions"
             {
-                Filtered = FilterQuakesByRegion(AllQuakes)
-            }
-            else
-            {
-                let Regional = FilterQuakesByRegion(AllQuakes)
-                Filtered = FilterQuakeList(Regional)
+                Filtered = Filtered.filter({$0.RegionName == RegionValue})
             }
         }
-        else
-        {
-            LinkColumn.headerCell.stringValue = ""
-            Filtered = FilterQuakeList(AllQuakes)
-        }
-        #endif
         
         FilteredQuakeLabel.stringValue = "Filtered quakes: \(Filtered.count)"
         QuakeTable.reloadData()
@@ -413,8 +423,7 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         if tableColumn == tableView.tableColumns[5]
         {
             CellIdentifier = "RegionColumn"
-            let RegionName = USGS.InRegion(Filtered[row])
-            CellContents = RegionName
+            CellContents = Filtered[row].RegionName
         }
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
@@ -468,59 +477,47 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         {
             return
         }
-        switch tableView
+        let SortBy = ColumnDescriptors(rawValue: SortDescriptor.key!)
+        switch SortBy
         {
-            case QuakeTable:
-                let SortBy = ColumnDescriptors(rawValue: SortDescriptor.key!)
-                switch SortBy
+            case .Code:
+                if SortDescriptor.ascending
                 {
-                    case .Code:
-                        if SortDescriptor.ascending
-                        {
-                            Filtered.sort{$0.Code < $1.Code}
-                        }
-                        else
-                        {
-                            Filtered.sort{$0.Code > $1.Code}
-                        }
-                        
-                    case .Date:
-                        if SortDescriptor.ascending
-                        {
-                            Filtered.sort{$0.Time < $1.Time}
-                        }
-                        else
-                        {
-                            Filtered.sort{$0.Time > $1.Time}
-                        }
-                        
-                    case .Magnitude:
-                        if SortDescriptor.ascending
-                        {
-                            Filtered.sort{$0.Magnitude < $1.Magnitude}
-                        }
-                        else
-                        {
-                            Filtered.sort{$0.Magnitude > $1.Magnitude}
-                        }
-                        
-                    #if false
-                    case .Distance:
-                        if ShowDistance
-                        {
-                            if SortDescriptor.ascending
-                            {
-                                Filtered.sort{$0.ContextDistance < $1.ContextDistance}
-                            }
-                            else
-                            {
-                                Filtered.sort{$0.ContextDistance > $1.ContextDistance}
-                            }
-                        }
-                    #endif
-                    
-                    default:
-                        return
+                    Filtered.sort{$0.Code < $1.Code}
+                }
+                else
+                {
+                    Filtered.sort{$0.Code > $1.Code}
+                }
+                
+            case .Date:
+                if SortDescriptor.ascending
+                {
+                    Filtered.sort{$0.Time < $1.Time}
+                }
+                else
+                {
+                    Filtered.sort{$0.Time > $1.Time}
+                }
+                
+            case .Magnitude:
+                if SortDescriptor.ascending
+                {
+                    Filtered.sort{$0.Magnitude < $1.Magnitude}
+                }
+                else
+                {
+                    Filtered.sort{$0.Magnitude > $1.Magnitude}
+                }
+                
+            case .Region:
+                if SortDescriptor.ascending
+                {
+                    Filtered.sort{$0.RegionName < $1.RegionName}
+                }
+                else
+                {
+                    Filtered.sort{$0.RegionName > $1.RegionName}
                 }
                 
             default:
@@ -730,6 +727,9 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
                     case AgeFilterCombo:
                         HandleNewAgeFilter(SelectedObject)
                         
+                    case RegionCombo:
+                        HandleNewRegionFilter(SelectedObject)
+                        
                     default:
                         return
                 }
@@ -754,22 +754,46 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
         {
             QRButton.isEnabled = true
             QRButton.isHidden = false
+            QRButtonLabel.isHidden = false
             if let QRImage = Barcodes.QRCode(With: Quake.EventPageURL, FinalSize: NSSize(width: 50, height: 50))
             {
                 QRButton.image = QRImage
                 QuakeForButton = Quake
                 QRButton.toolTip = "Click to open a browser showing this information"
+                if let Title = With?.Title
+                {
+                    QRButtonLabel.stringValue = Title
+                }
+                else
+                {
+                    QRButtonLabel.stringValue = "Click label for more information - opens in your browser."
+                }
+                QRBox.wantsLayer = true
+                let Colors = Settings.GetMagnitudeColors()
+                let MagRange = Utility.GetMagnitudeRange(For: Quake.Magnitude)
+                var BoxColor = NSColor.clear
+                for (Magnitude, Color) in Colors
+                {
+                    if Magnitude == MagRange
+                    {
+                        BoxColor = Color
+                        break
+                    }
+                }
+                QRBox.layer?.backgroundColor = BoxColor.cgColor
             }
             else
             {
                 QRButton.isEnabled = false
                 QRButton.isHidden = true
+                QRButtonLabel.isHidden = true
             }
         }
         else
         {
             QRButton.isEnabled = false
             QRButton.isHidden = true
+            QRButtonLabel.isHidden = true
         }
     }
     
@@ -777,6 +801,9 @@ class EarthquakeViewerController: NSViewController, NSTableViewDelegate, NSTable
     
     // MARK: - Interface builder outlets
     
+    @IBOutlet weak var RegionCombo: NSComboBox!
+    @IBOutlet weak var QRBox: NSBox!
+    @IBOutlet weak var QRButtonLabel: NSTextField!
     @IBOutlet weak var QRButton: NSButton!
     @IBOutlet weak var UpdatedLabel: NSTextField!
     @IBOutlet weak var FilteredQuakeLabel: NSTextField!
@@ -791,5 +818,5 @@ enum ColumnDescriptors: String
     case Date = "Date"
     case Magnitude = "Magnitude"
     case Code = "Code"
-    case Distance = "Distance"
+    case Region = "Region"
 }
