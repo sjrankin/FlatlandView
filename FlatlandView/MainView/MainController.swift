@@ -171,7 +171,7 @@ class MainController: NSViewController
             //viewDidLayout is called multiple times be we only need to initialize once...
             FlatlandInitialized = true
             InterfaceInitialization()
-            StatusBar.SetConstraints(Left: Status3DLeftConstraint, Right: Status3DRightConstraint)
+            StatusBar.SetConstraints(Left: Status2DLeftConstraint, Right: Status2DRightConstraint)
             StatusBar.SetVisibility(Settings.GetBool(.ShowStatusBar))
             InitializeFlatland()
             NotificationCenter.default.addObserver(self, selector: #selector(HandlePrimaryViewContentsSizeChange),
@@ -899,9 +899,9 @@ class MainController: NSViewController
     @IBOutlet weak var MainTimeLabelBottom: NSTextField!
     @IBOutlet weak var BackgroundView: NSView!
     @IBOutlet weak var ContentView: NSView!
-    @IBOutlet weak var StatusBar: StatusBar3D!
-    @IBOutlet weak var Status3DLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var Status3DRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var StatusBar: StatusBar2D!
+    @IBOutlet weak var Status2DLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var Status2DRightConstraint: NSLayoutConstraint!
     
     // MARK: - Debug UI elements
     @IBOutlet weak var WorldClockLabel: NSTextField!
