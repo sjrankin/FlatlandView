@@ -152,6 +152,9 @@
 		1759FC6724A615A2001B1D4B /* RecentEarthquakeWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759FC6624A615A2001B1D4B /* RecentEarthquakeWindow.swift */; };
 		1759FC6924A615BD001B1D4B /* RecentEarthquakeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759FC6824A615BD001B1D4B /* RecentEarthquakeController.swift */; };
 		175BA2A22608339B0015C2DD /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA2A12608339B0015C2DD /* BarChart.swift */; };
+		175BA2A4260891880015C2DD /* StatusBar2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA2A3260891880015C2DD /* StatusBar2D.swift */; };
+		175BA2A62609B6C30015C2DD /* StatusTextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA2A52609B6C30015C2DD /* StatusTextLayer.swift */; };
+		175BA2A82609B7470015C2DD /* QueuedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA2A72609B7470015C2DD /* QueuedMessage.swift */; };
 		175BA5542570CEBA001ED3A2 /* Internet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA5532570CEBA001ED3A2 /* Internet.swift */; };
 		175BA5582570D565001ED3A2 /* ErrorDialogs.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 175BA5572570D565001ED3A2 /* ErrorDialogs.storyboard */; };
 		175BA55B2570D5B7001ED3A2 /* ErrorReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175BA55A2570D5B7001ED3A2 /* ErrorReporter.swift */; };
@@ -334,7 +337,6 @@
 		17CB2487253C108300BAABDC /* +POIDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2486253C108300BAABDC /* +POIDatabase.swift */; };
 		17CB248A253C122400BAABDC /* POI2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2489253C122400BAABDC /* POI2.swift */; };
 		17CB248D253C5BCB00BAABDC /* POI.db in Resources */ = {isa = PBXBuildFile; fileRef = 17CB248C253C5BCB00BAABDC /* POI.db */; };
-		17CC52CA25B93A16002C7BE0 /* StatusBar3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC52C925B93A16002C7BE0 /* StatusBar3D.swift */; };
 		17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BB82491C8E400CACED5 /* SCNRegular.swift */; };
 		17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BBC2491EAA200CACED5 /* SCNPin.swift */; };
 		17CCA4212602DE7400997AAE /* +SatelliteImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CCA4202602DE7400997AAE /* +SatelliteImages.swift */; };
@@ -639,6 +641,9 @@
 		1759FC6624A615A2001B1D4B /* RecentEarthquakeWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentEarthquakeWindow.swift; sourceTree = "<group>"; };
 		1759FC6824A615BD001B1D4B /* RecentEarthquakeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentEarthquakeController.swift; sourceTree = "<group>"; };
 		175BA2A12608339B0015C2DD /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
+		175BA2A3260891880015C2DD /* StatusBar2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBar2D.swift; sourceTree = "<group>"; };
+		175BA2A52609B6C30015C2DD /* StatusTextLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTextLayer.swift; sourceTree = "<group>"; };
+		175BA2A72609B7470015C2DD /* QueuedMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedMessage.swift; sourceTree = "<group>"; };
 		175BA5532570CEBA001ED3A2 /* Internet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Internet.swift; sourceTree = "<group>"; };
 		175BA5572570D565001ED3A2 /* ErrorDialogs.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ErrorDialogs.storyboard; sourceTree = "<group>"; };
 		175BA55A2570D5B7001ED3A2 /* ErrorReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorReporter.swift; sourceTree = "<group>"; };
@@ -823,7 +828,6 @@
 		17CB2486253C108300BAABDC /* +POIDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+POIDatabase.swift"; sourceTree = "<group>"; };
 		17CB2489253C122400BAABDC /* POI2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POI2.swift; sourceTree = "<group>"; };
 		17CB248C253C5BCB00BAABDC /* POI.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = POI.db; sourceTree = "<group>"; };
-		17CC52C925B93A16002C7BE0 /* StatusBar3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBar3D.swift; sourceTree = "<group>"; };
 		17CC8BB82491C8E400CACED5 /* SCNRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNRegular.swift; sourceTree = "<group>"; };
 		17CC8BBC2491EAA200CACED5 /* SCNPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPin.swift; sourceTree = "<group>"; };
 		17CCA4202602DE7400997AAE /* +SatelliteImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+SatelliteImages.swift"; sourceTree = "<group>"; };
@@ -1468,6 +1472,7 @@
 				1771C92B25E258B200FAC1C5 /* OpaquePointer.swift */,
 				17303AFD24F379FB00948127 /* SCNVector3.swift */,
 				17561A842567838400FD0506 /* SCNVector4.swift */,
+				175BA2A52609B6C30015C2DD /* StatusTextLayer.swift */,
 				1760023F24D2BFDC00D5EA1A /* String.swift */,
 				17B0B7342546ADF900DC0F03 /* UInt.swift */,
 				1714DDB72539654A001A3002 /* UInt64.swift */,
@@ -1682,7 +1687,7 @@
 				178909C4250E0BED0092E3A4 /* MainController.swift */,
 				176A897F2530278900489C22 /* MainWindow.swift */,
 				178909C2250E09ED0092E3A4 /* Main.storyboard */,
-				17CC52C925B93A16002C7BE0 /* StatusBar3D.swift */,
+				175BA2A3260891880015C2DD /* StatusBar2D.swift */,
 				17EF3388247A4E3D00A5B55D /* MainProtocol.swift */,
 				17F9B0282520ABD900DE0219 /* FlatlandEventProtocol.swift */,
 				17F9AFCD25202DEE00DE0219 /* ParentView.swift */,
@@ -2217,6 +2222,7 @@
 				175BA56425711F76001ED3A2 /* Locations.swift */,
 				1714DDB32538342A001A3002 /* LowLevel.swift */,
 				17E0E35F25E5FED900291823 /* PropertyExtraction.swift */,
+				175BA2A72609B7470015C2DD /* QueuedMessage.swift */,
 				17DE2DC625906D3200214204 /* SecureStore.swift */,
 				1701CFC42535646C00544F05 /* Snapshot.swift */,
 				175BA56725712A1A001ED3A2 /* SolarToday.swift */,
@@ -2654,6 +2660,7 @@
 				17F17A4D24DE7B1B00568A4E /* LinesDraw.swift in Sources */,
 				1750043B24B46175006528A4 /* FontPickerWindow.swift in Sources */,
 				1704D3F4256A4DA100DE0F85 /* StencilPipelineProtocol.swift in Sources */,
+				175BA2A82609B7470015C2DD /* QueuedMessage.swift in Sources */,
 				1718271B25B1850200041826 /* +RegionEntryProtocolImplementation.swift in Sources */,
 				17CB2484253BD9B100BAABDC /* ShapeAttribute.swift in Sources */,
 				1760023C24D2BF8000D5EA1A /* NSColor.swift in Sources */,
@@ -2772,6 +2779,7 @@
 				17F9B007252036F900DE0219 /* +EarthquakeSettings.swift in Sources */,
 				175DCC622580A3A900EB6D69 /* PreferenceHelpPopover.swift in Sources */,
 				17DEFD5425FE0CDE00371CF6 /* +POISettings.swift in Sources */,
+				175BA2A62609B6C30015C2DD /* StatusTextLayer.swift in Sources */,
 				178E1CA325186DE900FDC75B /* +Attract.swift in Sources */,
 				17F9B004252036AD00DE0219 /* +Generic.swift in Sources */,
 				179EB780254FE40D00AADAAD /* PreferencePanelController.swift in Sources */,
@@ -2780,7 +2788,6 @@
 				1767EC0C25BE90D000A976D2 /* ColorPickerDelegate.swift in Sources */,
 				17E1AFF825CFDDBF003CDE8F /* BuiltInPOIWindow.swift in Sources */,
 				174B1CF125B42662003B33FE /* +Regions.swift in Sources */,
-				17CC52CA25B93A16002C7BE0 /* StatusBar3D.swift in Sources */,
 				175DCC5F2580970A00EB6D69 /* PreferencePanelProtocol.swift in Sources */,
 				17B7D7B224CED0A3000C077B /* SolidColorParameters.swift in Sources */,
 				174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */,
@@ -2833,6 +2840,7 @@
 				17B1BC1D25BFEEA30015B9E7 /* ColorPanelProtocol.swift in Sources */,
 				1762BD6B2560BD1C009C6965 /* +FlatViewMouseHandling.swift in Sources */,
 				177EE5D62480D4A700CAD1B9 /* ActualMapGroup.swift in Sources */,
+				175BA2A4260891880015C2DD /* StatusBar2D.swift in Sources */,
 				17F2D7122583257D00DD8023 /* AttributedText.swift in Sources */,
 				178E1CA625186E1300FDC75B /* +Initialize.swift in Sources */,
 				17EF3393247A66D200A5B55D /* MapManager.swift in Sources */,
