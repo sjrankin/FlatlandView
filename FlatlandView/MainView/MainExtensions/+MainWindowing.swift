@@ -110,7 +110,7 @@ extension MainController: NSWindowDelegate
         {
             return
         }
-        StatusBar.ParentWindowSizeChanged(NewSize: To)
+        StatusBar.ParentWindowSizeChanged(NewSize: To) 
         Settings.SetNSSize(.WindowSize, To)
         UpdateMouseWindowLocation()
     }
