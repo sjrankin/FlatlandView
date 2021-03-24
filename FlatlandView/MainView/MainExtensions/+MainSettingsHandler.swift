@@ -106,7 +106,11 @@ extension MainController: SettingChangedProtocol
                     var IsFlat = false
                     switch New
                     {
-                        case .FlatNorthCenter, .FlatSouthCenter, .Rectangular:
+                        case .FlatNorthCenter, .FlatSouthCenter:
+                            IsFlat = true
+                            Main2DView.UpdateEarthView()
+                            
+                        case .Rectangular:
                             IsFlat = true
                             
                         case .CubicWorld:
