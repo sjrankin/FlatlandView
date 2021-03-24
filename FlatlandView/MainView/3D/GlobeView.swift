@@ -567,6 +567,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var PinnedTimeMenu: NSMenuItem? = nil
     var DeltaTimeMenu: NSMenuItem? = nil
     var ClearSearchMenu: NSMenuItem? = nil
+    var WallClockTimeMenu: NSMenuItem? = nil
     #if DEBUG
     var DebugMenu: NSMenuItem? = nil
     var RotateTo0Menu: NSMenuItem? = nil
