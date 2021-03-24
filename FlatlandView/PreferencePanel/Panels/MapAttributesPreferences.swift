@@ -26,6 +26,7 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
         {
             CursorSegment.selectedSegment = 0
         }
+        ShowWallClockSeparatorsSwitch.state = Settings.GetBool(.ShowWallClockSeparators) ? .on : .off
         HelpButtons.append(ShowGridLineHelpButton)
         HelpButtons.append(GridLineColorHelpButton)
         HelpButtons.append(BackgroundColorHelpButton)
@@ -33,6 +34,7 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
         HelpButtons.append(PoleShapeHelpButton)
         HelpButtons.append(CursorHelp)
         HelpButtons.append(PanelResetHelp)
+        HelpButtons.append(WallClockHelpButton)
         SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
         GridLineColorWell.color = Settings.GetColor(.GridLineColor, NSColor.PrussianBlue)
         BackgroundColorWell.color = Settings.GetColor(.BackgroundColor3D)!
@@ -118,6 +120,9 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
                 case PanelResetHelp:
                     Parent?.ShowHelp(For: .PaneReset, Where: Button.bounds, What: PanelResetHelp)
                     
+                case WallClockHelpButton:
+                    Parent?.ShowHelp(For: .WallClockSeparators, Where: Button.bounds, What: WallClockHelpButton)
+                    
                 default:
                     break
             }
@@ -195,6 +200,8 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
     
     func ResetToFactorySettings()
     {
+        Settings.SetBool(.ShowWallClockSeparators, false)
+        ShowWallClockSeparatorsSwitch.state = .off
         Settings.SetBool(.GridLinesDrawnOnMap, true)
         ShowGridLinesSwitch.state = .on
         Settings.SetColor(.GridLineColor, NSColor.PrussianBlue)
@@ -209,6 +216,14 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
         ShowMoonLightSwitch.state = .on
         Settings.SetEnum(.Pole, EnumType: PolarShapes.self, ForKey: .PolarShape)
         PoleCombo.selectItem(withObjectValue: PolarShapes.Pole.rawValue)
+    }
+    
+    @IBAction func WallClockSeparatorChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.ShowWallClockSeparators, Switch.state == .on ? true : false)
+        }
     }
     
     @IBAction func HandleFlatMapNightChanged(_ sender: Any)
@@ -230,6 +245,8 @@ class MapAttributesPreferences: NSViewController, PreferencePanelProtocol
     
     var HelpButtons: [NSButton] = [NSButton]()
 
+    @IBOutlet weak var WallClockHelpButton: NSButton!
+    @IBOutlet weak var ShowWallClockSeparatorsSwitch: NSSwitch!
     @IBOutlet weak var FlatMapNightCombo: NSComboBox!
     @IBOutlet weak var PanelResetHelp: NSButton!
     @IBOutlet weak var PoleCombo: NSComboBox!
