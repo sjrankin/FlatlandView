@@ -71,6 +71,10 @@ extension FlatView
             Node.removeFromParentNode()
             Node.geometry = nil
         }
+        if Settings.GetBool(.ShowWallClockSeparators)
+        {
+            
+        }
         let EquatorLocation = CGFloat(FlatConstants.FlatRadius.rawValue) / 2.0
         let CancerLocation = (CGFloat(FlatConstants.FlatRadius.rawValue) * (90.0 + 23.4366) / 180.0)
         let CapricornLocation = (CGFloat(FlatConstants.FlatRadius.rawValue) * (90.0 - 23.4366) / 180.0)
