@@ -446,7 +446,8 @@ class MainController: NSViewController
         #if DEBUG
         SoundManager.Play(ForEvent: .Debug)
         //Main3DView.FlashAllHours(Count: 5)
-                Main3DView.FlashHoursInSequence(Count: 4)
+        Main3DView.FlashHoursInSequence(Count: 4)
+        Main2DView.FlashHoursInSequence(Count: 4)
         //        Main3DView.RotateCameraTo(Latitude: 43.0, Longitude: 141)
         #endif
     }
