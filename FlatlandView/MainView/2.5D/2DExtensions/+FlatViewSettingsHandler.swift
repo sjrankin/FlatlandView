@@ -39,6 +39,16 @@ extension FlatView
                     }
                 }
                 
+            case .ShowWallClockSeparators:
+                if Settings.GetBool(.ShowWallClockSeparators)
+                {
+                    UpdateEarthView()
+                }
+                else
+                {
+                    RemoveWallClockSeparators()
+                }
+                
             case .EnableEarthquakes:
                 if Settings.GetBool(.EnableEarthquakes)
                 {
