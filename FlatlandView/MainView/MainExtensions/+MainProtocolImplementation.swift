@@ -111,14 +111,18 @@ extension MainController: MainProtocol
     /// Display the geographic location under the mouse.
     func MouseAtLocation(Latitude: Double, Longitude: Double, Caller: String)
     {
+        #if false
         ShowMouseLocation(Latitude: Latitude, Longitude: Longitude, Caller: Caller)
+        #endif
     }
     
     /// Show or hide the mouse location.
     /// - Parameter Show: Determines whether the mouse location view is visible or hidden.
     func ShowMouseLocationView(_ Show: Bool)
     {
+        #if false
         SetMouseLocationVisibility(Visible: Show)
+        #endif
     }
     
     /// Returns the current earthquake class.
