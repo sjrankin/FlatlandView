@@ -190,6 +190,7 @@ extension Settings
             .StencilPlainText: Bool.self,
             .Show2DShadows: Bool.self,
             .EarthquakeShape2D: QuakeShapes2D.self,
+            .ShowWallClockSeparators: Bool.self,
             .WindowSize: NSSize.self,
             .WindowOrigin: CGPoint.self,
             .PrimaryViewSize: NSSize.self,
