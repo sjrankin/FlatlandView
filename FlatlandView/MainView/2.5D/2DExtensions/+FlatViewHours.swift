@@ -12,6 +12,7 @@ import SceneKit
 
 extension FlatView
 {
+    /// Add the hour layer. Hours are "drawn" on this plane.
     func AddHourLayer()
     {
         let Flat = SCNPlane(width: CGFloat(FlatConstants.HourRadius.rawValue * 2.0),
@@ -27,6 +28,8 @@ extension FlatView
         self.scene?.rootNode.addChildNode(HourPlane)
     }
     
+    /// Add the hours to the hour layer.
+    /// - Parameter HourRadius: Distance from the center of the map to where the hours are drawn.
     func AddHours(HourRadius: Double)
     {
         RemoveNodeWithName(NodeNames2D.HourNodes.rawValue, FromParent: HourPlane)
@@ -50,6 +53,9 @@ extension FlatView
         }
     }
     
+    /// Update wall clock hours.
+    /// - Note: Called periodically when the time changes to keep the various wall clocks in sync with the display.
+    /// - Parameter NewTime: The time to use to display wall clocks.
     @objc func UpdateWallClockHours(NewTime: Date)
     {
         let NewWallClockTime = NewTime.PrettyTime(IncludeSeconds: false)
@@ -203,10 +209,85 @@ extension FlatView
         }
     }
     
+    /// Update the displayed hours.
     func UpdateHours()
     {
         RemoveNodeWithName(NodeNames2D.HourNodes.rawValue)
         AddHours(HourRadius: FlatConstants.HourRadius.rawValue)
+    }
+    
+    /// Use the law of cosines to calculate the length of a third segment of a triangle.
+    /// - Parameter Side1: Length of first side.
+    /// - Parameter Side2: Length of second side.
+    /// - Parameter Angle: Angle at point of intersection of first two sides. **Units are degrees.**
+    /// - Returns: Length of third side of triangle.
+    func LawOfCosines(Side1: Double, Side2: Double, Angle: Double) -> Double
+    {
+        let FirstTerm = pow(Side1, 2) + pow(Side2, 2)
+        let SecondTerm = 2.0 * Side1 * Side2 * cos(Angle.Radians)
+        let Side3 = sqrt(FirstTerm - SecondTerm)
+        return Side3
+    }
+    
+    func MakeWallClockLine(Angle: Double, HighPoint: SCNVector3, Color: NSColor)
+    {
+        let LowPoint = SCNVector3(0.0, 0.0, 0.0)
+        let V = SCNVector3(HighPoint.x - LowPoint.x, HighPoint.y - LowPoint.y, HighPoint.z - LowPoint.z)
+        let Distance = sqrt(V.x * V.x + V.y * V.y + V.z * V.z)
+        let Middle = SCNVector3((HighPoint.x + LowPoint.x) / 2,
+                                (HighPoint.y + LowPoint.y) / 2,
+                                (HighPoint.z + LowPoint.z) / 2)
+        let Line = SCNCylinder()
+        Line.radius = 0.05
+        Line.radius = Distance
+        Line.radialSegmentCount = 5
+        Line.firstMaterial?.diffuse.contents = NSColor.systemYellow
+        let LineNode = SCNNode2(geometry: Line)
+        LineNode.categoryBitMask = LightMasks2D.Hours.rawValue
+        LineNode.name = "WallClockSeparator"
+        LineNode.position = Middle
+        LineNode.scale = SCNVector3(0.1)
+        LineNode.look(at: LowPoint, up: self.scene!.rootNode.worldUp, localFront: LineNode.worldUp)
+        HourPlane.addChildNode(LineNode)
+    }
+    
+    func MakeWallClockSeparator(Angle: Double, HighPoint: NSPoint, Color: NSColor)
+    {
+        #if false
+        let HighVector = SCNVector3(HighPoint.x, 0.0, HighPoint.y)
+        MakeWallClockLine(Angle: Angle, HighPoint: HighVector, Color: Color)
+        #else
+        let Point2 = NSPoint(x: HighPoint.x, y: 0)
+        let Point3 = NSPoint.zero
+        let Triangle = SCNTriangle(Vertex1: HighPoint,
+                                   Vertex2: Point2,
+                                   Vertex3: Point3,
+                                   Extrusion: 0.01,
+                                   Color: Color,
+                                   LightMask: LightMasks2D.Hours.rawValue,
+                                   UseState: false)
+        Triangle.CastsShadow = false
+        Triangle.name = "WallClockSeparator"
+        Triangle.pivot = SCNMatrix4Identity
+        Triangle.eulerAngles = SCNVector3(90.0.Radians, 0.0.Radians, Angle.Radians)
+        Triangle.position = SCNVector3(0.0, 0.0, 0.0)
+        HourPlane.addChildNode(Triangle)
+        #endif
+    }
+    
+    /// Remove wall clock separators from the parent node.
+    func RemoveWallClockSeparators()
+    {
+        for Child in HourPlane.childNodes
+        {
+            if Child.name == "WallClockSeparator"
+            {
+                Child.removeAllActions()
+                Child.removeAllAnimations()
+                Child.removeFromParentNode()
+                Child.geometry = nil
+            }
+        }
     }
     
     /// Create an hour node for wall clock mode.
@@ -221,9 +302,12 @@ extension FlatView
                       LetterColor: NSColor = NSColor.systemYellow,
                       NodeTime: Date, Radius: Double) -> SCNNode2
     {
+        let HourHeight = 1.0
         let ActualAngle = WorkingAngle + 2.0
+
         let HourText = MakeWallClockNodeText(With: Value, LetterColor: LetterColor)
         let HourTextNode = SCNNode2(geometry: HourText)
+        HourTextNode.name = NodeNames2D.HourNodes.rawValue
         #if false
         var XDelta = Double(HourTextNode.boundingBox.max.x - HourTextNode.boundingBox.min.x) / 2.0
         XDelta = XDelta * ScaleMultiplier
@@ -240,7 +324,7 @@ extension FlatView
         let FinalRadius = Radius * 1.02
         let X = FinalRadius * cos(Radians)
         let Y = FinalRadius * sin(Radians)
-        HourTextNode.position = SCNVector3(X, Y, 0.0)
+        HourTextNode.position = SCNVector3(X, Y, HourHeight)
         #if true
         let NodeRotation = FinalAngle.Radians
         #else
@@ -251,6 +335,13 @@ extension FlatView
         }
         #endif
         HourTextNode.eulerAngles = SCNVector3(0.0, 0.0, NodeRotation)
+        
+        if Settings.GetBool(.ShowWallClockSeparators)
+        {
+            MakeWallClockSeparator(Angle: WorkingAngle - 7.5,
+                                   HighPoint: NSPoint(x: Radius + 1.0, y: HourHeight),
+                                   Color: NSColor.yellow.withAlphaComponent(0.5))
+        }
         return HourTextNode
     }
     
@@ -261,7 +352,7 @@ extension FlatView
     func MakeWallClockNodeText(With Text: String, LetterColor: NSColor = NSColor.yellow) -> SCNText
     {
         let FlatnessValue: CGFloat = CGFloat(HourConstants.NormalFlatness.rawValue)
-        let HourText = SCNText(string: Text, extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
+        let HourText = SCNText(string: Text, extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue * 2.0))
         let Font = NSFont.GetFont(InOrder: ["Avenir-Bold", "HelveticaNeue-Bold", "ArialMT"], Size: 25.0)
         HourText.font = Font
         HourText.firstMaterial?.diffuse.contents = LetterColor
@@ -321,7 +412,7 @@ extension FlatView
         let Node = SCNNode2(geometry: HourShape)
         Node.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
         Node.name = NodeNames2D.HourNodes.rawValue
-        Node.categoryBitMask = LightMasks2D.Hours.rawValue//LightMasks2D.Sun.rawValue
+        Node.categoryBitMask = LightMasks2D.Hours.rawValue
         Node.geometry?.firstMaterial?.diffuse.contents = Settings.GetColor(.HourColor, NSColor.systemOrange)
         Node.geometry?.firstMaterial?.specular.contents = NSColor.white
         Node.geometry?.firstMaterial?.lightingModel = .lambert
@@ -362,6 +453,8 @@ extension FlatView
         DoFlashHours(InSequence: true, RepeatCount: ExecutionCount)
     }
     
+    /// Flash all of the hours the specified number of times.
+    /// - Parameter Count: The number of times to flash the hours.
     func FlashAllHours(Count: Int)
     {
         if Count < 1
