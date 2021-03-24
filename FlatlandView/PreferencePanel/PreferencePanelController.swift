@@ -95,7 +95,6 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     {
         if let Button = sender as? NSButton
         {
-            print("General button pressed")
             ParentWindow?.Highlight(Button)
             LoadPanel(.General)
         }
@@ -105,7 +104,6 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     {
         if let Button = sender as? NSButton
         {
-            print("POI button pressed")
             ParentWindow?.Highlight(Button)
             LoadPanel(.POIs)
         }
@@ -115,7 +113,6 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     {
         if let Button = sender as? NSButton
         {
-            print("Map button pressed")
             ParentWindow?.Highlight(Button)
             LoadPanel(.Maps)
         }
@@ -125,7 +122,6 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     {
         if let Button = sender as? NSButton
         {
-            print("Live data button pressed")
             ParentWindow?.Highlight(Button)
             LoadPanel(.LiveData)
         }
@@ -135,7 +131,6 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     {
         if let Button = sender as? NSButton
         {
-            print("Satellite button pressed")
             ParentWindow?.Highlight(Button)
             LoadPanel(.Satellites)
         }
@@ -145,7 +140,6 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     {
         if let Button = sender as? NSButton
         {
-            print("Earthquake button pressed")
             ParentWindow?.Highlight(Button)
             LoadPanel(.Earthquakes)
         }
@@ -155,7 +149,6 @@ class PreferencePanelController: NSViewController, WindowManagement, PreferenceP
     {
         if let Button = sender as? NSButton
         {
-            print("Map Attributes pressed")
             ParentWindow?.Highlight(Button)
             LoadPanel(.MapAttributes)
         }
@@ -404,6 +397,11 @@ Turn on or off moonlight for the 3D globe. If off, there is no light on the nigh
 Select the shape shown at the North and South Poles.
 """
                     
+                case .WallClockSeparators:
+                    Message = """
+Determines if wallclock separators are shown when wall clock hours are on and you are viewing either the north-centered or south-centered map.
+"""
+                    
                 case .ShowCities:
                     Message = """
 Show cities on the map. You can select which cities and the shape they are shown in.
@@ -622,6 +620,7 @@ enum PreferenceHelp: String, CaseIterable
     case ShowMoonlight = "ShowMoonlight"
     case PoleShape = "PoleShape"
     case CursorAppearance = "CursorAppearance"
+    case WallClockSeparators = "WallClockSeparators"
     
     case ShowCities = "ShowCities"
     case CityShape = "CityShape"
