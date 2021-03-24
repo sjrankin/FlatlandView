@@ -243,6 +243,7 @@ extension MainController
                     Main3DView.pause(self)
                     Main2DView.play(self)
                     Rect2DView.pause(self)
+                    Main2DView.UpdateEarthView()
                     
                 case .Rectangular:
                     //Rect2DView.SunVisibility(IsShowing: true)
