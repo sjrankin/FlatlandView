@@ -142,50 +142,6 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
             PreviousPrettyPercent = PrettyPercent
         }
         PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
-        
-        #if DEBUG
-        if Settings.GetBool(.Debug_EnableClockControl)
-        {
-            if Settings.EnumIs(.Round, .Debug_ClockDebugMap, EnumType: Debug_MapTypes.self)
-            {
-                if Settings.GetBool(.Debug_ClockActionFreeze)
-                {
-                    if let Previous = PreviousPrettyPercent
-                    {
-                        PrettyPercent = Previous
-                    }
-                    else
-                    {
-                        PrettyPercent = 0.0
-                    }
-                }
-                if Settings.GetBool(.Debug_ClockActionFreezeAtTime)
-                {
-                    let FreezeTime = Settings.GetDate(.Debug_ClockActionFreezeTime, Date())
-                    if FreezeTime.IsOnOrLater(Than: Date())
-                    {
-                        if let Previous = PreviousPrettyPercent
-                        {
-                            PrettyPercent = Previous
-                        }
-                        else
-                        {
-                            PrettyPercent = 0.0
-                        }
-                    }
-                }
-                if Settings.GetBool(.Debug_ClockActionSetClockAngle)
-                {
-                    let Angle = Settings.GetDouble(.Debug_ClockActionClockAngle)
-                    PrettyPercent = Angle / 360.0
-                }
-                if Settings.GetBool(.Debug_ClockUseTimeMultiplier)
-                {
-                    
-                }
-            }
-        }
-        #endif
         UpdateEarth(With: PrettyPercent)
     }
     
@@ -216,20 +172,45 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     func MakeRadialTime(From Percent: Double, With Offset: Double) -> Double
     {
         let Degrees = 360.0 * Percent + Offset
-        return Degrees * Double.pi / 180.0
+        return Degrees.Radians
     }
+    
+    var PreviousEarthPercent: Double? = nil
     
     /// Update the Earth's rotational value.
     /// - With: Hour expressed in terms of percent.
     func UpdateEarth(With Percent: Double)
     {
         let FlatViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
-        if FlatViewType != .Rectangular
+        if ![ViewTypes.FlatNorthCenter, ViewTypes.FlatSouthCenter].contains(FlatViewType)
         {
             return
         }
-        Debug.Print("At 2.5D.UpdateEarth")
-        PreviousPercent = Percent
+/*
+        let Now = GetUTC()
+        var Cal = Calendar(identifier: .gregorian)
+        Cal.timeZone = TimeZone(abbreviation: "UTC")!
+        let Hour = Cal.component(.hour, from: Now)
+        let Minute = Cal.component(.minute, from: Now)
+        let Second = Cal.component(.second, from: Now)
+        let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+        var Percent2 = Double(ElapsedSeconds) / Double(24 * 60 * 60)
+        Percent2 = Percent2.RoundedTo(3)
+ */
+        let Percent2 = Percent
+        if PreviousEarthPercent == nil
+        {
+            PreviousEarthPercent = Percent2
+        }
+        else
+        {
+            if PreviousEarthPercent == Percent2
+            {
+                return
+            }
+            PreviousEarthPercent = Percent2
+        }
+        PreviousPercent = Percent2
         var FinalOffset = 90.0
         var Multiplier = 1.0
         if FlatViewType == .FlatSouthCenter
@@ -237,8 +218,9 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
             FinalOffset = 90.0
             Multiplier = -1.0
         }
+
         //Be sure to rotate the proper direction based on the map.
-        let MapRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
+        let MapRadians = MakeRadialTime(From: Percent2, With: FinalOffset) * Multiplier
         let Duration = UseInitialRotation ? FlatConstants.InitialRotation.rawValue : FlatConstants.NormalRotation.rawValue
         UseInitialRotation = false
         let RotateAction = SCNAction.rotateTo(x: CGFloat(90.0.Radians),
@@ -249,6 +231,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         FlatEarthNode.runAction(RotateAction)
         GridNode.runAction(RotateAction)
         CityPlane.runAction(RotateAction)
+
         if Settings.GetBool(.ShowCities) || Settings.GetBool(.EnableEarthquakes)
         {
             if FlatViewType == .FlatNorthCenter
@@ -269,25 +252,32 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
             QuakePlane.runAction(CityRotateAction)
             UNESCOPlane.runAction(CityRotateAction)
         }
-        if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .RelativeToLocation
+        switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
         {
-            FinalOffset = 90.0 + 15.0 * 3
-            let HourRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
-            LastRelativeTimeRadial = HourRadians
-            let LastAngle = LastRelativeTimeRadial * 180.0 / Double.pi
-            let Delta = fmod(180.0 - LastAngle, 360.0)
-            let HourRotateAction = SCNAction.rotateTo(x: 0.0,
-                                                      y: 0.0,
-                                                      z: CGFloat(HourRadians),
-                                                      duration: Duration,
-                                                      usesShortestUnitArc: true)
-            HourPlane.runAction(HourRotateAction)
-        }
-        else
-        {
-            HourPlane.eulerAngles = SCNVector3(CGFloat(0.0.Radians),
-                                               CGFloat(0.0.Radians),
-                                               CGFloat(0.0.Radians))
+            case .RelativeToLocation:
+                FinalOffset = 90.0 + 15.0 * 3
+                let HourRadians = MakeRadialTime(From: Percent, With: FinalOffset) * Multiplier
+                LastRelativeTimeRadial = HourRadians
+                //let LastAngle = LastRelativeTimeRadial * 180.0 / Double.pi
+                //let Delta = fmod(180.0 - LastAngle, 360.0)
+                let HourRotateAction = SCNAction.rotateTo(x: 0.0,
+                                                          y: 0.0,
+                                                          z: CGFloat(HourRadians),
+                                                          duration: Duration,
+                                                          usesShortestUnitArc: true)
+                HourPlane.runAction(HourRotateAction)
+                
+            case .WallClock:
+                let HourRotate = SCNAction.rotateTo(x: 0.0,
+                                                    y: 0.0,
+                                                    z: CGFloat(MapRadians),
+                                                    duration: Duration,
+                                                    usesShortestUnitArc: true)
+                HourPlane.runAction(HourRotate)
+                
+            default:
+                let Neutral = SCNAction.rotateTo(x: 0.0, y: 0.0, z: 0.0, duration: 0.0)
+                HourPlane.runAction(Neutral)
         }
     }
     
@@ -411,6 +401,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var TimeTypeMenu: NSMenuItem? = nil
     var TimeMenu: NSMenuItem? = nil
     var NoTimeMenu: NSMenuItem? = nil
+    var WallClockTimeMenu: NSMenuItem? = nil
     var SolarTimeMenu: NSMenuItem? = nil
     var PinnedTimeMenu: NSMenuItem? = nil
     var DeltaTimeMenu: NSMenuItem? = nil
@@ -429,4 +420,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var PrimaryLightMultiplier: Double = 1.0
     var FollowPlane: SCNNode2? = nil
     var PolarLightLock = NSObject()
+    var LastWallClockTime: String? = nil
+    var WallStartAngle: Double = 0.0
+    var WallScaleMultiplier: Double = 1.0
 }
