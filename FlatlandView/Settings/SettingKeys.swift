@@ -68,6 +68,8 @@ enum SettingKeys: String, CaseIterable
     case Show2DShadows = "Show2DShadows"
     /// The shape of earthquakes on the flat map.
     case EarthquakeShape2D = "EarthquakeShape2D"
+    /// Boolean: Determines if wall clock seperator shapes are displayed.
+    case ShowWallClockSeparators = "ShowWallClockSeparators"
     
     // MARK: - 3D view settings.
     /// Scale to use for POI 3D objects.
