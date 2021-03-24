@@ -112,7 +112,9 @@ extension MainController: NSWindowDelegate
         }
         StatusBar.ParentWindowSizeChanged(NewSize: To) 
         Settings.SetNSSize(.WindowSize, To)
+        #if false
         UpdateMouseWindowLocation()
+        #endif
     }
     
     func WindowMovedTo(_ Origin: CGPoint)
