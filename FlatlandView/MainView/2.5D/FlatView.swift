@@ -423,4 +423,5 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var LastWallClockTime: String? = nil
     var WallStartAngle: Double = 0.0
     var WallScaleMultiplier: Double = 1.0
+    var Test: Bool = false
 }
