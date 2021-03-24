@@ -50,26 +50,111 @@ extension FlatView
         }
     }
     
-    func MakeWallClockHours(HourRadius: Double)
+    @objc func UpdateWallClockHours(NewTime: Date)
     {
+        let NewWallClockTime = NewTime.PrettyTime(IncludeSeconds: false)
+        if LastWallClockTime == nil
+        {
+            LastWallClockTime = NewWallClockTime
+        }
+        else
+        {
+            if LastWallClockTime! == NewWallClockTime
+            {
+                return
+            }
+            LastWallClockTime = NewWallClockTime
+        }
         
+        for Hour in HourPlane.childNodes
+        {
+            if let Node = Hour as? SCNNode2
+            {
+                if Node.IsTextNode
+                {
+                    (Hour as? SCNNode2)?.Clear()
+                }
+            }
+        }
+
+        let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
+        switch MapCenter
+        {
+            case .FlatNorthCenter:
+                for Hour in 0 ..< 24
+                {
+                    let LabelAngle: Double = Double(Hour) * 15.0
+                    var WorkingAngle = LabelAngle
+                    var FHour = Int(WorkingAngle / 15.0)
+                    if FHour > 12
+                    {
+                        FHour = 12 - (FHour - 12)
+                        FHour = FHour * -1
+                    }
+                    FHour = 24 - FHour
+                    let UTC = Date().ToUTC()
+                    let Cal = Calendar.current
+                    let FinalDate = Cal.date(byAdding: .hour, value: FHour, to: UTC)
+                    let PrettyTime = Date.PrettyTime(From: FinalDate!, IncludeSeconds: false)
+                    WorkingAngle = WorkingAngle - 270.0
+                    let HourTextNode = MakeWallHour(WorkingAngle,
+                                                    ScaleMultiplier: FlatConstants.HourScale.rawValue * 0.65,
+                                                    Value: PrettyTime,
+                                                    LetterColor: Settings.GetColor(.HourColor, NSColor.orange),
+                                                    NodeTime: FinalDate!,
+                                                    Radius: FlatConstants.HourRadius.rawValue)
+                    HourPlane.addChildNode(HourTextNode)
+                }
+                
+            case .FlatSouthCenter:
+                for Hour in stride(from: 24, to: 0, by: -1)
+                {
+                    let LabelAngle: Double = Double(Hour) * 15.0
+                    var WorkingAngle = LabelAngle
+                    var FHour = Int(WorkingAngle / 15.0)
+                    if FHour > 12
+                    {
+                        FHour = 12 - (FHour - 12)
+                        FHour = FHour * -1
+                    }
+                    let UTC = Date().ToUTC()
+                    let Cal = Calendar.current
+                    let FinalDate = Cal.date(byAdding: .hour, value: FHour, to: UTC)
+                    let PrettyTime = Date.PrettyTime(From: FinalDate!, IncludeSeconds: false)
+                    WorkingAngle = WorkingAngle - 270.0
+                    let HourTextNode = MakeWallHour(WorkingAngle,
+                                                    ScaleMultiplier: FlatConstants.HourScale.rawValue * 0.65,
+                                                    Value: PrettyTime,
+                                                    LetterColor: Settings.GetColor(.HourColor, NSColor.orange),
+                                                    NodeTime: FinalDate!,
+                                                    Radius: FlatConstants.HourRadius.rawValue)
+                    HourPlane.addChildNode(HourTextNode)
+                }
+                
+            default:
+                break
+        }
     }
     
+    /// Draw wall clock hours around the perimeter of the map.
+    /// - Parameter HourRadius: Distance from the center of the map to where hours are drawn.
+    func MakeWallClockHours(HourRadius: Double)
+    {
+        UpdateWallClockHours(NewTime: Date())
+    }
+    
+    /// Draw solar hours around the perimeter of the map.
+    /// - Parameter HourRadius: Distance from the center of the map to where hours are drawn.
     func MakeSolarHours(HourRadius: Double)
     {
-        //        NodeTables.RemoveHours()
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if MapCenter == .FlatNorthCenter
         {
-            //Stride never returns the `to` value (depsite the parameter name - this is by design for some
-            //strange reason) so we have to set the terminal value to -1 to get the 0.
+            //Stride never returns the `to` value so we have to set the terminal value to -1 to get the 0.
             for Hour in stride(from: 23, to: -1, by: -1)
             {
                 let Angle = abs(Double(Hour - 23 - 1))
                 let HourNode = MakeHour(Hour, AtAngle: Angle, Radius: HourRadius)
-                //let HourID = UUID()
-                //HourNode.NodeID = HourID
-                //NodeTables.AddHour(ID: HourID, Name: "\(Hour)", Description: "Solar relative hour (12 is noon)")
                 HourPlane.addChildNode(HourNode)
             }
         }
@@ -78,34 +163,29 @@ extension FlatView
             for Hour in 0 ... 23
             {
                 let HourNode = MakeHour(Hour, AtAngle: Double(Hour), Radius: HourRadius)
-                //let HourID = UUID()
-                //HourNode.NodeID = HourID
-                //NodeTables.AddHour(ID: HourID, Name: "\(Hour)", Description: "Solar relative hour (12 is noon)")
                 HourPlane.addChildNode(HourNode)
             }
         }
     }
     
     /// Draws hours relative to noon.
+    /// - Parameter HourRadius: Distance from the center of the map to where hours are drawn.
     func MakeNoonRelativeHours(HourRadius: Double)
     {
-//        NodeTables.RemoveHours()
         for Hour in 0 ... 23
         {
             var DisplayHour = 24 - (Hour + 5) % 24 - 1
             DisplayHour = DisplayHour - 12
             let HourNode = MakeHour(DisplayHour, AtAngle: Double(DisplayHour + 12), Radius: HourRadius,
                                     AddPrefix: true)
-            //let HourID = UUID()
-            //HourNode.NodeID = HourID
-            //NodeTables.AddHour(ID: HourID, Name: "\(Hour)", Description: "Noon relative hour (0 is noon)")
             HourPlane.addChildNode(HourNode)
         }
     }
     
+    /// Draw relative hours from home around the perimeter of the map.
+    /// - Parameter HourRadius: Distance from the center of the map to where hours are drawn.
     func MakeRelativetoLocationHours(HourRadius: Double)
     {
-        //        NodeTables.RemoveHours()
         var HourList = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
         HourList = HourList.Shift(By: -12)
         if let LocalLongitude = Settings.GetDoubleNil(.UserHomeLongitude)
@@ -118,9 +198,6 @@ extension FlatView
                 let FinalHour = HourList[DisplayHour]
                 let HourNode = MakeHour(FinalHour, AtAngle: Double(FinalHour), Radius: HourRadius,
                                         AddPrefix: true)
-                //let HourID = UUID()
-                //HourNode.NodeID = HourID
-                //NodeTables.AddHour(ID: HourID, Name: "\(FinalHour)", Description: "Location relative hour")
                 HourPlane.addChildNode(HourNode)
             }
         }
@@ -132,8 +209,81 @@ extension FlatView
         AddHours(HourRadius: FlatConstants.HourRadius.rawValue)
     }
     
-    func MakeHour(_ Hour: Int, AtAngle: Double, Radius: Double, Scale: Double = FlatConstants.HourScale.rawValue,
-                  AddPrefix: Bool = false) -> SCNNode2
+    /// Create an hour node for wall clock mode.
+    /// - Parameter WorkingAngle: The angle to use that determines where the node will be displayed. Units
+    ///                           are degrees.
+    /// - Parameter ScaleMultiplier: Multiplier for the scale of the text nodes.
+    /// - Parameter Value: The string to display as the hour value.
+    /// - Parameter LetterColor: The color to use to render the text.
+    /// - Parameter NodeTime: The time for the node.
+    /// - Parameter Radius: The radial value of the polar coordinate of the location of the text.
+    func MakeWallHour(_ WorkingAngle: Double, ScaleMultiplier: Double, Value: String,
+                      LetterColor: NSColor = NSColor.systemYellow,
+                      NodeTime: Date, Radius: Double) -> SCNNode2
+    {
+        let ActualAngle = WorkingAngle + 2.0
+        let HourText = MakeWallClockNodeText(With: Value, LetterColor: LetterColor)
+        let HourTextNode = SCNNode2(geometry: HourText)
+        #if false
+        var XDelta = Double(HourTextNode.boundingBox.max.x - HourTextNode.boundingBox.min.x) / 2.0
+        XDelta = XDelta * ScaleMultiplier
+        var YDelta = Double(HourTextNode.boundingBox.max.y - HourTextNode.boundingBox.min.y) / 2.0
+        YDelta = YDelta * ScaleMultiplier
+        HourTextNode.pivot = SCNMatrix4MakeTranslation(CGFloat(XDelta), 0.0, 0.0)
+        #endif
+        HourTextNode.HourAngle = ActualAngle
+        HourTextNode.IsTextNode = true
+        HourTextNode.categoryBitMask = LightMasks2D.Hours.rawValue
+        HourTextNode.scale = SCNVector3(ScaleMultiplier)
+        let FinalAngle = (ActualAngle - 90.0) * -1
+        let Radians = FinalAngle.Radians
+        let FinalRadius = Radius * 1.02
+        let X = FinalRadius * cos(Radians)
+        let Y = FinalRadius * sin(Radians)
+        HourTextNode.position = SCNVector3(X, Y, 0.0)
+        #if true
+        let NodeRotation = FinalAngle.Radians
+        #else
+        var NodeRotation = FinalAngle.Radians
+        if WorkingAngle > 180.0
+        {
+            NodeRotation = (FinalAngle + 180.0).Radians
+        }
+        #endif
+        HourTextNode.eulerAngles = SCNVector3(0.0, 0.0, NodeRotation)
+        return HourTextNode
+    }
+    
+    /// Create text for a wall clock node.
+    /// - Parameter With: The text to use for the returned `SCNText` shape.
+    /// - Parameter LetterColor: The color of the diffuse surface.
+    /// - Returns: `SCNText` with the shape as controlled by the value of `With`.
+    func MakeWallClockNodeText(With Text: String, LetterColor: NSColor = NSColor.yellow) -> SCNText
+    {
+        let FlatnessValue: CGFloat = CGFloat(HourConstants.NormalFlatness.rawValue)
+        let HourText = SCNText(string: Text, extrusionDepth: CGFloat(HourConstants.HourExtrusion.rawValue))
+        let Font = NSFont.GetFont(InOrder: ["Avenir-Bold", "HelveticaNeue-Bold", "ArialMT"], Size: 25.0)
+        HourText.font = Font
+        HourText.firstMaterial?.diffuse.contents = LetterColor
+        HourText.firstMaterial?.specular.contents = NSColor.systemPink
+        HourText.flatness = FlatnessValue
+        return HourText
+    }
+    
+    /// Create a node with an hour value.
+    /// - Parameter Hour: The house value to display.
+    /// - Parameter HourLabel: If present, the string to use for the hour label. If `nil`, `Hour` is used.
+    ///                        Defaults to `nil`.
+    /// - Parameter Angle: The angle at which the hour is displayed.
+    /// - Parameter Radius: The radius away from the center of the map.
+    /// - Parameter Scale: The scale to use for the labels. Defaults to `FlatConstants.HourScale`.
+    /// - Parameter AddPrefix: If true, a sign prefix is used for the `Hour` value. Ignored if `HourLabel` is
+    ///                        not nil. Defaults to `false`.
+    /// - Parameter RadiateLabel: If true, the label radiates away from the center of the map. Otherwise, it
+    ///                           is tangent to the edge of the map.
+    func MakeHour(_ Hour: Int, _ HourLabel: String? = nil, AtAngle: Double, Radius: Double,
+                  Scale: Double = FlatConstants.HourScale.rawValue, AddPrefix: Bool = false,
+                  RadiateLabel: Bool = false) -> SCNNode2
     {
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         var Offset = 0.0
@@ -143,15 +293,23 @@ extension FlatView
         }
         var Angle = (AtAngle * 15.0) + Offset
         Angle = fmod(Angle, 360.0)
-        var Prefix = ""
-        if AddPrefix
+        var HourText = ""
+        if let Label = HourLabel
         {
-            if Hour > 0
-            {
-                Prefix = "+"
-            }
+            HourText = Label
         }
-        let HourText = "\(Prefix)\(Hour)"
+        else
+        {
+            var Prefix = ""
+            if AddPrefix
+            {
+                if Hour > 0
+                {
+                    Prefix = "+"
+                }
+            }
+            HourText = "\(Prefix)\(Hour)"
+        }
         let HourShape = SCNText(string: HourText, extrusionDepth: CGFloat(FlatConstants.HourExtrusion.rawValue))
         let FontData = Settings.GetFont(.HourFontName, StoredFont("Avenir-Medium", 20.0, NSColor.yellow))
         HourShape.font = NSFont(name: FontData.PostscriptName, size: 25.0)
@@ -177,10 +335,88 @@ extension FlatView
         YDelta = YDelta * Scale
         Node.pivot = SCNMatrix4MakeTranslation(CGFloat(XDelta) * 20, 0.0, 0.0)
         Node.position = SCNVector3(X, Y, 0.0)
-        let NodeRotation = (FinalAngle - 90.0).Radians
+        var NodeRotation: Double = 0.0
+        if RadiateLabel
+        {
+            NodeRotation = FinalAngle.Radians
+        }
+        else
+        {
+            NodeRotation = (FinalAngle - 90.0).Radians
+        }
         Node.eulerAngles = SCNVector3(0.0, 0.0, NodeRotation)
-        Node.scale = SCNVector3(Scale, Scale, Scale)
+        Node.scale = SCNVector3(Scale)
         
         return Node
+    }
+    
+    /// Highlight the hours in sequence.
+    /// - Parameter Count: Number of cycles to flash the hours.
+    func FlashHoursInSequence(Count: Int)
+    {
+        if Count < 1
+        {
+            return
+        }
+        let ExecutionCount = Count < 1 ? 1 : Count
+        DoFlashHours(InSequence: true, RepeatCount: ExecutionCount)
+    }
+    
+    func FlashAllHours(Count: Int)
+    {
+        if Count < 1
+        {
+            return
+        }
+        let ExecutionCount = Count < 1 ? 1 : Count
+        DoFlashHours(InSequence: false, RepeatCount: ExecutionCount)
+    }
+    
+    /// Highlight the hours in sequence.
+    func DoFlashHours(InSequence: Bool, RepeatCount: Int = 0)
+    {
+        var Index = 0
+        let DelayMultiplier: Double = InSequence ? 1.0 : 0.0
+        for Node in HourPlane.childNodes
+        {
+            if let HourLabel = Node as? SCNNode2
+            {
+                if HourLabel.IsTextNode
+                {
+                    var FirstColor = NSColor.green
+                    if HourLabel.IsInDaylight
+                    {
+                        FirstColor = NSColor(RGB: Colors3D.HourColor.rawValue)
+                    }
+                    else
+                    {
+                        FirstColor = NSColor(RGB: Colors3D.GlowingHourColor.rawValue)
+                    }
+                    let Action = SCNAction.customAction(duration: HourConstants.FlashHourDuration.rawValue)
+                    {
+                        (Node, Time) in
+                        let Percent = Time / CGFloat(HourConstants.FlashHourDuration.rawValue)
+                        let NewColor = NSColor.yellow.Interpolate2(FirstColor, Percent)
+                        if let ActualNode = Node as? SCNNode2
+                        {
+                            if ActualNode.IsInDaylight
+                            {
+                                ActualNode.geometry?.firstMaterial?.diffuse.contents = NewColor
+                            }
+                            else
+                            {
+                                ActualNode.geometry?.firstMaterial?.emission.contents = NewColor
+                            }
+                        }
+                    }
+                    let DelayDuration = HourConstants.FlashHourDelay.rawValue * Double(Index) * DelayMultiplier
+                    let Delay = SCNAction.wait(duration: DelayDuration)
+                    let Group = SCNAction.sequence([Delay, Action])
+                    let Repeat = SCNAction.repeat(Group, count: RepeatCount)
+                    HourLabel.runAction(Repeat)
+                    Index = Index + 1
+                }
+            }
+        }
     }
 }
