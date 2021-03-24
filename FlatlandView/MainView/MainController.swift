@@ -190,7 +190,9 @@ class MainController: NSViewController
             }
             
             SetWorldLock(Settings.GetBool(.WorldIsLocked))
+            #if false
             SetMouseLocationVisibility(Visible: Settings.GetBool(.FollowMouse))
+            #endif
             
             StatusBar.ShowStatusText("Flatland \(Versioning.VerySimpleVersionString()) (\(Versioning.BuildAsHex()))",
                                      For: StatusBarConstants.InitialMessageDuration.rawValue)
@@ -445,9 +447,8 @@ class MainController: NSViewController
     {
         #if DEBUG
         SoundManager.Play(ForEvent: .Debug)
-        //Main3DView.FlashAllHours(Count: 5)
-        Main3DView.FlashHoursInSequence(Count: 4)
-        Main2DView.FlashHoursInSequence(Count: 4)
+        Main3DView.FlashAllHours(Count: 4)
+        Main2DView.FlashAllHours(Count: 4)
         //        Main3DView.RotateCameraTo(Latitude: 43.0, Longitude: 141)
         #endif
     }
