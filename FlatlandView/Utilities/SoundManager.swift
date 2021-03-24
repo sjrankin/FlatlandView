@@ -168,7 +168,7 @@ class SoundManager
     
     /// Array of sounds in the asset catelog.
     static var AdditionalSounds = [Sounds.Chime, Sounds.Cymbal, Sounds.Doorbell, Sounds.Fiddle,
-                                   Sounds.Gong]
+                                   Sounds.Gong, Sounds.TimeSignal]
     
     /// Map of sounds to asset catelog sound names.
     static var AdditionalToResource: [Sounds: String] =
@@ -177,7 +177,8 @@ class SoundManager
             Sounds.Cymbal: "Cymbal",
             Sounds.Doorbell: "Doorbell",
             Sounds.Fiddle: "Fiddle",
-            Sounds.Gong: "Gong"
+            Sounds.Gong: "Gong",
+            Sounds.TimeSignal: "gts_pips",
         ]
 }
 
@@ -215,6 +216,7 @@ enum Sounds: String, CaseIterable
     case Doorbell = "Doorbell"
     case Fiddle = "Fiddle"
     case Gong = "Gong"
+    case TimeSignal = "Time Signal"
 }
 
 enum SoundEvents: String, CaseIterable
