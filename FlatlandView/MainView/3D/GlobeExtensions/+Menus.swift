@@ -497,11 +497,16 @@ extension GlobeView
         PinnedTimeMenu?.image = SmallIconImage("PinIcon")
         PinnedTimeMenu?.target = self
         PinnedTimeMenu?.state = HourType == .RelativeToLocation ? .on : .off
+        WallClockTimeMenu = NSMenuItem(title: "Wall Clock", action: #selector(Context_SetHourType), keyEquivalent: "")
+        WallClockTimeMenu?.image = SmallIconImage("WallClockIcon")
+        WallClockTimeMenu?.target = self
+        WallClockTimeMenu?.state = HourType == .WallClock ? .on : .off
         
         TimeMenu?.submenu?.items.append(NoTimeMenu!)
         TimeMenu?.submenu?.items.append(SolarTimeMenu!)
         TimeMenu?.submenu?.items.append(DeltaTimeMenu!)
         TimeMenu?.submenu?.items.append(PinnedTimeMenu!)
+        TimeMenu?.submenu?.items.append(WallClockTimeMenu!)
         return TimeMenu!
     }
     
@@ -522,6 +527,9 @@ extension GlobeView
                     
                 case PinnedTimeMenu:
                     Settings.SetEnum(.RelativeToLocation, EnumType: HourValueTypes.self, ForKey: .HourType)
+                    
+                case WallClockTimeMenu:
+                    Settings.SetEnum(.WallClock, EnumType: HourValueTypes.self, ForKey: .HourType)
                     
                 default:
                     return
