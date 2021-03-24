@@ -2571,7 +2571,7 @@
                                                     </textField>
                                                 </gridCell>
                                                 <gridCell row="7VX-ml-65F" column="dDW-fA-QIn" id="kcI-ot-vSR">
-                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="ey8-kP-ubQ">
+                                                    <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="ey8-kP-ubQ">
                                                         <rect key="frame" x="0.0" y="0.0" width="106" height="20"/>
                                                         <rows>
                                                             <gridRow id="W29-HD-0Bi"/>
