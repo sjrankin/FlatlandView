@@ -12,7 +12,8 @@ import AppKit
 class SoundPreferences: NSViewController,
                         NSTableViewDataSource, NSTableViewDelegate,
                         NSTextFieldDelegate,
-                        PreferencePanelProtocol
+                        PreferencePanelProtocol,
+                        EventSettingProtocol
 {
     weak var Parent: PreferencePanelControllerProtocol? = nil
     weak var MainDelegate: MainProtocol? = nil
@@ -21,58 +22,49 @@ class SoundPreferences: NSViewController,
     {
         super.viewDidLoad()
         
+        EditEventSoundButton.isEnabled = false
         EnableSoundsSwitch.state = Settings.GetBool(.EnableSounds) ? .on : .off
+        EnableMutePeriodSwitch.state = Settings.GetBool(.EnableMutePeriod) ? .on : .off
+        let Duration = Settings.GetInt(.MutePeriodDuration)
+        MutePeriodDurationField.stringValue = "\(Duration)"
+        let StartTime = Settings.GetInt(.MutePeriodStart)
+        let Hour = StartTime / 60
+        let Minute = StartTime % 60
+        if let FinalStartTime = Date.DateFactory(Hour: Hour, Minute: Minute, Second: 0)
+        {
+            StartTimePicker.dateValue = FinalStartTime
+        }
         
-        HelpButtons.append(ClearEventSoundHelpButton)
-        HelpButtons.append(MuteEventHelpButton)
-        HelpButtons.append(PlaySampleHelpButton)
-        HelpButtons.append(UserFileHelpButton)
         HelpButtons.append(ResetPanelHelpButton)
-        HelpButtons.append(AvailableSoundsTableHelpButton)
         HelpButtons.append(PlaySoundsHelpButton)
+        HelpButtons.append(MutePeriodHelpButton)
         SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
         
         EventList = Settings.GetEvents()
-        SoundList = Settings.GetSounds()
         CurrentEvent = EventList.first
-        SoundBox.title = "\(CurrentEvent!.Name) Sound Editor"
-
+        
         EventTable.reloadData()
-        SoundTable.reloadData()
     }
     
     override func viewWillLayout()
     {
         let ISet = IndexSet(integer: 0)
         EventTable.selectRowIndexes(ISet, byExtendingSelection: false)
-        PopulateEditor(With: CurrentEvent!)
     }
     
     override func viewWillDisappear()
     {
         Settings.SaveEvents(EventList)
-        Settings.SaveSounds(SoundList)
     }
     
     var CurrentEvent: EventRecord? = nil
     var EventList = [EventRecord]()
-    var SoundList = [SoundRecord]()
     
     // MARK: - Table view handling
     
     func numberOfRows(in tableView: NSTableView) -> Int
     {
-        switch tableView
-        {
-            case SoundTable:
-                return SoundList.count
-                
-            case EventTable:
-                return EventList.count
-                
-            default:
-                return 0
-        }
+        return EventList.count
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
@@ -80,42 +72,45 @@ class SoundPreferences: NSViewController,
         var CellContents = ""
         var CellIdentifier = ""
         var ToolTip = ""
+        var NotAssigned: Bool = false
         
-        switch tableView
+        if tableColumn == tableView.tableColumns[0]
         {
-            case SoundTable:
-                if tableColumn == tableView.tableColumns[0]
-                {
-                    CellIdentifier = "BuiltInSoundColumn"
-                    CellContents = SoundList[row].SoundName
-                }
-                
-            case EventTable:
-                if tableColumn == tableView.tableColumns[0]
-                {
-                    CellIdentifier = "EventColumn"
-                    CellContents = EventList[row].Name
-                }
-                else
-                {
-                    CellIdentifier = "SoundColumn"
-                    if EventList[row].EventSound!.IsFile
-                    {
-                        ToolTip = EventList[row].EventSound!.FileName
-                        CellContents = EventList[row].EventSound!.FileName
-                    }
-                    else
-                    {
-                        CellContents = EventList[row].EventSound!.SoundName
-                    }
-                }
-                
-            default:
-                return nil
+            CellIdentifier = "EventColumn"
+            CellContents = EventList[row].Name
+        }
+        if tableColumn == tableView.tableColumns[1]
+        {
+            CellIdentifier = "SoundColumn"
+            if EventList[row].NoSound
+            {
+                NotAssigned = true
+             CellContents = "no sound assigned"
+            }
+            else
+            {
+            if EventList[row].EventSound!.IsFile
+            {
+                ToolTip = EventList[row].EventSound!.FileName
+                CellContents = EventList[row].EventSound!.FileName
+            }
+            else
+            {
+                CellContents = EventList[row].EventSound!.SoundName
+            }
+            }
         }
         
         let Cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: CellIdentifier), owner: self) as? NSTableCellView
         Cell?.textField?.stringValue = CellContents
+        if NotAssigned
+        {
+            Cell?.textField?.textColor = NSColor.disabledControlTextColor
+        }
+        else
+        {
+            Cell?.textField?.textColor = NSColor.textColor
+        }
         if !ToolTip.isEmpty
         {
             Cell?.toolTip = ToolTip
@@ -157,92 +152,12 @@ class SoundPreferences: NSViewController,
             let NewRow = Table.selectedRow
             if NewRow < 0
             {
-                if Table == EventTable
-                {
-                    SoundBox.title = "Event Sound Editor"
-                }
+                EditEventSoundButton.isEnabled = false
                 return
             }
-            switch Table
-            {
-                case SoundTable:
-                    print("Selected sound \(SoundList[NewRow].SoundName)")
-                    let SomeSound = SoundList[NewRow]
-                    CurrentEvent!.SoundID = SomeSound.SoundPK
-                    CurrentEvent!.EventSound = SomeSound
-                    if let CIndex = CurrentEventIndex()
-                    {
-                        EventList[CIndex] = CurrentEvent!
-                        EventTable.reloadData()
-                    }
-                    
-                case EventTable:
-                    print("Selected event \(EventList[NewRow].Name)")
-                    SoundBox.title = "\(EventList[NewRow].Name) Sound Editor"
-                    if let CIndex = CurrentEventIndex()
-                    {
-                        EventList[CIndex] = CurrentEvent!
-                        EventTable.reloadData()
-                    }
-                    CurrentEvent = EventList[NewRow]
-                    PopulateEditor(With: CurrentEvent!)
-                    
-                default:
-                    print("Unknown table clicked")
-                    break
-            }
+            CurrentEvent = EventList[NewRow]
+            EditEventSoundButton.isEnabled = true
         }
-    }
-    
-    // MARK: - Sound editor handling
-    
-    func SelectSound(_ Name: String)
-    {
-        var Index = 0
-        for Sound in SoundList
-        {
-            if Sound.SoundName == Name
-            {
-                let ISet = IndexSet(integer: Index)
-                SoundTable.selectRowIndexes(ISet, byExtendingSelection: false)
-                SoundTable.scrollRowToVisible(Index)
-                return
-            }
-            Index = Index + 1
-        }
-    }
-    
-    func PopulateEditor(With: EventRecord)
-    {
-        MuteEventSwitch.state = With.SoundMuted ? .on : .off
-        SelectSound(With.EventSound!.SoundName)
-    }
-    
-    @IBAction func MuteEventSwitchHandler(_ sender: Any)
-    {
-        if let Switch = sender as? NSSwitch
-        {
-            CurrentEvent!.SoundMuted = Switch.state == .on ? true : false
-        }
-    }
-    
-    @IBAction func ClearSoundButtonHandler(_ sender: Any)
-    {
-        CurrentEvent!.SoundID = SoundList[0].SoundPK
-        CurrentEvent!.EventSound = SoundList[0]
-        let ISet = IndexSet(integer: 0)
-        SoundTable.selectRowIndexes(ISet, byExtendingSelection: false)
-        SoundTable.scrollRowToVisible(0)
-    }
-    
-    @IBAction func PlaySoundButtonHandler(_ sender: Any)
-    {
-        let Sound = CurrentEvent!.EventSound
-        SoundManager.Play(Name: Sound!.Name)
-    }
-    
-    @IBAction func OpenSoundFileButtonHandler(_ sender: Any)
-    {
     }
     
     // MARK: - Help button handling
@@ -253,26 +168,14 @@ class SoundPreferences: NSViewController,
         {
             switch Button
             {
-                case ClearEventSoundHelpButton:
-                    Parent?.ShowHelp(For: .ClearEventSoundHelp, Where: Button.bounds, What: ClearEventSoundHelpButton)
-                    
-                case MuteEventHelpButton:
-                    Parent?.ShowHelp(For: .MuteEventHelp, Where: Button.bounds, What: MuteEventHelpButton)
-                    
-                case PlaySampleHelpButton:
-                    Parent?.ShowHelp(For: .PlaySampleHelp, Where: Button.bounds, What: PlaySampleHelpButton)
-                    
-                case UserFileHelpButton:
-                    Parent?.ShowHelp(For: .UserFileHelp, Where: Button.bounds, What: UserFileHelpButton)
-                    
                 case PlaySoundsHelpButton:
                     Parent?.ShowHelp(For: .SoundPlayHelp, Where: Button.bounds, What: PlaySoundsHelpButton)
                     
-                case AvailableSoundsTableHelpButton:
-                    Parent?.ShowHelp(For: .BuiltInSoundsHelp, Where: Button.bounds, What: AvailableSoundsTableHelpButton)
-                
                 case ResetPanelHelpButton:
                     Parent?.ShowHelp(For: .PaneReset, Where: Button.bounds, What: ResetPanelHelpButton)
+                    
+                case MutePeriodHelpButton:
+                    Parent?.ShowHelp(For: .MutePeriodHelp, Where: Button.bounds, What: MutePeriodHelpButton)
                     
                 default:
                     return
@@ -283,6 +186,22 @@ class SoundPreferences: NSViewController,
     func SetDarkMode(To: Bool)
     {
         
+    }
+    
+    @IBAction func HandleEditEventSound(_ sender: Any)
+    {
+        let Storyboard = NSStoryboard(name: "PreferencePanel", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "EventSoundEditor") as? EventSoundEditorWindow
+        {
+            let Window = WindowController.window
+            let Controller = Window?.contentViewController as? EventSoundEditorController
+            Controller?.EventParent = self
+            Controller?.SetEvent(CurrentEvent!)
+            self.view.window?.beginSheet(Window!)
+            {
+                Result in
+            }
+        }
     }
     
     func SetHelpVisibility(To: Bool)
@@ -317,10 +236,28 @@ class SoundPreferences: NSViewController,
         }
     }
     
+    /// Called by the event sound editor when the user accepts a change to a sound.
+    /// - Parameter Edited: The edited event record.
+    func SetEditedEvent(_ Edited: EventRecord)
+    {
+        if let Index = CurrentEventIndex()
+        {
+            EventList[Index] = Edited
+            EventTable.reloadData()
+        }
+    }
+    
     func ResetToFactorySettings()
     {
         Settings.SetTrue(.EnableSounds)
         EnableSoundsSwitch.state = .on
+        Settings.SetFalse(.EnableMutePeriod)
+        EnableSoundsSwitch.state = .off
+        let NewStart = Date.DateFactory(Hour: 20, Minute: 0, Second: 0)
+        StartTimePicker.dateValue = NewStart!
+        Settings.SetInt(.MutePeriodStart, 20 * 60)
+        MutePeriodDurationField.stringValue = "8"
+        Settings.SetInt(.MutePeriodDuration, 8 * 60)
     }
     
     //https://stackoverflow.com/questions/29433487/create-an-nsalert-with-swift
@@ -335,19 +272,73 @@ class SoundPreferences: NSViewController,
         return Alert.runModal() == .alertFirstButtonReturn
     }
     
+    // MARK: - Mute period settings.
+    
+    func controlTextDidEndEditing(_ obj: Notification)
+    {
+        if let TextField = obj.object as? NSTextField
+        {
+            switch TextField
+            {
+                case MutePeriodDurationField:
+                    if let Duration = Int(TextField.stringValue)
+                    {
+                        if Duration < 0
+                        {
+                            TextField.stringValue = "0"
+                            Settings.SetInt(.MutePeriodDuration, 0)
+                            return
+                        }
+                        if Duration > 23
+                        {
+                            TextField.stringValue = "23"
+                            Settings.SetInt(.MutePeriodDuration, 23)
+                            return
+                        }
+                        Settings.SetInt(.MutePeriodStart, Duration)
+                    }
+                    else
+                    {
+                        TextField.stringValue = "0"
+                        Settings.SetInt(.MutePeriodDuration, 0)
+                        return
+                    }
+                    
+                default:
+                    return
+            }
+        }
+    }
+    
+    @IBAction func HandleMutePeriodSwitchChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.EnableMutePeriod, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBAction func HandleStartTimeChanged(_ sender: Any)
+    {
+        if let Picker = sender as? NSDatePicker
+        {
+            let StartTime = Picker.dateValue
+            let Minute = StartTime.Minute
+            let Hour = StartTime.Hour
+            let Seconds = (Hour * 60 * 60) + (Minute * 60)
+            Settings.SetInt(.MutePeriodStart, Seconds)
+        }
+    }
+    
     var HelpButtons: [NSButton] = [NSButton]()
     
-    @IBOutlet weak var SoundFileField: NSTextField!
-    @IBOutlet weak var MuteEventSwitch: NSSwitch!
-    @IBOutlet weak var SoundBox: NSBox!
+    @IBOutlet weak var EditEventSoundButton: NSButton!
+    @IBOutlet weak var MutePeriodDurationField: NSTextField!
+    @IBOutlet weak var StartTimePicker: NSDatePicker!
+    @IBOutlet weak var EnableMutePeriodSwitch: NSSwitch!
+    @IBOutlet weak var MutePeriodHelpButton: NSButton!
     @IBOutlet weak var EventTable: NSTableView!
-    @IBOutlet weak var SoundTable: NSTableView!
     @IBOutlet weak var EnableSoundsSwitch: NSSwitch!
-    @IBOutlet weak var ClearEventSoundHelpButton: NSButton!
-    @IBOutlet weak var MuteEventHelpButton: NSButton!
-    @IBOutlet weak var PlaySampleHelpButton: NSButton!
-    @IBOutlet weak var UserFileHelpButton: NSButton!
     @IBOutlet weak var ResetPanelHelpButton: NSButton!
-    @IBOutlet weak var AvailableSoundsTableHelpButton: NSButton!
     @IBOutlet weak var PlaySoundsHelpButton: NSButton!
 }
