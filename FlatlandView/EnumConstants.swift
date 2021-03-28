@@ -196,6 +196,23 @@ enum FlatConstants: Double, CaseIterable
     case HomeStarVertexCount = 5.0000000558958
     /// Overall Z value for the home star.
     case HomeStarOverallZ = 0.10000050069
+    /// Short side length of grid lines.
+    case GridLineShortSide = 0.10000001
+    /// Short side for sub-lines.
+    case SubLineShortSide = 0.050023
+    /// Radial size of round grid lines.
+    case RoundGridLineRadius = 0.06
+    /// Dash value 0 for dashed lines (drawn).
+    case LineDash0 = 8.0
+    /// Dash value 1 for dashed lines (gap).
+    case LineDash1 = 8.01
+    /// Radial value for drawing the overlay stencil - this is *not* the same value as the 3D radial value.
+    /// The value here is larger because it results in sharper images.
+    case StencilRadius = 500.0
+    /// Width of wall clock lines.
+    case WallClockLineWidth = 1.000006
+    /// Width of normal grid lines.
+    case GridLineWidth = 2.000034
 }
 
 // MARK: - Rectangle view constants.
@@ -423,9 +440,9 @@ enum Constants: Double, CaseIterable
 
 // MARK: - Latitudes and longitudes.
 
-/// **Standard longitudes**. The raw value of each case is the percent away from the South Pole in
+/// **Standard latitudes**. The raw value of each case is the percent away from the South Pole in
 /// whatever units are used.
-enum Longitudes: Double, CaseIterable
+enum Latitudes: Double, CaseIterable
 {
     /// Equator.
     case Equator = 0.5
@@ -439,9 +456,9 @@ enum Longitudes: Double, CaseIterable
     case TropicOfCapricorn = 0.36978111
 }
 
-/// **Standard latitudes.** The raw value of each case is the percent away from the left side of
+/// **Standard longitudes.** The raw value of each case is the percent away from the left side of
 /// the drawing surface in whatever units are used.
-enum Latitudes: Double, CaseIterable
+enum Longitudes: Double, CaseIterable
 {
     /// Prime meridian (which is at 0°, or the center of the map).
     case PrimeMeridian = 0.5
