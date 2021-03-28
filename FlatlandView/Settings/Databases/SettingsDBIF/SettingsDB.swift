@@ -26,6 +26,7 @@ enum EventColumns: Int32, CaseIterable
     case SoundID = 2
     case SoundMuted = 3
     case Enabled = 4
+    case NoSound = 5
 }
 
 enum SoundColumns: Int32, CaseIterable
