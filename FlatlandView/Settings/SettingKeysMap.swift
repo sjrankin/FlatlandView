@@ -191,6 +191,9 @@ extension Settings
             .Show2DShadows: Bool.self,
             .EarthquakeShape2D: QuakeShapes2D.self,
             .ShowWallClockSeparators: Bool.self,
+            .PrimaryGridLineColor: NSColor.self,
+            .SecondaryGridLineColor: NSColor.self,
+            .WallClockGridLineColor: NSColor.self,
             .WindowSize: NSSize.self,
             .WindowOrigin: CGPoint.self,
             .PrimaryViewSize: NSSize.self,
@@ -221,6 +224,10 @@ extension Settings
             // MARK: - Event and sound settings
             .EnableSounds: Bool.self,
             .EnableHourEvent: Bool.self,
+            .EnableMutePeriod: Bool.self,
+            .MutePeriodStart: Int.self,
+            .MutePeriodDuration: Int.self,
+            .MutePeriodTimeUnits: TimePeriodUnits.self,
             // MARK: - Database-related settings
             .DB_Cities: [City2].self,
             .DB_UserCities: [City2].self,
