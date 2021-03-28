@@ -98,6 +98,11 @@ extension FlatView
         #endif
     }
     
+    func UpdateGrid()
+    {
+        AddGridLayer()
+    }
+    
     /// Initialize location objects (eg, cities and World Heritage Sites).
     func InitializeLocations()
     {
