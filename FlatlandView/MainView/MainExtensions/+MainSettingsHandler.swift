@@ -109,6 +109,7 @@ extension MainController: SettingChangedProtocol
                         case .FlatNorthCenter, .FlatSouthCenter:
                             IsFlat = true
                             Main2DView.UpdateEarthView()
+                            Main2DView.UpdateGrid()
                             
                         case .Rectangular:
                             IsFlat = true
