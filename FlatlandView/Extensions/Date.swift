@@ -15,6 +15,34 @@ import AppKit
 /// - Note: See [Converting UTC date formal to local](https://stackoverflow.com/questions/29392874/converting-utc-date-format-to-local-nsdate)
 extension Date
 {
+    /// Create a time with the given components.
+    /// - Note: The date is ignored and undefined.
+    /// - Parameter Hour: The hour value. Must range from 0 to 23.
+    /// - Parameter Minute: The minute value. Must range from 0 to 59.
+    /// - Parameter Second: The second value. Must range from 0 to 59.
+    /// - Returns: Date structure with the passed time (and undefined date). Nil on error.
+    public static func DateFactory(Hour: Int, Minute: Int, Second: Int) -> Date?
+    {
+        if Hour < 0 || Hour > 23
+        {
+            return nil
+        }
+        if Minute < 0 || Minute > 59
+        {
+            return nil
+        }
+        if Second < 0 || Second > 59
+        {
+            return nil
+        }
+        let Cal = Calendar.current
+        var Components = DateComponents()
+        Components.hour = Hour
+        Components.minute = Minute
+        Components.second = Second
+        return Cal.date(from: Components)
+    }
+    
     /// Create a date with the given components.
     /// - Year: The year of the date.
     /// - Month: The month of the date.
