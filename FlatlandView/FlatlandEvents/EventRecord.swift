@@ -12,12 +12,21 @@ import AppKit
 /// Holds event definition data for one event stored in the settings database.
 class EventRecord: PropertyExtraction
 {
+    /// Default initializer.
     override init()
     {
         super.init()
     }
     
-    init(_ PK: Int, _ Name: String, _ ID: Int, _ Enabled: Bool, _ Muted: Bool)
+    /// Initializer.
+    /// - Parameters:
+    ///   - PK: Primary key value from the database.
+    ///   - Name: Name of the event.
+    ///   - ID: ID of the event.
+    ///   - Enabled: Event's enabled flag.
+    ///   - Muted: Event sound muted flag.
+    ///   - NoSound: No sound for event flag.
+    init(_ PK: Int, _ Name: String, _ ID: Int, _ Enabled: Bool, _ Muted: Bool, _ NoSound: Bool)
     {
         super.init()
         __EventPK = PK
@@ -25,6 +34,7 @@ class EventRecord: PropertyExtraction
         __SoundID = ID
         __Enabled = Enabled
         __SoundMuted = Muted
+        __NoSound = NoSound
     }
     
     /// Resets the dirty flag. Should be called only after data has been saved.
@@ -108,6 +118,23 @@ class EventRecord: PropertyExtraction
         set
         {
             __Enabled = newValue
+            _IsDirty = true
+        }
+    }
+    
+    /// Holds the no sound flag.
+    private var __NoSound: Bool = false
+    /// Get or set the flag that indicates whether the sound information is valid or not. This is set to `true`
+    /// when the user disables sound for the event.
+    public var NoSound: Bool
+    {
+        get
+        {
+            return __NoSound
+        }
+        set
+        {
+            __NoSound = newValue
             _IsDirty = true
         }
     }
