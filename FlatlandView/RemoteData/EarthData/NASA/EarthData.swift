@@ -34,9 +34,6 @@ class EarthData
     /// - Parameter Completed: Called when the process is completed.
     func LoadMap(_ Map: SatelliteMap, For ImageDate: Date, Completed: MapLoadedHandler = nil)
     {
-        Debug.Print(">>>>** Loading satellite map \(Map)")
-        let Trace = Debug.StackFrameContents(10)
-        Debug.Print("   \(Debug.PrettyStackTrace(Trace))")
         if !Settings.GetBool(.EnableNASATiles)
         {
             Completed?(NSImage(), 0.0, ImageDate, false, nil)
@@ -81,7 +78,6 @@ class EarthData
                 }
             }
         }
-        Debug.Print(">>>>** Completed satellite map \(Map)")
     }
     
     /// Given a set of tiles from NASA, create a seamless equirectangular image.
