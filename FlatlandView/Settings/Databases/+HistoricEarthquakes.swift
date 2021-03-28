@@ -232,13 +232,9 @@ extension DBIF
     {
         if QuakeInDatabase(Code)
         {
-            #if false
-            Debug.Print("Earthquake \(Code) already in database.")
-            #endif
             return
         }
         InsertQuake(WithInsert: Statement)
-        Debug.Print("Added earthquake \(Code) to database.")
     }
     
     /// Insert an earthquake into the database.
@@ -262,7 +258,6 @@ extension DBIF
             Debug.Print("  \(Message) [\(Value)]")
             return
         }
-        Debug.Print("Inserted \(Statement) into quake database.")
     }
 }
 
