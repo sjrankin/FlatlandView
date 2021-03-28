@@ -70,6 +70,12 @@ enum SettingKeys: String, CaseIterable
     case EarthquakeShape2D = "EarthquakeShape2D"
     /// Boolean: Determines if wall clock seperator shapes are displayed.
     case ShowWallClockSeparators = "ShowWallClockSeparators"
+    /// NSColor: Color of primary grid lines in flat view.
+    case PrimaryGridLineColor = "PrimaryGridLineColor"
+    /// NSColor: Color of secondary grid lines in flat view.
+    case SecondaryGridLineColor = "SecondaryGridLineColor"
+    /// NSColor: Color of wall clock grid lines in flat view.
+    case WallClockGridLineColor = "WallClockGridLineColor"
     
     // MARK: - 3D view settings.
     /// Scale to use for POI 3D objects.
@@ -506,6 +512,14 @@ enum SettingKeys: String, CaseIterable
     case EnableSounds = "EnableSounds"
     /// Boolean: Determines if hour chiming is enable.
     case EnableHourEvent = "EnableHourEvent"
+    /// Boolean: If true, a mute period is observed every day.
+    case EnableMutePeriod = "EnableMutePeriod"
+    /// Integer: Start of mute period in seconds since midnight.
+    case MutePeriodStart = "MutePeriodStart"
+    /// Integer: Duration of mute period in seconds since start of period.
+    case MutePeriodDuration = "MutePeriodDuration"
+    /// Time units for period duration.
+    case MutePeriodTimeUnits = "MutePeriodTimeUnits"
     
     // MARK: - Settings that interface with the database.
     /// [City2]: List of built-in cities.
