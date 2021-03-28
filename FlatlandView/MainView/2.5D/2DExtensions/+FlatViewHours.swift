@@ -335,13 +335,14 @@ extension FlatView
         }
         #endif
         HourTextNode.eulerAngles = SCNVector3(0.0, 0.0, NodeRotation)
-        
+        /*
         if Settings.GetBool(.ShowWallClockSeparators)
         {
             MakeWallClockSeparator(Angle: WorkingAngle - 7.5,
                                    HighPoint: NSPoint(x: Radius + 1.0, y: HourHeight),
                                    Color: NSColor.yellow.withAlphaComponent(0.5))
         }
+ */
         return HourTextNode
     }
     
