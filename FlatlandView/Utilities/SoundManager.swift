@@ -25,8 +25,49 @@ class SoundManager
         #endif
     }
     
+    /// Determines if the current time is in the mute period.
+    /// - Returns: `True` if the current time is in the mute period, `false` if not. A returned value of `false`
+    ///            means the sound should play.
+    public static var IsInMutePeriod: Bool
+    {
+        get
+        {
+            if !Settings.GetBool(.EnableMutePeriod)
+            {
+                return false
+            }
+            let MuteDuration = Settings.GetInt(.MutePeriodDuration)
+            let MuteStart = Settings.GetInt(.MutePeriodStart)
+            let Now = Date()
+            let NowHour = Now.Hour
+            let NowMinute = Now.Minute
+            let NowSeconds = (NowHour * 60 * 60) + (NowMinute * 60)
+            if MuteStart + MuteDuration > (24 * 60 * 60)
+            {
+                //The duration spans midnight.
+                if NowSeconds < ((MuteStart + MuteDuration) - (24 * 60 * 60))
+                {
+                    return true
+                }
+                if NowSeconds > MuteStart
+                {
+                    return true
+                }
+            }
+            else
+            {
+                //The duration is contained within a day.
+                if NowSeconds > MuteStart && NowSeconds < MuteStart + MuteDuration
+                {
+                    return true
+                }
+            }
+            return false
+        }
+    }
+    
     /// Holds the `AVAudioPlayer` instance. If not stored as a property (or global), no sound will be heard
-    /// because the AVAudioPlay will go out of scope almost immediately.
+    /// because the `AVAudioPlayer` will go out of scope almost immediately.
     /// - Note: See: [AVAudioPlayer play does not play sound](https://stackoverflow.com/questions/29379524/avaudioplayer-play-does-not-play-sound)
     private static var Player: AVAudioPlayer? = nil
     
@@ -34,8 +75,17 @@ class SoundManager
     /// - Note: If there are errors playing the sound, control will return immediately.
     /// - Parameter Name: Name of the sound. All sounds in the bundle must end with `.mp3` (and be that type)
     ///                   but the name passed here should not include the extension.
-    private static func PlayBundleSound(_ Name: String)
+    /// - Parameter OverrideMute: If true, the sound will play even if in the mute period. Intended for use
+    ///                           by settings code.
+    private static func PlayBundleSound(_ Name: String, OverrideMute: Bool = false)
     {
+        if !OverrideMute
+        {
+            if IsInMutePeriod
+            {
+                return
+            }
+        }
         guard let SoundUrl = Bundle.main.url(forResource: Name, withExtension: "mp3") else
         {
             Debug.Print("Error getting \(Name) in bundle.")
@@ -59,10 +109,19 @@ class SoundManager
     
     /// Play a sound with the specified name. No error checking is done.
     /// - Parameter Name: The name of the sound to play.
-    public static func Play(Name: String)
+    /// - Parameter OverrideMute: If true, the sound will play even if in the mute period. Intended for use
+    ///                           by settings code.
+    public static func Play(Name: String, OverrideMute: Bool = false)
     {
         if Settings.GetBool(.EnableSounds)
         {
+            if !OverrideMute
+            {
+                if IsInMutePeriod
+                {
+                    return
+                }
+            }
             if IsAsset(Name)
             {
                 PlayBundleSound(Name)
@@ -87,8 +146,17 @@ class SoundManager
     /// Plays a sound given the passed sound enumeration.
     /// - Note: See [Accessing Audio Files in Asset Catalogs](https://developer.apple.com/library/archive/qa/qa1913/_index.html)
     /// - Parameter Sound: The sound enumeration to play. If nil, no action is taken.
-    public static func Play(Sound: Sounds?)
+    /// - Parameter OverrideMute: If true, the sound will be played even if in the mute period. Intended to be
+    ///                           used for settings.
+    public static func Play(Sound: Sounds?, OverrideMute: Bool = false)
     {
+        if !OverrideMute
+        {
+            if IsInMutePeriod
+            {
+                return
+            }
+        }
         if let TheSound = Sound
         {
             if AdditionalSounds.contains(TheSound)
@@ -146,6 +214,28 @@ class SoundManager
         return nil
     }
     
+    /// Plays a sound for the passed event.
+    /// - Note: Events are examined to determine if sounds should be played or not (eg, if `.NoSound` or
+    ///         `.SoundMuted` are `true`).
+    /// - Parameter Event: The event record whose sound will be played.
+    /// - Parameter OverrideMute: If true, the sound will be played even if in the mute period. Intended to be
+    ///                           used for settings.
+    public static func PlaySoundFor(Event: EventRecord, OverrideMute: Bool = false)
+    {
+        if Event.NoSound
+        {
+            return
+        }
+        if Event.SoundMuted
+        {
+            return
+        }
+        if let Sound = Event.EventSound
+        {
+            Play(Name: Sound.Name)
+        }
+    }
+    
     /// Return the sound enumeration for the passed sound event.
     /// - Parameter EventType: The event whose sound enumeration is returned.
     /// - Returns: `Sounds` enumeration for the passed event.
@@ -168,9 +258,9 @@ class SoundManager
     
     /// Array of sounds in the asset catelog.
     static var AdditionalSounds = [Sounds.Chime, Sounds.Cymbal, Sounds.Doorbell, Sounds.Fiddle,
-                                   Sounds.Gong, Sounds.TimeSignal]
+                                   Sounds.Gong, Sounds.TimeSignal1]
     
-    /// Map of sounds to asset catelog sound names.
+    /// Map of sounds to non-system sound names.
     static var AdditionalToResource: [Sounds: String] =
         [
             Sounds.Chime: "Chime3",
@@ -178,10 +268,12 @@ class SoundManager
             Sounds.Doorbell: "Doorbell",
             Sounds.Fiddle: "Fiddle",
             Sounds.Gong: "Gong",
-            Sounds.TimeSignal: "gts_pips",
+            Sounds.TimeSignal1: "gts_pips",
+            Sounds.TimeSignal2: "NHKPips",
         ]
 }
 
+/// Sound classes. Not used yet.
 enum SoundClasses: String, CaseIterable
 {
     case General = "General"
@@ -216,15 +308,21 @@ enum Sounds: String, CaseIterable
     case Doorbell = "Doorbell"
     case Fiddle = "Fiddle"
     case Gong = "Gong"
-    case TimeSignal = "Time Signal"
+    case TimeSignal1 = "Time Signal 1"
+    case TimeSignal2 = "Time Signal 2"
 }
 
+/// Events that can have associated sounds.
 enum SoundEvents: String, CaseIterable
 {
+    /// Bad input (such as invalid numbers and the like). Should be a short, soft sound.
     case BadInput = "Bad Input"
+    /// New hour event for indicating aurally the hour has changed.
     case HourChime = "Hour Chime"
+    /// New earthquake received event.
     case NewEarthquake = "New Earthquake"
     #if DEBUG
+    /// Debug events of some type.
     case Debug = "Debug Event"
     #endif
 }
