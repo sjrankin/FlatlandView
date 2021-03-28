@@ -46,7 +46,7 @@ extension Settings
     /// Determines if the specific longitude line should be drawn.
     /// - Parameter Longitude: The line whose drawing status will be returned.
     /// - Returns: True if the line should be drawn, false if not.
-    public static func DrawLongitudeLine(_ Longitude: Longitudes) -> Bool
+    public static func DrawLongitudeLine(_ Longitude: Latitudes) -> Bool
     {
         switch Longitude
         {
@@ -64,7 +64,7 @@ extension Settings
     /// Determines if the specific latitude line should be drawn.
     /// - Parameter Latitude: The line whose drawing status will be returned.
     /// - Returns: True if the line should be drawn, false if not.
-    public static func DrawLatitudeLine(_ Latitude: Latitudes) -> Bool
+    public static func DrawLatitudeLine(_ Latitude: Longitudes) -> Bool
     {
         switch Latitude
         {
