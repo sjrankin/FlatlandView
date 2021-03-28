@@ -375,11 +375,11 @@ class Stenciler
     /// - Parameter Messages: Array of text records to display.
     /// - Parameter ForQuakes: If true, the text is drawn for earthquakes. Otherwise, normal text is assumed.
     /// - Returns: Image with the text drawn on it.
-    private static func DrawOn(Rep: NSBitmapImageRep, Messages: [TextRecord], ForQuakes: Bool) -> NSBitmapImageRep
+    public static func DrawOn(Rep: NSBitmapImageRep, Messages: [TextRecord], ForQuakes: Bool) -> NSBitmapImageRep
     {
         guard let Context = NSGraphicsContext(bitmapImageRep: Rep) else
         {
-            fatalError("Error returned from NSGraphicsContext")
+            Debug.FatalError("Error returned from NSGraphicsContext")
         }
         NSGraphicsContext.saveGraphicsState()
         NSGraphicsContext.current = Context
@@ -516,7 +516,7 @@ class Stenciler
                 }
             }
             
-            for Longitude in Longitudes.allCases
+            for Longitude in Latitudes.allCases
             {
                 if Settings.DrawLongitudeLine(Longitude)
                 {
@@ -532,7 +532,7 @@ class Stenciler
                     LineList.append(Line)
                 }
             }
-            for Latitude in Latitudes.allCases
+            for Latitude in Longitudes.allCases
             {
                 if Settings.DrawLatitudeLine(Latitude)
                 {
@@ -771,7 +771,7 @@ class Stenciler
             }
         }
         
-        for Longitude in Longitudes.allCases
+        for Longitude in Latitudes.allCases
         {
             if Settings.DrawLongitudeLine(Longitude)
             {
@@ -787,7 +787,7 @@ class Stenciler
                 LineList.append(Line)
             }
         }
-        for Latitude in Latitudes.allCases
+        for Latitude in Longitudes.allCases
         {
             if Settings.DrawLatitudeLine(Latitude)
             {
