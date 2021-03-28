@@ -74,7 +74,8 @@ extension DBIF
             let SoundID = SQL.ReadIntColumn(Handle: QueryHandle, Index: EventColumns.SoundID.rawValue)!
             let Muted = SQL.ReadBoolColumn(Handle: QueryHandle, Index: EventColumns.SoundMuted.rawValue)!
             let Enabled = SQL.ReadBoolColumn(Handle: QueryHandle, Index: EventColumns.Enabled.rawValue)!
-            let SomeEvent = EventRecord(PKID, Name, SoundID, Enabled, Muted)
+            let NoSound = SQL.ReadBoolColumn(Handle: QueryHandle, Index: EventColumns.NoSound.rawValue)!
+            let SomeEvent = EventRecord(PKID, Name, SoundID, Enabled, Muted, NoSound)
             Results.append(SomeEvent)
         }
         
@@ -118,6 +119,7 @@ extension DBIF
         return Results
     }
     
+    /// Save the contents of the event list.
     public static func SaveEvents()
     {
         for SomeEvent in EventList
@@ -135,6 +137,7 @@ extension DBIF
         }
     }
     
+    /// Save the contents of the sound list.
     public static func SaveSounds()
     {
         for SomeSound in SoundList
