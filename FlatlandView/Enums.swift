@@ -660,6 +660,8 @@ enum NodeNames2D: String, CaseIterable
     case Sun = "Sun"
     /// The mouse follow plane.
     case FollowPlane = "FollowPlane"
+    /// The grid layer.
+    case GridLayer = "GridLayer"
 }
 
 /// Shapes for earthquakes in 2D mode.
@@ -890,6 +892,17 @@ enum MousePointerTypes: String, CaseIterable
     case StartPin = "StartPin"
     /// Ending pin for ending region creation.
     case EndPin = "EndPin"
+}
+
+/// Time period units.
+enum TimePeriodUnits: String, CaseIterable
+{
+    /// Seconds.
+    case Seconds = "Seconds"
+    /// Minutes.
+    case Minutes = "Minutes"
+    /// Hours
+    case Hours = "Hours"
 }
 
 enum POITypes2: Int, CaseIterable
