@@ -76,7 +76,7 @@ extension GlobeView
         
         let Line = NSBezierPath()
         
-        for Longitude in Longitudes.allCases
+        for Longitude in Latitudes.allCases
         {
             if DrawLongitudeLine(Longitude)
             {
@@ -86,7 +86,7 @@ extension GlobeView
             }
         }
         
-        for Latitude in Latitudes.allCases
+        for Latitude in Longitudes.allCases
         {
             if DrawLatitudeLine(Latitude)
             {
@@ -106,7 +106,7 @@ extension GlobeView
     /// Determines if the specific longitude line should be drawn.
     /// - Parameter Longitude: The line whose drawing status will be returned.
     /// - Returns: True if the line should be drawn, false if not.
-    func DrawLongitudeLine(_ Longitude: Longitudes) -> Bool
+    func DrawLongitudeLine(_ Longitude: Latitudes) -> Bool
     {
         switch Longitude
         {
@@ -124,7 +124,7 @@ extension GlobeView
     /// Determines if the specific latitude line should be drawn.
     /// - Parameter Latitude: The line whose drawing status will be returned.
     /// - Returns: True if the line should be drawn, false if not.
-    func DrawLatitudeLine(_ Latitude: Latitudes) -> Bool
+    func DrawLatitudeLine(_ Latitude: Longitudes) -> Bool
     {
         switch Latitude
         {
