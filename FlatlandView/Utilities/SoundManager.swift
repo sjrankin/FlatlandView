@@ -32,38 +32,49 @@ class SoundManager
     {
         get
         {
-            if !Settings.GetBool(.EnableMutePeriod)
-            {
-                return false
-            }
-            let MuteDuration = Settings.GetInt(.MutePeriodDuration)
-            let MuteStart = Settings.GetInt(.MutePeriodStart)
-            let Now = Date()
-            let NowHour = Now.Hour
-            let NowMinute = Now.Minute
-            let NowSeconds = (NowHour * 60 * 60) + (NowMinute * 60)
-            if MuteStart + MuteDuration > (24 * 60 * 60)
-            {
-                //The duration spans midnight.
-                if NowSeconds < ((MuteStart + MuteDuration) - (24 * 60 * 60))
-                {
-                    return true
-                }
-                if NowSeconds > MuteStart
-                {
-                    return true
-                }
-            }
-            else
-            {
-                //The duration is contained within a day.
-                if NowSeconds > MuteStart && NowSeconds < MuteStart + MuteDuration
-                {
-                    return true
-                }
-            }
+            return IsInMutePeriod(Date())
+        }
+    }
+    
+    /// Determines if the passed time is in the mute period.
+    /// - Note: Only the time portion of `When` is used.
+    /// - Parameter When: The date (only the time portion) to use to determine if the current time is in
+    ///                   the global mute period.
+    /// - Returns: `True` if the current time is in the mute period, `false` if not. A returned value of `false`
+    ///            means the sound should play.
+    public static func IsInMutePeriod(_ When: Date) -> Bool
+    {
+        if !Settings.GetBool(.EnableMutePeriod)
+        {
             return false
         }
+        let MuteDuration = Settings.GetInt(.MutePeriodDuration)
+        let MuteStart = Settings.GetInt(.MutePeriodStart)
+        let Now = When
+        let NowHour = Now.Hour
+        let NowMinute = Now.Minute
+        let NowSeconds = (NowHour * 60 * 60) + (NowMinute * 60)
+        if MuteStart + MuteDuration > (24 * 60 * 60)
+        {
+            //The duration spans midnight.
+            if NowSeconds < ((MuteStart + MuteDuration) - (24 * 60 * 60))
+            {
+                return true
+            }
+            if NowSeconds > MuteStart
+            {
+                return true
+            }
+        }
+        else
+        {
+            //The duration is contained within a day.
+            if NowSeconds > MuteStart && NowSeconds < MuteStart + MuteDuration
+            {
+                return true
+            }
+        }
+        return false
     }
     
     /// Holds the `AVAudioPlayer` instance. If not stored as a property (or global), no sound will be heard
@@ -86,9 +97,25 @@ class SoundManager
                 return
             }
         }
-        guard let SoundUrl = Bundle.main.url(forResource: Name, withExtension: "mp3") else
+
+        guard let TheSound = Sounds(rawValue: Name) else
         {
-            Debug.Print("Error getting \(Name) in bundle.")
+            return
+        }
+        guard let ResourceName = AdditionalToResource[TheSound] else
+        {
+            return
+        }
+        if let List = Bundle.main.urls(forResourcesWithExtension: "mp3", subdirectory: nil)
+        {
+            for ListItem in List
+            {
+                print(">>> \(ListItem.lastPathComponent )")
+            }
+        }
+        guard let SoundUrl = Bundle.main.url(forResource: ResourceName, withExtension: "mp3") else
+        {
+            Debug.Print("Error getting \(ResourceName) in bundle.")
             return
         }
         do
@@ -258,7 +285,7 @@ class SoundManager
     
     /// Array of sounds in the asset catelog.
     static var AdditionalSounds = [Sounds.Chime, Sounds.Cymbal, Sounds.Doorbell, Sounds.Fiddle,
-                                   Sounds.Gong, Sounds.TimeSignal1]
+                                   Sounds.Gong, Sounds.TimeSignal1, Sounds.TimeSignal2]
     
     /// Map of sounds to non-system sound names.
     static var AdditionalToResource: [Sounds: String] =
