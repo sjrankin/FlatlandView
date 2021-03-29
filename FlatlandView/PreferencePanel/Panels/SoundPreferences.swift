@@ -85,19 +85,28 @@ class SoundPreferences: NSViewController,
             if EventList[row].NoSound
             {
                 NotAssigned = true
-             CellContents = "no sound assigned"
+                CellContents = "no sound assigned"
             }
             else
             {
-            if EventList[row].EventSound!.IsFile
-            {
-                ToolTip = EventList[row].EventSound!.FileName
-                CellContents = EventList[row].EventSound!.FileName
-            }
-            else
-            {
-                CellContents = EventList[row].EventSound!.SoundName
-            }
+                if EventList[row].EventSound!.IsFile
+                {
+                    ToolTip = EventList[row].EventSound!.FileName
+                    CellContents = EventList[row].EventSound!.FileName
+                }
+                else
+                {
+                    var FinalName = ""
+                    if let TheSound = Sounds(rawValue: EventList[row].EventSound!.SoundName)
+                    {
+                        FinalName = TheSound.rawValue
+                    }
+                    else
+                    {
+                        FinalName = EventList[row].EventSound!.SoundName
+                    }
+                    CellContents = FinalName
+                }
             }
         }
         
