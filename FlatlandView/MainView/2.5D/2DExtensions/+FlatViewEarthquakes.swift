@@ -167,6 +167,50 @@ extension FlatView
         PlottedQuake.NodeID = Quake.QuakeID
         PlottedQuake.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
         PlottedQuake.PropagateIDs()
+        
+        let MagShape = SCNText(string: "\(Quake.Magnitude.RoundedTo(1))",
+                               extrusionDepth: CGFloat(FlatConstants.CityNameExtrusionDepth.rawValue))
+        MagShape.font = NSFont.boldSystemFont(ofSize: CGFloat(FlatConstants.CityNameFontSize.rawValue))
+        let MagNode = SCNNode2(geometry: MagShape)
+        MagNode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
+        MagNode.position = PlottedQuake.position
+        MagNode.IsTextNode = true
+        MagNode.name = NodeNames2D.Earthquake.rawValue
+        MagNode.scale = SCNVector3(FlatConstants.QuakeMagnitudeScale.rawValue)
+        let BoundingHeight = MagNode.boundingBox.max.y - MagNode.boundingBox.min.y
+        let BoundingWidth = MagNode.boundingBox.max.x - MagNode.boundingBox.min.x
+        MagNode.pivot = SCNMatrix4MakeTranslation(BoundingWidth / 2.0,
+                                                   BoundingHeight * 2.0,
+                                                   0.0)
+        MagNode.pivot = SCNMatrix4Rotate(MagNode.pivot,
+                                          CGFloat(180.0.Radians),
+                                          0.0,
+                                          0.0,
+                                          1.0)
+        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
+        var LongitudeAdjustment = -1.0
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        {
+            LongitudeAdjustment = 1.0
+        }
+        var Distance = Geometry.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
+        let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
+        Distance = Distance * Ratio
+        let LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0),
+                                               End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
+        let LocationBearingSource = LocationBearing + 90.0 + BearingOffset
+        let ZRotate = LocationBearingSource - 90.0
+        MagNode.eulerAngles = SCNVector3(0.0.Radians, 0.0.Radians, ZRotate.Radians)
+        MagNode.castsShadow = false
+        MagNode.CanSwitchState = true
+        MagNode.SetState(ForDay: true, Color: NSColor.red, Emission: nil, Model: .lambert)
+        MagNode.SetState(ForDay: false, Color: NSColor.orange, Emission: NSColor.yellow, Model: .lambert)
+        if let IsInDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
+        {
+            MagNode.IsInDaylight = IsInDay
+        }
+        
+        QuakePlane.addChildNode(MagNode)
         QuakePlane.addChildNode(PlottedQuake)
     }
     
