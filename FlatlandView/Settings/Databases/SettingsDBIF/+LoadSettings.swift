@@ -107,7 +107,8 @@ extension DBIF
         {
             let PKID = SQL.ReadIntColumn(Handle: QueryHandle, Index: SoundColumns.SoundPK.rawValue)!
             let Name = SQL.ReadStringColumn(Handle: QueryHandle, Index: SoundColumns.Name.rawValue)!
-            let IsFile = SQL.ReadBoolColumn(Handle: QueryHandle, Index: SoundColumns.IsFile.rawValue)!
+            //let IsFile = SQL.ReadBoolColumn(Handle: QueryHandle, Index: SoundColumns.IsFile.rawValue)!
+            let IsFile = false
             let FileName = SQL.ReadStringColumn(Handle: QueryHandle, Index: SoundColumns.FileName.rawValue)!
             let SoundName = SQL.ReadStringColumn(Handle: QueryHandle, Index: SoundColumns.SoundName.rawValue)!
             let SoundClass = SQL.ReadStringColumn(Handle: QueryHandle, Index: SoundColumns.SoundClass.rawValue)!
