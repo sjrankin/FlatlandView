@@ -334,6 +334,7 @@ extension FlatView
             NodeRotation = (FinalAngle + 180.0).Radians
         }
         #endif
+        HourTextNode.castsShadow = false
         HourTextNode.eulerAngles = SCNVector3(0.0, 0.0, NodeRotation)
         /*
         if Settings.GetBool(.ShowWallClockSeparators)
