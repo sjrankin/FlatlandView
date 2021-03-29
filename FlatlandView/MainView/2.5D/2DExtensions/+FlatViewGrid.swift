@@ -35,7 +35,7 @@ extension FlatView
     {
         RemoveGridLayer()
         var Stencil = StencilGrid()
-        Stencil = StencilCities(On: Stencil)
+        //Stencil = StencilCities(On: Stencil)
         let Flat = SCNCylinder(radius: CGFloat(FlatConstants.FlatRadius.rawValue),
                                height: CGFloat(FlatConstants.GridLayerThickness.rawValue))
         Flat.radialSegmentCount = Int(FlatConstants.FlatSegments.rawValue)
