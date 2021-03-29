@@ -96,6 +96,123 @@ extension FlatView
         #if false
         SetupMouseHandling()
         #endif
+        
+        CameraObserver = self.observe(\.pointOfView?.position, options: [.new, .initial])
+        {
+            (Node, Change) in
+            OperationQueue.current?.addOperation
+            {
+                let Location = Node.pointOfView!.position
+                let Distance = sqrt((Location.x * Location.x) + (Location.y * Location.y) + (Location.z * Location.z))
+                if self.PreviousCameraDistance == nil
+                {
+                    self.PreviousCameraDistance = Int(Distance)
+                }
+                else
+                {
+                    if self.PreviousCameraDistance != Int(Distance)
+                    {
+                        self.PreviousCameraDistance = Int(Distance)
+                        self.UpdateViewForCameraLocation(Distance: Distance)
+                    }
+                }
+            }
+        }
+    }
+    
+    /// Update the view depending on the distance of the camera from the center of the scene.
+    /// - Parameter Distance: The distance from the camera to the center of the scene.
+    func UpdateViewForCameraLocation(Distance: CGFloat)
+    {
+        var FinalQuakeScale: CGFloat? = nil
+        let QDist = Int(Distance)
+        for (Final, Min, Max) in QuakeScaleMap
+        {
+            if QDist >= Min && QDist <= Max
+            {
+                FinalQuakeScale = Final
+                break
+            }
+        }
+        if FinalQuakeScale == nil
+        {
+            FinalQuakeScale = QuakeScaleMap.last!.ScaleLevel
+        }
+        var UpdateQuakes: Bool = true
+        if PreviousQuakeScale == nil
+        {
+            PreviousQuakeScale = FinalQuakeScale
+        }
+        else
+        {
+            if PreviousQuakeScale! == FinalQuakeScale
+            {
+                UpdateQuakes = false
+            }
+            PreviousQuakeScale = FinalQuakeScale
+        }
+        if UpdateQuakes
+        {
+            UpdateQuakeTextNodes(To: FinalQuakeScale!)
+        }
+        
+        var FinalCityScale: CGFloat? = nil
+        let CDist = Int(Distance)
+        for (Final, Min, Max) in CityScaleMap
+        {
+            if CDist >= Min && CDist <= Max
+            {
+                FinalQuakeScale = Final
+                break
+            }
+        }
+        if FinalCityScale == nil
+        {
+            FinalCityScale = CityScaleMap.last!.ScaleLevel
+        }
+        var UpdateCities: Bool = true
+        if PreviousCityScale == nil
+        {
+            PreviousCityScale = FinalCityScale
+        }
+        else
+        {
+            if PreviousCityScale! == FinalCityScale
+            {
+                UpdateCities = false
+            }
+            PreviousCityScale = FinalCityScale
+        }
+        if UpdateCities
+        {
+            UpdateCityTextNodes(To: FinalCityScale!)
+        }
+    }
+    
+    /// Update the scale of earthquake text nodes.
+    /// - Parameter To: The new scale to apply to earthquake text nodes.
+    func UpdateQuakeTextNodes(To Scale: CGFloat)
+    {
+        for Node in QuakePlane.ChildNodes2()
+        {
+            if Node.IsTextNode
+            {
+                Node.scale = SCNVector3(Scale)
+            }
+        }
+    }
+    
+    /// Update the scale of city name text nodes.
+    /// - Parameter To: The new scale to apply to city name text nodes.
+    func UpdateCityTextNodes(To Scale: CGFloat)
+    {
+        for Node in CityPlane.ChildNodes2()
+        {
+            if Node.IsTextNode
+            {
+                Node.scale = SCNVector3(Scale)
+            }
+        }
     }
     
     func UpdateGrid()
