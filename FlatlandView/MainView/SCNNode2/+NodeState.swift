@@ -36,6 +36,9 @@ struct NodeState
     
     /// Roughness value. If nil, not used.
     let Roughness: Double?
+    
+    /// Casts shadow value. If nil, not used.
+    let CastsShadow: Bool?
 }
 
 /// States for `SCNNode2` instances.
