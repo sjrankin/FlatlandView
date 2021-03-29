@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 /// Create and return an ARGB bitmap context.
+/// https://stackoverflow.com/questions/19345509/image-circular-wrap-in-ios
 /// @param pixelsWide The width of the context.
 /// @param pixelsHigh The height of the context.
 /// @return On success an ARGB formatted bitmap context is returned. On error, NULL is returned.
