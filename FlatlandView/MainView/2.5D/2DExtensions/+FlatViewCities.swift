@@ -3,7 +3,7 @@
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/20/20.
-//  Copyright © 2020 Stuart Rankin. All rights reserved.
+//  Copyright © 2020, 2021 Stuart Rankin. All rights reserved.
 //
 
 import Foundation
@@ -108,10 +108,17 @@ extension FlatView
                 var MinSize = FlatConstants.CitySphereRadius.rawValue
                 let Percent = Double(City.GetPopulation()) / Double(Max)
                 MinSize = MinSize + ((MinSize  * FlatConstants.RelativeCitySizeAdjustment.rawValue) * Percent)
-                let CityNode = PlotLocationAsSphere(Latitude: City.Latitude, Longitude: City.Longitude, Radius: Radius,
-                                                    WithColor: CityColor, RelativeSize: CGFloat(MinSize))
+                let (CityNode, CityText) = PlotLocationAsSphere(Latitude: City.Latitude, Longitude: City.Longitude,
+                                                                Radius: Radius, WithColor: CityColor,
+                                                                RelativeSize: CGFloat(MinSize), CityName: City.Name)
                 CityNode.NodeID = City.CityID
                 CityNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
+                if CityText != nil
+                {
+                    CityText?.NodeID = City.CityID
+                    CityText?.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
+                    CityPlane.addChildNode(CityText!)
+                }
                 CityPlane.addChildNode(CityNode)
                 NodesWithShadows.append(CityNode)
             }
@@ -220,19 +227,15 @@ extension FlatView
     /// - Parameter Radius: The radius of the flat Earth.
     /// - Parameter WithColor: The color to use as the texture for the sphere.
     /// - Parameter RelativeSize: The relative size of the city's sphere.
+    /// - Parameter CityName: Name of the city.
     func PlotLocationAsSphere(Latitude: Double, Longitude: Double, Radius: Double, WithColor: NSColor,
-                              RelativeSize: CGFloat) -> SCNNode2
+                              RelativeSize: CGFloat, CityName: String) -> (Shape: SCNNode2, Text: SCNNode2?)
     {
         let CitySize = RelativeSize
         let CityShape = SCNSphere(radius: CitySize)
         let CityNode = SCNNode2(geometry: CityShape)
         CityNode.name = NodeNames2D.CityNode.rawValue
         CityNode.categoryBitMask = LightMasks2D.Polar.rawValue// | LightMasks2D.Sun.rawValue
-        CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
-        if Settings.GetBool(.CityNodesGlow)
-        {
-            CityNode.geometry?.firstMaterial?.selfIllumination.contents = WithColor
-        }
         CityNode.castsShadow = true
         
         let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
@@ -244,13 +247,50 @@ extension FlatView
         var Distance = Geometry.DistanceFromContextPole(To: GeoPoint(Latitude, Longitude))
         let Ratio = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
         Distance = Distance * Ratio
-        var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
-        LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
+        var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0),
+                                               End: GeoPoint(Latitude, Longitude * LongitudeAdjustment))
+        let LocationBearingSource = LocationBearing + 90.0 + BearingOffset
+        LocationBearing = LocationBearingSource.Radians
         let PointX = Distance * cos(LocationBearing)
         let PointY = Distance * sin(LocationBearing)
         CityNode.position = SCNVector3(PointX, PointY, 0.0)
+        CityNode.CanSwitchState = true
+        CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .lambert, CastsShadow: true)
+        CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .lambert, CastsShadow: false)
+        if let IsInDay = Solar.IsInDaylight(Latitude, Longitude)
+        {
+            CityNode.IsInDaylight = IsInDay
+        }
         
-        return CityNode
+        let NameShape = SCNText(string: CityName, extrusionDepth: CGFloat(FlatConstants.CityNameExtrusionDepth.rawValue))
+        NameShape.font = NSFont.systemFont(ofSize: CGFloat(FlatConstants.QuakeFontSize.rawValue))
+        let NameNode = SCNNode2(geometry: NameShape)
+        NameNode.IsTextNode = true
+        NameNode.name = NodeNames2D.CityNode.rawValue
+        let BoundingHeight = NameNode.boundingBox.max.y - NameNode.boundingBox.min.y
+        NameNode.pivot = SCNMatrix4MakeTranslation(-CitySize * CGFloat(FlatConstants.CityNameScaleInverse.rawValue),
+                                                   BoundingHeight / 2.0,
+                                                   0.0)
+        NameNode.pivot = SCNMatrix4Rotate(NameNode.pivot,
+                                          CGFloat(180.0.Radians),
+                                          0.0,
+                                          0.0,
+                                          1.0)
+        let ZRotate = LocationBearingSource - 180.0
+        NameNode.eulerAngles = SCNVector3(0.0.Radians, 0.0.Radians, ZRotate.Radians)
+        NameNode.position = SCNVector3(PointX, PointY, FlatConstants.CityNameZHeight.rawValue)
+        NameNode.categoryBitMask = LightMasks2D.Polar.rawValue
+        NameNode.scale = SCNVector3(FlatConstants.CityNameScale.rawValue)
+        NameNode.castsShadow = false
+        NameNode.CanSwitchState = true
+        NameNode.SetState(ForDay: true, Color: NSColor.BlackGray, Emission: nil, Model: .lambert)
+        NameNode.SetState(ForDay: false, Color: NSColor.blue, Emission: NSColor.systemTeal, Model: .lambert)
+        if let IsInDay = Solar.IsInDaylight(Latitude, Longitude)
+        {
+            NameNode.IsInDaylight = IsInDay
+        }
+        
+        return (CityNode, NameNode)
     }
     
     /// Plot a location as an extruded star.
