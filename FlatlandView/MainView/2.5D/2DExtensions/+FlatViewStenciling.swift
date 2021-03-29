@@ -40,9 +40,9 @@ extension FlatView
                 LongitudeAdjustment = 1.0
             }
             var Distance = Geometry.DistanceFromContextPole(To: GeoPoint(City.Latitude, City.Longitude))
- //           let Ratio = FlatConstants.FlatRadius.rawValue / PhysicalConstants.HalfEarthCircumference.rawValue
+            let Ratio = FlatConstants.FlatRadius.rawValue / PhysicalConstants.HalfEarthCircumference.rawValue
  //           let Ratio = FlatConstants.StencilRadius.rawValue / (PhysicalConstants.HalfEarthCircumference.rawValue / 2)
- //           Distance = Distance * Ratio
+            Distance = Distance * Ratio
             var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0),
                                                    End: GeoPoint(City.Latitude, City.Longitude * LongitudeAdjustment))
             LocationBearing = (LocationBearing + 90.0 + BearingOffset).ToRadians()
@@ -75,13 +75,21 @@ extension FlatView
         {
             autoreleasepool
             {
-                print("Drawing \(Message.Text)")
+                //print("Drawing \(Message.Text)")
                 let WorkingText: NSString = NSString(string: Message.Text)
                 var Attrs = [NSAttributedString.Key: Any]()
                 Attrs[NSAttributedString.Key.font] = Message.Font as Any
                 Attrs[NSAttributedString.Key.foregroundColor] = Message.Color as Any
-                WorkingText.draw(at: NSPoint(x: Message.Location.x, y: Message.Location.y),
+                #if false
+                print(" \(Message.Text) location: \(Message.Location)")
+                WorkingText.draw(at: NSPoint(x: 900 - Message.Location.x, y: 900 - Message.Location.y), withAttributes: Attrs)
+                #else
+                let CenterX = Rep.size.width / 2.0
+                let CenterY = Rep.size.height / 2.0
+                print(" \(Message.Text) location: \(Message.Location)")
+                WorkingText.draw(at: NSPoint(x: Message.Location.x + CenterX, y: Message.Location.y + CenterY),
                                  withAttributes: Attrs)
+                #endif
             }
         }
         NSGraphicsContext.restoreGraphicsState()
