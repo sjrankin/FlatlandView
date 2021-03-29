@@ -1024,7 +1024,7 @@
                                                             </gridCell>
                                                             <gridCell row="6w4-tA-Svk" column="K3z-q1-XSj" id="zSD-U8-bTX">
                                                                 <button key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U8a-lF-fcd">
-                                                                    <rect key="frame" x="81" y="-1.5" width="25.5" height="24"/>
+                                                                    <rect key="frame" x="243" y="-1.5" width="25.5" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="25" id="8vM-IJ-qAy"/>
                                                                         <constraint firstAttribute="height" constant="20" id="skF-ZE-ilN"/>
@@ -1479,7 +1479,7 @@
                                                 </gridCell>
                                                 <gridCell row="xai-07-bim" column="Xj8-Af-NI9" id="ckN-fS-5gG">
                                                     <box key="contentView" ambiguous="YES" title="Scale" translatesAutoresizingMaskIntoConstraints="NO" id="bdh-QA-FSt">
-                                                        <rect key="frame" x="-3" y="146" width="346" height="94"/>
+                                                        <rect key="frame" x="-3" y="162" width="346" height="94"/>
                                                         <view key="contentView" id="1Hy-tU-z8c">
                                                             <rect key="frame" x="3" y="3" width="340" height="76"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4980,8 +4980,8 @@ Gw
                                                         <rect key="frame" x="241" y="27" width="84" height="28"/>
                                                         <datePickerCell key="cell" borderStyle="bezel" alignment="left" useCurrentDate="YES" id="qq1-cs-Nlp">
                                                             <font key="font" metaFont="system"/>
-                                                            <date key="date" timeIntervalSinceReferenceDate="638581983.31998396">
-                                                                <!--2021-03-27 23:53:03 +0000-->
+                                                            <date key="date" timeIntervalSinceReferenceDate="638692354.69684696">
+                                                                <!--2021-03-29 06:32:34 +0000-->
                                                             </date>
                                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -5067,13 +5067,13 @@ Gw
                                 </connections>
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="11C-x1-iNQ">
-                                <rect key="frame" x="10" y="128" width="370" height="82"/>
+                                <rect key="frame" x="10" y="128" width="370" height="250"/>
                                 <clipView key="contentView" id="zA3-TS-BsG">
-                                    <rect key="frame" x="1" y="1" width="368" height="80"/>
+                                    <rect key="frame" x="1" y="1" width="368" height="248"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="o40-MN-jxz" viewBased="YES" id="rWn-qD-SU7">
-                                            <rect key="frame" x="0.0" y="0.0" width="368" height="52"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="368" height="220"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -5164,7 +5164,7 @@ Gw
                                     <constraint firstAttribute="width" constant="370" id="izU-6Y-dXl"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="d5N-fC-UXj">
-                                    <rect key="frame" x="1" y="150" width="368" height="15"/>
+                                    <rect key="frame" x="1" y="66" width="368" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="H8Q-gP-5ao">
@@ -5177,7 +5177,7 @@ Gw
                                 </tableHeaderView>
                             </scrollView>
                             <gridView horizontalCompressionResistancePriority="753" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="8uv-Bn-Mbs">
-                                <rect key="frame" x="10" y="218" width="158" height="190"/>
+                                <rect key="frame" x="10" y="386" width="158" height="22"/>
                                 <rows>
                                     <gridRow id="WWQ-jF-Cbg"/>
                                 </rows>
@@ -5189,7 +5189,7 @@ Gw
                                 <gridCells>
                                     <gridCell row="WWQ-jF-Cbg" column="OSD-rf-jgQ" id="UKP-1r-gFR">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pq7-Va-Rfi">
-                                            <rect key="frame" x="-2" y="87" width="77" height="16"/>
+                                            <rect key="frame" x="-2" y="3" width="77" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Play sounds" id="VvU-Sq-nIa">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -5199,7 +5199,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="WWQ-jF-Cbg" column="mDk-TB-t7Z" id="BnY-2K-FeX">
                                         <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="H02-jt-WV7">
-                                            <rect key="frame" x="87" y="82" width="42" height="25"/>
+                                            <rect key="frame" x="87" y="-2" width="42" height="25"/>
                                             <connections>
                                                 <action selector="HandlePlaySoundsChanged:" target="3kb-nH-2hM" id="k3Q-b1-rAf"/>
                                             </connections>
@@ -5207,7 +5207,7 @@ Gw
                                     </gridCell>
                                     <gridCell row="WWQ-jF-Cbg" column="qGu-uP-Ti4" id="q1I-f0-Svh">
                                         <button key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="ZkM-5O-U7x">
-                                            <rect key="frame" x="133" y="83.5" width="25.5" height="24"/>
+                                            <rect key="frame" x="133" y="-0.5" width="25.5" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="25" id="B3C-Sm-VNN"/>
                                                 <constraint firstAttribute="height" constant="20" id="E2x-O1-0sQ"/>
@@ -5314,6 +5314,9 @@ Gw
                             </textField>
                             <gridView xPlacement="leading" yPlacement="top" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="crX-j0-0jx">
                                 <rect key="frame" x="20" y="60" width="568" height="233"/>
+                                <constraints>
+                                    <constraint firstItem="V94-Ca-wUw" firstAttribute="bottom" secondItem="YBk-2t-l4c" secondAttribute="bottom" id="blE-86-KEz"/>
+                                </constraints>
                                 <rows>
                                     <gridRow id="2Oi-E5-ixJ"/>
                                     <gridRow id="bCe-N8-D6O"/>
@@ -5417,8 +5420,11 @@ Gw
                                         </scrollView>
                                     </gridCell>
                                     <gridCell row="bCe-N8-D6O" column="ScH-bH-81K" id="qar-8X-CeX">
-                                        <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="V94-Ca-wUw">
+                                        <gridView key="contentView" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="V94-Ca-wUw">
                                             <rect key="frame" x="266" y="0.0" width="302" height="211"/>
+                                            <constraints>
+                                                <constraint firstItem="6Ne-p1-7er" firstAttribute="top" secondItem="V94-Ca-wUw" secondAttribute="top" id="2IS-QF-iCA"/>
+                                            </constraints>
                                             <rows>
                                                 <gridRow id="bSu-SI-ghi"/>
                                                 <gridRow topPadding="15" id="c4J-xp-JjZ"/>
@@ -5428,7 +5434,7 @@ Gw
                                             </columns>
                                             <gridCells>
                                                 <gridCell row="bSu-SI-ghi" column="sKk-6n-oxZ" id="XXR-Oq-t4Z">
-                                                    <gridView key="contentView" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="6Ne-p1-7er">
+                                                    <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="6Ne-p1-7er">
                                                         <rect key="frame" x="0.0" y="127" width="302" height="84"/>
                                                         <rows>
                                                             <gridRow topPadding="10" id="bTZ-Fr-IAR"/>
