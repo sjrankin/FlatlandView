@@ -3,7 +3,7 @@
 //  Flatland
 //
 //  Created by Stuart Rankin on 10/19/20.
-//  Copyright © 2020 Stuart Rankin. All rights reserved.
+//  Copyright © 2020, 2021 Stuart Rankin. All rights reserved.
 //
 
 import Foundation
@@ -355,6 +355,8 @@ class TimeState
     var Roughness: Double? = nil
     /// The texture for the diffuse surface.
     var DiffuseTexture: NSImage? = nil
+    /// The casts shadow flag.
+    var CastsShadow: Bool? = nil
     
     /// Returns a node state based on current conditions.
     /// - Parameter For: The node state type.
@@ -363,7 +365,7 @@ class TimeState
     {
         let EmitMe = NodeState(State: State, Color: Color, Diffuse: DiffuseTexture, Emission: Emission, 
                                Specular: Specular, LightModel: LightingModel, Metalness: Metalness,
-                               Roughness: Roughness)
+                               Roughness: Roughness, CastsShadow: CastsShadow)
         return EmitMe
     }
 }
