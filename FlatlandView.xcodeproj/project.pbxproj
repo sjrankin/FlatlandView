@@ -320,6 +320,7 @@
 		17BD9E8224867D400054B25E /* ConfirmDialogWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */; };
 		17BD9E8424867D5E0054B25E /* ConfirmDialogCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */; };
 		17BD9E8624867DB60054B25E /* ConfirmProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BD9E8524867DB60054B25E /* ConfirmProtocol.swift */; };
+		17C0D28E261178C600B15771 /* +NodeBounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C0D28D261178C600B15771 /* +NodeBounding.swift */; };
 		17C0FD7025316402008F3D05 /* GroundTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C0FD6F25316402008F3D05 /* GroundTrack.swift */; };
 		17C0FD732531648D008F3D05 /* TLE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C0FD722531648D008F3D05 /* TLE.swift */; };
 		17C22C2324EA1CD9006BB3AB /* NASAMapConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C22C2224EA1CD9006BB3AB /* NASAMapConfirmation.swift */; };
@@ -821,6 +822,7 @@
 		17BD9E8124867D400054B25E /* ConfirmDialogWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogWindow.swift; sourceTree = "<group>"; };
 		17BD9E8324867D5E0054B25E /* ConfirmDialogCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogCode.swift; sourceTree = "<group>"; };
 		17BD9E8524867DB60054B25E /* ConfirmProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmProtocol.swift; sourceTree = "<group>"; };
+		17C0D28D261178C600B15771 /* +NodeBounding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+NodeBounding.swift"; sourceTree = "<group>"; };
 		17C0FD6F25316402008F3D05 /* GroundTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroundTrack.swift; sourceTree = "<group>"; };
 		17C0FD722531648D008F3D05 /* TLE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLE.swift; sourceTree = "<group>"; };
 		17C22C2224EA1CD9006BB3AB /* NASAMapConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NASAMapConfirmation.swift; sourceTree = "<group>"; };
@@ -1668,6 +1670,7 @@
 			isa = PBXGroup;
 			children = (
 				17F9B024252069DE00DE0219 /* SCNNode2.swift */,
+				17C0D28D261178C600B15771 /* +NodeBounding.swift */,
 				177709D52592104E0092CDC0 /* +NodeEvents.swift */,
 				17C2F8ED259EE26400BCA628 /* +NodeState.swift */,
 			);
@@ -3029,6 +3032,7 @@
 				17EB790A24AEEE9800BB0473 /* EarthquakeDebugController.swift in Sources */,
 				172BCAD925A4228D00E0BEC5 /* LiveDataStatusController.swift in Sources */,
 				17F5598B25AD835900053314 /* RegionEntryWindow.swift in Sources */,
+				17C0D28E261178C600B15771 /* +NodeBounding.swift in Sources */,
 				17B0B7382546AE3400DC0F03 /* UInt8.swift in Sources */,
 				1727EA5D24B184230051EA3B /* Tree.swift in Sources */,
 				17F1C7DE2543FA1D0046AE33 /* +RectangleEarthquakes.swift in Sources */,
