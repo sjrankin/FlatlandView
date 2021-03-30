@@ -631,13 +631,16 @@ class SCNNode2: SCNNode
     /// - Parameter Metalness: The metalness value of the state. If nil, not used. Defaults to `nil`.
     /// - Parameter Roughness: The roughness value of the state. If nil, not used. Defaults to `nil`.
     /// - Parameter CastsShadow: Sets the value of the `castsShadow` flat. If nil, not used. Defaults to `nil`.
+    /// - Parameter ChildrenToo: If true, child nodes (only of type `SCNNode2`) will also have the passed
+    ///                          state set. If false, child nodes are ignored.
     public func SetState(ForDay: Bool,
                          Color: NSColor,
                          Emission: NSColor? = nil,
                          Model: SCNMaterial.LightingModel = .phong,
                          Metalness: Double? = nil,
                          Roughness: Double? = nil,
-                         CastsShadow: Bool? = nil)
+                         CastsShadow: Bool? = nil,
+                         ChildrenToo: Bool = true)
     {
         if ForDay
         {
@@ -651,6 +654,12 @@ class SCNNode2: SCNNode
                                    Specular: NSColor.white, LightModel: Model, Metalness: Metalness,
                                    Roughness: Roughness, CastsShadow: CastsShadow)
         }
+        for Child in ChildNodes2()
+        {
+            Child.SetState(ForDay: ForDay, Color: Color, Emission: Emission, Model: Model,
+                     Metalness: Metalness, Roughness: Roughness, CastsShadow: CastsShadow,
+                     ChildrenToo: ChildrenToo)
+        }
     }
     
     /// Convenience function to set the state attributes.
@@ -661,13 +670,16 @@ class SCNNode2: SCNNode
     /// - Parameter Metalness: The metalness value of the state. If nil, not used. Defaults to `nil`.
     /// - Parameter Roughness: The roughness value of the state. If nil, not used. Defaults to `nil`.
     /// - Parameter CastsShadow: Sets the value of the `castsShadow` flat. If nil, not used. Defaults to `nil`.
+    /// - Parameter ChildrenToo: If true, child nodes (only of type `SCNNode2`) will also have the passed
+    ///                          state set. If false, child nodes are ignored.
     public func SetState(ForDay: Bool,
                          Diffuse: NSImage,
                          Emission: NSColor? = nil,
                          Model: SCNMaterial.LightingModel = .phong,
                          Metalness: Double? = nil,
                          Roughness: Double? = nil,
-                         CastsShadow: Bool? = nil)
+                         CastsShadow: Bool? = nil,
+                         ChildrenToo: Bool = true)
     {
         if ForDay
         {
@@ -680,6 +692,12 @@ class SCNNode2: SCNNode
             NightState = NodeState(State: .Night, Color: NSColor.black, Diffuse: Diffuse, Emission: Emission,
                                    Specular: NSColor.white, LightModel: Model, Metalness: Metalness,
                                    Roughness: Roughness, CastsShadow: CastsShadow)
+        }
+        for Child in ChildNodes2()
+        {
+            Child.SetState(ForDay: ForDay, Diffuse: Diffuse, Emission: Emission, Model: Model,
+                           Metalness: Metalness, Roughness: Roughness, CastsShadow: CastsShadow,
+                           ChildrenToo: ChildrenToo)
         }
     }
     
@@ -766,6 +784,10 @@ class SCNNode2: SCNNode
                 _IsInDaylight = IsInDay
                 let SomeEvent = IsInDay ? NodeEvents.SwitchToDay : NodeEvents.SwitchToNight
                 TriggerEvent(SomeEvent)
+                for Child in ChildNodes2()
+                {
+                    Child.IsInDaylight = _IsInDaylight
+                }
             }
         }
     }
