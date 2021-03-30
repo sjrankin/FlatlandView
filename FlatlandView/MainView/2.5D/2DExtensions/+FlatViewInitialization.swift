@@ -113,104 +113,50 @@ extension FlatView
                     if self.PreviousCameraDistance != Int(Distance)
                     {
                         self.PreviousCameraDistance = Int(Distance)
-                        self.UpdateViewForCameraLocation(Distance: Distance)
+                        self.UpdateQuakeTextForCameraLocation(Distance: Distance)
+                        self.UpdateCityTextForCameraLocation(Distance: Distance)
                     }
                 }
             }
         }
     }
     
-    /// Update the view depending on the distance of the camera from the center of the scene.
+    /// Update the quake text depending on the distance of the camera from the center of the scene.
     /// - Parameter Distance: The distance from the camera to the center of the scene.
-    func UpdateViewForCameraLocation(Distance: CGFloat)
+    func UpdateQuakeTextForCameraLocation(Distance: CGFloat)
     {
-        var FinalQuakeScale: CGFloat? = nil
-        let QDist = Int(Distance)
-        for (Final, Min, Max) in QuakeScaleMap
+        let QuakeRange = FlatConstants.QuakeMagnitudeScaleHigh.rawValue - FlatConstants.QuakeMagnitudeScaleLow.rawValue
+        var DistPercent = Double(Distance) / Defaults.InitialZ.rawValue
+        if DistPercent > 1.0
         {
-            if QDist >= Min && QDist <= Max
-            {
-                FinalQuakeScale = Final
-                break
-            }
+            DistPercent = 1.0
         }
-        if FinalQuakeScale == nil
-        {
-            FinalQuakeScale = QuakeScaleMap.last!.ScaleLevel
-        }
-        var UpdateQuakes: Bool = true
-        if PreviousQuakeScale == nil
-        {
-            PreviousQuakeScale = FinalQuakeScale
-        }
-        else
-        {
-            if PreviousQuakeScale! == FinalQuakeScale
-            {
-                UpdateQuakes = false
-            }
-            PreviousQuakeScale = FinalQuakeScale
-        }
-        if UpdateQuakes
-        {
-            UpdateQuakeTextNodes(To: FinalQuakeScale!)
-        }
-        
-        var FinalCityScale: CGFloat? = nil
-        let CDist = Int(Distance)
-        for (Final, Min, Max) in CityScaleMap
-        {
-            if CDist >= Min && CDist <= Max
-            {
-                FinalQuakeScale = Final
-                break
-            }
-        }
-        if FinalCityScale == nil
-        {
-            FinalCityScale = CityScaleMap.last!.ScaleLevel
-        }
-        var UpdateCities: Bool = true
-        if PreviousCityScale == nil
-        {
-            PreviousCityScale = FinalCityScale
-        }
-        else
-        {
-            if PreviousCityScale! == FinalCityScale
-            {
-                UpdateCities = false
-            }
-            PreviousCityScale = FinalCityScale
-        }
-        if UpdateCities
-        {
-            UpdateCityTextNodes(To: FinalCityScale!)
-        }
-    }
-    
-    /// Update the scale of earthquake text nodes.
-    /// - Parameter To: The new scale to apply to earthquake text nodes.
-    func UpdateQuakeTextNodes(To Scale: CGFloat)
-    {
+        let FinalQuakeScale = CGFloat(QuakeRange * DistPercent) + CGFloat(FlatConstants.QuakeMagnitudeScaleLow.rawValue)
         for Node in QuakePlane.ChildNodes2()
         {
             if Node.IsTextNode
             {
-                Node.scale = SCNVector3(Scale)
+                Node.scale = SCNVector3(FinalQuakeScale)
             }
         }
     }
     
-    /// Update the scale of city name text nodes.
-    /// - Parameter To: The new scale to apply to city name text nodes.
-    func UpdateCityTextNodes(To Scale: CGFloat)
+    /// Update the city text depending on the distance of the camera from the center of the scene.
+    /// - Parameter Distance: The distance from the camera to the center of the scene.
+    func UpdateCityTextForCameraLocation(Distance: CGFloat)
     {
+        let CityRange = FlatConstants.CityNameScaleHigh.rawValue - FlatConstants.CityNameScaleLow.rawValue
+        var DistPercent = Double(Distance) / Defaults.InitialZ.rawValue
+        if DistPercent > 1.0
+        {
+            DistPercent = 1.0
+        }
+        let FinalCityScale = CGFloat(CityRange * DistPercent) + CGFloat(FlatConstants.CityNameScaleLow.rawValue)
         for Node in CityPlane.ChildNodes2()
         {
             if Node.IsTextNode
             {
-                Node.scale = SCNVector3(Scale)
+                Node.scale = SCNVector3(FinalCityScale)
             }
         }
     }
