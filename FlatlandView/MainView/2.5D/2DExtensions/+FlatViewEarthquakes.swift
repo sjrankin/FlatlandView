@@ -167,6 +167,33 @@ extension FlatView
         PlottedQuake.NodeID = Quake.QuakeID
         PlottedQuake.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
         PlottedQuake.PropagateIDs()
+        PlottedQuake.CanSwitchState = true
+        var BaseColor = NSColor.red
+        let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
+        let Colors = Settings.GetMagnitudeColors()
+        for (Magnitude, Color) in Colors
+        {
+            if Magnitude == MagRange
+            {
+                BaseColor = Color
+            }
+        }
+        PlottedQuake.SetState(ForDay: true,
+                              Color: BaseColor,
+                              Emission: nil,
+                              Model: .lambert,
+                              CastsShadow: true,
+                              ChildrenToo: true)
+        PlottedQuake.SetState(ForDay: false,
+                              Color: BaseColor,
+                              Emission: nil,
+                              Model: .lambert,
+                              CastsShadow: false,
+                              ChildrenToo: true)
+        if let IsInDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
+        {
+            PlottedQuake.IsInDaylight = IsInDay
+        }
         
         let MagShape = SCNText(string: "\(Quake.Magnitude.RoundedTo(1))",
                                extrusionDepth: CGFloat(FlatConstants.CityNameExtrusionDepth.rawValue))
@@ -176,7 +203,7 @@ extension FlatView
         MagNode.position = PlottedQuake.position
         MagNode.IsTextNode = true
         MagNode.name = NodeNames2D.Earthquake.rawValue
-        MagNode.scale = SCNVector3(FlatConstants.QuakeMagnitudeScale.rawValue)
+        MagNode.scale = SCNVector3(FlatConstants.QuakeMagnitudeScaleHigh.rawValue)
         let BoundingHeight = MagNode.boundingBox.max.y - MagNode.boundingBox.min.y
         let BoundingWidth = MagNode.boundingBox.max.x - MagNode.boundingBox.min.x
         MagNode.pivot = SCNMatrix4MakeTranslation(BoundingWidth / 2.0,
