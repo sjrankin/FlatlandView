@@ -13,6 +13,7 @@ extension MainController
 {
     // MARK: - Main Timer
     
+    /// Usually called once a second. Handles the primary clock and updating of 3D objects.
     @objc func MainTimerHandler()
     {
         let LabelType = Settings.GetEnum(ForKey: .TimeLabel, EnumType: TimeLabels.self, Default: .None)
@@ -100,7 +101,6 @@ extension MainController
                 {
                     Main3DView.FlashAllHours(Count: 3)
                     Main2DView.FlashAllHours(Count: 3)
-//                    Main3DView.FlashHoursInSequence(Count: 3)
                     HourSoundTriggered = true
                     SoundManager.Play(ForEvent: .HourChime)
                 }
