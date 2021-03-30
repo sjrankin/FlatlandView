@@ -340,7 +340,8 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         {
             self.pointOfView?.constraints = []
         }
-        UpdateViewForCameraLocation(Distance: 175.0)
+        UpdateQuakeTextForCameraLocation(Distance: CGFloat(Defaults.InitialZ.rawValue))
+        UpdateCityTextForCameraLocation(Distance: CGFloat(Defaults.InitialZ.rawValue))
     }
     
     /// Update the lights to show or hide shadows in 2D mode.
@@ -431,21 +432,4 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var CameraRotation: SCNVector4? = nil
     var PreviousCameraDistance: Int? = nil
     var PreviousQuakeScale: CGFloat? = nil
-    let QuakeScaleMap: [(ScaleLevel: CGFloat, Min: Int, Max: Int)] =
-        [
-            (0.005, 0, 20),
-            (0.008, 21, 50),
-            (0.010, 51, 100),
-            (0.0125, 101, 120),
-            (CGFloat(FlatConstants.QuakeMagnitudeScale.rawValue), 121, 10000)
-        ]
-    var PreviousCityScale: CGFloat? = nil
-    let CityScaleMap: [(ScaleLevel: CGFloat, Min: Int, Max: Int)] =
-        [
-            (0.003, 0, 20),
-            (0.005, 21, 50),
-            (0.0065, 51, 100),
-            (0.085, 101, 120),
-            (CGFloat(FlatConstants.CityNameScale.rawValue), 121, 10000)
-        ]
 }
