@@ -280,10 +280,10 @@ extension FlatView
         NameNode.eulerAngles = SCNVector3(0.0.Radians, 0.0.Radians, ZRotate.Radians)
         NameNode.position = SCNVector3(PointX, PointY, FlatConstants.CityNameZHeight.rawValue)
         NameNode.categoryBitMask = LightMasks2D.Polar.rawValue
-        NameNode.scale = SCNVector3(FlatConstants.CityNameScale.rawValue)
+        NameNode.scale = SCNVector3(FlatConstants.CityNameScaleHigh.rawValue)
         NameNode.castsShadow = false
         NameNode.CanSwitchState = true
-        NameNode.SetState(ForDay: true, Color: NSColor.BlackGray, Emission: nil, Model: .lambert)
+        NameNode.SetState(ForDay: true, Color: NSColor.PrussianBlue, Emission: nil, Model: .lambert)
         NameNode.SetState(ForDay: false, Color: NSColor.blue, Emission: NSColor.systemTeal, Model: .lambert)
         if let IsInDay = Solar.IsInDaylight(Latitude, Longitude)
         {
