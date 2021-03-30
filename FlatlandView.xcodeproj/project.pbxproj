@@ -500,8 +500,37 @@
 		17FC2213249879BE005A0929 /* EarthquakeData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17FC2212249879BE005A0929 /* EarthquakeData.storyboard */; };
 		17FE3BE1256F74D500451F9F /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE3BE0256F74D500451F9F /* LocationController.swift */; };
 		17FE3BE4256F74F300451F9F /* LocationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE3BE3256F74F300451F9F /* LocationWindow.swift */; };
+		17FEFB282611F4C900B01F7C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17FEFAFA2611F3E800B01F7C /* WidgetKit.framework */; };
+		17FEFB292611F4C900B01F7C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17FEFAFC2611F3E800B01F7C /* SwiftUI.framework */; };
+		17FEFB2C2611F4C900B01F7C /* FlatlandWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FEFB2B2611F4C900B01F7C /* FlatlandWidget.swift */; };
+		17FEFB2E2611F4CA00B01F7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17FEFB2D2611F4CA00B01F7C /* Assets.xcassets */; };
+		17FEFB332611F4CA00B01F7C /* FlatlandWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 17FEFB272611F4C900B01F7C /* FlatlandWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		17FFF8CC2567ED04008B50AD /* +Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FFF8CB2567ED04008B50AD /* +Axes.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		17FEFB312611F4CA00B01F7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1767A8D824794A0100C434B5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 17FEFB262611F4C900B01F7C;
+			remoteInfo = FlatlandWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		17FEFB0E2611F3E900B01F7C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				17FEFB332611F4CA00B01F7C /* FlatlandWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		17000B4B251ADF22009CF3B7 /* EnumConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumConstants.swift; sourceTree = "<group>"; };
@@ -1008,6 +1037,13 @@
 		17FC2212249879BE005A0929 /* EarthquakeData.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EarthquakeData.storyboard; sourceTree = "<group>"; };
 		17FE3BE0256F74D500451F9F /* LocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
 		17FE3BE3256F74F300451F9F /* LocationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWindow.swift; sourceTree = "<group>"; };
+		17FEFAFA2611F3E800B01F7C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		17FEFAFC2611F3E800B01F7C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		17FEFB272611F4C900B01F7C /* FlatlandWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FlatlandWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		17FEFB2B2611F4C900B01F7C /* FlatlandWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlandWidget.swift; sourceTree = "<group>"; };
+		17FEFB2D2611F4CA00B01F7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		17FEFB2F2611F4CA00B01F7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		17FEFB302611F4CA00B01F7C /* FlatlandWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandWidget.entitlements; sourceTree = "<group>"; };
 		17FFF8CB2567ED04008B50AD /* +Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Axes.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1017,6 +1053,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				17E5EF5124F0DE2C00665167 /* libc++abi.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		17FEFB242611F4C900B01F7C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17FEFB292611F4C900B01F7C /* SwiftUI.framework in Frameworks */,
+				17FEFB282611F4C900B01F7C /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1524,6 +1569,7 @@
 				174DCEBF25D3B950002D4E40 /* MappableS.db */,
 				17E0E35725E5FA3700291823 /* Settings.db */,
 				1767A8E224794A0100C434B5 /* FlatlandView */,
+				17FEFB2A2611F4C900B01F7C /* FlatlandWidget */,
 				1767A8E124794A0100C434B5 /* Products */,
 				17E5EF4F24F0DBC500665167 /* Frameworks */,
 			);
@@ -1533,6 +1579,7 @@
 			isa = PBXGroup;
 			children = (
 				1767A8E024794A0100C434B5 /* Flatland.app */,
+				17FEFB272611F4C900B01F7C /* FlatlandWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2164,6 +2211,8 @@
 				17E5EF5424F0DFB300665167 /* libsystem_info.tbd */,
 				17E5EF5224F0DF1800665167 /* Kernel.framework */,
 				17E5EF5024F0DBC600665167 /* libc++abi.tbd */,
+				17FEFAFA2611F3E800B01F7C /* WidgetKit.framework */,
+				17FEFAFC2611F3E800B01F7C /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2518,6 +2567,17 @@
 			path = LiveDataView;
 			sourceTree = "<group>";
 		};
+		17FEFB2A2611F4C900B01F7C /* FlatlandWidget */ = {
+			isa = PBXGroup;
+			children = (
+				17FEFB2B2611F4C900B01F7C /* FlatlandWidget.swift */,
+				17FEFB2D2611F4CA00B01F7C /* Assets.xcassets */,
+				17FEFB2F2611F4CA00B01F7C /* Info.plist */,
+				17FEFB302611F4CA00B01F7C /* FlatlandWidget.entitlements */,
+			);
+			path = FlatlandWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2529,15 +2589,34 @@
 				1767A8DC24794A0100C434B5 /* Sources */,
 				1767A8DD24794A0100C434B5 /* Frameworks */,
 				1767A8DE24794A0100C434B5 /* Resources */,
+				17FEFB0E2611F3E900B01F7C /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				17FEFB322611F4CA00B01F7C /* PBXTargetDependency */,
 			);
 			name = Flatland;
 			productName = FlatlandView;
 			productReference = 1767A8E024794A0100C434B5 /* Flatland.app */;
 			productType = "com.apple.product-type.application";
+		};
+		17FEFB262611F4C900B01F7C /* FlatlandWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17FEFB342611F4CA00B01F7C /* Build configuration list for PBXNativeTarget "FlatlandWidgetExtension" */;
+			buildPhases = (
+				17FEFB232611F4C900B01F7C /* Sources */,
+				17FEFB242611F4C900B01F7C /* Frameworks */,
+				17FEFB252611F4C900B01F7C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FlatlandWidgetExtension;
+			productName = FlatlandWidgetExtension;
+			productReference = 17FEFB272611F4C900B01F7C /* FlatlandWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -2545,13 +2624,16 @@
 		1767A8D824794A0100C434B5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Stuart Rankin";
 				TargetAttributes = {
 					1767A8DF24794A0100C434B5 = {
 						CreatedOnToolsVersion = 11.5;
 						LastSwiftMigration = 1200;
+					};
+					17FEFB262611F4C900B01F7C = {
+						CreatedOnToolsVersion = 12.5;
 					};
 				};
 			};
@@ -2569,6 +2651,7 @@
 			projectRoot = "";
 			targets = (
 				1767A8DF24794A0100C434B5 /* Flatland */,
+				17FEFB262611F4C900B01F7C /* FlatlandWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -2617,6 +2700,14 @@
 				178909C7250E0DCB0092E3A4 /* Main.storyboard in Resources */,
 				174DCEBE25D3B949002D4E40 /* EarthquakeHistoryS.db in Resources */,
 				179EB783254FE43500AADAAD /* PreferencePanel.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		17FEFB252611F4C900B01F7C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17FEFB2E2611F4CA00B01F7C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3104,7 +3195,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		17FEFB232611F4C900B01F7C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17FEFB2C2611F4C900B01F7C /* FlatlandWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		17FEFB322611F4CA00B01F7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 17FEFB262611F4C900B01F7C /* FlatlandWidgetExtension */;
+			targetProxy = 17FEFB312611F4CA00B01F7C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1767A8EE24794A0300C434B5 /* Debug */ = {
@@ -3227,6 +3334,7 @@
 		1767A8F124794A0300C434B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_CXX0X_EXTENSIONS = YES;
@@ -3262,6 +3370,7 @@
 		1767A8F224794A0300C434B5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_CXX0X_EXTENSIONS = YES;
@@ -3289,6 +3398,54 @@
 			};
 			name = Release;
 		};
+		17FEFB352611F4CA00B01F7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = FlatlandWidget/FlatlandWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4BB235M4GL;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = FlatlandWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.2;
+				PRODUCT_BUNDLE_IDENTIFIER = Irorio.FlatlandView.FlatlandWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		17FEFB362611F4CA00B01F7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = FlatlandWidget/FlatlandWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4BB235M4GL;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = FlatlandWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.2;
+				PRODUCT_BUNDLE_IDENTIFIER = Irorio.FlatlandView.FlatlandWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3306,6 +3463,15 @@
 			buildConfigurations = (
 				1767A8F124794A0300C434B5 /* Debug */,
 				1767A8F224794A0300C434B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17FEFB342611F4CA00B01F7C /* Build configuration list for PBXNativeTarget "FlatlandWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17FEFB352611F4CA00B01F7C /* Debug */,
+				17FEFB362611F4CA00B01F7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
