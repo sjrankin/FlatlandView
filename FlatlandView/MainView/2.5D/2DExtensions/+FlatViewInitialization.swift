@@ -102,8 +102,12 @@ extension FlatView
             (Node, Change) in
             OperationQueue.current?.addOperation
             {
+                #if true
+                let Distance = self.CameraDistance(POV: Node.pointOfView!)
+                #else
                 let Location = Node.pointOfView!.position
                 let Distance = sqrt((Location.x * Location.x) + (Location.y * Location.y) + (Location.z * Location.z))
+                #endif
                 if self.PreviousCameraDistance == nil
                 {
                     self.PreviousCameraDistance = Int(Distance)
@@ -121,9 +125,22 @@ extension FlatView
         }
     }
     
-    /// Update the quake text depending on the distance of the camera from the center of the scene.
-    /// - Parameter Distance: The distance from the camera to the center of the scene.
-    func UpdateQuakeTextForCameraLocation(Distance: CGFloat)
+    /// Given the point-of-view node, return the distance from it to the center of the scene.
+    /// - Parameter POV: The point-of-view node. This code will work for any node to the center but is assumed
+    ///                  to be intended for the point-of-view node.
+    /// - Returns: Distance to the center of the scene from the passed node.
+    func CameraDistance(POV Node: SCNNode) -> CGFloat
+    {
+        let Location = Node.position
+        let Distance = sqrt((Location.x * Location.x) + (Location.y * Location.y) + (Location.z * Location.z))
+        return Distance
+    }
+    
+    /// Calculates the scale value for earthquake magnitude objects based on the distance from the point-of
+    /// view node to the center of the scene.
+    /// - Parameter From: The distance from the point-of-view node to the center of the scene.
+    /// - Returns: The scale value to use for earthquake magnitude objects.
+    func GetQuakeTextScale(From Distance: CGFloat) -> CGFloat
     {
         let QuakeRange = FlatConstants.QuakeMagnitudeScaleHigh.rawValue - FlatConstants.QuakeMagnitudeScaleLow.rawValue
         var DistPercent = Double(Distance) / Defaults.InitialZ.rawValue
@@ -132,6 +149,14 @@ extension FlatView
             DistPercent = 1.0
         }
         let FinalQuakeScale = CGFloat(QuakeRange * DistPercent) + CGFloat(FlatConstants.QuakeMagnitudeScaleLow.rawValue)
+        return FinalQuakeScale
+    }
+    
+    /// Update the quake text depending on the distance of the camera from the center of the scene.
+    /// - Parameter Distance: The distance from the camera to the center of the scene.
+    func UpdateQuakeTextForCameraLocation(Distance: CGFloat)
+    {
+        let FinalQuakeScale = GetQuakeTextScale(From: Distance)
         for Node in QuakePlane.ChildNodes2()
         {
             if Node.IsTextNode
@@ -141,9 +166,11 @@ extension FlatView
         }
     }
     
-    /// Update the city text depending on the distance of the camera from the center of the scene.
-    /// - Parameter Distance: The distance from the camera to the center of the scene.
-    func UpdateCityTextForCameraLocation(Distance: CGFloat)
+    /// Calculates the scale value for city name objects based on the distance from the point-of
+    /// view node to the center of the scene.
+    /// - Parameter From: The distance from the point-of-view node to the center of the scene.
+    /// - Returns: The scale value to use for city name objects.
+    func GetCityTextScale(From Distance: CGFloat) -> CGFloat
     {
         let CityRange = FlatConstants.CityNameScaleHigh.rawValue - FlatConstants.CityNameScaleLow.rawValue
         var DistPercent = Double(Distance) / Defaults.InitialZ.rawValue
@@ -152,6 +179,14 @@ extension FlatView
             DistPercent = 1.0
         }
         let FinalCityScale = CGFloat(CityRange * DistPercent) + CGFloat(FlatConstants.CityNameScaleLow.rawValue)
+        return FinalCityScale
+    }
+    
+    /// Update the city text depending on the distance of the camera from the center of the scene.
+    /// - Parameter Distance: The distance from the camera to the center of the scene.
+    func UpdateCityTextForCameraLocation(Distance: CGFloat)
+    {
+        let FinalCityScale = GetCityTextScale(From: Distance)
         for Node in CityPlane.ChildNodes2()
         {
             if Node.IsTextNode
