@@ -203,17 +203,26 @@ extension FlatView
         MagNode.position = PlottedQuake.position
         MagNode.IsTextNode = true
         MagNode.name = NodeNames2D.Earthquake.rawValue
-        MagNode.scale = SCNVector3(FlatConstants.QuakeMagnitudeScaleHigh.rawValue)
+        if let POV = pointOfView
+        {
+            let Distance = CameraDistance(POV: POV)
+            let UseScale = GetQuakeTextScale(From: Distance)
+            MagNode.scale = SCNVector3(UseScale)
+        }
+        else
+        {
+            MagNode.scale = SCNVector3(FlatConstants.QuakeMagnitudeScaleHigh.rawValue)
+        }
         let BoundingHeight = MagNode.boundingBox.max.y - MagNode.boundingBox.min.y
         let BoundingWidth = MagNode.boundingBox.max.x - MagNode.boundingBox.min.x
         MagNode.pivot = SCNMatrix4MakeTranslation(BoundingWidth / 2.0,
-                                                   BoundingHeight * 2.0,
-                                                   0.0)
+                                                  BoundingHeight * 2.0,
+                                                  0.0)
         MagNode.pivot = SCNMatrix4Rotate(MagNode.pivot,
-                                          CGFloat(180.0.Radians),
-                                          0.0,
-                                          0.0,
-                                          1.0)
+                                         CGFloat(180.0.Radians),
+                                         0.0,
+                                         0.0,
+                                         1.0)
         let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
         var LongitudeAdjustment = -1.0
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
@@ -333,7 +342,7 @@ extension FlatView
         ENode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         if Invert
         {
-        ENode.eulerAngles = SCNVector3(-90.0.Radians, 180.0.Radians, 0.0)
+            ENode.eulerAngles = SCNVector3(-90.0.Radians, 180.0.Radians, 0.0)
         }
         else
         {
@@ -505,28 +514,28 @@ extension FlatView
         CenterNode.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         CenterNode.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
         ENode.addChildNode(CenterNode)
-
-         let Node1 = SCNNode2(geometry: Cone1)
-         Node1.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
-         Node1.position = SCNVector3(0.0, FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0)
-         Node1.eulerAngles = SCNVector3(45.0.Radians, 0.0, 0.0)
-         ENode.addChildNode(Node1)
-         let Node2 = SCNNode2(geometry: Cone2)
-         Node2.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
-         Node2.position = SCNVector3(0.0, -FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0)
-         Node2.eulerAngles = SCNVector3(135.0.Radians, 0.0, 0.0)
-         ENode.addChildNode(Node2)
-         let Node3 = SCNNode2(geometry: Cone3)
-         Node3.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
-         Node3.position = SCNVector3(-FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0, 0.0)
-         Node3.eulerAngles = SCNVector3(45.0.Radians, 0.0, 90.0.Radians)
-         ENode.addChildNode(Node3)
-         let Node4 = SCNNode2(geometry: Cone4)
-         Node4.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
-         Node4.position = SCNVector3(FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0, 0.0)
-         Node4.eulerAngles = SCNVector3(135.0.Radians, 0.0, 90.0.Radians)
-         ENode.addChildNode(Node4)
-
+        
+        let Node1 = SCNNode2(geometry: Cone1)
+        Node1.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
+        Node1.position = SCNVector3(0.0, FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0)
+        Node1.eulerAngles = SCNVector3(45.0.Radians, 0.0, 0.0)
+        ENode.addChildNode(Node1)
+        let Node2 = SCNNode2(geometry: Cone2)
+        Node2.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
+        Node2.position = SCNVector3(0.0, -FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0)
+        Node2.eulerAngles = SCNVector3(135.0.Radians, 0.0, 0.0)
+        ENode.addChildNode(Node2)
+        let Node3 = SCNNode2(geometry: Cone3)
+        Node3.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
+        Node3.position = SCNVector3(-FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0, 0.0)
+        Node3.eulerAngles = SCNVector3(45.0.Radians, 0.0, 90.0.Radians)
+        ENode.addChildNode(Node3)
+        let Node4 = SCNNode2(geometry: Cone4)
+        Node4.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
+        Node4.position = SCNVector3(FlatConstants.SubEarthquakeNodeShift.rawValue, 0.0, 0.0)
+        Node4.eulerAngles = SCNVector3(135.0.Radians, 0.0, 90.0.Radians)
+        ENode.addChildNode(Node4)
+        
         ENode.scale = SCNVector3(NodeScales2D.EarthquakeScale.rawValue)
         ENode.position = SCNVector3(PointX,
                                     PointY,
