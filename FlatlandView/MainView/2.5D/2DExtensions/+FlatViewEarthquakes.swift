@@ -239,6 +239,8 @@ extension FlatView
         MagNode.eulerAngles = SCNVector3(0.0.Radians, 0.0.Radians, ZRotate.Radians)
         MagNode.castsShadow = false
         MagNode.CanSwitchState = true
+        MagNode.Latitude = Quake.Latitude
+        MagNode.Longitude = Quake.Longitude
         MagNode.SetState(ForDay: true, Color: NSColor.red, Emission: nil, Model: .lambert)
         MagNode.SetState(ForDay: false, Color: NSColor.orange, Emission: NSColor.yellow, Model: .lambert)
         if let IsInDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
