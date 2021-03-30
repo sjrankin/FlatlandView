@@ -280,7 +280,16 @@ extension FlatView
         NameNode.eulerAngles = SCNVector3(0.0.Radians, 0.0.Radians, ZRotate.Radians)
         NameNode.position = SCNVector3(PointX, PointY, FlatConstants.CityNameZHeight.rawValue)
         NameNode.categoryBitMask = LightMasks2D.Polar.rawValue
-        NameNode.scale = SCNVector3(FlatConstants.CityNameScaleHigh.rawValue)
+        if let POV = pointOfView
+        {
+            let Distance = CameraDistance(POV: POV)
+            let UseScale = GetCityTextScale(From: Distance)
+            NameNode.scale = SCNVector3(UseScale)
+        }
+        else
+        {
+            NameNode.scale = SCNVector3(FlatConstants.CityNameScaleHigh.rawValue)
+        }
         NameNode.castsShadow = false
         NameNode.CanSwitchState = true
         NameNode.SetState(ForDay: true, Color: NSColor.PrussianBlue, Emission: nil, Model: .lambert)
