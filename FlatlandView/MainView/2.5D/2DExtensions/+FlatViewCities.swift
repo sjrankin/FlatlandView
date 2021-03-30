@@ -292,6 +292,8 @@ extension FlatView
         }
         NameNode.castsShadow = false
         NameNode.CanSwitchState = true
+        NameNode.Longitude = Longitude
+        NameNode.Latitude = Latitude
         NameNode.SetState(ForDay: true, Color: NSColor.PrussianBlue, Emission: nil, Model: .lambert)
         NameNode.SetState(ForDay: false, Color: NSColor.blue, Emission: NSColor.systemTeal, Model: .lambert)
         if let IsInDay = Solar.IsInDaylight(Latitude, Longitude)
