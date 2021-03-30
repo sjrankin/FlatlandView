@@ -213,8 +213,10 @@ enum FlatConstants: Double, CaseIterable
     case WallClockLineWidth = 1.000006
     /// Width of normal grid lines.
     case GridLineWidth = 2.000034
-    /// Scale multiplier for city name nodes.
-    case CityNameScale = 0.010002
+    /// High scale multiplier for city name nodes.
+    case CityNameScaleHigh = 0.010002
+    /// Low scale multiplier for city name names.
+    case CityNameScaleLow = 0.003
     /// Close (it does not have to be exact) inverted value of `CityNameScale`.
     case CityNameScaleInverse = 150.04
     /// Font size for city names.
@@ -224,9 +226,11 @@ enum FlatConstants: Double, CaseIterable
     /// Z coordinate for city names.
     case CityNameZHeight = 0.1048232
     /// Font size for quake magnitude values.
-    case QuakeFontSize = 52.0
-    /// Quake magnitude node scale value.
-    case QuakeMagnitudeScale = 0.015
+    case QuakeFontSize = 56.0
+    /// Quake magnitude node scale high value.
+    case QuakeMagnitudeScaleHigh = 0.015
+    /// Quake magnitude node scale low value.
+    case QuakeMagnitudeScaleLow = 0.005
 }
 
 // MARK: - Rectangle view constants.
