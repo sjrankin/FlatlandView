@@ -9,10 +9,20 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>FlatlandWidgetExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>1767A8DF24794A0100C434B5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>17FEFAF82611F3E800B01F7C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
