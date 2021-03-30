@@ -69,6 +69,9 @@ extension FlatView
         }
     }
     
+    /// Make a pop-over window at the specified location for the specified item.
+    /// - Parameter At: The location where to display the pop-over window.
+    /// - Parameter For: The item for which information will be displayed.
     func MakePopOver(At: CGPoint, For: DisplayItem)
     {
         if let PopController = NSStoryboard(name: "Popovers", bundle: nil).instantiateController(withIdentifier: "POIPopover") as? POIPopover
@@ -127,6 +130,7 @@ extension FlatView
                                                                 Angle: InitialAngle,
                                                                 NorthCenter: Mode == .FlatNorthCenter,
                                                                 ThetaValue: &Theta)
+                    let FinalLat = Lat
                     var FinalLon = Lon
                     if FinalLon > 180.0
                     {
@@ -163,26 +167,38 @@ extension FlatView
                             }
                         }
                     }
-                    MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLon, Caller: "Round")
+                    MouseIndicator?.Latitude = FinalLat
+                    MouseIndicator?.Longitude = FinalLon
+                    //MainDelegate?.MouseAtLocation(Latitude: Lat, Longitude: FinalLon, Caller: "Round")
                 }
             }
         }
     }
     
+    /// Make a mouse indicator to show the user where the mouse is over the Earth.
+    /// - Returns: A shape to be used as a mouse indicator.
     func MakeMouseIndicator() -> SCNNode2
     {
-        let top = SCNCone(topRadius: 0.0, bottomRadius: 0.25, height: 0.5)
-        let bottom = SCNCone(topRadius: 0.25, bottomRadius: 0.0, height: 0.5)
-        let topnode = SCNNode2(geometry: top)
-        let bottomnode = SCNNode2(geometry: bottom)
-        topnode.categoryBitMask = LightMasks2D.Polar.rawValue
-        bottomnode.categoryBitMask = LightMasks2D.Polar.rawValue
-        topnode.position = SCNVector3(0.0, 0.5, 0.0)
-        topnode.geometry?.firstMaterial?.diffuse.contents = NSColor.systemOrange
-        bottomnode.geometry?.firstMaterial?.diffuse.contents = NSColor.yellow
-        let final = SCNNode2()
-        final.addChildNode(topnode)
-        final.addChildNode(bottomnode)
-        return final
+        let Top = SCNCone(topRadius: 0.0, bottomRadius: 0.25, height: 0.5)
+        let Bottom = SCNCone(topRadius: 0.25, bottomRadius: 0.0, height: 0.5)
+        let TopNode = SCNNode2(geometry: Top)
+        let BottomNode = SCNNode2(geometry: Bottom)
+        TopNode.categoryBitMask = LightMasks2D.Polar.rawValue
+        BottomNode.categoryBitMask = LightMasks2D.Polar.rawValue
+        TopNode.position = SCNVector3(0.0, 0.5, 0.0)
+        TopNode.geometry?.firstMaterial?.diffuse.contents = NSColor.systemOrange
+        BottomNode.geometry?.firstMaterial?.diffuse.contents = NSColor.yellow
+        
+        TopNode.SetState(ForDay: true, Color: NSColor.orange, Emission: nil, CastsShadow: true)
+        TopNode.SetState(ForDay: false, Color: NSColor.orange, Emission: NSColor.orange, CastsShadow: false)
+        TopNode.IsInDaylight = true
+        BottomNode.SetState(ForDay: true, Color: NSColor.yellow, Emission: nil, CastsShadow: true)
+        BottomNode.SetState(ForDay: false, Color: NSColor.yellow, Emission: NSColor.yellow, CastsShadow: false)
+        BottomNode.IsInDaylight = true
+        
+        let Final = SCNNode2()
+        Final.addChildNode(TopNode)
+        Final.addChildNode(BottomNode)
+        return Final
     }
 }
