@@ -14,17 +14,6 @@ extension MainController
     /// Get initialization data from the run-time environment.
     func InitializationFromEnvironment()
     {
-        #if false
-        if let EnableNASATiles = ProcessInfo.processInfo.environment[EnvironmentVars.SatelliteMaps.rawValue]
-        {
-            let DoEnable = EnableNASATiles.lowercased() == "yes" ? true : false
-            Settings.SetBool(.EnableNASATiles, DoEnable)
-        }
-        else
-        {
-            Settings.SetBool(.EnableNASATiles, true)
-        }
-        #endif
     }
     
     /// Initialize program data.
