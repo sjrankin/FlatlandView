@@ -248,6 +248,53 @@ extension FlatView
         
         QuakePlane.addChildNode(MagNode)
         QuakePlane.addChildNode(PlottedQuake)
+        if let Indicator = MakeQuakeIndicator(Quake, Radius: Radius)
+        {
+            QuakePlane.addChildNode(Indicator)
+        }
+    }
+    
+    func MakeQuakeIndicator(_ Quake: Earthquake, Radius: Double) -> SCNNode2?
+    {
+        let HowRecent = Settings.GetEnum(ForKey: .RecentEarthquakeDefinition, EnumType: EarthquakeRecents.self,
+                                         Default: .Day1)
+        if let RecentSeconds = RecentMap[HowRecent]
+        {
+            if Quake.GetAge() > RecentSeconds
+            {
+                return nil
+            }
+        }
+        let DiscShape = SCNCylinder(radius: 0.5, height: 0.1)
+        let Disc = SCNNode2(geometry: DiscShape)
+        Disc.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
+        Disc.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "SectorGridRed")
+        Disc.name = NodeNames2D.Earthquake.rawValue
+        Disc.castsShadow = false
+        let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
+        var LongitudeAdjustment = -1.0
+        if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter) == .FlatSouthCenter
+        {
+            LongitudeAdjustment = 1.0
+        }
+        var Distance = Geometry.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
+        let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
+        Distance = Distance * Ratio
+        var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
+        LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
+        let PointX = Distance * cos(LocationBearing)
+        let PointY = Distance * sin(LocationBearing)
+        Disc.position = SCNVector3(PointX, PointY, 0.1)
+        Disc.eulerAngles = SCNVector3(90.0.Radians, 0.0, 0.0)
+        let MagPercent = 1.0 - (Quake.Magnitude / 10.0)
+        let Duration = 4.0 * MagPercent
+        var RotateBy = (180.0 * LongitudeAdjustment).Radians
+        RotateBy = RotateBy * Quake.Latitude < 0.0 ? -1.0 : 1.0
+        let Rotate = SCNAction.rotateBy(x: 0.0, y: 0.0, z: CGFloat(RotateBy),
+                                        duration: Duration)
+        let Forever = SCNAction.repeatForever(Rotate)
+        Disc.runAction(Forever)
+        return Disc
     }
     
     /// Plot one earthquake.
