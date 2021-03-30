@@ -142,35 +142,29 @@ extension FlatView
     /// - Note: Shapes in `QuakePlane` and `CityPlane` are updated.
     @objc func UpdateNodesForSunlight()
     {
-        QuakePlane.ForEachChild
+        QuakePlane.ForEachChild2
         {
             Node in
-            if Node != nil
+            if Node.CanSwitchState && Node.HasLocation()
             {
-                if Node!.CanSwitchState && Node!.HasLocation()
+                let NodeLocation = GeoPoint(Node.Latitude!, Node.Longitude!)
+                NodeLocation.CurrentTime = Date()
+                if let SunIsVisible = Solar.IsInDaylight(Node.Latitude!, Node.Longitude!)
                 {
-                let NodeLocation = GeoPoint(Node!.Latitude!, Node!.Longitude!)
-                    NodeLocation.CurrentTime = Date()
-                    if let SunIsVisible = Solar.IsInDaylight(Node!.Latitude!, Node!.Longitude!)
-                    {
-                        Node!.IsInDaylight = SunIsVisible
-                    }
+                    Node.IsInDaylight = SunIsVisible
                 }
             }
         }
-        CityPlane.ForEachChild
+        CityPlane.ForEachChild2
         {
             Node in
-            if Node != nil
+            if Node.CanSwitchState && Node.HasLocation()
             {
-                if Node!.CanSwitchState && Node!.HasLocation()
+                let NodeLocation = GeoPoint(Node.Latitude!, Node.Longitude!)
+                NodeLocation.CurrentTime = Date()
+                if let SunIsVisible = Solar.IsInDaylight(Node.Latitude!, Node.Longitude!)
                 {
-                    let NodeLocation = GeoPoint(Node!.Latitude!, Node!.Longitude!)
-                    NodeLocation.CurrentTime = Date()
-                    if let SunIsVisible = Solar.IsInDaylight(Node!.Latitude!, Node!.Longitude!)
-                    {
-                        Node!.IsInDaylight = SunIsVisible
-                    }
+                    Node.IsInDaylight = SunIsVisible
                 }
             }
         }
