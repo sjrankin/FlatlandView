@@ -123,6 +123,57 @@ extension FlatView
                 }
             }
         }
+        
+        StartDarknessClock()
+    }
+    
+    /// Start the darkness clock to update node states depending on whether the node is in the sun or not.
+    func StartDarknessClock()
+    {
+        DarknessClock = Timer.scheduledTimer(timeInterval: HourConstants.DaylightCheckInterval.rawValue,
+                                             target: self,
+                                             selector: #selector(UpdateNodesForSunlight),
+                                             userInfo: nil,
+                                             repeats: true)
+        UpdateNodesForSunlight()
+    }
+    
+    /// Update nodes in the map for sunlight for those nodes that may need to change state.
+    /// - Note: Shapes in `QuakePlane` and `CityPlane` are updated.
+    @objc func UpdateNodesForSunlight()
+    {
+        QuakePlane.ForEachChild
+        {
+            Node in
+            if Node != nil
+            {
+                if Node!.CanSwitchState && Node!.HasLocation()
+                {
+                let NodeLocation = GeoPoint(Node!.Latitude!, Node!.Longitude!)
+                    NodeLocation.CurrentTime = Date()
+                    if let SunIsVisible = Solar.IsInDaylight(Node!.Latitude!, Node!.Longitude!)
+                    {
+                        Node!.IsInDaylight = SunIsVisible
+                    }
+                }
+            }
+        }
+        CityPlane.ForEachChild
+        {
+            Node in
+            if Node != nil
+            {
+                if Node!.CanSwitchState && Node!.HasLocation()
+                {
+                    let NodeLocation = GeoPoint(Node!.Latitude!, Node!.Longitude!)
+                    NodeLocation.CurrentTime = Date()
+                    if let SunIsVisible = Solar.IsInDaylight(Node!.Latitude!, Node!.Longitude!)
+                    {
+                        Node!.IsInDaylight = SunIsVisible
+                    }
+                }
+            }
+        }
     }
     
     /// Given the point-of-view node, return the distance from it to the center of the scene.
