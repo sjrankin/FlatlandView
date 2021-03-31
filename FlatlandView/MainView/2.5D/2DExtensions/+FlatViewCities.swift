@@ -255,6 +255,8 @@ extension FlatView
         let PointY = Distance * sin(LocationBearing)
         CityNode.position = SCNVector3(PointX, PointY, 0.0)
         CityNode.CanSwitchState = true
+        CityNode.Latitude = Latitude
+        CityNode.Longitude = Longitude
         CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .lambert, CastsShadow: true)
         CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .lambert, CastsShadow: false)
         if let IsInDay = Solar.IsInDaylight(Latitude, Longitude)
