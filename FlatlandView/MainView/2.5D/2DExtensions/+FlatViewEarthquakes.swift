@@ -267,7 +267,7 @@ extension FlatView
                 return nil
             }
         }
-        let DiscShape = SCNCylinder(radius: 0.5, height: 0.1)
+        let DiscShape = SCNCylinder(radius: 0.5, height: 0.02)
         let Disc = SCNNode2(geometry: DiscShape)
         Disc.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         Disc.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "SectorGridRed")
@@ -282,7 +282,8 @@ extension FlatView
         var Distance = Geometry.DistanceFromContextPole(To: GeoPoint(Quake.Latitude, Quake.Longitude))
         let Ratio: Double = Radius / PhysicalConstants.HalfEarthCircumference.rawValue
         Distance = Distance * Ratio
-        var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0), End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
+        var LocationBearing = Geometry.Bearing(Start: GeoPoint(90.0, 0.0),
+                                               End: GeoPoint(Quake.Latitude, Quake.Longitude * LongitudeAdjustment))
         LocationBearing = (LocationBearing + 90.0 + BearingOffset).Radians
         let PointX = Distance * cos(LocationBearing)
         let PointY = Distance * sin(LocationBearing)
