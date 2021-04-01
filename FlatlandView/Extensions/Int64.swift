@@ -12,24 +12,27 @@ import AppKit
 extension Int64
 {
     /// Returns the value as a string with a suffix for KB, MB, or GB.
-    /// - Returns: String with a rounded value with the appropriate suffix.
+    /// - Returns: String with a rounded value with the appropriate suffix. If a suffix value cannot be
+    ///            determined, the delimited value is returned instead.
     func WithSuffix() -> String
     {
-        let Suffixes: [(Low: UInt64, High: UInt64, Suffix: String)] =
+        let Suffixes: [(Low: Int64, High: Int64, Suffix: String)] =
             [
                 (0, 1023, ""),
                 (1024, 1048575, "KB"),
                 (1048576, 1073471823, "MB"),
-                (1073471824, UInt64.max, "GB")
+                (1073471824, Int64.max, "GB")
             ]
-        
+        let IsNegative = self < 0 ? true : false
+        let TestValue = abs(self)
         for (Low, High, Suffix) in Suffixes
         {
-            if self >= Low && self <= High
+            if TestValue >= Low && TestValue <= High
             {
-                var Value: Double = Double(self) / Double(Low)
+                var Value: Double = Double(TestValue) / Double(Low)
                 Value = Value.RoundedTo(2)
-                return "\(Value) \(Suffix)"
+                let SignString = IsNegative ? "-" : ""
+                return "\(SignString)\(Value) \(Suffix)"
             }
         }
         return Delimited()
