@@ -21,13 +21,8 @@ enum Colors3D: Int, CaseIterable
     case HourSpecular = 0xffffff
     /// Color for specular surface contents in general.
     case GeneralSpecular = 0xfffffe
-    #if DEBUG
-    /// Color for the status bar when compiled with #DEBUG.
-    case StatusBorder = 0xffff00
-    #else
-    /// Color for the status bar when compiled for release
-    case StatusBorder = 0x343434
-    #endif
+    /// Color for the status bar border.
+    case StatusBorder = 0x003171
     /// Color for the status bar background.
     case StatusBackground = 0x000000
 }
