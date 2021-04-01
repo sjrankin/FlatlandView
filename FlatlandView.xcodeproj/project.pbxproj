@@ -251,6 +251,8 @@
 		178E6F732540533600DA0F76 /* RoundTextTest.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 178E6F722540533600DA0F76 /* RoundTextTest.storyboard */; };
 		178E6F762540545000DA0F76 /* RoundTextTestWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178E6F752540545000DA0F76 /* RoundTextTestWindow.swift */; };
 		178E6F792540546E00DA0F76 /* RoundTextTestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178E6F782540546E00DA0F76 /* RoundTextTestController.swift */; };
+		1791D78926146E230074B030 /* CSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1791D78826146E230074B030 /* CSV.swift */; };
+		1791D78B261599E70074B030 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1791D78A261599E70074B030 /* Timer.swift */; };
 		1792105D2495B23400626FD9 /* SCNSimpleArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */; };
 		1792105F2495BA6900626FD9 /* SCNTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792105E2495BA6900626FD9 /* SCNTriangle.swift */; };
 		1792486825198A7F00AF4D4B /* +FlatViewLights.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1792486725198A7F00AF4D4B /* +FlatViewLights.swift */; };
@@ -782,6 +784,8 @@
 		178E6F722540533600DA0F76 /* RoundTextTest.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RoundTextTest.storyboard; sourceTree = "<group>"; };
 		178E6F752540545000DA0F76 /* RoundTextTestWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundTextTestWindow.swift; sourceTree = "<group>"; };
 		178E6F782540546E00DA0F76 /* RoundTextTestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundTextTestController.swift; sourceTree = "<group>"; };
+		1791D78826146E230074B030 /* CSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSV.swift; sourceTree = "<group>"; };
+		1791D78A261599E70074B030 /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		1792105C2495B23400626FD9 /* SCNSimpleArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNSimpleArrow.swift; sourceTree = "<group>"; };
 		1792105E2495BA6900626FD9 /* SCNTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNTriangle.swift; sourceTree = "<group>"; };
 		1792486725198A7F00AF4D4B /* +FlatViewLights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewLights.swift"; sourceTree = "<group>"; };
@@ -1543,6 +1547,7 @@
 				17561A842567838400FD0506 /* SCNVector4.swift */,
 				175BA2A52609B6C30015C2DD /* StatusTextLayer.swift */,
 				1760023F24D2BFDC00D5EA1A /* String.swift */,
+				1791D78A261599E70074B030 /* Timer.swift */,
 				17B0B7342546ADF900DC0F03 /* UInt.swift */,
 				1714DDB72539654A001A3002 /* UInt64.swift */,
 				17B062DE253D557D00C4BAEE /* UUID.swift */,
@@ -2299,6 +2304,7 @@
 				17F2D7112583257D00DD8023 /* AttributedText.swift */,
 				17711EE826038A77004CF1AD /* Barcodes.swift */,
 				17EF33C0247A95E300A5B55D /* ColorList.swift */,
+				1791D78826146E230074B030 /* CSV.swift */,
 				17E5EF5E24F1051400665167 /* Debug.swift */,
 				17F0AC5525D3A63E00B2F496 /* FileIO.swift */,
 				17E3EDC524B5B222007C1D72 /* FontHelper.swift */,
@@ -2925,6 +2931,7 @@
 				174B1CF125B42662003B33FE /* +Regions.swift in Sources */,
 				175DCC5F2580970A00EB6D69 /* PreferencePanelProtocol.swift in Sources */,
 				17B7D7B224CED0A3000C077B /* SolidColorParameters.swift in Sources */,
+				1791D78926146E230074B030 /* CSV.swift in Sources */,
 				174F010C248CD05E00F610DD /* MapManagerCode.swift in Sources */,
 				174D0359252C929D00692B89 /* +MainDatabase.swift in Sources */,
 				1760023E24D2BFBF00D5EA1A /* NSBezierPath.swift in Sources */,
@@ -2992,6 +2999,7 @@
 				17A25CC82505D4B000214C45 /* Metal2DCircle.metal in Sources */,
 				17E11C3F25F0CFDF009B7707 /* MemoryDebug.swift in Sources */,
 				17C87B7E25177FBF0065BE6D /* +FlatViewSettingsHandler.swift in Sources */,
+				1791D78B261599E70074B030 /* Timer.swift in Sources */,
 				1759AE66249F81F6003F79F5 /* View3DSettingsWindow.swift in Sources */,
 				1743FE7D255D5AD300AD05A7 /* NSRegularExpression.swift in Sources */,
 				17F6C4F1257BA019003FFDA2 /* MapDebugPanel.swift in Sources */,
