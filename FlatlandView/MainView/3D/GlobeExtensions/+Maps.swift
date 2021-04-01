@@ -330,8 +330,6 @@ extension GlobeView
                         }
         )
         
-        SetLineLayer()
-        
         let HourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
         UpdateHourLabels(With: HourType)
         
