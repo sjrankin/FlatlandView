@@ -65,6 +65,10 @@ class EarthquakePreferences: NSViewController, PreferencePanelProtocol
         let EShape = Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         for SomeShape in EarthquakeShapes.allCases
         {
+            if SomeShape == .TetheredNumber
+            {
+                continue
+            }
             QuakeShapeCombo.addItem(withObjectValue: SomeShape.rawValue)
         }
         QuakeShapeCombo.selectItem(withObjectValue: EShape.rawValue)
