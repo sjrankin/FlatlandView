@@ -73,7 +73,6 @@ extension GlobeView: SettingChangedProtocol
                 
             case .Show3DEquator, .Show3DTropics, .Show3DMinorGrid, .Show3DPolarCircles, .Show3DPrimeMeridians,
                  .MinorGrid3DGap, .Show3DGridLines:
-                SetLineLayer()
                 ApplyAllStencils(Caller: "SettingChanged(.{Multiple})")
                 
             case .ShowMagnitudeBarCode:
@@ -404,16 +403,6 @@ extension GlobeView: SettingChangedProtocol
                         DebugTypes.append(.Constraints)
                     }
                 }
-                /*
-                 Settings.QueryBool(.ShowCamera)
-                 {
-                 Show in
-                 if Show
-                 {
-                 DebugTypes.append(.Cameras)
-                 }
-                 }
-                 */
                 SetDebugOption(DebugTypes)
                 
             case .Debug_EnableClockControl, .Debug_ClockDebugMap, .Debug_ClockActionFreeze,
