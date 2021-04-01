@@ -90,6 +90,14 @@ class MemoryDebug
                     {
                         Sign = "+"
                     }
+                    let PrettyTime = Date().PrettyTime(IncludeSeconds: true, ForFileName: false)
+                    let CurrentMemory = LowLevel.MemoryStatistics(.PhysicalFootprint)!
+                    let CMem = CurrentMemory.WithSuffix()
+                    let RawDelta = Record.Delta!
+                    let DeltaMem = RawDelta.Delimited()
+                    let NameValue = Record.Name ?? "n/a"
+                    CSV.SetData(RowData("\"\(PrettyTime)\"", "\(CMem)", "", "\"\(DeltaMem)\"",
+                                        "", NameValue))
                     Debug.Print("MemoryDebug Operation \"\(Name)\": Memory delta \(Sign)\(Record.Delta!.Delimited())")
                 }
                 return Record.Delta
@@ -98,6 +106,84 @@ class MemoryDebug
         else
         {
             Debug.Print("Attempted to close non-existent memory debug record \(Name).")
+        }
+        return nil
+        #else
+        return nil
+        #endif
+    }
+    
+    /// Open a memory location for starting the measurement of memory.
+    /// - Note: All previous data in pre-existing memory locations are zeroed and lost.
+    /// - Parameter Name: The name of the memory location. If not found, a new record is created.
+    /// - Parameter Field: The type of memory to return. Defaults to `.PhysicalFootprint`.
+    /// - Returns: Token to use for closing the debug measurement. If compiled in release mode, a newly
+    ///            generated UUID is returned that has no contextual meaning.
+    public static func OpenWithToken(_ Name: String, Field: MemoryFields = .PhysicalFootprint) -> UUID
+    {
+        #if DEBUG
+        let TokenValue = UUID()
+        if !HasLocation(TokenValue.uuidString)
+        {
+            let NewRecord = MemoryData()
+            NewRecord.Name = Name
+            NewRecord.Field = Field
+            Locations[Name] = NewRecord
+        }
+        if let Record = Locations[Name]
+        {
+            Record.Start = nil
+            Record.End = nil
+            Record.Delta = nil
+            Record.Start = LowLevel.MemoryStatistics(Field)
+        }
+        return TokenValue
+        #else
+        return UUID()
+        #endif
+    }
+    
+    /// Close a memory location at the end of the measurement of memory.
+    /// - Note:
+    ///    - If the memory record does not exist, no action is taken (other than a diagnostic message
+    ///      printed to the debug console).
+    ///    - The delta memory is calculated here with `End` - `Start`. Positive deltas mean memory usage was
+    ///      lessened and negative deltas mean more memory was used.
+    /// - Parameter Token: The token from `OpenWithToken`.
+    /// - Parameter DebugPrint: If true, a message is printed on the debug console showing the memory delta.
+    /// - Returns: Delta value between the staring memory and the ending memory. Nil on error. If compiled
+    ///            for release, nil is always returned.
+    @discardableResult public static func CloseWithToken(_ Token: UUID, DebugPrint: Bool = true) -> Int64?
+    {
+        #if DEBUG
+        if let Record = Locations[Token.uuidString]
+        {
+            Record.End = LowLevel.MemoryStatistics(Record.Field)
+            if Record.Start != nil
+            {
+                Record.Delta = Int64(Record.End!) - Int64(Record.Start!)
+                if DebugPrint
+                {
+                    var Sign = ""
+                    if Record.Delta! > 0
+                    {
+                        Sign = "+"
+                    }
+                    let NameValue = Record.Name ?? "n/a"
+                    let PrettyTime = Date().PrettyTime(IncludeSeconds: true, ForFileName: false)
+                    let CurrentMemory = LowLevel.MemoryStatistics(.PhysicalFootprint)!
+                    let CMem = CurrentMemory.WithSuffix()
+                    let DeltaMem = Record.Delta!.WithSuffix()
+                    CSV.SetData(RowData("\"\(PrettyTime)\"", "\(CMem)", "", "\(DeltaMem)",
+                                        "", NameValue))
+                    Debug.Print("MemoryDebug Operation \"\(NameValue)\": Memory delta \(Sign)\(Record.Delta!.Delimited())")
+                }
+                return Record.Delta
+            }
+        }
+        else
+        {
+            Debug.Print("Attempted to close non-existent memory debug record \(Token.uuidString).")
         }
         return nil
         #else
