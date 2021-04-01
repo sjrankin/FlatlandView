@@ -111,13 +111,93 @@ extension MainController
     /// Start the update timer.
     func InitializeUpdateTimer()
     {
-        UpdateTimer = Timer.scheduledTimer(timeInterval: 1.0,
-                                           target: self,
-                                           selector: #selector(MainTimerHandler),
-                                           userInfo: nil,
-                                           repeats: true)
-        RunLoop.current.add(UpdateTimer!, forMode: .common)
-        MainTimerHandler()
+        let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true)
+            {
+            [weak self] _ in
+            let LabelType = Settings.GetEnum(ForKey: .TimeLabel, EnumType: TimeLabels.self, Default: .None)
+            let Now = self?.GetUTC()
+            let Formatter = DateFormatter()
+            Formatter.dateFormat = "HH:mm:ss"
+            var TimeZoneAbbreviation = ""
+            if LabelType == .UTC
+            {
+                TimeZoneAbbreviation = "UTC"
+            }
+            else
+            {
+                TimeZoneAbbreviation = self?.GetLocalTimeZoneID() ?? "UTC"
+            }
+            let TZ = TimeZone(abbreviation: TimeZoneAbbreviation)
+            Formatter.timeZone = TZ
+            var Final = Formatter.string(from: Now!)
+            let Parts = Final.split(separator: ":")
+            if !Settings.GetBool(.TimeLabelSeconds)
+            {
+                Final = "\(Parts[0]):\(Parts[1])"
+            }
+            let FinalText = Final + " " + TimeZoneAbbreviation
+            var IsNewHour = false
+            if ((self?.PreviousHourValue.isEmpty) != nil)
+            {
+                self?.PreviousHourValue = String(Parts[0])
+            }
+            else
+            {
+                if self?.PreviousHourValue != String(Parts[0])
+                {
+                    IsNewHour = true
+                    self?.PreviousHourValue = String(Parts[0])
+                }
+            }
+            if LabelType == .None
+            {
+                self?.MainTimeLabelTop.stringValue = ""
+                self?.MainTimeLabelBottom.stringValue = ""
+            }
+            else
+            {
+                self?.MainTimeLabelTop.stringValue = FinalText
+                self?.MainTimeLabelBottom.stringValue = FinalText
+            }
+            
+            let CurrentSeconds = Now!.timeIntervalSince1970
+            var ElapsedSeconds = 0
+            if CurrentSeconds != self?.OldSeconds
+            {
+                self?.OldSeconds = CurrentSeconds
+                var Cal = Calendar(identifier: .gregorian)
+                //Use UTC time zone for rotational calculations, not the local time zone (if the user
+                //is using the local zone). All calculations are based on UTC and so if local time zones
+                //are used, the map wil be rotated incorrectly.
+                Cal.timeZone = TimeZone(abbreviation: "UTC")!
+                let Hour = Cal.component(.hour, from: Now!)
+                let Minute = Cal.component(.minute, from: Now!)
+                let Second = Cal.component(.second, from: Now!)
+                ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+                let Percent = Double(ElapsedSeconds) / Double(24 * 60 * 60)
+                let PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+                self?.Main2DView.RotateImageTo(PrettyPercent)
+                if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .WallClock) == .WallClock
+                {
+                    self?.Main3DView?.UpdateWallClockHours(NewTime: Now!)
+                    self?.Main2DView?.UpdateWallClockHours(NewTime: Now!)
+                }
+                if Settings.GetBool(.EnableHourEvent)
+                {
+                    if Minute == 0 && !(self?.HourSoundTriggered)!
+                    {
+                        self?.Main3DView.FlashAllHours(Count: 3)
+                        self?.Main2DView.FlashAllHours(Count: 3)
+                        self?.HourSoundTriggered = true
+                        SoundManager.Play(ForEvent: .HourChime)
+                    }
+                }
+                if Minute != 0
+                {
+                    self?.HourSoundTriggered = false
+                }
+            }
+        }
         #if DEBUG
         StartDebugCount = Date.timeIntervalSinceReferenceDate
         let DebugTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(DebugTimerHandler), userInfo: nil, repeats: true)
@@ -135,13 +215,8 @@ extension MainController
         {
             let FetchInterval = Settings.GetDouble(.EarthquakeFetchInterval, 60.0 * 5.0)
             Earthquakes?.GetEarthquakes(Every: FetchInterval)
-            #if true
             CachedQuakes = Settings.GetCachedEarthquakes()
             PlotCachedQuakes(CachedQuakes)
-            #else
-            let Cached = Settings.GetCachedEarthquakes()
-            PlotCachedQuakes(Cached)
-            #endif
         }
         
         if Settings.GetBool(.PreloadNASATiles) && Settings.GetBool(.EnableNASATiles)
@@ -209,7 +284,7 @@ extension MainController
         
         Settings.QueryEnum(.ViewType, EnumType: ViewTypes.self)
         {
-            Value in
+            [weak self] Value in
             switch Value
             {
                 case .Globe3D, .CubicWorld:
