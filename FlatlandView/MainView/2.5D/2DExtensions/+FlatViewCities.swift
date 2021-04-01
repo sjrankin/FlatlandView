@@ -259,10 +259,13 @@ extension FlatView
         CityNode.Longitude = Longitude
         CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .lambert, CastsShadow: true)
         CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .lambert, CastsShadow: false)
+        /*
         if let IsInDay = Solar.IsInDaylight(Latitude, Longitude)
         {
             CityNode.IsInDaylight = IsInDay
         }
+ */
+        CityNode.SetDaylightState()
         
         let NameShape = SCNText(string: CityName, extrusionDepth: CGFloat(FlatConstants.CityNameExtrusionDepth.rawValue))
         NameShape.font = NSFont.systemFont(ofSize: CGFloat(FlatConstants.QuakeFontSize.rawValue))
@@ -298,10 +301,13 @@ extension FlatView
         NameNode.Latitude = Latitude
         NameNode.SetState(ForDay: true, Color: NSColor.PrussianBlue, Emission: nil, Model: .lambert)
         NameNode.SetState(ForDay: false, Color: NSColor.blue, Emission: NSColor.systemTeal, Model: .lambert)
+        /*
         if let IsInDay = Solar.IsInDaylight(Latitude, Longitude)
         {
             NameNode.IsInDaylight = IsInDay
         }
+ */
+        NameNode.SetDaylightState()
         
         return (CityNode, NameNode)
     }
