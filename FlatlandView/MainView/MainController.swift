@@ -21,11 +21,9 @@ class MainController: NSViewController
         Settings.SetInt(.Trigger_MemoryMeasured, 0)
         MemoryDebug.MeasurePeriodically
         {
-            Value in
-            //objc_sync_enter(self.MemoryLock)
-            self.MemoryOverTime.append(Value)
-            Settings.SetInt(.Trigger_MemoryMeasured, self.MemoryOverTime.count)
-            //objc_sync_exit(self.MemoryLock)
+            [weak self] Value in
+            self?.MemoryOverTime.append(Value)
+            Settings.SetInt(.Trigger_MemoryMeasured, (self?.MemoryOverTime.count)!)
         }
         
         MainController.StartTime = CACurrentMediaTime()
@@ -71,6 +69,7 @@ class MainController: NSViewController
             objc_sync_exit(self.MemSizeLock)
         }
         
+        #if DEBUG
         let _ = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true)
         {
             [weak self] _ in
@@ -81,7 +80,6 @@ class MainController: NSViewController
             }
             let DurationValue = Utility.DurationBetween(Seconds1: CACurrentMediaTime(), Seconds2: (self?.UptimeStart)!)
             var ExtraData = ""
-            #if DEBUG
             if !CSV.ColumnsSet
             {
                 CSV.SetColumns(["Time", "Used Memory", "Mean Memory (60s)", "Delta", "Node Count", "Note"])
@@ -98,9 +96,7 @@ class MainController: NSViewController
             }
             ExtraData = ", Nodes: \(NodeCount) ∆\(DeltaString)"
             self?.PreviousCount = NodeCount
-            #endif
             var StatString = "Uptime: \(DurationValue), Memory: \(UsedMemory)\(ExtraData)"
-            #if DEBUG
             objc_sync_enter((self?.MemSizeLock)!)
             let EntryCount = self?.MemSize.count
             let Sum: UInt64 = (self?.MemSize)!.reduce(0, +)
@@ -112,17 +108,12 @@ class MainController: NSViewController
             StatString = StatString + " {\(Mean.Delimited()), ∆\(MeanDelta.Delimited())}"
             Debug.Print(StatString)
             let PrettyTime = Date().PrettyTime()
-            #if true
             CSV.SetData(RowData("\"\(PrettyTime)\"", "\(UsedMemory)", "\"\(Mean.WithSuffix())\"",
-                                "\"\(MeanDelta.Delimited())\"", "\(NodeCount)", #function))
-            #else
-            CSV.SetData(RowData("\"\(PrettyTime)\"", "\(DisplayMe)", "\(NodeCount)", "\"\(Mean.Delimited()())\"",
-                                "\"\(MeanDelta.Delimited()())\"", #function))
-            #endif
+                                "\"\(MeanDelta.Delimited())\"", "\(NodeCount)", "Periodic Memory Check"))
             CSV.WriteTo(Name: "MemoryDebug.csv")
-            #endif
             self?.StatusBar.ShowStatusText(StatString, For: 15.0)
         }
+        #endif
     }
     
     #if DEBUG
@@ -216,6 +207,7 @@ class MainController: NSViewController
         SetWindowDelegate()
     }
     
+    /// Used to stop multiple initializations in `viewDidLayout`.
     var FlatlandInitialized: Bool = false
     
     /// Initialize things that require a fully set-up window.
@@ -478,7 +470,7 @@ class MainController: NSViewController
     /// Refresh earthquakes even if it's earlier than scheduled.
     @IBAction func RefreshEarthquakes(_ sender: Any)
     {
-        Earthquakes?.GetNewEarthquakeData()
+//        Earthquakes?.GetNewEarthquakeData()
     }
     
     @IBAction func MemoryDisplay(_ sender: Any)
