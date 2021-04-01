@@ -168,6 +168,9 @@ extension FlatView
         PlottedQuake.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
         PlottedQuake.PropagateIDs()
         PlottedQuake.CanSwitchState = true
+        PlottedQuake.Latitude = Quake.Latitude
+        PlottedQuake.Longitude = Quake.Longitude
+        PlottedQuake.name = NodeNames2D.Earthquake.rawValue
         var BaseColor = NSColor.red
         let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
         let Colors = Settings.GetMagnitudeColors()
@@ -190,10 +193,7 @@ extension FlatView
                               Model: .lambert,
                               CastsShadow: false,
                               ChildrenToo: true)
-        if let IsInDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
-        {
-            PlottedQuake.IsInDaylight = IsInDay
-        }
+        PlottedQuake.SetDaylightState()
         
         let MagShape = SCNText(string: "\(Quake.Magnitude.RoundedTo(1))",
                                extrusionDepth: CGFloat(FlatConstants.CityNameExtrusionDepth.rawValue))
@@ -243,10 +243,7 @@ extension FlatView
         MagNode.Longitude = Quake.Longitude
         MagNode.SetState(ForDay: true, Color: NSColor.red, Emission: nil, Model: .lambert)
         MagNode.SetState(ForDay: false, Color: NSColor.orange, Emission: NSColor.yellow, Model: .lambert)
-        if let IsInDay = Solar.IsInDaylight(Quake.Latitude, Quake.Longitude)
-        {
-            MagNode.IsInDaylight = IsInDay
-        }
+        MagNode.SetDaylightState()
         
         QuakePlane.addChildNode(MagNode)
         QuakePlane.addChildNode(PlottedQuake)
@@ -256,6 +253,12 @@ extension FlatView
         }
     }
     
+    /// Create and return an earthquake indicator. This is used to indicate recent
+    /// earthquakes.
+    /// - Parameter Quake: The earthquake used to determine if an indicator is neede.d
+    /// - Parameter Radius: The radius of the map.
+    /// - Returns: If the earthquake needs an indicator, the indicator shape is returned.
+    ///            Otherwise, nil is returned.
     func MakeQuakeIndicator(_ Quake: Earthquake, Radius: Double) -> SCNNode2?
     {
         let HowRecent = Settings.GetEnum(ForKey: .RecentEarthquakeDefinition, EnumType: EarthquakeRecents.self,
@@ -272,6 +275,7 @@ extension FlatView
         Disc.categoryBitMask = LightMasks2D.Polar.rawValue | LightMasks2D.Sun.rawValue
         Disc.geometry?.firstMaterial?.diffuse.contents = NSImage(named: "SectorGridRed")
         Disc.name = NodeNames2D.Earthquake.rawValue
+        Disc.CanSwitchState = false
         Disc.castsShadow = false
         let BearingOffset = FlatConstants.InitialBearingOffset.rawValue
         var LongitudeAdjustment = -1.0
