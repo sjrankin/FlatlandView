@@ -90,6 +90,30 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         }
     }
     
+    /// Return the total number of nodes in the system node.
+    /// - Returns: Nodes in the system node.
+    func TotalNodeCount() -> Int
+    {
+        if let CountFrom = SystemNode
+        {
+            return CountNodes(In: CountFrom)
+        }
+        return 0
+    }
+    
+    /// Returns the number of child nodes in the passed node.
+    /// - Parameter In: The node whose count of children and descents will be returned.
+    /// - Returns: Number of child and descent nodes of the passed node.
+    func CountNodes(In: SCNNode) -> Int
+    {
+        var Count = In.childNodes.count
+        for Node in In.childNodes
+        {
+            Count = Count + CountNodes(In: Node)
+        }
+        return Count
+    }
+    
     #if DEBUG
     /// Set debug options for the visual debugging of the 3D globe.
     /// - Note: See [SCNDebugOptions](https://docs.microsoft.com/en-us/dotnet/api/scenekit.scndebugoptions?view=xamarin-ios-sdk-12)
@@ -142,11 +166,78 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     /// Start the rotational clock.
     func StartClock()
     {
-        EarthClock = Timer.scheduledTimer(timeInterval: Defaults.EarthClockTick.rawValue,
-                                          target: self, selector: #selector(UpdateEarthView),
-                                          userInfo: nil, repeats: true)
-        EarthClock?.tolerance = Defaults.EarthClockTickTolerance.rawValue
-        RunLoop.current.add(EarthClock!, forMode: .common)
+        EarthClock = Timer.scheduledTimer(withTimeInterval: Defaults.EarthClockTick.rawValue, repeats: true)
+        {
+            [weak self] _ in
+            let Now = Date()
+            let TZ = TimeZone(abbreviation: "UTC")
+            var Cal = Calendar(identifier: .gregorian)
+            Cal.timeZone = TZ!
+            let Hour = Cal.component(.hour, from: Now)
+            let Minute = Cal.component(.minute, from: Now)
+            let Second = Cal.component(.second, from: Now)
+            let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+            let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
+            
+            if self?.PreviousPrettyPercent == nil
+            {
+                self?.PreviousPrettyPercent = 0.0
+            }
+            else
+            {
+                self?.PreviousPrettyPercent = self?.PrettyPercent
+            }
+            self?.PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+            
+            #if DEBUG
+            if Settings.GetBool(.Debug_EnableClockControl)
+            {
+                if Settings.EnumIs(.Globe, .Debug_ClockDebugMap, EnumType: Debug_MapTypes.self)
+                {
+                    if Settings.GetBool(.Debug_ClockActionFreeze)
+                    {
+                        if let Previous = self?.PreviousPrettyPercent
+                        {
+                            self?.PrettyPercent = Previous
+                        }
+                        else
+                        {
+                            self?.PrettyPercent = 0.0
+                        }
+                    }
+                    if Settings.GetBool(.Debug_ClockActionFreezeAtTime)
+                    {
+                        let FreezeTime = Settings.GetDate(.Debug_ClockActionFreezeTime, Date())
+                        if FreezeTime.IsOnOrLater(Than: Date())
+                        {
+                            if let Previous = self?.PreviousPrettyPercent
+                            {
+                                self?.PrettyPercent = Previous
+                            }
+                            else
+                            {
+                                self?.PrettyPercent = 0.0
+                            }
+                        }
+                    }
+                    if Settings.GetBool(.Debug_ClockActionSetClockAngle)
+                    {
+                        let Angle = Settings.GetDouble(.Debug_ClockActionClockAngle)
+                        self?.PrettyPercent = Angle / 360.0
+                    }
+                    if Settings.GetBool(.Debug_ClockUseTimeMultiplier)
+                    {
+                        
+                    }
+                }
+            }
+            #endif
+            
+            if !(self?.DecoupleClock)!
+            {
+                self?.UpdateEarth(With: (self?.PrettyPercent)!)
+            }
+        }
     }
     
     #if DEBUG
@@ -175,37 +266,6 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     
     var PreviousHourType: HourValueTypes = .None
     
-    /// Draws or removes the layer that displays the set of lines (eg, longitudinal and latitudinal and
-    /// other) from user settings.
-    /// - Note: The grid uses its own set of lights to ensure it is properly visible when over the
-    ///         night-side of the Earth.
-    /// - Parameter Radius: The radius of the sphere holding the lines.
-    func SetLineLayer(Radius: CGFloat = GlobeRadius.LineSphere.rawValue)
-    {
-        #if false
-        if Settings.GetBool(.GridLinesDrawnOnMap)
-        {
-            return
-        }
-        LineNode?.removeAllActions()
-        LineNode?.removeFromParentNode()
-        LineNode = nil
-        if Settings.GetBool(.Show3DGridLines)
-        {
-            let LineSphere = SCNSphere(radius: Radius)
-            LineSphere.segmentCount = Settings.GetInt(.SphereSegmentCount, IfZero: Int(Defaults.SphereSegmentCount.rawValue))
-            LineNode = SCNNode2(geometry: LineSphere)
-            LineNode?.categoryBitMask = LightMasks3D.Grid.rawValue
-            LineNode?.position = SCNVector3(0.0, 0.0, 0.0)
-            let GridLineImage = MakeGridLines(Width: CGFloat(Defaults.StandardMapWidth.rawValue),
-                                              Height: CGFloat(Defaults.StandardMapHeight.rawValue))
-            LineNode?.geometry?.firstMaterial?.diffuse.contents = GridLineImage
-            LineNode?.castsShadow = false
-            SystemNode?.addChildNode(self.LineNode!)
-        }
-        #endif
-    }
-    
     /// Change the transparency of the land and sea nodes to what is in user settings.
     func UpdateSurfaceTransparency()
     {
@@ -216,13 +276,16 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
         LineNode?.opacity = CGFloat(Alpha)
     }
     
+    /// Set the camera lock.
+    /// - Parameter IsLocked: The lock value for the camera.
+    /// - Parameter ResetPosition: If true, the camera is reset before being locked.
     func SetCameraLock(_ IsLocked: Bool, ResetPosition: Bool = false)
     {
         if IsLocked
         {
             if ResetPosition
             {
-            ResetCamera()
+                ResetCamera()
             }
         }
         self.allowsCameraControl = !IsLocked
