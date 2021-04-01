@@ -13,6 +13,7 @@ extension MainController
 {
     // MARK: - Main Timer
     
+    #if false
     /// Usually called once a second. Handles the primary clock and updating of 3D objects.
     @objc func MainTimerHandler()
     {
@@ -111,7 +112,10 @@ extension MainController
             }
         }
     }
+    #endif
     
+    /// Returns the date in UTC time zone. (Given the documentation, returning a new instance of `Date`
+    /// is sufficient.)
     func GetUTC() -> Date
     {
         return Date()
