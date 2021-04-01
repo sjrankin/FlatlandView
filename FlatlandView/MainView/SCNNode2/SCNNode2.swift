@@ -131,7 +131,7 @@ class SCNNode2: SCNNode
     /// Common initialization.
     private func Initialize()
     {
-        StartDynamicUpdates()
+        //StartDynamicUpdates()
     }
     
     /// Clears a node of its contents. Removes it from the parent. Prepares node to be deleted.
@@ -161,31 +161,31 @@ class SCNNode2: SCNNode
     
     // MARK: - Additional fields.
     
-    /// Tag value. Defaults to nil.
+    /// Tag value. Defaults to `nil`.
     var Tag: Any? = nil
     
     /// Name of the node.
     var Name: String = ""
     
-    /// Sub-component ID.
+    /// Sub-component ID. Defaults to `nil`.
     var SubComponent: UUID? = nil
     
-    /// Node class ID. Defaults to nil.
+    /// Node class ID. Defaults to `nil`.
     var NodeClass: UUID? = nil
     
-    /// Node ID. Defaults to nil.
+    /// Node ID. Defaults to `nil`.
     var NodeID: UUID? = nil
     
-    /// ID to use for editing the edit. Defaults to nil.
+    /// ID to use for editing the edit. Defaults to `nil`.
     var EditID: UUID? = nil
     
-    /// Intended node usage.
+    /// Intended node usage. Defaults to `nil`.
     var NodeUsage: NodeUsages? = nil
     
-    /// Initial angle of the node. Usage is context sensitive.
+    /// Initial angle of the node. Usage is context sensitive. Defaults to `nil`.
     var InitialAngle: Double? = nil
     
-    /// The caller should set this to true if the node is showing SCNText geometry.
+    /// The caller should set this to true if the node is showing SCNText geometry. Defaults to `false`.
     var IsTextNode: Bool = false
     
     /// Convenience property to hold hour angles.
@@ -250,6 +250,8 @@ class SCNNode2: SCNNode
     
     /// Iterate over all child nodes in the instance node and execute the close against it. Only child nodes
     /// that are of type `SCNNode2` are iterated here.
+    /// - Note: All nodes of type `SCNNode2` are passed to the closure (as non-nil references). If there are
+    ///         no nodes of type `SCNNode2`, nothing is passed.
     /// - Parameter Closure: The closure block to execute against each child node in turn.
     func ForEachChild2(_ Closure: ((SCNNode2) -> ())?)
     {
@@ -366,20 +368,10 @@ class SCNNode2: SCNNode
     /// - Parameter InDay: True indicates daylight, false indicates nighttime.
     private func PropagateState(InDay: Bool)
     {
-        #if true
         for Child in ChildNodes2()
         {
             Child.IsInDaylight = InDay
         }
-        #else
-        for Child in self.childNodes
-        {
-            if let Node = Child as? SCNNode2
-            {
-                Node.IsInDaylight = InDay
-            }
-        }
-        #endif
     }
     
     /// Sets the day or night state for nodes that have diffuse materials made up of one or more
@@ -514,7 +506,6 @@ class SCNNode2: SCNNode
     /// - Parameter For: Determines which state to show.
     public func SetState(For DayTime: Bool)
     {
-        #if true
         if DayState == nil || NightState == nil
         {
             for Child in self.ChildNodes2()
@@ -534,33 +525,6 @@ class SCNNode2: SCNNode
         {
             Child.SetState(For: DayTime)
         }
-        #else
-        if DayState == nil || NightState == nil
-        {
-            for Child in self.childNodes
-            {
-                if let ActualChild = Child as? SCNNode2
-                {
-                    ActualChild.SetState(For: DayTime)
-                }
-            }
-            return
-        }
-        if HasImageTextures
-        {
-            SetStateWithImages(For: DayTime)
-            return
-        }
-        let NodeState = DayTime ? DayState! : NightState!
-        SetVisualAttributes(NodeState)
-        for Child in self.childNodes
-        {
-            if let ActualChild = Child as? SCNNode2
-            {
-                ActualChild.SetState(For: DayTime)
-            }
-        }
-        #endif
     }
     
     /// Set to true if the contents of the diffuse material is made up of one or more images.
@@ -572,8 +536,8 @@ class SCNNode2: SCNNode
     {
         didSet
         {
-                self.PropagateState(InDay: self._IsInDaylight)
-                self.SetState(For: self._IsInDaylight)
+            self.PropagateState(InDay: self._IsInDaylight)
+            self.SetState(For: self._IsInDaylight)
         }
     }
     /// Get or set the daylight state. Setting the same value two (or more) times in a row will not result
@@ -588,6 +552,23 @@ class SCNNode2: SCNNode
         {
             _IsInDaylight = newValue
         }
+    }
+    
+    /// Check to see if the node is in daylight or not. Sets the value of `IsInDaylight`
+    /// - Notes: If the position is not set or daylight cannot be determined, no action is taken.
+    public func SetDaylightState()
+    {
+        guard let Latitude = Latitude, let Longitude = Longitude else
+        {
+            Debug.Print("SetDaylightState: Position not set. Name: \"\(name)\"")
+            return
+        }
+        guard let IsInDay = Solar.IsInDaylight(Latitude, Longitude) else
+        {
+            Debug.Print("SetDaylightState: Cannot determine sun's position.")
+            return
+        }
+        IsInDaylight = IsInDay
     }
     
     var PreviousDayState: Bool? = nil
@@ -753,6 +734,7 @@ class SCNNode2: SCNNode
     
     // MARK: - Dynamic updating.
     
+    /*
     func StartDynamicUpdates()
     {
         DynamicTimer = Timer.scheduledTimer(timeInterval: 1.0,
@@ -760,6 +742,7 @@ class SCNNode2: SCNNode
                                             selector: #selector(TestDaylight),
                                             userInfo: nil, repeats: true)
     }
+ */
     
     weak var DynamicTimer: Timer? = nil
     
@@ -769,6 +752,7 @@ class SCNNode2: SCNNode
         DynamicTimer = nil
     }
     
+    /// Test to see if it is daylight.
     @objc func TestDaylight()
     {
         DoTestDaylight()
@@ -926,6 +910,7 @@ class SCNNode2: SCNNode
         }
     }
     
+    /// Remove all entries in the opacity stack.
     func ClearOpacityStack()
     {
         OpacityStack = Stack<CGFloat>()
