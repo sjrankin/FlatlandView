@@ -67,16 +67,8 @@ class USGS
     {
         EarthquakeTimer?.invalidate()
         EarthquakeTimer = nil
-        
-        EarthquakeTimer = Timer.scheduledTimer(timeInterval: Every,
-                                               target: self,
-                                               selector: #selector(GetNewEarthquakeData),
-                                               userInfo: nil,
-                                               repeats: true)
-        //Call immediately so data will be ready when the user expects.
-        GetNewEarthquakeData()
-        /*
-        EarthquakeTimer = Timer.scheduledTimer(withTimeInterval: Every, repeats: true)
+        #if true
+        EarthquakeTimer = Timer.StartRepeating(withTimerInterval: Every, RunFirst: true)
         {
             [weak self] _ in
             self?._IsBusy = true
@@ -94,7 +86,7 @@ class USGS
                 MemoryDebug.Open("\(#function)")
                 self?.GetUSGSEarthquakeData
                 {
-                    Results in
+                    [weak self] Results in
                     if var Raw = Results
                     {
                         do
@@ -114,7 +106,6 @@ class USGS
                                                 {
                                                     self?.AddEarthquakeToList(Quake)
                                                 }
-                                                //self.ParseJsonEntity2(Feature)
                                             }
                                         }
                                         
@@ -137,13 +128,22 @@ class USGS
                 }
             }
         }
- */
+        #else
+        EarthquakeTimer = Timer.scheduledTimer(timeInterval: Every,
+                                               target: self,
+                                               selector: #selector(GetNewEarthquakeData),
+                                               userInfo: nil,
+                                               repeats: true)
+        //Call immediately so data will be ready when the user expects.
+        GetNewEarthquakeData()
+        #endif
     }
     
     var EarthquakeStartTime: Double = 0.0
     
     var RetrievalQueue: OperationQueue? = nil
     
+    #if false
     /// Make a web request to the USGS to return earthquake data.
     /// - Note: Execution occurs on a background thread.
     @objc func GetNewEarthquakeData()
@@ -170,7 +170,7 @@ class USGS
             MemoryDebug.Open("\(#function)")
             self.GetUSGSEarthquakeData
             {
-                Results in
+                [weak self] Results in
                 if var Raw = Results
                 {
                     do
@@ -185,12 +185,11 @@ class USGS
                                             if let Feature = json["features"] as? [[String: Any]]
                                             {
                                                 let Quakes = USGS.ParseJsonEntity2(Feature)
-                                                self.ClearEarthquakes()
+                                                self?.ClearEarthquakes()
                                                 for Quake in Quakes
                                                 {
-                                                    self.AddEarthquakeToList(Quake)
+                                                    self?.AddEarthquakeToList(Quake)
                                                 }
-                                                //self.ParseJsonEntity2(Feature)
                                             }
                                         }
                                         
@@ -202,7 +201,7 @@ class USGS
                         USGS.ParseErrorCount = USGS.ParseErrorCount + 1
                         print("JSON error \(error)")
                     }
-                    self.HaveAllEarthquakes()
+                    self?.HaveAllEarthquakes()
                     Raw.removeAll()
                     MemoryDebug.Close("\(#function)")
                 }
@@ -213,6 +212,7 @@ class USGS
             }
         }
     }
+    #endif
     
     /// Holds the busy flag.
     private var _IsBusy: Bool = false
@@ -319,7 +319,7 @@ class USGS
     /// Force fetch earthquake data regardless of the fetch cycle.
     func ForceFetch()
     {
-        GetNewEarthquakeData()
+        //GetNewEarthquakeData()
     }
     
     /// Insert a debug earthquake.
@@ -508,10 +508,13 @@ class USGS
     /// Timer for getting USGS earthquakes.
     var EarthquakeTimer: Timer? = nil
     
+    #if false
     /// Parse a JSON dictionary into an array of earthquake data.
     /// - Parameter JSON: Array of arrays of JSON data.
     func ParseJsonEntity(_ JSON: [[String: Any]])
     {
+        let Trace = Debug.StackFrameContents(5)
+        Debug.Print("Parsing earthquake: \(Debug.PrettyStackTrace(Trace))")
         ClearEarthquakes()
         var Seq = 0
         for OneFeature in JSON
@@ -725,11 +728,14 @@ class USGS
             }
         }
     }
+    #endif
     
     /// Parse a JSON dictionary into an array of earthquake data.
     /// - Parameter JSON: Array of arrays of JSON data.
     static func ParseJsonEntity2(_ JSON: [[String: Any]]) -> [Earthquake]
     {
+        let Trace = Debug.StackFrameContents(5)
+        Debug.Print("Parsing earthquake: \(Debug.PrettyStackTrace(Trace))")
         //ClearEarthquakes()
         var Seq = 0
         var Quakes = [Earthquake]()
