@@ -32,6 +32,7 @@ extension FlatView
     /// - Parameter HourRadius: Distance from the center of the map to where the hours are drawn.
     func AddHours(HourRadius: Double)
     {
+        let Trace = Debug.StackFrameContents(5)
         RemoveNodeWithName(NodeNames2D.HourNodes.rawValue, FromParent: HourPlane)
         switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)  
         {
@@ -58,19 +59,30 @@ extension FlatView
     /// - Parameter NewTime: The time to use to display wall clocks.
     @objc func UpdateWallClockHours(NewTime: Date)
     {
-        let NewWallClockTime = NewTime.PrettyTime(IncludeSeconds: false)
-        if LastWallClockTime == nil
+        #if false
+        Debug.Print("UpdateWallClockHours")
+        if WallClockHoursDisplayed
         {
-            LastWallClockTime = NewWallClockTime
+            Debug.Print("Wall clock hours already displayed.")
+            let NewWallClockTime = NewTime.PrettyTime(IncludeSeconds: false)
+            if LastWallClockTime == nil
+            {
+                LastWallClockTime = NewWallClockTime
+            }
+            else
+            {
+                if LastWallClockTime! == NewWallClockTime
+                {
+                    return
+                }
+                LastWallClockTime = NewWallClockTime
+            }
         }
         else
         {
-            if LastWallClockTime! == NewWallClockTime
-            {
-                return
-            }
-            LastWallClockTime = NewWallClockTime
+            WallClockHoursDisplayed = true
         }
+        #endif
         
         for Hour in HourPlane.childNodes
         {
