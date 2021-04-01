@@ -629,6 +629,8 @@ enum GlobeNodeNames: String, CaseIterable
     case PinnedLocationNode = "PinnedLocationNode"
     /// Node used to indicate a previously searched location.
     case SearchedLocationNode = "SearchedLocationNode"
+    /// Info node.
+    case InfoNode = "InfoNode"
 }
 
 /// 2D view node names.
