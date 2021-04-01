@@ -97,6 +97,10 @@ extension FlatView
                 }
                 
             case .HourType:
+                if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) != .WallClock
+                {
+                    WallClockHoursDisplayed = false
+                }
                 AddHours(HourRadius: FlatConstants.HourRadius.rawValue)
                 
             case .UseHDRCamera:
