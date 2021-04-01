@@ -17,6 +17,11 @@ extension FlatView
     {
         Settings.AddSubscriber(self)
         
+        if NSScreen.main?.backingScaleFactor == 1.0
+        {
+            self.antialiasingMode = .multisampling4X
+        }
+        
         #if DEBUG
         showsStatistics = true
         var DebugTypes = [DebugOptions3D]()
@@ -102,12 +107,7 @@ extension FlatView
             (Node, Change) in
             OperationQueue.current?.addOperation
             {
-                #if true
                 let Distance = self.CameraDistance(POV: Node.pointOfView!)
-                #else
-                let Location = Node.pointOfView!.position
-                let Distance = sqrt((Location.x * Location.x) + (Location.y * Location.y) + (Location.z * Location.z))
-                #endif
                 if self.PreviousCameraDistance == nil
                 {
                     self.PreviousCameraDistance = Int(Distance)
@@ -116,6 +116,7 @@ extension FlatView
                 {
                     if self.PreviousCameraDistance != Int(Distance)
                     {
+                        Debug.Print("Updating nodes for distance")
                         self.PreviousCameraDistance = Int(Distance)
                         self.UpdateQuakeTextForCameraLocation(Distance: Distance)
                         self.UpdateCityTextForCameraLocation(Distance: Distance)
@@ -130,12 +131,11 @@ extension FlatView
     /// Start the darkness clock to update node states depending on whether the node is in the sun or not.
     func StartDarknessClock()
     {
-        DarknessClock = Timer.scheduledTimer(timeInterval: HourConstants.DaylightCheckInterval.rawValue,
-                                             target: self,
-                                             selector: #selector(UpdateNodesForSunlight),
-                                             userInfo: nil,
-                                             repeats: true)
-        UpdateNodesForSunlight()
+        DarknessClock = Timer.StartRepeating(withTimerInterval: HourConstants.DaylightCheckInterval.rawValue, RunFirst: true)
+        {
+            [weak self] _ in
+            self?.UpdateNodesForSunlight()
+        }
     }
     
     /// Update nodes in the map for sunlight for those nodes that may need to change state.
@@ -149,10 +149,7 @@ extension FlatView
             {
                 let NodeLocation = GeoPoint(Node.Latitude!, Node.Longitude!)
                 NodeLocation.CurrentTime = Date()
-                if let SunIsVisible = Solar.IsInDaylight(Node.Latitude!, Node.Longitude!)
-                {
-                    Node.IsInDaylight = SunIsVisible
-                }
+                Node.SetDaylightState()
             }
         }
         CityPlane.ForEachChild2
@@ -162,10 +159,7 @@ extension FlatView
             {
                 let NodeLocation = GeoPoint(Node.Latitude!, Node.Longitude!)
                 NodeLocation.CurrentTime = Date()
-                if let SunIsVisible = Solar.IsInDaylight(Node.Latitude!, Node.Longitude!)
-                {
-                    Node.IsInDaylight = SunIsVisible
-                }
+                Node.SetDaylightState()
             }
         }
     }
