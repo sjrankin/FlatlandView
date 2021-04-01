@@ -729,6 +729,23 @@ class FileIO
             return nil
         }
     }
+    
+    @discardableResult public static func WriteString(_ WriteMe: String, To Filename: String) -> Bool
+    {
+        let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let Intermediate = DocDirURL.appendingPathComponent(AppDirectory)
+        let FileURL = Intermediate.appendingPathComponent(Filename)
+        do
+        {
+            try WriteMe.write(to: FileURL, atomically: true, encoding: .utf8)
+        }
+        catch
+        {
+            Debug.Print("Error writing string to \(Filename): \(error.localizedDescription)")
+            return false
+        }
+        return true
+    }
 }
 
 
