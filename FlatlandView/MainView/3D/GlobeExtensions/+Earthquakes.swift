@@ -20,22 +20,13 @@ extension GlobeView
     {
         if let Earth = EarthNode
         {
-            if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
+            if let AlreadyDone = InitialStenciledMap
             {
-                #if false
-                if let FromWhere = From
-                {
-                    print("Called from \(FromWhere)")
-                }
-                #endif
-                if let AlreadyDone = InitialStenciledMap
-                {
-                    ApplyEarthquakeStencils(InitialMap: AlreadyDone, Caller: #function)
-                }
-                else
-                {
-                    ApplyAllStencils(Caller: #function)
-                }
+                ApplyEarthquakeStencils(InitialMap: AlreadyDone, Caller: #function)
+            }
+            else
+            {
+                ApplyAllStencils(Caller: #function)
             }
             MemoryDebug.Block("PlotEarthquakesCall")
             {
@@ -53,7 +44,8 @@ extension GlobeView
             for Node in Earth.childNodes
             {
                 if Node.name == GlobeNodeNames.EarthquakeNodes.rawValue ||
-                    Node.name == GlobeNodeNames.IndicatorNode.rawValue
+                    Node.name == GlobeNodeNames.IndicatorNode.rawValue ||
+                    Node.name == GlobeNodeNames.InfoNode.rawValue
                 {
                     Node.removeAllAnimations()
                     Node.removeAllActions()
@@ -246,7 +238,6 @@ extension GlobeView
                 }
                 
                 QNode.geometry?.firstMaterial?.emission.contents = nil
-                #if true
                 let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
                 let Colors = Settings.GetMagnitudeColors()
                 for (Magnitude, Color) in Colors
@@ -256,66 +247,8 @@ extension GlobeView
                         BaseColor = Color
                     }
                 }
-                #else
-                switch Settings.GetEnum(ForKey: .ColorDetermination, EnumType: EarthquakeColorMethods.self, Default: .Magnitude)
-                {
-                    case .Age:
-                        let QuakeAge = Quake.GetAge()
-                        let Percent = CGFloat(QuakeAge / Oldest)
-                        let (H, S, B) = BaseColor.HSB
-                        BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
-                        
-                    case .Magnitude:
-                        let (H, S, B) = BaseColor.HSB
-                        let Percent = CGFloat(Quake.GreatestMagnitude) / 10.0
-                        BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
-                        
-                    case .MagnitudeRange:
-                        let MagRange = GetMagnitudeRange(For: Quake.GreatestMagnitude)
-                        let Colors = Settings.GetMagnitudeColors()
-                        for (Magnitude, Color) in Colors
-                        {
-                            if Magnitude == MagRange
-                            {
-                                BaseColor = Color
-                            }
-                        }
-                        
-                    case .Population:
-                        let ClosestPopulation = PopulationOfClosestCity(To: Quake)
-                        if ClosestPopulation == 0 || Biggest == 0
-                        {
-                            BaseColor = BaseColor.withAlphaComponent(0.5)
-                        }
-                        else
-                        {
-                            if Biggest > 0
-                            {
-                                let Percent = ClosestPopulation / Biggest
-                                let (H, S, B) = BaseColor.HSB
-                                BaseColor = NSColor(hue: H, saturation: S, brightness: B * CGFloat(Percent), alpha: 0.5)
-                            }
-                        }
-                        
-                    case .Significance:
-                        let Significance = Quake.Significance
-                        if Significance <= 0
-                        {
-                            let (H, S, B) = BaseColor.HSB
-                            let Percent = CGFloat(Quake.GreatestMagnitude) / 10.0
-                            BaseColor = NSColor(hue: H, saturation: S, brightness: B * Percent, alpha: 0.5)
-                        }
-                        else
-                        {
-                            let Percent = Significance / MaxSignificance
-                            let (H, S, B) = NSColor.red.HSB
-                            BaseColor = NSColor(hue: H, saturation: CGFloat(Percent) * S, brightness: B, alpha: 0.8)
-                        }
-                }
-                #endif
                 
                 let Shape = Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
-                #if true
                 switch Shape
                 {
                     case .Arrow, .StaticArrow:
@@ -330,19 +263,6 @@ extension GlobeView
                     default:
                         QNode.geometry?.firstMaterial?.diffuse.contents = BaseColor
                 }
-                #else
-                if  Shape == .Arrow || Shape == .StaticArrow
-                {
-                    if let ANode = QNode.childNodes.first as? SCNSimpleArrow
-                    {
-                        ANode.Color = BaseColor
-                    }
-                }
-                else
-                {
-                    QNode.geometry?.firstMaterial?.diffuse.contents = BaseColor
-                }
-                #endif
                 
                 if MagShape != nil
                 {
@@ -414,6 +334,7 @@ extension GlobeView
         let ERadius = (Quake.GreatestMagnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.SphereConstant.rawValue
         let QSphere = SCNSphere(radius: CGFloat(ERadius))
         let InfoNode = SCNNode2(geometry: QSphere)
+        InfoNode.name = GlobeNodeNames.InfoNode.rawValue
         InfoNode.CanShowBoundingShape = true
         InfoNode.geometry?.firstMaterial?.diffuse.contents = NSColor.clear
         InfoNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)!
