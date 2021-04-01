@@ -79,6 +79,44 @@ enum Defaults: Double, CaseIterable
     case MinorGridGap = 15.0
     /// Line width for grid lines.
     case GridLineWidth = 4.00001
+    /// Y location for the north pole nomen.
+    case NorthPoleNomenY = 2.1
+    /// Y location for the south pole nomen.
+    case SouthPoleNomenY = -2.1
+    /// Metallness value for the pole's nomen.
+    case PoleNomenMetallness = 0.9999994599
+    /// Roughness value for the pole's nomen.
+    case PoleNomenRoughness = 0.598495676
+    /// Radius of the pole nomen.
+    case NomenRadius = 0.50000684
+    /// North pole pole Y location.
+    case NorthPolePoleY = 0.5000001
+    /// South pole pole Y location.
+    case SouthPolePoleY = -0.5000001
+    /// Radius of the polar poles.
+    case PoleRadius = 0.250006403
+    /// Height of the polar poles.
+    case PoleHeight = 2.500235
+    /// Duration for a 180° spin of the polar poles.
+    case PolarPoleSpinDuration = 4.590385
+    /// Radius of flag poles.
+    case FlagCylinerRadius = 0.040000564
+    /// Height of the flag pole.
+    case FlagPoleHeight = 2.49947
+    /// Width of the flag face.
+    case FlagFaceWidth = 0.040000058
+    /// Height of the flag face.
+    case FlagFaceHeight = 0.600000938
+    /// Length of the flag face.
+    case FlagFaceLength = 1.200048
+    /// X offset for the north pole.
+    case NorthPoleXOffset = 0.6
+    /// X offset for the south pole.
+    case SouthPoleXOffset = -0.6
+    /// Y offset for the north pole.
+    case NorthPoleYOffset = 1.00000003
+    /// Y offset for the south pole.
+    case SouthPoleYOffset = -1.00000003
 }
 
 // MARK: - Constants used in flat mode.
