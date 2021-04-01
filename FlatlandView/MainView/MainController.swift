@@ -62,22 +62,77 @@ class MainController: NSViewController
                                      userInfo: nil,
                                      repeats: true)
         
-        let _ = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true)
+        let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true)
         {
             _ in
-            var DisplayMe = ""
+            let CurrentMemory = LowLevel.MemoryStatistics(.PhysicalFootprint)
+            objc_sync_enter(self.MemSizeLock)
+            self.MemSize.append(CurrentMemory!)
+            objc_sync_exit(self.MemSizeLock)
+        }
+        
+        let _ = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true)
+        {
+            [weak self] _ in
+            var UsedMemory = ""
             if let InUse = LowLevel.MemoryStatistics(.PhysicalFootprint)
             {
-                DisplayMe = InUse.WithSuffix()
+                UsedMemory = InUse.WithSuffix()
             }
-            let DurationValue = Utility.DurationBetween(Seconds1: CACurrentMediaTime(), Seconds2: self.UptimeStart)
-            let StatString = "Uptime: \(DurationValue), Memory: \(DisplayMe)"
-            self.StatusBar.ShowStatusText(StatString, For: 15.0)
+            let DurationValue = Utility.DurationBetween(Seconds1: CACurrentMediaTime(), Seconds2: (self?.UptimeStart)!)
+            var ExtraData = ""
+            #if DEBUG
+            if !CSV.ColumnsSet
+            {
+                CSV.SetColumns(["Time", "Used Memory", "Mean Memory (60s)", "Delta", "Node Count", "Note"])
+            }
+            guard let NodeCount = self?.Main3DView.TotalNodeCount() else
+            {
+                return
+            }
+            let Delta = NodeCount - (self?.PreviousCount)!
+            var DeltaString = "\(Delta)"
+            if Delta > 0
+            {
+                DeltaString = "+" + DeltaString
+            }
+            ExtraData = ", Nodes: \(NodeCount) ∆\(DeltaString)"
+            self?.PreviousCount = NodeCount
+            #endif
+            var StatString = "Uptime: \(DurationValue), Memory: \(UsedMemory)\(ExtraData)"
+            #if DEBUG
+            objc_sync_enter((self?.MemSizeLock)!)
+            let EntryCount = self?.MemSize.count
+            let Sum: UInt64 = (self?.MemSize)!.reduce(0, +)
+            self?.MemSize.removeAll()
+            let Mean = Sum / UInt64(EntryCount!)
+            objc_sync_exit((self?.MemSizeLock)!)
+            let MeanDelta = Int64(Mean) - Int64((self?.PreviousMean)!)
+            self?.PreviousMean = Mean
+            StatString = StatString + " {\(Mean.Delimited()), ∆\(MeanDelta.Delimited())}"
+            Debug.Print(StatString)
+            let PrettyTime = Date().PrettyTime()
+            #if true
+            CSV.SetData(RowData("\"\(PrettyTime)\"", "\(UsedMemory)", "\"\(Mean.WithSuffix())\"",
+                                "\"\(MeanDelta.Delimited())\"", "\(NodeCount)", #function))
+            #else
+            CSV.SetData(RowData("\"\(PrettyTime)\"", "\(DisplayMe)", "\(NodeCount)", "\"\(Mean.Delimited()())\"",
+                                "\"\(MeanDelta.Delimited()())\"", #function))
+            #endif
+            CSV.WriteTo(Name: "MemoryDebug.csv")
+            #endif
+            self?.StatusBar.ShowStatusText(StatString, For: 15.0)
         }
     }
     
+    #if DEBUG
+    var PreviousMean: UInt64 = 0
+    let MemSizeLock = NSObject()
+    var MemSize = [UInt64]()
+    var PreviousCount = 0
     let MemoryLock = NSObject()
     var MemoryOverTime = [Int64]()
+    #endif
     
     /// Determines if the main window is at least partially visible in some view.
     /// - Notes: See [OS X: finding if a window is visible on screen](https://developer.apple.com/forums/thread/71171)
@@ -209,7 +264,6 @@ class MainController: NSViewController
     {
         if let ChangedView = notification.object as? ParentView
         {
-            //print("Parent content view frame: \(ChangedView.frame)")
             Settings.SetNSSize(.PrimaryViewSize, NSSize(width: ChangedView.frame.size.width,
                                                         height: ChangedView.frame.size.height))
         }
@@ -225,8 +279,6 @@ class MainController: NSViewController
     }
     
     // MARK: - High-level mouse.
-    
-
     
     // MARK: - Menu and toolbar event handlers
     
