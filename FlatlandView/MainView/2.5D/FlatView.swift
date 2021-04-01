@@ -104,13 +104,39 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         FlatEarthNode.geometry?.firstMaterial?.diffuse.contents = Final
     }
     
+    /// Start running the map's clock.
     func StartClock()
     {
+        #if false
         EarthClock = Timer.scheduledTimer(timeInterval: Defaults.EarthClockTick.rawValue,
                                           target: self, selector: #selector(UpdateEarthView),
                                           userInfo: nil, repeats: true)
         EarthClock?.tolerance = Defaults.EarthClockTickTolerance.rawValue
         RunLoop.current.add(EarthClock!, forMode: .common)
+        UpdateEarthView()
+        #else
+        EarthClock = Timer.scheduledTimer(withTimeInterval: Defaults.EarthClockTick.rawValue, repeats: true)
+            {
+            [weak self] _ in
+            let Now = Date()
+            let TZ = TimeZone(abbreviation: "UTC")
+            var Cal = Calendar(identifier: .gregorian)
+            Cal.timeZone = TZ!
+            let Hour = Cal.component(.hour, from: Now)
+            let Minute = Cal.component(.minute, from: Now)
+            let Second = Cal.component(.second, from: Now)
+            let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+            let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
+            self?.PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
+            OperationQueue.main.addOperation
+            {
+                if let FinalPercent = self?.PrettyPercent
+                {
+                    self?.UpdateEarth(With: FinalPercent, Initialize: true)
+                }
+            }
+        }
+        #endif
     }
     
     var EarthClock: Timer? = nil
@@ -132,7 +158,7 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         let Second = Cal.component(.second, from: Now)
         let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
         let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
-        
+        /*
         if PreviousPrettyPercent == nil
         {
             PreviousPrettyPercent = 0.0
@@ -141,8 +167,12 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         {
             PreviousPrettyPercent = PrettyPercent
         }
+ */
         PrettyPercent = Double(Int(Percent * 1000.0)) / 1000.0
-        UpdateEarth(With: PrettyPercent)
+        OperationQueue.main.addOperation
+        {
+            self.UpdateEarth(With: self.PrettyPercent)
+        }
     }
     
     var PreviousPrettyPercent: Double? = nil
@@ -179,7 +209,9 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     
     /// Update the Earth's rotational value.
     /// - With: Hour expressed in terms of percent.
-    func UpdateEarth(With Percent: Double)
+    /// - Initialize: If true, the view is initialized regardless of the time. Defaults to `false`. If this
+    ///               value is false, nothing is changed if the value of `With` is the same as the last call.
+    func UpdateEarth(With Percent: Double, Initialize: Bool = false)
     {
         let FlatViewType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if ![ViewTypes.FlatNorthCenter, ViewTypes.FlatSouthCenter].contains(FlatViewType)
@@ -198,18 +230,24 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         Percent2 = Percent2.RoundedTo(3)
  */
         let Percent2 = Percent
-        if PreviousEarthPercent == nil
+        if !Initialize
         {
-            PreviousEarthPercent = Percent2
-        }
-        else
-        {
-            if PreviousEarthPercent == Percent2
+            if PreviousEarthPercent == nil
             {
-                return
+                PreviousEarthPercent = Percent2
             }
-            PreviousEarthPercent = Percent2
+            else
+            {
+                if PreviousEarthPercent == Percent2
+                {
+                    Debug.Print("Percents are the same")
+                    return
+                }
+                PreviousEarthPercent = Percent2
+                Debug.Print("New percent=\(Percent2)")
+            }
         }
+        
         PreviousPercent = Percent2
         var FinalOffset = 90.0
         var Multiplier = 1.0
@@ -442,4 +480,5 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
             .Day10: 10.0 * 24.0 * 60.0 * 60.0,
         ]
     var DarknessClock: Timer? = nil
+    var WallClockHoursDisplayed: Bool = false
 }
