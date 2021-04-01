@@ -34,7 +34,7 @@
                                             <font key="font" metaFont="systemBold" size="18"/>
                                             <imageReference key="image" image="info.circle.fill" catalog="system" symbolScale="large"/>
                                         </buttonCell>
-                                        <color key="contentTintColor" name="ControlBlue"/>
+                                        <color key="contentTintColor" name="ControlBlack"/>
                                     </button>
                                     <connections>
                                         <action selector="ShowAbout:" target="gS1-iC-1Lf" id="Pj9-Io-E3e"/>
@@ -60,11 +60,11 @@
                                 <toolbarItem implicitItemIdentifier="1F95EEC7-8B59-4024-BACA-F0126B541895" label="Live Data" paletteLabel="Live Data Status" toolTip="See current live data status and statistics." sizingBehavior="auto" id="MQr-un-bBt">
                                     <imageReference key="image" image="wifi" catalog="system" symbolScale="large"/>
                                     <button key="view" id="Z8O-9J-ghi">
-                                        <rect key="frame" x="36" y="14" width="21" height="16"/>
+                                        <rect key="frame" x="36" y="14.5" width="31.5" height="22.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="BAD-F7-e9c">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="systemHeavy" size="18"/>
                                             <imageReference key="image" image="wifi" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlack"/>
@@ -174,11 +174,11 @@
                                 <toolbarItem implicitItemIdentifier="55471A7C-A4AF-4B8C-B2C8-0137515C8C9C" label="Earthquakes" paletteLabel="Earthquake List" toolTip="See current live data status and statistics." sizingBehavior="auto" id="eOi-Yf-l9v">
                                     <imageReference key="image" image="waveform.path" catalog="system" symbolScale="large"/>
                                     <button key="view" id="RRF-hs-5LD">
-                                        <rect key="frame" x="32" y="14" width="24.5" height="21"/>
+                                        <rect key="frame" x="27" y="14" width="34.5" height="31.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="hHE-HT-nX0">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" metaFont="systemHeavy" size="18"/>
                                             <imageReference key="image" image="waveform.path" catalog="system" symbolScale="large"/>
                                         </buttonCell>
                                         <color key="contentTintColor" name="ControlBlack"/>
@@ -197,9 +197,9 @@
                                 <toolbarItem reference="AwX-nU-XIN"/>
                                 <toolbarItem reference="qP8-7E-Gyk"/>
                                 <toolbarItem reference="AwX-nU-XIN"/>
+                                <toolbarItem reference="eOi-Yf-l9v"/>
                                 <toolbarItem reference="43P-br-LdQ"/>
                                 <toolbarItem reference="nkA-Au-qYY"/>
-                                <toolbarItem reference="MQr-un-bBt"/>
                                 <toolbarItem reference="Fk7-Vk-xXx"/>
                                 <toolbarItem reference="KCB-ms-iiR"/>
                             </defaultToolbarItems>
@@ -924,9 +924,6 @@
         <image name="wrench.and.screwdriver" catalog="system" width="23" height="22"/>
         <namedColor name="ControlBlack">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="ControlBlue">
-            <color red="0.10000000149011612" green="0.10000000149011612" blue="0.60000002384185791" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ControlGreen">
             <color red="0.15000000596046448" green="0.40000000596046448" blue="0.15000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
