@@ -67,6 +67,7 @@ class USGS
     {
         EarthquakeTimer?.invalidate()
         EarthquakeTimer = nil
+        
         EarthquakeTimer = Timer.scheduledTimer(timeInterval: Every,
                                                target: self,
                                                selector: #selector(GetNewEarthquakeData),
@@ -74,6 +75,69 @@ class USGS
                                                repeats: true)
         //Call immediately so data will be ready when the user expects.
         GetNewEarthquakeData()
+        /*
+        EarthquakeTimer = Timer.scheduledTimer(withTimeInterval: Every, repeats: true)
+        {
+            [weak self] _ in
+            self?._IsBusy = true
+            defer
+            {
+                self?._IsBusy = false
+            }
+            USGS.CallCount = USGS.CallCount + 1
+            self?.EarthquakeStartTime = CACurrentMediaTime()
+            let RetrievalQueue = OperationQueue()
+            RetrievalQueue.qualityOfService = .background
+            RetrievalQueue.name = "Earthquake Retrieval Queue"
+            RetrievalQueue.addOperation
+            {
+                MemoryDebug.Open("\(#function)")
+                self?.GetUSGSEarthquakeData
+                {
+                    Results in
+                    if var Raw = Results
+                    {
+                        do
+                            {
+                                let RawData = Data(Raw.utf8)
+                                if let json = try JSONSerialization.jsonObject(with: RawData, options: []) as? [String: Any]
+                                {
+                                    for (Name, _) in json
+                                    {
+                                        if Name == "features"
+                                        {
+                                            if let Feature = json["features"] as? [[String: Any]]
+                                            {
+                                                let Quakes = USGS.ParseJsonEntity2(Feature)
+                                                self?.ClearEarthquakes()
+                                                for Quake in Quakes
+                                                {
+                                                    self?.AddEarthquakeToList(Quake)
+                                                }
+                                                //self.ParseJsonEntity2(Feature)
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                        catch
+                        {
+                            USGS.ParseErrorCount = USGS.ParseErrorCount + 1
+                            print("JSON error \(error)")
+                        }
+                        self?.HaveAllEarthquakes()
+                        Raw.removeAll()
+                        MemoryDebug.Close("\(#function)")
+                    }
+                    else
+                    {
+                        print("Nothing to do")
+                    }
+                }
+            }
+        }
+ */
     }
     
     var EarthquakeStartTime: Double = 0.0
@@ -107,7 +171,7 @@ class USGS
             self.GetUSGSEarthquakeData
             {
                 Results in
-                if let Raw = Results
+                if var Raw = Results
                 {
                     do
                             {
@@ -126,7 +190,7 @@ class USGS
                                                 {
                                                     self.AddEarthquakeToList(Quake)
                                                 }
-//                                                self.ParseJsonEntity2(Feature)
+                                                //self.ParseJsonEntity2(Feature)
                                             }
                                         }
                                         
@@ -139,6 +203,7 @@ class USGS
                         print("JSON error \(error)")
                     }
                     self.HaveAllEarthquakes()
+                    Raw.removeAll()
                     MemoryDebug.Close("\(#function)")
                 }
                 else
@@ -409,14 +474,14 @@ class USGS
             {
                 if let HTTPResponse = Response as? HTTPURLResponse
                 {
-                    print("Response error: \(HTTPResponse)")
+                    Debug.Print("Response error: \(HTTPResponse)")
                     USGS.ResponseErrorCount = USGS.ResponseErrorCount + 1
                     completion(nil)
                     return
                 }
                 else
                 {
-                    print("HTTP error but no response. Probably timed-out.")
+                    Debug.Print("HTTP error but no response. Probably timed-out.")
                     USGS.TimeOutCount = USGS.TimeOutCount + 1
                     completion(nil)
                     return
