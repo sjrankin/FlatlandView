@@ -973,20 +973,23 @@ extension GlobeView
                 A.CastsShadow = true
                 A.Class = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
                 A.ID = NorthPole ? NodeTables.NorthPoleID : NodeTables.SouthPoleID
-                A.DiffuseColor = NSColor(HexString: "#ffd700")!
-                A.Metalness = 1.0
-                A.Roughness = 0.6
+//                A.DiffuseColor = NSColor(HexString: "#ffd700")!
+                A.DiffuseColor = NSColor.Gold
+                A.Metalness = Defaults.PoleNomenMetallness.rawValue
+                A.Roughness = Defaults.PoleNomenRoughness.rawValue
                 A.LightingModel = .physicallyBased
                 A.DiffuseType = .Color
                 A.Latitude = NorthPole ? 90.0 : -90.0
                 A.Longitude = 0.0
                 A.ShowBoundingShapes = true
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-                A.Position = SCNVector3(0.0, NorthPole ? 2.1 : -2.1, 0.0)
+                A.Position = SCNVector3(0.0,
+                                        NorthPole ? Defaults.NorthPoleNomenY.rawValue : Defaults.SouthPoleNomenY.rawValue,
+                                        0.0)
                 let Size: Sizes =
                     {
                         let S = Sizes()
-                        S.Radius = 0.5
+                        S.Radius = Defaults.NomenRadius.rawValue
                         return S
                     }()
                 A.ShapeSize = Size
@@ -1005,12 +1008,14 @@ extension GlobeView
                 A.Longitude = 0.0
                 A.ShowBoundingShapes = true
                 A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-                A.Position = SCNVector3(0.0, NorthPole ? 0.5 : -0.5, 0.0)
+                A.Position = SCNVector3(0.0,
+                                        NorthPole ? Defaults.NorthPolePoleY.rawValue : Defaults.SouthPolePoleY.rawValue,
+                                        0.0)
                 let Size: Sizes =
                     {
                         let S = Sizes()
-                        S.Radius = 0.25
-                        S.Height = 2.5
+                        S.Radius = Defaults.PoleRadius.rawValue
+                        S.Height = Defaults.PoleHeight.rawValue
                         return S
                     }()
                 A.ShapeSize = Size
@@ -1033,6 +1038,11 @@ extension GlobeView
         let Base = BaseAttributes
         let FinalNode = ShapeManager.Create(.Pole, Composite: Comp, BaseAttributes: Base)
         FinalNode.scale = SCNVector3(GetScaleMultiplier())
+        let Direction = NorthPole ? 1.0 : -1.0
+        let RotatePole = SCNAction.rotateBy(x: 0.0, y: CGFloat((180.0 * Direction).Radians), z: 0.0,
+                                            duration: Defaults.PolarPoleSpinDuration.rawValue)
+        let Forever = SCNAction.repeatForever(RotatePole)
+        FinalNode.runAction(Forever)
         return FinalNode
     }
     
@@ -1042,16 +1052,20 @@ extension GlobeView
     /// - Returns: `SCNNode` with the proper shapes and textures and oriented correctly for the globe.
     func MakeFlag(NorthPole: Bool) -> SCNNode2
     {
-        let Pole = SCNCylinder(radius: 0.04, height: 2.5)
+        let Pole = SCNCylinder(radius: CGFloat(Defaults.FlagCylinerRadius.rawValue),
+                               height: CGFloat(Defaults.FlagPoleHeight.rawValue))
         let PoleNode = SCNNode2(geometry: Pole)
         PoleNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         PoleNode.geometry?.firstMaterial?.diffuse.contents = NSColor.brown
         
-        let FlagFace = SCNBox(width: 0.04, height: 0.6, length: 1.2, chamferRadius: 0.0)
+        let FlagFace = SCNBox(width: CGFloat(Defaults.FlagFaceWidth.rawValue),
+                              height: CGFloat(Defaults.FlagFaceHeight.rawValue),
+                              length: CGFloat(Defaults.FlagFaceLength.rawValue),
+                              chamferRadius: 0.0)
         let FlagFaceNode = SCNNode2(geometry: FlagFace)
         FlagFaceNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        let XOffset = NorthPole ? 0.6 : -0.6
-        let YOffset = NorthPole ? 1.0 : -1.0
+        let XOffset = NorthPole ? Defaults.NorthPoleXOffset.rawValue : Defaults.SouthPoleXOffset.rawValue
+        let YOffset = NorthPole ? Defaults.NorthPoleYOffset.rawValue : Defaults.SouthPoleYOffset.rawValue
         FlagFaceNode.position = SCNVector3(XOffset, YOffset, 0.0)
         var FlagName = ""
         if Settings.GetEnum(ForKey: .Script, EnumType: Scripts.self, Default: .English) == .English
