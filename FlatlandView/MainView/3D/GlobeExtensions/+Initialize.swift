@@ -92,22 +92,22 @@ extension GlobeView
         {
             CameraObserver = self.observe(\.pointOfView?.position, options: [.new, .initial])
             {
-                (Node, Change) in
+                [weak self] (Node, Change) in
                 OperationQueue.current?.addOperation
                 {
                     let Location = Node.pointOfView!.position
                     let Distance = sqrt((Location.x * Location.x) + (Location.y * Location.y) + (Location.z * Location.z))
-                    if self.PreviousCameraDistance == nil
+                    if self?.PreviousCameraDistance == nil
                     {
-                        self.PreviousCameraDistance = Int(Distance)
+                        self?.PreviousCameraDistance = Int(Distance)
                     }
                     else
                     {
-                        if self.PreviousCameraDistance != Int(Distance)
+                        if self?.PreviousCameraDistance != Int(Distance)
                         {
-                            self.PreviousCameraDistance = Int(Distance)
-                            self.UpdateFlatnessForCamera(Distance: Distance)
-                            self.UpdateCityFlatnessForCamera(Distance: Distance)
+                            self?.PreviousCameraDistance = Int(Distance)
+                            self?.UpdateFlatnessForCamera(Distance: Distance)
+                            self?.UpdateCityFlatnessForCamera(Distance: Distance)
                         }
                     }
                 }
@@ -161,9 +161,7 @@ extension GlobeView
         UpdateEarthView()
         UpdateHourLongitudes(PreviousPrettyPercent ?? 0.0)
         StartDarknessClock()
-        #if DEBUG
-        //TestMouseIndicator()
-        #endif
+
         #if DEBUG
         if Settings.GetBool(.ShowAxes)
         {
@@ -231,12 +229,31 @@ extension GlobeView
     /// change attributes accordingly.
     func StartDarknessClock()
     {
-        DarkClock = Timer.scheduledTimer(timeInterval: HourConstants.DaylightCheckInterval.rawValue,
-                                         target: self,
-                                         selector: #selector(UpdateNodes),
-                                         userInfo: nil,
-                                         repeats: true)
-        UpdateNodes()
+        DarkClock = Timer.StartRepeating(withTimerInterval: HourConstants.DaylightCheckInterval.rawValue, RunFirst: true)
+        {
+            [weak self] _ in
+            if self?.EarthNode == nil
+            {
+                Debug.Print("No EarthNode in \(#function)")
+                return
+            }
+            self?.EarthNode!.ForEachChild
+            {
+                Node in
+                if Node != nil
+                {
+                    if Node!.CanSwitchState && Node!.HasLocation()
+                    {
+                        let NodeLocation = GeoPoint(Node!.Latitude!, Node!.Longitude!)
+                        NodeLocation.CurrentTime = Date()
+                        if let SunIsVisible = Solar.IsInDaylight(Node!.Latitude!, Node!.Longitude!)
+                        {
+                            Node!.IsInDaylight = SunIsVisible
+                        }
+                    }
+                }
+            }
+        }
     }
     
     /// Go through all child nodes in the `EarthNode` and update those that allow it for daylight visibility.
