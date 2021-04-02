@@ -8,6 +8,7 @@
 
 import WidgetKit
 import SwiftUI
+import SceneKit
 
 struct Provider: TimelineProvider
 {
