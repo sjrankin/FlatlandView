@@ -100,7 +100,7 @@ class USGS
                                         {
                                             if let Feature = json["features"] as? [[String: Any]]
                                             {
-                                                let Quakes = USGS.ParseJsonEntity2(Feature)
+                                                let Quakes = USGS.ParseJsonEntity(Feature)
                                                 self?.ClearEarthquakes()
                                                 for Quake in Quakes
                                                 {
@@ -184,7 +184,7 @@ class USGS
                                         {
                                             if let Feature = json["features"] as? [[String: Any]]
                                             {
-                                                let Quakes = USGS.ParseJsonEntity2(Feature)
+                                                let Quakes = USGS.ParseJsonEntity(Feature)
                                                 self?.ClearEarthquakes()
                                                 for Quake in Quakes
                                                 {
@@ -508,235 +508,10 @@ class USGS
     /// Timer for getting USGS earthquakes.
     var EarthquakeTimer: Timer? = nil
     
-    #if false
     /// Parse a JSON dictionary into an array of earthquake data.
     /// - Parameter JSON: Array of arrays of JSON data.
-    func ParseJsonEntity(_ JSON: [[String: Any]])
+    static func ParseJsonEntity(_ JSON: [[String: Any]]) -> [Earthquake]
     {
-        let Trace = Debug.StackFrameContents(5)
-        Debug.Print("Parsing earthquake: \(Debug.PrettyStackTrace(Trace))")
-        ClearEarthquakes()
-        var Seq = 0
-        for OneFeature in JSON
-        {
-            let NewEarthquake = Earthquake(Sequence: Seq)
-            for subset in OneFeature
-            {
-                
-                Seq = Seq + 1
-                let Dict = Dictionary(dictionaryLiteral: subset)
-                for (Key, Value) in Dict
-                {
-                    let SubDict = Value as? [String: Any]
-                    if SubDict == nil
-                    {
-                        continue
-                    }
-                    switch Key
-                    {
-                        case "geometry":
-                            for (GeoKey, GeoVal) in SubDict!
-                            {
-                                if GeoKey == "coordinates"
-                                {
-                                    if let A = GeoVal as? [Double]
-                                    {
-                                        NewEarthquake.SetLocation(A[1], A[0])
-                                        NewEarthquake.Depth = A[2]
-                                    }
-                                }
-                            }
-                            
-                        case "properties":
-                            for (PropKey, PropVal) in SubDict!
-                            {
-                                switch PropKey
-                                {
-                                    case "mag":
-                                        if let Magnitude = PropVal as? Double
-                                        {
-                                            NewEarthquake.Magnitude = Magnitude
-                                        }
-                                        else
-                                        {
-                                            NewEarthquake.Magnitude = 0.0
-                                        }
-                                        
-                                    case "place":
-                                        NewEarthquake.Place = PropVal as! String
-                                        
-                                    case "time":
-                                        var TimeDouble = PropVal as! Double
-                                        TimeDouble = TimeDouble / 1000.0
-                                        NewEarthquake.Time = Date(timeIntervalSince1970: TimeDouble)
-                                        
-                                    case "tsunami":
-                                        NewEarthquake.Tsunami = PropVal as! Int
-                                        
-                                    case "code":
-                                        NewEarthquake.Code = PropVal as! String
-                                        
-                                    case "status":
-                                        NewEarthquake.Status = PropVal as! String
-                                        
-                                    case "updated":
-                                        var UpdatedDouble = PropVal as! Double
-                                        UpdatedDouble = UpdatedDouble / 1000.0
-                                        NewEarthquake.Updated = Date(timeIntervalSince1970: UpdatedDouble)
-                                        
-                                    case "mmi":
-                                        if let MMI = PropVal as? Double
-                                        {
-                                            NewEarthquake.MMI = MMI
-                                        }
-                                        
-                                    case "felt":
-                                        if let Felt = PropVal as? Int
-                                        {
-                                            NewEarthquake.Felt = Felt
-                                        }
-                                        
-                                    case "sig":
-                                        NewEarthquake.Significance = PropVal as! Int
-                                        
-                                    case "title":
-                                        NewEarthquake.Title = PropVal as! String
-                                        
-                                    case "magError":
-                                        if let MagError = PropVal as? Double
-                                        {
-                                            NewEarthquake.MagError = MagError
-                                        }
-                                        
-                                    case "magNst":
-                                        NewEarthquake.MagNST = PropVal as! Int
-                                        
-                                    case "magSource":
-                                        NewEarthquake.MagSource = PropVal as! String
-                                        
-                                    case "magType":
-                                        if let MagType = PropVal as? String
-                                        {
-                                            NewEarthquake.MagType = MagType
-                                        }
-                                        
-                                    case "net":
-                                        NewEarthquake.Net = PropVal as! String
-                                        
-                                    case "nph":
-                                        NewEarthquake.NPH = PropVal as! String
-                                        
-                                    case "nst":
-                                        if let NST = PropVal as? Int
-                                        {
-                                            NewEarthquake.NST = NST
-                                        }
-                                        
-                                    case "sources":
-                                        NewEarthquake.Sources = PropVal as! String
-                                        
-                                    case "type":
-                                        NewEarthquake.EventType = PropVal as! String
-                                        
-                                    case "types":
-                                        NewEarthquake.Types = PropVal as! String
-                                        
-                                    case "tz":
-                                        if let TZ = PropVal as? Int
-                                        {
-                                            NewEarthquake.TZ = TZ
-                                        }
-                                        
-                                    case "alert":
-                                        if let Alert = PropVal as? String
-                                        {
-                                            NewEarthquake.Alert = Alert
-                                        }
-                                        
-                                    case "url":
-                                        NewEarthquake.EventPageURL = PropVal as! String
-                                        
-                                    case "cdi":
-                                        if let CDI = PropVal as? Double
-                                        {
-                                            NewEarthquake.CDI = CDI
-                                        }
-                                        
-                                    case "depthError":
-                                        if let DepthError = PropVal as? Double
-                                        {
-                                            NewEarthquake.DepthError = DepthError
-                                        }
-                                        
-                                    case "detail":
-                                        NewEarthquake.Detail = PropVal as! String
-                                        
-                                    case "dmin":
-                                        if let DMin = PropVal as? Double
-                                        {
-                                            NewEarthquake.DMin = DMin
-                                        }
-                                        
-                                    case "gap":
-                                        if let Gap = PropVal as? Double
-                                        {
-                                            NewEarthquake.Gap = Gap
-                                        }
-                                        
-                                    case "horizontalError":
-                                        if let HError = PropVal as? Double
-                                        {
-                                            NewEarthquake.HorizontalError = HError
-                                        }
-                                        
-                                    case "id":
-                                        NewEarthquake.EventID = PropVal as! String
-                                        
-                                    case "ids":
-                                        NewEarthquake.IDs = PropVal as! String
-                                        
-                                    case "locationSource":
-                                        NewEarthquake.LocationSource = PropVal as! String
-                                        
-                                    case "rms":
-                                        if let RMS = PropVal as? Double
-                                        {
-                                            NewEarthquake.RMS = RMS
-                                        }
-                                        
-                                    default:
-                                        continue
-                                }
-                            }
-                            
-                        default:
-                            continue
-                    }
-                }
-                
-                
-                #if true
-                AddEarthquakeToList(NewEarthquake)
-                #else
-                /// To prevent too many earthquakes from slowing things down, if an earthquake is less than
-                /// a general minimum magnitude, it won't be included.
-                if NewEarthquake.Magnitude >= Settings.GetDouble(.GeneralMinimumMagnitude, 4.0)
-                {
-                    AddEarthquakeToList(NewEarthquake)
-                }
-                #endif
-            }
-        }
-    }
-    #endif
-    
-    /// Parse a JSON dictionary into an array of earthquake data.
-    /// - Parameter JSON: Array of arrays of JSON data.
-    static func ParseJsonEntity2(_ JSON: [[String: Any]]) -> [Earthquake]
-    {
-        let Trace = Debug.StackFrameContents(5)
-        Debug.Print("Parsing earthquake: \(Debug.PrettyStackTrace(Trace))")
-        //ClearEarthquakes()
         var Seq = 0
         var Quakes = [Earthquake]()
         for OneFeature in JSON
