@@ -28,10 +28,15 @@ extension GlobeView
             {
                 ApplyAllStencils(Caller: #function)
             }
-            MemoryDebug.Block("PlotEarthquakesCall")
+            #if DEBUG
+            MemoryDebug.Block(#function)
             {
-                self.PlotEarthquakes(self.EarthquakeList, IsCached: FromCache, On: Earth)
+                [weak self] _ in
+                self?.PlotEarthquakes((self?.EarthquakeList)!, IsCached: FromCache, On: Earth)
             }
+            #else
+            PlotEarthquakes(EarthquakeList, IsCached: FromCache, On: Earth)
+            #endif
             Final?()
         }
     }
@@ -218,11 +223,13 @@ extension GlobeView
             if let QNode = QShape
             {
                 var BaseColor = Settings.GetColor(.BaseEarthquakeColor, NSColor.red)
-                let HighlightHow = Settings.GetEnum(ForKey: .EarthquakeStyles, EnumType: EarthquakeIndicators.self,
+                let HighlightHow = Settings.GetEnum(ForKey: .EarthquakeStyles,
+                                                    EnumType: EarthquakeIndicators.self,
                                                     Default: .None)
-                let QuakeShapeType =  Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self,
-                                                       Default: .TetheredNumber)
-                if HighlightHow != .None && QuakeShapeType != .TetheredNumber
+                let QuakeShapeType =  Settings.GetEnum(ForKey: .EarthquakeShapes,
+                                                       EnumType: EarthquakeShapes.self,
+                                                       Default: .Arrow)
+                if HighlightHow != .None //&& QuakeShapeType != .TetheredNumber
                 {
                     let HowRecent = Settings.GetEnum(ForKey: .RecentEarthquakeDefinition, EnumType: EarthquakeRecents.self,
                                                      Default: .Day1)
