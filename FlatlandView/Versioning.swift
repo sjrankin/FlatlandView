@@ -121,20 +121,20 @@ public class Versioning: CustomStringConvertible
         print(MakeVersionBlock(LinePrefix))
     }
     
-    /// Build number.
-    public static let Build: Int = 9994
+    /// Build number. Incremented every build (provided the proper script is executed at each build).
+    public static let Build: Int = 10001
     
-    /// Build increment.
+    /// Build increment. Value to use to increment the build number.
     private static let BuildIncrement = 1
     
     /// Build ID.
-    public static let BuildID: String = "A8D2FEA0-150E-4B54-994A-A564A4897F1A"
+    public static let BuildID: String = "5228EDF2-4E8D-4E8B-83CE-1F2DCB764057"
     
     /// Build date.
     public static let BuildDate: String = "2 April 2021"
     
     /// Build Time.
-    public static let BuildTime: String = "09:29"
+    public static let BuildTime: String = "14:43"
     
     /// Holds the release build flag.
     private static var _IsReleaseBuild: Bool = false
