@@ -13,6 +13,8 @@ import SceneKit
 extension GlobeView
 {
     /// Plot earthquakes on the globe.
+    /// - Note: If #DEBUG is defined, memory is tracked over the course of plotting earthquakes. If #DEBUG
+    ///         is not defined, memory is not tracked.
     /// - Parameter From: Name of the caller. Defaults to nil.
     /// - Parameter FromCache: If true, earthquakes are from the cache.
     /// - Parameter Final: Completion block called after plot functions have been called. Defaults to nil.
