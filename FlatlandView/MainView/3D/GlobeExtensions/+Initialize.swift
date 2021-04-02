@@ -72,6 +72,7 @@ extension GlobeView
         
         self.allowsCameraControl = true
 
+        #if false
         /// Watch the camera to ensure we always have the camera's orientation.
         CameraObserver = self.observe(\.pointOfView?.position, options: [.new, .initial])
         {
@@ -84,6 +85,7 @@ extension GlobeView
                 self.CameraRotation = Node.pointOfView!.rotation
             }
         }
+        #endif
         
         //Monitor the camera's distance from the center of the Earth. Used to set the quality level of extruded
         //hour numerals.
@@ -254,55 +256,6 @@ extension GlobeView
                 }
             }
         }
-    }
-    
-    /// Go through all child nodes in the `EarthNode` and update those that allow it for daylight visibility.
-    /// This is used to switch visual attributes to make nodes more visible in the night.
-    @objc func UpdateNodes()
-    {
-        if EarthNode == nil
-        {
-            Debug.Print("No EarthNode in \(#function)")
-            return
-        }
-        #if true
-        EarthNode!.ForEachChild
-        {
-            Node in
-            if Node != nil
-            {
-                if Node!.CanSwitchState && Node!.HasLocation()
-                {
-                    let NodeLocation = GeoPoint(Node!.Latitude!, Node!.Longitude!)
-                    NodeLocation.CurrentTime = Date()
-                    if let SunIsVisible = Solar.IsInDaylight(Node!.Latitude!, Node!.Longitude!)
-                    {
-                        Node!.IsInDaylight = SunIsVisible
-                    }
-                }
-            }
-        }
-        #else
-        MemoryDebug.Block("DarknessUpdateNodes")
-        {
-            self.EarthNode!.ForEachChild
-            {
-                Node in
-                if Node != nil
-                {
-                    if Node!.CanSwitchState && Node!.HasLocation()
-                    {
-                        let NodeLocation = GeoPoint(Node!.Latitude!, Node!.Longitude!)
-                        NodeLocation.CurrentTime = Date()
-                        if let SunIsVisible = Solar.IsInDaylight(Node!.Latitude!, Node!.Longitude!)
-                        {
-                            Node!.IsInDaylight = SunIsVisible
-                        }
-                    }
-                }
-            }
-        }
-        #endif
     }
     
     /// Create the Flatland camera. This is different from the one that allowsCameraControl manipulates.
