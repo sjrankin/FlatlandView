@@ -96,7 +96,7 @@ class MemoryDebug
                     let RawDelta = Record.Delta!
                     let DeltaMem = RawDelta.Delimited()
                     let NameValue = Record.Name ?? "n/a"
-                    CSV.SetData(RowData("\"\(PrettyTime)\"", "\(CMem)", "", "\"\(DeltaMem)\"",
+                    CSV.SetData(RowData("\"\(PrettyTime)\"", "\(CMem)", "\(CurrentMemory)", "", "\"\(DeltaMem)\"",
                                         "", NameValue))
                     Debug.Print("MemoryDebug Operation \"\(Name)\": Memory delta \(Sign)\(Record.Delta!.Delimited())")
                 }
@@ -174,7 +174,7 @@ class MemoryDebug
                     let CurrentMemory = LowLevel.MemoryStatistics(.PhysicalFootprint)!
                     let CMem = CurrentMemory.WithSuffix()
                     let DeltaMem = Record.Delta!.WithSuffix()
-                    CSV.SetData(RowData("\"\(PrettyTime)\"", "\(CMem)", "", "\(DeltaMem)",
+                    CSV.SetData(RowData("\"\(PrettyTime)\"", "\(CMem)", "\(CurrentMemory)", "", "\(DeltaMem)",
                                         "", NameValue))
                     Debug.Print("MemoryDebug Operation \"\(NameValue)\": Memory delta \(Sign)\(Record.Delta!.Delimited())")
                 }
@@ -209,11 +209,11 @@ class MemoryDebug
     ///            always returned.
     @discardableResult public static func Block(_ Name: String, DebugPrint DoPrint: Bool = true,
                                                 Field MemoryField: MemoryFields = .PhysicalFootprint,
-                                                _ Closure: (() -> ())?) -> MemoryData?
+                                                _ Closure: ((String) -> ())?) -> MemoryData?
     {
         #if DEBUG
         Open(Name, Field: MemoryField)
-        Closure?()
+        Closure?(Name)
         Close(Name, DebugPrint: DoPrint)
         return Locations[Name]
         #else
