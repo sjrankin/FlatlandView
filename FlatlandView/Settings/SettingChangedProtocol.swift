@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol SettingChangedProtocol: class
+protocol SettingChangedProtocol: AnyObject
 {
     /// The ID of the subscriber. This value should not change during the run-time
     /// of the program.
