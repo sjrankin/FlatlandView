@@ -3,7 +3,7 @@
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/20/20.
-//  Copyright © 2020 Stuart Rankin. All rights reserved.
+//  Copyright © 2020, 2021 Stuart Rankin. All rights reserved.
 //
 
 import Foundation
@@ -17,13 +17,13 @@ extension FlatView
     {
         Settings.AddSubscriber(self)
         
-        if NSScreen.main?.backingScaleFactor == 1.0
-        {
-            self.antialiasingMode = .multisampling4X
-        }
+        #if DEBUG
+        self.showsStatistics = Settings.GetBool(.ShowStatistics)
+        #else
+        self.showsStatistics = false
+        #endif
         
         #if DEBUG
-        showsStatistics = true
         var DebugTypes = [DebugOptions3D]()
         Settings.QueryBool(.ShowSkeletons)
         {
@@ -80,7 +80,16 @@ extension FlatView
         self.autoenablesDefaultLighting = false
         self.scene = SCNScene()
         self.backgroundColor = NSColor.clear
-        self.antialiasingMode = .multisampling2X
+        // Increase the antialias mode if we are running on a low resolution screen.
+        if NSScreen.main!.backingScaleFactor < 2.0
+        {
+            Debug.Print("Setting antialias mode to multisampling4x.")
+            self.antialiasingMode = .multisampling4X
+        }
+        else
+        {
+            self.antialiasingMode = .multisampling2X
+        }
         self.isJitteringEnabled = true
         
         CreateCamera()
@@ -104,22 +113,22 @@ extension FlatView
         
         CameraObserver = self.observe(\.pointOfView?.position, options: [.new, .initial])
         {
-            (Node, Change) in
+            [weak self] (Node, Change) in
             OperationQueue.current?.addOperation
             {
-                let Distance = self.CameraDistance(POV: Node.pointOfView!)
-                if self.PreviousCameraDistance == nil
+                let Distance = (self?.CameraDistance(POV: Node.pointOfView!))!
+                if self?.PreviousCameraDistance == nil
                 {
-                    self.PreviousCameraDistance = Int(Distance)
+                    self?.PreviousCameraDistance = Int(Distance)
                 }
                 else
                 {
-                    if self.PreviousCameraDistance != Int(Distance)
+                    if self?.PreviousCameraDistance != Int(Distance)
                     {
                         Debug.Print("Updating nodes for distance")
-                        self.PreviousCameraDistance = Int(Distance)
-                        self.UpdateQuakeTextForCameraLocation(Distance: Distance)
-                        self.UpdateCityTextForCameraLocation(Distance: Distance)
+                        self?.PreviousCameraDistance = Int(Distance)
+                        self?.UpdateQuakeTextForCameraLocation(Distance: Distance)
+                        self?.UpdateCityTextForCameraLocation(Distance: Distance)
                     }
                 }
             }
@@ -134,7 +143,27 @@ extension FlatView
         DarknessClock = Timer.StartRepeating(withTimerInterval: HourConstants.DaylightCheckInterval.rawValue, RunFirst: true)
         {
             [weak self] _ in
-            self?.UpdateNodesForSunlight()
+            //self?.UpdateNodesForSunlight()
+            self?.QuakePlane.ForEachChild2
+            {
+                Node in
+                if Node.CanSwitchState && Node.HasLocation()
+                {
+                    let NodeLocation = GeoPoint(Node.Latitude!, Node.Longitude!)
+                    NodeLocation.CurrentTime = Date()
+                    Node.SetDaylightState()
+                }
+            }
+            self?.CityPlane.ForEachChild2
+            {
+                Node in
+                if Node.CanSwitchState && Node.HasLocation()
+                {
+                    let NodeLocation = GeoPoint(Node.Latitude!, Node.Longitude!)
+                    NodeLocation.CurrentTime = Date()
+                    Node.SetDaylightState()
+                }
+            }
         }
     }
     
