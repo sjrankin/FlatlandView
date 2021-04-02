@@ -113,7 +113,7 @@ extension MainController: SettingChangedProtocol
                             #if DEBUG
                             let Mem = LowLevel.MemoryStatistics(.PhysicalFootprint)!
                             let Used = Mem.WithSuffix()
-                            CSV.SetData(RowData(Date().PrettyTime(), Used, "", "", "", "Switch to flat round view."))
+                            CSV.SetData(RowData(Date().PrettyTime(), Used, "\(Mem)", "", "", "Switch to flat round view."))
                             #endif
                             
                         case .Rectangular:
@@ -121,7 +121,7 @@ extension MainController: SettingChangedProtocol
                             #if DEBUG
                             let Mem = LowLevel.MemoryStatistics(.PhysicalFootprint)!
                             let Used = Mem.WithSuffix()
-                            CSV.SetData(RowData(Date().PrettyTime(), Used, "", "", "", "Switch to rectangular view."))
+                            CSV.SetData(RowData(Date().PrettyTime(), Used, "\(Mem)", "", "", "Switch to rectangular view."))
                             #endif
                             
                         case .CubicWorld:
@@ -130,7 +130,7 @@ extension MainController: SettingChangedProtocol
                             #if DEBUG
                             let Mem = LowLevel.MemoryStatistics(.PhysicalFootprint)!
                             let Used = Mem.WithSuffix()
-                            CSV.SetData(RowData(Date().PrettyTime(), Used, "", "", "", "Switch to cubic view."))
+                            CSV.SetData(RowData(Date().PrettyTime(), Used, "\(Mem)", "", "", "Switch to cubic view."))
                             #endif
                             
                         case .Globe3D:
@@ -145,7 +145,7 @@ extension MainController: SettingChangedProtocol
                             #if DEBUG
                             let Mem = LowLevel.MemoryStatistics(.PhysicalFootprint)!
                             let Used = Mem.WithSuffix()
-                            CSV.SetData(RowData(Date().PrettyTime(), Used, "", "", "", "Switch to globe view."))
+                            CSV.SetData(RowData(Date().PrettyTime(), Used, "\(Mem)", "", "", "Switch to globe view."))
                             #endif
                     }
                     SetFlatMode(IsFlat)
