@@ -74,15 +74,17 @@ class MainController: NSViewController
         {
             [weak self] _ in
             var UsedMemory = ""
+            var ActualMemory: UInt64 = 0
             if let InUse = LowLevel.MemoryStatistics(.PhysicalFootprint)
             {
+                ActualMemory = InUse
                 UsedMemory = InUse.WithSuffix()
             }
             let DurationValue = Utility.DurationBetween(Seconds1: CACurrentMediaTime(), Seconds2: (self?.UptimeStart)!)
             var ExtraData = ""
             if !CSV.ColumnsSet
             {
-                CSV.SetColumns(["Time", "Used Memory", "Mean Memory (60s)", "Delta", "Node Count", "Note"])
+                CSV.SetColumns(["Time", "Used Memory", "Actual Memory", "Mean Memory (60s)", "Delta", "Node Count", "Note"])
             }
             guard let NodeCount = self?.Main3DView.TotalNodeCount() else
             {
@@ -108,7 +110,7 @@ class MainController: NSViewController
             StatString = StatString + " {\(Mean.Delimited()), ∆\(MeanDelta.Delimited())}"
             Debug.Print(StatString)
             let PrettyTime = Date().PrettyTime()
-            CSV.SetData(RowData("\"\(PrettyTime)\"", "\(UsedMemory)", "\"\(Mean.WithSuffix())\"",
+            CSV.SetData(RowData("\"\(PrettyTime)\"", "\(UsedMemory)", "\(ActualMemory)", "\"\(Mean.WithSuffix())\"",
                                 "\"\(MeanDelta.Delimited())\"", "\(NodeCount)", "Periodic Memory Check"))
             CSV.WriteTo(Name: "MemoryDebug.csv")
             self?.StatusBar.ShowStatusText(StatString, For: 15.0)
