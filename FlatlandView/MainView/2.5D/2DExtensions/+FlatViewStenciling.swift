@@ -40,7 +40,6 @@ extension FlatView
                 Line.lineWidth = CGFloat(FlatConstants.WallClockLineWidth.rawValue)
                 Line.lineCapStyle = .round
                 Line.setLineDash(DashPattern, count: DashPattern.count, phase: 0.0)
-                Line.lineCapStyle = .round
                 Line.move(to: NSPoint(x: FlatConstants.StencilRadius.rawValue,
                                       y: FlatConstants.StencilRadius.rawValue))
                 Line.line(to: NSPoint(x: X + FlatConstants.StencilRadius.rawValue,
