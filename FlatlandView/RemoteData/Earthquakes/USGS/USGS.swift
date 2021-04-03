@@ -67,7 +67,6 @@ class USGS
     {
         EarthquakeTimer?.invalidate()
         EarthquakeTimer = nil
-        #if true
         EarthquakeTimer = Timer.StartRepeating(withTimerInterval: Every, RunFirst: true)
         {
             [weak self] _ in
@@ -128,91 +127,11 @@ class USGS
                 }
             }
         }
-        #else
-        EarthquakeTimer = Timer.scheduledTimer(timeInterval: Every,
-                                               target: self,
-                                               selector: #selector(GetNewEarthquakeData),
-                                               userInfo: nil,
-                                               repeats: true)
-        //Call immediately so data will be ready when the user expects.
-        GetNewEarthquakeData()
-        #endif
     }
     
     var EarthquakeStartTime: Double = 0.0
     
     var RetrievalQueue: OperationQueue? = nil
-    
-    #if false
-    /// Make a web request to the USGS to return earthquake data.
-    /// - Note: Execution occurs on a background thread.
-    @objc func GetNewEarthquakeData()
-    {
-        _IsBusy = true
-        defer
-        {
-            _IsBusy = false
-        }
-        USGS.CallCount = USGS.CallCount + 1
-        EarthquakeStartTime = CACurrentMediaTime()
-        #if true
-        let RetrievalQueue = OperationQueue()
-        RetrievalQueue.qualityOfService = .background
-        RetrievalQueue.name = "Earthquake Retrieval Queue"
-        #else
-        RetrievalQueue = OperationQueue()
-        RetrievalQueue?.qualityOfService = .background
-        RetrievalQueue?.name = "Earthquake Retrieval Queue"
-        RetrievalQueue?.addOperation
-        #endif
-        RetrievalQueue.addOperation
-        {
-            MemoryDebug.Open("\(#function)")
-            self.GetUSGSEarthquakeData
-            {
-                [weak self] Results in
-                if var Raw = Results
-                {
-                    do
-                            {
-                                let RawData = Data(Raw.utf8)
-                                if let json = try JSONSerialization.jsonObject(with: RawData, options: []) as? [String: Any]
-                                {
-                                    for (Name, _) in json
-                                    {
-                                        if Name == "features"
-                                        {
-                                            if let Feature = json["features"] as? [[String: Any]]
-                                            {
-                                                let Quakes = USGS.ParseJsonEntity(Feature)
-                                                self?.ClearEarthquakes()
-                                                for Quake in Quakes
-                                                {
-                                                    self?.AddEarthquakeToList(Quake)
-                                                }
-                                            }
-                                        }
-                                        
-                                    }
-                                }
-                            }
-                    catch
-                    {
-                        USGS.ParseErrorCount = USGS.ParseErrorCount + 1
-                        print("JSON error \(error)")
-                    }
-                    self?.HaveAllEarthquakes()
-                    Raw.removeAll()
-                    MemoryDebug.Close("\(#function)")
-                }
-                else
-                {
-                    print("Nothing to do")
-                }
-            }
-        }
-    }
-    #endif
     
     /// Holds the busy flag.
     private var _IsBusy: Bool = false
