@@ -129,6 +129,7 @@ extension GlobeView
     func UpdateLayer(_ Layer: GlobeLayers)
     {
         print("**** At \(#function)")
+        #if false
         Stenciler.AddStencils2(Layer)
         {
             Image, LayerType in
@@ -137,5 +138,6 @@ extension GlobeView
                 self.MakeLayer(LayerType, Image: FinalImage)
             }
         }
+        #endif
     }
 }
