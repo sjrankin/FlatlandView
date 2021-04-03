@@ -110,28 +110,13 @@ extension MainController: SettingChangedProtocol
                             IsFlat = true
                             Main2DView.UpdateEarthView()
                             Main2DView.UpdateGrid()
-                            #if DEBUG
-                            let Mem = LowLevel.MemoryStatistics(.PhysicalFootprint)!
-                            let Used = Mem.WithSuffix()
-                            CSV.SetData(RowData(Date().PrettyTime(), Used, "\(Mem)", "", "", "Switch to flat round view."))
-                            #endif
                             
                         case .Rectangular:
                             IsFlat = true
-                            #if DEBUG
-                            let Mem = LowLevel.MemoryStatistics(.PhysicalFootprint)!
-                            let Used = Mem.WithSuffix()
-                            CSV.SetData(RowData(Date().PrettyTime(), Used, "\(Mem)", "", "", "Switch to rectangular view."))
-                            #endif
                             
                         case .CubicWorld:
                             Main3DView.SetEarthMap()
                             IsFlat = false
-                            #if DEBUG
-                            let Mem = LowLevel.MemoryStatistics(.PhysicalFootprint)!
-                            let Used = Mem.WithSuffix()
-                            CSV.SetData(RowData(Date().PrettyTime(), Used, "\(Mem)", "", "", "Switch to cubic view."))
-                            #endif
                             
                         case .Globe3D:
                             IsFlat = false
@@ -142,11 +127,6 @@ extension MainController: SettingChangedProtocol
                             }
                             MainTimeLabelTop.isHidden = false
                             MainTimeLabelBottom.isHidden = true
-                            #if DEBUG
-                            let Mem = LowLevel.MemoryStatistics(.PhysicalFootprint)!
-                            let Used = Mem.WithSuffix()
-                            CSV.SetData(RowData(Date().PrettyTime(), Used, "\(Mem)", "", "", "Switch to globe view."))
-                            #endif
                     }
                     SetFlatMode(IsFlat)
                 }
