@@ -117,6 +117,8 @@ enum Defaults: Double, CaseIterable
     case NorthPoleYOffset = 1.00000003
     /// Y offset for the south pole.
     case SouthPoleYOffset = -1.00000003
+    /// Radial angle offset for wall clock hours to align with the center of the sector.
+    case WallClockHourOffset = -4.0
 }
 
 // MARK: - Constants used in flat mode.
