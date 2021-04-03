@@ -519,18 +519,19 @@ extension GlobeView
     {
         let HourText = MakeWallClockNodeText(With: Value, LetterColor: LetterColor)
         let HourTextNode = SCNNode2(geometry: HourText)
-        HourTextNode.HourAngle = WorkingAngle
+        let ActualAngle = WorkingAngle// - Defaults.WallClockHourOffset.rawValue
+        HourTextNode.HourAngle = ActualAngle
         HourTextNode.IsTextNode = true
         HourTextNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         let FinalScale = CGFloat(ScaleMultiplier) * NodeScales3D.HourText.rawValue
         HourTextNode.scale = SCNVector3(FinalScale)
         
-        let (X, Y, Z) = ToECEF(0.0, WorkingAngle, Radius: Double(GlobeRadius.HourSphere.rawValue))
+        let (X, Y, Z) = ToECEF(0.0, ActualAngle, Radius: Double(GlobeRadius.HourSphere.rawValue))
         let HourHeight = HourTextNode.boundingBox.max.x - HourTextNode.boundingBox.min.x
         let YOffset = Double(HourHeight / 2.0 * FinalScale)
         HourTextNode.position = SCNVector3(X, Y + YOffset, Z)
         
-        let XAngle = (180.0 - WorkingAngle - 180.0).Radians
+        let XAngle = (180.0 - ActualAngle - 180.0).Radians
         let YAngle = 0.0.Radians
         let ZAngle = -90.0.Radians
         HourTextNode.eulerAngles = SCNVector3(XAngle, YAngle, ZAngle)
