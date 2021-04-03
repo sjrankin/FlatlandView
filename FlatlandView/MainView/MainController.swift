@@ -17,6 +17,7 @@ class MainController: NSViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        ElapsedTimeValue = 0.0
         
         Settings.SetInt(.Trigger_MemoryMeasured, 0)
         MemoryDebug.MeasurePeriodically
@@ -82,10 +83,15 @@ class MainController: NSViewController
             }
             let DurationValue = Utility.DurationBetween(Seconds1: CACurrentMediaTime(), Seconds2: (self?.UptimeStart)!)
             var ExtraData = ""
-            if !CSV.ColumnsSet
+            if !CSV.HeadersSet
             {
-                CSV.SetColumns(["Time", "Used Memory", "Actual Memory", "Mean Memory (60s)", "Delta", "Node Count", "Note"])
+                CSV.SetHeaders(MemoryHeaders.allCases.map({$0.rawValue}))
             }
+            if !CSV.SaveNameSet
+            {
+                CSV.SetSaveName("MemoryDebug.csv")
+            }
+
             guard let NodeCount = self?.Main3DView.TotalNodeCount() else
             {
                 return
@@ -96,9 +102,9 @@ class MainController: NSViewController
             {
                 DeltaString = "+" + DeltaString
             }
-            ExtraData = ", Nodes: \(NodeCount) ∆\(DeltaString)"
+            ExtraData = "Nodes: \(NodeCount), ∆\(DeltaString)"
             self?.PreviousCount = NodeCount
-            var StatString = "Uptime: \(DurationValue), Memory: \(UsedMemory)\(ExtraData)"
+            let StatString = "Uptime: \(DurationValue), Memory: \(UsedMemory)"
             objc_sync_enter((self?.MemSizeLock)!)
             let EntryCount = self?.MemSize.count
             let Sum: UInt64 = (self?.MemSize)!.reduce(0, +)
@@ -107,12 +113,26 @@ class MainController: NSViewController
             objc_sync_exit((self?.MemSizeLock)!)
             let MeanDelta = Int64(Mean) - Int64((self?.PreviousMean)!)
             self?.PreviousMean = Mean
-            StatString = StatString + " {\(Mean.Delimited()), ∆\(MeanDelta.Delimited())}"
-            Debug.Print(StatString)
+            Debug.Print(StatString + " {\(ExtraData), \(Mean.Delimited()), ∆\(MeanDelta.Delimited())}")
             let PrettyTime = Date().PrettyTime()
-            CSV.SetData(RowData("\"\(PrettyTime)\"", "\(UsedMemory)", "\(ActualMemory)", "\"\(Mean.WithSuffix())\"",
-                                "\"\(MeanDelta.Delimited())\"", "\(NodeCount)", "Periodic Memory Check"))
-            CSV.WriteTo(Name: "MemoryDebug.csv")
+            let NewTimeValue = CACurrentMediaTime()
+            self?.ElapsedTimeValue = NewTimeValue - (self?.PreviousTimeValue)!
+            var FinalElapsed = self?.ElapsedTimeValue.RoundedTo(2)
+            if (self?.PreviousTimeValue)! == 0.0
+            {
+                FinalElapsed = 0.0
+            }
+            self?.PreviousTimeValue = NewTimeValue
+            CSV[MemoryHeaders.Time.rawValue] = "\"\(PrettyTime)\""
+            CSV[MemoryHeaders.ElapsedTime.rawValue] = "\(FinalElapsed!)"
+            CSV[MemoryHeaders.UsedMemory.rawValue] = "\(UsedMemory)"
+            CSV[MemoryHeaders.ActualMemory.rawValue] = "\(ActualMemory)"
+            CSV[MemoryHeaders.MeanMemory.rawValue] = "\"\(Mean.WithSuffix())\""
+            CSV[MemoryHeaders.Delta.rawValue] = "\"\(MeanDelta.Delimited())\""
+            CSV[MemoryHeaders.NodeCount.rawValue] = "\(NodeCount)"
+            CSV[MemoryHeaders.Note.rawValue] = "Periodic Memory Check"
+            CSV.SaveRowInFile()
+            
             self?.StatusBar.ShowStatusText(StatString, For: 15.0)
         }
         #endif
@@ -125,6 +145,8 @@ class MainController: NSViewController
     var PreviousCount = 0
     let MemoryLock = NSObject()
     var MemoryOverTime = [Int64]()
+    var ElapsedTimeValue: Double = 0.0
+    var PreviousTimeValue: Double = 0.0
     #endif
     
     /// Determines if the main window is at least partially visible in some view.
