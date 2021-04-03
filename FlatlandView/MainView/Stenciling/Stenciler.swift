@@ -96,6 +96,7 @@ class Stenciler
     /// Provides a lock from too many callers at once.
     private static let StencilLock = NSObject()
     
+    #if false
     /// Create a stencil layer.
     /// - Parameter Layer: Determines the contents of the image of the stencil layer.
     /// - Parameter LayerData: Data a given layer may need.
@@ -107,6 +108,7 @@ class Stenciler
         let Queue = OperationQueue()
         Queue.qualityOfService = .background
         Queue.name = "Thread for \(Layer.rawValue)"
+        let MapRatio: Double = 1.0
         Queue.addOperation
         {
             var LayerImage: NSImage? = nil
@@ -116,7 +118,7 @@ class Stenciler
                     break
                     
                 case .GridLines:
-                    LayerImage = ApplyGridLines()
+                    LayerImage = AddGridLines()//ApplyGridLines()
                     
                 case .Lines:
                     break
@@ -148,6 +150,7 @@ class Stenciler
             Completion?(LayerImage, Layer)
         }
     }
+    #endif
     
     /// Create an array of random circles.
     /// - Returns: Attay of circle records.
@@ -463,7 +466,7 @@ class Stenciler
     }
     
     /// Defines a line definition.
-    typealias LineDefinition = (IsHorizontal: Bool, At: Int, Thickness: Int, Color: NSColor)
+    typealias LineDefinition = (IsHorizontal: Bool, At: Int, Thickness: Int, Color: NSColor, Dashed: Bool)
     
     /// Add grid lines to the passed image.
     /// - Parameter To: The image to which to add gridlines.
@@ -498,7 +501,8 @@ class Stenciler
                     let Line: LineDefinition = (IsHorizontal: true,
                                                 At: Y,
                                                 Thickness: LineThickness,
-                                                Color: MinorLineColor)
+                                                Color: MinorLineColor,
+                                                Dashed: false)
                     LineList.append(Line)
                 }
                 for Latitude in stride(from: 0.0, to: 360.0, by: Gap)
@@ -511,7 +515,26 @@ class Stenciler
                     let Line: LineDefinition = (IsHorizontal: false,
                                                 At: X,
                                                 Thickness: LineThickness,
-                                                Color: MinorLineColor)
+                                                Color: MinorLineColor,
+                                                Dashed: false)
+                    LineList.append(Line)
+                }
+            }
+            
+            if Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None) == .WallClock
+            {
+                for Lon in stride(from: 0.0, to: 359.9, by: 15.0)
+                {
+                    var X = Int(Double(ImageWidth) * ((Lon + 7.5) / 360.0))
+                    if X + 4 > ImageWidth
+                    {
+                        X = X - 4
+                    }
+                    let Line: LineDefinition = (IsHorizontal: false,
+                                                 At: X,
+                                                 Thickness: LineThickness / 2,
+                                                 Color: NSColor.systemTeal,
+                                                 Dashed: true)
                     LineList.append(Line)
                 }
             }
@@ -528,7 +551,8 @@ class Stenciler
                     let Line: LineDefinition = (IsHorizontal: true,
                                                 At: Y,
                                                 Thickness: LineThickness,
-                                                Color: LineColor)
+                                                Color: LineColor,
+                                                Dashed: false)
                     LineList.append(Line)
                 }
             }
@@ -544,13 +568,55 @@ class Stenciler
                     let Line: LineDefinition = (IsHorizontal: false,
                                                 At: X,
                                                 Thickness: LineThickness,
-                                                Color: LineColor)
+                                                Color: LineColor,
+                                                Dashed: false)
                     LineList.append(Line)
                 }
             }
             
             let Final = Image
             Final.lockFocus()
+            #if true
+            let DashPattern: [CGFloat] =
+                [
+                    CGFloat(8.0),
+                    CGFloat(8.0)
+                ]
+            for SomeLine in LineList
+            {
+                var X1 = 0
+                var Y1 = 0
+                var X2 = 0
+                var Y2 = 0
+                let Line = NSBezierPath()
+                SomeLine.Color.setFill()
+                SomeLine.Color.setStroke()
+                if SomeLine.Dashed
+                {
+                    Line.lineCapStyle = .round
+                    Line.setLineDash(DashPattern, count: DashPattern.count, phase: 0.0)
+                }
+                if SomeLine.IsHorizontal
+                {
+                    X1 = -SomeLine.Thickness
+                    Y1 = SomeLine.At
+                    X2 = X1 + Int(Image.size.width)
+                    Y2 = SomeLine.At
+                }
+                else
+                {
+                    X1 = SomeLine.At
+                    Y1 = 0
+                    X2 = SomeLine.At
+                    Y2 = Int(Image.size.height)
+                }
+                Line.lineWidth = CGFloat(SomeLine.Thickness)
+                Line.move(to: NSPoint(x: X1, y: Y1))
+                Line.line(to: NSPoint(x: X2, y: Y2))
+                Line.stroke()
+                Line.fill()
+            }
+            #else
             for Line in LineList
             {
                 var X = 0
@@ -577,6 +643,7 @@ class Stenciler
                 Path.stroke()
                 Path.fill()
             }
+            #endif
             Final.unlockFocus()
             return Final
         }
@@ -726,6 +793,7 @@ class Stenciler
         return Final
     }
 
+    #if false
     /// Draw grid lines on the map.
     /// - Parameter Size: Size of the surface on which to draw the grid lines. Defaults to 3600 x 1800.
     /// - Returns: Image with grid lines applied.
@@ -753,7 +821,8 @@ class Stenciler
                 let Line: LineDefinition = (IsHorizontal: true,
                                             At: Y,
                                             Thickness: 4,
-                                            Color: MinorLineColor)
+                                            Color: MinorLineColor,
+                                            Dashed: false)
                 LineList.append(Line)
             }
             for Latitude in stride(from: 0.0, to: 360.0, by: Gap)
@@ -766,7 +835,8 @@ class Stenciler
                 let Line: LineDefinition = (IsHorizontal: false,
                                             At: X,
                                             Thickness: 4,
-                                            Color: MinorLineColor)
+                                            Color: MinorLineColor,
+                                            Dashed: false)
                 LineList.append(Line)
             }
         }
@@ -783,7 +853,8 @@ class Stenciler
                 let Line: LineDefinition = (IsHorizontal: true,
                                             At: Y,
                                             Thickness: 4,
-                                            Color: LineColor)
+                                            Color: LineColor,
+                                            Dashed: false)
                 LineList.append(Line)
             }
         }
@@ -799,13 +870,54 @@ class Stenciler
                 let Line: LineDefinition = (IsHorizontal: false,
                                             At: X,
                                             Thickness: 4,
-                                            Color: LineColor)
+                                            Color: LineColor,
+                                            Dashed: false)
                 LineList.append(Line)
             }
         }
         
         let Final = Image
         Final.lockFocus()
+        let DashPattern: [CGFloat] =
+        [
+            CGFloat(8.0),
+            CGFloat(8.0)
+        ]
+        #if true
+        for SomeLine in LineList
+        {
+            var X = 0
+            var Y = 0
+            var LineWidth = 0
+            var LineHeight = 0
+            let Line = NSBezierPath()
+            SomeLine.Color.setFill()
+            SomeLine.Color.setStroke()
+            if SomeLine.Dashed
+            {
+                Line.lineCapStyle = .round
+                Line.setLineDash(DashPattern, count: DashPattern.count, phase: 0.0)
+            }
+            if SomeLine.IsHorizontal
+            {
+                X = -SomeLine.Thickness
+                Y = SomeLine.At
+                LineWidth = Int(Image.size.width)
+                LineHeight = Int(Image.size.height)
+            }
+            else
+            {
+                X = SomeLine.At
+                LineWidth = SomeLine.Thickness
+                LineHeight = Int(Image.size.height)
+            }
+            Line.lineWidth = CGFloat(SomeLine.Thickness)
+            Line.move(to: NSPoint(x: X, y: Y))
+            Line.line(to: NSPoint(x: LineWidth, y: LineHeight))
+            Line.stroke()
+            Line.fill()
+        }
+        #else
         for Line in LineList
         {
             var X = 0
@@ -832,9 +944,11 @@ class Stenciler
             Path.stroke()
             Path.fill()
         }
+        #endif
         Final.unlockFocus()
         return Final
     }
+    #endif
     
     /// Draw circles on the map.
     /// - Note: Since the map is rectangular, circles will appear distorted if the map is applied to a globe.
