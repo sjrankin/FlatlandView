@@ -96,8 +96,14 @@ class MemoryDebug
                     let RawDelta = Record.Delta!
                     let DeltaMem = RawDelta.Delimited()
                     let NameValue = Record.Name ?? "n/a"
-                    CSV.SetData(RowData("\"\(PrettyTime)\"", "\(CMem)", "\(CurrentMemory)", "", "\"\(DeltaMem)\"",
-                                        "", NameValue))
+                    CSV[MemoryHeaders.Time.rawValue] = PrettyTime
+                    CSV[MemoryHeaders.UsedMemory.rawValue] = CMem
+                    CSV[MemoryHeaders.ActualMemory.rawValue] = "\(CurrentMemory)"
+                    CSV[MemoryHeaders.Delta.rawValue] = "\"\(DeltaMem)\""
+                    CSV[MemoryHeaders.Note.rawValue] = "\"\(NameValue)\""
+                    CSV.SaveRowInFile()
+                    //CSV.SetData(RowData("\"\(PrettyTime)\"", "", "\(CMem)", "\(CurrentMemory)", "", "\"\(DeltaMem)\"",
+                    //                    "", NameValue))
                     Debug.Print("MemoryDebug Operation \"\(Name)\": Memory delta \(Sign)\(Record.Delta!.Delimited())")
                 }
                 return Record.Delta
@@ -174,8 +180,14 @@ class MemoryDebug
                     let CurrentMemory = LowLevel.MemoryStatistics(.PhysicalFootprint)!
                     let CMem = CurrentMemory.WithSuffix()
                     let DeltaMem = Record.Delta!.WithSuffix()
-                    CSV.SetData(RowData("\"\(PrettyTime)\"", "\(CMem)", "\(CurrentMemory)", "", "\(DeltaMem)",
-                                        "", NameValue))
+                    CSV[MemoryHeaders.Time.rawValue] = PrettyTime
+                    CSV[MemoryHeaders.UsedMemory.rawValue] = CMem
+                    CSV[MemoryHeaders.ActualMemory.rawValue] = "\(CurrentMemory)"
+                    CSV[MemoryHeaders.Delta.rawValue] = "\"\(DeltaMem)\""
+                    CSV[MemoryHeaders.Note.rawValue] = "\"\(NameValue)\""
+                    CSV.SaveRowInFile()
+//                    CSV.SetData(RowData("\"\(PrettyTime)\"", "", "\(CMem)", "\(CurrentMemory)", "", "\(DeltaMem)",
+//                                        "", NameValue))
                     Debug.Print("MemoryDebug Operation \"\(NameValue)\": Memory delta \(Sign)\(Record.Delta!.Delimited())")
                 }
                 return Record.Delta
