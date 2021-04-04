@@ -71,7 +71,7 @@ class MainController: NSViewController
         }
         
         #if DEBUG
-        let _ = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true)
+        let _ = Timer.StartRepeating(withTimerInterval: 60.0, RunFirst: true)
         {
             [weak self] _ in
             var UsedMemory = ""
@@ -106,34 +106,37 @@ class MainController: NSViewController
             self?.PreviousCount = NodeCount
             let StatString = "Uptime: \(DurationValue), Memory: \(UsedMemory)"
             objc_sync_enter((self?.MemSizeLock)!)
-            let EntryCount = self?.MemSize.count
-            let Sum: UInt64 = (self?.MemSize)!.reduce(0, +)
-            self?.MemSize.removeAll()
-            let Mean = Sum / UInt64(EntryCount!)
-            objc_sync_exit((self?.MemSizeLock)!)
-            let MeanDelta = Int64(Mean) - Int64((self?.PreviousMean)!)
-            self?.PreviousMean = Mean
-            Debug.Print(StatString + " {\(ExtraData), \(Mean.Delimited()), ∆\(MeanDelta.Delimited())}")
-            let PrettyTime = Date().PrettyTime()
-            let NewTimeValue = CACurrentMediaTime()
-            self?.ElapsedTimeValue = NewTimeValue - (self?.PreviousTimeValue)!
-            var FinalElapsed = self?.ElapsedTimeValue.RoundedTo(2)
-            if (self?.PreviousTimeValue)! == 0.0
+            let EntryCount = (self?.MemSize.count)!
+            if EntryCount > 0
             {
-                FinalElapsed = 0.0
+                let Sum: UInt64 = (self?.MemSize)!.reduce(0, +)
+                self?.MemSize.removeAll()
+                let Mean = Sum / UInt64(EntryCount)
+                objc_sync_exit((self?.MemSizeLock)!)
+                let MeanDelta = Int64(Mean) - Int64((self?.PreviousMean)!)
+                self?.PreviousMean = Mean
+                Debug.Print(StatString + " {\(ExtraData), \(Mean.Delimited()), ∆\(MeanDelta.Delimited())}")
+                let PrettyTime = Date().PrettyTime()
+                let NewTimeValue = CACurrentMediaTime()
+                self?.ElapsedTimeValue = NewTimeValue - (self?.PreviousTimeValue)!
+                var FinalElapsed = self?.ElapsedTimeValue.RoundedTo(2)
+                if (self?.PreviousTimeValue)! == 0.0
+                {
+                    FinalElapsed = 0.0
+                }
+                self?.PreviousTimeValue = NewTimeValue
+                CSV[MemoryHeaders.Time.rawValue] = "\"\(PrettyTime)\""
+                CSV[MemoryHeaders.ElapsedTime.rawValue] = "\(FinalElapsed!)"
+                CSV[MemoryHeaders.UsedMemory.rawValue] = "\(UsedMemory)"
+                CSV[MemoryHeaders.ActualMemory.rawValue] = "\(ActualMemory)"
+                CSV[MemoryHeaders.MeanMemory.rawValue] = "\"\(Mean.WithSuffix())\""
+                CSV[MemoryHeaders.Delta.rawValue] = "\"\(MeanDelta.Delimited())\""
+                CSV[MemoryHeaders.NodeCount.rawValue] = "\(NodeCount)"
+                CSV[MemoryHeaders.Note.rawValue] = "Periodic Memory Check"
+                CSV.SaveRowInFile()
+                
+                self?.StatusBar.ShowStatusText(StatString, For: 15.0)
             }
-            self?.PreviousTimeValue = NewTimeValue
-            CSV[MemoryHeaders.Time.rawValue] = "\"\(PrettyTime)\""
-            CSV[MemoryHeaders.ElapsedTime.rawValue] = "\(FinalElapsed!)"
-            CSV[MemoryHeaders.UsedMemory.rawValue] = "\(UsedMemory)"
-            CSV[MemoryHeaders.ActualMemory.rawValue] = "\(ActualMemory)"
-            CSV[MemoryHeaders.MeanMemory.rawValue] = "\"\(Mean.WithSuffix())\""
-            CSV[MemoryHeaders.Delta.rawValue] = "\"\(MeanDelta.Delimited())\""
-            CSV[MemoryHeaders.NodeCount.rawValue] = "\(NodeCount)"
-            CSV[MemoryHeaders.Note.rawValue] = "Periodic Memory Check"
-            CSV.SaveRowInFile()
-            
-            self?.StatusBar.ShowStatusText(StatString, For: 15.0)
         }
         #endif
     }
