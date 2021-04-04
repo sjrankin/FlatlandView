@@ -16,7 +16,7 @@ extension GlobeView
     func InitializeView()
     {
         Settings.AddSubscriber(self)
-        
+        PreviousHourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
         #if DEBUG
         var DebugTypes = [DebugOptions3D]()
         Settings.QueryBool(.ShowSkeletons)
