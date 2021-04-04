@@ -57,6 +57,7 @@ class HomeLocationController: NSViewController, NSTextFieldDelegate
                 switch Result
                 {
                     case .success(let Value):
+                        let _ = Value           //we don't need Value but don't want the warning either
                         LatitudeErrorButton.isHidden = true
                         ViewLocationErrorButton.isHidden = true
                         
@@ -71,6 +72,7 @@ class HomeLocationController: NSViewController, NSTextFieldDelegate
                 switch Result
                 {
                     case .success(let Value):
+                        let _ = Value
                         LongitudeErrorButton.isHidden = true
                         ViewLocationErrorButton.isHidden = true
                         
@@ -95,7 +97,7 @@ class HomeLocationController: NSViewController, NSTextFieldDelegate
             case .success(let Value):
                 ActualLatitude = Value
                 
-            case .failure(let Reason):
+            default:
                 return
         }
         Settings.SetSecureString(.UserHomeLatitude, "\(ActualLatitude)")
@@ -106,7 +108,7 @@ class HomeLocationController: NSViewController, NSTextFieldDelegate
             case .success(let Value):
                 ActualLongitude = Value
                 
-            case .failure(let Reason):
+            default:
                 return
         }
         Settings.SetSecureString(.UserHomeLongitude, "\(ActualLongitude)")
@@ -198,7 +200,7 @@ Click the view button to move the globe to see the location for your home you en
             case .success(let Value):
                 ActualLatitude = Value
                 
-            case .failure(let Reason):
+            default:
                 ViewLocationErrorButton.isHidden = false
                 ValidationErrorMessage = "Cannot move globe to location - please make sure your coordinates are correct."
                 return
@@ -210,7 +212,7 @@ Click the view button to move the globe to see the location for your home you en
             case .success(let Value):
                 ActualLongitude = Value
                 
-            case .failure(let Reason):
+            default:
                 ViewLocationErrorButton.isHidden = false
                 ValidationErrorMessage = "Cannot move globe to location - please make sure your coordinates are correct."
                 return
