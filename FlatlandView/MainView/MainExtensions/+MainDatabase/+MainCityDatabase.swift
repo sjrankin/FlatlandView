@@ -57,7 +57,7 @@ extension MainController
         let QueryHandle = SetupQuery(DB: MappableHandle, Query: GetQuery)
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
         {
-            let ID = ReadIntColumn(Handle: QueryHandle, Index: CityColumns.CityPK.rawValue)!
+            //let ID = ReadIntColumn(Handle: QueryHandle, Index: CityColumns.CityPK.rawValue)!
             let Name = ReadStringColumn(Handle: QueryHandle, Index: CityColumns.CityName.rawValue)!
             let Country = ReadStringColumn(Handle: QueryHandle, Index: CityColumns.CityCountry.rawValue)!
             let IsCapital = ReadBoolColumn(Handle: QueryHandle, Index: CityColumns.CityIsCaptial.rawValue)!
@@ -66,10 +66,10 @@ extension MainController
             let Latitude = ReadDoubleColumn(Handle: QueryHandle, Index: CityColumns.CityLatitude.rawValue)!
             let Longitude = ReadDoubleColumn(Handle: QueryHandle, Index: CityColumns.CityLongitude.rawValue)!
             let Continent = ReadStringColumn(Handle: QueryHandle, Index: CityColumns.CityContinent.rawValue)!
-            let CityColor = ReadStringColumn(Handle: QueryHandle, Index: CityColumns.CityColor.rawValue)!
-            let IsWorldCity = ReadBoolColumn(Handle: QueryHandle, Index: CityColumns.CityWorldCity.rawValue)!
+            //let CityColor = ReadStringColumn(Handle: QueryHandle, Index: CityColumns.CityColor.rawValue)!
+            //let IsWorldCity = ReadBoolColumn(Handle: QueryHandle, Index: CityColumns.CityWorldCity.rawValue)!
             let CityID = ReadUUIDColumn(Handle: QueryHandle, Index: CityColumns.CityID.rawValue)!
-            let IsCustomCity = ReadBoolColumn(Handle: QueryHandle, Index: CityColumns.CityCustomCity.rawValue)!
+            //let IsCustomCity = ReadBoolColumn(Handle: QueryHandle, Index: CityColumns.CityCustomCity.rawValue)!
             let DBCity = City2(Name, Country, IsCapital, Population, MetroPopulation, Latitude, Longitude,
                                Continent, CityID)
             Results.append(DBCity)
@@ -171,7 +171,7 @@ extension MainController
         let QueryHandle = SetupQuery(DB: MappableHandle, Query: GetQuery)
         while (sqlite3_step(QueryHandle) == SQLITE_ROW)
         {
-            let ID = ReadIntColumn(Handle: QueryHandle, Index: POIColumns.POIPK.rawValue)!
+            //let ID = ReadIntColumn(Handle: QueryHandle, Index: POIColumns.POIPK.rawValue)!
             let POIID = ReadUUIDColumn(Handle: QueryHandle, Index: POIColumns.POIID.rawValue)!
             let Name = ReadStringColumn(Handle: QueryHandle, Index: POIColumns.Name.rawValue)!
             let Latitude = ReadDoubleColumn(Handle: QueryHandle, Index: POIColumns.Latitude.rawValue)!
