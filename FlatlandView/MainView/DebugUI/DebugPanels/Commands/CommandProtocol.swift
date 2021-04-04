@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol CommandProtocol: class
+protocol CommandProtocol: AnyObject
 {
     func SetMainDelegate(_ Main: MainProtocol?)
     func IsValidCommand(_ Token: String) -> Bool
