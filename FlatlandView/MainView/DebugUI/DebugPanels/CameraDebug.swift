@@ -20,6 +20,10 @@ class CameraDebug: PanelController
     override func viewDidLayout()
     {
         super.viewDidLayout()
+        AnimationField.stringValue = "2.0"
+        CameraPitchField.stringValue = "0"
+        CameraYawField.stringValue = "0"
+        CameraRollField.stringValue = "0"
         if let POV = Main?.Get3DPointOfView()
         {
             Main3DPOV = POV
@@ -72,6 +76,17 @@ class CameraDebug: PanelController
         FinalLatitudeField.stringValue = ""
         FinalLongitudeField.stringValue = ""
         AltitudeField.stringValue = "175"
+        GoToCombo.removeAllItems()
+        for Where in CameraLocations.allCases
+        {
+            GoToCombo.addItem(withObjectValue: Where.rawValue)
+        }
+        GoToCombo.selectItem(at: 0)
+        let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true)
+        {
+            [weak self] _ in
+            self?.UpdatePOV()
+        }
     }
     
     var CameraPositionObserver: NSKeyValueObservation? = nil
@@ -80,9 +95,9 @@ class CameraDebug: PanelController
     
     func UpdateOrientation(_ Euler: SCNVector3)
     {
-        PitchLabel.stringValue = "\(Euler.x.RoundedTo(2))"
-        YawLabel.stringValue = "\(Euler.y.RoundedTo(2))"
-        RollLabel.stringValue = "\(Euler.z.RoundedTo(2))"
+        PitchLabel.stringValue = "\(Euler.x.RoundedTo(2)) (\(Euler.x.Degrees.RoundedTo(2))°)"
+        YawLabel.stringValue = "\(Euler.y.RoundedTo(2)) (\(Euler.y.Degrees.RoundedTo(2))°)"
+        RollLabel.stringValue = "\(Euler.z.RoundedTo(2)) (\(Euler.z.Degrees.RoundedTo(2))°)"
     }
     
     func UpdateLocation(_ Location: SCNVector3)
@@ -93,7 +108,6 @@ class CameraDebug: PanelController
         let Distance = sqrt((Location.x * Location.x) + (Location.y * Location.y) + (Location.z * Location.z))
         DistanceLabel.stringValue = "\(Int(Distance))"
     }
-    
     
     @IBAction func HandleGetPOVData(_ sender: Any)
     {
@@ -141,7 +155,6 @@ class CameraDebug: PanelController
             if LatValue < -90.0 || LatValue > 90.0
             {
                 SoundManager.Play(ForEvent: .BadInput)
-//                NSSound(named: "Tink")?.play()
                 return nil
             }
             return LatValue
@@ -154,7 +167,6 @@ class CameraDebug: PanelController
                 return 0.0
             }
             SoundManager.Play(ForEvent: .BadInput)
-//            NSSound(named: "Tink")?.play()
             return nil
         }
     }
@@ -166,7 +178,6 @@ class CameraDebug: PanelController
             if LonValue < -180.0 || LonValue > 180.0
             {
                 SoundManager.Play(ForEvent: .BadInput)
-//                NSSound(named: "Tink")?.play()
                 return nil
             }
             return LonValue
@@ -179,7 +190,6 @@ class CameraDebug: PanelController
                 return 0.0
             }
             SoundManager.Play(ForEvent: .BadInput)
-//            NSSound(named: "Tink")?.play()
             return nil
         }
     }
@@ -240,8 +250,20 @@ class CameraDebug: PanelController
         ECEF_X.stringValue = "\(X.RoundedTo(2))"
         ECEF_Y.stringValue = "\(Y.RoundedTo(2))"
         ECEF_Z.stringValue = "\(Z.RoundedTo(2))"
-        Main?.PointCamera(At: GeoPoint(FinalLatitude, FinalLongitude))
-        let _ = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(UpdatePOV), userInfo: nil, repeats: false)
+//        Main?.PointCamera(At: GeoPoint(0.0, FinalLongitude), Duration: GetDuration())
+        Main?.PointCamera(At: GeoPoint(FinalLatitude, FinalLongitude), Duration: GetDuration())
+        //let _ = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(UpdatePOV), userInfo: nil, repeats: false)
+    }
+    
+    func GetDuration() -> Double
+    {
+        let Raw = AnimationField.stringValue
+        if let Duration = Double(Raw)
+        {
+            return Duration
+        }
+        AnimationField.stringValue = "2.0"
+        return 2.0
     }
     
     @objc func UpdatePOV()
@@ -250,6 +272,11 @@ class CameraDebug: PanelController
         {
             self.DoGetPOVData()
         }
+    }
+    
+    @IBAction func HandleResetCameraButton(_ sender: Any)
+    {
+        Main?.ResetCameraPosition()
     }
     
     func GetAngle(From: NSTextField) -> Double?
@@ -282,9 +309,24 @@ class CameraDebug: PanelController
         {
             return
         }
-        Main?.SetCameraOrientation(Pitch: Pitch, Yaw: Yaw, Roll: Roll, ValuesAreRadians: false)
+        Main?.RotateCameraInPlace(Pitch: Pitch, Yaw: Yaw, Roll: Roll, ValuesAreRadians: false,
+                                  Duration: GetDuration())
+//        Main?.SetCameraOrientation(Pitch: Pitch, Yaw: Yaw, Roll: Roll, ValuesAreRadians: false)
     }
     
+    @IBAction func HandleGoToButton(_ sender: Any)
+    {
+        if let GoToWhere = GoToCombo.objectValueOfSelectedItem as? String
+        {
+            if let Location = CameraLocations(rawValue: GoToWhere)
+            {
+                Main?.MoveCameraTo(Location, Duration: GetDuration())
+            }
+        }
+    }
+    
+    @IBOutlet weak var GoToCombo: NSComboBox!
+    @IBOutlet weak var AnimationField: NSTextFieldCell!
     @IBOutlet weak var AltitudeField: NSTextField!
     @IBOutlet weak var ECEF_Z: NSTextField!
     @IBOutlet weak var ECEF_Y: NSTextField!
