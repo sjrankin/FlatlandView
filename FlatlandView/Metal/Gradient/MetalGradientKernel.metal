@@ -300,7 +300,7 @@ kernel void MetalGradientKernel2PR(texture2d<float, access::write> Target [[text
         return;
         }
     float Pixel1Distance = Distance(gid, uint2(Parameters.Color1X, Parameters.Color1Y));
-    float Pixel2Distance = Distance(gid, uint2(Parameters.Color2X, Parameters.Color2Y));
+//    float Pixel2Distance = Distance(gid, uint2(Parameters.Color2X, Parameters.Color2Y));
     float Percent1 = 1.0 - (Pixel1Distance / Parameters.MaxDistance1);
     //float Percent2 = 1.0 - (Pixel2Distance / Parameters.MaxDistance2);
     float4 PixelColor = BlendColors(Parameters.Color1, Parameters.TerminalColor1, Percent1);
