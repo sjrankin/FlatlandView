@@ -79,7 +79,7 @@ extension DBIF
             case .success(let Count):
                 return Count
                 
-            case .failure(let Unused):
+           default:
                 return 0
         }
     }
