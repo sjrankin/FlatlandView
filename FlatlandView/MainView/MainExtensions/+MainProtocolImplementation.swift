@@ -283,9 +283,9 @@ extension MainController: MainProtocol
         self.view.window?.makeKey()
     }
     
-    func PointCamera(At Point: GeoPoint)
+    func PointCamera(At Point: GeoPoint, Duration: Double)
     {
-        Main3DView.PointCamera(At: Point)
+        Main3DView.PointCamera(At: Point, Duration: Duration)
     }
     
     func ResetCameraPosition()
@@ -293,10 +293,12 @@ extension MainController: MainProtocol
         Main3DView.ResetCameraPosition() 
     }
     
-    func SetCameraOrientation(Pitch: Double, Yaw: Double, Roll: Double, ValuesAreRadians: Bool)
+    func SetCameraOrientation(Pitch: Double, Yaw: Double, Roll: Double, ValuesAreRadians: Bool,
+                              Duration: Double)
     {
         Main3DView.SetCameraOrientation(Pitch: Pitch, Yaw: Yaw, Roll: Roll,
-                                        ValuesAreRadians: ValuesAreRadians)
+                                        ValuesAreRadians: ValuesAreRadians,
+                                        Duration: Duration)
     }
     
     func Get3DPointOfView() -> SCNNode?
@@ -337,6 +339,72 @@ extension MainController: MainProtocol
             }
             #endif
         }
+    }
+    
+    func RotateCameraInPlace(Pitch X: Double, Yaw Y: Double, Roll Z: Double, ValuesAreRadians: Bool,
+                             Duration: Double)
+    {
+        Main3DView.RotateCameraInPlace(Pitch: X, Yaw: Y, Roll: Z, ValuesAreRadians: ValuesAreRadians,
+                                       Duration: Duration)
+    }
+    
+    func MoveCameraTo(_ Location: CameraLocations, Duration: Double)
+    {
+        var Where: GeoPoint!
+        switch Location
+        {
+            case .Home:
+                guard let HomeLat = Settings.GetSecureString(.UserHomeLatitude) else
+                {
+                    return
+                }
+                guard let HomeLon = Settings.GetSecureString(.UserHomeLongitude) else
+                {
+                    return
+                }
+                guard let ActualLat = Double(HomeLat) else
+                {
+                    return
+                }
+                guard let ActualLon = Double(HomeLon) else
+                {
+                    return
+                }
+                Where = GeoPoint(ActualLat, ActualLon)
+                
+            case .Noon:
+                let Declination = Sun.Declination(For: Date()) * -1.0
+                let Now = Date()
+                let TZ = TimeZone(abbreviation: "UTC")
+                var Cal = Calendar(identifier: .gregorian)
+                Cal.timeZone = TZ!
+                let Hour = Cal.component(.hour, from: Now)
+                let Minute = Cal.component(.minute, from: Now)
+                let Second = Cal.component(.second, from: Now)
+                let ElapsedSeconds = Second + (Minute * 60) + (Hour * 60 * 60)
+                let Percent = Double(ElapsedSeconds) / Double(Date.SecondsIn(.Day))
+                let Degrees = 180.0 - (360.0 * Percent)
+                Where = GeoPoint(Declination, Degrees)
+                
+            case .NorthPole:
+                Where = GeoPoint(90.0, 0.0)
+                
+            case .SouthPole:
+                Where = GeoPoint(-90.0, 0.0)
+                
+            case .L00:
+                Where = GeoPoint(0.0, 0.0)
+                
+            case .L090:
+                Where = GeoPoint(0.0, 90.0)
+                
+            case .L0180:
+                Where = GeoPoint(0.0, 180.0)
+                
+            case .L0270:
+                Where = GeoPoint(0.0, -90.0)
+        }
+        PointCamera(At: Where!, Duration: Duration)
     }
     
     /// Returns the time-stamp of the most recent earthquake download.
