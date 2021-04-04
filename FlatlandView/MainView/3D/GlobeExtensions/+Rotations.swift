@@ -109,7 +109,7 @@ extension GlobeView
     /// Rotate the Earth by one second (time) worth of ratation.
     @objc func RotateEarthOneSecond()
     {
-        let OneSecondRotationDegrees: Double = 360.0 / 86400.0
+        //let OneSecondRotationDegrees: Double = 360.0 / 86400.0
     }
     
     /// Rotate the Earth such that the passed latitude, longitude point is closest to the viewer.
