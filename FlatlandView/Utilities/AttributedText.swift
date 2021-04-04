@@ -27,7 +27,7 @@ class AttributedText
     /// - Returns: Preconditioned string.
     private static func Precondition(_ Raw: String) -> String
     {
-        var Working = Raw.replacingOccurrences(of: "|nl|", with: "\n")
+        let Working = Raw.replacingOccurrences(of: "|nl|", with: "\n")
         return Working
     }
     
