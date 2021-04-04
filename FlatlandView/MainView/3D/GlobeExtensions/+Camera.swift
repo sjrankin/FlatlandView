@@ -60,24 +60,67 @@ extension GlobeView
     {
     }
     
+    /// Rotate the camera in place without move it.
+    /// - Parameter Pitch: The pitch (X axis) value.
+    /// - Parameter Yaw: The yaw (Y axis) value.
+    /// - Parameter Roll: The roll (Z axis) value.
+    /// - Parameter ValuesAreRadians: If true, the passed values are radians. If false, the passed values
+    ///                               are degrees and will be converted to radians.
+    /// - Parameter Duration: Duration of the animation in seconds.
+    func RotateCameraInPlace(Pitch X: Double, Yaw Y: Double, Roll Z: Double, ValuesAreRadians: Bool,
+                             Duration: Double)
+    {
+        let XRotate = CGFloat(ValuesAreRadians ? X : X.Radians)
+        let YRotate = CGFloat(ValuesAreRadians ? Y : Y.Radians)
+        let ZRotate = CGFloat(ValuesAreRadians ? Z : Z.Radians)
+//        self.pointOfView?.eulerAngles = SCNVector3(XRotate, YRotate, ZRotate)
+        let OrientCamera = SCNAction.rotateTo(x: XRotate, y: YRotate, z: ZRotate, duration: Duration)
+        self.pointOfView?.runAction(OrientCamera)
+    }
+    
     // MARK: - Camera manipulation functions.
     
     /// Move the camera such that it is pointing at the passed point.
-    func PointCamera(At Point: GeoPoint)
+    /// - Parameter At: The geographic coordinates to point the camera at.
+    /// - Paraemter Duration: Duration of the animation in seconds.
+    func PointCamera(At Point: GeoPoint, Duration: Double)
     {
+        #if false
+        Debug.Print("Pointing camera to \(Point)")
+        let (X, Y, Z) = ToECEF(Point.Latitude, Point.Longitude, Radius: Double(Defaults.InitialZ.rawValue))
+        let MoveCamera = SCNAction.move(to: SCNVector3(X, Y, Z), duration: 2.0)
+        self.pointOfView?.runAction(MoveCamera)
+        let XRotate = CGFloat(90.0.Radians)
+        let YRotate = CGFloat(90.0.Radians)
+        let ZRotate = CGFloat(-Point.Longitude.Radians)
+        let OrientCamera = SCNAction.rotateTo(x: XRotate, y: YRotate, z: ZRotate, duration: Duration)
+        self.pointOfView?.runAction(OrientCamera)
+        #else
         Debug.Print("Pointing camera to \(Point)")
         let (X, Y, Z) = ToECEF(Point.Latitude, Point.Longitude, Radius: Double(Defaults.InitialZ.rawValue))
         let Constraint = SCNLookAtConstraint(target: EarthNode!)
-        Constraint.isGimbalLockEnabled = false
+        Constraint.isGimbalLockEnabled = true
         SCNTransaction.begin()
         SCNTransaction.animationDuration = 2.0
         self.pointOfView?.constraints = [Constraint]
         SCNTransaction.commit()
-        let MoveCamera = SCNAction.move(to: SCNVector3(X, Y, Z), duration: 2.0)
+        let MoveCamera = SCNAction.move(to: SCNVector3(X, Y, Z), duration: Duration)
         self.pointOfView?.runAction(MoveCamera)
         {
+            Constraint.isGimbalLockEnabled = false
             self.pointOfView?.constraints = []
         }
+        #if false
+        let XRotate = CGFloat(0.0.Radians)
+        let YRotate = CGFloat(0.0.Radians)
+        let ZRotate = CGFloat(-Point.Longitude.Radians)
+        let OrientCamera = SCNAction.rotateTo(x: XRotate, y: YRotate, z: ZRotate, duration: Duration)
+        self.pointOfView?.runAction(OrientCamera)
+            {
+            self.pointOfView?.constraints = []
+        }
+        #endif
+        #endif
     }
     
     /// Reset the camera to its standard position based on the time.
@@ -90,12 +133,15 @@ extension GlobeView
     /// - Parameter Pitch: The pitch (X) value.
     /// - Parameter Yaw: The yaw (Y) value.
     /// - Parameter Roll: The roll (Z) value.
-    func SetCameraOrientation(Pitch: Double, Yaw: Double, Roll: Double, ValuesAreRadians: Bool)
+    /// - Parameter ValuesAreRadians: If true, the values in `Pitch`, `Yaw`, and `Roll` are radians. If
+    ///                               false, the values are degrees.
+    /// - Parameter Duration: Duration of the animation in seconds.
+    func SetCameraOrientation(Pitch: Double, Yaw: Double, Roll: Double, ValuesAreRadians: Bool, Duration: Double)
     {
         let FinalX = CGFloat(ValuesAreRadians ? Pitch : Pitch.Radians)
         let FinalY = CGFloat(ValuesAreRadians ? Yaw : Yaw.Radians)
         let FinalZ = CGFloat(ValuesAreRadians ? Roll : Roll.Radians)
-        let RotateCamera = SCNAction.rotateBy(x: FinalX, y: FinalY, z: FinalZ, duration: 2.0)
+        let RotateCamera = SCNAction.rotateBy(x: FinalX, y: FinalY, z: FinalZ, duration: Duration)
         pointOfView?.runAction(RotateCamera)
     }
     
