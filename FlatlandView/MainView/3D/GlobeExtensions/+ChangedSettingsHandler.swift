@@ -30,10 +30,16 @@ extension GlobeView: SettingChangedProtocol
         switch Setting
         {
             case .HourType:
-                if let NewHourType = NewValue as? HourValueTypes
+                let NewHourType = Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)
+                if NewHourType == .WallClock && PreviousHourType != .WallClock
                 {
-                    UpdateHourLabels(With: NewHourType)
+                    ApplyAllStencils(Caller: "SettingChanged(.HourType) Wall Clock = true")
                 }
+                if NewHourType != .WallClock && PreviousHourType == .WallClock
+                {
+                    ApplyAllStencils(Caller: "SettingChanged(.HourType) Wall Clock = false")
+                }
+                UpdateHourLabels(With: NewHourType)
                 
             case .UseHDRCamera:
                 SetHDR()
