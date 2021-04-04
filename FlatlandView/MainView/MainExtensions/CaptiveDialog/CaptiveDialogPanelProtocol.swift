@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol CaptiveDialogPanelProtocol: class
+protocol CaptiveDialogPanelProtocol: AnyObject
 {
     var ParentDelegate: CaptiveDialogManagementProtocol? {get set}
     var MainDelegate: MainProtocol? {get set}
