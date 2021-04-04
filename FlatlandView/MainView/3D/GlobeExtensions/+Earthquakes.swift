@@ -87,9 +87,9 @@ extension GlobeView
             return false
         }
         
-        let Set1 = Set<String>(List1.map{$0.Code})
-        let Set2 = Set<String>(List2.map{$0.Code})
-        let DeltaSet = Set1.subtracting(Set2)
+        //let Set1 = Set<String>(List1.map{$0.Code})
+        //let Set2 = Set<String>(List2.map{$0.Code})
+        //let DeltaSet = Set1.subtracting(Set2)
         
         let SList1 = List1.sorted(by: {$0.Code < $1.Code})
         let SList2 = List2.sorted(by: {$0.Code < $1.Code})
@@ -205,8 +205,8 @@ extension GlobeView
         {
             return
         }
-        let Oldest = OldestEarthquakeOccurence(List)
-        let Biggest = CityManager.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
+        //let Oldest = OldestEarthquakeOccurence(List)
+        //let Biggest = CityManager.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
         var MaxSignificance = 0
         for Quake in List
         {
@@ -228,9 +228,9 @@ extension GlobeView
                 let HighlightHow = Settings.GetEnum(ForKey: .EarthquakeStyles,
                                                     EnumType: EarthquakeIndicators.self,
                                                     Default: .None)
-                let QuakeShapeType =  Settings.GetEnum(ForKey: .EarthquakeShapes,
-                                                       EnumType: EarthquakeShapes.self,
-                                                       Default: .Arrow)
+                //let QuakeShapeType =  Settings.GetEnum(ForKey: .EarthquakeShapes,
+                //                                       EnumType: EarthquakeShapes.self,
+                //                                       Default: .Arrow)
                 if HighlightHow != .None //&& QuakeShapeType != .TetheredNumber
                 {
                     let HowRecent = Settings.GetEnum(ForKey: .RecentEarthquakeDefinition, EnumType: EarthquakeRecents.self,
