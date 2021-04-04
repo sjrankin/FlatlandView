@@ -206,8 +206,8 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
         }
         if tableColumn == tableView.tableColumns[1]
         {
-            let Units = Settings.GetEnum(ForKey: .InputUnit, EnumType: InputUnits.self, Default: .Kilometers)
-            let UnitName = Units == .Kilometers ? "km" : "mi"
+            //let Units = Settings.GetEnum(ForKey: .InputUnit, EnumType: InputUnits.self, Default: .Kilometers)
+            //let UnitName = Units == .Kilometers ? "km" : "mi"
             let Distance = Int(NearTable[row].Distance.RoundedTo(0))
             CellContents = "\(Distance)"//"\(Distance) \(UnitName)"
             CellIdentifier = "DistanceColumn"
