@@ -133,7 +133,8 @@ protocol MainProtocol: AnyObject
     
     /// Point the camera as the passed point.
     /// - Parameter At: The point on the globe where to point the camera.
-    func PointCamera(At Point: GeoPoint)
+    /// - Parameter Duration: Duration of the animation in seconds.
+    func PointCamera(At Point: GeoPoint, Duration: Double)
     
     /// Reset the camera to its "natural" location.
     func ResetCameraPosition()
@@ -142,7 +143,21 @@ protocol MainProtocol: AnyObject
     /// - Parameter Pitch: The pitch (X) value.
     /// - Parameter Yaw: The yaw (Y) value.
     /// - Parameter Roll: The roll (Z) value.
-    func SetCameraOrientation(Pitch: Double, Yaw: Double, Roll: Double, ValuesAreRadians: Bool)
+    /// - Parameter Duration: Duration of the animation in seconds.
+    func SetCameraOrientation(Pitch: Double, Yaw: Double, Roll: Double, ValuesAreRadians: Bool,
+                              Duration: Double)
+    
+    /// Rotate the camera in place without move it.
+    /// - Parameter Pitch: The pitch (X axis) value.
+    /// - Parameter Yaw: The yaw (Y axis) value.
+    /// - Parameter Roll: The roll (Z axis) value.
+    /// - Parameter ValuesAreRadians: If true, the passed values are radians. If false, the passed values
+    ///                               are degrees and will be converted to radians.
+    /// - Parameter Duration: Duration of the animation in seconds.
+    func RotateCameraInPlace(Pitch X: Double, Yaw Y: Double, Roll Z: Double, ValuesAreRadians: Bool,
+                             Duration: Double)
+    
+    func MoveCameraTo(_ Location: CameraLocations, Duration: Double)
     
     /// Get the 3D point of view node.
     /// - Returns: The 3D point of view node.
