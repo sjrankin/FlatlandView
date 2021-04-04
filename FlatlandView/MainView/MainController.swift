@@ -385,7 +385,7 @@ class MainController: NSViewController
                                     NSImage(systemSymbolName: "arrow.triangle.2.circlepath.circle", accessibilityDescription: nil)
             WindowController.WorldLockToolbarItem.image = NewImage
             WindowController.WorldLockToolbarItem.label = Locked ? "Locked" : "Unlocked"
-            WindowController.WorldLockButton.contentTintColor = Locked ? NSColor(named: "ControlRed") : NSColor(named: "ControlGreen")
+            WindowController.WorldLockButton.contentTintColor = Locked ? NSColor(named: "ControlRed") : NSColor(named: "ControlBlack")
             let LockMenu = GetAppDelegate().LockUnlockMenuItem
             LockMenu?.state = Locked ? .off : .on
             Main3DView.SetCameraLock(Locked, ResetPosition: ResetPosition)
