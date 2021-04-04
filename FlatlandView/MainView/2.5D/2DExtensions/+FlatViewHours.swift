@@ -32,7 +32,6 @@ extension FlatView
     /// - Parameter HourRadius: Distance from the center of the map to where the hours are drawn.
     func AddHours(HourRadius: Double)
     {
-        let Trace = Debug.StackFrameContents(5)
         RemoveNodeWithName(NodeNames2D.HourNodes.rawValue, FromParent: HourPlane)
         switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .None)  
         {
