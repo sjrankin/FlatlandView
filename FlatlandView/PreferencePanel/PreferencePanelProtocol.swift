@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-protocol PreferencePanelProtocol: class
+protocol PreferencePanelProtocol: AnyObject
 {
     var Parent: PreferencePanelControllerProtocol? {get set}
     var MainDelegate: MainProtocol? {get set}
