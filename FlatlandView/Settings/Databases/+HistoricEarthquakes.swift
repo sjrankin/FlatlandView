@@ -94,7 +94,7 @@ extension DBIF
             let MagSource = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.MagSource.rawValue)!
             let ContextDistance = SQL.ReadDoubleColumn(Handle: QueryHandle, Index: QuakeColumns.ContextDistance.rawValue)!
             let DebugQuake = SQL.ReadIntColumn(Handle: QueryHandle, Index: QuakeColumns.DebugQuake.rawValue)!
-            let QuakeDate = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.QuakeDate.rawValue, Default: "")
+            //let QuakeDate = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.QuakeDate.rawValue, Default: "")
             let QuakeID = SQL.ReadUUIDColumn(Handle: QueryHandle, Index: QuakeColumns.QuakeID.rawValue, Default: UUID.Empty)
             let EventID = SQL.ReadStringColumn(Handle: QueryHandle, Index: QuakeColumns.EventID.rawValue)!
             
@@ -219,7 +219,7 @@ extension DBIF
             case .success(let Exists):
                 return Exists
                 
-            case .failure(let Why):
+            default:
                 return false
         }
     }
