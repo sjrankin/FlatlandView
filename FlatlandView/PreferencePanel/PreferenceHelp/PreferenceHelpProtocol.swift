@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 /// Protocol for communicating with the preference help display.
-protocol PreferenceHelpProtocol: class
+protocol PreferenceHelpProtocol: AnyObject
 {
     /// Display the passed help text.
     func SetHelpText(_ Text: String)
