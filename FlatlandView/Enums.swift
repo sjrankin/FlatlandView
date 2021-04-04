@@ -907,6 +907,18 @@ enum TimePeriodUnits: String, CaseIterable
     case Hours = "Hours"
 }
 
+enum CameraLocations: String, CaseIterable
+{
+    case Noon = "Noon"
+    case Home = "Home"
+    case NorthPole = "North Pole"
+    case SouthPole = "South Pole"
+    case L00 = "0,0"
+    case L090 = "0,90"
+    case L0180 = "0,180"
+    case L0270 = "0,-90"
+}
+
 enum POITypes2: Int, CaseIterable
 {
     case GeographicalPoint = 0
