@@ -115,43 +115,39 @@ class NodeRotationController: NSViewController
     @IBAction func HandleSetLocationButton(_ sender: Any)
     {
         var FinalLat: Double = 0.0
-        if let LatVal = Double(LatitudeField.stringValue)
+        guard Double(LatitudeField.stringValue) != nil else
         {
-            let LatResult = InputValidation.LatitudeValidation(LatitudeField.stringValue)
-            switch LatResult
-            {
-                case .success(let Lat):
-                    FinalLat = Lat
-                    
-                case .failure(let Why):
-                    FinalLat = 0.0
-                    LatitudeField.stringValue = "0.0"
-            }
+            return
         }
-        else
+        
+        let LatResult = InputValidation.LatitudeValidation(LatitudeField.stringValue)
+        switch LatResult
         {
-            LatitudeField.stringValue = "0.0"
-            FinalLat = 0.0
+            case .success(let Lat):
+                FinalLat = Lat
+                
+            case .failure(let Why):
+                let _ = Why
+                FinalLat = 0.0
+                LatitudeField.stringValue = "0.0"
         }
         
         var FinalLon: Double = 0.0
-        if let LonVal = Double(LatitudeField.stringValue)
+        guard Double(LongitudeField.stringValue) != nil else
         {
-            let LonResult = InputValidation.LongitudeValidation(LongitudeField.stringValue)
-            switch LonResult
-            {
-                case .success(let Lon):
-                    FinalLon = Lon
-                    
-                case .failure(let Why):
-                    FinalLon = 0.0
-                    LongitudeField.stringValue = "0.0"
-            }
+            return
         }
-        else
+        
+        let LonResult = InputValidation.LongitudeValidation(LongitudeField.stringValue)
+        switch LonResult
         {
-            LongitudeField.stringValue = "0.0"
-            FinalLon = 0.0
+            case .success(let Lon):
+                FinalLon = Lon
+                
+            case .failure(let Why):
+                let _ = Why
+                FinalLon = 0.0
+                LongitudeField.stringValue = "0.0"
         }
         
         MainDelegate?.SetNodeLocation(EditID: TestNodeID, FinalLat, FinalLon)
