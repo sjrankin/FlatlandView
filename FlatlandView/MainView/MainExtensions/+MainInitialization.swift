@@ -45,7 +45,7 @@ extension MainController
     {
         let VType = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
-       var IsFlat = false
+        var IsFlat = false
         
         switch VType
         {
@@ -136,7 +136,7 @@ extension MainController
                 Final = "\(Parts[0]):\(Parts[1])"
             }
             let FinalText = Final + " " + TimeZoneAbbreviation
-            var IsNewHour = false
+            //let IsNewHour = false
             if ((self?.PreviousHourValue.isEmpty) != nil)
             {
                 self?.PreviousHourValue = String(Parts[0])
@@ -145,7 +145,7 @@ extension MainController
             {
                 if self?.PreviousHourValue != String(Parts[0])
                 {
-                    IsNewHour = true
+                    //IsNewHour = true
                     self?.PreviousHourValue = String(Parts[0])
                 }
             }
@@ -328,50 +328,9 @@ extension MainController
             }
         }
         
-        let ViewWindow = view.window?.windowController
-        if let MainController = ViewWindow as? MainWindow
-        {
-            #if DEBUG
-            UptimeValue.stringValue = ""
-            #endif
-            #if false
-            switch Settings.GetEnum(ForKey: .HourType, EnumType: HourValueTypes.self, Default: .Solar)
-            {
-                case .None:
-                    (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 0
-                    
-                case .RelativeToLocation:
-                    (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 3
-                    
-                case .RelativeToNoon:
-                    (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 2
-                    
-                case .Solar:
-                    (view.window?.windowController as? MainWindow)!.HourSegment.selectedSegment = 1
-            }
-            
-            switch Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .Globe3D)
-            {
-                case .FlatNorthCenter:
-                    (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 0
-                    
-                case .FlatSouthCenter:
-                    (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 1
-                    
-                case .Globe3D:
-                    (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 2
-                    
-                case .CubicWorld:
-                    (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 4
-                    
-                case .Rectangular:
-                    (view.window?.windowController as? MainWindow)!.ViewSegment.selectedSegment = 3
-            }
-            
-            let HaveLocalLocation = Settings.HaveLocalLocation()
-            (view.window?.windowController as? MainWindow)!.HourSegment.setEnabled(HaveLocalLocation, forSegment: 3)
-            #endif
-        }
+        #if DEBUG
+        UptimeValue.stringValue = ""
+        #endif
         
         MainTimeLabelBottom.wantsLayer = true
         MainTimeLabelBottom.layer?.zPosition = CGFloat(LayerZLevels.TimeLabels.rawValue)
