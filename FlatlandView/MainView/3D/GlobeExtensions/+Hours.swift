@@ -452,6 +452,7 @@ extension GlobeView
         }
     }
     
+    #if false
     /// Update the text of wall clock hours without re-creating the nodes of the hours.
     /// - Note: New `SCNText` geometries are created for each `SCNNode2` object rather than create new
     ///         `SCNNode2` object to increase performance and decrease memory loss.
@@ -486,6 +487,7 @@ extension GlobeView
             }
         }
     }
+    #endif
     
     /// Create text for a wall clock node.
     /// - Parameter With: The text to use for the returned `SCNText` shape.
