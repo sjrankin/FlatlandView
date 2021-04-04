@@ -10,11 +10,12 @@ import Foundation
 import AppKit
 import CoreGraphics
 
-class MainWindow: NSWindowController, NSToolbarDelegate
+class MainWindow: NSWindowController, NSToolbarDelegate, NSWindowDelegate
 {
     override func windowDidLoad()
     {
         super.windowDidLoad()
+        
         window?.acceptsMouseMovedEvents = true
         WorldLockButton.toolTip = "Locks or unlocks camera motion for views."
     }
