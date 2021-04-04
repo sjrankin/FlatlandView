@@ -36,7 +36,6 @@ class CSV
             Order.append(Header)
         }
         _HeadersSet = true
-        print("SetHeaders(\(Headers))")
     }
     
     /// Holds the headers set flag.
@@ -61,9 +60,10 @@ class CSV
         }
         set
         {
+            objc_sync_enter(CSVLock)
+            defer{objc_sync_exit(CSVLock)}
             if !HeadersSet
             {
-                Debug.Print("Headers not yet set - cannot access data.")
                 return
             }
             if ColumnData.keys.contains(Key)
@@ -80,6 +80,8 @@ class CSV
     /// Saves the current row in the internal data set. Does not write data to the file.
     public static func SaveRow()
     {
+        objc_sync_enter(CSVLock)
+        defer{objc_sync_exit(CSVLock)}
         _IsDirty = true
         CSVData.append(ColumnData)
         for (Key, _) in ColumnData
@@ -129,6 +131,8 @@ class CSV
     /// - Parameter FileName: The name of the file (including extension) to use when writing the file.
     public static func SetSaveName(_ FileName: String)
     {
+        objc_sync_enter(CSVLock)
+        defer{objc_sync_exit(CSVLock)}
         if FileName.isEmpty
         {
             Debug.FatalError("Invalid file name.")
