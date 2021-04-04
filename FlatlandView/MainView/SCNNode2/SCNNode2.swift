@@ -560,7 +560,7 @@ class SCNNode2: SCNNode
     {
         guard let Latitude = Latitude, let Longitude = Longitude else
         {
-            Debug.Print("SetDaylightState: Position not set. Name: \"\(name)\"")
+            Debug.Print("SetDaylightState: Position not set.")
             return
         }
         guard let IsInDay = Solar.IsInDaylight(Latitude, Longitude) else
