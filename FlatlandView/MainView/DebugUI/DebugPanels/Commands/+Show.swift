@@ -260,9 +260,9 @@ class ShowCommand: CommandProtocol
         {
             return (nil, nil)
         }
-        var ForAge = AgeConstraints()
+        let ForAge = AgeConstraints()
         ForAge.ConstraintType = .None
-        var ForMagnitude = SizeConstraints()
+        let ForMagnitude = SizeConstraints()
         ForMagnitude.ConstraintType = .None
         for Option in From
         {
