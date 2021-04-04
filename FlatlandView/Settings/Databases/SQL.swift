@@ -73,8 +73,8 @@ class SQL
                     return .success(Int(Count))
                 }
                 
-            case .failure(let Failure):
-                return .failure(.ErrorGettingRowCount)
+            default: 
+                break
         }
         return .failure(.ErrorGettingRowCount)
     }
