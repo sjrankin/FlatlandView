@@ -208,14 +208,11 @@ class POIPreferences: NSViewController, PreferencePanelProtocol
     
     @IBAction func HandleResetPane(_ sender: Any)
     {
-        if let Button = sender as? NSButton
+        let DoReset = RunMessageBoxOK(Message: "Reset settings on this pane?",
+                                      InformationMessage: "You will lose all of the changes you have made to the settings on this panel.")
+        if DoReset
         {
-            let DoReset = RunMessageBoxOK(Message: "Reset settings on this pane?",
-                                          InformationMessage: "You will lose all of the changes you have made to the settings on this panel.")
-            if DoReset
-            {
-                ResetToFactorySettings()
-            }
+            ResetToFactorySettings()
         }
     }
     
