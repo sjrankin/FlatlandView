@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 /// https://github.com/ruiaureliano/macOS-Appearance/blob/master/Appearance/Source/AppDelegate.swift
-class PreferencePanelWindow: NSWindowController, NSWindowDelegate
+class PreferencePanelWindow: NSWindowController, NSWindowDelegate, NSToolbarDelegate
 {
     override func windowDidLoad()
     {
@@ -62,6 +62,29 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
         ButtonMap[SoundsButton] = SoundsItem
         
         Highlight(GeneralButton2)
+        
+        perform(#selector(RemoveTest), with: nil, afterDelay: 0.01, inModes: [.common])
+    }
+    
+    @objc func RemoveTest()
+    {
+        let SatelliteIndex = IndexOf(SatelliteItem.itemIdentifier)
+        if SatelliteIndex > -1
+        {
+            PreferenceToolbar.removeItem(at: SatelliteIndex)
+        }
+    }
+    
+    func IndexOf(_ Item: NSToolbarItem.Identifier) -> Int
+    {
+        for Index in 0 ..< PreferenceToolbar.items.count
+        {
+            if PreferenceToolbar.items[Index].itemIdentifier == Item
+            {
+                return Index
+            }
+        }
+        return -1
     }
     
     /// A theme change was detected by the view controller. Update any highlighted buttons.
@@ -73,6 +96,27 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
     func windowWillClose(_ notification: Notification)
     {
     }
+    
+    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier]
+    {
+        var OK = [NSToolbarItem.Identifier.flexibleSpace,
+                  NSToolbarItem.Identifier.space,
+                  GeneralItem.itemIdentifier,
+                  LiveDataItem.itemIdentifier,
+                  MapsItem.itemIdentifier,
+                  POIItem.itemIdentifier,
+                  QuakeItem.itemIdentifier,
+                  MapAttributesItem.itemIdentifier,
+                  CitiesItem.itemIdentifier,
+                  SoundsItem.itemIdentifier
+        ]
+        Features.FeatureIsEnabled(.Satellites)
+        {
+            OK.append(self.SatelliteItem.itemIdentifier)
+        }
+        return OK
+    }
+    
     
     var ButtonMap = [NSButton: NSToolbarItem]()
     
@@ -101,6 +145,7 @@ class PreferencePanelWindow: NSWindowController, NSWindowDelegate
     var CurrentHighlightColor: NSColor = NSColor.controlAccentColor
     var BorderColor = NSColor.black
     
+    @IBOutlet weak var PreferenceToolbar: NSToolbar!
     @IBOutlet weak var GeneralItem: NSToolbarItem!
     @IBOutlet weak var LiveDataItem: NSToolbarItem!
     @IBOutlet weak var MapsItem: NSToolbarItem!
