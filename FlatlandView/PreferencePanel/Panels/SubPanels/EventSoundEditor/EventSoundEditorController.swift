@@ -159,10 +159,11 @@ Mutes the event's sound. No sound will be played when the event occurs until you
         }
         if let PopController = NSStoryboard(name: "PreferenceHelpViewer", bundle: nil).instantiateController(withIdentifier: "PreferenceHelpViewer") as? PreferenceHelpPopover
         {
-            guard let HelpController = PopController as? PreferenceHelpProtocol else
-            {
-                return
-            }
+//            guard let HelpController = PopController as? PreferenceHelpProtocol else
+//            {
+//                return
+//            }
+            let HelpController = PopController as PreferenceHelpProtocol
             Pop = NSPopover()
             Pop?.contentSize = NSSize(width: 427, height: 237)
             Pop?.behavior = .semitransient
