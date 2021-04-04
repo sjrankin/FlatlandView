@@ -208,8 +208,8 @@ class ManualEntryPanel: NSViewController, NSTextFieldDelegate, ColorPanelProtoco
                         Channel2Sample.Color = GreenSample
                         
                     case .HSB:
-                        let HueSliderValue = CGFloat(Channel1Slider.doubleValue) / CGFloat(SliderMax)
-                        let SatSample = NSColor(calibratedHue: HueSliderValue, saturation: CGFloat(SliderValue), brightness: 0.85, alpha: 1.0)
+//                        let HueSliderValue = CGFloat(Channel1Slider.doubleValue) / CGFloat(SliderMax)
+                        //let SatSample = NSColor(calibratedHue: HueSliderValue, saturation: CGFloat(SliderValue), brightness: 0.85, alpha: 1.0)
                         Channel2Sample.Color = NSColor.UnitColor(CGFloat(SliderValue), Channel: .Saturation)
                         
                     case .CMYK:
@@ -285,12 +285,14 @@ class ManualEntryPanel: NSViewController, NSTextFieldDelegate, ColorPanelProtoco
     
     func controlTextDidEndEditing(_ obj: Notification)
     {
+        #if false
         if let Field = obj.object as? NSTextField
         {
             let CurrentColorSpace = Settings.GetEnum(ForKey: .ColorPickerColorspace, EnumType: PickerColorspaces.self,
                                                      Default: .RGB)
             let Channel = ColorChannelFromField(Field, Colorspace: CurrentColorSpace)
         }
+        #endif
     }
     
     @IBAction func HandleInputTypeChanged(_ sender: Any)
