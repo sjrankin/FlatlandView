@@ -75,7 +75,7 @@ class AdjustTransparency
         print("BytesPerRow=\(BytesPerRow), calculated=\((ImageByteCount / Int(ImageSize.height)) * 4)")
         var ImageBytes = [UInt8](repeating: 0, count: ImageByteCount)
         let ORegion = MTLRegionMake2D(0, 0, Int(ImageSize.width), Int(ImageSize.height))
-        let OSize = ORegion.size
+        //let OSize = ORegion.size
         if ORegion.size.width != Int(ImageSize.width) && ORegion.size.height != Int(ImageSize.height)
         {
             fatalError("ORegion.size != ImageSize in \(#function)")
