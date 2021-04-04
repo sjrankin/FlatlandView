@@ -36,6 +36,30 @@ class Features
         return true
     }
     
+    /// Execute a closure if the passed feature is enabled.
+    /// - Parameter Feature: The feature to test for enablement.
+    /// - Parameter Block: The closure to execute if the feature is enabled. If the feature is not
+    ///                    enabled, control returns immediately without executing the closure.
+    public static func FeatureIsEnabled(_ Feature: ManagedFeatures, Block: (() -> ())? = nil)
+    {
+        if FeatureEnabled(Feature)
+        {
+            Block?()
+        }
+    }
+    
+    /// Execute a closure if the passed feature is not enabled.
+    /// - Parameter Feature: The feature to test for enablement.
+    /// - Parameter Block: The closure to execute if the feature is not enabled. If the feature is
+    ///                    enabled, control returns immediately without executing the closure.
+    public static func FeatureIsNotEnabled(_ Feature: ManagedFeatures, Block: (() -> ())? = nil)
+    {
+        if !FeatureEnabled(Feature)
+        {
+            Block?()
+        }
+    }
+    
     /// Determines if the passed feature is enabled. Passes the result to the closure.
     /// - Parameter Feature: The feature to test for enablement.
     /// - Parameter Block: Closure to execute. First parameter passed is the feature enabled flag.
