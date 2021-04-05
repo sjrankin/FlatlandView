@@ -1091,7 +1091,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="W7u-FV-SUH" column="9M1-Jk-YGa" id="2xs-kr-9d0">
                                                     <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="quz-nf-rzP">
-                                                        <rect key="frame" x="61" y="125" width="120" height="21"/>
+                                                        <rect key="frame" x="61" y="125" width="100" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="21" id="AYZ-a2-GqD"/>
                                                             <constraint firstAttribute="width" constant="120" id="q9d-nF-ZnI"/>
@@ -1139,7 +1139,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="l0H-RN-dcS" column="9M1-Jk-YGa" id="snS-BH-HJn">
                                                     <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5US-wb-0cB">
-                                                        <rect key="frame" x="61" y="71" width="100" height="21"/>
+                                                        <rect key="frame" x="61" y="71" width="120" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="21" id="MAq-7L-rGo"/>
                                                             <constraint firstAttribute="width" constant="120" id="ahD-cp-hyS"/>
