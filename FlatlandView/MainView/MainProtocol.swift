@@ -157,6 +157,9 @@ protocol MainProtocol: AnyObject
     func RotateCameraInPlace(Pitch X: Double, Yaw Y: Double, Roll Z: Double, ValuesAreRadians: Bool,
                              Duration: Double)
     
+    /// Move the camera to look at a specified point on the globe.
+    /// - Parameter Location: Defines where to look.
+    /// - Parameter Duration: Duration of the animation in seconds.
     func MoveCameraTo(_ Location: CameraLocations, Duration: Double)
     
     /// Get the 3D point of view node.
