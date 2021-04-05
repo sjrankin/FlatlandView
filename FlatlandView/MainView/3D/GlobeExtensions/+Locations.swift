@@ -826,27 +826,13 @@ extension GlobeView
             {
                 RelativeSize = Double(Min) / Double(Max)
             }
-            #if true
+
             var CityColor = CityManager.ColorForCity(City)
             if City.IsCustomCity
             {
                 CityColor = City.CityColor
             }
-            #else
-            var CityColor = CityManager.ColorForCity(City)
-            if Settings.GetBool(.ShowCapitalCities) && City.IsCapital
-            {
-                CityColor = Settings.GetColor(.CapitalCityColor, NSColor.systemYellow)
-            }
-            if Settings.GetBool(.ShowCitiesByPopulation)
-            {
-                CityColor = Settings.GetColor(.PopulationColor, NSColor.Sunglow)
-            }
-            if City.IsCustomCity
-            {
-                CityColor = City.CityColor
-            }
-            #endif
+
             switch Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .UniformEmbedded)
             {
                 case .UniformEmbedded:
@@ -973,7 +959,6 @@ extension GlobeView
                 A.CastsShadow = true
                 A.Class = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
                 A.ID = NorthPole ? NodeTables.NorthPoleID : NodeTables.SouthPoleID
-//                A.DiffuseColor = NSColor(HexString: "#ffd700")!
                 A.DiffuseColor = NSColor.Gold
                 A.Metalness = Defaults.PoleNomenMetallness.rawValue
                 A.Roughness = Defaults.PoleNomenRoughness.rawValue
