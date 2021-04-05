@@ -309,7 +309,7 @@ class Sun
     /// Returns the rough, approximate declination of the Earth on the given date.
     /// - Note: See [How to Calculate the Sun's Declination](https://sciencing.com/convert-julian-date-calender-date-6017669.html)
     /// - Parameter For: The date whose declination will be returned.
-    /// - Returns: The declination for the passed date.
+    /// - Returns: The declination for the passed date, in radians.
     public static func Declination(For: Date) -> Double
     {
         let StartOfYear = Date.DateFactory(Year: For.Year, Month: 1, Day: 1)!
