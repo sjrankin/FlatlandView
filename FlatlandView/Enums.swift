@@ -907,15 +907,24 @@ enum TimePeriodUnits: String, CaseIterable
     case Hours = "Hours"
 }
 
+/// Pre-defined camera locations intended to be used only for debugging.
 enum CameraLocations: String, CaseIterable
 {
+    /// Noon longitude.
     case Noon = "Noon"
+    /// User's home location.
     case Home = "Home"
+    /// North pole.
     case NorthPole = "North Pole"
+    /// South pole.
     case SouthPole = "South Pole"
+    /// 0N, 0E
     case L00 = "0,0"
+    /// 0N, 90E
     case L090 = "0,90"
+    /// 0N, 180E
     case L0180 = "0,180"
+    /// 0N, -90W
     case L0270 = "0,-90"
 }
 
