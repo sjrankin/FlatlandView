@@ -341,6 +341,12 @@ extension MainController: MainProtocol
         }
     }
     
+    /// Rotate the camera without moving it.
+    /// - Parameter Pitch: New pitch of the camera.
+    /// - Parameter Yaw: New yaw of the camera.
+    /// - Parameter Roll: New roll of the camera.
+    /// - Parameter ValuesAreRadians: If true, the passed values are radians. If false, they are degrees.
+    /// - Parameter Duration: Duration of the animation in seconds.
     func RotateCameraInPlace(Pitch X: Double, Yaw Y: Double, Roll Z: Double, ValuesAreRadians: Bool,
                              Duration: Double)
     {
@@ -348,6 +354,9 @@ extension MainController: MainProtocol
                                        Duration: Duration)
     }
     
+    /// Move the camera to look at a specified point on the globe.
+    /// - Parameter Location: Defines where to look.
+    /// - Parameter Duration: Duration of the animation in seconds.
     func MoveCameraTo(_ Location: CameraLocations, Duration: Double)
     {
         var Where: GeoPoint!
