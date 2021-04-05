@@ -672,6 +672,11 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     
     var PreviousMemory: Int64? = nil
     var CumulativeMemory: Int64 = 0
+    
+    // MARK: - Globe camera variables.
+    var GlobeCameraNode: SCNNode? = nil
+    var GlobeCamera: SCNCamera? = nil
+    var AnchorNode: SCNNode2? = nil
 }
 
 
