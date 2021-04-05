@@ -75,7 +75,9 @@ class Features
         .NASAImagery: 2,
         .QuakeBarcodes: 2,
         .CubicEarth: 2,
-        .Satellites: 3
+        .Satellites: 3,
+        .NonStockCamera: 2,
+        .FlatlandMouseCursor: 2
     ]
 }
 
@@ -90,4 +92,8 @@ enum ManagedFeatures: String, CaseIterable
     case CubicEarth = "Cubic Earth"
     /// Can show satellites in orbit.
     case Satellites = "Satellites"
+    /// Use Flatland's own camera rather than the stock camera.
+    case NonStockCamera = "Non-Stock Camera"
+    /// Use Flatland's mouse cursor when the mouse is over a map.
+    case FlatlandMouseCursor = "Flatland Mouse Cursor"
 }
