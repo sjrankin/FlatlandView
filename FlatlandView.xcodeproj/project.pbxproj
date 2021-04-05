@@ -152,6 +152,7 @@
 		1767EC1625BEAD6C00A976D2 /* ColorPanelBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1767EC1525BEAD6C00A976D2 /* ColorPanelBase.swift */; };
 		176A89802530278900489C22 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176A897F2530278900489C22 /* MainWindow.swift */; };
 		176A89832530280800489C22 /* WindowManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176A89822530280800489C22 /* WindowManagement.swift */; };
+		176BDD10261A948900341309 /* +NewCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176BDD0F261A948900341309 /* +NewCamera.swift */; };
 		176CBB76251B08E800D6C0AD /* EnumConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17000B4B251ADF22009CF3B7 /* EnumConstants.swift */; };
 		176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */; };
 		176E61AE25CD172B00FEA7B8 /* WordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176E61AD25CD172B00FEA7B8 /* WordList.swift */; };
@@ -631,6 +632,7 @@
 		1767EC1525BEAD6C00A976D2 /* ColorPanelBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPanelBase.swift; sourceTree = "<group>"; };
 		176A897F2530278900489C22 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		176A89822530280800489C22 /* WindowManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagement.swift; sourceTree = "<group>"; };
+		176BDD0F261A948900341309 /* +NewCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+NewCamera.swift"; sourceTree = "<group>"; };
 		176CBB78251B1B7000D6C0AD /* +FlatViewSuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewSuns.swift"; sourceTree = "<group>"; };
 		176E61AD25CD172B00FEA7B8 /* WordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordList.swift; sourceTree = "<group>"; };
 		176E61AF25CD1DBB00FEA7B8 /* WordGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGroup.swift; sourceTree = "<group>"; };
@@ -1441,6 +1443,7 @@
 				178E1CA225186DE900FDC75B /* +Attract.swift */,
 				17FFF8CB2567ED04008B50AD /* +Axes.swift */,
 				178E1C9C2518288500FDC75B /* +Camera.swift */,
+				176BDD0F261A948900341309 /* +NewCamera.swift */,
 				178E1CAB25186EB000FDC75B /* +ChangedSettingsHandler.swift */,
 				178A869F2489108C00BE8D46 /* +CubicEarth.swift */,
 				17F6C4F4257BA24F003FFDA2 /* +Debug.swift */,
@@ -2520,6 +2523,7 @@
 				1723C80324D54C4C00C41EEE /* UserRegion.swift in Sources */,
 				17B7D7AD24CED053000C077B /* ImageFlipper.swift in Sources */,
 				17F5598E25AD837D00053314 /* RegionEntryController.swift in Sources */,
+				176BDD10261A948900341309 /* +NewCamera.swift in Sources */,
 				172F061225512A4500BEA156 /* LiveDataPreferences.swift in Sources */,
 				1748913324C6A53D00B5F6AF /* Imaging.swift in Sources */,
 				175BA5542570CEBA001ED3A2 /* Internet.swift in Sources */,
