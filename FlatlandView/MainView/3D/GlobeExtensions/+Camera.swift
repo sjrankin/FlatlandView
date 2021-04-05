@@ -73,7 +73,6 @@ extension GlobeView
         let XRotate = CGFloat(ValuesAreRadians ? X : X.Radians)
         let YRotate = CGFloat(ValuesAreRadians ? Y : Y.Radians)
         let ZRotate = CGFloat(ValuesAreRadians ? Z : Z.Radians)
-//        self.pointOfView?.eulerAngles = SCNVector3(XRotate, YRotate, ZRotate)
         let OrientCamera = SCNAction.rotateTo(x: XRotate, y: YRotate, z: ZRotate, duration: Duration)
         self.pointOfView?.runAction(OrientCamera)
     }
