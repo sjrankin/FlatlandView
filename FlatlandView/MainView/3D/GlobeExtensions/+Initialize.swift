@@ -90,26 +90,29 @@ extension GlobeView
         //Monitor the camera's distance from the center of the Earth. Used to set the quality level of extruded
         //hour numerals.
         //See: https://stackoverflow.com/questions/24768031/can-i-get-the-scnview-camera-position-when-using-allowscameracontrol
-        if self.allowsCameraControl
+        Features.FeatureIsNotEnabled(.NonStockCamera)
         {
-            CameraObserver = self.observe(\.pointOfView?.position, options: [.new, .initial])
+            if self.allowsCameraControl
             {
-                [weak self] (Node, Change) in
-                OperationQueue.current?.addOperation
+                self.CameraObserver = self.observe(\.pointOfView?.position, options: [.new, .initial])
                 {
-                    let Location = Node.pointOfView!.position
-                    let Distance = sqrt((Location.x * Location.x) + (Location.y * Location.y) + (Location.z * Location.z))
-                    if self?.PreviousCameraDistance == nil
+                    [weak self] (Node, Change) in
+                    OperationQueue.current?.addOperation
                     {
-                        self?.PreviousCameraDistance = Int(Distance)
-                    }
-                    else
-                    {
-                        if self?.PreviousCameraDistance != Int(Distance)
+                        let Location = Node.pointOfView!.position
+                        let Distance = sqrt((Location.x * Location.x) + (Location.y * Location.y) + (Location.z * Location.z))
+                        if self?.PreviousCameraDistance == nil
                         {
                             self?.PreviousCameraDistance = Int(Distance)
-                            self?.UpdateFlatnessForCamera(Distance: Distance)
-                            self?.UpdateCityFlatnessForCamera(Distance: Distance)
+                        }
+                        else
+                        {
+                            if self?.PreviousCameraDistance != Int(Distance)
+                            {
+                                self?.PreviousCameraDistance = Int(Distance)
+                                self?.UpdateFlatnessForCamera(Distance: Distance)
+                                self?.UpdateCityFlatnessForCamera(Distance: Distance)
+                            }
                         }
                     }
                 }
@@ -143,11 +146,23 @@ extension GlobeView
         self.showsStatistics = false
         #endif
         
-        #if false
-        InitializeSceneCamera(Settings.GetBool(.UseSystemCameraControl))
-        #else
-        CreateCamera()
-        #endif
+        Features.FeatureEnabled(.NonStockCamera)
+        {
+            [weak self] Enabled in
+            if Enabled
+            {
+                Debug.Print("Creating globe camera.")
+                self?.CreateGlobeCamera()
+            }
+            else
+            {
+                Debug.Print("Creating old-style camera.")
+                self?.CreateCamera()
+            }
+        }
+//        CreateCamera()
+//        CreateGlobeCamera()
+
         SetupLights()
         
         SetEarthMap()
@@ -181,7 +196,7 @@ extension GlobeView
         }
     }
     
-    #if DEBUG
+    #if false
     /// Test the mouse indicator. Intended only for testing/debugging purposes.
     func TestMouseIndicator()
     {
@@ -264,7 +279,8 @@ extension GlobeView
         RemoveNodeWithName(GlobeNodeNames.FlatlandCameraNode.rawValue)
         Camera = SCNCamera()
         Camera.wantsHDR = Settings.GetBool(.UseHDRCamera)
-        Camera.fieldOfView = Settings.GetCGFloat(.FieldOfView, Defaults.FieldOfView)
+        let FieldOfView = Settings.GetCGFloat(.FieldOfView, Defaults.FieldOfView)
+        Camera.fieldOfView = FieldOfView
         Camera.zFar = Settings.GetDouble(.ZFar, Defaults.ZFar)
         Camera.zNear = Settings.GetDouble(.ZNear, Defaults.ZNear)
         CameraNode = SCNNode()
@@ -272,6 +288,7 @@ extension GlobeView
         CameraNode.camera = Camera
         CameraNode.position = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, Defaults.InitialZ.rawValue))
         self.scene?.rootNode.addChildNode(CameraNode)
+        #if false
         FLCameraObserver = CameraNode.observe(\.position, options: [.new, .initial])
         {
             (Node, Change) in
@@ -280,5 +297,6 @@ extension GlobeView
                 print("Flatland Camera position=\(Node.position)")
             }
         }
+        #endif
     }
 }
