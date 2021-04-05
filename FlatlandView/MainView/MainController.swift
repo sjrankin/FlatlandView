@@ -18,15 +18,7 @@ class MainController: NSViewController
     {
         super.viewDidLoad()
         ElapsedTimeValue = 0.0
-        
-        Settings.SetInt(.Trigger_MemoryMeasured, 0)
-        MemoryDebug.MeasurePeriodically
-        {
-            [weak self] Value in
-            self?.MemoryOverTime.append(Value)
-            Settings.SetInt(.Trigger_MemoryMeasured, (self?.MemoryOverTime.count)!)
-        }
-        
+
         MainController.StartTime = CACurrentMediaTime()
         UptimeStart = CACurrentMediaTime()
         FileIO.Initialize()
@@ -35,6 +27,14 @@ class MainController: NSViewController
         Settings.AddSubscriber(self)
         SoundManager.Initialize()
         CityManager.Initialize()
+        
+        Settings.SetInt(.Trigger_MemoryMeasured, 0)
+        MemoryDebug.MeasurePeriodically
+        {
+            [weak self] Value in
+            self?.MemoryOverTime.append(Value)
+            Settings.SetInt(.Trigger_MemoryMeasured, (self?.MemoryOverTime.count)!)
+        }
         
         InitializationFromEnvironment()
         ProgramInitialization()
