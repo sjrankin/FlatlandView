@@ -19,6 +19,8 @@ extension MainController
     /// Initialize program data.
     func ProgramInitialization()
     {
+        let UNESCO = DBIF.UNESCOSites
+        NodeTables.Initialize(Unesco: UNESCO)
         PrimaryMapList = ActualMapIO.LoadMapList()
         FontHelper.Initialize()
         InitializeCaptiveDialog()
