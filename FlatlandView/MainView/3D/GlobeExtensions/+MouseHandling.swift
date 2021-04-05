@@ -171,7 +171,9 @@ extension GlobeView
     }
     
     /// Draw the mouse indicator on the surface of the globe.
-    /// - Note: This has the potential to be distracting to the user...
+    /// - Note:
+    ///   - This has the potential to be distracting to the user...
+    ///   - The visibility of the Flatland moust pointer is dependent on the feature level.
     /// - Parameter Latitude: The latitude of where to draw the indicator.
     /// - Parameter Longitude: The longitude of where to draw the indicator.
     func PlotMouseIndicator(Latitude: Double, Longitude: Double)
@@ -179,7 +181,10 @@ extension GlobeView
         if MouseIndicator == nil
         {
             MouseIndicator = MakeMouseIndicator()
-            EarthNode?.addChildNode(MouseIndicator!)
+            if MouseIndicator != nil
+            {
+                EarthNode?.addChildNode(MouseIndicator!)
+            }
         }
         MostRecentMouseLatitude = Latitude
         MostRecentMouseLongitude = Longitude
@@ -210,12 +215,14 @@ extension GlobeView
                     .rootNode: self.EarthNode as Any
                 ]
             let HitObject = self.hitTest(Point, options: SearchOptions)
+            print("HitObject.count = \(HitObject.count)")
             if HitObject.count > 0
             {
                 if let Node = HitObject[0].node as? SCNNode2
                 {
                     if InRegionCreationMode
                     {
+                        print("Is in region creation mode.")
                         let Geo = GeoPoint(CurrentMouseLatitude, CurrentMouseLongitude)
                         MouseClickReceiver?.MouseClicked(At: Geo)
                         return
@@ -226,6 +233,7 @@ extension GlobeView
                         {
                             if PreviousNodeID! == NodeID
                             {
+                                print("Previous node is same as clicked node")
                                 return
                             }
                         }
@@ -248,8 +256,13 @@ extension GlobeView
                         }
                         else
                         {
+                            print("No data found for \(NodeID.uuidString)")
                             Pop?.performClose(self)
                         }
+                    }
+                    else
+                    {
+                        print("No node ID found for object")
                     }
                 }
                 else
@@ -289,14 +302,22 @@ extension GlobeView
     
     /// Make a mouse indicator for the globe.
     /// - Note: The shape returned is dependent on the value of `MousePointerType`.
-    /// - Returns: A shape to use as a mouse location indicator.
-    func MakeMouseIndicator() -> SCNNode2
+    /// - Returns: A shape to use as a mouse location indicator. Nil returned if the pointer type is `.Normal`
+    ///            but the feature level is insufficient.
+    func MakeMouseIndicator() -> SCNNode2?
     {
         RemoveMousePointer()
         switch MousePointerType
         {
             case .Normal:
-                return MakeNormalMouseIndicator()
+                if Features.FeatureEnabled(.FlatlandMouseCursor)
+                {
+                    return MakeNormalMouseIndicator()
+                }
+                else
+                {
+                    return nil
+                }
                 
             case .EndPin:
                 return MakePlottedPin(MostRecentMouseLatitude, MostRecentMouseLongitude, Color: NSColor.red)
