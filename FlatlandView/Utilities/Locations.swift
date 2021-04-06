@@ -312,20 +312,39 @@ class Locations
                     }
                     
                 case .UserPOI:
-                    let UserPOIs = Settings.GetLocations()
+                    let UserPOIs = DBIF.UserPOIs
                     for Location in UserPOIs
                     {
                         let Distance = Geometry.HaversineDistance(Latitude1: Latitude, Longitude1: Longitude,
-                                                                  Latitude2: Location.Coordinates.Latitude,
-                                                                  Longitude2: Location.Coordinates.Longitude) / 1000.0
+                                                                  Latitude2: Location.Latitude,
+                                                                  Longitude2: Location.Longitude) / 1000.0
                         if Distance <= CloseIs
                         {
                             let POIRecord = MetaLocation(ID: Location.ID,
                                                          Name: Location.Name,
-                                                         Latitude: Location.Coordinates.Latitude,
-                                                         Longitude: Location.Coordinates.Longitude,
+                                                         Latitude: Location.Latitude,
+                                                         Longitude: Location.Longitude,
                                                          Population: 0,
                                                          LocationType: .UserPOI,
+                                                         Distance: Distance)
+                            Results.append(POIRecord)
+                        }
+                    }
+                    
+                case .BuiltInPOI:
+                    for Location in DBIF.BuiltInPOIs
+                    {
+                        let Distance = Geometry.HaversineDistance(Latitude1: Latitude, Longitude1: Longitude,
+                                                                  Latitude2: Location.Latitude,
+                                                                  Longitude2: Location.Longitude) / 1000.0
+                        if Distance <= CloseIs
+                        {
+                            let POIRecord = MetaLocation(ID: Location.ID,
+                                                         Name: Location.Name,
+                                                         Latitude: Location.Latitude,
+                                                         Longitude: Location.Longitude,
+                                                         Population: 0,
+                                                         LocationType: .BuiltInPOI,
                                                          Distance: Distance)
                             Results.append(POIRecord)
                         }
@@ -409,6 +428,8 @@ enum LocationTypes: String, CaseIterable
     case UNESCO = "UNESCO"
     /// User point of interest.
     case UserPOI = "UserPOI"
+    /// Built-in points of interest.
+    case BuiltInPOI = "BuiltInPOI"
     /// User home location.
     case Home = "Home"
     /// Earthquake.
