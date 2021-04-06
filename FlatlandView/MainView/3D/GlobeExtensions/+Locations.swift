@@ -773,11 +773,12 @@ extension GlobeView
         if Settings.GetBool(.ShowUserLocations)
         {
             NodeTables.RemoveUserPOI()
-            for SomePOI in Settings.GetPOIs()
+            for SomePOI in DBIF.UserPOIs
             {
                 NodeTables.AddUserPOI(ID: SomePOI.ID,
                                       Name: SomePOI.Name,
-                                      Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude))
+                                      Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude),
+                                      ItemID: SomePOI.ID)
                 let ToPlot = City2(From: SomePOI)
                 let ShowEmission = Settings.GetBool(.ShowPOIEmission)
                 PlotLocationAsCone(ToPlot,
@@ -794,7 +795,7 @@ extension GlobeView
         if Settings.GetBool(.ShowBuiltInPOIs)
         {
             NodeTables.RemoveBuiltInPOI()
-            for BuiltInPOI in Settings.GetUserPOIs()
+            for BuiltInPOI in DBIF.BuiltInPOIs
             {
                 NodeTables.AddBuiltInPOI(ID: BuiltInPOI.ID,
                                          Name: BuiltInPOI.Name,
