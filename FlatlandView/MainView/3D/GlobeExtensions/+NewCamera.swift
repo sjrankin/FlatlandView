@@ -32,17 +32,25 @@ extension GlobeView
         GlobeCameraNode?.name = "Globe Camera Node"
         GlobeCameraNode?.camera = GlobeCamera
         let InitialLocation = Settings.GetVector(.InitialCameraPosition, SCNVector3(0.0, 0.0, 175.0))
+        print("InitialLocation=\(InitialLocation)")
         GlobeCameraNode?.position = InitialLocation
         AnchorNode?.addChildNode(GlobeCameraNode!)
-        /*
-        AnchorNode?.eulerAngles = SCNVector3(0.0, 0.0, CGFloat(90.0.Radians))
-        
-        let XRotate = CGFloat(0.0)// CGFloat(Double.random(in: 1.0 ... 15.0).Radians)
-        let YRotate =  CGFloat(Double.random(in: 7.0 ... 29.0).Radians)
-        let ZRotate = CGFloat(0.0)// CGFloat(Double.random(in: 5.0 ... 30.0).Radians)
-        let Rotate = SCNAction.rotateBy(x: XRotate, y: YRotate, z: ZRotate, duration: 1.0)
-        let RotateForever = SCNAction.repeatForever(Rotate)
-        AnchorNode?.runAction(RotateForever)
- */
+    }
+    
+    /// Run the camera in attract mode.
+    func CameraAttract()
+    {
+        let RotateZ = SCNAction.rotateBy(x: 0.0, y: 0.0, z: CGFloat(-90.0.Radians), duration: 3.0)
+        AnchorNode?.runAction(RotateZ)
+        let Orient = SCNAction.rotateTo(x: CGFloat(10.0).Radians, y: CGFloat(0.0).Radians, z: CGFloat(0.0).Radians,
+                                        duration: 5.0)
+        GlobeCameraNode?.runAction(Orient)
+        let ZoomIn = SCNAction.move(to: SCNVector3(0.0, 0.0, 50.0), duration: 4.0)
+        GlobeCameraNode?.runAction(ZoomIn)
+        {
+            let RotateX = SCNAction.rotateBy(x: CGFloat(-180.0).Radians, y: 0.0, z: 0.0, duration: 30.0)
+            let RotateXForever = SCNAction.repeatForever(RotateX)
+            self.AnchorNode?.runAction(RotateXForever)
+        }
     }
 }
