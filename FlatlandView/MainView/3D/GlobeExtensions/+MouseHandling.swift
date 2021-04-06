@@ -38,10 +38,15 @@ extension GlobeView
     }
     
     /// Handle mouse motion reported by the main view controller.
-    /// - Note: Depending on various parameters, the mouse's location is translated to scene coordinates and
-    ///         the node under the mouse is queried and its associated data may be displayed.
-    /// - Note: The implementation for mouse over node is slightly different between the 2D and 3D displays...
-    /// - Parameter Point: The point in the view reported by the main controller.
+    /// - Note:
+    ///   - Depending on various parameters, the mouse's location is translated to scene coordinates and
+    ///     the node under the mouse is queried and its associated data may be displayed.
+    ///   - The implementation for mouse over node is slightly different between the 2D and 3D displays...
+    ///   - The mouse point's latitude and longitude are stored in `CurrentMouseLatitude` and
+    ///     `CurrentMouseLongitude`.
+    /// - Parameter Point: The point in the view reported by the main controller. Converted to map coordinates
+    ///                    here for use by the map and other functions that expect latitude and longitude
+    ///                    values.
     func MouseMovedTo(Point: CGPoint)
     {
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.Globe3D) != .Globe3D
@@ -225,6 +230,12 @@ extension GlobeView
                         MouseClickReceiver?.MouseClicked(At: Geo)
                         return
                     }
+                    if InPointCreationMode
+                    {
+                        let Geo = GeoPoint(CurrentMouseLatitude, CurrentMouseLongitude)
+                        MouseClickReceiver?.MouseClicked(At: Geo)
+                        return
+                    }
                     if let NodeID = Node.NodeID
                     {
                         if PreviousNodeID != nil
@@ -278,12 +289,13 @@ extension GlobeView
             Pop?.animates = true
             Pop?.contentViewController = PopController
             Pop?.show(relativeTo: NSRect(x: At.x, y: At.y, width: 10.0, height: 10.0), of: self, preferredEdge: .minX)
-            PopController.DisplayItem(For)
+            PopController.ItemToDisplay(For)
+            PopController.PopParent = self
             PopController.SetSelf(Pop!)
         }
     }
     
-    /// Remove the mouse pointe from the Earth.
+    /// Remove the mouse point from the Earth.
     func RemoveMousePointer()
     {
         MouseIndicator?.removeAllActions()
