@@ -14,7 +14,9 @@ enum Colors3D: Int, CaseIterable
     /// Required to keep the compiler happy.
     typealias RawValue = Int
     /// Color of the floating hours.
-    case HourColor = 0xff7518
+    case HourColor = 0xcf3a24
+    /// Color of the sides of floating hours.
+    case SideColor = 0x4c221b
     /// Color of glowing hours.
     case GlowingHourColor = 0xa00000
     /// Specular color for floating hours.
