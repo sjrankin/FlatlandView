@@ -399,7 +399,7 @@ extension RectangleView
             Pop?.animates = true
             Pop?.contentViewController = PopController
             Pop?.show(relativeTo: NSRect(x: At.x, y: At.y, width: 10.0, height: 10.0), of: self, preferredEdge: .minX)
-            PopController.DisplayItem(For)
+            PopController.ItemToDisplay(For)
             PopController.SetSelf(Pop!)
         }
     }
