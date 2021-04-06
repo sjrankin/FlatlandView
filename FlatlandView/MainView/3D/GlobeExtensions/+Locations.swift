@@ -772,9 +772,9 @@ extension GlobeView
         
         if Settings.GetBool(.ShowUserLocations)
         {
+            NodeTables.RemoveUserPOI()
             for SomePOI in Settings.GetPOIs()
             {
-                NodeTables.RemoveUserPOI()
                 NodeTables.AddUserPOI(ID: SomePOI.ID,
                                       Name: SomePOI.Name,
                                       Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude))
