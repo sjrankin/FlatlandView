@@ -11,6 +11,8 @@ import AppKit
 
 class POIPopover: NSViewController, NSPopoverDelegate
 {
+    public weak var PopParent: PopOverParent? = nil
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -54,15 +56,19 @@ class POIPopover: NSViewController, NSPopoverDelegate
         TypeValue.textColor = To
     }
     
+    var ActualItem: DisplayItem? = nil
+    
     /// Call to display information about what is under the mouse.
     /// - Parameter ItemToDisplay: The data for the item under the mouse.
-    func DisplayItem(_ ItemToDisplay: DisplayItem)
+    func ItemToDisplay(_ ItemToDisplay: DisplayItem)
     {
         if ItemToDisplay.ItemType == .Unknown
         {
             Initialize()
             return
         }
+        ActualItem = ItemToDisplay
+        DisplayedItemID = ItemToDisplay.ID
         TypeLabel.isHidden = false
         TypeLabel.stringValue = "Type"
         NumericValue.isHidden = false
@@ -136,7 +142,7 @@ class POIPopover: NSViewController, NSPopoverDelegate
                 NameValue.stringValue = ItemToDisplay.Name
                 
             case .BuiltInPOI:
-                EditButton.isHidden = false
+                EditButton.isHidden = true
                 NumericLabel.stringValue = ""
                 NumericValue.stringValue = ""
                 NameLabel.stringValue = "Name"
@@ -173,6 +179,7 @@ class POIPopover: NSViewController, NSPopoverDelegate
         }
     }
     
+    var DisplayedItemID: UUID? = nil
     var DisplayedItem: ItemTypes = .Unknown
     
     @IBAction func HandleClosePressed(_ sender: Any)
@@ -191,6 +198,10 @@ class POIPopover: NSViewController, NSPopoverDelegate
             case .UserPOI:
                 print("Will edit POI.")
                 self.view.window?.close()
+                if let ItemID = ActualItem?.ItemID
+                {
+                    PopParent?.EditUserPOI(ItemID)
+                }
                 
             default:
                 return
