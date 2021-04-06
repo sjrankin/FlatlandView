@@ -363,7 +363,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     var test: SCNNode2? = nil
     
     #if false
-    func MakePopOver(At: CGPoint, For: DisplayItem)
+    func MakePopOver(At: CGPoint, For: ItemToDisplay)
     {
         if let PopController = NSStoryboard(name: "Popovers", bundle: nil).instantiateController(withIdentifier: "POIPopover") as? POIPopover
         {
@@ -373,7 +373,7 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
             Pop?.animates = true
             Pop?.contentViewController = PopController
             Pop?.show(relativeTo: NSRect(x: At.x, y: At.y, width: 10.0, height: 10.0), of: self, preferredEdge: .minX)
-            PopController.DisplayItem(For)
+            PopController.ItemToDisplay(For)
             PopController.SetSelf(Pop!)
         }
     }
