@@ -664,6 +664,10 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     var RadialContainer: [RadialLayer] = [RadialLayer]()
     var RadialRadiusOffset: CGFloat = RadialConstants.RadialRadiusOffset.rawValue
     
+    // MARK: - POI editing variables.
+    var POIEditorOpen: Bool = false
+    var InPointCreationMode = false
+    
     var WallClockTimer: Timer? = nil
     var WallStartAngle: Double = 0.0
     var WallScaleMultiplier: Double = 1.0
