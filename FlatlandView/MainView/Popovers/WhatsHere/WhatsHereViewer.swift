@@ -191,6 +191,10 @@ class WhatsHereViewer: NSViewController, NSTableViewDelegate, NSTableViewDataSou
                     ToolTipText = "Location is a point-of-interest"
                     IconName = "pin.fill"
                     
+                case .BuiltInPOI:
+                    ToolTipText = "Location is a built-in point-of-interest"
+                    IconName = "pin"
+                    
                 case .UserPoint:
                     ToolTipText = "Location is where you started searching"
                     IconName = "magnifyingglass.circle.fill"
