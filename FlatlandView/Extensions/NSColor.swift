@@ -1029,6 +1029,70 @@ extension NSColor
         }
     }
     
+    static var AzukiIro: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#672422")!
+        }
+    }
+    
+    static var TomorokoshiIro: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#faa945")!
+        }
+    }
+    
+    static var Ebicha: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#5e2824")!
+        }
+    }
+    
+    static var Ake: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#cf3a24")!
+        }
+    }
+    
+    static var Suzumecha: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#8c4736")!
+        }
+    }
+    
+    static var Momoshiocha: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#542d24")!
+        }
+    }
+    
+    static var TobiIro: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#4cc21b")!
+        }
+    }
+    
+    static var Kurotobi: NSColor
+    {
+        get
+        {
+            return NSColor(HexString: "#351e1c")!
+        }
+    }
+    
     // MARK: - Color shifting
     
     /// Returns the number of seconds in a given time period.
