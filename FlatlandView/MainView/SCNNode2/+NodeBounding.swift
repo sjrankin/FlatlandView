@@ -197,10 +197,16 @@ extension SCNNode2
     /// - Parameter RotationDuration: Number of seconds for the rotation animation.
     /// - Parameter SegmentCount: Number of segments for the sphere. More segments add processing time and
     ///             makes the parent `SCNNode2` harder to see. Defaults to 16.
+    /// - Parameter HideAfter: Number of seconds after which the bounding sphere will be hidden.
+    ///                        Defaults to 10.0 seconds.
+    /// - Parameter HideEffectDuration: Number of seconds to run the hide special effects in seconds. Defaults
+    ///                                 to 1.0 seconds.
     private func ShowBoundingSphere(LineColor: NSColor = NSColor.red,
                                     RotateSphere: Bool = true,
                                     RotationDuration: Double = 3.0,
-                                    SegmentCount: Int = 16)
+                                    SegmentCount: Int = 16,
+                                    HideAfter Seconds: Double = 10.0,
+                                    HideEffectDuration: Double = 1.0)
     {
         if !CanShowBoundingShape
         {
@@ -228,6 +234,14 @@ extension SCNNode2
                                               duration: RotationDuration)
             let RotateForever = SCNAction.repeatForever(Rotation)
             BoundingSphereNode?.runAction(RotateForever)
+        }
+        if Seconds > 0.0
+        {
+            let Wait = SCNAction.wait(duration: Seconds)
+            let Scale = SCNAction.scale(to: 0.01, duration: HideEffectDuration)
+            let Remove = SCNAction.removeFromParentNode()
+            let FadeOutSequence = SCNAction.sequence([Wait, Scale, Remove])
+            BoundingSphereNode?.runAction(FadeOutSequence)
         }
     }
     
