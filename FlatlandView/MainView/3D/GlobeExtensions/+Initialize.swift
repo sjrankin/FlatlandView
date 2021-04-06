@@ -146,6 +146,7 @@ extension GlobeView
         self.showsStatistics = false
         #endif
         
+        #if false
         Features.FeatureEnabled(.NonStockCamera)
         {
             [weak self] Enabled in
@@ -162,6 +163,8 @@ extension GlobeView
         }
 //        CreateCamera()
 //        CreateGlobeCamera()
+        #endif
+        CreateGlobeCamera()
 
         SetupLights()
         
