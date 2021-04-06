@@ -238,6 +238,13 @@ class NodeTables
                 return ItemData
             }
         }
+        for (ItemID, ItemData) in BuiltInPOITable
+        {
+            if ItemID == ID
+            {
+                return ItemData
+            }
+        }
         for (ItemID, ItemData) in MiscTable
         {
             if ItemID == ID
