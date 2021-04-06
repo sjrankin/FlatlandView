@@ -36,7 +36,7 @@ extension GlobeView
             let Menu = NSMenu(title: "Actions")
             if MouseOverEarth
             {
-                if InRegionCreationMode
+                if InRegionCreationMode || InPointCreationMode
                 {
                     Menu.items =
                         [
@@ -109,7 +109,30 @@ extension GlobeView
     
     @objc func Context_AddPOI(_ sender: Any)
     {
-        print("Add POI here!")
+        if POIEditorOpen
+        {
+            return
+        }
+        POIEditorOpen = true
+        let Storyboard = NSStoryboard(name: "POIEntryUI", bundle: nil)
+        if let WindowController = Storyboard.instantiateController(withIdentifier: "POIEntryWindow") as? POIEntryWindow
+        {
+            let Window = WindowController.window
+            if let Controller = Window?.contentViewController as? POIEntryController
+            {
+                InPointCreationMode = true
+                Settings.SetBool(.WorldIsLocked, true)
+                Controller.ParentDelegate = self
+                Controller.MainDelegate = MainDelegate
+                MouseClickReceiver = Controller
+                Controller.CreateNewPoint(ClickPoint: GeoPoint(CurrentMouseLatitude, CurrentMouseLongitude))
+                WindowController.showWindow(nil)
+            }
+        }
+        else
+        {
+            POIEditorOpen = false
+        }
     }
     
     @objc func Context_EditPOI(_ sender: Any)
@@ -146,7 +169,6 @@ extension GlobeView
             {
                 InRegionCreationMode = true
                 OldLockState = Settings.GetBool(.WorldIsLocked)
-                print("OldLockState=\(OldLockState)")
                 Settings.SetBool(.WorldIsLocked, true)
                 Controller.ParentDelegate = self
                 Controller.MainDelegate = MainDelegate
