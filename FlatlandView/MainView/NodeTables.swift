@@ -26,7 +26,8 @@ class NodeTables
             CityTable[SomeCity.CityID] = DisplayItem(ID: SomeCity.CityID, ItemType: .City, Name: SomeCity.Name,
                                                      Numeric: Double(SomeCity.GetPopulation()),
                                                      Location: GeoPoint(SomeCity.Latitude, SomeCity.Longitude),
-                                                     Description: "")
+                                                     Description: "",
+                                                     ItemID: SomeCity.CityID)
         }
         
         for Site in Unesco
@@ -34,17 +35,21 @@ class NodeTables
             UNESCOTable[Site.RuntimeID!] = DisplayItem(ID: Site.RuntimeID!, ItemType: .WorldHeritageSite,
                                                        Name: Site.Name, Numeric: Double(Site.DateInscribed),
                                                        Location: GeoPoint(Site.Latitude, Site.Longitude),
-                                                       Description: Site.Category)
+                                                       Description: Site.Category,
+                                                       ItemID: Site.RuntimeID!)
         }
         
         MiscTable[NorthPoleID] = DisplayItem(ID: NorthPoleID, ItemType: .Miscellaneous, Name: "North Pole",
                                               Numeric: 0.0, Location: GeoPoint(90.0, 0.0),
-                                              Description: "Earth's north pole.")
+                                              Description: "Earth's north pole.",
+                                              ItemID: UUID())
         MiscTable[SouthPoleID] = DisplayItem(ID: SouthPoleID, ItemType: .Miscellaneous, Name: "South Pole",
                                               Numeric: 0.0, Location: GeoPoint(-90.0, 0.0),
-                                              Description: "Earth's south pole.")
+                                              Description: "Earth's south pole.",
+                                              ItemID: UUID())
         MiscTable[SunID] = DisplayItem(ID: SunID, ItemType: .Miscellaneous, Name: "Sun",
-                                       Numeric: 0.0, Location: nil, Description: "The sun")
+                                       Numeric: 0.0, Location: nil, Description: "The sun",
+                                       ItemID: UUID())
         MiscTable[SunID]?.HasNumber = false
         #if false
         MiscTable[EarthGlobe] = DisplayItem(ID: EarthGlobe, ItemType: .Miscellaneous, Name: "Earth Node",
@@ -63,7 +68,7 @@ class NodeTables
     {
         let QItem = DisplayItem(ID: Quake.QuakeID, ItemType: .Earthquake, Name: "\(Quake.Time)",
                                 Numeric: Quake.GreatestMagnitude, Location: Quake.LocationAsGeoPoint(),
-                                Description: Quake.Title)
+                                Description: Quake.Title, ItemID: UUID())
         QuakeTable[QItem.ID] = QItem
     }
     
@@ -85,7 +90,8 @@ class NodeTables
     {
         let KItem = DisplayItem(ID: ID, ItemType: .KnownLocation, Name: "Known Location",
                                 Numeric: 0.0, Location: GeoPoint(Latitude, Longitude),
-                                Description: "\(X.RoundedTo(3)),\(Y.RoundedTo(3)),\(Z.RoundedTo(3))")
+                                Description: "\(X.RoundedTo(3)),\(Y.RoundedTo(3)),\(Z.RoundedTo(3))",
+                                ItemID: UUID())
         KnownTable[ID] = KItem
     }
     
@@ -99,10 +105,11 @@ class NodeTables
     /// - Parameter ID: The ID of the user POI.
     /// - Parameter Name: The name of the user POI.
     /// - Parameter Location: The location of the user POI.
-    public static func AddUserPOI(ID: UUID, Name: String, Location: GeoPoint)
+    public static func AddUserPOI(ID: UUID, Name: String, Location: GeoPoint,
+                                  ItemID: UUID)
     {
         let UserPOI = DisplayItem(ID: ID, ItemType: .UserPOI, Name: Name,
-                                  Numeric: 0.0, Location: Location)
+                                  Numeric: 0.0, Location: Location, ItemID: ItemID)
         POITable[UserPOI.ID] = UserPOI
     }
     
@@ -119,7 +126,7 @@ class NodeTables
     public static func AddBuiltInPOI(ID: UUID, Name: String, Location: GeoPoint)
     {
         let BuiltInPOILocation = DisplayItem(ID: ID, ItemType: .BuiltInPOI, Name: Name,
-                                  Numeric: 0.0, Location: Location)
+                                  Numeric: 0.0, Location: Location, ItemID: UUID())
         BuiltInPOITable[BuiltInPOILocation.ID] = BuiltInPOILocation
     }
     
@@ -136,7 +143,7 @@ class NodeTables
     public static func AddHome(ID: UUID, Name: String, Location: GeoPoint)
     {
         let UserHome = DisplayItem(ID: ID, ItemType: .Home, Name: Name,
-                                  Numeric: 0.0, Location: Location)
+                                   Numeric: 0.0, Location: Location, ItemID: UUID())
         HomeTable[UserHome.ID] = UserHome
     }
     
@@ -157,7 +164,7 @@ class NodeTables
     {
         let MiscData = DisplayItem(ID: ID, ItemType: .Miscellaneous, Name: Name,
                                    Numeric: Numeric, Location: Location,
-                                   Description: Description)
+                                   Description: Description, ItemID: UUID())
         MiscTable[MiscData.ID] = MiscData
     }
     
@@ -179,7 +186,7 @@ class NodeTables
     {
         let Rgn = DisplayItem(ID: ID, ItemType: .Region, Name: Name,
                               Numeric: 0.0, Location: UpperLeft,
-                              Description: Description)
+                              Description: Description, ItemID: UUID())
         Rgn.Location2 = LowerRight
         RegionTable[Rgn.ID] = Rgn
     }
@@ -195,7 +202,7 @@ class NodeTables
     {
         let Rgn = DisplayItem(ID: ID, ItemType: .Region, Name: Name,
                               Numeric: Radius, Location: Center,
-                              Description: Description)
+                              Description: Description, ItemID: UUID())
         RegionTable[Rgn.ID] = Rgn
     }
     
@@ -438,8 +445,9 @@ class DisplayItem
     /// - Parameter Numeric: The numeric value (when appropriate) of the item.
     /// - Parameter Location: The geographic location of the item.
     /// - Parameter Description: The description of the item.
+    /// - Parameter ItemID: The ID of the individual item.
     init(ID: UUID, ItemType: ItemTypes, Name: String, Numeric: Double, Location: GeoPoint?,
-         Description: String = "")
+         Description: String = "", ItemID: UUID)
     {
         self.ID = ID
         self.ItemType = ItemType
@@ -447,6 +455,7 @@ class DisplayItem
         self.Numeric = Numeric
         self.Location = Location
         self.Description = Description
+        self.ItemID = ItemID
     }
     
     var ID: UUID = UUID()
@@ -457,6 +466,7 @@ class DisplayItem
     var Location2: GeoPoint? = nil
     var Description: String = ""
     var HasNumber: Bool = true
+    var ItemID: UUID = UUID()
 }
 
 enum ItemTypes: String, CaseIterable
