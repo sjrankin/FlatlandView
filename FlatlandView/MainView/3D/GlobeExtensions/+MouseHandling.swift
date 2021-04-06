@@ -215,14 +215,12 @@ extension GlobeView
                     .rootNode: self.EarthNode as Any
                 ]
             let HitObject = self.hitTest(Point, options: SearchOptions)
-            print("HitObject.count = \(HitObject.count)")
             if HitObject.count > 0
             {
                 if let Node = HitObject[0].node as? SCNNode2
                 {
                     if InRegionCreationMode
                     {
-                        print("Is in region creation mode.")
                         let Geo = GeoPoint(CurrentMouseLatitude, CurrentMouseLongitude)
                         MouseClickReceiver?.MouseClicked(At: Geo)
                         return
@@ -233,7 +231,6 @@ extension GlobeView
                         {
                             if PreviousNodeID! == NodeID
                             {
-                                print("Previous node is same as clicked node")
                                 return
                             }
                         }
@@ -256,13 +253,8 @@ extension GlobeView
                         }
                         else
                         {
-                            print("No data found for \(NodeID.uuidString)")
                             Pop?.performClose(self)
                         }
-                    }
-                    else
-                    {
-                        print("No node ID found for object")
                     }
                 }
                 else
