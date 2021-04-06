@@ -68,7 +68,9 @@ extension RectangleView
             {
                 if SomePOI.POIType == POITypes.UserPOI.rawValue
                 {
-                    NodeTables.AddUserPOI(ID: SomePOI.POIID, Name: SomePOI.Name, Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude))
+                    NodeTables.AddUserPOI(ID: SomePOI.POIID, Name: SomePOI.Name,
+                                          Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude),
+                                          ItemID: SomePOI.POIID)
                     let ToPlot = City2()
                     ToPlot.Name = SomePOI.Name
                     ToPlot.CityID = SomePOI.POIID
