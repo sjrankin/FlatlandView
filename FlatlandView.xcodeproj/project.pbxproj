@@ -446,6 +446,12 @@
 		17FAA7FA25D281A60015D504 /* SQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FAA7F925D281A60015D504 /* SQL.swift */; };
 		17FAA7FC25D285480015D504 /* +WorldHeritageSites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FAA7FB25D285480015D504 /* +WorldHeritageSites.swift */; };
 		17FC2213249879BE005A0929 /* EarthquakeData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17FC2212249879BE005A0929 /* EarthquakeData.storyboard */; };
+		17FCA50C261C103600B4D82C /* POIEntryUI.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17FCA50B261C103600B4D82C /* POIEntryUI.storyboard */; };
+		17FCA50E261C162600B4D82C /* POIEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA50D261C162600B4D82C /* POIEntryController.swift */; };
+		17FCA510261C163800B4D82C /* POIEntryWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA50F261C163800B4D82C /* POIEntryWindow.swift */; };
+		17FCA514261C183000B4D82C /* PointEntryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA513261C183000B4D82C /* PointEntryProtocol.swift */; };
+		17FCA516261C23A100B4D82C /* +ProtocolImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA515261C23A100B4D82C /* +ProtocolImplementations.swift */; };
+		17FCA518261C4B9C00B4D82C /* PopOverParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA517261C4B9C00B4D82C /* PopOverParent.swift */; };
 		17FE3BE1256F74D500451F9F /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE3BE0256F74D500451F9F /* LocationController.swift */; };
 		17FE3BE4256F74F300451F9F /* LocationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE3BE3256F74F300451F9F /* LocationWindow.swift */; };
 		17FEFB282611F4C900B01F7C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17FEFAFA2611F3E800B01F7C /* WidgetKit.framework */; };
@@ -931,6 +937,12 @@
 		17FAA7F925D281A60015D504 /* SQL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQL.swift; sourceTree = "<group>"; };
 		17FAA7FB25D285480015D504 /* +WorldHeritageSites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+WorldHeritageSites.swift"; sourceTree = "<group>"; };
 		17FC2212249879BE005A0929 /* EarthquakeData.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EarthquakeData.storyboard; sourceTree = "<group>"; };
+		17FCA50B261C103600B4D82C /* POIEntryUI.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = POIEntryUI.storyboard; sourceTree = "<group>"; };
+		17FCA50D261C162600B4D82C /* POIEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIEntryController.swift; sourceTree = "<group>"; };
+		17FCA50F261C163800B4D82C /* POIEntryWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIEntryWindow.swift; sourceTree = "<group>"; };
+		17FCA513261C183000B4D82C /* PointEntryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointEntryProtocol.swift; sourceTree = "<group>"; };
+		17FCA515261C23A100B4D82C /* +ProtocolImplementations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ProtocolImplementations.swift"; sourceTree = "<group>"; };
+		17FCA517261C4B9C00B4D82C /* PopOverParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverParent.swift; sourceTree = "<group>"; };
 		17FE3BE0256F74D500451F9F /* LocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
 		17FE3BE3256F74F300451F9F /* LocationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWindow.swift; sourceTree = "<group>"; };
 		17FEFAFA2611F3E800B01F7C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -1098,6 +1110,7 @@
 				17E779D52585FB60008E804F /* WhatsHere */,
 				172F061525514E4800BEA156 /* Popovers.storyboard */,
 				172F061A255150BC00BEA156 /* POIPopover.swift */,
+				17FCA517261C4B9C00B4D82C /* PopOverParent.swift */,
 			);
 			path = Popovers;
 			sourceTree = "<group>";
@@ -1229,6 +1242,7 @@
 		17523CD7247B9716005209FC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				17FCA50A261C100400B4D82C /* POIEntry */,
 				17F5598625AD7DA600053314 /* RegionEntry */,
 				170E7BEE2559281C00EA3AD3 /* Floating */,
 				178E6F712540531600DA0F76 /* Test */,
@@ -1460,6 +1474,7 @@
 				1773893B25971771002698E8 /* +Menus.swift */,
 				1762BD672560BB2E009C6965 /* +MouseHandling.swift */,
 				173EB18A2490D1B7006CDB86 /* +Orbits.swift */,
+				17FCA515261C23A100B4D82C /* +ProtocolImplementations.swift */,
 				17FA21A325C8F46B00E2BEB6 /* +RadialLayer.swift */,
 				1718271A25B1850200041826 /* +RegionEntryProtocolImplementation.swift */,
 				174B1CF025B42662003B33FE /* +Regions.swift */,
@@ -2167,6 +2182,7 @@
 				17F5598725AD7DC700053314 /* RegionEntryUI.storyboard */,
 				17F5599025AD83B400053314 /* RegionEntryProtocol.swift */,
 				17F5599325AD87A700053314 /* RegionMouseClickProtocol.swift */,
+				17FCA513261C183000B4D82C /* PointEntryProtocol.swift */,
 			);
 			path = RegionEntry;
 			sourceTree = "<group>";
@@ -2265,6 +2281,16 @@
 				1765B59D253EBC6800DD11D8 /* GroupedEarthquakeController.swift */,
 			);
 			path = LiveDataView;
+			sourceTree = "<group>";
+		};
+		17FCA50A261C100400B4D82C /* POIEntry */ = {
+			isa = PBXGroup;
+			children = (
+				17FCA50B261C103600B4D82C /* POIEntryUI.storyboard */,
+				17FCA50F261C163800B4D82C /* POIEntryWindow.swift */,
+				17FCA50D261C162600B4D82C /* POIEntryController.swift */,
+			);
+			path = POIEntry;
 			sourceTree = "<group>";
 		};
 		17FEFB2A2611F4C900B01F7C /* FlatlandWidget */ = {
@@ -2366,6 +2392,7 @@
 				17F4FFE825A407D7004A2EFA /* LiveDataStatus.storyboard in Resources */,
 				178E6F732540533600DA0F76 /* RoundTextTest.storyboard in Resources */,
 				177003F525FCA02400B4F02D /* Chime.mp3 in Resources */,
+				17FCA50C261C103600B4D82C /* POIEntryUI.storyboard in Resources */,
 				17F5598825AD7DC700053314 /* RegionEntryUI.storyboard in Resources */,
 				177003F825FCA05A00B4F02D /* Cymbal.mp3 in Resources */,
 				174A6A202557BD5E00488274 /* Debug.storyboard in Resources */,
@@ -2510,6 +2537,7 @@
 				17A25CC62505D44D00214C45 /* Metal2DShapeParameters.swift in Sources */,
 				1750043F24B46271006528A4 /* FontPickerController.swift in Sources */,
 				17C87B7B25177F650065BE6D /* +FlatViewHours.swift in Sources */,
+				17FCA50E261C162600B4D82C /* POIEntryController.swift in Sources */,
 				1765B59B253EBC4A00DD11D8 /* GroupedEarthquakeWindow.swift in Sources */,
 				17E779D32585FB59008E804F /* WhatsHereWindow.swift in Sources */,
 				17B8F5272503897100D71931 /* Splitter.metal in Sources */,
@@ -2621,6 +2649,7 @@
 				1727EA5824B15CD10051EA3B /* +UserCamera.swift in Sources */,
 				17DDDA6B260C306C0055C1E4 /* +FlatViewStenciling.swift in Sources */,
 				17F9AFDF252033DF00DE0219 /* +Double.swift in Sources */,
+				17FCA518261C4B9C00B4D82C /* PopOverParent.swift in Sources */,
 				1794AFDE260F122C00BCA58A /* NSControl.StateValue.swift in Sources */,
 				1748913124C5747C00B5F6AF /* EarthData.swift in Sources */,
 				1709A0C025A94869008B89DD /* EarthquakeRegionWindow3.swift in Sources */,
@@ -2649,6 +2678,7 @@
 				175BA2A4260891880015C2DD /* StatusBar2D.swift in Sources */,
 				17F2D7122583257D00DD8023 /* AttributedText.swift in Sources */,
 				178E1CA625186E1300FDC75B /* +Initialize.swift in Sources */,
+				17FCA510261C163800B4D82C /* POIEntryWindow.swift in Sources */,
 				17EF3393247A66D200A5B55D /* MapManager.swift in Sources */,
 				17B8B4132536F52F00CF8760 /* SCNSatellite.swift in Sources */,
 				17EF33BF247A958B00A5B55D /* Versioning.swift in Sources */,
@@ -2700,6 +2730,7 @@
 				1760023624D2BF1800D5EA1A /* CGFloat.swift in Sources */,
 				1767EC1625BEAD6C00A976D2 /* ColorPanelBase.swift in Sources */,
 				176E61AE25CD172B00FEA7B8 /* WordList.swift in Sources */,
+				17FCA516261C23A100B4D82C /* +ProtocolImplementations.swift in Sources */,
 				1720013D258C7F9A00EF2A72 /* +WorldClock.swift in Sources */,
 				17F17A4724DE78F700568A4E /* LineDrawKernel.metal in Sources */,
 				1760023824D2BF3500D5EA1A /* Date.swift in Sources */,
@@ -2802,6 +2833,7 @@
 				1747BDBF25135189002B51D9 /* GradientParameters.swift in Sources */,
 				1794AFDC260F118300BCA58A /* Bool.swift in Sources */,
 				175DCC5C258095F500EB6D69 /* PreferencePaneControllerlProtocol.swift in Sources */,
+				17FCA514261C183000B4D82C /* PointEntryProtocol.swift in Sources */,
 				1750044724B46E92006528A4 /* FontNameView.swift in Sources */,
 				17EF33A3247A699300A5B55D /* Utility.swift in Sources */,
 				17F9AFEE2520349600DE0219 /* +NSColor.swift in Sources */,
