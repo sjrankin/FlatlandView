@@ -544,6 +544,14 @@ extension GlobeView
             HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
             HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
             HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor(RGB: Colors3D.GlowingHourColor.rawValue)
+            let Mat1 = SCNMaterial()
+            Mat1.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
+            Mat1.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+            let Mat2 = SCNMaterial()
+            Mat2.diffuse.contents = NSColor(RGB: Colors3D.SideColor.rawValue)
+            Mat2.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+            HourTextNode.geometry?.insertMaterial(Mat1, at: 1)
+            HourTextNode.geometry?.insertMaterial(Mat2, at: 2)
         }
         else
         {
@@ -551,6 +559,14 @@ extension GlobeView
             HourTextNode.geometry?.firstMaterial?.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
             HourTextNode.geometry?.firstMaterial?.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
             HourTextNode.geometry?.firstMaterial?.emission.contents = NSColor.clear
+            let Mat1 = SCNMaterial()
+            Mat1.diffuse.contents = NSColor(RGB: Colors3D.HourColor.rawValue)
+            Mat1.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+            let Mat2 = SCNMaterial()
+            Mat2.diffuse.contents = NSColor(RGB: Colors3D.SideColor.rawValue)
+            Mat2.specular.contents = NSColor(RGB: Colors3D.HourSpecular.rawValue)
+            HourTextNode.geometry?.insertMaterial(Mat1, at: 1)
+            HourTextNode.geometry?.insertMaterial(Mat2, at: 2)
         }
         return HourTextNode
     }
