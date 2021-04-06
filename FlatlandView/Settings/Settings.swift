@@ -25,7 +25,6 @@ class Settings
     ///                                changes have been made.
     public static func Initialize(_ ForceReinitialize: Bool = false)
     {
-        Debug.Print("Loading databases.")
         DBIF.Initialize(LoadToo: true)
         
         if WasInitialized()
