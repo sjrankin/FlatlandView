@@ -394,6 +394,11 @@ class SQL
         return .success(false)
     }
     
+    /// Delete a row in a database.
+    /// - Parameter In: The database handle for the table where the row will be deleted.
+    /// - Parameter Table: The name of the table that contains the row to delete.
+    /// - Parameter DeletePhrase: The conditional that determines which row to delete.
+    /// - Returns: Result code. Failure contains the reason why the operation failed.
     public static func DeleteRow(In Database: OpaquePointer, Table Name: String, DeletePhrase: String) -> Result<Bool, DatabaseOperationResult>
     {
         if Name.isEmpty
@@ -427,26 +432,56 @@ class SQL
         return .failure(.ErrorDeletingRow)
     }
     
-    public static func UpdateRow(Database: OpaquePointer, Table Name: String, Row Command: String)
+    /// Update a row in the table of the passed database.
+    /// - Parameter Database: Database handle that contains the table to update.
+    /// - Parameter Table: Name of the table that will be updated.
+    /// - Parameter Columns: The update command.
+    /// - Parameter Where: The clause that determines which row is updated.
+    public static func UpdateRow(Database: OpaquePointer, Table Name: String, Columns Command: String,
+                                 Where Conditional: String)
     {
-//        let SCommand = "INSERT OR REPLACE INTO \(Command)"
-        let SCommand = Command
+        var SCommand = "UPDATE \(Name)"
+        SCommand.append(" \(Command)")
+        SCommand.append(" WHERE \(Conditional);")
         var UpdateHandle: OpaquePointer? = nil
         guard sqlite3_prepare_v2(Database, SCommand, -1, &UpdateHandle, nil) == SQLITE_OK else
         {
-            Debug.Print("Failure insert statement \(SCommand) for row update")
+            Debug.Print("Failure in update statement \(SCommand) for row update")
             let (Message, Value) = SQL.ExtendedError(From: Database)
             Debug.Print("  \(Message) [\(Value)]")
             return
         }
         guard sqlite3_step(UpdateHandle) == SQLITE_DONE else
         {
-            Debug.Print("Insert execution failed: \(SCommand) for row update")
+            Debug.Print("Update execution failed: \(SCommand) for row update")
             let (Message, Value) = SQL.ExtendedError(From: Database)
             Debug.Print("  \(Message) [\(Value)]")
             return
         }
-        print("Inserted/updated into table \(Name)")
+    }
+    
+    /// Update a row in the table of the passed database.
+    /// - Parameter Database: Database handle that contains the table to update.
+    /// - Parameter Table: Name of the table that will be updated.
+    /// - Parameter Row: Command to use to update the database.
+    public static func UpdateRow(Database: OpaquePointer, Table Name: String, Row Command: String)
+    {
+        let SCommand = Command
+        var UpdateHandle: OpaquePointer? = nil
+        guard sqlite3_prepare_v2(Database, SCommand, -1, &UpdateHandle, nil) == SQLITE_OK else
+        {
+            Debug.Print("Failure: update statement \(SCommand) for row update")
+            let (Message, Value) = SQL.ExtendedError(From: Database)
+            Debug.Print("  \(Message) [\(Value)]")
+            return
+        }
+        guard sqlite3_step(UpdateHandle) == SQLITE_DONE else
+        {
+            Debug.Print("Update execution failed: \(SCommand) for row update")
+            let (Message, Value) = SQL.ExtendedError(From: Database)
+            Debug.Print("  \(Message) [\(Value)]")
+            return
+        }
     }
     
     #if false
@@ -495,6 +530,11 @@ class SQL
     }
     #endif
     
+    /// Create an insert statement.
+    /// - Parameter From: Array of name, value pairs to insert.
+    /// - Parameter For: Name of the table where to insert the row.
+    /// - Parameter ExcludedColumns: Array of columns in `From` to exclude.
+    /// - Returns: SQLite statement for inserting data into a table.
     public static func MakeInsertStatement(From: [(String, String)], For Table: String,
                                            ExcludedColumns: [String] = [String]()) -> String
     {
@@ -517,6 +557,11 @@ class SQL
         return Final
     }
     
+    /// Create and return a statement for updating a table.
+    /// - Parameter From: Array of name, value pairs to update.
+    /// - Parameter For: Name of the table where to insert the row.
+    /// - Parameter ExcludedColumns: Array of columns in `From` to exclude.
+    /// - Returns: SQLite statement for updating data in a table.
     public static func MakeUpdateStatement(From: [(String, String)], For Table: String,
                                            ExcludedColumns: [String] = [String]()) -> String
     {
