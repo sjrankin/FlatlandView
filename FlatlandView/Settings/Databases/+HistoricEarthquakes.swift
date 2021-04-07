@@ -167,6 +167,9 @@ extension DBIF
         return Columns
     }
     
+    /// Create an insert statement string for an earthquake.
+    /// - Parameter From: The earthquake for which an insert statement is created.
+    /// - Returns: String to be used as an insert statement for the database.
     public static func MakeInsertStatement(From: Earthquake) -> String
     {
         var Statement = "INSERT INTO \(QuakeTableNames.Historic.rawValue) \(MakeQuakeColumnList()) "
@@ -174,13 +177,15 @@ extension DBIF
         return Statement
     }
     
+    /// Insert the passed earthquake into the historic earthquake database.
+    /// - Parameter Quake: The earthquake to insert into the database.
     public static func InsertQuake(_ Quake: Earthquake)
     {
         let InsertStatement = MakeInsertStatement(From: Quake)
         var InsertHandle: OpaquePointer? = nil
         guard sqlite3_prepare_v2(DBIF.QuakeHandle, InsertStatement, -1, &InsertHandle, nil) == SQLITE_OK else
         {
-            Debug.Print("Failure insert statement \(InsertStatement) for historic earthquakes")
+            Debug.Print("Failure with insert statement \(InsertStatement) for historic earthquakes")
             let (Message, Value) = SQL.ExtendedError(From: DBIF.QuakeHandle)
             Debug.Print("  \(Message) [\(Value)]")
             return
