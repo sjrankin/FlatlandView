@@ -129,6 +129,14 @@ class POI2
         _Show = Show
     }
     
+    /// Call after a dirty POI instance has been saved to reset dirty flags.
+    func Saved()
+    {
+        _IsDirty = false
+        DeleteMe = false
+        _IsNew = false
+    }
+    
     var PKID: Int = 0
     
     var _ID: UUID = UUID()
