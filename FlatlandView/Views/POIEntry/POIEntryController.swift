@@ -37,11 +37,15 @@ class POIEntryController: NSViewController, NSWindowDelegate, RegionMouseClickPr
         ColorWell.color = ThePOI.Color
         LatitudeField.stringValue = "\(ThePOI.Latitude)"
         LongitudeField.stringValue = "\(ThePOI.Longitude)"
+        EditingExistingPoint = true
+        POIID = ThePOI.ID
     }
+    
+    var POIID: UUID? = nil
     
     public func CreateNewPoint(ClickPoint: GeoPoint)
     {
-        TitleText.stringValue = "Add User Point-of-Interest"
+        TitleText.stringValue = "Add New User Point-of-Interest"
         DeleteButton.isHidden = true
         DeleteButton.isEnabled = false
         NameField.stringValue = ""
@@ -49,7 +53,10 @@ class POIEntryController: NSViewController, NSWindowDelegate, RegionMouseClickPr
         LatitudeField.stringValue = "\(ClickPoint.Latitude.RoundedTo(3))"
         LongitudeField.stringValue = "\(ClickPoint.Longitude.RoundedTo(3))"
         ParentDelegate?.PlotPoint(Latitude: ClickPoint.Latitude, Longitude: ClickPoint.Longitude)
+        EditingExistingPoint = false
     }
+    
+    var EditingExistingPoint: Bool = false
     
     func windowDidMove(_ notification: Notification)
     {
@@ -150,7 +157,8 @@ class POIEntryController: NSViewController, NSWindowDelegate, RegionMouseClickPr
             return
         }
         OKClicked = true
-        ParentDelegate?.PointEntryComplete(Name: NameField.stringValue, Color: ColorWell.color, Point: Location)
+        ParentDelegate?.PointEntryComplete(Name: NameField.stringValue, Color: ColorWell.color,
+                                           Point: Location, ID: POIID)
         self.view.window?.close()
     }
     
@@ -179,13 +187,16 @@ class POIEntryController: NSViewController, NSWindowDelegate, RegionMouseClickPr
     
     @IBAction func HandleDeleteButton(_ sender: Any)
     {
-        let ReallyDelete = ShowConfirmationMessage(Message: "Do you really want to delete this point-of-interest?",
+        if let ActualID = POIID
+        {
+            let ReallyDelete = ShowConfirmationMessage(Message: "Do you really want to delete this point-of-interest (\(NameField.stringValue))?",
                                                    Information: "Deleting the point-of-interest will take effect immediately.")
         if ReallyDelete
         {
             OKClicked = false
-            ParentDelegate?.DeletePOI()
+            ParentDelegate?.DeletePOI(ID: ActualID)
             self.view.window?.close()
+        }
         }
     }
     
