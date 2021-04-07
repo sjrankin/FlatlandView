@@ -22,8 +22,7 @@ extension GlobeView
     /// - Parameter Radius: The radius of the Earth. (The arrow is plotted above the radius by a
     ///                     constant to ensure the entire arrow is visible.)
     /// - Parameter ToSurface: The surface node where the arrow will be added.
-    /// - Parameter WithColor: Ignored if `IsCurrentLocation` is true. Otherwise, this is the color of
-    ///                        the arrow head shape.
+    /// - Parameter WithColor: The color of the shape.
     /// - Parameter EnableEmission: Determines if emission color is enabled. Defaults to `true`.
     /// - Parameter NodeID: ID of the node. This is the ID that is used to identify the node when the mouse moves
     ///                     over it.
@@ -33,52 +32,36 @@ extension GlobeView
                             NodeID: UUID, NodeClass: UUID)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
-        let Attributes: ShapeAttributes =
-            {
-                let A = ShapeAttributes()
-                let TheSize: Sizes =
-                    {
-                        let S = Sizes()
-                        S.TopRadius = 0.15
-                        S.BottomRadius = 0.0
-                        S.Height = 0.45
-                        return S
-                    }()
-                A.ShapeSize = TheSize
-                A.AttributesChange = true
-                A.CastsShadow = true
-                A.Class = NodeClass
-                A.ID = NodeID
-                A.EulerX = (Latitude + 90).Radians
-                A.EulerY = (Longitude + 180.0).Radians
-                A.Position = SCNVector3(X, Y, Z)
-                A.Latitude = Latitude
-                A.Longitude = Longitude
-                A.ShowBoundingShapes = true
-                A.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-                return A
-            }()
-        let ConeNode = ShapeManager.Create(.Cone, Attributes: Attributes)
+        let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
+        let ConeNode = SCNNode2(geometry: Cone)
+        ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         let Day: EventAttributes =
             {
                 let D = EventAttributes()
                 D.ForEvent = .SwitchToDay
                 D.Diffuse = WithColor
-                D.Specular = NSColor.white
+                D.Specular = .white
                 D.Emission = nil
                 return D
             }()
         ConeNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
         let Night: EventAttributes =
             {
-                let N = EventAttributes()
+               let N = EventAttributes()
                 N.ForEvent = .SwitchToNight
                 N.Diffuse = WithColor
-                N.Specular = NSColor.white
+                N.Specular = .white
                 N.Emission = WithColor
                 return N
             }()
         ConeNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+        let RotateX: CGFloat = CGFloat((Latitude + 90.0).Radians)
+        let RotateY: CGFloat = CGFloat((Longitude + 180.0).Radians)
+        ConeNode.eulerAngles = SCNVector3(RotateX, RotateY, 0.0)
+        ConeNode.position = SCNVector3(X, Y, Z)
+        ConeNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
+        ConeNode.CanShowBoundingShape = true
         ConeNode.scale = SCNVector3(GetScaleMultiplier())
         ToSurface.addChildNode(ConeNode)
         PlottedCities.append(ConeNode)
@@ -786,7 +769,7 @@ extension GlobeView
                                    Longitude: ToPlot.Longitude,
                                    Radius: Radius,
                                    ToSurface: Surface,
-                                   WithColor: ToPlot.CityColor,
+                                   WithColor: SomePOI.Color,
                                    EnableEmission: ShowEmission,
                                    NodeID: SomePOI.ID,
                                    NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
@@ -807,7 +790,7 @@ extension GlobeView
                                    Longitude: ToPlot.Longitude,
                                    Radius: Radius,
                                    ToSurface: Surface,
-                                   WithColor: ToPlot.CityColor,
+                                   WithColor: BuiltInPOI.Color,
                                    EnableEmission: ShowEmission,
                                    NodeID: BuiltInPOI.ID,
                                    NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
