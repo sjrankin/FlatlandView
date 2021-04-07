@@ -9,23 +9,49 @@
 import Foundation
 import AppKit
 
-extension GlobeView: PointEntryProtocol
+// MARK: - Point entry code (for POIs).
+extension GlobeView: PointEntryProtocol 
 {
-    func PointEntryComplete(Name: String, Color: NSColor, Point: GeoPoint)
+    /// Point entry is complete.
+    /// - Parameter Name: Name of the point.
+    /// - Parameter Color: Color of the pointer.
+    /// - Parameter Point: Location of the point.
+    /// - Parameter ID: ID of the edited point. If nil, a new point was created.
+    func PointEntryComplete(Name: String, Color: NSColor, Point: GeoPoint, ID: UUID?)
     {
         ResetFromPointEntry()
+        if let ExistingID = ID
+        {
+            DBIF.EditUserPOI(ID: ExistingID, Name: Name, Color: Color, Point: Point)
+            DBIF.ReloadTables()
+            SettingChanged(Setting: .ShowUserLocations, OldValue: nil, NewValue: nil)
+        }
+        else
+        {
+            DBIF.AddUserPOI(Name: Name, Color: Color, Point: Point)
+            DBIF.ReloadTables()
+            SettingChanged(Setting: .ShowUserLocations, OldValue: nil, NewValue: nil)
+        }
     }
     
+    /// Point entry is complete. Not currently used.
+    /// - Parameter Name: Name of the point.
+    /// - Parameter Color: Color of the pointer.
+    /// - Parameter Point: Location of the point.
     func PointEntrySessionComplete(Name: String, Color: NSColor, Point: GeoPoint)
     {
         ResetFromPointEntry()
     }
     
+    /// Point entry canceled by user.
     func PointEntryCanceled()
     {
         ResetFromPointEntry()
     }
     
+    /// Plot a point on the surface of the globe.
+    /// - Parameter Latitude: Latitude of the point to plot.
+    /// - Parameter Longitude: Longitude of the point to plot.
     func PlotPoint(Latitude: Double, Longitude: Double)
     {
         MousePointerType = .StartPin
@@ -33,22 +59,29 @@ extension GlobeView: PointEntryProtocol
         EarthNode?.addChildNode(UpperLeftNode!)
     }
     
+    /// Move a previously plotted point on the surface of the globe.
+    /// - Parameter Latitude: Latitude of the point to plot.
+    /// - Parameter Longitude: Longitude of the point to plot.
     func MovePlottedPoint(Latitude: Double, Longitude: Double)
     {
         RemovePins()
         PlotPoint(Latitude: Latitude, Longitude: Longitude)
     }
     
+    /// Remove the pin from the globe. (Pins are used to mark the point on the globe.)
     func RemovePin()
     {
         RemovePins()
     }
     
-    func DeletePOI()
+    /// Delete the point.
+    /// - Parameter ID: ID of the user POI to delete.
+    func DeletePOI(ID: UUID)
     {
         
     }
     
+    /// Reset the globe state from point entry.
     func ResetFromPointEntry()
     {
         Settings.SetBool(.WorldIsLocked, OldLockState)
@@ -59,15 +92,23 @@ extension GlobeView: PointEntryProtocol
     }
 }
 
-
+// MARK: - Pop over dialog code.
 extension GlobeView: PopOverParent
 {
+    /// Run the edit home dialog.
     func EditHome()
     {
     }
     
+    /// Run the edit user POI dialog.
+    /// - Note: If the editor is already open, this function returns without taking action.
+    /// - Parameter ID: ID of the point-of-interest to edit.
     func EditUserPOI(_ ID: UUID)
     {
+        guard !POIEditorOpen else
+        {
+            return
+        }
         var EditMe: POI2? = nil
         for SomePOI in DBIF.UserPOIs
         {
@@ -77,15 +118,12 @@ extension GlobeView: PopOverParent
                 break
             }
         }
-        if EditMe == nil
+        guard EditMe != nil else
         {
-            print("Did not find POI with ID \(ID.uuidString)")
+            Debug.Print("Did not find POI with ID \(ID.uuidString)")
             return
         }
-        if POIEditorOpen
-        {
-            return
-        }
+
         POIEditorOpen = true
         let Storyboard = NSStoryboard(name: "POIEntryUI", bundle: nil)
         if let WindowController = Storyboard.instantiateController(withIdentifier: "POIEntryWindow") as? POIEntryWindow
