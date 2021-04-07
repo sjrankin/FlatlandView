@@ -87,6 +87,12 @@ class DBIF
         AdditionalCities = GetAllAdditionalCities()
     }
     
+    /// Reload certain tables.
+    public static func ReloadTables()
+    {
+        UserPOIs = GetAllUserPOIs()
+    }
+    
     private static var _QuakesInitialized: Bool = false
     public static var QuakesInitialized: Bool
     {
