@@ -35,27 +35,12 @@ extension GlobeView
         let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
         let ConeNode = SCNNode2(geometry: Cone)
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
+        ConeNode.CanSwitchState = true
         ConeNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-        let Day: EventAttributes =
-            {
-                let D = EventAttributes()
-                D.ForEvent = .SwitchToDay
-                D.Diffuse = WithColor
-                D.Specular = .white
-                D.Emission = nil
-                return D
-            }()
-        ConeNode.AddEventAttributes(Event: .SwitchToDay, Attributes: Day)
-        let Night: EventAttributes =
-            {
-               let N = EventAttributes()
-                N.ForEvent = .SwitchToNight
-                N.Diffuse = WithColor
-                N.Specular = .white
-                N.Emission = WithColor
-                return N
-            }()
-        ConeNode.AddEventAttributes(Event: .SwitchToNight, Attributes: Night)
+        ConeNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong)
+        ConeNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong)
+        ConeNode.SetLocation(Latitude, Longitude)
+        ConeNode.SetDaylightState()
         let RotateX: CGFloat = CGFloat((Latitude + 90.0).Radians)
         let RotateY: CGFloat = CGFloat((Longitude + 180.0).Radians)
         ConeNode.eulerAngles = SCNVector3(RotateX, RotateY, 0.0)
@@ -63,6 +48,8 @@ extension GlobeView
         ConeNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         ConeNode.CanShowBoundingShape = true
         ConeNode.scale = SCNVector3(GetScaleMultiplier())
+        ConeNode.NodeID = Plot.CityID
+        ConeNode.NodeClass = UUID(uuidString: NodeClasses.UserPOI.rawValue)!
         ToSurface.addChildNode(ConeNode)
         PlottedCities.append(ConeNode)
     }
@@ -475,10 +462,7 @@ extension GlobeView
         CityNode.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         CityNode.NodeID = Plot.CityID
         CityNode.NodeClass = UUID(uuidString: NodeClasses.City.rawValue)!
-        if let IsInDay = Solar.IsInDaylight(Latitude, Longitude)
-        {
-            CityNode.IsInDaylight = IsInDay
-        }
+        CityNode.SetDaylightState()
         
         var CylinderLength = CGFloat(LongestStem * RelativeHeight)
         if CylinderLength < 0.1
