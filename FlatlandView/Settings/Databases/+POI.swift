@@ -208,7 +208,7 @@ extension DBIF
             }
             if POI.DeleteMe
             {
-                let DeletePhrase = "POIID = \(POI.ID.uuidString)"
+                let DeletePhrase = "POIID=\"\(POI.ID.uuidString)\""
                 let Result = SQL.DeleteRow(In: DBIF.MappableHandle!,
                                            Table: POITableNames.UserPOI.rawValue,
                                            DeletePhrase: DeletePhrase)
