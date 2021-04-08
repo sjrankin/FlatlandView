@@ -127,7 +127,7 @@ class POIEntryController: NSViewController, NSWindowDelegate, RegionMouseClickPr
         Alert.addButton(withTitle: "OK")
         Alert.addButton(withTitle: "Cancel")
         let Response = Alert.runModal()
-        if Response == .OK
+        if Response == .alertFirstButtonReturn
         {
             return true
         }
@@ -190,13 +190,13 @@ class POIEntryController: NSViewController, NSWindowDelegate, RegionMouseClickPr
         if let ActualID = POIID
         {
             let ReallyDelete = ShowConfirmationMessage(Message: "Do you really want to delete this point-of-interest (\(NameField.stringValue))?",
-                                                   Information: "Deleting the point-of-interest will take effect immediately.")
-        if ReallyDelete
-        {
-            OKClicked = false
-            ParentDelegate?.DeletePOI(ID: ActualID)
-            self.view.window?.close()
-        }
+                                                       Information: "Deleting the point-of-interest will take effect immediately.")
+            if ReallyDelete
+            {
+                OKClicked = false
+                ParentDelegate?.DeletePOI(ID: ActualID)
+                self.view.window?.close()
+            }
         }
     }
     
