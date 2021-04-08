@@ -238,6 +238,7 @@ extension GlobeView
                     }
                     if let NodeID = Node.NodeID
                     {
+                        #if false
                         if PreviousNodeID != nil
                         {
                             if PreviousNodeID! == NodeID
@@ -245,6 +246,7 @@ extension GlobeView
                                 return
                             }
                         }
+                        #endif
                         
                         if let NodeData = NodeTables.GetItemData(For: NodeID)
                         {
@@ -253,10 +255,12 @@ extension GlobeView
                                 Node.ShowBoundingShape(.Sphere,
                                                        LineColor: NSColor.red,
                                                        SegmentCount: 10)
+                                #if false
                                 if let PN = PreviousNode
                                 {
                                     PN.HideBoundingShape()
                                 }
+                                #endif
                             }
                             PreviousNodeID = NodeID
                             PreviousNode = Node
