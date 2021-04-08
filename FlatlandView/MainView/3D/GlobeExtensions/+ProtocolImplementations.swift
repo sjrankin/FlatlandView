@@ -78,7 +78,19 @@ extension GlobeView: PointEntryProtocol
     /// - Parameter ID: ID of the user POI to delete.
     func DeletePOI(ID: UUID)
     {
-        
+        EarthNode?.ForEachChild2()
+        {
+            Node in
+            if Node.NodeID == ID
+            {
+                Debug.Print("Deleting user POI node \(ID.uuidString)")
+                DBIF.DeleteUserPOI(ID: ID)
+                DBIF.ReloadTables()
+                Node.HideBoundingShape()
+                Node.Clear()
+                return
+            }
+        }
     }
     
     /// Reset the globe state from point entry.
