@@ -113,7 +113,7 @@ extension GlobeView: RegionEntryProtocol
     /// - Returns: `SCNNode2` shape of a pin.
     func MakePlottedPin(_ Latitude: Double, _ Longitude: Double, Color: NSColor) -> SCNNode2
     {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue) + 0.9)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue) + 0.9)
         let PinNode = SCNPin(KnobHeight: 2.0, KnobRadius: 1.0, PinHeight: 1.4, PinRadius: 0.15,
                              KnobColor: Color, PinColor: NSColor.gray)
         PinNode.scale = SCNVector3(NodeScales3D.PinScale.rawValue,
