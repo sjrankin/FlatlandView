@@ -41,7 +41,7 @@ extension GlobeView
         {
             for Latitude in [-66.56341666666667, -23.43657, 0.0, 23.43657, 66.56341666666667]
             {
-                let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
+                let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
                 let Sphere = SCNSphere(radius: 0.2)
                 let KnownNode = SCNNode2(geometry: Sphere)
                 KnownNode.NodeID = UUID()
