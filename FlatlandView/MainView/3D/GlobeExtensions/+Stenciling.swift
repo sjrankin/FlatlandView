@@ -58,6 +58,49 @@ extension GlobeView
         }
     }
     
+    func ApplyAllStencils(Except: [StencilStages], Caller: String? = nil)
+    {
+        if let Map = GlobalBaseMap
+        {
+            var Quakes: [Earthquake]? = nil
+            var Stages = [StencilStages]()
+            if !Except.contains(.Earthquakes)
+            {
+                if Settings.GetBool(.MagnitudeValuesDrawnOnMap)
+                {
+                    Stages.append(.Earthquakes)
+                    Quakes = EarthquakeList
+                }
+            }
+            if !Except.contains(.UNESCOSites)
+            {
+                if Settings.GetBool(.ShowWorldHeritageSites) && Settings.GetBool(.PlotSitesAs2D)
+                {
+                    Stages.append(.UNESCOSites)
+                }
+            }
+            if !Except.contains(.CityNames)
+            {
+                if Settings.GetBool(.CityNamesDrawnOnMap)
+                {
+                    Stages.append(.CityNames)
+                }
+            }
+            if !Except.contains(.GridLines)
+            {
+                if Settings.GetBool(.GridLinesDrawnOnMap)
+                {
+                    Stages.append(.GridLines)
+                }
+            }
+            Stenciler.RunStencilPipeline(To: Map, Quakes: Quakes, Stages: Stages, Caller: self)
+        }
+        else
+        {
+            Debug.Print("No global base map available.")
+        }
+    }
+    
     /// Apply stencils to `InitialMap` as needed. Stenciled images returned via the `StencilPipelineProtocol`.
     /// - Notes: This function only applies earthquake-related stencils. All stenciling is done to the
     ///          passed image.
