@@ -29,7 +29,8 @@ struct Provider: TimelineProvider
         
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
+        for hourOffset in 0 ..< 5
+        {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let entry = SimpleEntry(date: entryDate)
             entries.append(entry)
@@ -62,11 +63,12 @@ struct FlatlandWidgetEntryView : View
     var body: some WidgetConfiguration
     {
         StaticConfiguration(kind: kind, provider: Provider())
-        { entry in
+        {
+            entry in
             FlatlandWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Flatland Widget")
-        .description("Flatland widget view.")
+        .configurationDisplayName("Flatland View")
+        .description("Simple Flatland view in a widget.")
         .supportedFamilies([.systemMedium, .systemLarge])
     }
 }
