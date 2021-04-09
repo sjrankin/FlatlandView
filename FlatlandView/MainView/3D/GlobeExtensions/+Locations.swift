@@ -28,8 +28,7 @@ extension GlobeView
     ///                     over it.
     /// - Parameter NodeClass: The node class of the city.
     func PlotLocationAsCone(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
-                            WithColor: NSColor = NSColor.magenta, EnableEmission: Bool = true,
-                            NodeID: UUID, NodeClass: UUID)
+                            WithColor: NSColor = NSColor.magenta, NodeID: UUID, NodeClass: UUID)
     {
         let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
         let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
@@ -747,14 +746,12 @@ extension GlobeView
                                       Location: GeoPoint(SomePOI.Latitude, SomePOI.Longitude),
                                       ItemID: SomePOI.ID)
                 let ToPlot = City2(From: SomePOI)
-                let ShowEmission = Settings.GetBool(.ShowPOIEmission)
                 PlotLocationAsCone(ToPlot,
                                    Latitude: ToPlot.Latitude,
                                    Longitude: ToPlot.Longitude,
                                    Radius: Radius,
                                    ToSurface: Surface,
                                    WithColor: SomePOI.Color,
-                                   EnableEmission: ShowEmission,
                                    NodeID: SomePOI.ID,
                                    NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
             }
@@ -775,7 +772,6 @@ extension GlobeView
                                    Radius: Radius,
                                    ToSurface: Surface,
                                    WithColor: BuiltInPOI.Color,
-                                   EnableEmission: ShowEmission,
                                    NodeID: BuiltInPOI.ID,
                                    NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
             }
