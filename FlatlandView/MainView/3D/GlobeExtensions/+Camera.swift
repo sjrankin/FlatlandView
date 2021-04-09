@@ -96,7 +96,7 @@ extension GlobeView
         self.pointOfView?.runAction(OrientCamera)
         #else
         Debug.Print("Pointing camera to \(Point)")
-        let (X, Y, Z) = ToECEF(Point.Latitude, Point.Longitude, Radius: Double(Defaults.InitialZ.rawValue))
+        let (X, Y, Z) = Geometry.ToECEF(Point.Latitude, Point.Longitude, Radius: Double(Defaults.InitialZ.rawValue))
         let Constraint = SCNLookAtConstraint(target: EarthNode!)
         Constraint.isGimbalLockEnabled = true
         SCNTransaction.begin()
