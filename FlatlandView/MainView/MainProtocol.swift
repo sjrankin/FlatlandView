@@ -58,6 +58,12 @@ protocol MainProtocol: AnyObject
     /// earthquakes are available.
     func GetEarthquakes() -> [Earthquake]
     
+    /// Show the statusBar.
+    func ShowStatusBar()
+    
+    /// Hide the status bar.
+    func HideStatusBar()
+    
     /// Sets the text of the status bar.
     /// - Parameter Text: The text to set.
     func SetStatusText(_ Text: String)
@@ -195,6 +201,12 @@ protocol MainProtocol: AnyObject
     /// Returns memory measurements.
     /// - Returns: Array of memory data.
     func GetMemoryStatistics() -> [Int64]
+    
+    /// Shows the debug grid.
+    func ShowDebugGrid()
+    
+    /// Hides the debug grid.
+    func HideDebugGrid()
 }
 
 /// Flatland's child windows.
