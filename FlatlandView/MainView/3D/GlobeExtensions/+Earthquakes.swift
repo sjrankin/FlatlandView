@@ -196,12 +196,20 @@ extension GlobeView
     }
     
     /// Plot a passed list of earthquakes on the passed surface.
+    /// - Note:
+    ///   - Earthquakes are **not** shown if:
+    ///     - The `.EnableEarthquakes` flag is false.
+    ///     - The view is running in widget mode.
     /// - Parameter List: The list of earthquakes to plot.
     /// - Parameter IsCached: Flag that determines if the earthquakes are from the cache.
     /// - Parameter On: The 3D surface upon which to plot the earthquakes.
     func PlotEarthquakes(_ List: [Earthquake], IsCached: Bool = false, On Surface: SCNNode2)
     {
         if !Settings.GetBool(.EnableEarthquakes)
+        {
+            return
+        }
+        if InWidgetMode
         {
             return
         }
@@ -339,7 +347,7 @@ extension GlobeView
         }
         
         let Radiusp = Double(FinalRadius) + RadialOffset - Quake3D.InvisibleEarthquakeOffset.rawValue
-        let (Xp, Yp, Zp) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radiusp)
+        let (Xp, Yp, Zp) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radiusp)
         let ERadius = (Quake.GreatestMagnitude * Quake3D.SphereMultiplier.rawValue) * Quake3D.SphereConstant.rawValue
         let QSphere = SCNSphere(radius: CGFloat(ERadius))
         let InfoNode = SCNNode2(geometry: QSphere)
@@ -664,7 +672,7 @@ extension GlobeView
                 RadialOffset = 0.0
         }
         
-        let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
+        let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
         FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
         FinalNode.SetLocation(Quake.Latitude, Quake.Longitude)
         FinalNode.NodeUsage = .Earthquake
@@ -734,8 +742,8 @@ extension GlobeView
         var Distance: Double = Double.greatestFiniteMagnitude
         for SomeCity in CitiesToPlot
         {
-            let (QX, QY, QZ) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
-            let (CX, CY, CZ) = ToECEF(SomeCity.Latitude, SomeCity.Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
+            let (QX, QY, QZ) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
+            let (CX, CY, CZ) = Geometry.ToECEF(SomeCity.Latitude, SomeCity.Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
             let PDistance = Geometry.Distance3D(X1: QX, Y1: QY, Z1: QZ, X2: CX, Y2: CY, Z2: CZ)
             if PDistance < Distance
             {
@@ -890,7 +898,7 @@ extension GlobeView
         {
             case .AnimatedRing:
                 let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
-                let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+                let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
                 let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.1)
                 let Indicator = SCNNode2(geometry: IndicatorShape)
                 #if true
@@ -961,7 +969,7 @@ extension GlobeView
                 
             case .StaticRing:
                 let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
-                let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+                let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
                 let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.1)
                 let Indicator = SCNNode2(geometry: IndicatorShape)
                 let StaticColor = Settings.GetColor(.EarthquakeColor, NSColor.red)
@@ -978,7 +986,7 @@ extension GlobeView
                 
             case .GlowingSphere:
                 let Radius = Double(GlobeRadius.Primary.rawValue)
-                let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+                let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
                 let IndicatorShape = SCNSphere(radius: 0.75)
                 let Indicator = SCNNode2(geometry: IndicatorShape)
                 let Color = Settings.GetColor(.EarthquakeColor, NSColor.red).withAlphaComponent(0.45)
@@ -995,7 +1003,7 @@ extension GlobeView
                 
             case .RadiatingRings:
                 let Radius = Double(GlobeRadius.Primary.rawValue)
-                let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+                let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
                 let IndicatorShape = SCNTorus(ringRadius: 0.9, pipeRadius: 0.15)
                 let Indicator = SCNNode2(geometry: IndicatorShape)
                 let InitialAlpha: CGFloat = 0.8
@@ -1062,7 +1070,7 @@ extension GlobeView
                 
             case .TriangleRingIn, .TriangleRingOut:
                 let Radius = Double(GlobeRadius.Primary.rawValue) + 0.3
-                let (X, Y, Z) = ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
+                let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude, Radius: Radius)
                 let InnerRadius: CGFloat = 0.8
                 let OuterRadius: CGFloat = 1.6
                 let TRing = SCNTriangleRing(Count: 13, Inner: InnerRadius, Outer: OuterRadius, Extrusion: 0.15,
