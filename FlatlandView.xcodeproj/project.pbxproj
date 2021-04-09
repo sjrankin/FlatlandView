@@ -2453,7 +2453,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/VersionUpdater/VersionUpdater \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandView/Versioning.swift\" \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandView/Info.plist\"\n";
+			shellScript = "/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/VersionUpdater/VersionUpdater \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandView/Versioning.swift\" \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandView/Info.plist\" \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandWidget/Info.plist\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
