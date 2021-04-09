@@ -497,7 +497,11 @@ class MainController: NSViewController
     /// Refresh earthquakes even if it's earlier than scheduled.
     @IBAction func RefreshEarthquakes(_ sender: Any)
     {
-//        Earthquakes?.GetNewEarthquakeData()
+        #if true
+        Earthquakes?.DoGetEarthquakes()
+        #else
+        Earthquakes?.GetNewEarthquakeData()
+        #endif
     }
     
     @IBAction func MemoryDisplay(_ sender: Any)
