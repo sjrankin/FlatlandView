@@ -3,7 +3,7 @@
 //  Flatland
 //
 //  Created by Stuart Rankin on 6/4/20.
-//  Copyright © 2020 Stuart Rankin. All rights reserved.
+//  Copyright © 2020, 2021 Stuart Rankin. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +11,7 @@ import AppKit
 import SceneKit
 
 /// Provide the main 3D view for Flatland.
-class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
+@IBDesignable class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
 {
     public weak var MainDelegate: MainProtocol? = nil
     
@@ -24,11 +24,68 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
     }
     
     /// Initializer.
+    /// - Parameter frame: The frame of the SCNView.
+    /// - Parameter ForWidget: Determines if the view will live in a SwiftUI widget or not.
+    init(frame: CGRect, ForWidget: Bool)
+    {
+        super.init(frame: frame)
+        SetWidgetMode(ForWidget)
+        InitializeView()
+    }
+    
+    /// Initializer.
     /// - Parameter coder: See Apple documentation.
     required init?(coder: NSCoder)
     {
         super.init(coder: coder)
         InitializeView()
+    }
+    
+    /// Set the widget mode.
+    /// - Note:
+    ///   - Widget mode is intended for use in macOS 11+ widgets only.
+    ///   - When widget mode is on, the following items are not shown:
+    ///     - Earthquakes (indicators, magnitudes, new quakes, etc).
+    ///     - Satellites
+    ///     - Debug information
+    ///     - Status bar
+    ///     - The view cannot be manipulated by the user.
+    /// - Parameter IsOn: If true, widget mode is enabled, which removed a great deal of functionality
+    ///                   and imagery from the view.
+    func SetWidgetMode(_ IsOn: Bool = false)
+    {
+        InWidgetMode = IsOn
+    }
+    
+    /// Widget mode flag.
+    @IBInspectable var InWidgetMode: Bool = false
+    {
+        didSet
+        {
+            if !InWidgetMode
+            {
+                ClearEarthquakes()
+                ApplyAllStencils(Except: [.Earthquakes])
+                self.allowsCameraControl = false
+                self.showsStatistics = false
+                MainDelegate?.HideStatusBar()
+                MainDelegate?.HideDebugGrid()
+            }
+            else
+            {
+                PlotEarthquakes()
+                ApplyAllStencils()
+                self.allowsCameraControl = true
+                #if DEBUG
+                self.showsStatistics = true
+                MainDelegate?.ShowDebugGrid()
+                #endif
+                if Settings.GetBool(.ShowStatusBar)
+                {
+                    MainDelegate?.ShowStatusBar()
+                }
+            }
+        }
     }
     
     /// Handle new time from the world clock.
@@ -353,7 +410,7 @@ class GlobeView: SCNView, FlatlandEventProtocol, StencilPipelineProtocol
                     {
                         ActualNode.Latitude = Latitude
                         ActualNode.Longitude = Longitude
-                        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
+                        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
                         ActualNode.position = SCNVector3(X, Y, Z)
                     }
                 }
