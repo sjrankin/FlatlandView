@@ -3,7 +3,7 @@
 //  Flatland
 //
 //  Created by Stuart Rankin on 10/24/20.
-//  Copyright © 2020 Stuart Rankin. All rights reserved.
+//  Copyright © 2020, 2021 Stuart Rankin. All rights reserved.
 //
 
 import Foundation
@@ -28,6 +28,18 @@ class RectangleView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         super.init(coder: coder)
         InitializeView()
     }
+    
+    /// Set the widget mode.
+    /// - Note: Widget mode is intended for use in macOS 11+ widgets only.
+    /// - Parameter IsOn: If true, widget mode is enabled, which removed a great deal of functionality
+    ///                   and imagery from the view.
+    func SetWidgetMode(_ IsOn: Bool = false)
+    {
+        InWidgetMode = IsOn
+    }
+    
+    /// Widget mode flag.
+    var InWidgetMode: Bool = false
     
     /// Handle new time from the world clock.
     /// - Parameter WorldDate: Contains the new date and time.
