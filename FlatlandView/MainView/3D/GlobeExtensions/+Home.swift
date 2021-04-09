@@ -93,7 +93,7 @@ extension GlobeView
                    IsCurrentLocation: Bool = false, WithColor: NSColor = NSColor.red)
     {
         let RadialOffset = IsCurrentLocation ? 0.25 : 0.1
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
         var ConeTop: CGFloat = 0.0
         var ConeBottom: CGFloat = 0.0
         if IsCurrentLocation
@@ -222,7 +222,7 @@ extension GlobeView
     func PlotPulsatingHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                            WithColor: NSColor = NSColor.magenta)
     {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
         
         let Sphere = SCNSphere(radius: 0.4)
         
@@ -291,7 +291,7 @@ extension GlobeView
     /// - Parameter ToSurface: The surface node where the arrow will be added.
     func PlotBouncingArrow(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2)
     {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.3)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius + 0.3)
         let Arrow = SCN3DArrow(Length: 2.0, Width: 0.85, Color: NSColor.systemTeal,
                                StemColor: NSColor.systemBlue)
         Arrow.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
@@ -352,7 +352,7 @@ extension GlobeView
     /// - Parameter ToSurface: The surface node where the arrow will be added.
     func PlotStarHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2)
     {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius)
         let OuterStar: ShapeAttributes =
             {
                let A = ShapeAttributes()
@@ -463,7 +463,7 @@ extension GlobeView
     /// - Parameter ToSurface: The surface node where the arrow will be added.
     func PlotPedestalWithBase(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2)
     {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius)
         
         let HomeNode = SCNNode2()
         HomeNode.name = GlobeNodeNames.HomeNode.rawValue
@@ -588,7 +588,7 @@ extension GlobeView
     /// - Parameter ToSurface: The surface node where the pin will be added.
     func PlotPinHome(Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2)
     {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.9)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius + 0.9)
         let Pin = SCNPin(KnobHeight: 2.0, KnobRadius: 1.0, PinHeight: 1.4, PinRadius: 0.15,
                          KnobColor: NSColor.Gold, PinColor: NSColor.gray)
         Pin.scale = SCNVector3(NodeScales3D.PinScale.rawValue,
@@ -662,7 +662,7 @@ extension GlobeView
         HomeNode?.addChildNode(FlagFaceNode)
         HomeNode?.addChildNode(FlagInteriorNode)
         
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius)
         HomeNode?.position = SCNVector3(X, Y, Z)
         
         let YRotation = Latitude + 90.0
