@@ -20,21 +20,15 @@ class Snapshot
     /// - Parameter View: The view that will supply the image.
     /// - Parameter WindowID: The ID of the window.
     /// - Parameter Frame: The frame of the view.
-    public static func Take(From View: NSView, WindowID: CGWindowID, Frame: CGRect)
+    /// - Returns: Image of the passed view on success, nil on error.
+    public static func MakeImage(From View: NSView, WindowID: CGWindowID, Frame: CGRect) -> NSImage?
     {
         objc_sync_enter(LockingObject)
         defer{objc_sync_exit(LockingObject)}
         
         let Multiplier = NSScreen.main!.backingScaleFactor
         var ImageOptions = CGWindowImageOption()
-        #if true
         ImageOptions = [CGWindowImageOption.boundsIgnoreFraming, CGWindowImageOption.bestResolution]
-        #else
-        if Multiplier == 2.0
-        {
-            ImageOptions = [CGWindowImageOption.boundsIgnoreFraming, CGWindowImageOption.bestResolution]
-        }
-        #endif
         if let Ref = CGWindowListCreateImage(CGRect.zero, CGWindowListOption.optionIncludingWindow, WindowID,
                                              ImageOptions)
         {
@@ -46,7 +40,21 @@ class Snapshot
             let ClientRect = NSRect(origin: NSPoint(x: 0, y: Delta), size: PrimarySize)
             let ClientAreaImage = Ref.cropping(to: ClientRect)
             let ScreenImage = NSImage(cgImage: ClientAreaImage!, size: PrimarySize)
-            SaveImage(ScreenImage)
+            return ScreenImage
+        }
+        return nil
+    }
+    
+    /// Take a snapshot of the passed view. The image will be saved according to the user.
+    /// - Note: Only one thread at a time may use this function.
+    /// - Parameter View: The view that will supply the image.
+    /// - Parameter WindowID: The ID of the window.
+    /// - Parameter Frame: The frame of the view.
+    public static func Take(From View: NSView, WindowID: CGWindowID, Frame: CGRect)
+    {
+        if let SnapshotImage = MakeImage(From: View, WindowID: WindowID, Frame: Frame)
+        {
+            SaveImage(SnapshotImage)
         }
     }
     
