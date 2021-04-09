@@ -497,11 +497,8 @@ class MainController: NSViewController
     /// Refresh earthquakes even if it's earlier than scheduled.
     @IBAction func RefreshEarthquakes(_ sender: Any)
     {
-        #if true
+        SetStatusText("Refreshing earthquakes.")
         Earthquakes?.DoGetEarthquakes()
-        #else
-        Earthquakes?.GetNewEarthquakeData()
-        #endif
     }
     
     @IBAction func MemoryDisplay(_ sender: Any)
@@ -522,7 +519,8 @@ class MainController: NSViewController
     {
         #if DEBUG
         //Main3DView.CameraAttract()
-        
+        let Old = Main3DView.InWidgetMode
+        Main3DView.InWidgetMode = !Old
         SoundManager.Play(ForEvent: .Debug)
         Main3DView.FlashAllHours(Count: 4)
         Main2DView.FlashAllHours(Count: 4)
