@@ -29,6 +29,18 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
         InitializeView()
     }
     
+    /// Set the widget mode.
+    /// - Note: Widget mode is intended for use in macOS 11+ widgets only.
+    /// - Parameter IsOn: If true, widget mode is enabled, which removed a great deal of functionality
+    ///                   and imagery from the view.
+    func SetWidgetMode(_ IsOn: Bool = false)
+    {
+        InWidgetMode = IsOn
+    }
+    
+    /// Widget mode flag.
+    var InWidgetMode: Bool = false
+    
     /// Handle new time from the world clock.
     /// - Parameter WorldDate: Contains the new date and time.
     func NewWorldClockTime(WorldDate: Date)
