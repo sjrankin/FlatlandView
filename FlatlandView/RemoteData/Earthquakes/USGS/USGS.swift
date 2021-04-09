@@ -70,11 +70,8 @@ class USGS
         EarthquakeTimer = Timer.StartRepeating(withTimerInterval: Every, RunFirst: true)
         {
             [weak self] _ in
-            self?._IsBusy = true
-            defer
-            {
-                self?._IsBusy = false
-            }
+            self?.DoGetEarthquakes()
+            #if false
             USGS.CallCount = USGS.CallCount + 1
             self?.EarthquakeStartTime = CACurrentMediaTime()
             let RetrievalQueue = OperationQueue()
@@ -124,6 +121,68 @@ class USGS
                     {
                         print("Nothing to do")
                     }
+                }
+            }
+            #endif
+        }
+    }
+    
+    /// Mose of the code to get earthquakes from the USGS.
+    func DoGetEarthquakes()
+    {
+        _IsBusy = true
+        defer
+        {
+            _IsBusy = false
+        }
+        USGS.CallCount = USGS.CallCount + 1
+        EarthquakeStartTime = CACurrentMediaTime()
+        let RetrievalQueue = OperationQueue()
+        RetrievalQueue.qualityOfService = .background
+        RetrievalQueue.name = "Earthquake Retrieval Queue"
+        RetrievalQueue.addOperation
+        {
+            MemoryDebug.Open("\(#function)")
+            self.GetUSGSEarthquakeData
+            {
+                [weak self] Results in
+                if var Raw = Results
+                {
+                    do
+                            {
+                                let RawData = Data(Raw.utf8)
+                                if let json = try JSONSerialization.jsonObject(with: RawData, options: []) as? [String: Any]
+                                {
+                                    for (Name, _) in json
+                                    {
+                                        if Name == "features"
+                                        {
+                                            if let Feature = json["features"] as? [[String: Any]]
+                                            {
+                                                let Quakes = USGS.ParseJsonEntity(Feature)
+                                                self?.ClearEarthquakes()
+                                                for Quake in Quakes
+                                                {
+                                                    self?.AddEarthquakeToList(Quake)
+                                                }
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                    catch
+                    {
+                        USGS.ParseErrorCount = USGS.ParseErrorCount + 1
+                        print("JSON error \(error)")
+                    }
+                    self?.HaveAllEarthquakes()
+                    Raw.removeAll()
+                    MemoryDebug.Close("\(#function)")
+                }
+                else
+                {
+                    print("Nothing to do")
                 }
             }
         }
@@ -238,7 +297,11 @@ class USGS
     /// Force fetch earthquake data regardless of the fetch cycle.
     func ForceFetch()
     {
-        //GetNewEarthquakeData()
+        #if true
+        DoGetEarthquakes()
+        #else
+        GetNewEarthquakeData()
+        #endif
     }
     
     /// Insert a debug earthquake.
