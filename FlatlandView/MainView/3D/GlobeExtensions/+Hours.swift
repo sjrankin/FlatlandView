@@ -528,7 +528,7 @@ extension GlobeView
         let FinalScale = CGFloat(ScaleMultiplier) * NodeScales3D.HourText.rawValue
         HourTextNode.scale = SCNVector3(FinalScale)
         
-        let (X, Y, Z) = ToECEF(0.0, ActualAngle, Radius: Double(GlobeRadius.HourSphere.rawValue))
+        let (X, Y, Z) = Geometry.ToECEF(0.0, ActualAngle, Radius: Double(GlobeRadius.HourSphere.rawValue))
         let HourHeight = HourTextNode.boundingBox.max.x - HourTextNode.boundingBox.min.x
         let YOffset = Double(HourHeight / 2.0 * FinalScale)
         HourTextNode.position = SCNVector3(X, Y + YOffset, Z)
