@@ -193,7 +193,7 @@ extension GlobeView
         }
         MostRecentMouseLatitude = Latitude
         MostRecentMouseLongitude = Longitude
-        let (X, Y, Z) = ToECEF(Latitude, Longitude,
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude,
                                Radius: Double(GlobeRadius.Primary.rawValue) + Double(MouseShape.RadialOffset.rawValue))
         MainDelegate?.MouseAtLocation(Latitude: Latitude, Longitude: Longitude, Caller: "Globe")
         MouseIndicator?.position = SCNVector3(X, Y, Z)
@@ -455,7 +455,7 @@ extension GlobeView
                          KnobColor: KnobColor, PinColor: NSColor.gray)
         Pin.scale = SCNVector3(0.15, 0.15, 0.15)
         Pin.LightMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Double(GlobeRadius.Primary.rawValue))
         Pin.position = SCNVector3(X, Y, Z)
         let YRotation = Latitude + 90.0
         let XRotation = Longitude + 180.0
