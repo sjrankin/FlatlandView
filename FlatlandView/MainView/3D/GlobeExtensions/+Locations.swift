@@ -30,7 +30,7 @@ extension GlobeView
     func PlotLocationAsCone(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
                             WithColor: NSColor = NSColor.magenta, NodeID: UUID, NodeClass: UUID)
     {
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
         let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
         let ConeNode = SCNNode2(geometry: Cone)
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
@@ -138,15 +138,16 @@ extension GlobeView
     /// - Parameter WithColor: The color of the city shape.
     /// - Parameter RelativeSize: The relative size of the city.
     /// - Parameter LargestSize: The largest permitted.
-    func PlotEmbeddedCitySphere(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
-                                WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0, LargestSize: Double = 1.0)
+    func PlotEmbeddedCitySphere(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double,
+                                ToSurface: SCNNode2, WithColor: NSColor = NSColor.red,
+                                RelativeSize: Double = 1.0, LargestSize: Double = 1.0)
     {
         var CitySize = Double(RelativeSize * LargestSize)
         if CitySize < 0.15
         {
             CitySize = 0.15
         }
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Double(10 - (CitySize / 2)))
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Double(10 - (CitySize / 2)))
         let Attributes: ShapeAttributes =
             {
                 let A = ShapeAttributes()
@@ -251,7 +252,7 @@ extension GlobeView
         {
             HDim = 0.25
         }
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius)
         let Attributes: ShapeAttributes =
             {
                 let A = ShapeAttributes()
@@ -315,7 +316,7 @@ extension GlobeView
                        ToSurface: SCNNode2, WithColor: NSColor = .red, Height: Double = 0.5)
     {
         let RadialOffset = 0.1
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
         
         let Cylinder = SCNCylinder(radius: 0.04, height: CGFloat(Height))
         let CylinderNode = SCNNode2(geometry: Cylinder)
@@ -374,13 +375,13 @@ extension GlobeView
     ///                          a normal value.
     /// - Parameter IsASphere: If true, a sphere is used to represent the city. If false, a box is
     ///                        used instead.
-    func PlotFloatingCity(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
-                          WithColor: NSColor = .red, RelativeSize: Double = 1.0,
+    func PlotFloatingCity(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double,
+                          ToSurface: SCNNode2, WithColor: NSColor = .red, RelativeSize: Double = 1.0,
                           RelativeHeight: Double = 1.0, LargestSize: Double = 1.0, LongestStem: Double = 1.0,
                           IsASphere: Bool)
     {
         let RadialOffset = 0.1
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius + RadialOffset)
         
         var CitySize: CGFloat = CGFloat(LargestSize * RelativeSize)
         if CitySize < 0.15
@@ -394,8 +395,10 @@ extension GlobeView
             CityNode = SCNNode2(geometry: Sphere)
             CityNode.geometry?.firstMaterial?.diffuse.contents = WithColor
             CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
-            CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
-            CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
+            CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil,
+                              Roughness: nil)
+            CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong,
+                              Metalness: nil, Roughness: nil)
             let Day: EventAttributes =
                 {
                     let D = EventAttributes()
@@ -432,8 +435,10 @@ extension GlobeView
             CityNode.geometry?.materials.append(SideImage)
             CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
             CityNode.HasImageTextures = true
-            CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil, Roughness: nil)
-            CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong, Metalness: nil, Roughness: nil)
+            CityNode.SetState(ForDay: true, Color: WithColor, Emission: nil, Model: .phong, Metalness: nil,
+                              Roughness: nil)
+            CityNode.SetState(ForDay: false, Color: WithColor, Emission: WithColor, Model: .phong,
+                              Metalness: nil, Roughness: nil)
             let Day: EventAttributes =
                 {
                     let D = EventAttributes()
@@ -520,8 +525,8 @@ extension GlobeView
     /// - Parameter LargestSize: The largest permitted.
     /// - Parameter IsBox: If true, the shape of the city is based on `SCNBox`. If false, the shape
     ///                    is based on `SCNCylinder`.
-    func PlotSimpleCityShape(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
-                             WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
+    func PlotSimpleCityShape(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double,
+                             ToSurface: SCNNode2, WithColor: NSColor = NSColor.red, RelativeSize: Double = 1.0,
                              LargestSize: Double = 1.0, IsBox: Bool = true)
     {
         var CitySize = CGFloat(RelativeSize * LargestSize)
@@ -590,7 +595,7 @@ extension GlobeView
         CityNode.geometry?.firstMaterial?.specular.contents = NSColor.white
         CityNode.castsShadow = true
         CityNode.scale = SCNVector3(GetScaleMultiplier())
-        let (X, Y, Z) = ToECEF(Latitude, Longitude, Radius: Radius + Double(CitySize / 2.0))
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius + Double(CitySize / 2.0))
         CityNode.position = SCNVector3(X, Y, Z)
         CityNode.name = GlobeNodeNames.CityNode.rawValue
         let YRotation = Latitude + 90.0
@@ -630,8 +635,8 @@ extension GlobeView
     }
     
     /// Intended to be called when the user moves the camera closer or farther away from the Earth node to
-    /// update the flatness level of the 3D city names. When the camera is closer, the flatness level will result in
-    /// smoother numerals.
+    /// update the flatness level of the 3D city names. When the camera is closer, the flatness level will
+    /// result in smoother numerals.
     /// - Note: Distances that result in the same flatness level as the previous call will take no action -
     ///         control will return as soon as that condition is detected.
     /// - Note: If the city type is not 3D extruded names, no action will be taken.
@@ -765,7 +770,6 @@ extension GlobeView
                                          Name: BuiltInPOI.Name,
                                          Location: GeoPoint(BuiltInPOI.Latitude, BuiltInPOI.Longitude))
                 let ToPlot = City2(From: BuiltInPOI)
-                let ShowEmission = Settings.GetBool(.ShowPOIEmission)
                 PlotLocationAsCone(ToPlot,
                                    Latitude: ToPlot.Latitude,
                                    Longitude: ToPlot.Longitude,
@@ -882,8 +886,8 @@ extension GlobeView
     /// - Parameter With: The radius of the surface.
     func PlotPolarFlags(On Surface: SCNNode, With Radius: CGFloat)
     {
-        let (NorthX, NorthY, NorthZ) = ToECEF(90.0, 0.0, Radius: Double(Radius))
-        let (SouthX, SouthY, SouthZ) = ToECEF(-90.0, 0.0, Radius: Double(Radius))
+        let (NorthX, NorthY, NorthZ) = Geometry.ToECEF(90.0, 0.0, Radius: Double(Radius))
+        let (SouthX, SouthY, SouthZ) = Geometry.ToECEF(-90.0, 0.0, Radius: Double(Radius))
         NorthPoleFlag = MakeFlag(NorthPole: true)
         NorthPoleFlag?.NodeID = NodeTables.NorthPoleID
         NorthPoleFlag?.NodeClass = UUID(uuidString: NodeClasses.Miscellaneous.rawValue)!
@@ -901,8 +905,8 @@ extension GlobeView
     /// - Parameter With: The radius of the surface.
     func PlotPolarPoles(On Surface: SCNNode, With Radius: CGFloat)
     {
-        let (NorthX, NorthY, NorthZ) = ToECEF(90.0, 0.0, Radius: Double(Radius))
-        let (SouthX, SouthY, SouthZ) = ToECEF(-90.0, 0.0, Radius: Double(Radius))
+        let (NorthX, NorthY, NorthZ) = Geometry.ToECEF(90.0, 0.0, Radius: Double(Radius))
+        let (SouthX, SouthY, SouthZ) = Geometry.ToECEF(-90.0, 0.0, Radius: Double(Radius))
         NorthPolePole = MakePole(NorthPole: true)
         SouthPolePole = MakePole(NorthPole: false)
         NorthPolePole?.position = SCNVector3(NorthX, NorthY, NorthZ)
@@ -1080,7 +1084,8 @@ extension GlobeView
                 return
             }
             let ScaleMultiplier = GetScaleMultiplier()
-            let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self, Default: .AllSites)
+            let TypeFilter = Settings.GetEnum(ForKey: .WorldHeritageSiteType, EnumType: WorldHeritageSiteTypes.self,
+                                              Default: .AllSites)
             MainController.InitializeMappableDatabase()
             let Sites = MainController.GetAllSites()
             var FinalList = [WorldHeritageSite]()
@@ -1112,8 +1117,8 @@ extension GlobeView
             }
             for Site in FinalList
             {
-                let (X, Y, Z) = ToECEF(Site.Latitude, Site.Longitude,
-                                       Radius: Double(GlobeRadius.Primary.rawValue))
+                let (X, Y, Z) = Geometry.ToECEF(Site.Latitude, Site.Longitude,
+                                                Radius: Double(GlobeRadius.Primary.rawValue))
                 var DepthOffset: CGFloat = 0.0
                 switch Site.Category
                 {
@@ -1252,23 +1257,6 @@ extension GlobeView
             return Metro
         }
         return nil
-    }
-    
-    /// Convert the passed latitude and longitude values into a 3D coordinate that can be plotted
-    /// on a sphere.
-    /// - Note: See [How to map latitude and logitude to a 3D sphere](https://stackoverflow.com/questions/36369734/how-to-map-latitude-and-longitude-to-a-3d-sphere)
-    /// - Parameter Latitude: The latitude portion of the 2D coordinate.
-    /// - Parameter Longitude: The longitude portion of the 2D coordinate.
-    /// - Parameter Radius: The radius of the sphere.
-    /// - Returns: Tuple with the X, Y, and Z coordinates for the location on the sphere.
-    func ToECEF(_ Latitude: Double, _ Longitude: Double, Radius: Double) -> (Double, Double, Double)
-    {
-        let Lat = (90 - Latitude).Radians
-        let Lon = (90 + Longitude).Radians
-        let X = -(Radius * sin(Lat) * cos(Lon))
-        let Z = (Radius * sin(Lat) * sin(Lon))
-        let Y = (Radius * cos(Lat))
-        return (X, Y, Z)
     }
     
     /// Changes the color of the `diffuse` material on the passed `SCNNode` to a specified color over
