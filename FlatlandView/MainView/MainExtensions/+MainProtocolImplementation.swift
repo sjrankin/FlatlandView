@@ -441,4 +441,28 @@ extension MainController: MainProtocol
         defer{objc_sync_exit(MemoryLock)}
         return MemoryOverTime
     }
+    
+    /// Show the status bar.
+    func ShowStatusBar()
+    {
+        StatusBar.ShowSimpleStatus()
+    }
+    
+    /// Hide the status bar.
+    func HideStatusBar()
+    {
+        StatusBar.HideSimpleStatus()
+    }
+    
+    /// Show the debug grid.
+    func ShowDebugGrid()
+    {
+        DebugTextGrid.isHidden = false
+    }
+    
+    /// Hide the debug grid.
+    func HideDebugGrid()
+    {
+        DebugTextGrid.isHidden = true
+    }
 }
