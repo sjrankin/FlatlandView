@@ -734,18 +734,20 @@ extension GlobeView
             AlreadyPlotted!.removeFromParentNode()
             AlreadyPlotted!.geometry = nil
         }
+        //If conditions are met, show a simple program name and version over the Earth.
         if Settings.GetBool(.ShowInitialVersion) && !AboutTextPlotted
         {
-            if let Duration = Settings.GetDoubleNil(.InitialVersionDuration, 45.0)
+            if let Duration = Settings.GetDoubleNil(.InitialVersionDuration, Defaults.InitialVersionDisplayDuration.rawValue)
             {
                 AboutTextPlotted = true
-                PlotFloatingText("Flatland \(Versioning.VerySimpleVersionString())",
+                PlotFloatingText("Flatland \(Versioning.MajorVersion).\(Versioning.MinorVersion)",
                                  On: Surface,
-                                 Latitude: 15.0,
-                                 Font: NSFont.boldSystemFont(ofSize: 32.0),
+                                 Latitude: Defaults.InitialVersionLatitude.rawValue,
+                                 Radius: Double(GlobeRadius.InitialVersionDisplay.rawValue),
+                                 Font: NSFont.boldSystemFont(ofSize: CGFloat(Defaults.InitialVersionFontSize.rawValue)),
                                  Color: NSColor.systemYellow,
                                  Specular: NSColor.yellow,
-                                 Rotate: 0.05,
+                                 Rotate: Defaults.InitialVersionRadialRotationDuration.rawValue,
                                  Disappear: Duration)
             }
         }
@@ -812,24 +814,20 @@ extension GlobeView
 
             var CityColor = NSColor.PrussianBlue
             var NightColor = NSColor.systemTeal
-//            var CityColor = CityManager.ColorForCity(City)
-//            var NightColor = CityColor
             if City.IsCustomCity
             {
                 CityColor = City.CityColor
                 NightColor = CityColor
             }
 
-//            let Day = TimeAttributes(ForDay: true, Diffuse: CityColor, Emission: nil)
-//            let Night = TimeAttributes(ForDay: false, Diffuse: CityColor, Emission: CityColor)
             let Day = TimeAttributes(ForDay: true, Diffuse: CityColor, Emission: nil)
             let Night = TimeAttributes(ForDay: false, Diffuse: NightColor, Emission: NightColor)
-            let CityFont = NSFont(name: "Avenir-Heavy", size: 10.0)!
+            let CityFont = NSFont(name: "Avenir-Heavy", size: CGFloat(Defaults.CityNameFontSize.rawValue))!
             let CityNameNode = PlotFloatingText(City.Name,
-                                         Radius: Double(GlobeRadius.Primary.rawValue) + 0.1,
+                                         Radius: Double(GlobeRadius.CityNameRadius.rawValue),
                                          Latitude: City.Latitude,
                                          Longitude: City.Longitude,
-                                         Extrusion: 1.0,
+                                         Extrusion: Defaults.CityNameExtrusion.rawValue,
                                          Font: CityFont,
                                          Day: Day,
                                          Night: Night,
