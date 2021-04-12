@@ -57,12 +57,6 @@ extension GlobeView
         {
             for Node in Earth.childNodes
             {
-                /*
-                 if Node.name == GlobeNodeNames.EarthquakeNodes.rawValue ||
-                 Node.name == GlobeNodeNames.IndicatorNode.rawValue ||
-                 Node.name == GlobeNodeNames.InfoNode.rawValue ||
-                 Node.name == GlobeNodeNames.MagnitudeNode.rawValue
-                 */
                 if let SomeName = Node.name
                 {
                     if RemovalList.contains(SomeName)
@@ -227,8 +221,7 @@ extension GlobeView
         {
             return
         }
-        //let Oldest = OldestEarthquakeOccurence(List)
-        //let Biggest = CityManager.MostPopulatedCityPopulation(In: CitiesToPlot, UseMetroPopulation: true)
+
         var MaxSignificance = 0
         for Quake in List
         {
@@ -303,18 +296,22 @@ extension GlobeView
                 }
                 
                 Surface.addChildNode(QNode)
-
+                
                 let Day = TimeAttributes(ForDay: true, Diffuse: BaseColor, Emission: nil)
                 let Night = TimeAttributes(ForDay: false, Diffuse: BaseColor, Emission: BaseColor)
                 let MagString = "M\(Quake.Magnitude.RoundedTo(2))"
-                let FontSize = 10.0 * (Quake.Magnitude / 10.0) + 7.0
+                let FontSize = Defaults.MagnitudeFontSizeMultiplier.rawValue *
+                    (Quake.Magnitude / PhysicalConstants.GreatestEarthquake.rawValue) +
+                    Defaults.MagnitudeBaseFontSize.rawValue
                 let QuakeFont = NSFont(name: "Avenir-Black", size: CGFloat(FontSize))!
-                let RadialOffset = 0.3 + (Quake.Magnitude / 10.0) * 0.7
+                let RadialOffset = GlobeRadius.QuakeMagnitudeBaseRadius.rawValue +
+                    CGFloat((Quake.Magnitude / PhysicalConstants.GreatestEarthquake.rawValue)) *
+                    GlobeRadius.QuakeMagnitudeMultiplier.rawValue
                 let QMag = PlotFloatingText(MagString,
-                                            Radius: Double(GlobeRadius.Primary.rawValue) + RadialOffset,
+                                            Radius: Double(GlobeRadius.Primary.rawValue + RadialOffset),
                                             Latitude: Quake.Latitude,
                                             Longitude: Quake.Longitude,
-                                            Extrusion: 3.0,
+                                            Extrusion: Defaults.MagnitudeExtrusion.rawValue,
                                             Font: QuakeFont,
                                             Day: Day,
                                             Night: Night,
