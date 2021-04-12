@@ -49,6 +49,10 @@ extension GlobeView
     ///                    values.
     func MouseMovedTo(Point: CGPoint)
     {
+        if InWidgetMode
+        {
+            return
+        }
         if Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: ViewTypes.Globe3D) != .Globe3D
         {
             return
@@ -209,6 +213,10 @@ extension GlobeView
     /// - Parameter Point: The point in the view reported by the main controller.
     func MouseClickedAt(Point: CGPoint)
     {
+        if InWidgetMode
+        {
+            return
+        }
         let MapView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if MapView == .Globe3D
         {
@@ -299,7 +307,7 @@ extension GlobeView
         }
     }
     
-    /// Remove the mouse point from the Earth.
+    /// Remove the mouse pointer from the Earth.
     func RemoveMousePointer()
     {
         MouseIndicator?.removeAllActions()
