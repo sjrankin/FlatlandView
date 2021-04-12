@@ -168,7 +168,9 @@ extension GlobeView
         EarthNode?.CanShowBoundingShape = false
         EarthNode?.categoryBitMask = LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue
         EarthNode?.position = SCNVector3(0.0, 0.0, 0.0)
-        EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
+        let Stenciled = Stenciler.AddGridLines(To: BaseMap!, Ratio: 1.0)
+        EarthNode?.geometry?.firstMaterial?.diffuse.contents = Stenciled
+//        EarthNode?.geometry?.firstMaterial?.diffuse.contents = BaseMap!
         EarthNode?.geometry?.firstMaterial?.emission.contents = nil
         if IsSatelliteMap
         {
