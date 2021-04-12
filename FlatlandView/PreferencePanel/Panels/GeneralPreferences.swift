@@ -101,6 +101,8 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
                 InterfaceSegement.selectedSegment = 2
         }
         
+        ShowVersionSwitch.state = Settings.GetState(.ShowInitialVersion)
+        
         HelpButtons.append(ResetPaneHelp)
         HelpButtons.append(ShowUIHelpHelp)
         HelpButtons.append(StatusBarHelp)
@@ -111,6 +113,7 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
         HelpButtons.append(ShowSecondsHelpButton)
         HelpButtons.append(DateStyleHelpButton)
         HelpButtons.append(IFStyleHelpButton)
+        HelpButtons.append(ShowVersionHelp)
         ShowUIHelpSwitch.state = Settings.GetBool(.ShowUIHelp) ? .on : .off
         SetHelpVisibility(To: Settings.GetBool(.ShowUIHelp))
     }
@@ -225,6 +228,9 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
                     
                 case EnableHourHelp:
                     Parent?.ShowHelp(For: .HourEventHelp, Where: Button.bounds, What: EnableHourHelp)
+                    
+                case ShowVersionHelp:
+                    Parent?.ShowHelp(For: .ShowVersionHelp, Where: Button.bounds, What: ShowVersionHelp)
                     
                 default:
                     return
@@ -379,7 +385,17 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
             Settings.SetBool(.ShowStatusBar, Switch.state == .on ? true : false)
         }
     }
-
+    
+    @IBAction func HandleShowVersionChanged(_ sender: Any)
+    {
+        if let Switch = sender as? NSSwitch
+        {
+            Settings.SetBool(.ShowInitialVersion, Switch.state == .on ? true : false)
+        }
+    }
+    
+    @IBOutlet weak var ShowVersionSwitch: NSSwitch!
+    @IBOutlet weak var ShowVersionHelp: NSButton!
     @IBOutlet weak var EnableHourEventSwitch: NSSwitch!
     @IBOutlet weak var EnableHourHelp: NSButton!
     @IBOutlet weak var ResetPaneHelp: NSButton!
