@@ -165,7 +165,7 @@ class MapManager
                 
             case .TimeZone:
                 return [.TimeZoneMap1, .ColorfulTimeZones, .TimeZone4, .HatchedTimeZones, .PaperTimeZones,
-                        .SurrealTimeZone]
+                        .SurrealTimeZone, .TimeZoneOverlay]
             
             case .Political:
                 return [.SimplePoliticalMap1, .TransparentOcean, .CitiesAtNight]
