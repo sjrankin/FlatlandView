@@ -16,6 +16,8 @@ extension Settings
     public static let SettingKeyTypes: [SettingKeys: Any] =
         [
             .InitializationFlag: Bool.self,
+            .InstantiationCount: Int.self,
+            .InstantiationVersion: String.self,
             .InAttractMode: Bool.self,
             .MapType: MapTypes.self,
             .ViewType: ViewTypes.self,
@@ -221,6 +223,8 @@ extension Settings
             .ShowUserPOIs: Bool.self,
             .ShowUIHelp: Bool.self,
             .ShowBuiltInPOIs: Bool.self,
+            .ShowInitialVersion: Bool.self,
+            .InitialVersionDuration: Double?.self,
             // MARK: - Event and sound settings
             .EnableSounds: Bool.self,
             .EnableHourEvent: Bool.self,
