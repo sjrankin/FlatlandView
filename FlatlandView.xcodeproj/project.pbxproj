@@ -71,10 +71,14 @@
 		1736A4E1252EB36D0070EE7F /* CityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1736A4E0252EB36D0070EE7F /* CityManager.swift */; };
 		1736A4E5252EDCFC0070EE7F /* POIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1736A4E4252EDCFC0070EE7F /* POIManager.swift */; };
 		1737101024E2BB7300BC6CF8 /* Stenciler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1737100F24E2BB7300BC6CF8 /* Stenciler.swift */; };
+		17377CE426216F710006C87C /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17377CE326216F710006C87C /* GlobeView.swift */; };
 		173AC19E2506109900C929BB /* Metal2DBorderedCircle.metal in Sources */ = {isa = PBXBuildFile; fileRef = 173AC19D2506109900C929BB /* Metal2DBorderedCircle.metal */; };
 		173EB18B2490D1B7006CDB86 /* +Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173EB18A2490D1B7006CDB86 /* +Orbits.swift */; };
 		173F3D3E24EB6C4F008B9870 /* CircularWarp.m in Sources */ = {isa = PBXBuildFile; fileRef = 173F3D3D24EB6C4F008B9870 /* CircularWarp.m */; };
 		1740F49B2493173A00F6FAAE /* Hours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1740F49A2493173A00F6FAAE /* Hours.swift */; };
+		1743A8BB2622D21900FFCF4F /* CachedLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743A8BA2622D21900FFCF4F /* CachedLocation.swift */; };
+		1743A8BD2622D6A300FFCF4F /* +FloatingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743A8BC2622D6A300FFCF4F /* +FloatingText.swift */; };
+		1743A8BF2623EC3700FFCF4F /* TimeAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743A8BE2623EC3700FFCF4F /* TimeAttributes.swift */; };
 		1743FE77255D1C1E00AD05A7 /* +Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743FE76255D1C1E00AD05A7 /* +Query.swift */; };
 		1743FE7A255D275D00AD05A7 /* EnumList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743FE79255D275D00AD05A7 /* EnumList.swift */; };
 		1743FE7D255D5AD300AD05A7 /* NSRegularExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1743FE7C255D5AD300AD05A7 /* NSRegularExpression.swift */; };
@@ -198,7 +202,6 @@
 		178A86A4248912FA00BE8D46 /* +Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86A3248912FA00BE8D46 /* +Locations.swift */; };
 		178A86A72489132800BE8D46 /* GlobeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86A62489132800BE8D46 /* GlobeProtocol.swift */; };
 		178A86A92489134300BE8D46 /* +GridLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86A82489134300BE8D46 /* +GridLines.swift */; };
-		178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178A86AA2489135C00BE8D46 /* GlobeView.swift */; };
 		178B1B3324B5A830007ACBCA /* FontDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178B1B3224B5A830007ACBCA /* FontDataType.swift */; };
 		178D7C6D258894C00030C0AB /* +RectangleMouseHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178D7C6C258894C00030C0AB /* +RectangleMouseHandling.swift */; };
 		178E1C9D2518288500FDC75B /* +Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178E1C9C2518288500FDC75B /* +Camera.swift */; };
@@ -301,7 +304,6 @@
 		17CB2484253BD9B100BAABDC /* ShapeAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2483253BD9B100BAABDC /* ShapeAttribute.swift */; };
 		17CB2487253C108300BAABDC /* +POIDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2486253C108300BAABDC /* +POIDatabase.swift */; };
 		17CB248A253C122400BAABDC /* POI2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB2489253C122400BAABDC /* POI2.swift */; };
-		17CB248D253C5BCB00BAABDC /* POI.db in Resources */ = {isa = PBXBuildFile; fileRef = 17CB248C253C5BCB00BAABDC /* POI.db */; };
 		17CC8BB92491C8E400CACED5 /* SCNRegular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BB82491C8E400CACED5 /* SCNRegular.swift */; };
 		17CC8BBD2491EAA200CACED5 /* SCNPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CC8BBC2491EAA200CACED5 /* SCNPin.swift */; };
 		17CCA4212602DE7400997AAE /* +SatelliteImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CCA4202602DE7400997AAE /* +SatelliteImages.swift */; };
@@ -417,7 +419,6 @@
 		17F782C1249742A1000A568E /* USGS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C0249742A1000A568E /* USGS.swift */; };
 		17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C224974442000A568E /* AsynchronousDataProtocol.swift */; };
 		17F782C524979218000A568E /* +Earthquakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F782C424979218000A568E /* +Earthquakes.swift */; };
-		17F79069252D57FF00FA2F23 /* Mappable.db in Resources */ = {isa = PBXBuildFile; fileRef = 17F79068252D57FE00FA2F23 /* Mappable.db */; };
 		17F9AFCE25202DEE00DE0219 /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9AFCD25202DEE00DE0219 /* ParentView.swift */; };
 		17F9AFD52520334B00DE0219 /* +Boolean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9AFD42520334B00DE0219 /* +Boolean.swift */; };
 		17F9AFD92520338500DE0219 /* +String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F9AFD82520338500DE0219 /* +String.swift */; };
@@ -452,25 +453,13 @@
 		17FCA514261C183000B4D82C /* PointEntryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA513261C183000B4D82C /* PointEntryProtocol.swift */; };
 		17FCA516261C23A100B4D82C /* +ProtocolImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA515261C23A100B4D82C /* +ProtocolImplementations.swift */; };
 		17FCA518261C4B9C00B4D82C /* PopOverParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FCA517261C4B9C00B4D82C /* PopOverParent.swift */; };
+		17FD6A7826218B8500227BE3 /* Geocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FD6A7726218B8500227BE3 /* Geocoder.swift */; };
+		17FD6A7A2621933A00227BE3 /* GeocodingCache.db in Resources */ = {isa = PBXBuildFile; fileRef = 17FD6A792621933A00227BE3 /* GeocodingCache.db */; };
+		17FD6A7C262194EA00227BE3 /* +LocationCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FD6A7B262194EA00227BE3 /* +LocationCache.swift */; };
 		17FE3BE1256F74D500451F9F /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE3BE0256F74D500451F9F /* LocationController.swift */; };
 		17FE3BE4256F74F300451F9F /* LocationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE3BE3256F74F300451F9F /* LocationWindow.swift */; };
-		17FEFB282611F4C900B01F7C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17FEFAFA2611F3E800B01F7C /* WidgetKit.framework */; };
-		17FEFB292611F4C900B01F7C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17FEFAFC2611F3E800B01F7C /* SwiftUI.framework */; };
-		17FEFB2C2611F4C900B01F7C /* FlatlandWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FEFB2B2611F4C900B01F7C /* FlatlandWidget.swift */; };
-		17FEFB2E2611F4CA00B01F7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17FEFB2D2611F4CA00B01F7C /* Assets.xcassets */; };
-		17FEFB332611F4CA00B01F7C /* FlatlandWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 17FEFB272611F4C900B01F7C /* FlatlandWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		17FFF8CC2567ED04008B50AD /* +Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FFF8CB2567ED04008B50AD /* +Axes.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		17FEFB312611F4CA00B01F7C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1767A8D824794A0100C434B5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 17FEFB262611F4C900B01F7C;
-			remoteInfo = FlatlandWidgetExtension;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		17FEFB0E2611F3E900B01F7C /* Embed App Extensions */ = {
@@ -479,7 +468,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				17FEFB332611F4CA00B01F7C /* FlatlandWidgetExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -553,11 +541,15 @@
 		1736A4E0252EB36D0070EE7F /* CityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityManager.swift; sourceTree = "<group>"; };
 		1736A4E4252EDCFC0070EE7F /* POIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POIManager.swift; sourceTree = "<group>"; };
 		1737100F24E2BB7300BC6CF8 /* Stenciler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stenciler.swift; sourceTree = "<group>"; };
+		17377CE326216F710006C87C /* GlobeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
 		173AC19D2506109900C929BB /* Metal2DBorderedCircle.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Metal2DBorderedCircle.metal; sourceTree = "<group>"; };
 		173EB18A2490D1B7006CDB86 /* +Orbits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Orbits.swift"; sourceTree = "<group>"; };
 		173F3D3C24EB6C4F008B9870 /* Flatland-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Flatland-Bridging-Header.h"; sourceTree = "<group>"; };
 		173F3D3D24EB6C4F008B9870 /* CircularWarp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularWarp.m; sourceTree = "<group>"; };
 		1740F49A2493173A00F6FAAE /* Hours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hours.swift; sourceTree = "<group>"; };
+		1743A8BA2622D21900FFCF4F /* CachedLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedLocation.swift; sourceTree = "<group>"; };
+		1743A8BC2622D6A300FFCF4F /* +FloatingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FloatingText.swift"; sourceTree = "<group>"; };
+		1743A8BE2623EC3700FFCF4F /* TimeAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAttributes.swift; sourceTree = "<group>"; };
 		1743FE76255D1C1E00AD05A7 /* +Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Query.swift"; sourceTree = "<group>"; };
 		1743FE79255D275D00AD05A7 /* EnumList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumList.swift; sourceTree = "<group>"; };
 		1743FE7C255D5AD300AD05A7 /* NSRegularExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSRegularExpression.swift; sourceTree = "<group>"; };
@@ -683,7 +675,6 @@
 		178A86A3248912FA00BE8D46 /* +Locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Locations.swift"; sourceTree = "<group>"; };
 		178A86A62489132800BE8D46 /* GlobeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeProtocol.swift; sourceTree = "<group>"; };
 		178A86A82489134300BE8D46 /* +GridLines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+GridLines.swift"; sourceTree = "<group>"; };
-		178A86AA2489135C00BE8D46 /* GlobeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeView.swift; sourceTree = "<group>"; };
 		178B1B3224B5A830007ACBCA /* FontDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontDataType.swift; sourceTree = "<group>"; };
 		178D7C6C258894C00030C0AB /* +RectangleMouseHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+RectangleMouseHandling.swift"; sourceTree = "<group>"; };
 		178E1C9C2518288500FDC75B /* +Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Camera.swift"; sourceTree = "<group>"; };
@@ -786,7 +777,6 @@
 		17CB2483253BD9B100BAABDC /* ShapeAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeAttribute.swift; sourceTree = "<group>"; };
 		17CB2486253C108300BAABDC /* +POIDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+POIDatabase.swift"; sourceTree = "<group>"; };
 		17CB2489253C122400BAABDC /* POI2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POI2.swift; sourceTree = "<group>"; };
-		17CB248C253C5BCB00BAABDC /* POI.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = POI.db; sourceTree = "<group>"; };
 		17CC8BB82491C8E400CACED5 /* SCNRegular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNRegular.swift; sourceTree = "<group>"; };
 		17CC8BBC2491EAA200CACED5 /* SCNPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNPin.swift; sourceTree = "<group>"; };
 		17CCA4202602DE7400997AAE /* +SatelliteImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+SatelliteImages.swift"; sourceTree = "<group>"; };
@@ -908,7 +898,6 @@
 		17F782C0249742A1000A568E /* USGS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USGS.swift; sourceTree = "<group>"; };
 		17F782C224974442000A568E /* AsynchronousDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousDataProtocol.swift; sourceTree = "<group>"; };
 		17F782C424979218000A568E /* +Earthquakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Earthquakes.swift"; sourceTree = "<group>"; };
-		17F79068252D57FE00FA2F23 /* Mappable.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = Mappable.db; sourceTree = "<group>"; };
 		17F9AFCD25202DEE00DE0219 /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
 		17F9AFD42520334B00DE0219 /* +Boolean.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Boolean.swift"; sourceTree = "<group>"; };
 		17F9AFD82520338500DE0219 /* +String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+String.swift"; sourceTree = "<group>"; };
@@ -943,15 +932,13 @@
 		17FCA513261C183000B4D82C /* PointEntryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointEntryProtocol.swift; sourceTree = "<group>"; };
 		17FCA515261C23A100B4D82C /* +ProtocolImplementations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ProtocolImplementations.swift"; sourceTree = "<group>"; };
 		17FCA517261C4B9C00B4D82C /* PopOverParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverParent.swift; sourceTree = "<group>"; };
+		17FD6A7726218B8500227BE3 /* Geocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoder.swift; sourceTree = "<group>"; };
+		17FD6A792621933A00227BE3 /* GeocodingCache.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = GeocodingCache.db; sourceTree = "<group>"; };
+		17FD6A7B262194EA00227BE3 /* +LocationCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+LocationCache.swift"; sourceTree = "<group>"; };
 		17FE3BE0256F74D500451F9F /* LocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
 		17FE3BE3256F74F300451F9F /* LocationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWindow.swift; sourceTree = "<group>"; };
 		17FEFAFA2611F3E800B01F7C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		17FEFAFC2611F3E800B01F7C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		17FEFB272611F4C900B01F7C /* FlatlandWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FlatlandWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		17FEFB2B2611F4C900B01F7C /* FlatlandWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlandWidget.swift; sourceTree = "<group>"; };
-		17FEFB2D2611F4CA00B01F7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		17FEFB2F2611F4CA00B01F7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		17FEFB302611F4CA00B01F7C /* FlatlandWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandWidget.entitlements; sourceTree = "<group>"; };
 		17FFF8CB2567ED04008B50AD /* +Axes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Axes.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -961,15 +948,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				17E5EF5124F0DE2C00665167 /* libc++abi.tbd in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		17FEFB242611F4C900B01F7C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				17FEFB292611F4C900B01F7C /* SwiftUI.framework in Frameworks */,
-				17FEFB282611F4C900B01F7C /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1091,15 +1069,15 @@
 			isa = PBXGroup;
 			children = (
 				17E901E42552C34E0097A89A /* SubPanels */,
-				172F0602255129B700BEA156 /* GeneralPreferences.swift */,
-				172F0605255129DF00BEA156 /* POIPreferences.swift */,
 				17E1AFF525CFCE6D003CDE8F /* CityPreferences.swift */,
-				172F0608255129FE00BEA156 /* MapPreferences.swift */,
-				172F060B25512A1800BEA156 /* SatellitePreferences.swift */,
 				172F060E25512A2C00BEA156 /* EarthquakePreferences.swift */,
+				172F0602255129B700BEA156 /* GeneralPreferences.swift */,
 				172F061125512A4500BEA156 /* LiveDataPreferences.swift */,
-				1758AB6325E4F53100876ACA /* SoundPreferences.swift */,
 				174444FA25525A750003C386 /* MapAttributesPreferences.swift */,
+				172F0608255129FE00BEA156 /* MapPreferences.swift */,
+				172F0605255129DF00BEA156 /* POIPreferences.swift */,
+				172F060B25512A1800BEA156 /* SatellitePreferences.swift */,
+				1758AB6325E4F53100876ACA /* SoundPreferences.swift */,
 			);
 			path = Panels;
 			sourceTree = "<group>";
@@ -1256,7 +1234,7 @@
 			isa = PBXGroup;
 			children = (
 				17765C602567EB9500B2FE37 /* GlobeExtensions */,
-				178A86AA2489135C00BE8D46 /* GlobeView.swift */,
+				17377CE326216F710006C87C /* GlobeView.swift */,
 				178A86A62489132800BE8D46 /* GlobeProtocol.swift */,
 			);
 			path = 3D;
@@ -1347,13 +1325,11 @@
 				17DDDA6E260C8C0C0055C1E4 /* NHKPips.mp3 */,
 				177003FD25FCA06200B4F02D /* Gong.mp3 */,
 				1770040025FCA06600B4F02D /* Fiddle.mp3 */,
-				17CB248C253C5BCB00BAABDC /* POI.db */,
-				17F79068252D57FE00FA2F23 /* Mappable.db */,
 				174DCEBD25D3B949002D4E40 /* EarthquakeHistoryS.db */,
+				17FD6A792621933A00227BE3 /* GeocodingCache.db */,
 				174DCEBF25D3B950002D4E40 /* MappableS.db */,
 				17E0E35725E5FA3700291823 /* Settings.db */,
 				1767A8E224794A0100C434B5 /* FlatlandView */,
-				17FEFB2A2611F4C900B01F7C /* FlatlandWidget */,
 				1767A8E124794A0100C434B5 /* Products */,
 				17E5EF4F24F0DBC500665167 /* Frameworks */,
 			);
@@ -1363,7 +1339,6 @@
 			isa = PBXGroup;
 			children = (
 				1767A8E024794A0100C434B5 /* Flatland.app */,
-				17FEFB272611F4C900B01F7C /* FlatlandWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1462,6 +1437,7 @@
 				178A869F2489108C00BE8D46 /* +CubicEarth.swift */,
 				17F6C4F4257BA24F003FFDA2 /* +Debug.swift */,
 				17F782C424979218000A568E /* +Earthquakes.swift */,
+				1743A8BC2622D6A300FFCF4F /* +FloatingText.swift */,
 				173056BF2553E7C700B1D4C9 /* +FollowMode.swift */,
 				178A86A82489134300BE8D46 /* +GridLines.swift */,
 				1714DDBD25399401001A3002 /* +Home.swift */,
@@ -1494,6 +1470,7 @@
 				17C0D28D261178C600B15771 /* +NodeBounding.swift */,
 				177709D52592104E0092CDC0 /* +NodeEvents.swift */,
 				17C2F8ED259EE26400BCA628 /* +NodeState.swift */,
+				1743A8BE2623EC3700FFCF4F /* TimeAttributes.swift */,
 			);
 			path = SCNNode2;
 			sourceTree = "<group>";
@@ -2017,6 +1994,7 @@
 				17E5EF5E24F1051400665167 /* Debug.swift */,
 				17F0AC5525D3A63E00B2F496 /* FileIO.swift */,
 				17E3EDC524B5B222007C1D72 /* FontHelper.swift */,
+				17FD6A7726218B8500227BE3 /* Geocoder.swift */,
 				1700852A25773183002FD62F /* Geometry.swift */,
 				17EF33AB247A93A300A5B55D /* GeoPoint.swift */,
 				1748913224C6A53D00B5F6AF /* Imaging.swift */,
@@ -2247,9 +2225,11 @@
 				17F0AC5725D3A70000B2F496 /* +Cities.swift */,
 				17FAA7F725D27F320015D504 /* DBIF.swift */,
 				17F0AC5125D37BA100B2F496 /* +HistoricEarthquakes.swift */,
+				17FD6A7B262194EA00227BE3 /* +LocationCache.swift */,
+				1743A8BA2622D21900FFCF4F /* CachedLocation.swift */,
 				17F0AC4F25D372F600B2F496 /* +POI.swift */,
-				17FAA7FB25D285480015D504 /* +WorldHeritageSites.swift */,
 				177FED8825E23B3F009C62E3 /* +RegionsData.swift */,
+				17FAA7FB25D285480015D504 /* +WorldHeritageSites.swift */,
 				17FAA7F925D281A60015D504 /* SQL.swift */,
 			);
 			path = Databases;
@@ -2293,17 +2273,6 @@
 			path = POIEntry;
 			sourceTree = "<group>";
 		};
-		17FEFB2A2611F4C900B01F7C /* FlatlandWidget */ = {
-			isa = PBXGroup;
-			children = (
-				17FEFB2B2611F4C900B01F7C /* FlatlandWidget.swift */,
-				17FEFB2D2611F4CA00B01F7C /* Assets.xcassets */,
-				17FEFB2F2611F4CA00B01F7C /* Info.plist */,
-				17FEFB302611F4CA00B01F7C /* FlatlandWidget.entitlements */,
-			);
-			path = FlatlandWidget;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2320,29 +2289,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				17FEFB322611F4CA00B01F7C /* PBXTargetDependency */,
 			);
 			name = Flatland;
 			productName = FlatlandView;
 			productReference = 1767A8E024794A0100C434B5 /* Flatland.app */;
 			productType = "com.apple.product-type.application";
-		};
-		17FEFB262611F4C900B01F7C /* FlatlandWidgetExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 17FEFB342611F4CA00B01F7C /* Build configuration list for PBXNativeTarget "FlatlandWidgetExtension" */;
-			buildPhases = (
-				17FEFB232611F4C900B01F7C /* Sources */,
-				17FEFB242611F4C900B01F7C /* Frameworks */,
-				17FEFB252611F4C900B01F7C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = FlatlandWidgetExtension;
-			productName = FlatlandWidgetExtension;
-			productReference = 17FEFB272611F4C900B01F7C /* FlatlandWidgetExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -2357,9 +2308,6 @@
 					1767A8DF24794A0100C434B5 = {
 						CreatedOnToolsVersion = 11.5;
 						LastSwiftMigration = 1200;
-					};
-					17FEFB262611F4C900B01F7C = {
-						CreatedOnToolsVersion = 12.5;
 					};
 				};
 			};
@@ -2377,7 +2325,6 @@
 			projectRoot = "";
 			targets = (
 				1767A8DF24794A0100C434B5 /* Flatland */,
-				17FEFB262611F4C900B01F7C /* FlatlandWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -2391,6 +2338,7 @@
 				17F0B93525F352C000D1AE43 /* MemoryUI.storyboard in Resources */,
 				17F4FFE825A407D7004A2EFA /* LiveDataStatus.storyboard in Resources */,
 				178E6F732540533600DA0F76 /* RoundTextTest.storyboard in Resources */,
+				17FD6A7A2621933A00227BE3 /* GeocodingCache.db in Resources */,
 				177003F525FCA02400B4F02D /* Chime.mp3 in Resources */,
 				17FCA50C261C103600B4D82C /* POIEntryUI.storyboard in Resources */,
 				17F5598825AD7DC700053314 /* RegionEntryUI.storyboard in Resources */,
@@ -2404,13 +2352,11 @@
 				17EF337F247A472C00A5B55D /* Settings.storyboard in Resources */,
 				17E0E35825E5FA3800291823 /* Settings.db in Resources */,
 				1770040125FCA06600B4F02D /* Fiddle.mp3 in Resources */,
-				17CB248D253C5BCB00BAABDC /* POI.db in Resources */,
 				1767EBF625BE566600A976D2 /* ColorPicker.storyboard in Resources */,
 				172F061625514E4800BEA156 /* Popovers.storyboard in Resources */,
 				170D42A32583137D00FD7AD2 /* PreferenceHelpViewer.storyboard in Resources */,
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
 				17DDDA6F260C8C0C0055C1E4 /* NHKPips.mp3 in Resources */,
-				17F79069252D57FF00FA2F23 /* Mappable.db in Resources */,
 				170E7BF12559284300EA3AD3 /* FloatingViews.storyboard in Resources */,
 				174DBCB825DB89E400E2D4F7 /* CityPopulation.storyboard in Resources */,
 				17FC2213249879BE005A0929 /* EarthquakeData.storyboard in Resources */,
@@ -2424,14 +2370,6 @@
 				178909C7250E0DCB0092E3A4 /* Main.storyboard in Resources */,
 				174DCEBE25D3B949002D4E40 /* EarthquakeHistoryS.db in Resources */,
 				179EB783254FE43500AADAAD /* PreferencePanel.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		17FEFB252611F4C900B01F7C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				17FEFB2E2611F4CA00B01F7C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2469,8 +2407,10 @@
 				17EF9E1A25CE897900A00F1E /* UserPOIEditorController.swift in Sources */,
 				176E61B225CD1FD700FEA7B8 /* ZAlgorithm.swift in Sources */,
 				17DE2BA32569FB04008077C7 /* MapScene.swift in Sources */,
+				17FD6A7C262194EA00227BE3 /* +LocationCache.swift in Sources */,
 				17A1810B25733891002C6611 /* +Set.swift in Sources */,
 				1773893C25971771002698E8 /* +Menus.swift in Sources */,
+				1743A8BF2623EC3700FFCF4F /* TimeAttributes.swift in Sources */,
 				178A869A2488C3B600BE8D46 /* AboutDetailsController.swift in Sources */,
 				17F782C324974442000A568E /* AsynchronousDataProtocol.swift in Sources */,
 				17FAA7FA25D281A60015D504 /* SQL.swift in Sources */,
@@ -2594,6 +2534,7 @@
 				1744316F2480F2C10087B00A /* ActualMapIO.swift in Sources */,
 				1767EC1325BE9B0600A976D2 /* ColorChipDebugController.swift in Sources */,
 				17F9B00D2520377F00DE0219 /* +LocationAttributes.swift in Sources */,
+				17377CE426216F710006C87C /* GlobeView.swift in Sources */,
 				175BA55B2570D5B7001ED3A2 /* ErrorReporter.swift in Sources */,
 				170181C12504A467000F91B6 /* TransparencyParameters.swift in Sources */,
 				1714DDB42538342A001A3002 /* LowLevel.swift in Sources */,
@@ -2632,6 +2573,7 @@
 				174D0359252C929D00692B89 /* +MainDatabase.swift in Sources */,
 				1760023E24D2BFBF00D5EA1A /* NSBezierPath.swift in Sources */,
 				174DBCBB25DB8AED00E2D4F7 /* CityPopulationWindow2.swift in Sources */,
+				1743A8BD2622D6A300FFCF4F /* +FloatingText.swift in Sources */,
 				17055D0025C543700025686A /* RadialRegionEntryController.swift in Sources */,
 				17DE2DCA2590753100214204 /* +State.swift in Sources */,
 				174DBCBD25DB8B0A00E2D4F7 /* CityPopulationController2.swift in Sources */,
@@ -2654,6 +2596,7 @@
 				1748913124C5747C00B5F6AF /* EarthData.swift in Sources */,
 				1709A0C025A94869008B89DD /* EarthquakeRegionWindow3.swift in Sources */,
 				1773E21E26194B7D002C2CBF /* ActionButton.swift in Sources */,
+				1743A8BB2622D21900FFCF4F /* CachedLocation.swift in Sources */,
 				179BE7C724ED07020025B349 /* TodayCode.swift in Sources */,
 				17FE3BE4256F74F300451F9F /* LocationWindow.swift in Sources */,
 				17F782C524979218000A568E /* +Earthquakes.swift in Sources */,
@@ -2729,6 +2672,7 @@
 				17C3455A252C9AB100D01143 /* City2.swift in Sources */,
 				1760023624D2BF1800D5EA1A /* CGFloat.swift in Sources */,
 				1767EC1625BEAD6C00A976D2 /* ColorPanelBase.swift in Sources */,
+				17FD6A7826218B8500227BE3 /* Geocoder.swift in Sources */,
 				176E61AE25CD172B00FEA7B8 /* WordList.swift in Sources */,
 				17FCA516261C23A100B4D82C /* +ProtocolImplementations.swift in Sources */,
 				1720013D258C7F9A00EF2A72 /* +WorldClock.swift in Sources */,
@@ -2861,7 +2805,6 @@
 				1701CFC52535646C00544F05 /* Snapshot.swift in Sources */,
 				17DF115E2512F3B400F04EAF /* AnimatedGradientLayer.swift in Sources */,
 				17E5556625B5495500E3CE9E /* +CaptiveDialogManager.swift in Sources */,
-				178A86AB2489135C00BE8D46 /* GlobeView.swift in Sources */,
 				17055CFD25C5434B0025686A /* RadialRegionEntryWindow.swift in Sources */,
 				176CBB79251B1B7000D6C0AD /* +FlatViewSuns.swift in Sources */,
 				17CA645C254E7DB100B6DFCC /* RegionalQuakeController.swift in Sources */,
@@ -2875,23 +2818,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		17FEFB232611F4C900B01F7C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				17FEFB2C2611F4C900B01F7C /* FlatlandWidget.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		17FEFB322611F4CA00B01F7C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 17FEFB262611F4C900B01F7C /* FlatlandWidgetExtension */;
-			targetProxy = 17FEFB312611F4CA00B01F7C /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1767A8EE24794A0300C434B5 /* Debug */ = {
@@ -3078,54 +3005,6 @@
 			};
 			name = Release;
 		};
-		17FEFB352611F4CA00B01F7C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = FlatlandWidget/FlatlandWidget.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4BB235M4GL;
-				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = FlatlandWidget/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@executable_path/../../../../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.2;
-				PRODUCT_BUNDLE_IDENTIFIER = Irorio.FlatlandView.FlatlandWidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		17FEFB362611F4CA00B01F7C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = FlatlandWidget/FlatlandWidget.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4BB235M4GL;
-				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = FlatlandWidget/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@executable_path/../../../../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.2;
-				PRODUCT_BUNDLE_IDENTIFIER = Irorio.FlatlandView.FlatlandWidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3143,15 +3022,6 @@
 			buildConfigurations = (
 				1767A8F124794A0300C434B5 /* Debug */,
 				1767A8F224794A0300C434B5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		17FEFB342611F4CA00B01F7C /* Build configuration list for PBXNativeTarget "FlatlandWidgetExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				17FEFB352611F4CA00B01F7C /* Debug */,
-				17FEFB362611F4CA00B01F7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
