@@ -713,6 +713,8 @@ enum FileIONames: String, CaseIterable
     case Settings = "Settings.db"
     /// Satellite map cache database.
     case SatelliteMapDatabase = "SatelliteMapCache.db"
+    /// Cache of previously reverse geocoded locations.
+    case CachedLocations = "GeocodingCache.db"
 }
 
 /// Table names in the mappable database.
