@@ -2,13 +2,12 @@
 //  FlatlandWidget.swift
 //  FlatlandWidget
 //
-//  Created by Stuart Rankin on 3/29/21.
-//  Copyright © 2020, 2021 Stuart Rankin. All rights reserved.
+//  Created by Stuart Rankin on 4/10/21.
+//  Copyright © 2021 Stuart Rankin. All rights reserved.
 //
 
 import WidgetKit
 import SwiftUI
-import SceneKit
 
 struct Provider: TimelineProvider
 {
@@ -16,26 +15,25 @@ struct Provider: TimelineProvider
     {
         SimpleEntry(date: Date())
     }
-    
+
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ())
     {
         let entry = SimpleEntry(date: Date())
         completion(entry)
     }
-    
+
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ())
     {
         var entries: [SimpleEntry] = []
-        
+
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for hourOffset in 0 ..< 5
-        {
+        for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let entry = SimpleEntry(date: entryDate)
             entries.append(entry)
         }
-        
+
         let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
     }
@@ -49,9 +47,10 @@ struct SimpleEntry: TimelineEntry
 struct FlatlandWidgetEntryView : View
 {
     var entry: Provider.Entry
-    
+
     var body: some View
     {
+//        Image("PlaceholderImage")
         Text(entry.date, style: .time)
     }
 }
@@ -59,7 +58,7 @@ struct FlatlandWidgetEntryView : View
 @main struct FlatlandWidget: Widget
 {
     let kind: String = "FlatlandWidget"
-    
+
     var body: some WidgetConfiguration
     {
         StaticConfiguration(kind: kind, provider: Provider())
@@ -68,8 +67,7 @@ struct FlatlandWidgetEntryView : View
             FlatlandWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Flatland View")
-        .description("Simple Flatland view in a widget.")
-        .supportedFamilies([.systemMedium, .systemLarge])
+        .description("Flatland in a widget.")
     }
 }
 
