@@ -37,6 +37,8 @@ class Settings
         
         Debug.Print("Initializing settings.")
         InitializeBool(.InitializationFlag, true)
+        InitializeBool(.ShowInitialVersion, true)
+        InitializeDouble(.InitialVersionDuration, 45.0)
         InitializeEnum(.FlatNorthCenter, EnumType: ViewTypes.self, ForKey: .MapType)
         InitializeBool(.ShowNight, true)
         InitializeEnum(.RelativeToNoon, EnumType: HourValueTypes.self, ForKey: .HourType)
