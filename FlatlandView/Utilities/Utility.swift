@@ -1243,35 +1243,42 @@ class Utility
         return LetterNodes
     }
     
-    /// Create an `SCNNode` of a word that floats over a globe.
-    /// - Note: Each child node has a name of `LetterNode`.
-    /// - Parameter Radius: The radius of the globe.
-    /// - Parameter Word: The word to draw.
-    /// - Parameter Scale: The scale for the final node.
-    /// - Parameter SpacingConstant: The constant used to help control spacing between letters.
-    /// - Parameter Latitude: The latitude of the word.
-    /// - Parameter Longitude: The longitude of the word.
-    /// - Parameter Extrusion: Depth of the word.
-    /// - Parameter Mask: The light mask. Defaults to nil.
-    /// - Parameter TextFont: The font to use to draw the text. Defaults to `nil`. If not specified
-    ///                       of if `nil` is passed, the current system font (of size `24.0`) is
-    ///                       used.
-    /// - Parameter TextColor: The color of the word.
-    /// - Parameter WithTag: Tag value to assign to the word. If nil, "WordLetterNode" is used.
-    /// - Parameter Flatness: The flatness value that determines the smoothness of the letters. Defaults
-    ///                       to 0.1.
-    /// - Returns: `SCNNode` that contains all of the letters.
-    public static func MakeFloatingWord2(Radius: Double, Word: String, Scale: CGFloat = 0.07,
+    /// Create a text node of a word that floats over a globe.
+    /// - Note: Each child node has the name of `WordLetterNode`.
+    /// - Parameters:
+    ///   - Radius: The radius of the globe.
+    ///   - Word: The word to draw.
+    ///   - Scale: The scale for the final node. Defaults to `0.07`.
+    ///   - SpacingConstant: The constant used to help control spacing between letters. Defaults to `30.0`.
+    ///   - Latitude: The latitude of the word.
+    ///   - Longitude: the longitude of the word.
+    ///   - LatitudeOffset: Latitude offset value. Defaults to `-1.0`.
+    ///   - LongitudeOffset: Longitude offet value. Defaults to `-0.5`.
+    ///   - Extrusion: Extrusion depth of each character.
+    ///   - Mask: Lighting mask to apply. Defaults to `nil`.
+    ///   - TextFont: Font to use to render the text.
+    ///   - DayAttributes: Attributes for day time.
+    ///   - NightAttributes: Attributes for night time.
+    ///   - WithTag: If present, the node's name is assigned this value. Defaults to `nil`.
+    ///   - Flatness: Flatness/smoothness level of the rendered text. Defaults to `0.1`.
+    ///   - Chamfer: Chamfer radius. Defaults to `0.0`.
+    /// - Returns: An array of nodes, one node per character, spaced correctly.
+    public static func MakeFloatingWord3(Radius: Double,
+                                         Word: String,
+                                         Scale: CGFloat = 0.07,
                                          SpacingConstant: Double = 30.0,
-                                         Latitude: Double, Longitude: Double,
-                                         LatitudeOffset: Double = -1.0, LongitudeOffset: Double = -0.5,
-                                         Extrusion: CGFloat = 1.0, Mask: Int? = nil,
+                                         Latitude: Double,
+                                         Longitude: Double,
+                                         LatitudeOffset: Double = -1.0,
+                                         LongitudeOffset: Double = -0.5,
+                                         Extrusion: CGFloat = 1.0,
+                                         Mask: Int? = nil,
                                          TextFont: NSFont? = nil,
-                                         TextColor: NSColor = NSColor.gray,
-                                         TextSpecular: NSColor = NSColor.white,
-                                         IsMetallic: Bool = false,
+                                         DayAttributes: TimeAttributes,
+                                         NightAttributes: TimeAttributes,
                                          WithTag: String? = nil,
-                                         Flatness: CGFloat = 0.1) -> [SCNNode]
+                                         Flatness: CGFloat = 0.1,
+                                         Chamfer: CGFloat = 0.0) -> [SCNNode2]
     {
         var WordFont: NSFont = NSFont()
         if let SomeFont = TextFont
@@ -1282,7 +1289,7 @@ class Utility
         {
             WordFont = NSFont.systemFont(ofSize: 24.0)
         }
-        var LetterNodes = [SCNNode]()
+        var LetterNodes = [SCNNode2]()
         let FontAttribute = [NSAttributedString.Key.font: WordFont]
         var CumulativeLetterLocation: CGFloat = CGFloat(Longitude)
         let EqCircumference = 2.0 * Radius * Double.pi
@@ -1292,13 +1299,120 @@ class Utility
             let LetterShape = SCNText(string: String(Letter), extrusionDepth: Extrusion)
             LetterShape.flatness = 0.1
             LetterShape.font = WordFont
-            LetterShape.firstMaterial?.diffuse.contents = TextColor
-            LetterShape.firstMaterial?.specular.contents = TextSpecular
+            LetterShape.chamferRadius = Chamfer
+
+            let LetterNode = SCNNode2(geometry: LetterShape)
+            LetterNode.SetLocation(Latitude, Longitude)
+            DayAttributes.ApplyTo(LetterNode)
+            NightAttributes.ApplyTo(LetterNode)
+            LetterNode.SetDaylightState()
+            
+            if let LightMask = Mask
+            {
+                LetterNode.categoryBitMask = LightMask
+            }
+            LetterNode.scale = SCNVector3(Scale)
+            if let Tag = WithTag
+            {
+                LetterNode.name = Tag
+            }
+            else
+            {
+                LetterNode.name = "WordLetterNode"
+            }
+            let (X, Y, Z) = Geometry.ToECEF(Latitude, Double(CumulativeLetterLocation),
+                                   LatitudeOffset: LatitudeOffset, LongitudeOffset: LongitudeOffset,
+                                   Radius: Radius)
+            LetterNode.position = SCNVector3(X, Y, Z)
+            let YRotation = -Latitude
+            let XRotation = Double(CumulativeLetterLocation)
+            let ZRotation = 0.0
+            LetterNode.eulerAngles = SCNVector3(YRotation.Radians, XRotation.Radians, ZRotation.Radians)
+            var AngleAdjustment = Double(LetterSize.width) / EqCircumference
+            AngleAdjustment = AngleAdjustment * SpacingConstant
+            CumulativeLetterLocation = CumulativeLetterLocation + CGFloat(AngleAdjustment)
+            LetterNodes.append(LetterNode)
+        }
+        
+        return LetterNodes
+    }
+    
+    /// Create a text node of a word that floats over a globe.
+    /// - Note: Each child node has the name of `WordLetterNode`.
+    /// - Parameters:
+    ///   - Radius: The radius of the globe.
+    ///   - Word: The word to draw.
+    ///   - Scale: The scale for the final node. Defaults to `0.07`.
+    ///   - SpacingConstant: The constant used to help control spacing between letters. Defaults to `30.0`.
+    ///   - Latitude: The latitude of the word.
+    ///   - Longitude: the longitude of the word.
+    ///   - LatitudeOffset: Latitude offset value. Defaults to `-1.0`.
+    ///   - LongitudeOffset: Longitude offet value. Defaults to `-0.5`.
+    ///   - Extrusion: Extrusion depth of each character.
+    ///   - Mask: Lighting mask to apply. Defaults to `nil`.
+    ///   - TextFont: Font to use to render the text.
+    ///   - TextColor: Color the top and bottom (and sides if `SideColor` is nil) of the text. Defaults to
+    ///                `.gray`.
+    ///   - SideColor: Color of the side of the text. Defaults to `nil` meaning `TextColor` is applied to the
+    ///                entire node surface.
+    ///   - TextSpecular: Specular color of the text. Defaults to `.white`.
+    ///   - IsMetallic: If true, the text is rendered to simulate a metallic surface.
+    ///   - WithTag: If present, the node's name is assigned this value. Defaults to `nil`.
+    ///   - Flatness: Flatness/smoothness level of the rendered text. Defaults to `0.1`.
+    /// - Returns: An array of nodes, one node per character, spaced correctly.
+    public static func MakeFloatingWord2(Radius: Double, Word: String, Scale: CGFloat = 0.07,
+                                         SpacingConstant: Double = 30.0,
+                                         Latitude: Double, Longitude: Double,
+                                         LatitudeOffset: Double = -1.0, LongitudeOffset: Double = -0.5,
+                                         Extrusion: CGFloat = 1.0, Mask: Int? = nil,
+                                         TextFont: NSFont? = nil,
+                                         TextColor: NSColor = NSColor.gray,
+                                         SideColor: NSColor? = nil,
+                                         TextSpecular: NSColor = NSColor.white,
+                                         IsMetallic: Bool = false,
+                                         WithTag: String? = nil,
+                                         Flatness: CGFloat = 0.1) -> [SCNNode2]
+    {
+        var WordFont: NSFont = NSFont()
+        if let SomeFont = TextFont
+        {
+            WordFont = SomeFont
+        }
+        else
+        {
+            WordFont = NSFont.systemFont(ofSize: 24.0)
+        }
+        var LetterNodes = [SCNNode2]()
+        let FontAttribute = [NSAttributedString.Key.font: WordFont]
+        var CumulativeLetterLocation: CGFloat = CGFloat(Longitude)
+        let EqCircumference = 2.0 * Radius * Double.pi
+        for (_, Letter) in Word.enumerated()
+        {
+            let LetterSize = NSString(string: String(Letter)).size(withAttributes: FontAttribute)
+            let LetterShape = SCNText(string: String(Letter), extrusionDepth: Extrusion)
+            LetterShape.flatness = 0.1
+            LetterShape.font = WordFont
+            
+            //LetterShape.firstMaterial?.diffuse.contents = TextColor
+            //LetterShape.firstMaterial?.specular.contents = TextSpecular
             if IsMetallic
             {
                 LetterShape.firstMaterial?.lightingModel = .physicallyBased
             }
             let LetterNode = SCNNode2(geometry: LetterShape)
+            
+            let Material1 = SCNMaterial()
+            Material1.diffuse.contents = TextColor
+            Material1.specular.contents = TextSpecular
+            LetterNode.geometry?.insertMaterial(Material1, at: 0)
+            if let Side = SideColor
+            {
+                let Material2 = SCNMaterial()
+                Material2.diffuse.contents = Side
+                //Material2.specular.contents = TextSpecular
+                LetterNode.geometry?.insertMaterial(Material2, at: 1)
+            }
+            
             if let LightMask = Mask
             {
                 LetterNode.categoryBitMask = LightMask
@@ -1313,8 +1427,8 @@ class Utility
                 LetterNode.name = "WordLetterNode"
             }
             let (X, Y, Z) = Geometry.ToECEF(Latitude, Double(CumulativeLetterLocation),
-                                   LatitudeOffset: LatitudeOffset, LongitudeOffset: LongitudeOffset,
-                                   Radius: Radius)
+                                            LatitudeOffset: LatitudeOffset, LongitudeOffset: LongitudeOffset,
+                                            Radius: Radius)
             LetterNode.position = SCNVector3(X, Y, Z)
             let YRotation = -Latitude
             let XRotation = Double(CumulativeLetterLocation)
