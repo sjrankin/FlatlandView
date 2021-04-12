@@ -734,6 +734,21 @@ extension GlobeView
             AlreadyPlotted!.removeFromParentNode()
             AlreadyPlotted!.geometry = nil
         }
+        if Settings.GetBool(.ShowInitialVersion) && !AboutTextPlotted
+        {
+            if let Duration = Settings.GetDoubleNil(.InitialVersionDuration, 45.0)
+            {
+                AboutTextPlotted = true
+                PlotFloatingText("Flatland \(Versioning.VerySimpleVersionString())",
+                                 On: Surface,
+                                 Latitude: 15.0,
+                                 Font: NSFont.boldSystemFont(ofSize: 32.0),
+                                 Color: NSColor.systemYellow,
+                                 Specular: NSColor.yellow,
+                                 Rotate: 0.05,
+                                 Disappear: Duration)
+            }
+        }
         PlottedCities.removeAll()
         CitiesToPlot = CityManager.FilteredCities()
         if let UserCities = CityManager.OtherCities
@@ -795,12 +810,34 @@ extension GlobeView
                 RelativeSize = Double(Min) / Double(Max)
             }
 
-            var CityColor = CityManager.ColorForCity(City)
+            var CityColor = NSColor.PrussianBlue
+            var NightColor = NSColor.systemTeal
+//            var CityColor = CityManager.ColorForCity(City)
+//            var NightColor = CityColor
             if City.IsCustomCity
             {
                 CityColor = City.CityColor
+                NightColor = CityColor
             }
 
+//            let Day = TimeAttributes(ForDay: true, Diffuse: CityColor, Emission: nil)
+//            let Night = TimeAttributes(ForDay: false, Diffuse: CityColor, Emission: CityColor)
+            let Day = TimeAttributes(ForDay: true, Diffuse: CityColor, Emission: nil)
+            let Night = TimeAttributes(ForDay: false, Diffuse: NightColor, Emission: NightColor)
+            let CityFont = NSFont(name: "Avenir-Heavy", size: 10.0)!
+            let CityNameNode = PlotFloatingText(City.Name,
+                                         Radius: Double(GlobeRadius.Primary.rawValue) + 0.1,
+                                         Latitude: City.Latitude,
+                                         Longitude: City.Longitude,
+                                         Extrusion: 1.0,
+                                         Font: CityFont,
+                                         Day: Day,
+                                         Night: Night,
+                                         LightMask: LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue,
+                                         Name: GlobeNodeNames.CityNameNode.rawValue)
+            Surface.addChildNode(CityNameNode!)
+            
+            CityColor = CityManager.ColorForCity(City)
             switch Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .UniformEmbedded)
             {
                 case .UniformEmbedded:
