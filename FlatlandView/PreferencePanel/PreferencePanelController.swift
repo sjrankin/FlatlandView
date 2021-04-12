@@ -285,7 +285,7 @@ Enable or disable sounds and visual effects at the top of each hour.
                     
                 case .ShowVersionHelp:
                     Message = """
-If enabled, Flatland's version is show on the 3D globe for a set number of seconds before fading away.
+If enabled, Flatland's version is show on the 3D globe for a set number of seconds before fading away. After a certain number of times you run Flatland, the version number will no longer appear. If you want to see it again, you should re-enable it here.
 """
                     
                 //MARK: - Map help.
