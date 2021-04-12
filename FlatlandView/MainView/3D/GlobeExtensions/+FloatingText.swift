@@ -91,6 +91,7 @@ extension GlobeView
     ///   - Latitude: The latitude of the text - determines how far up or down the text will be displayed
     ///               on the globe. Passing a value `0.0` shows the text on the equator.
     ///   - Longitude: The starting longitude of the text.
+    ///   - Radius: Radial distance of the text.
     ///   - Extrusion: Text extrustion depth.
     ///   - Font: Font to use for the text.
     ///   - Color: Font diffuse color.
@@ -100,16 +101,16 @@ extension GlobeView
     ///   - Closure: Closure to call after the text is removed. If `After` is nil, the closure will not be
     ///              called unless `Message` is empty, in which case `Closure` is always called.
     func PlotFloatingText(_ Message: String, On Surface: SCNNode2, Latitude: Double, Longitude: Double = 0.0,
-                          Extrusion: Double = 5.0,
-                          Font: NSFont, Color: NSColor, Specular: NSColor, Rotate Duration: Double = 0.05,
-                          Disappear After: Double? = nil, Closure: ((Bool) -> ())? = nil)
+                          Radius: Double = 12.0, Extrusion: Double = 5.0, Font: NSFont, Color: NSColor,
+                          Specular: NSColor, Rotate Duration: Double = 0.05, Disappear After: Double? = nil,
+                          Closure: ((Bool) -> ())? = nil)
     {
         if Message.isEmpty
         {
             Closure?(true)
             return
         }
-        let TextNodes = Utility.MakeFloatingWord2(Radius: 12.0,
+        let TextNodes = Utility.MakeFloatingWord2(Radius: Radius,
                                                   Word: Message,
                                                   Latitude: Latitude,
                                                   Longitude: Longitude,
