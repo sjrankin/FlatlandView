@@ -67,6 +67,9 @@ class Stenciler
                 Working = AddGridLines(To: Working, Ratio: MapRatio)
                 Caller.StageCompleted(Working, .GridLines, CACurrentMediaTime())
             }
+            #if true
+            Caller.StencilPipelineCompleted(Time: CACurrentMediaTime(), Final: Working)
+            #else
             if Stages.contains(.UNESCOSites)
             {
                 Working = AddWorldHeritageDecals(To: Working, Ratio: MapRatio)
@@ -90,6 +93,7 @@ class Stenciler
                 }
             }
             Caller.StencilPipelineCompleted(Time: CACurrentMediaTime(), Final: GetImage(From: Rep))
+            #endif
         }
     }
     
@@ -354,6 +358,18 @@ class Stenciler
                     BaseColor = Color
                 }
             }
+            
+            var StrokeColor = NSColor.black
+            let HowRecent = Settings.GetEnum(ForKey: .RecentEarthquakeDefinition, EnumType: EarthquakeRecents.self,
+                                             Default: .Day1)
+            if let RecentSeconds = RecentMap[HowRecent]
+            {
+                if Quake.GetAge() <= RecentSeconds
+                {
+                    StrokeColor = NSColor.red
+                }
+            }
+            
             //Take care of text that is very close to the International Date Line/edge of
             //the image.
             let Length = Utility.StringWidth(TheString: EqText, TheFont: QuakeFont)
@@ -365,7 +381,7 @@ class Stenciler
             let QRImage: NSImage? = Barcodes.QRCode(With: Quake.EventPageURL,
                                                     FinalSize: NSSize(width: 100, height: 100))
             let Record = TextRecord(Text: EqText, Location: LocationPoint,
-                                    Font: QuakeFont, Color: BaseColor, OutlineColor: NSColor.black,
+                                    Font: QuakeFont, Color: BaseColor, OutlineColor: StrokeColor,
                                     QRCode: QRImage, Quake: Quake)
             PlotMe.append(Record)
         }
@@ -472,7 +488,7 @@ class Stenciler
     /// - Parameter To: The image to which to add gridlines.
     /// - Parameter Ratio: Ratio between the standard sized-map and the current map.
     /// - Return: New image with grid lines drawn.
-    private static func AddGridLines(To Image: NSImage, Ratio: Double) -> NSImage
+    public static func AddGridLines(To Image: NSImage, Ratio: Double) -> NSImage
     {
         if Settings.GetBool(.GridLinesDrawnOnMap)
         {
@@ -751,13 +767,8 @@ class Stenciler
             let Location = Quake.LocationAsGeoPoint().ToEquirectangular(Width: Int(Size.width),
                                                                         Height: Int(Size.height))
             var LocationPoint = NSPoint(x: Location.X, y: Location.Y)
-            #if false
-            let Greatest = Quake.GreatestMagnitudeValue
-            let EqText = "\(Greatest.RoundedTo(3))"
-            #else
             let Greatest = Quake.GreatestMagnitude
             let EqText = "\(Greatest.RoundedTo(3))"
-            #endif
             var LatitudeFontOffset = abs(Quake.Latitude) / 90.0
             LatitudeFontOffset = Constants.StencilFontSize.rawValue * LatitudeFontOffset
             let Mag = Quake.IsCluster ? Quake.GreatestMagnitude : Quake.Magnitude
@@ -781,17 +792,39 @@ class Stenciler
                 LocationPoint = NSPoint(x: Size.width - Length,
                                         y: LocationPoint.y)
             }
+            
+            var StrokeColor = NSColor.black
+            let HowRecent = Settings.GetEnum(ForKey: .RecentEarthquakeDefinition, EnumType: EarthquakeRecents.self,
+                                             Default: .Day1)
+            if let RecentSeconds = RecentMap[HowRecent]
+            {
+                if Quake.GetAge() <= RecentSeconds
+                {
+                    StrokeColor = NSColor.red
+                }
+            }
+            
             let QRImage: NSImage? = Barcodes.QRCode(With: Quake.EventPageURL,
                                                     FinalSize: NSSize(width: 100, height: 100),
                                                     Digit: Quake.Magnitude)
             let Record = TextRecord(Text: EqText, Location: LocationPoint,
-                                    Font: QuakeFont, Color: BaseColor, OutlineColor: NSColor.black,
+                                    Font: QuakeFont, Color: BaseColor, OutlineColor: StrokeColor,
                                     QRCode: QRImage, Quake: Quake)
             PlotMe.append(Record)
         }
         let Final = DrawText(Messages: PlotMe, ImageSize: Size, ForQuakes: true)
         return Final
     }
+    
+    private static let RecentMap: [EarthquakeRecents: Double] =
+        [
+            .Day05: 12.0 * 60.0 * 60.0,
+            .Day1: 24.0 * 60.0 * 60.0,
+            .Day2: 2.0 * 24.0 * 60.0 * 60.0,
+            .Day3: 3.0 * 24.0 * 60.0 * 60.0,
+            .Day7: 7.0 * 24.0 * 60.0 * 60.0,
+            .Day10: 10.0 * 24.0 * 60.0 * 60.0,
+        ]
 
     #if false
     /// Draw grid lines on the map.
