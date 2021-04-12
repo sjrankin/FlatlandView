@@ -607,6 +607,7 @@ class SCNNode2: SCNNode
     /// Convenience function to set the state attributes.
     /// - Parameter ForDay: If true, day time attributes are set. If false, night time attributes are set.
     /// - Parameter Color: The color for the state.
+    /// - Parameter Specular: The specular color for the state. Defaults to `.white`.
     /// - Parameter Emission: The color for the emmission material (eg, glowing). Defaults to `nil`.
     /// - Parameter Model: The lighting model for the state. Defaults to `.phong`.
     /// - Parameter Metalness: The metalness value of the state. If nil, not used. Defaults to `nil`.
@@ -616,6 +617,7 @@ class SCNNode2: SCNNode
     ///                          state set. If false, child nodes are ignored.
     public func SetState(ForDay: Bool,
                          Color: NSColor,
+                         Specular: NSColor = NSColor.white,
                          Emission: NSColor? = nil,
                          Model: SCNMaterial.LightingModel = .phong,
                          Metalness: Double? = nil,
@@ -626,13 +628,13 @@ class SCNNode2: SCNNode
         if ForDay
         {
             DayState = NodeState(State: .Day, Color: Color, Diffuse: nil, Emission: Emission,
-                                 Specular: NSColor.white, LightModel: Model, Metalness: Metalness,
+                                 Specular: Specular, LightModel: Model, Metalness: Metalness,
                                  Roughness: Roughness, CastsShadow: CastsShadow)
         }
         else
         {
             NightState = NodeState(State: .Night, Color: Color, Diffuse: nil, Emission: Emission,
-                                   Specular: NSColor.white, LightModel: Model, Metalness: Metalness,
+                                   Specular: Specular, LightModel: Model, Metalness: Metalness,
                                    Roughness: Roughness, CastsShadow: CastsShadow)
         }
         for Child in ChildNodes2()
