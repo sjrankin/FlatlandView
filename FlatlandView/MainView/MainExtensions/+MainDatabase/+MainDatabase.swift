@@ -420,3 +420,29 @@ enum POIColumns2: Int32
     case Modified = 9
     case Color = 10
 }
+
+/// Columns in the cached item database.
+enum CachedColumns: Int32
+{
+    case ID = 0
+    case Latitude = 1
+    case Longitude = 2
+    case Name = 3
+    case ISOCountryCode = 4
+    case Country = 5
+    case PostalCode = 6
+    case AdministrativeArea = 7
+    case SubAdministrativeArea = 8
+    case Locality = 9
+    case SubLocality = 10
+    case ThoroughFare = 11
+    case SubThoroughFare = 12
+    case Region = 13
+    case TimeZone = 14
+    case InlandWater = 15
+    case Ocean = 16
+    case AreasOfInterest = 17
+    case UTCOffset = 18
+    case Abbreviation = 19
+    case Localized = 20
+}
