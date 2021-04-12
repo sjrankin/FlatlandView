@@ -123,6 +123,7 @@ class MapList
                     LightMultiplier: 0.5),
             MapItem(.RedTectonicLines, false, "TectonicLinesRed", "TectonicBaseNorthCenterRed", "TectonicBaseSouthCenterRed"),
             MapItem(.CitiesAtNight, false, "CitiesAtNight", "CitiesAtNightNorthCenter", "CitiesAtNightSouthCenter"),
+            MapItem(.TimeZoneOverlay, false, "TZOverlay", "TZOverlayNorthCenter", "TZOverlaySouthCenter"),
     ]
 }
 
@@ -218,6 +219,7 @@ enum MapTypes: String, CaseIterable
     case EarthquakeMap = "Earthquake Map"
     case RedTectonicLines = "Red Tectonic Lines"
     case CitiesAtNight = "Cities at Night"
+    case TimeZoneOverlay = "Timezone Overlay"
     case GIBS_MODIS_Terra_CorrectedReflectance_TrueColor = "MODIS Terra True Color"
     case GIBS_MODIS_Terra_CorrectedReflectance_721 = "MODIS Terra Bands 721"
     case GIBS_MODIS_Terra_CorrectedReflectance_367 = "MODIS Terra Bands 367"
