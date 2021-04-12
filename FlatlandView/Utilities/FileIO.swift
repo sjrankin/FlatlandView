@@ -28,6 +28,7 @@ class FileIO
         InstallDatabase(Name: FileIONames.QuakeHistoryDatabaseS.rawValue)
         InstallDatabase(Name: FileIONames.MappableDatabaseS.rawValue)
         InstallDatabase(Name: FileIONames.Settings.rawValue)
+        InstallDatabase(Name: FileIONames.CachedLocations.rawValue)
     }
     
     public static func InstallDatabase(Name: String)
@@ -495,6 +496,13 @@ class FileIO
     public static func GetMappableDatabaseSURL() -> URL?
     {
         let PathComponent = DatabaseDirectory + "/" + FileIONames.MappableDatabaseS.rawValue
+        let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
+        return DBURL
+    }
+    
+    public static func GetReverseGeocodingCacheURL() -> URL?
+    {
+        let PathComponent = DatabaseDirectory + "/" + FileIONames.CachedLocations.rawValue
         let DBURL = GetDocumentDirectory()!.appendingPathComponent(PathComponent)
         return DBURL
     }
