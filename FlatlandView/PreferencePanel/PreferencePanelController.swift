@@ -283,6 +283,11 @@ Hides or shows the UI help buttons (􀁝) in the interface.
 Enable or disable sounds and visual effects at the top of each hour.
 """
                     
+                case .ShowVersionHelp:
+                    Message = """
+If enabled, Flatland's version is show on the 3D globe for a set number of seconds before fading away.
+"""
+                    
                 //MARK: - Map help.
                 case .MapSample:
                     Message = """
@@ -601,6 +606,7 @@ enum PreferenceHelp: String, CaseIterable
     case ShowStatusBar = "ShowStatusBar"
     case UIHelp = "UIHelp"
     case HourEventHelp = "HourEventHelp"
+    case ShowVersionHelp = "ShowVersionHelp"
     
     case MapSample = "MapSample"
     case ChangingMapsHelp = "ChangingMapsHelp"
