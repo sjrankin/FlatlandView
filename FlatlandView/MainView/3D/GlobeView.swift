@@ -57,7 +57,7 @@ import SceneKit
         InWidgetMode = IsOn
     }
     
-    /// Widget mode flag.
+    /// Widget mode flag. Set to `true` set widget mode.
     @IBInspectable var InWidgetMode: Bool = false
     {
         didSet
@@ -70,11 +70,12 @@ import SceneKit
                 self.showsStatistics = false
                 MainDelegate?.HideStatusBar()
                 MainDelegate?.HideDebugGrid()
+                RemoveMousePointer()
             }
             else
             {
                 PlotEarthquakes()
-                ApplyAllStencils()
+                ApplyAllStencils(Caller: "InWidgetMode")
                 self.allowsCameraControl = true
                 #if DEBUG
                 self.showsStatistics = true
@@ -738,6 +739,8 @@ import SceneKit
     var GlobeCameraNode: SCNNode? = nil
     var GlobeCamera: SCNCamera? = nil
     var AnchorNode: SCNNode2? = nil
+    
+    var AboutTextPlotted: Bool = false
 }
 
 
