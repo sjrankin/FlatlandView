@@ -46,18 +46,32 @@ extension GlobeView
     /// Remove all earthquake nodes from the globe.
     func ClearEarthquakes()
     {
+        let RemovalList =
+        [
+            GlobeNodeNames.EarthquakeNodes.rawValue,
+            GlobeNodeNames.IndicatorNode.rawValue,
+            GlobeNodeNames.InfoNode.rawValue,
+            GlobeNodeNames.MagnitudeNode.rawValue
+        ]
         if let Earth = EarthNode
         {
             for Node in Earth.childNodes
             {
-                if Node.name == GlobeNodeNames.EarthquakeNodes.rawValue ||
-                    Node.name == GlobeNodeNames.IndicatorNode.rawValue ||
-                    Node.name == GlobeNodeNames.InfoNode.rawValue
+                /*
+                 if Node.name == GlobeNodeNames.EarthquakeNodes.rawValue ||
+                 Node.name == GlobeNodeNames.IndicatorNode.rawValue ||
+                 Node.name == GlobeNodeNames.InfoNode.rawValue ||
+                 Node.name == GlobeNodeNames.MagnitudeNode.rawValue
+                 */
+                if let SomeName = Node.name
                 {
-                    Node.removeAllAnimations()
-                    Node.removeAllActions()
-                    Node.removeFromParentNode()
-                    Node.geometry = nil
+                    if RemovalList.contains(SomeName)
+                    {
+                        Node.removeAllAnimations()
+                        Node.removeAllActions()
+                        Node.removeFromParentNode()
+                        Node.geometry = nil
+                    }
                 }
             }
             IndicatorAgeMap.removeAll()
@@ -289,6 +303,24 @@ extension GlobeView
                 }
                 
                 Surface.addChildNode(QNode)
+
+                let Day = TimeAttributes(ForDay: true, Diffuse: BaseColor, Emission: nil)
+                let Night = TimeAttributes(ForDay: false, Diffuse: BaseColor, Emission: BaseColor)
+                let MagString = "M\(Quake.Magnitude.RoundedTo(2))"
+                let FontSize = 10.0 * (Quake.Magnitude / 10.0) + 7.0
+                let QuakeFont = NSFont(name: "Avenir-Black", size: CGFloat(FontSize))!
+                let RadialOffset = 0.3 + (Quake.Magnitude / 10.0) * 0.7
+                let QMag = PlotFloatingText(MagString,
+                                            Radius: Double(GlobeRadius.Primary.rawValue) + RadialOffset,
+                                            Latitude: Quake.Latitude,
+                                            Longitude: Quake.Longitude,
+                                            Extrusion: 3.0,
+                                            Font: QuakeFont,
+                                            Day: Day,
+                                            Night: Night,
+                                            LightMask: LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue,
+                                            Name: GlobeNodeNames.MagnitudeNode.rawValue)
+                Surface.addChildNode(QMag!)
             }
         }
     }
@@ -358,6 +390,21 @@ extension GlobeView
         InfoNode.NodeID = Quake.QuakeID
         InfoNode.position = SCNVector3(Xp, Yp, Zp)
         
+        #if false
+        let Pole = SCNNode2()
+        let PoleGeometry = SCNCylinder(radius: 0.05, height: CGFloat(Quake.Magnitude))
+        Pole.geometry = PoleGeometry
+        Pole.geometry?.firstMaterial?.diffuse.contents = NSColor.white
+        
+        FinalNode = SCNNode2()
+        FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)
+        FinalNode.NodeID = Quake.QuakeID
+        FinalNode.NodeUsage = .Earthquake
+        YRotation = Quake.Latitude + 90.0
+        XRotation = Quake.Longitude + 180.0
+        FinalNode.eulerAngles = SCNVector3(XRotation.Radians, YRotation.Radians, 0.0)
+        FinalNode.addChildNode(Pole)
+        #else
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         {
             case .Arrow:
@@ -671,6 +718,7 @@ extension GlobeView
                 FinalNode.addChildNode(Rim)
                 RadialOffset = 0.0
         }
+        #endif
         
         let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude, Radius: Double(FinalRadius) + RadialOffset)
         FinalNode.name = GlobeNodeNames.EarthquakeNodes.rawValue
