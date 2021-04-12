@@ -119,6 +119,24 @@ enum Defaults: Double, CaseIterable
     case SouthPoleYOffset = -1.00000003
     /// Radial angle offset for wall clock hours to align with the center of the sector.
     case WallClockHourOffset = -4.0
+    /// Latitude at which to display the initial version information.
+    case InitialVersionLatitude = 15.0004587
+    /// Font size for the text for the initial version display.
+    case InitialVersionFontSize = 32.0
+    /// How fast in seconds to rotate the initial version text one radian.
+    case InitialVersionRadialRotationDuration = 0.05
+    /// Number of seconds to show the initial version.
+    case InitialVersionDisplayDuration = 45.0
+    /// Extrusion depth for city names.
+    case CityNameExtrusion = 1.0000053
+    /// Font size for 3D city names.
+    case CityNameFontSize = 10.00004000004
+    /// Text extrusion depth for 3D earthquake magnitudes.
+    case MagnitudeExtrusion = 3.0100228
+    /// Base font size for 3D earthquake magnitudes.
+    case MagnitudeBaseFontSize = 7.0
+    /// Multiplier for 3D earthquake magnitude font sizes to have larger earthquakes use larger font sizes.
+    case MagnitudeFontSizeMultiplier = 10.000000001
 }
 
 // MARK: - Constants used in flat mode.
@@ -549,6 +567,9 @@ enum PhysicalConstants: Double, CaseIterable
     case KilometersToMiles  = 0.62137
     /// Constant to convert miles to kilometers.
     case MilesToKilometers = 1.609
+    /// Largest possible earthquake magnitude.
+    /// See: [Can "MegaQuakes" really happen?](https://www.usgs.gov/faqs/can-megaquakes-really-happen-a-magnitude-10-or-larger?qt-news_science_products=0#qt-news_science_products)
+    case GreatestEarthquake = 10.0
 }
 
 enum GravitationParameters: Double, CaseIterable
@@ -652,6 +673,8 @@ enum GlobeRadius: CGFloat, CaseIterable
     case HourSphere = 11.5
     /// Sphere that holds the hour text if in wall clock mode.
     case WallClockSphere = 10.6
+    /// Radial distance for 3D city names.
+    case CityNameRadius = 10.1101
     /// Location of city names (if used).
     case CityNames = 10.5
     /// Grid line layer.
@@ -672,6 +695,10 @@ enum GlobeRadius: CGFloat, CaseIterable
     #endif
     /// Radial offset for the location of serached location icons.
     case SearchIconRadialOffset = 0.2
+    /// Radial distance of the initial version display.
+    case InitialVersionDisplay = 12.0
+    case QuakeMagnitudeBaseRadius = 0.3
+    case QuakeMagnitudeMultiplier = 0.7
 }
 
 // MARK: - Database-related constants.
