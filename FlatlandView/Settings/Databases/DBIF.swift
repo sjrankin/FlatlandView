@@ -16,6 +16,22 @@ class DBIF
     public static func Initialize(LoadToo: Bool = true)
     {
         FileIO.InstallDatabases()
+        if !LocationCacheInstalled
+        {
+            _LocationCacheInstalled = true
+            if let CacheURL = FileIO.GetReverseGeocodingCacheURL()
+            {
+                if sqlite3_open_v2(CacheURL.path, &CachedLocationHandle,
+                                   SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
+                {
+                    Debug.FatalError("Error opening \(CacheURL.path), \(String(cString: sqlite3_errmsg(CachedLocationHandle!)))")
+                }
+            }
+            else
+            {
+                Debug.FatalError(("Error getting URL for the cached location database."))
+            }
+        }
         if !MappableInitialized
         {
             _MappableInitialized = true
@@ -75,6 +91,7 @@ class DBIF
     public static func LoadTables()
     {
         LoadSettingsTables()
+        CachedLocations = LoadLocations()
         UNESCOSites = LoadWorldHeritageSites()
         UserPOIs = GetAllUserPOIs()
         BuiltInPOIs = GetAllBuiltInPOIs()
@@ -120,8 +137,18 @@ class DBIF
         }
     }
     
+    private static var _LocationCacheInstalled: Bool = false
+    public static var LocationCacheInstalled: Bool
+    {
+        get
+        {
+            return _LocationCacheInstalled
+        }
+    }
+    
     // MARK: - In-memory tables.
     
+    public static var CachedLocations = [CachedLocation]()
     public static var BuiltInPOIs = [POI2]()
     public static var UserPOIs = [POI2]()
     public static var UNESCOSites = [WorldHeritageSite]()
@@ -135,6 +162,7 @@ class DBIF
     public static var MappableHandle: OpaquePointer? = nil
     public static var QuakeHandle: OpaquePointer? = nil
     public static var SettingsHandle: OpaquePointer? = nil
+    public static var CachedLocationHandle: OpaquePointer? = nil
 }
 
 
