@@ -22,6 +22,10 @@ extension FlatView
     /// - Parameter Point: The point in the view reported by the main controller.
     func MouseClickedAt(Point: CGPoint)
     {
+        if InWidgetMode
+        {
+            return
+        }
         let MapCenter = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatSouthCenter)
         if MapCenter == .FlatSouthCenter || MapCenter == .FlatNorthCenter
         {
@@ -94,6 +98,10 @@ extension FlatView
     /// - Parameter Point: The point in the view reported by the main controller.
     func MouseMovedTo(Point: CGPoint)
     {
+        if InWidgetMode
+        {
+            return
+        }
         if !Settings.GetBool(.FollowMouse)
         {
             return
@@ -200,5 +208,14 @@ extension FlatView
         Final.addChildNode(TopNode)
         Final.addChildNode(BottomNode)
         return Final
+    }
+    
+    /// Remove the mouse pointer from the Earth.
+    func RemoveMousePointer()
+    {
+        MouseIndicator?.removeAllActions()
+        MouseIndicator?.removeAllAnimations()
+        MouseIndicator?.removeFromParentNode()
+        MouseIndicator = nil
     }
 }
