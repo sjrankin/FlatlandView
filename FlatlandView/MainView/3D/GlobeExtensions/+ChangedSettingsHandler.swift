@@ -237,7 +237,7 @@ extension GlobeView: SettingChangedProtocol
                  .NorthAmericanCityColor, .SouthAmericanCityColor, .CapitalCityColor,
                  .CustomCityListColor, .CityNodesGlow, .PopulationColor:
                 PlotCities()
-                ApplyAllStencils()
+                ApplyAllStencils(Caller: "City color changed")
                 
             case .ShowCustomCities, .ShowAfricanCities, .ShowAsianCities,
                  .ShowEuropeanCities, .ShowNorthAmericanCities, .ShowSouthAmericanCities,
@@ -245,13 +245,13 @@ extension GlobeView: SettingChangedProtocol
                  .PopulationRank, .PopulationRankIsMetro, .PopulationFilterValue,
                  .PopulationFilterGreater, .PopulationFilterType:
                 PlotCities()
-                ApplyAllStencils()
+                ApplyAllStencils(Caller: "Show cities changed")
                 
             case .CustomCityList:
                 if Settings.GetBool(.ShowCustomCities)
                 {
                     PlotCities()
-                    ApplyAllStencils()
+                    ApplyAllStencils(Caller: "Custom city list changed")
                 }
                 
             case .HourFontName:
@@ -261,7 +261,7 @@ extension GlobeView: SettingChangedProtocol
                 if Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .RelativeEmbedded) == .Names
                 {
                     PlotCities()
-                    ApplyAllStencils()
+                    ApplyAllStencils(Caller: "Cast shadows changed")
                 }
                 
             case .GridLinesDrawnOnMap:
