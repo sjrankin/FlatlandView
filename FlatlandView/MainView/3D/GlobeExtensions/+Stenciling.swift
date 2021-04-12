@@ -21,8 +21,24 @@ extension GlobeView
     ///      the non-stenciled map will be available very quickly.
     ///    - All stencils are applied here (assuming they are enabled by the user).
     /// - Parameter Caller: Name of the caller.
-    func ApplyAllStencils(Caller: String? = nil)
+    func ApplyAllStencils(Caller: String)
     {
+        #if true
+        print("ApplyAllStencils(\(Caller))")
+        if let Map = GlobalBaseMap
+        {
+            let NewMap = Stenciler.AddGridLines(To: Map, Ratio: 1.0)
+            InitialStenciledMap = NewMap
+            OperationQueue.main.addOperation
+            {
+                self.EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
+            }
+        }
+        else
+        {
+            Debug.Print("No global base map available.")
+        }
+        #else
         if let Map = GlobalBaseMap
         {
             var Quakes: [Earthquake]? = nil
@@ -36,12 +52,6 @@ extension GlobeView
             {
                 Stages.append(.UNESCOSites)
             }
-            #if false
-            if Settings.GetBool(.ShowEarthquakeRegions)
-            {
-                Stages.append(.EarthquakeRegions)
-            }
-            #endif
             if Settings.GetBool(.CityNamesDrawnOnMap)
             {
                 Stages.append(.CityNames)
@@ -56,10 +66,31 @@ extension GlobeView
         {
             Debug.Print("No global base map available.")
         }
+        #endif
     }
     
+    /// Apply stencils to `GlobalBaseMap` as needed. Stenciled images returned via the `StencilPipelineProtocol`.
+    /// - Notes:
+    ///    - Control returns almost immediately.
+    ///    - The user can change settings such that no stenciling is applied. In that case,
+    ///      the non-stenciled map will be available very quickly.
+    ///    - All stencils are applied here (assuming they are enabled by the user).
+    /// - Parameter Except: Array of exceptions to stenciling stages - if a stage is in this array, it will
+    ///                     *not* be stenciled.
+    /// - Parameter Caller: Name of the caller.
     func ApplyAllStencils(Except: [StencilStages], Caller: String? = nil)
     {
+        #if true
+        if let Map = GlobalBaseMap
+        {
+            let NewMap = Stenciler.AddGridLines(To: Map, Ratio: 1.0)
+            InitialStenciledMap = NewMap
+            OperationQueue.main.addOperation
+            {
+                self.EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
+            }
+        }
+        #else
         if let Map = GlobalBaseMap
         {
             var Quakes: [Earthquake]? = nil
@@ -99,6 +130,7 @@ extension GlobeView
         {
             Debug.Print("No global base map available.")
         }
+        #endif
     }
     
     /// Apply stencils to `InitialMap` as needed. Stenciled images returned via the `StencilPipelineProtocol`.
@@ -107,9 +139,11 @@ extension GlobeView
     /// - Parameter Caller: Name of the caller.
     func ApplyEarthquakeStencils(InitialMap: NSImage, Caller: String? = nil)
     {
+        #if false
         var Quakes: [Earthquake]? = nil
         Quakes = EarthquakeList
         Stenciler.RunStencilPipeline(To: InitialMap, Quakes: Quakes, Stages: [.Earthquakes], Caller: self)
+        #endif
     }
     
     /// Apply initial stencils to `GlobalBaseMap`. Initial stencils are those stencils whose visibility flags
@@ -120,6 +154,17 @@ extension GlobeView
     /// - Parameter Caller: Name of the caller.
     func ApplyInitialStencils(Caller: String? = nil)
     {
+        #if true
+        if let Map = GlobalBaseMap
+        {
+            let NewMap = Stenciler.AddGridLines(To: Map, Ratio: 1.0)
+            InitialStenciledMap = NewMap
+            OperationQueue.main.addOperation
+            {
+                self.EarthNode?.geometry?.firstMaterial?.diffuse.contents = NewMap
+            }
+        }
+        #else
         if let Map = GlobalBaseMap
         {
             InitialStenciledMap = nil
@@ -128,12 +173,6 @@ extension GlobeView
             {
                 Stages.append(.UNESCOSites)
             }
-            #if false
-            if Settings.GetBool(.ShowEarthquakeRegions)
-            {
-                Stages.append(.EarthquakeRegions)
-            }
-            #endif
             if Settings.GetBool(.CityNamesDrawnOnMap)
             {
                 Stages.append(.CityNames)
@@ -144,5 +183,6 @@ extension GlobeView
             }
             Stenciler.RunStencilPipeline(To: Map, Quakes: nil, Stages: Stages, Caller: self)
         }
+        #endif
     }
 }
