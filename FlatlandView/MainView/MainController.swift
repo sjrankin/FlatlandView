@@ -18,6 +18,21 @@ class MainController: NSViewController
     {
         super.viewDidLoad()
         ElapsedTimeValue = 0.0
+        
+        //Check the previous version - if it is different, reset the instantiation count.
+        let IVersion = Versioning.VerySimpleVersionString()
+        let PVersion = Settings.GetString(.InstantiationVersion)
+        if PVersion != IVersion
+        {
+            Settings.SetString(.InstantiationVersion, IVersion)
+            Settings.SetInt(.InstantiationCount, 0)
+        }
+        let InstantiationCount = Settings.IncrementInt(.InstantiationCount)
+        //If the instantiation count is over a certain number, stop showing the initial version number.
+        if InstantiationCount > 10
+        {
+            Settings.SetBool(.ShowInitialVersion, false)
+        }
 
         MainController.StartTime = CACurrentMediaTime()
         UptimeStart = CACurrentMediaTime()
@@ -519,8 +534,7 @@ class MainController: NSViewController
     {
         #if DEBUG
         //Main3DView.CameraAttract()
-        let Old = Main3DView.InWidgetMode
-        Main3DView.InWidgetMode = !Old
+
         SoundManager.Play(ForEvent: .Debug)
         Main3DView.FlashAllHours(Count: 4)
         Main2DView.FlashAllHours(Count: 4)
