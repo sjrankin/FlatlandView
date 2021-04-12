@@ -52,6 +52,10 @@ enum SettingKeys: String, CaseIterable
     case DecorateEarthquakeCoordinates = "DecorateEarthquakeCoordinates"
     /// Boolean: If true, a status bar is shown.
     case ShowStatusBar = "ShowStatusBar"
+    /// Integer: Number of times Flatland has been instantiated for a given version.
+    case InstantiationCount = "InstantiationCount"
+    /// String: Version used for current instantiation count.
+    case InstantiationVersion = "InstantiationVersion"
     
     // MARK: - 2D view settings.
     /// Boolean: Display the equator in 2D mode.
@@ -184,6 +188,16 @@ enum SettingKeys: String, CaseIterable
     case CameraFieldOfView = "CameraFieldOfView"
     /// Double: The orthographic scale for Flatland's camera system.
     case CameraOrthographicScale = "CameraOrthographicScale"
+    /// Boolean: If true, the 3D scenes cannot be moved. If false, they can.
+    case WorldIsLocked = "WorldIsLocked"
+    /// Boolean: If true, 3D jittering is enabled.
+    case EnableJittering = "EnableJittering"
+    /// Antialias value.
+    case AntialiasLevel = "AntialiasLevel"
+    /// Boolean: If true, Flatland will search for what is close to the mouse pointer.
+    case SearchForLocation = "SearchForLocation"
+    /// Boolean: If true, the mouse will be hidden when it is over the Earth.
+    case HideMouseOverEarth = "HideMouseOverEarth"
     //3D debug settings.
     /// Render 3D elements as wireframes.
     case ShowWireframes = "ShowWireframes"
@@ -211,8 +225,6 @@ enum SettingKeys: String, CaseIterable
     case RenderAsWireframe = "RenderAsWireframe"
     /// Boolean: If true, the node under the mouse is highlighted.
     case HighlightNodeUnderMouse = "HighlightNodeUnderMouse"
-    /// Boolean: If true, the 3D scenes cannot be moved. If false, they can.
-    case WorldIsLocked = "WorldIsLocked"
     /// Determines which map type is affected by the 3D debug flags.
     case Debug3DMap = "Debug3DMap"
     /// Boolean: If true, 3D debugging is enabled.
@@ -221,14 +233,10 @@ enum SettingKeys: String, CaseIterable
     case ShowAxes = "ShowAxes"
     /// Boolean: If true, known locations are shown on the map.
     case ShowKnownLocations = "ShowKnownLocations"
-    /// Boolean: If true, 3D jittering is enabled.
-    case EnableJittering = "EnableJittering"
-    /// Antialias value.
-    case AntialiasLevel = "AntialiasLevel"
-    /// Boolean: If true, Flatland will search for what is close to the mouse pointer.
-    case SearchForLocation = "SearchForLocation"
-    /// Boolean: If true, the mouse will be hidden when it is over the Earth.
-    case HideMouseOverEarth = "HideMouseOverEarth"
+    /// Boolean: If true, the program name and version will be shown at start-up.
+    case ShowInitialVersion = "ShowInitialVersion"
+    /// Double: Number of seconds to show the initial version string.
+    case InitialVersionDuration = "InitialVersionDuration"
     
     // MARK: - Performance and optimization settings.
     /// Boolean: If true, hours have a chamfer value set.
