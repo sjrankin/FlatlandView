@@ -391,6 +391,11 @@ class GeneralPreferences: NSViewController, PreferencePanelProtocol
         if let Switch = sender as? NSSwitch
         {
             Settings.SetBool(.ShowInitialVersion, Switch.state == .on ? true : false)
+            if Switch.state == .on
+            {
+                //Reset the instantiation count.
+                Settings.SetInt(.InstantiationCount, 0)
+            }
         }
     }
     
