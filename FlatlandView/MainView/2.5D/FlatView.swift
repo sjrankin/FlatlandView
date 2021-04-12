@@ -40,6 +40,33 @@ class FlatView: SCNView, SettingChangedProtocol, FlatlandEventProtocol
     
     /// Widget mode flag.
     var InWidgetMode: Bool = false
+    {
+        didSet
+        {
+            if !InWidgetMode
+            {
+                self.allowsCameraControl = false
+                self.showsStatistics = false
+                MainDelegate?.HideStatusBar()
+                MainDelegate?.HideDebugGrid()
+                SunVisibility(IsShowing: false)
+                RemoveMousePointer()
+            }
+            else
+            {
+                self.allowsCameraControl = true
+                #if DEBUG
+                self.showsStatistics = true
+                MainDelegate?.ShowDebugGrid()
+                #endif
+                if Settings.GetBool(.ShowStatusBar)
+                {
+                    MainDelegate?.ShowStatusBar()
+                }
+                SunVisibility(IsShowing: true)
+            }
+        }
+    }
     
     /// Handle new time from the world clock.
     /// - Parameter WorldDate: Contains the new date and time.
