@@ -76,7 +76,7 @@ extension MainController: AsynchronousDataProtocol
             Settings.SetDoubleNil(.LastNASAFetchTime, SatelliteMapCreation.timeIntervalSince1970)
             //        Main3DView.SetEarthMap()
             Main3DView.ChangeEarthBaseMap(To: Image)
-            Main3DView.ApplyAllStencils()
+            Main3DView.ApplyAllStencils(Caller: "EarthMapReceived")
             Main3DView.PlotRegions(#function)
         }
         Debug.Print("NASA map finished.")
