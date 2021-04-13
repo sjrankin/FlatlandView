@@ -110,8 +110,7 @@ extension GlobeView
                             if self?.PreviousCameraDistance != Int(Distance)
                             {
                                 self?.PreviousCameraDistance = Int(Distance)
-                                self?.UpdateFlatnessForCamera(Distance: Distance)
-                                self?.UpdateCityFlatnessForCamera(Distance: Distance)
+                                self?.HandleCameraLocationChanged(NewDistance: Distance)
                             }
                         }
                     }
