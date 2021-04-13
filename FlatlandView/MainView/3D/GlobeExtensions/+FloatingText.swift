@@ -29,6 +29,70 @@ extension GlobeView
     ///   - Night: Time attributes for night time.
     ///   - LightMask: Mask value for lighting.
     ///   - Name: Name of the node.
+    /// - Returns: Array of nodes, one for each letter plotted.. Nil returned on error or if no text specified.
+    func GetFloatingTextNodes(_ Message: String, Radius: Double, Latitude: Double,
+                          Longitude: Double, Extrusion: Double, Font: NSFont, Day: TimeAttributes,
+                          Night: TimeAttributes, LightMask: Int, Name: String) -> [SCNNode2]?
+    {
+        if Message.isEmpty
+        {
+            return nil
+        }
+        let SpacingMap: [(High: Double, Low: Double, Spacing: Double)] =
+            [
+                (90.0, 80.0, 65.0),
+                (79.99, 70.0, 58.0),
+                (69.99, 60.0, 49.0),
+                (59.99, 50.0, 40.0),
+                (49.99, 40.0, 36.0),
+                (39.99, 30.0, 33.0),
+                (29.99, 20.0, 29.0),
+                (19.99, 10.0, 25.0),
+                (9.99, 00.0, 22.0),
+            ]
+        var Spacing: Double = 30.0
+        let AbsLat = abs(Latitude)
+        for (High, Low, Space) in SpacingMap
+        {
+            if AbsLat >= Low && AbsLat <= High
+            {
+                Spacing = Space
+                break
+            }
+        }
+        
+        let TextNodes = Utility.MakeFloatingWord3(Radius: Radius,
+                                                  Word: Message,
+                                                  SpacingConstant: Spacing,
+                                                  Latitude: Latitude,
+                                                  Longitude: Longitude,
+                                                  LatitudeOffset: -2.7,
+                                                  LongitudeOffset: 1.8,
+                                                  Mask: LightMask,
+                                                  TextFont: Font,
+                                                  DayAttributes: Day,
+                                                  NightAttributes: Night,
+                                                  Chamfer: 0.0)
+        TextNodes.forEach({$0.name = Name})
+        TextNodes.forEach({$0.castsShadow = false})
+        return TextNodes
+    }
+    
+    /// Plot floating text that curves along the surface of the Earth according to its location.
+    /// - Note: If `Message` is empty, control returns immediately and nothing is displayed and `Closure` is
+    ///         called.
+    /// - Parameters:
+    ///   - Message: The text of the message to display.
+    ///   - Radius: The radial value use to determine how far away from the center the text is drawn.
+    ///   - Latitude: The latitude of the text - determines how far up or down the text will be displayed
+    ///               on the globe. Passing a value `0.0` shows the text on the equator.
+    ///   - Longitude: The starting longitude of the text.
+    ///   - Extrusion: Text extrustion depth.
+    ///   - Font: Font to use for the text.
+    ///   - Day: Time attributes for day time.
+    ///   - Night: Time attributes for night time.
+    ///   - LightMask: Mask value for lighting.
+    ///   - Name: Name of the node.
     /// - Returns: Node with all characters rotated correctly. Nil returned on error or if no text specified.
     func PlotFloatingText(_ Message: String, Radius: Double, Latitude: Double,
                           Longitude: Double, Extrusion: Double, Font: NSFont, Day: TimeAttributes,
