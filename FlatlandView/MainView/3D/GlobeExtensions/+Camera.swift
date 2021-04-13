@@ -48,8 +48,7 @@ extension GlobeView
         self.pointOfView?.runAction(RotationAction)
         {
             self.pointOfView?.constraints = []
-            self.UpdateFlatnessForCamera(Distance: CGFloat(Defaults.InitialZ.rawValue))
-            self.UpdateCityFlatnessForCamera(Distance: CGFloat(Defaults.InitialZ.rawValue))
+            self.HandleCameraLocationChanged(NewDistance: CGFloat(Defaults.InitialZ.rawValue))
         }
     }
     
