@@ -137,6 +137,20 @@ enum Defaults: Double, CaseIterable
     case MagnitudeBaseFontSize = 7.0
     /// Multiplier for 3D earthquake magnitude font sizes to have larger earthquakes use larger font sizes.
     case MagnitudeFontSizeMultiplier = 10.000000001
+    /// Object scale low for scaling objects when the camera zooms in.
+    case CityNameScaleLow = 0.003
+    /// Object scale high for scaling objects when the camera zooms out.
+    case CityNameScaleHigh = 0.07
+    case CityScaleLow = 0.100000000005
+    case CityScaleHigh = 1.000000100001
+    case EarthquakeScaleLow = 0.10000000005005
+    case EarthquakeScaleHigh = 1.00000010010001
+    case MagScaleLow = 0.005
+    case MagScaleHigh = 0.06584110
+    case NodeScaleLow = 0.100000222001
+    case NodeScaleHigh = 1.0000050010001
+    case HourScaleLow = 0.3505
+    case HourScaleHigh = 1.0043
 }
 
 // MARK: - Constants used in flat mode.
