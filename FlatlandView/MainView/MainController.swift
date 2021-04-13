@@ -533,7 +533,7 @@ class MainController: NSViewController
     @IBAction func TestSomething(_ sender: Any)
     {
         #if DEBUG
-        //Main3DView.CameraAttract()
+        Main3DView.CameraAttract()
 
         SoundManager.Play(ForEvent: .Debug)
         Main3DView.FlashAllHours(Count: 4)
