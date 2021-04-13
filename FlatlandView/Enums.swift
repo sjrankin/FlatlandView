@@ -635,6 +635,8 @@ enum GlobeNodeNames: String, CaseIterable
     case CityNameNode = "CityNameNode"
     /// Node for earthquake magnitude nodes.
     case MagnitudeNode = "MagnitudeNode"
+    /// Nodes that represent points of interest.
+    case POI = "POI"
 }
 
 /// 2D view node names.
