@@ -296,7 +296,39 @@ extension GlobeView
                 }
                 
                 Surface.addChildNode(QNode)
-                
+                #if true
+                let Day = TimeAttributes(ForDay: true, Diffuse: BaseColor, Emission: nil)
+                let Night = TimeAttributes(ForDay: false, Diffuse: BaseColor, Emission: BaseColor)
+                let MagString = "M\(Quake.Magnitude.RoundedTo(2))"
+                let FontSize = Defaults.MagnitudeFontSizeMultiplier.rawValue *
+                    (Quake.Magnitude / PhysicalConstants.GreatestEarthquake.rawValue) +
+                    Defaults.MagnitudeBaseFontSize.rawValue
+                let QuakeFont = NSFont(name: "Avenir-Black", size: CGFloat(FontSize))!
+                let RadialOffset = GlobeRadius.QuakeMagnitudeBaseRadius.rawValue +
+                    CGFloat((Quake.Magnitude / PhysicalConstants.GreatestEarthquake.rawValue)) *
+                    GlobeRadius.QuakeMagnitudeMultiplier.rawValue
+                let MagText = SCNText(string: MagString, extrusionDepth: CGFloat(Defaults.MagnitudeExtrusion.rawValue))
+                let MagNode = SCNNode2(geometry: MagText)
+                MagNode.Latitude = Quake.Latitude
+                MagNode.Longitude = Quake.Longitude
+                Day.ApplyTo(MagNode)
+                Night.ApplyTo(MagNode)
+                MagNode.SetDaylightState()
+                MagText.font = QuakeFont
+                let (X, Y, Z) = Geometry.ToECEF(Quake.Latitude, Quake.Longitude,
+                                                Radius: Double(GlobeRadius.Primary.rawValue + RadialOffset))
+                MagNode.name = GlobeNodeNames.MagnitudeNode.rawValue
+                Surface.addChildNode(MagNode)
+                MagNode.position = SCNVector3(X, Y, Z)
+                MagNode.scale = SCNVector3(0.05)
+                //https://stackoverflow.com/questions/25266017/rotate-scntext-node-around-center-of-itself-swift-scenekit
+                MagNode.pivot = SCNMatrix4MakeTranslation((MagNode.boundingBox.max.x - MagNode.boundingBox.min.x) / 2.0,
+                                                       (MagNode.boundingBox.max.y - MagNode.boundingBox.min.y) / 1.0,
+                                                       0.0)
+                let XRotation = -Quake.Latitude
+                let YRotation = Quake.Longitude
+                MagNode.eulerAngles = SCNVector3(XRotation.Radians, YRotation.Radians, 0.0)
+                #else
                 let Day = TimeAttributes(ForDay: true, Diffuse: BaseColor, Emission: nil)
                 let Night = TimeAttributes(ForDay: false, Diffuse: BaseColor, Emission: BaseColor)
                 let MagString = "M\(Quake.Magnitude.RoundedTo(2))"
@@ -318,6 +350,7 @@ extension GlobeView
                                             LightMask: LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue,
                                             Name: GlobeNodeNames.MagnitudeNode.rawValue)
                 Surface.addChildNode(QMag!)
+                #endif
             }
         }
     }
@@ -392,15 +425,64 @@ extension GlobeView
         let PoleGeometry = SCNCylinder(radius: 0.05, height: CGFloat(Quake.Magnitude))
         Pole.geometry = PoleGeometry
         Pole.geometry?.firstMaterial?.diffuse.contents = NSColor.white
+        Pole.position = SCNVector3(0.0, CGFloat(-Quake.Magnitude * 0.3), 0.0)
+        Pole.Latitude = Quake.Latitude
+        Pole.Longitude = Quake.Longitude
+        let Day = TimeAttributes(ForDay: true, Diffuse: NSColor.red)
+        let Night = TimeAttributes(ForDay: false, Diffuse: NSColor.systemPink, Emission: NSColor.Sunglow)
+        Day.ApplyTo(Pole)
+        Night.ApplyTo(Pole)
+        Pole.SetDaylightState()
         
+        for YLocation in stride(from: Int(Quake.Magnitude), to: 0, by: -1)
+        {
+            let Ring = SCNNode2(geometry: SCNTorus(ringRadius: CGFloat(YLocation) * 0.2, pipeRadius: 0.03))
+            Ring.geometry?.firstMaterial?.diffuse.contents = NSColor.systemGreen
+            Ring.Latitude = Quake.Latitude
+            Ring.Longitude = Quake.Longitude
+            let Day = TimeAttributes(ForDay: true, Diffuse: NSColor.systemOrange)
+            let Night = TimeAttributes(ForDay: false, Diffuse: NSColor.systemOrange, Emission: NSColor.orange)
+            Day.ApplyTo(Ring)
+            Night.ApplyTo(Ring)
+            Ring.SetDaylightState()
+            var FinalY = Double(YLocation)
+            FinalY = FinalY - Double(Quake.Magnitude / 2.0)
+            Ring.position = SCNVector3(0.0, CGFloat(-FinalY), 0.0)
+            Pole.addChildNode(Ring)
+        }
+        
+        let TDay = TimeAttributes(ForDay: true, Diffuse: NSColor.yellow, Specular: NSColor.white, Emission: NSColor.systemYellow)
+        let TNight = TimeAttributes(ForDay: false, Diffuse: NSColor.black, Emission: NSColor.white)
+        let MagText = "M\(Quake.Magnitude.RoundedTo(2))"
+        let QText = SCNText(string: MagText, extrusionDepth: 2.0)
+        let QMag = SCNNode2(geometry: QText)
+        QText.font = NSFont(name: "Avenir-Black", size: 20.0)!
+//        QText.font = NSFont.boldSystemFont(ofSize: 24.0)
+        QMag.scale = SCNVector3(0.05)
+        //https://stackoverflow.com/questions/25266017/rotate-scntext-node-around-center-of-itself-swift-scenekit
+        QMag.pivot = SCNMatrix4MakeTranslation((QMag.boundingBox.max.x - QMag.boundingBox.min.x) / 2.0,
+                                               (QMag.boundingBox.max.y - QMag.boundingBox.min.y) / 1.0,
+                                               0.0)
+        let YTextPos = Quake.Magnitude * 0.85
+        QMag.position = SCNVector3(0.0, CGFloat(-YTextPos), 0.0)
+        QMag.eulerAngles = SCNVector3(90.0.Radians, 180.0.Radians, 0.0.Radians)
+        QMag.Latitude = Quake.Latitude
+        QMag.Longitude = Quake.Longitude
+        TDay.ApplyTo(QMag)
+        TNight.ApplyTo(QMag)
+        QMag.SetDaylightState()
+
         FinalNode = SCNNode2()
         FinalNode.NodeClass = UUID(uuidString: NodeClasses.Earthquake.rawValue)
         FinalNode.NodeID = Quake.QuakeID
         FinalNode.NodeUsage = .Earthquake
         YRotation = Quake.Latitude + 90.0
         XRotation = Quake.Longitude + 180.0
+
         FinalNode.eulerAngles = SCNVector3(XRotation.Radians, YRotation.Radians, 0.0)
         FinalNode.addChildNode(Pole)
+        FinalNode.addChildNode(QMag)
+
         #else
         switch Settings.GetEnum(ForKey: .EarthquakeShapes, EnumType: EarthquakeShapes.self, Default: .Sphere)
         {
