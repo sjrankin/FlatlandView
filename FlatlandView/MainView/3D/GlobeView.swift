@@ -651,7 +651,7 @@ import SceneKit
     
     var RotationAccumulator: CGFloat = 0.0
     /// Holds most nodes.
-    var SystemNode: SCNNode? = nil
+    var SystemNode: SCNNode2? = nil
     /// Holds nodes used to draw 3D lines.
     var LineNode: SCNNode? = nil
     /// Holds the main Earth node.
