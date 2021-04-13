@@ -28,9 +28,10 @@ extension GlobeView
     ///                     over it.
     /// - Parameter NodeClass: The node class of the city.
     func PlotLocationAsCone(_ Plot: City2, Latitude: Double, Longitude: Double, Radius: Double, ToSurface: SCNNode2,
-                            WithColor: NSColor = NSColor.magenta, NodeID: UUID, NodeClass: UUID)
+                            WithColor: NSColor = NSColor.magenta, NodeID: UUID, NodeClass: UUID,
+                            Name: String)
     {
-        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius + 0.1)
+        let (X, Y, Z) = Geometry.ToECEF(Latitude, Longitude, Radius: Radius + 0.05)
         let Cone = SCNCone(topRadius: 0.15, bottomRadius: 0.0, height: 0.45)
         let ConeNode = SCNNode2(geometry: Cone)
         ConeNode.geometry?.firstMaterial?.diffuse.contents = WithColor
@@ -49,6 +50,7 @@ extension GlobeView
         ConeNode.scale = SCNVector3(GetScaleMultiplier())
         ConeNode.NodeID = Plot.CityID
         ConeNode.NodeClass = UUID(uuidString: NodeClasses.UserPOI.rawValue)!
+        ConeNode.name = Name
         ToSurface.addChildNode(ConeNode)
         PlottedCities.append(ConeNode)
     }
@@ -775,7 +777,8 @@ extension GlobeView
                                    ToSurface: Surface,
                                    WithColor: SomePOI.Color,
                                    NodeID: SomePOI.ID,
-                                   NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
+                                   NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!,
+                                   Name: GlobeNodeNames.POI.rawValue)
             }
         }
         if Settings.GetBool(.ShowBuiltInPOIs)
@@ -794,7 +797,8 @@ extension GlobeView
                                    ToSurface: Surface,
                                    WithColor: BuiltInPOI.Color,
                                    NodeID: BuiltInPOI.ID,
-                                   NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!)
+                                   NodeClass: UUID(uuidString: NodeClasses.UserPOI.rawValue)!,
+                                   Name: GlobeNodeNames.POI.rawValue)
             }
         }
         
@@ -823,17 +827,23 @@ extension GlobeView
             let Day = TimeAttributes(ForDay: true, Diffuse: CityColor, Emission: nil)
             let Night = TimeAttributes(ForDay: false, Diffuse: NightColor, Emission: NightColor)
             let CityFont = NSFont(name: "Avenir-Heavy", size: CGFloat(Defaults.CityNameFontSize.rawValue))!
-            let CityNameNode = PlotFloatingText(City.Name,
-                                         Radius: Double(GlobeRadius.CityNameRadius.rawValue),
-                                         Latitude: City.Latitude,
-                                         Longitude: City.Longitude,
-                                         Extrusion: Defaults.CityNameExtrusion.rawValue,
-                                         Font: CityFont,
-                                         Day: Day,
-                                         Night: Night,
-                                         LightMask: LightMasks3D.Sun.rawValue | LightMasks3D.Moon.rawValue,
-                                         Name: GlobeNodeNames.CityNameNode.rawValue)
-            Surface.addChildNode(CityNameNode!)
+            let CityText = SCNText(string: City.Name, extrusionDepth: CGFloat(Defaults.CityNameExtrusion.rawValue))
+            CityText.font = CityFont
+            let CityNameNode = SCNNode2(geometry: CityText)
+            CityNameNode.name = GlobeNodeNames.CityNameNode.rawValue
+            CityNameNode.Latitude = City.Latitude
+            CityNameNode.Longitude = City.Longitude
+            Day.ApplyTo(CityNameNode)
+            Night.ApplyTo(CityNameNode)
+            CityNameNode.SetDaylightState()
+            let (X, Y, Z) = Geometry.ToECEF(City.Latitude, City.Longitude, Radius: Double(GlobeRadius.CityNameRadius.rawValue))
+            CityNameNode.scale = SCNVector3(0.07)
+            CityNameNode.pivot = SCNMatrix4MakeTranslation((CityNameNode.boundingBox.max.x - CityNameNode.boundingBox.min.x) / 2.0,
+                                                           (CityNameNode.boundingBox.max.y - CityNameNode.boundingBox.min.y) / 2.0,
+                                                           0.0)
+            CityNameNode.position = SCNVector3(X, Y, Z)
+            CityNameNode.eulerAngles = SCNVector3(-City.Latitude.Radians, City.Longitude.Radians, 0.0)
+            Surface.addChildNode(CityNameNode)
             
             CityColor = CityManager.ColorForCity(City)
             switch Settings.GetEnum(ForKey: .CityShapes, EnumType: CityDisplayTypes.self, Default: .UniformEmbedded)
