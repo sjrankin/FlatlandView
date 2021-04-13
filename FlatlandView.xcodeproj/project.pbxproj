@@ -27,6 +27,7 @@
 		170E7BF12559284300EA3AD3 /* FloatingViews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */; };
 		170E7BF52559290900EA3AD3 /* MouseInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BF42559290900EA3AD3 /* MouseInfoController.swift */; };
 		170E7BF82559293C00EA3AD3 /* MouseInfoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */; };
+		170EFC1E262520D2001227D0 /* +Zoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170EFC1D262520D2001227D0 /* +Zoom.swift */; };
 		1714DDB42538342A001A3002 /* LowLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB32538342A001A3002 /* LowLevel.swift */; };
 		1714DDB82539654A001A3002 /* UInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB72539654A001A3002 /* UInt64.swift */; };
 		1714DDBB253965F8001A3002 /* Int64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDBA253965F8001A3002 /* Int64.swift */; };
@@ -496,6 +497,7 @@
 		170E7BF02559284300EA3AD3 /* FloatingViews.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FloatingViews.storyboard; sourceTree = "<group>"; };
 		170E7BF42559290900EA3AD3 /* MouseInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseInfoController.swift; sourceTree = "<group>"; };
 		170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseInfoProtocol.swift; sourceTree = "<group>"; };
+		170EFC1D262520D2001227D0 /* +Zoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Zoom.swift"; sourceTree = "<group>"; };
 		1714DDB32538342A001A3002 /* LowLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowLevel.swift; sourceTree = "<group>"; };
 		1714DDB72539654A001A3002 /* UInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt64.swift; sourceTree = "<group>"; };
 		1714DDBA253965F8001A3002 /* Int64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int64.swift; sourceTree = "<group>"; };
@@ -1459,6 +1461,7 @@
 				178A869D2489101E00BE8D46 /* StarField.swift */,
 				178E1CA825186E6E00FDC75B /* +Stenciling.swift */,
 				1727EA5724B15CD10051EA3B /* +UserCamera.swift */,
+				170EFC1D262520D2001227D0 /* +Zoom.swift */,
 			);
 			path = GlobeExtensions;
 			sourceTree = "<group>";
@@ -2742,6 +2745,7 @@
 				17EF33A6247A934A00A5B55D /* Julian.swift in Sources */,
 				17C0FD7025316402008F3D05 /* GroundTrack.swift in Sources */,
 				17711EE926038A77004CF1AD /* Barcodes.swift in Sources */,
+				170EFC1E262520D2001227D0 /* +Zoom.swift in Sources */,
 				17E5556D25B54A9400E3CE9E /* UserRegionController.swift in Sources */,
 				17C2F8EE259EE26400BCA628 /* +NodeState.swift in Sources */,
 				17DE2DD125907B3800214204 /* HomeLocationController.swift in Sources */,
