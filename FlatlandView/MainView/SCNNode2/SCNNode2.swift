@@ -3,7 +3,7 @@
 //  Flatland
 //
 //  Created by Stuart Rankin on 9/27/20.
-//  Copyright © 2020 Stuart Rankin. All rights reserved.
+//  Copyright © 2020, 2021 Stuart Rankin. All rights reserved.
 //
 
 import Foundation
