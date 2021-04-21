@@ -20,7 +20,7 @@ class InputValidation
     /// - Hex - determined by leading `#` or `0x` strings.
     /// - Parameter Raw: The raw value to parse.
     /// - Returns: Results code with the value and type on success, error code on failure.
-    public static func ValidNumber(_ Raw: String) ->Result<(Double, NumericValueTypes), ValidationResult>
+    public static func ValidNumber(_ Raw: String) -> Result<(Double, NumericValueTypes), ValidationResult>
     {
         var Working = Raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         if Working.isEmpty
