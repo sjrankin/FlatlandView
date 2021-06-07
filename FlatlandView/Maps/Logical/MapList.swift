@@ -107,6 +107,8 @@ class MapList
             MapItem(.ColorfulTimeZones, false, "TimeZoneMap3", "TimeZoneMap3NorthCenter", "TimeZoneMap3SouthCenter"),
             MapItem(.SimplePoliticalMap1, false, "SimplePoliticalWorldMap", "SimplePoliticalWorldMapNorthCenter", "SimplePoliticalWorldMapSouthCenter",
                     LightMultiplier: 0.5),
+            MapItem(.SimplePoliticalMap1Big, false, "SimplePoliticalMap1_7200x3600", "SimplePoliticalWorldMapNorthCenter", "SimplePoliticalWorldMapSouthCenter",
+                    LightMultiplier: 0.5),
             MapItem(.TransparentOcean, false, "TransparentOceanMap", "SimplePoliticalWorldMapNorthCenter", "SimplePoliticalWorldMapSouthCenter"),
             MapItem(.MODIS, false, "MODIS", "MODISNorthCenter", "MODISSouthCenter"),
             MapItem(.TimeZone4, false, "TimeZone4", "TimeZone4NorthCenter", "TimeZone4SouthCenter"),
@@ -204,6 +206,7 @@ enum MapTypes: String, CaseIterable
     case HatchedTimeZones = "Hatched Time Zone Map"
     case PaperTimeZones = "Paper Time Zone Map"
     case SimplePoliticalMap1 = "Simple Political Map 1"
+    case SimplePoliticalMap1Big = "Simple Political Map 1 Big"
     case TransparentOcean = "Transparent Ocean"
     case MODIS = "MODIS"
     case TimeZone4 = "Time Zone Map 4"
