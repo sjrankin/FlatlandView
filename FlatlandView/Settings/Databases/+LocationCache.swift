@@ -108,7 +108,7 @@ extension DBIF
             Cached.Localized = Local
             Results.append(Cached)
         }
-        print("Found \(Results.count) cached locations")
+        Debug.Print("Found \(Results.count) cached locations")
         return Results
     }
     
