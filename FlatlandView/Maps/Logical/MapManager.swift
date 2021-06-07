@@ -168,7 +168,7 @@ class MapManager
                         .SurrealTimeZone, .TimeZoneOverlay]
             
             case .Political:
-                return [.SimplePoliticalMap1, .TransparentOcean, .CitiesAtNight]
+                return [.SimplePoliticalMap1, .SimplePoliticalMap1Big, .TransparentOcean, .CitiesAtNight]
             
             case .Astronomical:
                 return [.MarsViking, .MarsMariner9, .MOLAVerticalRoughness, .LROMap, .LunarGeoMap,
