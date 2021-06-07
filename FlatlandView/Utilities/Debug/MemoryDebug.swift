@@ -229,7 +229,7 @@ class MemoryDebug
         Close(Name, DebugPrint: DoPrint)
         return Locations[Name]
         #else
-        Closure?()
+        Closure?(Name)
         return nil
         #endif
     }
