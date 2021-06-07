@@ -34,8 +34,10 @@ class EarthData
     /// - Parameter Completed: Called when the process is completed.
     func LoadMap(_ Map: SatelliteMap, For ImageDate: Date, Completed: MapLoadedHandler = nil)
     {
+        Debug.Print("Loading satellite map \(Map.SatelliteMapType.rawValue)")
         if !Settings.GetBool(.EnableNASATiles)
         {
+            Debug.Print("LoadMap called but EnableNASATiles is false.")
             Completed?(NSImage(), 0.0, ImageDate, false, nil)
             return
         }
