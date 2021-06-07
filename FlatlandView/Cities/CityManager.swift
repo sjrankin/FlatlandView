@@ -600,7 +600,7 @@ class CityManager
                             }
                         }
                     }
-                    print("Found \(TopCities.count) cities")
+                    Debug.Print("Found \(TopCities.count) cities")
                     return TopCities
             }
         }
