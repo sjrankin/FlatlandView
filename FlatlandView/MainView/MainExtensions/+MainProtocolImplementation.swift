@@ -428,18 +428,26 @@ extension MainController: MainProtocol
     /// - Parameter Measurements: Pointer to array of memory measurements.
     func GetMemoryStatistics(Measurements: inout [Int64])
     {
+        #if DEBUG
         objc_sync_enter(MemoryLock)
         defer{objc_sync_exit(MemoryLock)}
         Measurements = MemoryOverTime
+        #else
+        Measurements = [Int64]()
+        #endif
     }
     
     /// Returns memory measurements.
     /// - Returns: Array of memory data.
     func GetMemoryStatistics() -> [Int64]
     {
+        #if DEBUG
         objc_sync_enter(MemoryLock)
         defer{objc_sync_exit(MemoryLock)}
         return MemoryOverTime
+        #else
+        return [Int64]()
+        #endif
     }
     
     /// Show the status bar.
