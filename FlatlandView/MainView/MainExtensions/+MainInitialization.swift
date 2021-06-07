@@ -55,6 +55,7 @@ extension MainController
                 IsFlat = false
                 if let Category = MapManager.CategoryFor(Map: MapValue)
                 {
+                    Debug.Print("Initial map: Category: \(Category.rawValue), EnableNASATiles=\(Settings.GetBool(.EnableNASATiles))")
                     if Category == .Satellite && Settings.GetBool(.EnableNASATiles)
                     {
                         //Start loading the map here.
