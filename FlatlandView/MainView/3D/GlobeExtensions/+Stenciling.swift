@@ -24,7 +24,7 @@ extension GlobeView
     func ApplyAllStencils(Caller: String)
     {
         #if true
-        print("ApplyAllStencils(\(Caller))")
+        Debug.Print("ApplyAllStencils(\(Caller))")
         if let Map = GlobalBaseMap
         {
             let NewMap = Stenciler.AddGridLines(To: Map, Ratio: 1.0)
