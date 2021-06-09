@@ -9,6 +9,7 @@
 import Foundation
 import AppKit
 import Contacts
+import CoreLocation
 
 /// Calculates various time events for a geographical point for a given date.
 class SolarToday
