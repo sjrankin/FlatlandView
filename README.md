@@ -7,6 +7,10 @@ The desktop version has taken on a life of its own and is now more complex and f
 
 Flatland was written by Stuart Rankin with design inspiration and assistance from Kees de Kok.
 
+## Note
+
+When downloading the source code, take care to ensure the compile-time script has the proper paths or the compile will fail.
+
 ## Legal
 
 FlatlandView (also referred to as Flatland) is copyright 2020 by Stuart Rankin.
