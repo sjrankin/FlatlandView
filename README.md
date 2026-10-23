@@ -1,4 +1,8 @@
 # FlatlandView
+Stuart Rankin\
+2019 - 2026
+
+## Summary
 Desktop version of Flatland
 
 To help resolve issues in the mobile version of Flatland, I wrote a desktop version using the mobile version as a template, but mostly from scratch given the subtle differences between mobile and desktop in SceneKit and other SDKs.
