@@ -324,7 +324,6 @@
 		17DDDA69260C2C2C0055C1E4 /* +FlatViewGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDDA68260C2C2C0055C1E4 /* +FlatViewGrid.swift */; };
 		17DDDA6B260C306C0055C1E4 /* +FlatViewStenciling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDDA6A260C306C0055C1E4 /* +FlatViewStenciling.swift */; };
 		17DDDA6D260C8C020055C1E4 /* gts_pips.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 17DDDA6C260C8C020055C1E4 /* gts_pips.mp3 */; };
-		17DDDA6F260C8C0C0055C1E4 /* NHKPips.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 17DDDA6E260C8C0C0055C1E4 /* NHKPips.mp3 */; };
 		17DDEAD3251C3A8500B0ADE7 /* MainRunProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DDEAD2251C3A8500B0ADE7 /* MainRunProtocol.swift */; };
 		17DE2BA32569FB04008077C7 /* MapScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DE2BA22569FB04008077C7 /* MapScene.swift */; };
 		17DE2BA62569FB72008077C7 /* MapSceneProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DE2BA52569FB72008077C7 /* MapSceneProtocol.swift */; };
@@ -817,7 +816,6 @@
 		17DDDA68260C2C2C0055C1E4 /* +FlatViewGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewGrid.swift"; sourceTree = "<group>"; };
 		17DDDA6A260C306C0055C1E4 /* +FlatViewStenciling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+FlatViewStenciling.swift"; sourceTree = "<group>"; };
 		17DDDA6C260C8C020055C1E4 /* gts_pips.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gts_pips.mp3; sourceTree = "<group>"; };
-		17DDDA6E260C8C0C0055C1E4 /* NHKPips.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = NHKPips.mp3; sourceTree = "<group>"; };
 		17DDEAD2251C3A8500B0ADE7 /* MainRunProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRunProtocol.swift; sourceTree = "<group>"; };
 		17DE2BA22569FB04008077C7 /* MapScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScene.swift; sourceTree = "<group>"; };
 		17DE2BA52569FB72008077C7 /* MapSceneProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSceneProtocol.swift; sourceTree = "<group>"; };
@@ -1360,7 +1358,6 @@
 				177003F725FCA05A00B4F02D /* Cymbal.mp3 */,
 				177003FA25FCA05E00B4F02D /* Doorbell.mp3 */,
 				17DDDA6C260C8C020055C1E4 /* gts_pips.mp3 */,
-				17DDDA6E260C8C0C0055C1E4 /* NHKPips.mp3 */,
 				177003FD25FCA06200B4F02D /* Gong.mp3 */,
 				1770040025FCA06600B4F02D /* Fiddle.mp3 */,
 				174DCEBD25D3B949002D4E40 /* EarthquakeHistoryS.db */,
@@ -2432,7 +2429,6 @@
 				172F061625514E4800BEA156 /* Popovers.storyboard in Resources */,
 				170D42A32583137D00FD7AD2 /* PreferenceHelpViewer.storyboard in Resources */,
 				178A86952488C0F800BE8D46 /* About.storyboard in Resources */,
-				17DDDA6F260C8C0C0055C1E4 /* NHKPips.mp3 in Resources */,
 				170E7BF12559284300EA3AD3 /* FloatingViews.storyboard in Resources */,
 				174DBCB825DB89E400E2D4F7 /* CityPopulation.storyboard in Resources */,
 				17FC2213249879BE005A0929 /* EarthquakeData.storyboard in Resources */,

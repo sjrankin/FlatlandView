@@ -285,7 +285,7 @@ class SoundManager
     
     /// Array of sounds in the asset catelog.
     static var AdditionalSounds = [Sounds.Chime, Sounds.Cymbal, Sounds.Doorbell, Sounds.Fiddle,
-                                   Sounds.Gong, Sounds.TimeSignal1, Sounds.TimeSignal2]
+                                   Sounds.Gong, Sounds.TimeSignal1]
     
     /// Map of sounds to non-system sound names.
     static var AdditionalToResource: [Sounds: String] =
@@ -296,7 +296,6 @@ class SoundManager
             Sounds.Fiddle: "Fiddle",
             Sounds.Gong: "Gong",
             Sounds.TimeSignal1: "gts_pips",
-            Sounds.TimeSignal2: "NHKPips",
         ]
 }
 
@@ -336,7 +335,6 @@ enum Sounds: String, CaseIterable
     case Fiddle = "Fiddle"
     case Gong = "Gong"
     case TimeSignal1 = "Time Signal 1"
-    case TimeSignal2 = "Time Signal 2"
 }
 
 /// Events that can have associated sounds.
