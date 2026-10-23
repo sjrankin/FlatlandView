@@ -60,6 +60,17 @@ extension FlatView
                 }
                 
             case .ViewType:
+                //The north-centered and south-centered views use different map images, so switching between
+                //them must change the image too (otherwise the old pole stays in the center).
+                let CurrentView = Settings.GetEnum(ForKey: .ViewType, EnumType: ViewTypes.self, Default: .FlatNorthCenter)
+                if [.FlatNorthCenter, .FlatSouthCenter].contains(CurrentView)
+                {
+                    let MapValue = Settings.GetEnum(ForKey: .MapType, EnumType: MapTypes.self, Default: .Simple)
+                    if let MapImage = MapManager.ImageFor(MapType: MapValue, ViewType: CurrentView)
+                    {
+                        SetEarthMap(MapImage)
+                    }
+                }
                 if Settings.GetBool(.EnableEarthquakes)
                 {
                     PlotSameEarthquakes()

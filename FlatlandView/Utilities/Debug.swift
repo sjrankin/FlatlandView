@@ -1,9 +1,8 @@
 //
 //  Debug.swift
-//  Flatland
+//  Debug
 //
-//  Created by Stuart Rankin on 8/22/20.
-//  Copyright © 2020 Stuart Rankin. All rights reserved.
+//  Created by Stuart Rankin on 7/18/21. Adapted from Flatland View.
 //
 
 import Foundation
@@ -15,11 +14,11 @@ class Debug
     {
         get
         {
-            #if DEBUG
+#if DEBUG
             return true
-            #else
+#else
             return false
-            #endif
+#endif
         }
     }
     
@@ -31,13 +30,13 @@ class Debug
     public static func FatalError(_ Message: String) -> Never
     {
         let Caller = PrettyStackTrace(StackFrameContents(1))
-        #if DEBUG
+#if DEBUG
         let Trace = PrettyStackTrace(StackFrameContents(10))
         print("Fatal error: stack trace: \(Trace)")
         fatalError(Message)
-        #else
+#else
         fatalError("\(Caller): \(Message)")
-        #endif
+#endif
     }
     
     private static var PrintGate = NSObject()
@@ -50,13 +49,13 @@ class Debug
     {
         objc_sync_enter(PrintGate)
         defer{objc_sync_exit(PrintGate)}
-        #if DEBUG
+#if DEBUG
         let Prefix = Utility.MakeTimeString(TheDate: Date())
         print("\(Prefix): \(Message)")
         Log.append((TimeStamp: Prefix, Payload: Message))
-        #else
+#else
         print(Message)
-        #endif
+#endif
     }
     
     /// Holds the log.
@@ -73,11 +72,11 @@ class Debug
     /// - Returns: Array of tuples, the first element being the string value timestamp and the second the text.
     public static func GetLog() -> [(TimeStamp: String, Payload: String)]
     {
-        #if DEBUG
+#if DEBUG
         return Log
-        #else
+#else
         return [(String, String)]()
-        #endif
+#endif
     }
     
     /// Return the specified number of stack frames. The first frame (which is a call to here (`StackFrameContents`)) is not
@@ -131,7 +130,7 @@ class Debug
             FinalOffset = Offset
         }
         
-        let Exceptions = ["AppKit", "CoreFoundation", "HIToolbox", "libdyld.dylib",
+        let Exceptions = ["UIKit", "CoreFoundation", "HIToolbox", "libdyld.dylib",
                           "libdispatch.dylib", "libclang_rt.asan_osx_dynamic.dylib"]
         if Exceptions.contains(String(Parts[1]))
         {

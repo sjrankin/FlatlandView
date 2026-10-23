@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19150" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17505"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19150"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="19150"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -45,7 +45,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </sceneView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PWh-Oh-fdJ">
-                                <rect key="frame" x="14" y="5" width="75" height="31"/>
+                                <rect key="frame" x="13" y="5" width="70" height="32"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GSY-h8-Djb">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -55,7 +55,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Idv-Ko-g5b">
-                                <rect key="frame" x="723" y="5" width="71" height="31"/>
+                                <rect key="frame" x="729" y="5" width="66" height="32"/>
                                 <buttonCell key="cell" type="push" title="More" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hHC-MY-laj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -142,11 +142,11 @@
             <objects>
                 <viewController storyboardIdentifier="AboutDetailsUI" id="DOx-OX-FP0" customClass="AboutDetailsController" customModule="Flatland" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="GoT-gP-lBo">
-                        <rect key="frame" x="0.0" y="0.0" width="546" height="251"/>
+                        <rect key="frame" x="0.0" y="0.0" width="575" height="250"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IG8-uB-KzZ">
-                                <rect key="frame" x="236" y="6" width="75" height="32"/>
+                                <rect key="frame" x="253" y="6" width="70" height="32"/>
                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="IOy-Z2-yZb">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -156,19 +156,19 @@
                                 </connections>
                             </button>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mLb-mW-OvF">
-                                <rect key="frame" x="20" y="51" width="506" height="180"/>
+                                <rect key="frame" x="20" y="50" width="535" height="180"/>
                                 <clipView key="contentView" id="uPG-dx-g2L">
-                                    <rect key="frame" x="1" y="1" width="504" height="178"/>
+                                    <rect key="frame" x="1" y="1" width="533" height="178"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="s1i-zL-avS">
-                                            <rect key="frame" x="0.0" y="0.0" width="504" height="178"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="533" height="178"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="ValueColumn" width="501" minWidth="40" maxWidth="1000" id="Fzf-qd-dxS">
+                                                <tableColumn identifier="ValueColumn" width="463" minWidth="40" maxWidth="1000" id="Fzf-qd-dxS">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -181,11 +181,11 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="u57-q0-vK2">
-                                                            <rect key="frame" x="1" y="1" width="501" height="17"/>
+                                                            <rect key="frame" x="1" y="1" width="472" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="JQu-iW-WoS">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="501" height="17"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="472" height="17"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="17" id="bJD-8W-tWH"/>
                                                                     </constraints>
@@ -244,7 +244,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="CameraButtonUnpressed" width="24" height="24"/>
-        <image name="CubeIcon" width="24" height="24"/>
+        <image name="CameraButtonUnpressed" width="32" height="32"/>
+        <image name="CubeIcon" width="32" height="32"/>
     </resources>
 </document>

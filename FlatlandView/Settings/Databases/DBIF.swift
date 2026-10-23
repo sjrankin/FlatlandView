@@ -21,7 +21,9 @@ class DBIF
             _LocationCacheInstalled = true
             if let CacheURL = FileIO.GetReverseGeocodingCacheURL()
             {
-                if sqlite3_open_v2(CacheURL.path, &CachedLocationHandle,
+                var fred: OpaquePointer? = nil
+                print("CachedURL=\(CacheURL)")
+                if sqlite3_open_v2(CacheURL.path, /*&CachedLocationHandle*/&fred,
                                    SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE, nil) != SQLITE_OK
                 {
                     Debug.FatalError("Error opening \(CacheURL.path), \(String(cString: sqlite3_errmsg(CachedLocationHandle!)))")

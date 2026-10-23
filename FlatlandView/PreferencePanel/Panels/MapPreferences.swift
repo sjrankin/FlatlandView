@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UniformTypeIdentifiers
 import AppKit
 
 class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSource,
@@ -212,7 +213,8 @@ class MapPreferences: NSViewController, NSTableViewDelegate, NSTableViewDataSour
         let SavePanel = NSSavePanel()
         SavePanel.showsTagField = true
         SavePanel.title = "Save Satellite Map Image"
-        SavePanel.allowedFileTypes = ["png"]
+        SavePanel.allowedContentTypes = [UTType.png]
+//        SavePanel.allowedFileTypes = ["png"]
         SavePanel.canCreateDirectories = true
         let Now = Date()
         let PrettyDate = Now.PrettyDate()

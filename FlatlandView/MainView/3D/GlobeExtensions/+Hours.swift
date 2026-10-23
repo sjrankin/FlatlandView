@@ -88,7 +88,12 @@ extension GlobeView
                 WallClockTimer = nil
                 RemoveHours()
                 HourNode = DrawHourLabels(Radius: Double(GlobeRadius.HourSphere.rawValue))
-                SystemNode?.addChildNode(HourNode!)
+                if HourNode == nil
+                {
+                    Debug.Print("HourNode is nil in .RelativeToLocation")
+                    return
+                }
+                    SystemNode?.addChildNode(HourNode!)
                 
             case .WallClock:
                 RemoveHours()

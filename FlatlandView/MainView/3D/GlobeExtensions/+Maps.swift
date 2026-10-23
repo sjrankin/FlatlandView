@@ -19,7 +19,14 @@ extension GlobeView
     /// - Returns: Tuple with the standard Earth map and, if the map type supports it, the sea map as well.
     func MakeMaps(_ Map: MapTypes) -> (Earth: NSImage, Sea: NSImage?)
     {
-        let BaseMap = MapManager.ImageFor(MapType: Map, ViewType: .Globe3D)
+        guard let BaseMap = MapManager.ImageFor(MapType: Map, ViewType: .Globe3D) else
+        {
+            if let FinalBase = MapManager.ImageFor(MapType: .SimplePoliticalMap1, ViewType: .Globe3D)
+            {
+                return (Earth: FinalBase, Sea: nil)
+            }
+            Debug.FatalError("Error getting fallback .Standard map.")
+        }
         var SecondaryMap: NSImage? = nil
         switch Map
         {
@@ -47,7 +54,7 @@ extension GlobeView
                 return (Earth: LastResortMap, Sea: nil)
             }
         }
-        return (Earth: BaseMap!, Sea: SecondaryMap)
+        return (Earth: BaseMap, Sea: SecondaryMap)
     }
     
     func DoGetNodeCount(From: SCNNode) -> Int

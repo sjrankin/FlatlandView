@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="1O0-m9-x0j">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -591,7 +591,7 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Y2c-Ca-qhF">
                                 <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                                 <subviews>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dUb-FU-hMF" customClass="StatusBar2D" customModule="Flatland" customModuleProvider="target">
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dUb-FU-hMF" customClass="StatusBar2D" customModule="Flatland" customModuleProvider="target">
                                         <rect key="frame" x="98" y="5" width="804" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="kG2-Hs-YyU"/>
@@ -620,7 +620,7 @@
                                                 </columns>
                                                 <gridCells>
                                                     <gridCell row="rd2-2S-9be" column="Ufb-zH-uwb" id="pHg-AM-hMk">
-                                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QkX-vn-KDb">
+                                                        <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QkX-vn-KDb">
                                                             <rect key="frame" x="-2" y="88" width="50" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Version" id="yVg-4n-tE7">
                                                                 <font key="font" usesAppearanceFont="YES"/>
@@ -630,7 +630,7 @@
                                                         </textField>
                                                     </gridCell>
                                                     <gridCell row="rd2-2S-9be" column="uXg-z6-FRB" id="HTy-hQ-XfP">
-                                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dYd-FD-q21">
+                                                        <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dYd-FD-q21">
                                                             <rect key="frame" x="104" y="88" width="37" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Eaf-E6-7Sv">
                                                                 <font key="font" usesAppearanceFont="YES"/>
@@ -640,7 +640,7 @@
                                                         </textField>
                                                     </gridCell>
                                                     <gridCell row="hUu-6V-Wv1" column="Ufb-zH-uwb" id="G2I-Bu-JSg">
-                                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6kC-9D-PAk">
+                                                        <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6kC-9D-PAk">
                                                             <rect key="frame" x="-2" y="66" width="35" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Build" id="bZ8-u3-Y3i">
                                                                 <font key="font" usesAppearanceFont="YES"/>
@@ -650,7 +650,7 @@
                                                         </textField>
                                                     </gridCell>
                                                     <gridCell row="hUu-6V-Wv1" column="uXg-z6-FRB" id="Yig-2Y-1L3">
-                                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y44-LR-5jK">
+                                                        <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y44-LR-5jK">
                                                             <rect key="frame" x="104" y="66" width="37" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="bhu-H5-ka1">
                                                                 <font key="font" usesAppearanceFont="YES"/>
@@ -660,7 +660,7 @@
                                                         </textField>
                                                     </gridCell>
                                                     <gridCell row="nSj-c3-yWL" column="Ufb-zH-uwb" id="8if-QY-QLs">
-                                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xyy-Q5-wOK">
+                                                        <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xyy-Q5-wOK">
                                                             <rect key="frame" x="-2" y="44" width="65" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Build date" id="GKi-qz-bB0">
                                                                 <font key="font" usesAppearanceFont="YES"/>
@@ -670,7 +670,7 @@
                                                         </textField>
                                                     </gridCell>
                                                     <gridCell row="nSj-c3-yWL" column="uXg-z6-FRB" id="zRd-tH-iUx">
-                                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YGQ-2K-P1W">
+                                                        <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YGQ-2K-P1W">
                                                             <rect key="frame" x="104" y="44" width="37" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="9zY-vt-F5u">
                                                                 <font key="font" usesAppearanceFont="YES"/>
@@ -680,7 +680,7 @@
                                                         </textField>
                                                     </gridCell>
                                                     <gridCell row="v5C-OW-VV3" column="Ufb-zH-uwb" id="Z1Q-Ay-dXL">
-                                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EHB-cf-el0">
+                                                        <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EHB-cf-el0">
                                                             <rect key="frame" x="-2" y="22" width="48" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Uptime" id="hB7-Jd-LMG">
                                                                 <font key="font" usesAppearanceFont="YES"/>
@@ -690,7 +690,7 @@
                                                         </textField>
                                                     </gridCell>
                                                     <gridCell row="v5C-OW-VV3" column="uXg-z6-FRB" id="uiG-GB-Qtq">
-                                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nJR-aJ-l3k">
+                                                        <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nJR-aJ-l3k">
                                                             <rect key="frame" x="104" y="22" width="37" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Krk-oU-ZRd">
                                                                 <font key="font" usesAppearanceFont="YES"/>
@@ -700,7 +700,7 @@
                                                         </textField>
                                                     </gridCell>
                                                     <gridCell row="R7N-Rl-jgu" column="Ufb-zH-uwb" id="Ebg-wM-dPj">
-                                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rlV-yu-2EY">
+                                                        <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rlV-yu-2EY">
                                                             <rect key="frame" x="-2" y="0.0" width="89" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Memory Used" id="hB4-bm-a4o">
                                                                 <font key="font" usesAppearanceFont="YES"/>
@@ -710,7 +710,7 @@
                                                         </textField>
                                                     </gridCell>
                                                     <gridCell row="R7N-Rl-jgu" column="uXg-z6-FRB" id="aES-ir-lFC">
-                                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oyg-sR-Tzn">
+                                                        <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oyg-sR-Tzn">
                                                             <rect key="frame" x="104" y="0.0" width="86" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="0000000000" id="peh-65-rbf">
                                                                 <font key="font" usesAppearanceFont="YES"/>
@@ -727,7 +727,7 @@
                                             <constraint firstAttribute="bottom" secondItem="8bV-LF-Aru" secondAttribute="bottom" constant="40" id="6l8-z1-ike"/>
                                         </constraints>
                                     </customView>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iq2-x8-FBV">
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Iq2-x8-FBV">
                                         <rect key="frame" x="393" y="943" width="214" height="47"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="23:45 UTC" id="3pi-ty-vTi">
                                             <font key="font" metaFont="systemBlack" size="40"/>
@@ -735,7 +735,7 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UlV-IY-Q92">
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UlV-IY-Q92">
                                         <rect key="frame" x="393" y="40" width="214" height="47"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="23:45 UTC" id="cuD-KW-T9X">
                                             <font key="font" metaFont="systemBlack" size="40"/>
@@ -915,16 +915,16 @@
         <image name="PinIcon" width="24" height="24"/>
         <image name="RectangleIcon" width="24" height="24"/>
         <image name="SouthCenterIcon" width="24" height="24"/>
-        <image name="ant.circle.fill" catalog="system" width="19" height="19"/>
-        <image name="arrow.triangle.2.circlepath.circle" catalog="system" width="19" height="19"/>
-        <image name="camera" catalog="system" width="23" height="18"/>
-        <image name="info.circle.fill" catalog="system" width="19" height="19"/>
-        <image name="ladybug.fill" catalog="system" width="22" height="22"/>
-        <image name="memorychip" catalog="system" width="21" height="19"/>
-        <image name="sun.max" catalog="system" width="20" height="20"/>
-        <image name="waveform.path" catalog="system" width="24" height="21"/>
-        <image name="wifi" catalog="system" width="21" height="16"/>
-        <image name="wrench.and.screwdriver" catalog="system" width="23" height="22"/>
+        <image name="ant.circle.fill" catalog="system" width="20" height="20"/>
+        <image name="arrow.triangle.2.circlepath.circle" catalog="system" width="20" height="20"/>
+        <image name="camera" catalog="system" width="24" height="19"/>
+        <image name="info.circle.fill" catalog="system" width="20" height="20"/>
+        <image name="ladybug.fill" catalog="system" width="23" height="23"/>
+        <image name="memorychip" catalog="system" width="22" height="17"/>
+        <image name="sun.max" catalog="system" width="21" height="21"/>
+        <image name="waveform.path" catalog="system" width="24" height="22"/>
+        <image name="wifi" catalog="system" width="22" height="17"/>
+        <image name="wrench.and.screwdriver" catalog="system" width="24" height="23"/>
         <namedColor name="ControlBlack">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

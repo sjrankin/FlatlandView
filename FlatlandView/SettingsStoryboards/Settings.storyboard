@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18121" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jNh-qL-54m">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18121"/>
-        <plugIn identifier="com.apple.SceneKitIBPlugin" version="18121"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -61,7 +62,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="OptionColumn" id="ErF-CC-H66">
-                                                            <rect key="frame" x="11" y="1" width="109" height="17"/>
+                                                            <rect key="frame" x="1" y="1" width="109" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="G51-dU-yMj">
@@ -122,11 +123,11 @@
                             <box title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="eFc-uJ-MFN">
                                 <rect key="frame" x="168" y="36" width="835" height="450"/>
                                 <view key="contentView" id="LTE-fg-rcE">
-                                    <rect key="frame" x="3" y="3" width="829" height="430"/>
+                                    <rect key="frame" x="4" y="5" width="827" height="428"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <containerView translatesAutoresizingMaskIntoConstraints="NO" id="yd0-Cr-Qxc" customClass="ContainerController" customModule="Flatland" customModuleProvider="target">
-                                            <rect key="frame" x="14" y="3" width="801" height="425"/>
+                                            <rect key="frame" x="13" y="2" width="801" height="425"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="425" id="FSa-1A-jcy"/>
                                                 <constraint firstAttribute="width" constant="801" id="pig-vS-VdK"/>
@@ -197,7 +198,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="MapTypeColumn" id="Ys9-Cc-gC2">
-                                                            <rect key="frame" x="11" y="1" width="161" height="17"/>
+                                                            <rect key="frame" x="1" y="1" width="161" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="hhv-I9-pPI">
@@ -274,7 +275,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="MapNameColumn" id="71u-Ky-ptB">
-                                                            <rect key="frame" x="11" y="1" width="207" height="42"/>
+                                                            <rect key="frame" x="1" y="1" width="207" height="42"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="O9H-zF-qcr">
@@ -389,8 +390,8 @@
                                         </button>
                                     </gridCell>
                                     <gridCell row="25d-yX-VTO" column="lQh-Gq-Pcb" id="wSc-fA-Kc3">
-                                        <segmentedControl key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nR2-lJ-icJ">
-                                            <rect key="frame" x="80" y="-1" width="207" height="24"/>
+                                        <segmentedControl key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nR2-lJ-icJ">
+                                            <rect key="frame" x="90" y="-1" width="207" height="24"/>
                                             <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="stt-ut-57F">
                                                 <font key="font" metaFont="system"/>
                                                 <segments>
@@ -530,11 +531,11 @@
                             <box title="2D Grid Lines" translatesAutoresizingMaskIntoConstraints="NO" id="oKR-Sk-srK">
                                 <rect key="frame" x="606" y="167" width="177" height="240"/>
                                 <view key="contentView" id="Zrx-2e-7PZ">
-                                    <rect key="frame" x="3" y="3" width="171" height="222"/>
+                                    <rect key="frame" x="4" y="5" width="169" height="220"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <gridView fixedFrame="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="sVj-OZ-zAG">
-                                            <rect key="frame" x="14" y="82" width="142" height="134"/>
+                                            <rect key="frame" x="14" y="80" width="142" height="134"/>
                                             <rows>
                                                 <gridRow id="JHf-sP-GQz"/>
                                                 <gridRow id="QIX-We-dsd"/>
@@ -664,7 +665,7 @@
                                     </gridCell>
                                     <gridCell row="zlh-LC-d36" column="idM-7d-eKs" id="3NP-Vi-rPu">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Yym-qy-xQu">
-                                            <rect key="frame" x="126" y="-4" width="163" height="25"/>
+                                            <rect key="frame" x="125" y="-2" width="164" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="160" id="HAg-KG-K6J"/>
                                                 <constraint firstAttribute="height" constant="19" id="QRT-Vl-5tq"/>
@@ -722,7 +723,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="9H4-HZ-05m">
-                                <rect key="frame" x="20" y="333" width="250" height="67"/>
+                                <rect key="frame" x="20" y="332" width="250" height="68"/>
                                 <rows>
                                     <gridRow yPlacement="center" bottomPadding="20" id="0uu-8T-mBa"/>
                                     <gridRow id="sJB-9U-Z9m"/>
@@ -744,7 +745,7 @@
                                     </gridCell>
                                     <gridCell row="0uu-8T-mBa" column="aUf-Fd-h8n" id="Ycf-hO-EvK">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oAB-fw-vGQ">
-                                            <rect key="frame" x="86" y="44" width="167" height="25"/>
+                                            <rect key="frame" x="85" y="46" width="168" height="23"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="164" id="KKV-y6-ZfO"/>
                                             </constraints>
@@ -1307,7 +1308,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" columnSpacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Jfz-oU-fi4">
-                                <rect key="frame" x="11" y="98" width="217" height="75"/>
+                                <rect key="frame" x="11" y="98" width="387" height="75"/>
                                 <rows>
                                     <gridRow id="esx-Ad-Trf"/>
                                     <gridRow id="Y3U-n2-ww5"/>
@@ -1330,7 +1331,7 @@
                                     </gridCell>
                                     <gridCell row="esx-Ad-Trf" column="jiQ-Ek-2tp" id="Bs6-Oj-KWR">
                                         <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OHa-Lv-LFj">
-                                            <rect key="frame" x="77" y="54" width="120" height="21"/>
+                                            <rect key="frame" x="247" y="54" width="120" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="J0H-cy-Xs0"/>
                                                 <constraint firstAttribute="width" constant="120" id="Vol-pM-ojh"/>
@@ -1354,7 +1355,7 @@
                                     </gridCell>
                                     <gridCell row="Y3U-n2-ww5" column="jiQ-Ek-2tp" id="vlm-Uh-smj">
                                         <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DwF-l6-4mL">
-                                            <rect key="frame" x="77" y="27" width="120" height="21"/>
+                                            <rect key="frame" x="247" y="27" width="120" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="JSU-ns-369"/>
                                                 <constraint firstAttribute="width" constant="120" id="epU-vL-aNY"/>
@@ -1378,7 +1379,7 @@
                                     </gridCell>
                                     <gridCell row="szw-4o-UE9" column="jiQ-Ek-2tp" id="e9j-qb-Nks">
                                         <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NZI-u2-XTT">
-                                            <rect key="frame" x="77" y="0.0" width="120" height="21"/>
+                                            <rect key="frame" x="247" y="0.0" width="120" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="LSy-1z-1Bc"/>
                                                 <constraint firstAttribute="width" constant="120" id="dja-Bm-mI2"/>
@@ -1393,7 +1394,7 @@
                                 </gridCells>
                             </gridView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="JcA-1V-tHE">
-                                <rect key="frame" x="266" y="181" width="63" height="16"/>
+                                <rect key="frame" x="436" y="181" width="63" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="City color" id="aRR-b1-5pb">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1448,7 +1449,7 @@ DQ
                                 </connections>
                             </button>
                             <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="4vh-6H-z1f">
-                                <rect key="frame" x="268" y="125" width="208" height="49"/>
+                                <rect key="frame" x="435" y="123" width="44" height="53"/>
                                 <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="HandlePOIColorWellChanged:" target="9Za-9R-7Au" id="vSx-tf-Uzc"/>
@@ -1605,7 +1606,7 @@ DQ
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="oUI-4e-S0z">
-                                <rect key="frame" x="20" y="283" width="254" height="117"/>
+                                <rect key="frame" x="20" y="282" width="254" height="118"/>
                                 <rows>
                                     <gridRow yPlacement="center" bottomPadding="20" id="XFa-LN-kza"/>
                                     <gridRow id="1xO-jg-hdu"/>
@@ -1619,7 +1620,7 @@ DQ
                                 <gridCells>
                                     <gridCell row="XFa-LN-kza" column="5bV-At-ox8" id="h84-hx-c0y">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DHs-yR-iWL">
-                                            <rect key="frame" x="-2" y="98" width="174" height="16"/>
+                                            <rect key="frame" x="-2" y="99" width="174" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show your points of interest" id="TBb-wa-ggg">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1629,7 +1630,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="XFa-LN-kza" column="8iW-lZ-IPe" id="fCQ-z2-3Ov">
                                         <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" translatesAutoresizingMaskIntoConstraints="NO" id="e76-SU-9Nb">
-                                            <rect key="frame" x="214" y="93" width="42" height="25"/>
+                                            <rect key="frame" x="214" y="94" width="42" height="25"/>
                                             <connections>
                                                 <action selector="HandleShowUserLocationsSwitchChanged:" target="1zw-nc-gTw" id="efM-vG-yEV"/>
                                             </connections>
@@ -1637,7 +1638,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="1xO-jg-hdu" column="5bV-At-ox8" id="iXJ-LM-8Xh">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ccK-jC-1vj">
-                                            <rect key="frame" x="-2" y="53" width="201" height="16"/>
+                                            <rect key="frame" x="-2" y="54" width="201" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Home location shape (3D mode)" id="ZPa-qa-JVn">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1648,7 +1649,7 @@ DQ
                                     <gridCell row="1xO-jg-hdu" column="8iW-lZ-IPe" id="CIH-98-SkW"/>
                                     <gridCell row="mVa-8u-sq8" column="5bV-At-ox8" id="1xi-5P-j8y">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="S7r-3o-SdK">
-                                            <rect key="frame" x="0.0" y="24" width="213" height="25"/>
+                                            <rect key="frame" x="-1" y="26" width="214" height="23"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="210" id="fVJ-4b-QBr"/>
                                             </constraints>
@@ -1691,11 +1692,11 @@ DQ
                             <box title="Your home location" translatesAutoresizingMaskIntoConstraints="NO" id="i3t-hv-qSm">
                                 <rect key="frame" x="17" y="16" width="379" height="213"/>
                                 <view key="contentView" id="Y2I-7U-T33">
-                                    <rect key="frame" x="3" y="3" width="373" height="195"/>
+                                    <rect key="frame" x="4" y="5" width="371" height="193"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Dhy-ce-Vm2">
-                                            <rect key="frame" x="9" y="14" width="341" height="173"/>
+                                            <rect key="frame" x="9" y="11" width="341" height="174"/>
                                             <rows>
                                                 <gridRow yPlacement="center" id="AXe-ge-dNN"/>
                                                 <gridRow yPlacement="center" id="r3f-ux-Y2S"/>
@@ -1712,7 +1713,7 @@ DQ
                                             <gridCells>
                                                 <gridCell row="AXe-ge-dNN" column="Ubq-Go-uLC" id="ocq-Zg-rsb">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pCJ-RP-FNf">
-                                                        <rect key="frame" x="-2" y="155" width="54" height="16"/>
+                                                        <rect key="frame" x="-2" y="156" width="54" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Latitude" id="gMf-xA-Haa">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1722,7 +1723,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="AXe-ge-dNN" column="4aU-8G-sXg" id="0Mb-Qy-E0n">
                                                     <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UU4-Tz-UFc">
-                                                        <rect key="frame" x="108" y="152" width="115" height="21"/>
+                                                        <rect key="frame" x="108" y="153" width="115" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="115" id="6Do-dO-Z5n"/>
                                                         </constraints>
@@ -1735,7 +1736,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="AXe-ge-dNN" column="uDr-8f-btF" id="roP-iL-5rf">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Utq-sa-L7N">
-                                                        <rect key="frame" x="227" y="155" width="116" height="16"/>
+                                                        <rect key="frame" x="227" y="156" width="116" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Negative for south" id="Zrd-Lc-Oyn">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1745,7 +1746,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="r3f-ux-Y2S" column="Ubq-Go-uLC" id="281-dE-csX">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Szh-WW-6vA">
-                                                        <rect key="frame" x="-2" y="128" width="65" height="16"/>
+                                                        <rect key="frame" x="-2" y="129" width="65" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Longitude" id="ICS-4X-EeX">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1755,7 +1756,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="r3f-ux-Y2S" column="4aU-8G-sXg" id="zrT-rL-kRv">
                                                     <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cuk-Kn-3fU">
-                                                        <rect key="frame" x="108" y="125" width="115" height="21"/>
+                                                        <rect key="frame" x="108" y="126" width="115" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="115" id="nIg-xE-Cw5"/>
                                                         </constraints>
@@ -1768,7 +1769,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="r3f-ux-Y2S" column="uDr-8f-btF" id="JCs-11-JZ1">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YDZ-3b-y8B">
-                                                        <rect key="frame" x="227" y="128" width="111" height="16"/>
+                                                        <rect key="frame" x="227" y="129" width="111" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Negative for west" id="ojC-6u-8l8">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1788,7 +1789,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="Pjq-2G-C1r" column="4aU-8G-sXg" id="Llc-D5-KbN">
                                                     <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BpO-Wd-TLY">
-                                                        <rect key="frame" x="108" y="96" width="103" height="25"/>
+                                                        <rect key="frame" x="107" y="98" width="104" height="23"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="100" id="rQb-F0-Gdk"/>
                                                         </constraints>
@@ -1839,7 +1840,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="UPF-Pk-jvD" column="4aU-8G-sXg" id="DKC-v6-ag7">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="nII-Yp-ABa">
-                                                        <rect key="frame" x="108" y="36" width="100" height="30"/>
+                                                        <rect key="frame" x="105" y="34" width="106" height="34"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="100" id="dLh-YQ-iTc"/>
                                                             <constraint firstAttribute="height" constant="30" id="ukk-fu-klj"/>
@@ -1888,11 +1889,11 @@ DQ
                             <box title="Your points of interest" translatesAutoresizingMaskIntoConstraints="NO" id="hqF-rD-YJg">
                                 <rect key="frame" x="398" y="16" width="392" height="306"/>
                                 <view key="contentView" id="POa-RF-5Nf">
-                                    <rect key="frame" x="3" y="3" width="386" height="288"/>
+                                    <rect key="frame" x="4" y="5" width="384" height="286"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="eej-TV-4EK">
-                                            <rect key="frame" x="8" y="8" width="370" height="272"/>
+                                            <rect key="frame" x="7" y="8" width="370" height="270"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="orG-oA-IhN" secondAttribute="trailing" constant="13" id="LtM-IN-Lug"/>
                                             </constraints>
@@ -1907,7 +1908,7 @@ DQ
                                             <gridCells>
                                                 <gridCell row="Ctn-F8-cqa" column="lXe-UO-2Ot" id="2ke-Yf-k8V">
                                                     <scrollView key="contentView" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qx7-s4-DgF">
-                                                        <rect key="frame" x="0.0" y="42" width="370" height="230"/>
+                                                        <rect key="frame" x="0.0" y="40" width="370" height="230"/>
                                                         <clipView key="contentView" id="UOO-Qg-WNs">
                                                             <rect key="frame" x="1" y="1" width="368" height="228"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1932,7 +1933,7 @@ DQ
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                             <prototypeCellViews>
                                                                                 <tableCellView id="PrU-hy-f8o">
-                                                                                    <rect key="frame" x="11" y="1" width="131" height="17"/>
+                                                                                    <rect key="frame" x="1" y="1" width="131" height="17"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="rV0-OP-fL4">
@@ -1971,7 +1972,7 @@ DQ
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                             <prototypeCellViews>
                                                                                 <tableCellView id="vMW-NU-Qkc">
-                                                                                    <rect key="frame" x="145" y="1" width="156" height="17"/>
+                                                                                    <rect key="frame" x="135" y="1" width="156" height="17"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="HUa-Ij-kug">
@@ -2010,7 +2011,7 @@ DQ
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                             <prototypeCellViews>
                                                                                 <tableCellView id="Zcg-ct-mZD">
-                                                                                    <rect key="frame" x="304" y="1" width="44" height="17"/>
+                                                                                    <rect key="frame" x="294" y="1" width="44" height="17"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="bBL-ob-sew">
@@ -2066,7 +2067,7 @@ DQ
                                                 <gridCell row="UB8-KM-3m3" column="lXe-UO-2Ot" id="hZV-Mi-Box"/>
                                                 <gridCell row="x3W-gJ-DKA" column="lXe-UO-2Ot" id="bph-BJ-IcU">
                                                     <gridView key="contentView" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="orG-oA-IhN">
-                                                        <rect key="frame" x="0.0" y="0.0" width="357" height="20"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="357" height="18"/>
                                                         <rows>
                                                             <gridRow id="Eh4-uF-B6U"/>
                                                         </rows>
@@ -2080,7 +2081,7 @@ DQ
                                                         <gridCells>
                                                             <gridCell row="Eh4-uF-B6U" column="djc-Na-Mrq" id="ULE-fO-gld">
                                                                 <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BIN-7d-S4o">
-                                                                    <rect key="frame" x="-7" y="-7" width="58" height="32"/>
+                                                                    <rect key="frame" x="-7" y="-7" width="58" height="30"/>
                                                                     <buttonCell key="cell" type="push" title="Edit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="89B-Zb-LQV">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -2091,8 +2092,8 @@ DQ
                                                                 </button>
                                                             </gridCell>
                                                             <gridCell row="Eh4-uF-B6U" column="WrA-lP-cR9" id="xju-jR-seJ">
-                                                                <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Fa-eu-NYn">
-                                                                    <rect key="frame" x="75" y="-7" width="59" height="32"/>
+                                                                <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Fa-eu-NYn">
+                                                                    <rect key="frame" x="75" y="-7" width="59" height="30"/>
                                                                     <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="g4O-4S-SFS">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -2103,8 +2104,8 @@ DQ
                                                                 </button>
                                                             </gridCell>
                                                             <gridCell row="Eh4-uF-B6U" column="0C7-tS-F4e" id="v7L-0n-Jt6">
-                                                                <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zgF-YM-QXf">
-                                                                    <rect key="frame" x="126" y="-7" width="74" height="32"/>
+                                                                <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zgF-YM-QXf">
+                                                                    <rect key="frame" x="126" y="-7" width="74" height="30"/>
                                                                     <buttonCell key="cell" type="push" title="Delete" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xu4-JV-q8K">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -2116,8 +2117,8 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="Eh4-uF-B6U" column="j83-qW-lGl" id="diu-ey-ss2"/>
                                                             <gridCell row="Eh4-uF-B6U" column="6eC-v7-N0i" id="9df-zY-DmZ">
-                                                                <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Clx-2E-qeC">
-                                                                    <rect key="frame" x="298" y="-7" width="66" height="32"/>
+                                                                <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Clx-2E-qeC">
+                                                                    <rect key="frame" x="298" y="-7" width="66" height="30"/>
                                                                     <buttonCell key="cell" type="push" title="Clear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="35B-uv-weC">
                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                         <font key="font" metaFont="system"/>
@@ -2179,7 +2180,7 @@ DQ
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="n1J-uV-E0q">
-                                <rect key="frame" x="20" y="201" width="332" height="199"/>
+                                <rect key="frame" x="20" y="200" width="332" height="200"/>
                                 <rows>
                                     <gridRow yPlacement="center" bottomPadding="15" id="TsM-BP-zWK"/>
                                     <gridRow yPlacement="center" id="PeY-Iq-6Wm"/>
@@ -2196,7 +2197,7 @@ DQ
                                 <gridCells>
                                     <gridCell row="TsM-BP-zWK" column="gJm-Jp-caa" id="UW2-LF-6Er">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZsO-Vo-DbV">
-                                            <rect key="frame" x="-2" y="180" width="73" height="16"/>
+                                            <rect key="frame" x="-2" y="181" width="73" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Show cities" id="f4a-nn-eSz">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2206,7 +2207,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="TsM-BP-zWK" column="njo-0a-p7e" id="bRL-CA-D2M">
                                         <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" state="on" translatesAutoresizingMaskIntoConstraints="NO" id="Ge8-Ew-8io">
-                                            <rect key="frame" x="122" y="175" width="42" height="25"/>
+                                            <rect key="frame" x="122" y="176" width="42" height="25"/>
                                             <connections>
                                                 <action selector="ShowCitiesChanged:" target="0mr-g3-PTP" id="cnE-vL-F6h"/>
                                             </connections>
@@ -2224,7 +2225,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="PeY-Iq-6Wm" column="njo-0a-p7e" id="0NS-Tv-hJt">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T7y-jv-cVL">
-                                            <rect key="frame" x="124" y="133" width="185" height="25"/>
+                                            <rect key="frame" x="123" y="135" width="186" height="23"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="182" id="0Sd-ng-BvM"/>
                                             </constraints>
@@ -2364,11 +2365,11 @@ DQ
                             <box title="City regions" translatesAutoresizingMaskIntoConstraints="NO" id="bBl-AS-Q3K">
                                 <rect key="frame" x="380" y="51" width="403" height="349"/>
                                 <view key="contentView" id="i4P-Ry-eqW">
-                                    <rect key="frame" x="3" y="3" width="397" height="331"/>
+                                    <rect key="frame" x="4" y="5" width="395" height="329"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="zxM-JO-xqP">
-                                            <rect key="frame" x="8" y="39" width="298" height="286"/>
+                                            <rect key="frame" x="8" y="37" width="298" height="286"/>
                                             <rows>
                                                 <gridRow id="CNT-nP-Jvb"/>
                                                 <gridRow id="dVZ-L8-OzZ"/>
@@ -2406,7 +2407,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="CNT-nP-Jvb" column="9Q6-W6-vUg" id="dU5-aM-jst">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="0jV-XD-Ko1">
-                                                        <rect key="frame" x="182" y="259" width="100" height="27"/>
+                                                        <rect key="frame" x="179" y="257" width="106" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="27" id="Ujh-bL-iZ0"/>
                                                             <constraint firstAttribute="width" constant="100" id="aMj-Gp-FJ8"/>
@@ -2437,7 +2438,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="dVZ-L8-OzZ" column="9Q6-W6-vUg" id="m8c-yq-u98">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="tqb-1T-ap9">
-                                                        <rect key="frame" x="182" y="226" width="100" height="27"/>
+                                                        <rect key="frame" x="179" y="224" width="106" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="27" id="8Mx-HD-0Oh"/>
                                                             <constraint firstAttribute="width" constant="100" id="cIb-5a-oGT"/>
@@ -2468,7 +2469,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="Yqm-iF-7Wl" column="9Q6-W6-vUg" id="wpU-93-Urq">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="qwa-Qe-UAy">
-                                                        <rect key="frame" x="182" y="193" width="100" height="27"/>
+                                                        <rect key="frame" x="179" y="191" width="106" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="100" id="s8u-Wu-OZe"/>
                                                             <constraint firstAttribute="height" constant="27" id="x3z-Q1-NqW"/>
@@ -2499,7 +2500,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="qd2-R2-5Dp" column="9Q6-W6-vUg" id="Eui-OK-Z09">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="SNp-Iu-XYQ">
-                                                        <rect key="frame" x="182" y="160" width="100" height="27"/>
+                                                        <rect key="frame" x="179" y="158" width="106" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="27" id="b3J-T5-poH"/>
                                                             <constraint firstAttribute="width" constant="100" id="xOw-xq-Sig"/>
@@ -2512,7 +2513,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="hNh-JB-Ivy" column="d5A-P0-ise" id="1Hp-pf-aTh">
                                                     <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i4F-Cp-Fd3">
-                                                        <rect key="frame" x="-2" y="133" width="136" height="16"/>
+                                                        <rect key="frame" x="-2" y="133" width="135" height="16"/>
                                                         <textFieldCell key="cell" lineBreakMode="clipping" title="North American cities" id="RZ5-lU-Um0">
                                                             <font key="font" usesAppearanceFont="YES"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2530,7 +2531,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="hNh-JB-Ivy" column="9Q6-W6-vUg" id="jGV-gX-qre">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="trg-Vp-Ix9">
-                                                        <rect key="frame" x="182" y="127" width="100" height="27"/>
+                                                        <rect key="frame" x="179" y="125" width="106" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="27" id="KdJ-cn-b8n"/>
                                                             <constraint firstAttribute="width" constant="100" id="dgJ-Pj-RQF"/>
@@ -2561,7 +2562,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="6nE-rk-dxV" column="9Q6-W6-vUg" id="ZnB-iP-tKF">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="ioz-Au-qSY">
-                                                        <rect key="frame" x="182" y="94" width="100" height="27"/>
+                                                        <rect key="frame" x="179" y="92" width="106" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="100" id="JEf-yW-gww"/>
                                                             <constraint firstAttribute="height" constant="27" id="ZLc-ZM-ZLO"/>
@@ -2592,7 +2593,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="YeU-oa-EDa" column="9Q6-W6-vUg" id="yFj-NY-fWn">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="VjL-uc-ULf">
-                                                        <rect key="frame" x="182" y="61" width="100" height="27"/>
+                                                        <rect key="frame" x="179" y="59" width="106" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="27" id="01o-Zu-dOR"/>
                                                             <constraint firstAttribute="width" constant="100" id="MVk-69-sG5"/>
@@ -2620,7 +2621,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="tCt-d4-V0Q" column="9Q6-W6-vUg" id="EGM-wf-RNx">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="ZHI-y6-Z5e">
-                                                        <rect key="frame" x="182" y="28" width="100" height="27"/>
+                                                        <rect key="frame" x="179" y="26" width="106" height="31"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="100" id="1Yz-zM-oRm"/>
                                                             <constraint firstAttribute="height" constant="27" id="zDm-m0-LU3"/>
@@ -2841,11 +2842,11 @@ DQ
                             <box title="Magnitude colors" translatesAutoresizingMaskIntoConstraints="NO" id="YUj-YR-IHN">
                                 <rect key="frame" x="580" y="153" width="210" height="247"/>
                                 <view key="contentView" id="Ffe-h7-wBH">
-                                    <rect key="frame" x="3" y="3" width="204" height="229"/>
+                                    <rect key="frame" x="4" y="5" width="202" height="227"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <gridView fixedFrame="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="wbZ-Vz-JHn">
-                                            <rect key="frame" x="15" y="9" width="174" height="206"/>
+                                            <rect key="frame" x="15" y="7" width="174" height="206"/>
                                             <rows>
                                                 <gridRow yPlacement="center" id="Thx-eM-Ehg"/>
                                                 <gridRow yPlacement="center" id="xOF-4l-qky"/>
@@ -2872,7 +2873,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="Thx-eM-Ehg" column="Qfd-pO-kVo" id="mev-8f-fXm">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="DOk-LF-fKO">
-                                                        <rect key="frame" x="64" y="181" width="110" height="25"/>
+                                                        <rect key="frame" x="61" y="179" width="116" height="29"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="110" id="Hsl-Lr-rbi"/>
                                                             <constraint firstAttribute="height" constant="25" id="fOE-mq-XZR"/>
@@ -2895,7 +2896,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="xOF-4l-qky" column="Qfd-pO-kVo" id="rjE-tU-WDc">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="y5C-fc-D61">
-                                                        <rect key="frame" x="64" y="150" width="110" height="25"/>
+                                                        <rect key="frame" x="61" y="148" width="116" height="29"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="110" id="4oT-kj-i9W"/>
                                                             <constraint firstAttribute="height" constant="25" id="l3Y-JA-Keo"/>
@@ -2918,7 +2919,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="R4f-xA-IPY" column="Qfd-pO-kVo" id="fOt-55-AFM">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="msg-3q-5eU">
-                                                        <rect key="frame" x="64" y="119" width="110" height="25"/>
+                                                        <rect key="frame" x="61" y="117" width="116" height="29"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="25" id="L07-8K-v8x"/>
                                                             <constraint firstAttribute="width" constant="110" id="n9F-VL-aMb"/>
@@ -2941,7 +2942,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="Mtr-Fc-AYv" column="Qfd-pO-kVo" id="Jtu-Rj-bas">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="ufX-0E-GQg">
-                                                        <rect key="frame" x="64" y="88" width="110" height="25"/>
+                                                        <rect key="frame" x="61" y="86" width="116" height="29"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="110" id="5oa-aQ-OCZ"/>
                                                             <constraint firstAttribute="height" constant="25" id="Dgu-xV-Lhk"/>
@@ -2964,7 +2965,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="nXc-qy-LYH" column="Qfd-pO-kVo" id="4Tr-Jd-9Lp">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="xst-g4-f0e">
-                                                        <rect key="frame" x="64" y="57" width="110" height="25"/>
+                                                        <rect key="frame" x="61" y="55" width="116" height="29"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="25" id="X1N-Wp-R3C"/>
                                                             <constraint firstAttribute="width" constant="110" id="tgg-WN-qi3"/>
@@ -2987,7 +2988,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="SsE-MC-r5U" column="Qfd-pO-kVo" id="BrY-Qi-RNg">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Cra-s3-JsV">
-                                                        <rect key="frame" x="64" y="26" width="110" height="25"/>
+                                                        <rect key="frame" x="61" y="24" width="116" height="29"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="25" id="6VS-QU-LkI"/>
                                                             <constraint firstAttribute="width" constant="110" id="jra-GH-vEB"/>
@@ -3027,7 +3028,7 @@ DQ
                                 </connections>
                             </button>
                             <gridView xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="xnu-oj-TOY">
-                                <rect key="frame" x="20" y="63" width="526" height="337"/>
+                                <rect key="frame" x="20" y="60" width="526" height="340"/>
                                 <rows>
                                     <gridRow yPlacement="center" bottomPadding="15" id="WH3-sD-3qQ"/>
                                     <gridRow yPlacement="center" id="nmc-9b-v4U"/>
@@ -3048,7 +3049,7 @@ DQ
                                 <gridCells>
                                     <gridCell row="WH3-sD-3qQ" column="Uwu-uc-0fv" id="1gk-D2-j3y">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pz6-C8-dDS">
-                                            <rect key="frame" x="-2" y="318" width="127" height="16"/>
+                                            <rect key="frame" x="-2" y="321" width="127" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Display earthquakes" id="bUZ-NU-oxn">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3058,7 +3059,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="WH3-sD-3qQ" column="QXg-Mz-45T" id="0gH-ws-mJf">
                                         <switch key="contentView" horizontalHuggingPriority="750" verticalHuggingPriority="750" baseWritingDirection="leftToRight" alignment="left" state="on" translatesAutoresizingMaskIntoConstraints="NO" id="RMM-vx-leg">
-                                            <rect key="frame" x="127" y="313" width="42" height="25"/>
+                                            <rect key="frame" x="127" y="316" width="42" height="25"/>
                                             <connections>
                                                 <action selector="HandleEarthquakeSwitchChanged:" target="zQf-lG-HN1" id="ENc-Kr-9Or"/>
                                             </connections>
@@ -3066,7 +3067,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="nmc-9b-v4U" column="Uwu-uc-0fv" id="gSZ-q4-915">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cq1-H2-6HU">
-                                            <rect key="frame" x="-2" y="277" width="103" height="16"/>
+                                            <rect key="frame" x="-2" y="279" width="103" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Fetch frequency" id="WQ6-OC-J6z">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3076,7 +3077,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="nmc-9b-v4U" column="QXg-Mz-45T" id="qGq-wW-OjD">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BzK-rI-t4F">
-                                            <rect key="frame" x="129" y="271" width="213" height="25"/>
+                                            <rect key="frame" x="128" y="275" width="214" height="23"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="210" id="II8-xs-3t9"/>
                                             </constraints>
@@ -3097,7 +3098,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="28N-0M-f6E" column="Uwu-uc-0fv" id="Tvg-do-3yo">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ou9-g6-iMc">
-                                            <rect key="frame" x="-2" y="251" width="100" height="16"/>
+                                            <rect key="frame" x="-2" y="253" width="100" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Region Settings" id="0ds-bh-KRc">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3107,7 +3108,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="28N-0M-f6E" column="QXg-Mz-45T" id="5RQ-vU-cxK">
                                         <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aLg-2P-BAm">
-                                            <rect key="frame" x="122" y="242" width="94" height="32"/>
+                                            <rect key="frame" x="122" y="244" width="94" height="32"/>
                                             <buttonCell key="cell" type="push" title="Regions..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="El7-4A-tRD">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -3119,7 +3120,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="1Iu-L6-KWn" column="Uwu-uc-0fv" id="asb-3I-h4Z">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iAd-ia-aGI">
-                                            <rect key="frame" x="-2" y="225" width="101" height="16"/>
+                                            <rect key="frame" x="-2" y="227" width="101" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Earthquake font" id="Lac-9n-bQ4">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3129,7 +3130,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="1Iu-L6-KWn" column="QXg-Mz-45T" id="ycG-1i-cph">
                                         <gridView key="contentView" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="6NP-SW-C1g">
-                                            <rect key="frame" x="129" y="222" width="397" height="21"/>
+                                            <rect key="frame" x="129" y="224" width="397" height="21"/>
                                             <rows>
                                                 <gridRow id="6iy-cG-8cb"/>
                                             </rows>
@@ -3179,7 +3180,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="5jV-Bj-E9O" column="Uwu-uc-0fv" id="0Oe-Nw-c70">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bBW-6v-TS9">
-                                            <rect key="frame" x="-2" y="199" width="125" height="16"/>
+                                            <rect key="frame" x="-2" y="200" width="125" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Color determination" id="kI6-yj-rhX">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3189,7 +3190,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="5jV-Bj-E9O" column="QXg-Mz-45T" id="WWO-o1-5fH">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="r5N-9D-loN">
-                                            <rect key="frame" x="129" y="193" width="213" height="25"/>
+                                            <rect key="frame" x="128" y="196" width="214" height="23"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="210" id="Ix8-Yi-yTJ"/>
                                             </constraints>
@@ -3210,7 +3211,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="pEq-BE-YjV" column="Uwu-uc-0fv" id="TCX-u1-eHC">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1eh-0h-uGi">
-                                            <rect key="frame" x="-2" y="168" width="68" height="16"/>
+                                            <rect key="frame" x="-2" y="169" width="68" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Base color" id="AN8-0b-Znh">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3220,7 +3221,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="pEq-BE-YjV" column="QXg-Mz-45T" id="9VM-o3-b2A">
                                         <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Jce-zp-FgN">
-                                            <rect key="frame" x="129" y="161" width="100" height="30"/>
+                                            <rect key="frame" x="126" y="160" width="106" height="34"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="86N-5e-S7I"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="Lt1-wC-v3m"/>
@@ -3234,7 +3235,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="6HS-6Z-toN" column="Uwu-uc-0fv" id="svK-vb-BTP">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UAd-pW-MCx">
-                                            <rect key="frame" x="-2" y="132" width="100" height="16"/>
+                                            <rect key="frame" x="-2" y="133" width="100" height="16"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Combined color" id="XOZ-FE-3rz">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -3244,7 +3245,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="6HS-6Z-toN" column="QXg-Mz-45T" id="6lq-KM-8ob">
                                         <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Iw9-j1-bQK">
-                                            <rect key="frame" x="129" y="125" width="100" height="30"/>
+                                            <rect key="frame" x="126" y="124" width="106" height="34"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="fpA-wQ-eUQ"/>
                                                 <constraint firstAttribute="height" constant="30" id="grs-KS-ylJ"/>
@@ -3268,7 +3269,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="x2I-0M-lm1" column="QXg-Mz-45T" id="MQ3-eN-sWj">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cOU-Cr-bzK">
-                                            <rect key="frame" x="129" y="86" width="213" height="25"/>
+                                            <rect key="frame" x="128" y="88" width="214" height="23"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="210" id="78O-tw-abp"/>
                                             </constraints>
@@ -3391,11 +3392,11 @@ DQ
                             <box title="Grid Lines" translatesAutoresizingMaskIntoConstraints="NO" id="ZWd-w1-yhq">
                                 <rect key="frame" x="434" y="72" width="355" height="340"/>
                                 <view key="contentView" id="deb-uW-J2f">
-                                    <rect key="frame" x="3" y="3" width="349" height="322"/>
+                                    <rect key="frame" x="4" y="5" width="347" height="320"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="cUo-Iq-wvB">
-                                            <rect key="frame" x="7" y="4" width="318" height="311"/>
+                                            <rect key="frame" x="7" y="2" width="318" height="311"/>
                                             <rows>
                                                 <gridRow yPlacement="center" bottomPadding="15" id="7Hd-jz-3W8"/>
                                                 <gridRow yPlacement="center" id="vEj-ax-3WI"/>
@@ -3560,7 +3561,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="Hu5-kc-wLm" column="4Gq-PQ-deD" id="HJU-TZ-O8C">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="w0z-SA-IJS" customClass="AlphaColorWell" customModule="Flatland" customModuleProvider="target">
-                                                        <rect key="frame" x="127" y="62" width="122" height="28"/>
+                                                        <rect key="frame" x="124" y="60" width="128" height="32"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="28" id="1q0-7R-bqY"/>
                                                             <constraint firstAttribute="width" constant="122" id="5lu-CO-H1c"/>
@@ -3583,7 +3584,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="XRE-nm-V9z" column="4Gq-PQ-deD" id="XkD-93-aBr">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Zo8-7t-nib" customClass="AlphaColorWell" customModule="Flatland" customModuleProvider="target">
-                                                        <rect key="frame" x="127" y="28" width="122" height="28"/>
+                                                        <rect key="frame" x="124" y="26" width="128" height="32"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="122" id="B9r-ek-gJg"/>
                                                             <constraint firstAttribute="height" constant="28" id="oIU-Up-oMH"/>
@@ -3706,7 +3707,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="PQL-ZL-Wsg" column="6ba-jj-Tzk" id="Bba-3X-gia">
                                         <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="UhF-57-NiX">
-                                            <rect key="frame" x="125" y="203" width="100" height="30"/>
+                                            <rect key="frame" x="122" y="201" width="106" height="34"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="22h-if-Xrk"/>
                                                 <constraint firstAttribute="width" constant="100" id="GwI-2X-dXx"/>
@@ -3732,7 +3733,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="5xR-cf-D9V" column="6ba-jj-Tzk" id="hzK-UM-syV">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hml-Q4-hbo">
-                                            <rect key="frame" x="125" y="174" width="231" height="25"/>
+                                            <rect key="frame" x="124" y="176" width="232" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="19" id="2mu-g3-dIY"/>
                                                 <constraint firstAttribute="width" constant="228" id="jDW-eF-EtK"/>
@@ -3833,7 +3834,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="wnU-2n-SUz" column="6ba-jj-Tzk" id="oDN-KJ-8Vd">
                                         <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="E84-nh-1S9">
-                                            <rect key="frame" x="125" y="54" width="100" height="30"/>
+                                            <rect key="frame" x="122" y="52" width="106" height="34"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="50k-Sl-Tl9"/>
                                                 <constraint firstAttribute="width" constant="100" id="pmc-MV-ExV"/>
@@ -4031,7 +4032,7 @@ DQ
                                     </gridCell>
                                     <gridCell row="aoe-A2-fKU" column="YHf-cB-LYD" id="8Lm-CH-XnD">
                                         <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ie8-hW-qNg">
-                                            <rect key="frame" x="120" y="84" width="129" height="25"/>
+                                            <rect key="frame" x="119" y="86" width="130" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="19" id="c2P-vM-CpW"/>
                                                 <constraint firstAttribute="width" constant="126" id="wxM-fA-ZAQ"/>
@@ -4128,11 +4129,11 @@ DQ
                             <box title="Camera" translatesAutoresizingMaskIntoConstraints="NO" id="fbU-yn-lBe">
                                 <rect key="frame" x="379" y="120" width="404" height="280"/>
                                 <view key="contentView" id="lYS-nI-VFT">
-                                    <rect key="frame" x="3" y="3" width="398" height="262"/>
+                                    <rect key="frame" x="4" y="5" width="396" height="260"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="FCO-F1-L4f">
-                                            <rect key="frame" x="20" y="57" width="353" height="185"/>
+                                            <rect key="frame" x="20" y="55" width="353" height="185"/>
                                             <rows>
                                                 <gridRow id="k0D-57-wKH"/>
                                                 <gridRow id="Zfg-D1-MBK"/>
@@ -4206,7 +4207,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="Wd1-ND-Luu" column="07G-0W-CUQ" id="5hU-W9-vnt">
                                                     <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZtJ-UL-8mP">
-                                                        <rect key="frame" x="146" y="107" width="99" height="25"/>
+                                                        <rect key="frame" x="145" y="109" width="100" height="22"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="19" id="VgW-vi-C3a"/>
                                                             <constraint firstAttribute="width" constant="96" id="oBt-bi-lll"/>
@@ -4408,11 +4409,11 @@ DQ
                             <box title="Edit" translatesAutoresizingMaskIntoConstraints="NO" id="O8B-X1-bI5">
                                 <rect key="frame" x="365" y="49" width="395" height="345"/>
                                 <view key="contentView" id="zB8-OU-t7t">
-                                    <rect key="frame" x="3" y="3" width="389" height="327"/>
+                                    <rect key="frame" x="4" y="5" width="387" height="325"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" rowSpacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="kzy-CU-luG">
-                                            <rect key="frame" x="6" y="67" width="361" height="252"/>
+                                            <rect key="frame" x="6" y="65" width="361" height="252"/>
                                             <constraints>
                                                 <constraint firstItem="ZbB-Ed-KeU" firstAttribute="trailing" secondItem="A0E-SY-lTa" secondAttribute="trailing" id="2k1-sm-uYe"/>
                                                 <constraint firstItem="ZbB-Ed-KeU" firstAttribute="trailing" secondItem="8vV-Nj-dma" secondAttribute="trailing" id="IdV-rH-CIe"/>
@@ -4666,7 +4667,7 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="wEe-NJ-MHu" id="1DN-Da-7L1">
-                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Mkr-ot-m67">
+                                                                <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mkr-ot-m67">
                                                                     <rect key="frame" x="82" y="3" width="24" height="15"/>
                                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Lat" id="MM6-7l-43o">
                                                                         <font key="font" metaFont="system"/>
@@ -4703,8 +4704,8 @@ DQ
                                                                 </textField>
                                                             </gridCell>
                                                             <gridCell row="h9B-4a-EYN" column="idr-EN-7o2" id="HCq-pj-ks9">
-                                                                <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N8F-g2-MPp">
-                                                                    <rect key="frame" x="226" y="0.0" width="70" height="21"/>
+                                                                <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8F-g2-MPp">
+                                                                    <rect key="frame" x="225" y="0.0" width="70" height="21"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="21" id="CIA-Jp-N8a"/>
                                                                         <constraint firstAttribute="width" constant="70" id="RBN-qZ-SVM"/>
@@ -4723,8 +4724,8 @@ DQ
                                                     </gridView>
                                                 </gridCell>
                                                 <gridCell row="qcY-TD-JNO" column="nSO-dn-FGw" id="acg-VR-n6a">
-                                                    <gridView key="contentView" horizontalCompressionResistancePriority="752" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ef-Usi">
-                                                        <rect key="frame" x="0.0" y="109" width="361" height="19"/>
+                                                    <gridView key="contentView" horizontalCompressionResistancePriority="752" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="hVt-ef-Usi">
+                                                        <rect key="frame" x="0.0" y="109" width="167" height="19"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="sVk-73-Bgl" secondAttribute="trailing" id="O4K-h6-qme"/>
                                                             <constraint firstItem="sVk-73-Bgl" firstAttribute="leading" secondItem="enU-rc-XSn" secondAttribute="trailing" constant="6" id="Ttw-N2-c9M"/>
@@ -4750,7 +4751,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="v2J-ql-dfX" column="s1T-DN-gqd" id="BA9-l0-IsO">
                                                                 <comboBox key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sVk-73-Bgl">
-                                                                    <rect key="frame" x="97" y="-4" width="73" height="25"/>
+                                                                    <rect key="frame" x="96" y="-2" width="74" height="22"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="70" id="9HP-2Z-5fT"/>
                                                                         <constraint firstAttribute="height" constant="19" id="Uu2-rB-hEV"/>
@@ -4774,8 +4775,8 @@ DQ
                                                     </gridView>
                                                 </gridCell>
                                                 <gridCell row="6wR-X2-Nd8" column="nSO-dn-FGw" id="kuD-Yb-Cfp">
-                                                    <gridView key="contentView" horizontalCompressionResistancePriority="754" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TCU-og-MA0">
-                                                        <rect key="frame" x="0.0" y="69" width="361" height="30"/>
+                                                    <gridView key="contentView" horizontalCompressionResistancePriority="754" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="TCU-og-MA0">
+                                                        <rect key="frame" x="0.0" y="69" width="172" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="sXw-XA-hZV" secondAttribute="trailing" id="cxf-Dr-hMK"/>
                                                             <constraint firstItem="sXw-XA-hZV" firstAttribute="leading" secondItem="Y5g-g4-Y3g" secondAttribute="trailing" constant="6" id="yse-8H-PO8"/>
@@ -4800,7 +4801,7 @@ DQ
                                                             </gridCell>
                                                             <gridCell row="YaN-Rc-9oV" column="f9n-Q5-lW9" id="toR-YD-H2z">
                                                                 <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="sXw-XA-hZV">
-                                                                    <rect key="frame" x="82" y="0.0" width="90" height="30"/>
+                                                                    <rect key="frame" x="79" y="-2" width="96" height="34"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="30" id="Rjn-7O-iGy"/>
                                                                         <constraint firstAttribute="width" constant="90" id="RwN-UX-6ax"/>
@@ -4816,7 +4817,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="upJ-oP-Sw8" column="nSO-dn-FGw" id="LmV-ql-ybi">
                                                     <gridView key="contentView" horizontalCompressionResistancePriority="751" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Zb3-vz-kQo">
-                                                        <rect key="frame" x="0.0" y="37" width="163" height="22"/>
+                                                        <rect key="frame" x="0.0" y="37" width="361" height="22"/>
                                                         <constraints>
                                                             <constraint firstItem="jgx-s7-OCT" firstAttribute="leading" secondItem="6hm-Fr-vwx" secondAttribute="trailing" constant="6" id="Cu5-bk-qvw"/>
                                                             <constraint firstAttribute="trailing" secondItem="jgx-s7-OCT" secondAttribute="trailing" id="Ren-xt-Ugf"/>
@@ -4851,8 +4852,8 @@ DQ
                                                     </gridView>
                                                 </gridCell>
                                                 <gridCell row="D0y-rl-W9y" column="nSO-dn-FGw" id="hmD-MS-yDG">
-                                                    <gridView key="contentView" horizontalCompressionResistancePriority="753" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="oEQ-ZB-Udj">
-                                                        <rect key="frame" x="0.0" y="0.0" width="361" height="22"/>
+                                                    <gridView key="contentView" horizontalCompressionResistancePriority="753" ambiguous="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="oEQ-ZB-Udj">
+                                                        <rect key="frame" x="0.0" y="0.0" width="127" height="22"/>
                                                         <constraints>
                                                             <constraint firstItem="eza-QG-G8W" firstAttribute="leading" secondItem="N0s-es-Qof" secondAttribute="trailing" constant="6" id="fIf-4j-bcY"/>
                                                             <constraint firstAttribute="trailing" secondItem="eza-QG-G8W" secondAttribute="trailing" id="yD1-vd-YrY"/>
@@ -4945,7 +4946,7 @@ DQ
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView id="shS-G6-kHb">
-                                                                        <rect key="frame" x="11" y="1" width="165" height="17"/>
+                                                                        <rect key="frame" x="1" y="1" width="165" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="0KZ-ED-sui">
@@ -4981,7 +4982,7 @@ DQ
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView id="wbj-76-Q5B">
-                                                                        <rect key="frame" x="179" y="1" width="80" height="17"/>
+                                                                        <rect key="frame" x="169" y="1" width="80" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="1lG-hz-NUj">
@@ -5017,7 +5018,7 @@ DQ
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView id="Q7m-LC-izn">
-                                                                        <rect key="frame" x="262" y="1" width="55" height="17"/>
+                                                                        <rect key="frame" x="252" y="1" width="55" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Vxl-Ek-AcI">
@@ -5069,8 +5070,8 @@ DQ
                                         </scrollView>
                                     </gridCell>
                                     <gridCell row="UgZ-w5-wxa" column="Qdo-3i-Rde" id="ggL-5Z-t0L">
-                                        <gridView key="contentView" horizontalCompressionResistancePriority="755" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
-                                            <rect key="frame" x="0.0" y="0.0" width="350" height="20"/>
+                                        <gridView key="contentView" horizontalCompressionResistancePriority="755" ambiguous="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="Pto-VQ-wfh">
+                                            <rect key="frame" x="0.0" y="0.0" width="172" height="20"/>
                                             <rows>
                                                 <gridRow id="MvR-7n-9cc"/>
                                             </rows>
@@ -5094,7 +5095,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="MvR-7n-9cc" column="e7a-yF-CtL" id="EWz-Z6-I1c">
                                                     <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ojh-YB-tvi">
-                                                        <rect key="frame" x="222" y="-7" width="74" height="32"/>
+                                                        <rect key="frame" x="44" y="-7" width="74" height="32"/>
                                                         <buttonCell key="cell" type="push" title="Delete" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fbo-bi-0FR">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -5106,7 +5107,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="MvR-7n-9cc" column="OaW-Xe-n4J" id="lg4-1D-V8F">
                                                     <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eN5-aZ-P0s">
-                                                        <rect key="frame" x="288" y="-7" width="69" height="32"/>
+                                                        <rect key="frame" x="110" y="-7" width="69" height="32"/>
                                                         <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="19q-fH-mod">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -5408,11 +5409,11 @@ Gw
                             <box title="Available cities" translatesAutoresizingMaskIntoConstraints="NO" id="Ndo-NK-XzB">
                                 <rect key="frame" x="17" y="46" width="299" height="270"/>
                                 <view key="contentView" id="eQk-fm-otb">
-                                    <rect key="frame" x="3" y="3" width="293" height="252"/>
+                                    <rect key="frame" x="4" y="5" width="291" height="250"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Euo-Zy-6GH">
-                                            <rect key="frame" x="9" y="11" width="277" height="235"/>
+                                            <rect key="frame" x="9" y="9" width="277" height="235"/>
                                             <clipView key="contentView" id="xDY-LR-Oi6">
                                                 <rect key="frame" x="1" y="1" width="275" height="233"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5437,7 +5438,7 @@ Gw
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView id="n1r-Qs-6xw">
-                                                                        <rect key="frame" x="11" y="1" width="145" height="17"/>
+                                                                        <rect key="frame" x="1" y="1" width="145" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="4Uv-cf-wWX">
@@ -5473,7 +5474,7 @@ Gw
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView id="hao-tl-GlP">
-                                                                        <rect key="frame" x="159" y="1" width="95" height="17"/>
+                                                                        <rect key="frame" x="149" y="1" width="95" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="GEl-e2-KyE">
@@ -5532,11 +5533,11 @@ Gw
                             <box title="Custom city list" translatesAutoresizingMaskIntoConstraints="NO" id="aMM-gu-UCa">
                                 <rect key="frame" x="424" y="46" width="299" height="270"/>
                                 <view key="contentView" id="vmo-7o-74L">
-                                    <rect key="frame" x="3" y="3" width="293" height="252"/>
+                                    <rect key="frame" x="4" y="5" width="291" height="250"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView autohidesScrollers="YES" horizontalLineScroll="44" horizontalPageScroll="10" verticalLineScroll="44" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Djr-Hc-rGR">
-                                            <rect key="frame" x="9" y="11" width="277" height="235"/>
+                                            <rect key="frame" x="9" y="9" width="277" height="235"/>
                                             <clipView key="contentView" id="7vj-VU-jG2">
                                                 <rect key="frame" x="1" y="1" width="275" height="233"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5561,7 +5562,7 @@ Gw
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView id="OP6-UJ-fTh">
-                                                                        <rect key="frame" x="11" y="1" width="145" height="42"/>
+                                                                        <rect key="frame" x="1" y="1" width="145" height="42"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="meB-Zx-1sM">
@@ -5597,7 +5598,7 @@ Gw
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <prototypeCellViews>
                                                                     <tableCellView id="828-R7-674">
-                                                                        <rect key="frame" x="159" y="1" width="95" height="42"/>
+                                                                        <rect key="frame" x="149" y="1" width="95" height="42"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="UOB-Mj-aNQ">
@@ -5846,11 +5847,11 @@ DQ
                             <box title="Show Cities by Population" translatesAutoresizingMaskIntoConstraints="NO" id="3W3-50-JXY">
                                 <rect key="frame" x="17" y="47" width="509" height="215"/>
                                 <view key="contentView" id="m9U-9a-n5q">
-                                    <rect key="frame" x="3" y="3" width="503" height="197"/>
+                                    <rect key="frame" x="4" y="5" width="501" height="195"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="UHv-WW-5fQ">
-                                            <rect key="frame" x="7" y="12" width="456" height="174"/>
+                                            <rect key="frame" x="7" y="10" width="456" height="174"/>
                                             <rows>
                                                 <gridRow id="GHM-JY-Qcn"/>
                                                 <gridRow topPadding="10" id="28b-lx-898"/>
@@ -5967,7 +5968,7 @@ DQ
                                                 </gridCell>
                                                 <gridCell row="s5r-Fr-P7q" column="VdY-iI-8pw" id="KmY-Ol-H1i">
                                                     <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="N8s-em-hC2">
-                                                        <rect key="frame" x="222" y="38" width="107" height="33"/>
+                                                        <rect key="frame" x="219" y="36" width="113" height="37"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="33" id="jR3-8B-gsK"/>
                                                             <constraint firstAttribute="width" constant="107" id="y4X-Ne-dV8"/>
@@ -6047,11 +6048,11 @@ DQ
                             <box title="3D Settings" translatesAutoresizingMaskIntoConstraints="NO" id="pEZ-hj-cs4">
                                 <rect key="frame" x="17" y="183" width="536" height="217"/>
                                 <view key="contentView" id="oxX-Hz-ERE">
-                                    <rect key="frame" x="3" y="3" width="530" height="199"/>
+                                    <rect key="frame" x="4" y="5" width="528" height="197"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <gridView fixedFrame="YES" xPlacement="leading" yPlacement="center" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="XPv-3g-Nty">
-                                            <rect key="frame" x="9" y="29" width="480" height="160"/>
+                                            <rect key="frame" x="9" y="27" width="480" height="160"/>
                                             <rows>
                                                 <gridRow id="cIY-M3-3nV"/>
                                                 <gridRow id="3zY-fp-ARy"/>
@@ -6265,7 +6266,7 @@ DQ
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="xxS-hm-U1y">
-                                                            <rect key="frame" x="11" y="1" width="113" height="17"/>
+                                                            <rect key="frame" x="1" y="1" width="113" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="RDP-7M-TDJ">
@@ -6347,7 +6348,7 @@ DQ
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="HardwareKey" id="T5m-ac-xiP">
-                                                            <rect key="frame" x="11" y="1" width="121" height="17"/>
+                                                            <rect key="frame" x="1" y="1" width="121" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="yhR-Vk-mHH">
@@ -6383,7 +6384,7 @@ DQ
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="2yR-Aw-Prt">
-                                                            <rect key="frame" x="135" y="1" width="466" height="17"/>
+                                                            <rect key="frame" x="125" y="1" width="466" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="QZN-c8-G5B">

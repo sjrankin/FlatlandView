@@ -22,7 +22,8 @@ class MapManager
     /// - Parameter ImageCenter: For `.FlatMap` `ViewType`s only. Determines which pole is in the
     ///                          center of the map.
     /// - Returns: Map image for the specified map type. Nil if not found.
-    public static func ImageFor(MapType: MapTypes, ViewType: ViewTypes, ImageCenter: ImageCenters = .NorthPole) -> NSImage?
+    public static func ImageFor(MapType: MapTypes, ViewType: ViewTypes,
+                                ImageCenter: ImageCenters = .NorthPole) -> NSImage?
     {
         let MapCategory = CategoryFor(Map: MapType)!
         if let SomeMap = MapList.Map(For: MapType)
@@ -31,10 +32,10 @@ class MapManager
             {
                 case .FlatNorthCenter:
                     return SomeMap.GetMapImage(For: .North)
-                
+                    
                 case .FlatSouthCenter:
                     return SomeMap.GetMapImage(For: .South)
-                
+                    
                 case .Globe3D:
                     if MapCategory == .Satellite
                     {
@@ -42,12 +43,12 @@ class MapManager
                     }
                     else
                     {
-                    return SomeMap.GetMapImage(For: .Global)
+                        return SomeMap.GetMapImage(For: .Global)
                     }
                     
                 case .Rectangular:
                     return SomeMap.GetMapImage(For: .Global)
-                
+                    
                 default:
                     return nil
             }
@@ -262,6 +263,7 @@ class MapManager
     /// - Returns: List of all files found in the passed directory.
     public static func GetFilesInDirectory(_ DirectoryName: String) -> [URL]
     {
+        print("Getting files in \(DirectoryName)")
         let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let ScratchURL = DocDirURL.appendingPathComponent(DirectoryName)
         var FileList = [URL]()
@@ -288,6 +290,7 @@ class MapManager
     /// - Returns: Image to be used as a map for the globe on success, nil if none found.
     public static func MostRecentCachedMap() -> NSImage?
     {
+        print("Getting most recently cached map")
         let DocDirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let ScratchURL = DocDirURL.appendingPathComponent(FileIO.PictureDirectory)
         var FileList = [(CreationDate: Date, FileLocation: URL)]()

@@ -3,7 +3,7 @@
 //  Flatland
 //
 //  Created by Stuart Rankin on 5/24/20.
-//  Copyright © 2020 Stuart Rankin. All rights reserved.
+//  Copyright © 2020 - 2023 Stuart Rankin. All rights reserved.
 //
 
 import Foundation
@@ -49,6 +49,8 @@ public class Versioning: CustomStringConvertible
     
     /// The intended OS for the program.
     public static let IntendedOS: String = "macOS"
+    
+    public static let UniqueName: String = "Flatland Mobile View"
     
     /// Value to control which features are available. For features that implement the scheme, a level that
     /// is the same or lower is required in order for that feature to be enabled.
@@ -122,19 +124,19 @@ public class Versioning: CustomStringConvertible
     }
     
     /// Build number. Incremented every build (provided the proper script is executed at each build).
-    public static let Build: Int = 10554
+    public static let Build: Int = 10658
     
     /// Build increment. Value to use to increment the build number.
     private static let BuildIncrement = 1
     
     /// Build ID.
-    public static let BuildID: String = "1A1E6AC4-0F1B-4F75-99E6-15B341DB97C4"
+    public static let BuildID: String = "02648347-02EE-4E82-ABFD-64204DB3A732"
     
     /// Build date.
-    public static let BuildDate: String = "8 June 2021"
+    public static let BuildDate: String = "7 October 2024"
     
     /// Build Time.
-    public static let BuildTime: String = "16:22"
+    public static let BuildTime: String = "07:26"
     
     /// Holds the release build flag.
     #if DEBUG
@@ -174,7 +176,7 @@ public class Versioning: CustomStringConvertible
     }
     
     /// Copyright years.
-    public static let CopyrightYears = [2020, 2021]
+    public static let CopyrightYears = [2020, 2021, 2022, 2023]
     
     /// Legal holder of the copyright.
     public static let CopyrightHolder = "Stuart Rankin"

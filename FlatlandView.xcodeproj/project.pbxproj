@@ -28,6 +28,7 @@
 		170E7BF52559290900EA3AD3 /* MouseInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BF42559290900EA3AD3 /* MouseInfoController.swift */; };
 		170E7BF82559293C00EA3AD3 /* MouseInfoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */; };
 		170EFC1E262520D2001227D0 /* +Zoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170EFC1D262520D2001227D0 /* +Zoom.swift */; };
+		1712F94D2B7299BB009A40EA /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1712F94C2B7299BB009A40EA /* Debug.swift */; };
 		1714DDB42538342A001A3002 /* LowLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB32538342A001A3002 /* LowLevel.swift */; };
 		1714DDB82539654A001A3002 /* UInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDB72539654A001A3002 /* UInt64.swift */; };
 		1714DDBB253965F8001A3002 /* Int64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714DDBA253965F8001A3002 /* Int64.swift */; };
@@ -174,6 +175,13 @@
 		1773893C25971771002698E8 /* +Menus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1773893B25971771002698E8 /* +Menus.swift */; };
 		1773E21E26194B7D002C2CBF /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1773E21D26194B7D002C2CBF /* ActionButton.swift */; };
 		177709D62592104E0092CDC0 /* +NodeEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177709D52592104E0092CDC0 /* +NodeEvents.swift */; };
+		177B77D82AC3C17800221109 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17FEFAFA2611F3E800B01F7C /* WidgetKit.framework */; };
+		177B77D92AC3C17800221109 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17FEFAFC2611F3E800B01F7C /* SwiftUI.framework */; };
+		177B77DC2AC3C17800221109 /* FlatlandView_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177B77DB2AC3C17800221109 /* FlatlandView_WidgetBundle.swift */; };
+		177B77DE2AC3C17800221109 /* FlatlandView_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177B77DD2AC3C17800221109 /* FlatlandView_Widget.swift */; };
+		177B77E02AC3C17800221109 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177B77DF2AC3C17800221109 /* AppIntent.swift */; };
+		177B77E22AC3C17900221109 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 177B77E12AC3C17900221109 /* Assets.xcassets */; };
+		177B77E72AC3C17900221109 /* FlatlandView WidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 177B77D72AC3C17800221109 /* FlatlandView WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		177D0F5F2547F04700CD5041 /* MTLTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177D0F5E2547F04700CD5041 /* MTLTexture.swift */; };
 		177EE5D22480D47800CAD1B9 /* ActualMapList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D12480D47800CAD1B9 /* ActualMapList.swift */; };
 		177EE5D42480D49200CAD1B9 /* ActualMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177EE5D32480D49200CAD1B9 /* ActualMap.swift */; };
@@ -462,6 +470,16 @@
 		17FFF8CC2567ED04008B50AD /* +Axes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FFF8CB2567ED04008B50AD /* +Axes.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		177B77E52AC3C17900221109 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1767A8D824794A0100C434B5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 177B77D62AC3C17800221109;
+			remoteInfo = "FlatlandView WidgetExtension";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		17FEFB0E2611F3E900B01F7C /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -469,6 +487,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				177B77E72AC3C17900221109 /* FlatlandView WidgetExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,6 +517,7 @@
 		170E7BF42559290900EA3AD3 /* MouseInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseInfoController.swift; sourceTree = "<group>"; };
 		170E7BF72559293C00EA3AD3 /* MouseInfoProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseInfoProtocol.swift; sourceTree = "<group>"; };
 		170EFC1D262520D2001227D0 /* +Zoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Zoom.swift"; sourceTree = "<group>"; };
+		1712F94C2B7299BB009A40EA /* Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		1714DDB32538342A001A3002 /* LowLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowLevel.swift; sourceTree = "<group>"; };
 		1714DDB72539654A001A3002 /* UInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt64.swift; sourceTree = "<group>"; };
 		1714DDBA253965F8001A3002 /* Int64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int64.swift; sourceTree = "<group>"; };
@@ -648,6 +668,13 @@
 		1773893B25971771002698E8 /* +Menus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+Menus.swift"; sourceTree = "<group>"; };
 		1773E21D26194B7D002C2CBF /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		177709D52592104E0092CDC0 /* +NodeEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+NodeEvents.swift"; sourceTree = "<group>"; };
+		177B77D72AC3C17800221109 /* FlatlandView WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "FlatlandView WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		177B77DB2AC3C17800221109 /* FlatlandView_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlandView_WidgetBundle.swift; sourceTree = "<group>"; };
+		177B77DD2AC3C17800221109 /* FlatlandView_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlandView_Widget.swift; sourceTree = "<group>"; };
+		177B77DF2AC3C17800221109 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		177B77E12AC3C17900221109 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		177B77E32AC3C17900221109 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		177B77E42AC3C17900221109 /* FlatlandView_Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlandView_Widget.entitlements; sourceTree = "<group>"; };
 		177D0F5E2547F04700CD5041 /* MTLTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTLTexture.swift; sourceTree = "<group>"; };
 		177EE5D12480D47800CAD1B9 /* ActualMapList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMapList.swift; sourceTree = "<group>"; };
 		177EE5D32480D49200CAD1B9 /* ActualMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualMap.swift; sourceTree = "<group>"; };
@@ -950,6 +977,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				17E5EF5124F0DE2C00665167 /* libc++abi.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		177B77D42AC3C17800221109 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				177B77D92AC3C17800221109 /* SwiftUI.framework in Frameworks */,
+				177B77D82AC3C17800221109 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1332,6 +1368,7 @@
 				174DCEBF25D3B950002D4E40 /* MappableS.db */,
 				17E0E35725E5FA3700291823 /* Settings.db */,
 				1767A8E224794A0100C434B5 /* FlatlandView */,
+				177B77DA2AC3C17800221109 /* FlatlandView Widget */,
 				1767A8E124794A0100C434B5 /* Products */,
 				17E5EF4F24F0DBC500665167 /* Frameworks */,
 			);
@@ -1341,6 +1378,7 @@
 			isa = PBXGroup;
 			children = (
 				1767A8E024794A0100C434B5 /* Flatland.app */,
+				177B77D72AC3C17800221109 /* FlatlandView WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1476,6 +1514,19 @@
 				1743A8BE2623EC3700FFCF4F /* TimeAttributes.swift */,
 			);
 			path = SCNNode2;
+			sourceTree = "<group>";
+		};
+		177B77DA2AC3C17800221109 /* FlatlandView Widget */ = {
+			isa = PBXGroup;
+			children = (
+				177B77DB2AC3C17800221109 /* FlatlandView_WidgetBundle.swift */,
+				177B77DD2AC3C17800221109 /* FlatlandView_Widget.swift */,
+				177B77DF2AC3C17800221109 /* AppIntent.swift */,
+				177B77E12AC3C17900221109 /* Assets.xcassets */,
+				177B77E32AC3C17900221109 /* Info.plist */,
+				177B77E42AC3C17900221109 /* FlatlandView_Widget.entitlements */,
+			);
+			path = "FlatlandView Widget";
 			sourceTree = "<group>";
 		};
 		177EE5D72480D4AE00CAD1B9 /* Actual */ = {
@@ -1995,6 +2046,7 @@
 				17EF33C0247A95E300A5B55D /* ColorList.swift */,
 				1793EFB7261817620068CAC7 /* CSV.swift */,
 				17E5EF5E24F1051400665167 /* Debug.swift */,
+				1712F94C2B7299BB009A40EA /* Debug.swift */,
 				17F0AC5525D3A63E00B2F496 /* FileIO.swift */,
 				17E3EDC524B5B222007C1D72 /* FontHelper.swift */,
 				17FD6A7726218B8500227BE3 /* Geocoder.swift */,
@@ -2283,7 +2335,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1767A8F024794A0300C434B5 /* Build configuration list for PBXNativeTarget "Flatland" */;
 			buildPhases = (
-				17523CCF247B8D1C005209FC /* ShellScript */,
 				1767A8DC24794A0100C434B5 /* Sources */,
 				1767A8DD24794A0100C434B5 /* Frameworks */,
 				1767A8DE24794A0100C434B5 /* Resources */,
@@ -2292,11 +2343,29 @@
 			buildRules = (
 			);
 			dependencies = (
+				177B77E62AC3C17900221109 /* PBXTargetDependency */,
 			);
 			name = Flatland;
 			productName = FlatlandView;
 			productReference = 1767A8E024794A0100C434B5 /* Flatland.app */;
 			productType = "com.apple.product-type.application";
+		};
+		177B77D62AC3C17800221109 /* FlatlandView WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 177B77E82AC3C17900221109 /* Build configuration list for PBXNativeTarget "FlatlandView WidgetExtension" */;
+			buildPhases = (
+				177B77D32AC3C17800221109 /* Sources */,
+				177B77D42AC3C17800221109 /* Frameworks */,
+				177B77D52AC3C17800221109 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FlatlandView WidgetExtension";
+			productName = "FlatlandView WidgetExtension";
+			productReference = 177B77D72AC3C17800221109 /* FlatlandView WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -2304,13 +2373,16 @@
 		1767A8D824794A0100C434B5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Stuart Rankin";
 				TargetAttributes = {
 					1767A8DF24794A0100C434B5 = {
 						CreatedOnToolsVersion = 11.5;
 						LastSwiftMigration = 1200;
+					};
+					177B77D62AC3C17800221109 = {
+						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
@@ -2328,6 +2400,7 @@
 			projectRoot = "";
 			targets = (
 				1767A8DF24794A0100C434B5 /* Flatland */,
+				177B77D62AC3C17800221109 /* FlatlandView WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -2376,27 +2449,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		17523CCF247B8D1C005209FC /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
+		177B77D52AC3C17800221109 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
+				177B77E22AC3C17900221109 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/VersionUpdater/VersionUpdater \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandView/Versioning.swift\" \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandView/Info.plist\" \"/Users/Stuart/Documents/GitHub/FlatlandView/FlatlandView/FlatlandWidget/Info.plist\"\n";
 		};
-/* End PBXShellScriptBuildPhase section */
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1767A8DC24794A0100C434B5 /* Sources */ = {
@@ -2632,6 +2693,7 @@
 				1765B59E253EBC6800DD11D8 /* GroupedEarthquakeController.swift in Sources */,
 				17F9AFFE2520358C00DE0219 /* +CustomCityList.swift in Sources */,
 				179BE7C524ED06DB0025B349 /* TodayWindow.swift in Sources */,
+				1712F94D2B7299BB009A40EA /* Debug.swift in Sources */,
 				17C10A0A261993EC00347305 /* ContainterController.swift in Sources */,
 				172D20632521AD1F00FA8687 /* Int.swift in Sources */,
 				17A59CB825872124005B0C07 /* SCNExtrudedLetter.swift in Sources */,
@@ -2822,7 +2884,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		177B77D32AC3C17800221109 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				177B77DE2AC3C17800221109 /* FlatlandView_Widget.swift in Sources */,
+				177B77DC2AC3C17800221109 /* FlatlandView_WidgetBundle.swift in Sources */,
+				177B77E02AC3C17800221109 /* AppIntent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		177B77E62AC3C17900221109 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 177B77D62AC3C17800221109 /* FlatlandView WidgetExtension */;
+			targetProxy = 177B77E52AC3C17900221109 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1767A8EE24794A0300C434B5 /* Debug */ = {
@@ -2959,6 +3039,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = FlatlandView/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Flatland View";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -2967,7 +3049,7 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Irorio.FlatlandView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -2993,6 +3075,8 @@
 				DEVELOPMENT_TEAM = 4BB235M4GL;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = FlatlandView/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Flatland View";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -3001,10 +3085,81 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Irorio.FlatlandView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "FlatlandView/ObjectiveC/Flatland-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		177B77E92AC3C17900221109 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "FlatlandView Widget/FlatlandView_Widget.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4BB235M4GL;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "FlatlandView Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "FlatlandView Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Stuart Rankin. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Irorio.FlatlandView.FlatlandView-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		177B77EA2AC3C17900221109 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = "FlatlandView Widget/FlatlandView_Widget.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4BB235M4GL;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "FlatlandView Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "FlatlandView Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Stuart Rankin. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Irorio.FlatlandView.FlatlandView-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -3026,6 +3181,15 @@
 			buildConfigurations = (
 				1767A8F124794A0300C434B5 /* Debug */,
 				1767A8F224794A0300C434B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		177B77E82AC3C17900221109 /* Build configuration list for PBXNativeTarget "FlatlandView WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				177B77E92AC3C17900221109 /* Debug */,
+				177B77EA2AC3C17900221109 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

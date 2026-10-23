@@ -19,6 +19,7 @@ class AboutDetailsController: NSViewController, NSTableViewDelegate, NSTableView
         Details.append("Build \(Versioning.Build), \(Versioning.BuildDate), \(Versioning.BuildTime)")
         Details.append("\(Versioning.CopyrightText())")
         Details.append("Feature level \(Versioning.FeatureLevel)")
+        Details.append("Unique Name: \(Versioning.UniqueName)")
         //Details.append("We acknowledge the use of imagery provided by services from NASA's Global Imagery Browse Services (GIBS), part of NASA's Earth Observing System Data and Information System (EOSDIS).")
         VersioningTable.reloadData()
     }

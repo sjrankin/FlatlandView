@@ -389,8 +389,9 @@ class USGS
     /// - Parameter completion: The completion handler called when results are available.
     func GetUSGSEarthquakeData(_ completion: @escaping (String?) -> Void)
     {
-        let url = URL(string: "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson")
-        //let url = URL(string: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson")
+        //let url = URL(string: "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson")
+        let url = URL(string: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson")
+        print("USGS URL: \(url!.path)")
         URLSession.shared.downloadTask(with: url!)
         {
             Local, Response, error in
